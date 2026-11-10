@@ -37,12 +37,12 @@ import Cmd from "../../components/Cmd.astro";
 | `medium` | `high` | 少想一点，便宜一点 |
 | `small` | `medium` | 最省。opus 和 grok 都降到 `medium` |
 
-<u>预算只改「想多久」，不改用哪个模型</u>。你自己改过的角色（换了模型、换成 `auto` 这类）在重跑时会保留。
+预算只改「想多久」，不改用哪个模型。你自己改过的角色（换了模型、换成 `auto` 这类）在重跑时会保留。
 
 <u>选完要开一个新对话</u>，新设置才会生效。
 
 <Callout type="tip" title="它本来就会看活下菜">
-预算定的是每个角色的起点。`/poteto-mode` 每次派子代理前，还会按活的难度调：最难的升一档，做判断的降一档，例行的杂活降两档或更多。所以即使在 `large` 下，<u>简单的活也不会按最高价算</u>。
+预算定的是每个角色的起点。`/poteto-mode` 每次派子代理前，还会按活的难度调：最难的升一档，做判断的降一档，例行的杂活降两档或更多。所以即使在 `large` 下，简单的活也不会按最高价算。
 </Callout>
 
 ## 主对话用强的，写代码用便宜的
@@ -55,7 +55,7 @@ import Cmd from "../../components/Cmd.astro";
 
 ## auto 和 inherit-parent：跟着主对话走
 
-给某个角色填 `auto` 或 `inherit-parent`，意思是：派子代理时不指定模型，让它跟主对话用同一个模型。<u>这两个词意思完全一样</u>。
+给某个角色填 `auto` 或 `inherit-parent`，意思是：派子代理时不指定模型，让它跟主对话用同一个模型。这两个词意思完全一样。
 
 <Callout type="warn" title="它不是一个模型名">
 `auto` 在这里不是「某个叫 auto 的模型」，而是「这一栏留空，跟着主对话」。如果你的主对话本身用的是 Cursor 的 Auto 或者一个便宜模型，把角色设成 `auto`，子代理也就跟着便宜。
@@ -70,7 +70,7 @@ import Cmd from "../../components/Cmd.astro";
 <Copy id="cost-panel-before" title="默认：每组两个" code={`arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
 interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
 
-<u>删掉一项，就少一个子代理</u>。代价是少了「两家模型互相印证」的那一层：不同模型会找到不同的问题，两家都同意的结论更可信。
+删掉一项，就少一个子代理。代价是少了「两家模型互相印证」的那一层：不同模型会找到不同的问题，两家都同意的结论更可信。
 
 也可以不改设置，按任务临时说。决定很重要时说「来 5 个方案」，不重要时说少几个：
 
@@ -78,7 +78,7 @@ interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
 
 ## 小事别开 /poteto-mode
 
-最省钱的一招：只在需要严谨的活上用 `/poteto-mode`。改个错别字、调个颜色、加一行日志这种<mark>一眼就能看出对不对的改动，直接说就行</mark>，不用开剧本、派子代理、拿证据。
+最省钱的一招：只在需要严谨的活上用 `/poteto-mode`。改个错别字、调个颜色、加一行日志这种一眼就能看出对不对的改动，直接说就行，不用开剧本、派子代理、拿证据。
 
 另外两个不花大钱的习惯：
 
@@ -88,7 +88,7 @@ interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
 ## 卡住了？
 
 <Q q="改成 small 以后，结果明显变差了。">
-先试 `medium`。或者保留 `large`，只把写代码的角色换成便宜模型，判断和评审的角色不动。<u>判断出错的代价，通常比省下的那点 token 大</u>。
+先试 `medium`。或者保留 `large`，只把写代码的角色换成便宜模型，判断和评审的角色不动。判断出错的代价，通常比省下的那点 token 大。
 </Q>
 <Q q="我手动改了设置文件里的模型名，它说这个模型用不了。">
 `/setup-pstack` 只会写它检测到你真能用的模型。手写的名字可能拼错，也可能你没有权限。被拒绝时，技能会退回这个角色的默认模型，并在回复里说明。想换模型，重跑一次 `/setup-pstack`，从它列出的选项里选。

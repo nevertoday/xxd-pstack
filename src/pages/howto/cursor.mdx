@@ -32,7 +32,7 @@ Cursor 会告诉你插件装好了。也可以从侧边栏的 Customize 里装�
 
 ## 先从 / 菜单选，再写任务
 
-用 `/poteto-mode` 的正确姿势：先在对话框里打 `/`，从弹出的菜单里选中 `/poteto-mode`，<u>然后再写你的任务</u>。这样 Cursor 才会把这个技能挂到这条消息上。
+用 `/poteto-mode` 的正确姿势：先在对话框里打 `/`，从弹出的菜单里选中 `/poteto-mode`，然后再写你的任务。这样 Cursor 才会把这个技能挂到这条消息上。
 
 <Copy id="cursor-first" title="第一个任务" code="/poteto-mode 给这个命令加一个 --json 参数。原来的文字输出一个字节都不能变。两种输出都验证一下。" />
 
@@ -45,21 +45,21 @@ Cursor 会告诉你插件装好了。也可以从侧边栏的 Customize 里装�
 | 你按的是 | 效果 |
 | --- | --- |
 | Enter | 只挂在这一条消息上。聊着聊着，它的影响就淡了 |
-| Option+Enter（Mac）或 Alt+Enter（Windows） | 变成 Custom Mode，<u>每一轮都在，直到你退出这个模式</u> |
+| Option+Enter（Mac）或 Alt+Enter（Windows） | 变成 Custom Mode，每一轮都在，直到你退出这个模式 |
 
 <Term k="Custom Mode" /> 就是「常驻模式」。技能条目上的 Use as Mode 也能把它变成 Custom Mode。Custom Mode 在 Agents 窗口和 Cursor 命令行里能用。
 
 开了 Custom Mode，后面的消息就可以很短：「do it」「continue」「keep going until done」都算完整的提示词，剧本里的规矩一直在。
 
 <Callout type="warn" title="换话题要说 new task">
-一个对话里做完一件事、要换下一件时，<u>开头写一句「new task」</u>。不说的话，它会把你的新问题当成上一个任务的下一步。
+一个对话里做完一件事、要换下一件时，开头写一句「new task」。不说的话，它会把你的新问题当成上一个任务的下一步。
 </Callout>
 
 ## 长时间跑：/loop
 
 `/loop` 是 Cursor 自带的命令，不是 pstack 的技能。它让 AI 隔一段时间或者遇到事件时醒来，重新检查「做完了没有」。配上 `/poteto-mode`，可以连着干好几个小时，规矩不松。
 
-<mark>关键是给它一个能判断通过还是失败的完成条件，而不是一段时间</mark>：
+关键是给它一个能判断通过还是失败的完成条件，而不是一段时间：
 
 <Copy id="cursor-loop" title="睡前交代" code={`/poteto-mode 我去睡了。在一个新的 worktree 里（从 <你的基础分支> 拉出来），把所有调用方迁到新的解析器。
 做完的标准：旧调用方一个都不剩，所有解析器测试数据都通过，旧 API 删掉。
@@ -78,7 +78,7 @@ Cursor 会告诉你插件装好了。也可以从侧边栏的 Customize 里装�
 
 <Copy id="cursor-wt" code={`/poteto-mode new task. 从 <基础分支> 拉一个新的 worktree，在那里把解析器的改动移植过去。`} />
 
-worktree 占硬盘和机器资源，笔记本上<u>一次开几个就够了</u>。
+worktree 占硬盘和机器资源，笔记本上一次开几个就够了。
 
 ## 不在 pstack 里、要另外装的
 
@@ -101,7 +101,7 @@ pstack 还带了一个默认不启用的自动化包，叫 benny：它会分拣 
 ## 卡住了？
 
 <Q q="/poteto-mode 用了几轮就不灵了。">
-<u>你多半是按 Enter 发的</u>，它只挂在了第一条消息上。重新从菜单选它，按 Option+Enter（Windows 是 Alt+Enter）变成 Custom Mode；或者每个新任务都重新打一次 `/poteto-mode`。
+你多半是按 Enter 发的，它只挂在了第一条消息上。重新从菜单选它，按 Option+Enter（Windows 是 Alt+Enter）变成 Custom Mode；或者每个新任务都重新打一次 `/poteto-mode`。
 </Q>
 <Q q="改了模型设置，跑起来还是原来的模型。">
 规则只对新对话生效。开一个新对话再试。

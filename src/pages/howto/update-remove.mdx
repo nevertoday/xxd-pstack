@@ -15,7 +15,7 @@ import Tabs from "../../components/Tabs.astro";
 
 ## 先想想你当初是怎么装的
 
-更新和卸载的办法，<u>取决于你当初走的哪条路</u>：
+更新和卸载的办法，取决于你当初走的哪条路：
 
 | 当初输入的是 | 属于 |
 | --- | --- |
@@ -34,10 +34,10 @@ import Tabs from "../../components/Tabs.astro";
 <p><Cmd c="npx skills check" /> 检查有没有新版本。</p>
 <p><Cmd c="npx skills update" /> 把技能更新到最新。</p>
 <p><Cmd c="npx skills remove" /> 卸载技能。</p>
-<p>注意范围：不加 <code>-g</code> 装的，技能在当时那个项目文件夹里；加了 <code>-g</code> 的，在你的用户目录里。<u>在 A 项目里装的，到 B 项目里看不到</u>，这是正常的。</p>
+<p>注意范围：不加 <code>-g</code> 装的，技能在当时那个项目文件夹里；加了 <code>-g</code> 的，在你的用户目录里。在 A 项目里装的，到 B 项目里看不到，这是正常的。</p>
 </div>
 <div slot="cc">
-<p>Claude Code 对第三方插件市场<u>默认不自动更新</u>。手动更新一次：</p>
+<p>Claude Code 对第三方插件市场默认不自动更新。手动更新一次：</p>
 <p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
 <p>想以后自动更新：在对话框输入 <code>/plugin</code>，打开 <strong>marketplaces</strong> 标签页，选中 <code>cursor-plugins</code>，再选 <strong>enable auto-update</strong>。查看和卸载插件，也在 <code>/plugin</code> 这个菜单里管理。</p>
 </div>
@@ -54,7 +54,7 @@ import Tabs from "../../components/Tabs.astro";
 
 解决办法，二选一：
 
-1. 打开设置文件，删掉那些你没特意改过、只是当时照默认写进去的角色行。<u>删掉的角色会回到技能的新默认</u>。
+1. 打开设置文件，删掉那些你没特意改过、只是当时照默认写进去的角色行。删掉的角色会回到技能的新默认。
 2. 直接把整个文件删了，再跑一次 `/setup-pstack`。
 
 设置文件在哪，看你用的工具：
@@ -66,14 +66,14 @@ import Tabs from "../../components/Tabs.astro";
 | Codex 和其他工具 | `~/.agents/pstack-models.md` |
 
 <Callout type="ok" title="重跑不会冲掉你改过的">
-重跑 `/setup-pstack` 时，模型和默认值不一样的角色（就是你特意改过的）会被保留。<u>所以放心重跑</u>。重跑还会顺手删掉已经废弃的角色行，并告诉你删了哪些。
+重跑 `/setup-pstack` 时，模型和默认值不一样的角色（就是你特意改过的）会被保留。所以放心重跑。重跑还会顺手删掉已经废弃的角色行，并告诉你删了哪些。
 </Callout>
 
 改完同样要开一个新对话（Cursor 和 Claude Code）才生效。
 
 ## 卸载以后：设置文件还在
 
-卸载技能或插件，<u>不会顺手删掉你的模型设置文件</u>。在 Claude Code 里要特别注意：它会把 `~/.claude/rules/` 里所有的 `.md` 文件读进每一个新会话。卸了 pstack 但留着 `pstack-models.md`，这些角色行还是会出现在每个会话里，白占地方。
+卸载技能或插件，不会顺手删掉你的模型设置文件。在 Claude Code 里要特别注意：它会把 `~/.claude/rules/` 里所有的 `.md` 文件读进每一个新会话。卸了 pstack 但留着 `pstack-models.md`，这些角色行还是会出现在每个会话里，白占地方。
 
 彻底不用了，就把上面表里对应的那个文件也删掉。
 

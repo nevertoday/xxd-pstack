@@ -18,7 +18,7 @@ pstack 其实就是一个文件夹，里面每个技能是一份 `SKILL.md`，�
 
 <Cmd c="npx skills add backnotprop/pstack" />
 
-这条命令要 <u>Node.js 22.20 或更新的版本</u>。不确定的话，先在终端里跑 `node -v` 看一眼。
+这条命令要 Node.js 22.20 或更新的版本。不确定的话，先在终端里跑 `node -v` 看一眼。
 
 跑起来以后会发生两件事：
 
@@ -30,7 +30,7 @@ pstack 其实就是一个文件夹，里面每个技能是一份 `SKILL.md`，�
 <p><Cmd c="npx skills add backnotprop/pstack -g" /></p>
 </Callout>
 
-<u>不知道该勾哪些，就全选</u>。只想要几个的话，有些技能要一起装才能用，看[只装几个技能](/howto/pick-skills/)。
+不知道该勾哪些，就全选。只想要几个的话，有些技能要一起装才能用，看[只装几个技能](/howto/pick-skills/)。
 
 ## 技能装到了哪里
 
@@ -51,10 +51,10 @@ pstack 其实就是一个文件夹，里面每个技能是一份 `SKILL.md`，�
 
 <Copy id="codex-file" title="设置文件的位置" code="~/.agents/pstack-models.md" />
 
-和 Cursor、Claude Code 不一样，Codex 这类工具<u>不会自动加载这个文件</u>。pstack 的技能在挑模型时会自己去读它，`poteto-mode` 每个任务开始时也会读一次。
+和 Cursor、Claude Code 不一样，Codex 这类工具不会自动加载这个文件。pstack 的技能在挑模型时会自己去读它，`poteto-mode` 每个任务开始时也会读一次。
 
 <Callout type="warn" title="默认模型名可能对不上">
-pstack 的默认模型名是按 Cursor 写的（grok 写代码，opus 5.5 做判断）。在你的工具里如果没有这个名字，技能会换成最接近的那个；实在没有，就不填模型，让子代理用你当前对话的模型，并且在回复里说一声。所以<u>最好跑一次 setup</u>，把每个角色都换成你真有的模型。
+pstack 的默认模型名是按 Cursor 写的（grok 写代码，opus 5.5 做判断）。在你的工具里如果没有这个名字，技能会换成最接近的那个；实在没有，就不填模型，让子代理用你当前对话的模型，并且在回复里说一声。所以最好跑一次 setup，把每个角色都换成你真有的模型。
 </Callout>
 
 推理档位在 Cursor 里是写在模型名里的（`-xhigh`、`-fast`）。别的工具里，如果派子代理的工具有「推理强度」这类选项，就用那个设；没有就跳过。

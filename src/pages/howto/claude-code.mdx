@@ -36,7 +36,7 @@ pstack 本来是给 Cursor 写的，不过在 Claude Code 里也能装。有两�
 | 命令前缀 | 要加 `pstack:` | 不用加 |
 | 更新 | `claude plugin update`，或开自动更新 | `npx skills update` |
 
-<u>拿不准就选路线一</u>。全套装上，`/poteto-mode` 需要的东西一样不缺。
+拿不准就选路线一。全套装上，`/poteto-mode` 需要的东西一样不缺。
 
 ## 命令前面要加 pstack:
 
@@ -44,12 +44,12 @@ Claude Code 会给插件里的命令加上插件名当前缀。所以教程里�
 
 <Cmd c="/pstack:poteto-mode" />
 
-同理，`/setup-pstack` 是 `/pstack:setup-pstack`，`/poteto-help` 是 `/pstack:poteto-help`，`/how` 是 `/pstack:how`。本站其他页面为了好读，都写不带前缀的版本，<mark>你在 Claude Code 里自己补上</mark>。
+同理，`/setup-pstack` 是 `/pstack:setup-pstack`，`/poteto-help` 是 `/pstack:poteto-help`，`/how` 是 `/pstack:how`。本站其他页面为了好读，都写不带前缀的版本，你在 Claude Code 里自己补上。
 
 这个前缀只跟插件有关。用 `npx skills` 装的是放在 `.claude/skills/` 里的普通技能，不是插件，直接打 `/poteto-mode` 就行。
 
 <Callout type="warn" title="技能不会自己跳出来">
-pstack 的技能，除了 `setup-pstack`，都设置成了「<u>只有你点名才运行</u>」。`/pstack:poteto-mode` 一定要你亲手打出来，它不会因为你说了「帮我修个 bug」就自动启用。
+pstack 的技能，除了 `setup-pstack`，都设置成了「只有你点名才运行」。`/pstack:poteto-mode` 一定要你亲手打出来，它不会因为你说了「帮我修个 bug」就自动启用。
 </Callout>
 
 ## 选模型：设置文件在 ~/.claude/rules/
@@ -73,7 +73,7 @@ interrogate reviewers: opus xhigh, inherit-parent`} />
 这份文件只在新会话开始时读进来。当前这个会话还是旧设置。<mark>跑完 setup 之后，退出重开一个会话再干活</mark>。
 </Callout>
 
-两个小提醒：这些角色行不要抄进 `CLAUDE.md` 或 `AGENTS.md`，<u>就放在这一个文件里</u>。以前的版本把设置写在 `~/.agents/pstack-models.md`，如果新文件不存在，技能会去那里找。
+两个小提醒：这些角色行不要抄进 `CLAUDE.md` 或 `AGENTS.md`，就放在这一个文件里。以前的版本把设置写在 `~/.agents/pstack-models.md`，如果新文件不存在，技能会去那里找。
 
 ## Cursor 的名字在这里怎么对应
 
@@ -91,7 +91,7 @@ pstack 的技能里写的是 Cursor 的叫法。插件里带了一份对照说�
 | 提问工具 `AskQuestion` | `AskUserQuestion` |
 | `.cursor/rules/` 里的规则 | `CLAUDE.md`（没有就用 `AGENTS.md`） |
 
-最后两行模型规则对你影响最大。pstack 默认让 grok 写代码、opus 5.5 做判断。到了 Claude Code，grok 用不了，原本给 grok 的活<u>就落在你当前会话的模型上</u>。如果你的会话本身就是 opus，「两个不同模型互相挑刺」的评审组就变成了同一家模型。想要更多样，在 setup 时给评审组换上 `sonnet` 之类的其他模型。
+最后两行模型规则对你影响最大。pstack 默认让 grok 写代码、opus 5.5 做判断。到了 Claude Code，grok 用不了，原本给 grok 的活就落在你当前会话的模型上。如果你的会话本身就是 opus，「两个不同模型互相挑刺」的评审组就变成了同一家模型。想要更多样，在 setup 时给评审组换上 `sonnet` 之类的其他模型。
 
 ## Cursor 独有的功能会被跳过
 
@@ -107,7 +107,7 @@ Claude Code 没有这几样：Cursor Automations（定时自动任务）、Bugbo
 
 ## 自动更新默认是关的
 
-Claude Code 对第三方插件市场<u>默认不自动更新</u>，所以 pstack 会一直停在你装的那个版本。想打开：
+Claude Code 对第三方插件市场默认不自动更新，所以 pstack 会一直停在你装的那个版本。想打开：
 
 1. 在对话框输入 `/plugin`。
 2. 打开 **marketplaces** 标签页。
@@ -132,5 +132,5 @@ Claude Code 对第三方插件市场<u>默认不自动更新</u>，所以 pstack
 不是。这是预期的：在 Claude Code 里，大部分 pstack 技能没法用 Skill 工具调起来，AI 会直接去读那个技能的 `SKILL.md` 照着做。你这边照常打命令就行。
 </Q>
 <Q q="回复里出现 Skipped in Claude Code，要管吗？">
-一般不用。那一步要的是 Cursor 才有的功能，<u>跳过是设计好的</u>。只有它提到占位符时，看一眼占位符缺的是什么，需要的话自己补上。
+一般不用。那一步要的是 Cursor 才有的功能，跳过是设计好的。只有它提到占位符时，看一眼占位符缺的是什么，需要的话自己补上。
 </Q>

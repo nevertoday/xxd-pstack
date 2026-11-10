@@ -43,7 +43,7 @@ Claude Code 对第三方插件市场默认**不自动更新**，pstack 会一直
 
 <Copy id="cursor-1" code="/add-plugin pstack" />
 
-Cursor 会提示装好了。命令名就是原样的 `/poteto-mode`、`/how`，<u>不用加前缀</u>。
+Cursor 会提示装好了。命令名就是原样的 `/poteto-mode`、`/how`，不用加前缀。
 
 Cursor 用户还可以顺手装 `cursor-team-kit` 插件：pstack 有几处会用到它里面的 `/deslop`（清理代码里的 AI 痕迹）和 `control-cli`、`control-ui`（操作命令行和浏览器）。不装也能用，pstack 会改用别的办法。
 
@@ -60,7 +60,7 @@ Cursor 用户还可以顺手装 `cursor-team-kit` 插件：pstack 有几处会�
 
 <Copy id="npx-2" lang="bash" title="装到全局" code="npx skills add backnotprop/pstack -g" />
 
-<u>要求 Node.js 22.20 或更高版本</u>。不确定的话先运行 `node -v` 看一下。
+要求 Node.js 22.20 或更高版本。不确定的话先运行 `node -v` 看一下。
 
 </div>
 </Tabs>
@@ -71,7 +71,7 @@ Cursor 用户还可以顺手装 `cursor-team-kit` 插件：pstack 有几处会�
 
 <Copy id="test" title="测试一下（Claude Code 插件版写成 /pstack:poteto-help）" code="/poteto-help pstack 里新手最该先学哪个技能？用一两句话回答。" />
 
-`/poteto-help` 是 pstack 的问路处：它只回答问题、给你一段可以直接发的提示词，**不会开始干活**。它回答里提到 `/poteto-mode`，<u>就说明装好了</u>。
+`/poteto-help` 是 pstack 的问路处：它只回答问题、给你一段可以直接发的提示词，**不会开始干活**。它回答里提到 `/poteto-mode`，就说明装好了。
 
 <Callout type="ok">
 在对话框里输入 `/`，弹出的菜单里能找到 `poteto-mode`（Claude Code 插件版是 `pstack:poteto-mode`）。
@@ -80,13 +80,13 @@ Cursor 用户还可以顺手装 `cursor-team-kit` 插件：pstack 有几处会�
 ## 卡住了？
 
 <Q q="输入 / 之后找不到 poteto-mode。">
-<p><u>先开一个新对话</u>，技能列表通常是对话开始时加载的。还找不到：Claude Code 插件版要搜 <code>pstack:</code>；用 <code>npx skills</code> 装的，确认你是在<strong>装的那个项目目录</strong>里打开的工具，或者重新用 <code>-g</code> 装到全局。</p>
+<p>先开一个新对话，技能列表通常是对话开始时加载的。还找不到：Claude Code 插件版要搜 <code>pstack:</code>；用 <code>npx skills</code> 装的，确认你是在<strong>装的那个项目目录</strong>里打开的工具，或者重新用 <code>-g</code> 装到全局。</p>
 </Q>
 <Q q="npx skills 报错说 Node 版本太低。">
 <p>它要求 Node.js 22.20 以上。到 <a href="https://nodejs.org">nodejs.org</a> 装一个新的 LTS 版本，再运行一次。</p>
 </Q>
 <Q q="插件版和 npx 版能一起装吗？">
-<p>别一起装，同一个技能出现两份容易混。<u>选一种就好</u>。</p>
+<p>别一起装，同一个技能出现两份容易混。选一种就好。</p>
 </Q>
 
 <Checkpoint id="s1" items={["pstack 已经装进我的工具里", "新对话里输入 / 能看到 poteto-mode（或 pstack:poteto-mode）", "/poteto-help 回答了我的问题"]} />

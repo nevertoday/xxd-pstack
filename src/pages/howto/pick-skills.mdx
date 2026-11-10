@@ -15,9 +15,9 @@ import Cmd from "../../components/Cmd.astro";
 ## 先说结论
 
 - 打算用 `/poteto-mode`：<mark><strong>全装</strong></mark>。它要用到所有原则技能和大部分其他技能，挑着装反而会缺东西。
-- 只想要其中一两个功能，比如去 AI 味、看懂代码：照下面的表挑，<u>记得把「要一起装」的也带上</u>。
+- 只想要其中一两个功能，比如去 AI 味、看懂代码：照下面的表挑，记得把「要一起装」的也带上。
 
-用 Cursor 的 `/add-plugin pstack` 或 Claude Code 插件市场装的，本来就是全套，<u>这页可以跳过</u>。只有用 `npx skills` 装才会让你挑。
+用 Cursor 的 `/add-plugin pstack` 或 Claude Code 插件市场装的，本来就是全套，这页可以跳过。只有用 `npx skills` 装才会让你挑。
 
 ## 单独装就能用的 17 个
 
@@ -45,7 +45,7 @@ import Cmd from "../../components/Cmd.astro";
 
 ## 这几个要带上别的一起装
 
-下面这些会调用别的技能。只装左边、不装右边，<u>跑到那一步就会找不到</u>：
+下面这些会调用别的技能。只装左边、不装右边，跑到那一步就会找不到：
 
 | 想装 | 还要装 |
 | --- | --- |
@@ -65,7 +65,7 @@ import Cmd from "../../components/Cmd.astro";
 README 的两张表里没写 `recall`、`no-comments`、`setup-pstack`、`make-bot-ui`。翻它们的说明可以看到：`recall` 会用到 `why` 和 `unslop`，`no-comments` 会提到 `how`、`why`、`architect`。稳妥起见，装这两个时把提到的也带上。`setup-pstack` 不依赖别的技能，但想自己选模型就装上它；不装，每个技能都用自己的默认模型。
 </Callout>
 
-还有一个细节：会派<Term k="子代理" />的技能（比如 `arena`、`swarm`），靠 `poteto-mode` 里的一节来决定每个子代理「想多久」。没装 `poteto-mode`，它们照样能跑，只是<u>一律用默认的推理强度</u>。
+还有一个细节：会派<Term k="子代理" />的技能（比如 `arena`、`swarm`），靠 `poteto-mode` 里的一节来决定每个子代理「想多久」。没装 `poteto-mode`，它们照样能跑，只是一律用默认的推理强度。
 
 ## 几组常用搭配
 
@@ -80,7 +80,7 @@ README 的两张表里没写 `recall`、`no-comments`、`setup-pstack`、`make-b
 | 让 AI 能自己验证你的应用 | `create-verification-skill`、`maintain-verification-skill` |
 | 完整的 pstack 体验 | 全选 |
 
-<u>最后一行是认真的</u>。pstack 最值钱的部分是 `/poteto-mode` 把这些技能按剧本串起来用。单个技能好用，但串起来才是作者 poteto 平时真正在用的样子。
+最后一行是认真的。pstack 最值钱的部分是 `/poteto-mode` 把这些技能按剧本串起来用。单个技能好用，但串起来才是作者 poteto 平时真正在用的样子。
 
 ## 在 npx skills 的列表里怎么挑
 
@@ -90,7 +90,7 @@ README 的两张表里没写 `recall`、`no-comments`、`setup-pstack`、`make-b
 
 它会列出所有技能，列表可以搜索。输入技能名就能筛出来，把你要的都选上，包括上面「还要装」那一列。选完技能，再选要装进哪些工具（Codex、Claude Code 等）。
 
-挑完觉得少了，再跑一次同样的命令，<u>把漏掉的补上就行</u>。各个工具的安装细节看[在 Codex 和其他工具里用](/howto/codex/)。
+挑完觉得少了，再跑一次同样的命令，把漏掉的补上就行。各个工具的安装细节看[在 Codex 和其他工具里用](/howto/codex/)。
 
 ## 卡住了？
 

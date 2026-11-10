@@ -147,16 +147,17 @@
      <mark> 荧光笔：字的下半截铺一条淡黄带，一页只给最关键的一两句；
      <u> 粗墨线：2px 墨色下划线，给关键动作和条件。数据里写 ==荧光笔== 和 ++粗墨线++（lib/md.js 转换） */
   .xxd-prose mark, .home mark, .skills mark, .site-main mark {
-    padding: 0 .12em; color: inherit;
-    --marker: color-mix(in oklab, var(--warning-solid) 38%, transparent);
-    background: linear-gradient(transparent 50%, var(--marker) 50%, var(--marker) 94%, transparent 94%);
+    padding: 0 .08em; color: inherit;
+    --marker: color-mix(in oklab, var(--warning-solid) 20%, transparent);
+    background: linear-gradient(transparent 60%, var(--marker) 60%, var(--marker) 92%, transparent 92%);
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
   }
   .xxd-prose u, .home u, .site-main u {
-    text-decoration: underline 2px var(--ink); text-underline-offset: 4px; text-decoration-skip-ink: none;
+    text-decoration: underline 1px color-mix(in oklab, var(--ink) 55%, transparent);
+    text-underline-offset: 5px; text-decoration-skip-ink: auto;
   }
   .xxd-prose strong mark, .xxd-prose mark strong { font-weight: var(--weight-strong); }
-  :root[data-theme="dark"] mark { --marker: color-mix(in oklab, var(--warning-solid) 62%, transparent); }
+  :root[data-theme="dark"] mark { --marker: color-mix(in oklab, var(--warning-solid) 30%, transparent); }
 
   /* 术语：虚线下划线，悬停出一句话解释 */
   .term { border-bottom: 1px dashed var(--muted-2); cursor: help; }
