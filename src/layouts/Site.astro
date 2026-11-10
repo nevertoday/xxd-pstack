@@ -2,7 +2,7 @@
 // 外壳：顶栏（搜索、主题、语言、GitHub）、左侧导航（主线 8 步 + 栏目）、正文、右侧目录。界面全部用 xxd-ui-kit：
 // 顶栏 xxd-topbar、标志 xxd-logo、左侧 xxd-sidebar（How-to 分组是子菜单）、目录 xxd-toc（跟着滚动高亮）。
 // 中文在根路径，英文在 /en/ 下；语言看路径（langOf），界面文字在下面的 UI 里。
-import { LESSONS, lessonHref, STEPS, stepHref, HOWTO, HOWTO_FLAT, howtoHref, wikiHref, link, REPO, PSTACK, langOf, counterpart, t } from "../data/nav.js";
+import { LESSONS, lessonHref, STEPS, stepHref, HOWTO, HOWTO_FLAT, howtoHref, wikiHref, link, REPO, PSTACK, PSTACK_UPSTREAM, langOf, counterpart, t } from "../data/nav.js";
 import { WIKI } from "../data/wiki.js";
 import { WIKI_EN } from "../data/wiki.en.js";
 import { FAQ } from "../data/faq.js";
@@ -20,12 +20,14 @@ interface Props {
 }
 const UI = {
   zh: { html: "zh-CN", brand: "pstack 新手教程", desc: "不会写代码也能学会 pstack：让 AI 先弄清你要什么，再动手，做完拿出你看得懂的证据。三课学会，说人话。", skip: "跳到正文", menu: "打开目录", search: "搜索教程",
-  searchPh: "搜步骤、How-to、技能、名词、问题……", searchEmpty: "没找到，换个词试试", theme: "主题", light: "亮色", dark: "暗色", system: "跟随系统", accent: "主题色", look: "外观", repo: "pstack 的 GitHub 仓库",
+  searchPh: "搜步骤、How-to、技能、名词、问题……", searchEmpty: "没找到，换个词试试", theme: "主题", light: "亮色", dark: "暗色", system: "跟随系统", accent: "主题色", look: "外观", repo: "本教程的 GitHub 仓库", repoMore: "其他仓库：pstack 镜像、官方原版", repoDefault: "默认",
+  repos: [[REPO, "本教程", "nevertoday/xxd-pstack", "教程的源码，有问题在这里提"], [PSTACK, "pstack 镜像", "backnotprop/pstack", "本站依据的版本，任何工具都能装"], [PSTACK_UPSTREAM, "pstack 官方原版", "cursor/plugins", "poteto 维护，给 Cursor 用"]],
   navLabel: "网站目录", start: "开始", home: "首页", lessons: "新手入门：先看这三课", main: "完整教程：会写代码的人看", pending: "编写中", ref: "查资料", howto: "How-to：具体怎么做",
   skills: "技能速查：34 个技能", wiki: "Wiki：这是什么", faq: "常见问题", toc: "本页", tocLabel: "本页目录", hintMain: "完整教程", hintLesson: "新手入门", hintFaq: "常见问题", hintSkill: "技能", switchTo: "English", switchLabel: "Switch to English",
   foot: `本站是 <a href="${PSTACK}">pstack</a> 的中文入门教程，不是官方文档；pstack 由 poteto 开发（MIT），命令和行为以官方仓库为准。教程源码和问题反馈在 <a href="${REPO}">GitHub</a>。` },
   en: { html: "en", brand: "pstack for beginners", desc: "Learn pstack even if you don't code: the AI checks what you want, does it, then shows proof you can understand. Three short lessons, plain words.", skip: "Skip to content", menu: "Open menu", search: "Search the guide",
-    searchPh: "Search steps, how-tos, skills, terms, questions…", searchEmpty: "Nothing found. Try another word", theme: "Theme", light: "Light", dark: "Dark", system: "System", accent: "Theme color", look: "Appearance", repo: "pstack on GitHub",
+    searchPh: "Search steps, how-tos, skills, terms, questions…", searchEmpty: "Nothing found. Try another word", theme: "Theme", light: "Light", dark: "Dark", system: "System", accent: "Theme color", look: "Appearance", repo: "This guide on GitHub", repoMore: "Other repos: the pstack mirror, the official original", repoDefault: "Default",
+    repos: [[REPO, "This guide", "nevertoday/xxd-pstack", "Source for this guide; file issues here"], [PSTACK, "pstack mirror", "backnotprop/pstack", "The version this site follows"], [PSTACK_UPSTREAM, "Official pstack", "cursor/plugins", "Maintained by poteto, for Cursor"]],
     navLabel: "Site navigation", start: "Start", home: "Home", lessons: "Beginner track: start here", main: "Full guide: for people who code", pending: "In progress", ref: "Reference", howto: "How-to: how exactly",
     skills: "Skills at a glance: all 34", wiki: "Wiki: what is it", faq: "FAQ", toc: "On this page", tocLabel: "On this page", hintMain: "Full guide", hintLesson: "Beginner track", hintFaq: "FAQ", hintSkill: "Skill", switchTo: "中文", switchLabel: "切换到中文",
     foot: `An unofficial beginner's guide to <a href="${PSTACK}">pstack</a>, not its official docs. pstack is made by poteto (MIT); the official repo is the source of truth for commands and behavior. Source and feedback for this guide are on <a href="${REPO}">GitHub</a>.` },
@@ -90,7 +92,9 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
       <button class="xxd-btn site-menu" data-variant="ghost" data-icon-only aria-label={L.menu} id="site-menu" aria-controls="site-nav" aria-expanded="false"><i data-xxd-icon="Menu" data-size="18"></i></button>
       <a class="xxd-logo site-brand" href={link("/", lang)}><svg class="site-mark" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect class="site-mark__bg" width="20" height="20" /><rect class="site-mark__bar" x="4" y="4" width="9" height="3" /><rect class="site-mark__bar" x="5.5" y="8.5" width="9" height="3" opacity=".62" /><rect class="site-mark__bar" x="7" y="13" width="9" height="3" opacity=".32" /></svg><span class="site-brand__name">{L.brand}</span></a>
       <span class="site-top__spacer"></span>
-      <!-- 顶栏和下面三栏用同一套网格（见 site.css）：标志对齐侧栏文字，搜索框右端对齐正文右边缘，外观和 GitHub 对齐目录栏右边缘 -->
+      <!-- 顶栏和下面三栏用同一套网格（见 site.css）：标志对齐侧栏文字；搜索框占满正文栏，两端对齐正文；外观、语言、GitHub 占满目录栏，两端对齐目录文字。
+           .site-top__end 在宽屏是 display: contents（两样各进各的栏），目录收起后变成正文栏里的一行 -->
+      <div class="site-top__end">
       <button class="site-search" id="site-search" type="button" aria-label={L.search}><i data-xxd-icon="Search" data-size="16"></i><span>{L.search}</span><kbd class="xxd-kbd">⌘K</kbd></button>
       <div class="site-tools">
         <button class="xxd-btn site-look" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-popover="site-look-pop" aria-label={L.look} data-tooltip={L.look} data-tooltip-placement="bottom">
@@ -109,7 +113,21 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
           <div class="xxd-swatches" role="radiogroup" data-xxd-segmented aria-label={L.accent} id="site-accent-swatches"></div>
         </div>
         <a class="xxd-btn site-lang" data-size="sm" data-variant="ghost" href={other} hreflang={en ? "zh-CN" : "en"} lang={en ? "zh-CN" : "en"} aria-label={L.switchLabel} data-tooltip={L.switchLabel} data-tooltip-placement="bottom">{L.switchTo}</a>
-        <a class="xxd-btn" data-size="sm" data-variant="ghost" data-icon-only href={PSTACK} aria-label={L.repo} data-tooltip={L.repo} data-tooltip-placement="bottom-end" set:html={GITHUB_MARK} />
+        <!-- GitHub：点图标直接去本教程的仓库；旁边的小箭头展开，可以换去 pstack 的镜像或官方原版 -->
+        <div class="xxd-btn-group site-gh">
+          <a class="xxd-btn" data-size="sm" data-variant="ghost" data-icon-only href={REPO} aria-label={L.repo} data-tooltip={L.repo} data-tooltip-placement="bottom-end" set:html={GITHUB_MARK} />
+          <button class="xxd-btn site-gh__more" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-menu="site-gh-menu" aria-label={L.repoMore} data-tooltip={L.repoMore} data-tooltip-placement="bottom-end"><i data-xxd-icon="ChevronDown" data-size="14"></i></button>
+        </div>
+        <div class="xxd-menu site-gh-menu" id="site-gh-menu" role="menu" popover data-placement="bottom-end">
+          {L.repos.map(([href, name, path, note], i) => (
+            <a class="xxd-menu__item site-gh-menu__item" role="menuitem" href={href} aria-current={i === 0 ? "true" : undefined}>
+              <span class="site-gh-menu__name">{name}{i === 0 && <span class="site-gh-menu__tag">{L.repoDefault}</span>}</span>
+              <span class="site-gh-menu__path">{path}</span>
+              <span class="site-gh-menu__note">{note}</span>
+            </a>
+          ))}
+        </div>
+      </div>
       </div>
     </header>
 

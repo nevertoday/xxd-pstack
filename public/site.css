@@ -15,8 +15,9 @@
   body { min-height: 100vh; }
 
   /* ---------- 顶栏 ---------- */
-  /* 顶栏：和 .site-body 同一套三栏网格。标志在侧栏那一栏（左边和侧栏文字对齐），
-     搜索框在正文那一栏、右端对齐正文右边缘，外观和 GitHub 在目录那一栏、右端对齐目录栏的内边距 */
+  /* 顶栏：和 .site-body 同一套三栏网格，每样东西两端都对齐它那一栏：
+     标志对齐侧栏文字；搜索框占满正文栏（左右各留 --site-pad，和正文一样）；
+     外观、语言、GitHub 占满目录栏（左右留目录的内边距），GitHub 贴右端 */
   .site-top {
     position: sticky; top: 0; z-index: var(--z-dock);
     display: grid; grid-template-columns: var(--site-cols); justify-content: center; align-items: center; column-gap: 0;
@@ -25,8 +26,19 @@
     backdrop-filter: blur(10px);
   }
   .site-top > .site-brand { grid-column: 1; justify-self: start; margin-left: 20px; }
-  .site-top > .site-search { grid-column: 2; justify-self: end; margin-right: var(--site-pad); }
-  .site-top > .site-tools { grid-column: 3; justify-self: end; margin-right: var(--space-4); }
+  .site-top__end { display: contents; }
+  .site-top__end > .site-search { grid-column: 2; justify-self: stretch; width: auto; margin-inline: var(--site-pad); }
+  .site-top__end > .site-tools { grid-column: 3; justify-self: stretch; margin: 0 var(--space-4) 0 var(--space-6); }
+  .site-tools > .site-gh { margin-left: auto; }
+  /* GitHub 两半：图标去本教程仓库，小箭头展开别的仓库。箭头窄一点，两半中间不画线 */
+  .site-gh > .site-gh__more { width: 22px; min-width: 22px; padding: 0; color: var(--muted); }
+  .site-gh > .site-gh__more:hover, .site-gh > .site-gh__more[aria-expanded="true"] { color: var(--ink); }
+  .site-gh-menu { width: 280px; padding: var(--space-1); }
+  .site-gh-menu__item { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--space-2); align-items: baseline; height: auto; padding-block: var(--space-2); }
+  .site-gh-menu__name { color: var(--ink); }
+  .site-gh-menu__path { justify-self: end; color: var(--muted-2); font-weight: var(--weight-regular); }
+  .site-gh-menu__note { grid-column: 1 / -1; color: var(--muted); font-weight: var(--weight-regular); }
+  .site-gh-menu__tag { margin-left: 6px; color: var(--muted-2); font-weight: var(--weight-regular); }
   .site-top > .site-top__spacer { display: none; }
   .site-menu { display: none; }
   /* 本站标志：沿用小小东标志的暖黑方块和「由满到淡」，方块里换成三根错开叠下去的横条（一摞技能卡 = stack）。跟随主题自动反色 */
@@ -285,9 +297,10 @@
     :root { --site-nav-w: 232px; --site-pad: 32px; --site-cols: var(--site-nav-w) minmax(0, 1fr) auto; }
     .site-body { grid-template-columns: var(--site-nav-w) minmax(0, 1fr); justify-content: stretch; }
     .site-top { justify-content: stretch; padding: 0; }
-    /* 目录收起后：顶栏最右的按钮组对齐正文右边缘，搜索框紧挨在它左边 */
-    .site-top > .site-search { margin-right: var(--space-2); }
-    .site-top > .site-tools { margin-right: var(--site-pad); }
+    /* 目录收起后只剩两栏：搜索框和按钮组一起放进正文栏，搜索框左端对齐正文左边缘，按钮组右端对齐正文右边缘 */
+    .site-top__end { grid-column: 2; display: flex; align-items: center; gap: var(--space-2); max-width: calc(var(--site-read) + var(--site-pad) * 2); padding-inline: var(--site-pad); }
+    .site-top__end > .site-search { flex: 1; min-width: 0; margin: 0; }
+    .site-top__end > .site-tools { margin: 0; }
     .site-toc { display: none; }
   }
   @media (max-width: 820px) {
@@ -312,7 +325,8 @@
     .site-top { display: flex; gap: var(--space-2); padding: 0 var(--space-4); }
     .site-top > .site-brand { margin-left: 0; }
     .site-top > .site-top__spacer { display: block; flex: 1; }
-    .site-top > .site-search, .site-top > .site-tools { margin-right: 0; }
+    .site-top__end { display: contents; }
+    .site-top__end > .site-search { flex: none; width: 34px; }
     /* 一张图看懂竖排：四块一列往下，连线变成竖线 */
     .flow { grid-template-columns: 1fr; }
     .flow__conn { flex-direction: row; justify-content: flex-start; align-items: center; gap: var(--space-2); padding: 0 0 0 var(--space-4); text-align: left; }
