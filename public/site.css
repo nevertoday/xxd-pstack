@@ -109,10 +109,11 @@
   .home .pain li { margin: 0 0 var(--space-2); line-height: 26px; }
   .home .pain + p { max-width: var(--site-read); margin: var(--space-3) 0 0; }
   .home .diff { max-width: var(--site-read); }
-  .home .diff th:last-child, .home .diff td:last-child { color: var(--ink); }
-  .home .diff td:first-child { color: var(--muted); }
-  .home .diff table { width: 100%; table-layout: fixed; }
-  .home .diff th, .home .diff td { white-space: normal; overflow-wrap: anywhere; vertical-align: top; }
+  /* 对比表：用 Kit 的表格，换行的列写 data-wrap（Kit 会把上下内边距对好）。
+     行头「什么时候」是 tbody 里的 th：不要表头那条粗线，字色和表头一样淡；「平常的 AI」那列也淡一档，眼睛先落在右边 */
+  .home .diff tbody th { height: auto; border-bottom: 0; font: var(--weight-regular) var(--text-sm) / var(--leading-sm) var(--font-body); vertical-align: top; padding-block: calc((44px - var(--leading-sm)) / 2); }
+  .home .diff tbody tr + tr th { border-top: 1px solid var(--line); }
+  .home .diff .diff__before { color: var(--muted); }
   .home .flow + .roadmap { margin-top: var(--space-6); }
   /* 示意 AI 回复：不是复制用的，没有按钮；字号和代码块一样，换行保留 */
   .reply-demo { margin: var(--space-4) 0; }

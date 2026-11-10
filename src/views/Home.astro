@@ -21,11 +21,11 @@ const ZH = {
   ],
   painP: "不怪你说得不清楚。AI 说「好了」的时候，它自己并没有打开看过。",
   diffH: "装上以后，有什么不一样",
-  diffA: "平常的 AI", diffB: "装了 pstack",
+  diffW: "什么时候", diffA: "平常的 AI", diffB: "装了 pstack",
   DIFF: [
-    ["没弄清你要什么，直接就做", "先用自己的话复述一遍，你能马上纠正"],
-    ["在看起来差不多的地方乱改", "先把问题弄清楚，再动手，改得越少越好"],
-    ["一句「应该没问题了」", "列出它实际检查过什么、看到了什么；查不了的直说"],
+    ["动手之前", "没弄清你要什么，直接就做", "先用自己的话复述一遍，你能马上纠正"],
+    ["改的时候", "在看起来差不多的地方乱改", "先把问题弄清楚再动手，改得越少越好"],
+    ["说做完的时候", "一句「应该没问题了」", "列出实际检查过什么、看到了什么；查不了的直说"],
   ],
   lessonsH: "新手只要三课", lessonsP: "按顺序看，一共 20 分钟。学完这三课就会用了，网站上其他内容都是以后遇到了再查。",
   lessonsLabel: "新手入门：共 3 课",
@@ -57,11 +57,11 @@ const EN = {
   ],
   painP: "It's not that you explained it badly. When the AI says “done,” it never opened the thing to look.",
   diffH: "What changes once it's installed",
-  diffA: "AI as usual", diffB: "With pstack",
+  diffW: "When", diffA: "AI as usual", diffB: "With pstack",
   DIFF: [
-    ["Starts without checking what you want", "Repeats your goal in its own words first, so you can correct it right away"],
-    ["Changes things somewhere that looks about right", "Figures out the problem first, then changes as little as it can"],
-    ["“Should be fine now”", "Lists what it actually checked and what it saw, and says plainly what it couldn't check"],
+    ["Before it starts", "Starts without checking what you want", "Repeats your goal in its own words first, so you can correct it right away"],
+    ["While it changes things", "Changes things somewhere that looks about right", "Figures out the problem first, then changes as little as it can"],
+    ["When it says it's done", "“Should be fine now”", "Lists what it actually checked and what it saw, and says plainly what it couldn't check"],
   ],
   lessonsH: "Beginners need just three lessons", lessonsP: "Read them in order, 20 minutes in all. After these three you can use it. Everything else on the site is for looking up later.",
   lessonsLabel: "Beginner track: 3 lessons",
@@ -101,8 +101,8 @@ const C = lang === "en" ? EN : ZH;
       <h2 id="h-diff">{C.diffH}</h2>
       <div class="xxd-table-wrap diff">
         <table class="xxd-table">
-          <thead><tr><th scope="col">{C.diffA}</th><th scope="col">{C.diffB}</th></tr></thead>
-          <tbody>{C.DIFF.map(([a, b]) => <tr><td>{a}</td><td>{b}</td></tr>)}</tbody>
+          <thead><tr><th scope="col">{C.diffW}</th><th scope="col" data-wrap>{C.diffA}</th><th scope="col" data-wrap>{C.diffB}</th></tr></thead>
+          <tbody>{C.DIFF.map(([w, a, b]) => <tr><th scope="row" class="diff__when">{w}</th><td data-wrap class="diff__before">{a}</td><td data-wrap>{b}</td></tr>)}</tbody>
         </table>
       </div>
     </section>
