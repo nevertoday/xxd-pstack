@@ -72,9 +72,9 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
       <button class="xxd-btn site-menu" data-variant="ghost" data-icon-only aria-label={L.menu} id="site-menu" aria-controls="site-nav" aria-expanded="false"><i data-xxd-icon="Menu" data-size="18"></i></button>
       <a class="xxd-logo site-brand" href={link("/")}><svg class="site-mark" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect class="site-mark__bg" width="20" height="20" /><rect class="site-mark__bar" x="4" y="4" width="9" height="3" /><rect class="site-mark__bar" x="5.5" y="8.5" width="9" height="3" opacity=".62" /><rect class="site-mark__bar" x="7" y="13" width="9" height="3" opacity=".32" /></svg><span class="site-brand__name">{L.brand}</span></a>
       <span class="site-top__spacer"></span>
-      <!-- 右边一组工具：搜索 · 外观（主题 + 主题色）· 语言 · GitHub。宽屏窄屏同一个结构，不再按宽度搬来搬去 -->
+      <!-- 顶栏和下面三栏用同一套网格（见 site.css）：标志对齐侧栏文字，搜索框右端对齐正文右边缘，外观和 GitHub 对齐目录栏右边缘 -->
+      <button class="site-search" id="site-search" type="button" aria-label={L.search}><i data-xxd-icon="Search" data-size="16"></i><span>{L.search}</span><kbd class="xxd-kbd">⌘K</kbd></button>
       <div class="site-tools">
-        <button class="site-search" id="site-search" type="button" aria-label={L.search}><i data-xxd-icon="Search" data-size="16"></i><span>{L.search}</span><kbd class="xxd-kbd">⌘K</kbd></button>
         <button class="xxd-btn site-look" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-popover="site-look-pop" aria-label={L.look} data-tooltip={L.look} data-tooltip-placement="bottom">
           <span class="site-look__icon" data-for="light"><i data-xxd-icon="Sun" data-size="16"></i></span>
           <span class="site-look__icon" data-for="dark"><i data-xxd-icon="Moon" data-size="16"></i></span>
