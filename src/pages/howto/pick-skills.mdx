@@ -1,0 +1,105 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: pick-skills
+time: 读 5 分钟
+for: 用 npx skills 安装，不想全装，只想挑几个
+step: 1
+description: pstack 有的技能单独就能用，有的会调用别的技能，必须一起装。这里把 README 里的两张表翻成中文，再给几组常用搭配，以及在 npx skills 列表里怎么挑。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Cmd from "../../components/Cmd.astro";
+
+## 先说结论
+
+- 打算用 `/poteto-mode`：<mark><strong>全装</strong></mark>。它要用到所有原则技能和大部分其他技能，挑着装反而会缺东西。
+- 只想要其中一两个功能，比如去 AI 味、看懂代码：照下面的表挑，<u>记得把「要一起装」的也带上</u>。
+
+用 Cursor 的 `/add-plugin pstack` 或 Claude Code 插件市场装的，本来就是全套，<u>这页可以跳过</u>。只有用 `npx skills` 装才会让你挑。
+
+## 单独装就能用的 17 个
+
+这些技能不会调用 pstack 里的其他技能，装一个就能用一个：
+
+| 技能 | 一句话 |
+| --- | --- |
+| `unslop` | 去掉文字里的 AI 味 |
+| `bro` | 把上一条回复用大白话再说一遍 |
+| `how` | 讲清楚一块代码现在怎么工作 |
+| `tdd` | 先写会失败的测试，再修 |
+| `typescript-best-practices` | 写 TypeScript 时守住类型方面的规矩 |
+| `arena` | 同一个题目让几个 AI 各做一份，挑最好的再嫁接 |
+| `swarm` | 把活切成几块并行做，最后汇总一份报告 |
+| `interrogate` | 让几个模型去攻击你的改动，只留下跑得出失败的问题 |
+| `reflect` | 任务做完，把学到的东西变成技能修改建议 |
+| `show-me-your-work` | 每做一个决定记一行决策日志 |
+| `figure-it-out` | 没有现成剧本时，现场设计一套严谨的做法 |
+| `automate-me` | 从你的聊天记录里总结出一个你自己的模式技能 |
+| `correct` | 同一类错误反复出现时，从根上堵住 |
+| `benchmark-checklist` | 测出来的性能数字，发出去之前先核一遍 |
+| `in-your-own-words` | 让 AI 先复述你的目标和问题 |
+| `sharpen` | 把你的提示词改得更深，不是更长 |
+| `statechart` | 把「用户会看到什么」画成检查过的状态图 |
+
+## 这几个要带上别的一起装
+
+下面这些会调用别的技能。只装左边、不装右边，<u>跑到那一步就会找不到</u>：
+
+| 想装 | 还要装 |
+| --- | --- |
+| `teach` | `how`、`why` |
+| `why` | `how` |
+| `technical-writing` | `unslop` |
+| `architect` | `arena`、`how` |
+| `blast-radius` | `arena`、`how`、`why`、`unslop` |
+| `create-verification-skill` | `maintain-verification-skill` |
+| `create-formal-verification-skill` | `maintain-formal-verification-skill`、`statechart` |
+| `ketchup` | `bro` |
+| `ketchup-video` | `ketchup`、`bro` |
+| `poteto-mode` | 所有 `principle-*` 原则技能，加上大部分其他技能 |
+| `poteto-help` | 你想问的那些技能 |
+
+<Callout type="tip" title="表里没列的几个">
+README 的两张表里没写 `recall`、`no-comments`、`setup-pstack`、`make-bot-ui`。翻它们的说明可以看到：`recall` 会用到 `why` 和 `unslop`，`no-comments` 会提到 `how`、`why`、`architect`。稳妥起见，装这两个时把提到的也带上。`setup-pstack` 不依赖别的技能，但想自己选模型就装上它；不装，每个技能都用自己的默认模型。
+</Callout>
+
+还有一个细节：会派<Term k="子代理" />的技能（比如 `arena`、`swarm`），靠 `poteto-mode` 里的一节来决定每个子代理「想多久」。没装 `poteto-mode`，它们照样能跑，只是<u>一律用默认的推理强度</u>。
+
+## 几组常用搭配
+
+| 你想要 | 勾这几个 |
+| --- | --- |
+| 只想看懂代码 | `how`、`why`、`teach` |
+| 只想把文字的 AI 味去掉 | `unslop`、`bro` |
+| 写文档、README、PR 说明 | `technical-writing`、`unslop` |
+| 改代码前先定设计 | `architect`、`arena`、`how` |
+| 提交前让几个模型挑刺 | `interrogate` |
+| 修 bug 时先写测试 | `tdd` |
+| 让 AI 能自己验证你的应用 | `create-verification-skill`、`maintain-verification-skill` |
+| 完整的 pstack 体验 | 全选 |
+
+<u>最后一行是认真的</u>。pstack 最值钱的部分是 `/poteto-mode` 把这些技能按剧本串起来用。单个技能好用，但串起来才是作者 poteto 平时真正在用的样子。
+
+## 在 npx skills 的列表里怎么挑
+
+在终端里运行：
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+它会列出所有技能，列表可以搜索。输入技能名就能筛出来，把你要的都选上，包括上面「还要装」那一列。选完技能，再选要装进哪些工具（Codex、Claude Code 等）。
+
+挑完觉得少了，再跑一次同样的命令，<u>把漏掉的补上就行</u>。各个工具的安装细节看[在 Codex 和其他工具里用](/howto/codex/)。
+
+## 卡住了？
+
+<Q q="只装了 teach，跑起来缺东西。">
+`teach` 要靠 `how` 和 `why` 才能干活。再跑一次 `npx skills add backnotprop/pstack`，把这两个也勾上。
+</Q>
+<Q q="只装了几个技能，能用 /poteto-mode 吗？">
+不建议。`poteto-mode` 要读所有原则技能，还会在步骤里调用大部分其他技能。缺了哪个，那一步就做不全。要用它，就全装。
+</Q>
+<Q q="原则技能（principle-*）要单独挑吗？">
+只在你装 `poteto-mode` 时需要，而且要全部装上。平时你不会直接打它们，它们是给 `poteto-mode` 读的，你只需要在纠偏时说出它们的名字，见<a href="/howto/steer/">跑偏了，一句话拉回来</a>。
+</Q>

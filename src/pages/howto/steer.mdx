@@ -1,0 +1,111 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: steer
+time: 一句话的事
+for: AI 干着干着跑偏了，想把它拉回来，又不想写一大段
+step: 8
+description: 用 pstack 的原则名、/bro、/unslop、new task 一句话纠偏。附一张「AI 在干嘛 → 你回一句什么」的对照表，以及怎么判断它是真的照原则改了，还是只念了个名字。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+
+## 为什么一句话就够
+
+pstack 带了 24 条<Term k="原则" />，每条都有名字，比如 `prove it works`（证明它真的能用）、`fix root causes`（修根因）。`/poteto-mode` 每个多步骤任务开始时都会读一遍这些原则的索引。
+
+所以纠偏的时候，你不用解释一大段道理。说出原则名，AI 就知道你指的是哪条完整的规则，因为它已经读过了。<mark>一个名字比一段话指得更准。</mark>
+
+你不需要「调用」原则，<u>也不用背</u>。等你发现 AI 在做某件事、而某个名字本来能防住它时，回来查这一页就行。
+
+## 四种最常用的拉法
+
+**1. 重申目标。** 它做了你没让它做的事：
+
+<Copy id="s-goal" code="我说的目标是复现。我没让你修。" />
+
+原文是 `i said the goal is to repro. i did not ask for a fix yet.`，中文英文都行。
+
+**2. 说原则名，再加一句具体要求。**
+
+<Copy id="s-prove" code="apply prove it works. 跑真实的导入流程，把写进去的记录给我看。" />
+
+原则名告诉它是哪条规矩，<u>后半句告诉它这次具体要什么证据</u>。
+
+**3. 回复看不懂，或者 AI 味太重。**
+
+<Copy id="s-bro" code="/bro" />
+
+<Copy id="s-unslop" code="/unslop that, no emdashes" />
+
+`/bro` 把上一条回复用大白话重说一遍。`/unslop that` 把刚才那段文字的 AI 味去掉，后面的 `no emdashes` 是「不要破折号」。
+
+**4. 换话题了，说 new task。**
+
+<Copy id="s-new" code="/poteto-mode new task. 查一下为什么退出登录之后缓存还在。先别改任何代码。" />
+
+不说 `new task`，正在做功能的 `/poteto-mode` 会把你的问题当成功能的下一步。「先别改任何代码」<u>把这次钉在只读调查上</u>。
+
+## 对照表：AI 在干嘛，你回一句什么
+
+| AI 在干嘛 | 你回一句 |
+| --- | --- |
+| 你只要复现，它已经开始改代码 | `i said the goal is to repro. i did not ask for a fix yet.` |
+| build 通过了就说「完成」 | `apply prove it works.` 跑真实命令，把真实输出给我看，不要构建日志。 |
+| 在下游加一个 if 判断就说修好了 | `fix root causes.` 找到它第一次出错的地方。 |
+| 在三个旧适配器上再叠一个新的 | `subtract before you add.` 先删掉过时的，再设计剩下的。 |
+| 两个并行尝试要写同一个分支，还想加锁 | `separate before serializing shared state.` 每个尝试一个自己的 worktree，不要锁。 |
+| 同一个检查修了两三次还是不过 | `attack the premise.` 把这几次修法共同的假设写下来，先直接测它。 |
+| 几十处一样的改动在一处一处手改 | `build the lever.` 写个脚本或 codemod 来改，我要能重跑它。 |
+| 迁移时给旧接口留兼容层 | `migrate callers then delete legacy apis.` 调用方迁完，旧 API 同一轮删掉。 |
+| 到处都在加参数校验 | `boundary discipline.` 只在入口处校验，内部信任类型。 |
+| 拿一个「快了 40%」就要写进 PR | `explain the number.` 先说清楚是什么在限制它，再跑 `/benchmark-checklist`。 |
+| 测试在断言内部调用了哪个函数 | `test behavior not implementation.` 断言用户能看到的结果。 |
+| 把一大堆原始日志贴进主对话 | `guard the context window.` 让子代理去读，只把结论带回来。 |
+| 一件可以撤回的小事也停下来问你 | `never block on the human.` 先做，做完给我看，我再纠正。 |
+| 第一个设计就直接开写 | `exhaust the design space.` 先做两三个原型，摆在一起比。 |
+
+表里只是常用的几条。全部 24 条和它们各管什么，看[原则](/wiki/principles/)。
+
+## 它应该说出改了哪个决定
+
+<mark>光念出原则名不算数。</mark>`/poteto-mode` 的规矩是：回复里用到哪条原则，就要说出这条原则**改变了哪个决定**。
+
+好的回复大概是这样：
+
+<Copy id="s-good" title="像样的回复" code="按 subtract before you add，先删掉了两个已经没人调用的适配器，新的那个就不用再兼容它们，接口少了一半。" />
+
+不像样的是这样：
+
+<Copy id="s-bad" title="只念了名字" code="已遵循 prove it works 原则，功能正常。" />
+
+第二种只有名字，<u>没有决定，也没有证据</u>。说明它只是提了一下，并没有照做。这时候再追一句：
+
+<Copy id="s-push" code="你说用了 prove it works。具体是哪个命令、哪个输出证明的？贴出来。" />
+
+<Callout type="tip" title="中文英文混着说没问题">
+原则名保留英文，后面的要求用中文写，AI 都读得懂。不用把整句翻成英文。
+</Callout>
+
+## 同一个毛病第二次出现
+
+在聊天里纠正只管这一次。下一个对话、下一个 AI 还会再犯。
+
+<u>同一个错第二次出现</u>，就别再一句一句拉了，用 `/correct` 从仓库层面堵住：
+
+<Copy id="s-correct" code="/correct AI 老是绕过 repository 层直接调数据库客户端。" />
+
+它会按「架构 → 类型、lint、CI → 测试 → 文档」的顺序找最高的那一层来修，让以后的 AI 想犯都犯不了。这对应的原则是 `encode lessons in structure`：重复说过两次的建议，就该变成一条检查或一个脚本。更多做法看[变成你自己的](/guide/8-make-it-yours/)。
+
+## 卡住了？
+
+<Q q="我说了原则名，它好像没反应。">
+确认这个对话里 `/poteto-mode` 还在。如果你当初是按 Enter 发的，几轮之后它的影响就淡了。重新打一次 `/poteto-mode`，或者在 Cursor 里用 Option+Enter（Windows 是 Alt+Enter）开成常驻模式。
+</Q>
+<Q q="原则名记不住怎么办？">
+不用背。<u>用中文直接说你要什么也行</u>，比如「别在下游加判断，找到根因」。原则名只是更短、更准。用多了自然就记住几个最常用的。
+</Q>
+<Q q="拉回来了，过一会儿又跑偏。">
+先看是不是换了话题没说 `new task`。如果是同一个毛病反复出现，就用 `/correct` 把它变成仓库里的规则，别再靠聊天纠正。
+</Q>

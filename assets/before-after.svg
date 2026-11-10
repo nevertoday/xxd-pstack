@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-label="对比：不用 pstack 时 AI 直接改代码、跳过复现和验证；用 pstack 时五步都做，并给出修前修后的证据">
+<defs><clipPath id="c0"><rect x="32" y="28" width="440" height="344" rx="14"/></clipPath><clipPath id="c1"><rect x="488" y="28" width="440" height="344" rx="14"/></clipPath></defs>
+<rect x="0" y="0" width="960" height="400" rx="22" fill="#F1EFEA" />
+<rect x="32" y="28" width="440" height="344" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#c0)"><rect x="32" y="28" width="440" height="50" rx="0" fill="#EBD6D3" /></g>
+<text x="54" y="60" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >不用 pstack</text>
+<circle cx="66" cy="107" r="9" fill="#B5655B" opacity=".16"/>
+<path d="M61,107 l4,4 l7,-8" fill="none" stroke="#B5655B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="86" y="112" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >改代码</text>
+<circle cx="66" cy="143" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
+<text x="86" y="148" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">复现</text>
+<text x="182" y="148" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >跳过</text>
+<circle cx="66" cy="179" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
+<text x="86" y="184" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">读懂代码</text>
+<text x="182" y="184" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >跳过</text>
+<circle cx="66" cy="215" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
+<text x="86" y="220" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">找根因</text>
+<text x="182" y="220" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >跳过</text>
+<circle cx="66" cy="251" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
+<text x="86" y="256" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">验证</text>
+<text x="182" y="256" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >跳过</text>
+<rect x="54" y="296" width="396" height="56" rx="10" fill="#F1EFEA" />
+<text x="70" y="320" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#B5655B" text-anchor="start" >「已修复，应该没问题了。」</text>
+<text x="70" y="341" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >你一跑，还是两条。</text>
+<rect x="488" y="28" width="440" height="344" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#c1)"><rect x="488" y="28" width="440" height="50" rx="0" fill="#DDE7D3" /></g>
+<text x="510" y="60" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >用 pstack</text>
+<circle cx="522" cy="107" r="9" fill="#5E8C61" opacity=".16"/>
+<path d="M517,107 l4,4 l7,-8" fill="none" stroke="#5E8C61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="542" y="112" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >复现</text>
+<circle cx="522" cy="143" r="9" fill="#5E8C61" opacity=".16"/>
+<path d="M517,143 l4,4 l7,-8" fill="none" stroke="#5E8C61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="542" y="148" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >读懂代码</text>
+<circle cx="522" cy="179" r="9" fill="#5E8C61" opacity=".16"/>
+<path d="M517,179 l4,4 l7,-8" fill="none" stroke="#5E8C61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="542" y="184" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >找根因</text>
+<circle cx="522" cy="215" r="9" fill="#5E8C61" opacity=".16"/>
+<path d="M517,215 l4,4 l7,-8" fill="none" stroke="#5E8C61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="542" y="220" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >修</text>
+<circle cx="522" cy="251" r="9" fill="#5E8C61" opacity=".16"/>
+<path d="M517,251 l4,4 l7,-8" fill="none" stroke="#5E8C61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="542" y="256" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >验证</text>
+<rect x="510" y="296" width="396" height="56" rx="10" fill="#F1EFEA" />
+<text x="526" y="320" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#5E8C61" text-anchor="start" >修之前 2 条 → 修之后 1 条</text>
+<text x="526" y="341" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >证据贴在回复里，你自己能查。</text>
+</svg>

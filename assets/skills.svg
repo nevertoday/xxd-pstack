@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 612" width="960" height="612" role="img" aria-label="pstack 技能地图：34 个技能分七类，外加 24 条原则">
+<defs><clipPath id="s0"><rect x="30.0" y="28" width="210" height="218" rx="14"/></clipPath><clipPath id="s1"><rect x="260.0" y="28" width="210" height="218" rx="14"/></clipPath><clipPath id="s2"><rect x="490.0" y="28" width="210" height="218" rx="14"/></clipPath><clipPath id="s3"><rect x="720.0" y="28" width="210" height="218" rx="14"/></clipPath><clipPath id="s4"><rect x="30.0" y="266" width="210" height="284" rx="14"/></clipPath><clipPath id="s5"><rect x="260.0" y="266" width="210" height="284" rx="14"/></clipPath><clipPath id="s6"><rect x="490.0" y="266" width="210" height="284" rx="14"/></clipPath><clipPath id="s7"><rect x="720.0" y="266" width="210" height="284" rx="14"/></clipPath></defs>
+<rect x="0" y="0" width="960" height="612" rx="22" fill="#F1EFEA" />
+<rect x="30.0" y="28" width="210" height="218" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s0)"><rect x="30.0" y="28" width="210" height="44" rx="0" fill="#EBD6D3" /></g>
+<text x="46.0" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >入口</text>
+<text x="224.0" y="56" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5">3</text>
+<text x="46.0" y="98" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="600" fill="#2B2A27" text-anchor="start" >/poteto-mode</text>
+<text x="46.0" y="125" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/poteto-help</text>
+<text x="46.0" y="152" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/setup-pstack</text>
+<rect x="260.0" y="28" width="210" height="218" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s1)"><rect x="260.0" y="28" width="210" height="44" rx="0" fill="#EFDFC9" /></g>
+<text x="276.0" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >先听懂你</text>
+<text x="454.0" y="56" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5">2</text>
+<text x="276.0" y="98" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/in-your-own-words</text>
+<text x="276.0" y="125" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/sharpen</text>
+<rect x="490.0" y="28" width="210" height="218" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s2)"><rect x="490.0" y="28" width="210" height="44" rx="0" fill="#D7E2EC" /></g>
+<text x="506.0" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >看懂代码</text>
+<text x="684.0" y="56" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5">4</text>
+<text x="506.0" y="98" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/how</text>
+<text x="506.0" y="125" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/why</text>
+<text x="506.0" y="152" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/teach</text>
+<text x="506.0" y="179" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/recall</text>
+<rect x="720.0" y="28" width="210" height="218" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s3)"><rect x="720.0" y="28" width="210" height="44" rx="0" fill="#E0DAEA" /></g>
+<text x="736.0" y="56" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >设计和把关</text>
+<text x="914.0" y="56" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5">6</text>
+<text x="736.0" y="98" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/architect</text>
+<text x="736.0" y="125" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/arena</text>
+<text x="736.0" y="152" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/swarm</text>
+<text x="736.0" y="179" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/interrogate</text>
+<text x="736.0" y="206" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/blast-radius</text>
+<text x="736.0" y="233" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/figure-it-out</text>
+<rect x="30.0" y="266" width="210" height="284" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s4)"><rect x="30.0" y="266" width="210" height="44" rx="0" fill="#DDE7D3" /></g>
+<text x="46.0" y="294" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >动手和清理</text>
+<text x="224.0" y="294" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5">5</text>
+<text x="46.0" y="336" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/tdd</text>
+<text x="46.0" y="363" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/typescript-best-practices</text>
+<text x="46.0" y="390" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/unslop</text>
+<text x="46.0" y="417" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/no-comments</text>
+<text x="46.0" y="444" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/technical-writing</text>
+<rect x="260.0" y="266" width="210" height="284" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s5)"><rect x="260.0" y="266" width="210" height="44" rx="0" fill="#D5EFE5" /></g>
+<text x="276.0" y="294" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >验证</text>
+<text x="454.0" y="294" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5">6</text>
+<text x="276.0" y="336" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/create-verification-skill</text>
+<text x="276.0" y="363" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/maintain-verification-</text>
+<text x="276.0" y="385" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >  skill</text>
+<text x="276.0" y="412" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/create-formal-</text>
+<text x="276.0" y="434" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >  verification-skill</text>
+<text x="276.0" y="461" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/maintain-formal-</text>
+<text x="276.0" y="483" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >  verification-skill</text>
+<text x="276.0" y="510" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/statechart</text>
+<text x="276.0" y="537" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/benchmark-checklist</text>
+<rect x="490.0" y="266" width="210" height="284" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s6)"><rect x="490.0" y="266" width="210" height="44" rx="0" fill="#F2DCE4" /></g>
+<text x="506.0" y="294" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >汇报和复盘</text>
+<text x="684.0" y="294" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5">7</text>
+<text x="506.0" y="336" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/bro</text>
+<text x="506.0" y="363" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/ketchup</text>
+<text x="506.0" y="390" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/ketchup-video</text>
+<text x="506.0" y="417" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/show-me-your-work</text>
+<text x="506.0" y="444" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/reflect</text>
+<text x="506.0" y="471" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/correct</text>
+<text x="506.0" y="498" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/automate-me</text>
+<rect x="720.0" y="266" width="210" height="284" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#s7)"><rect x="720.0" y="266" width="210" height="44" rx="0" fill="#E6E4DC" /></g>
+<text x="736.0" y="294" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" >原则 × 24</text>
+<text x="914.0" y="294" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="700" fill="#2B2A27" text-anchor="end" opacity=".5"></text>
+<text x="736.0" y="336" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >prove it works</text>
+<text x="736.0" y="363" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >fix root causes</text>
+<text x="736.0" y="390" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >subtract before you add</text>
+<text x="736.0" y="417" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >laziness protocol</text>
+<text x="736.0" y="444" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >…还有 20 条</text>
+<text x="480.0" y="588" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="400" fill="#8A867D" text-anchor="middle" >34 个技能 + 24 条原则。平时只打 /poteto-mode，其他的它在需要时自己叫上。</text>
+</svg>

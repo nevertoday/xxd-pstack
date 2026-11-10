@@ -1,0 +1,114 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: cursor
+time: 装好 2 分钟，读完 10 分钟
+for: 平时用 Cursor，想把 pstack 用顺手
+step: 1
+description: pstack 本来就是为 Cursor 写的。这篇讲一条命令安装、让 /poteto-mode 每轮都在的 Custom Mode、用 /loop 长时间跑、用 /in-cloud 开云端子代理，以及哪些东西要另外装。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Cmd from "../../components/Cmd.astro";
+
+## 一条命令装好
+
+pstack 是作者 poteto 每天在 Cursor 里用的那一套，在 Cursor 里装最省事。在 Cursor 的对话框里输入：
+
+<Cmd c="/add-plugin pstack" />
+
+Cursor 会告诉你插件装好了。也可以从侧边栏的 Customize 里装，效果一样。
+
+装完先选模型：
+
+<Cmd c="/setup-pstack" />
+
+它会检测你能用哪些模型，问你<Term k="推理预算" />，再给每个<Term k="模型角色" />配一个模型。最后写一个文件：`~/.cursor/rules/pstack-models.mdc`。这是一条「总是生效」的规则，所有 pstack 技能派活之前都会看它。
+
+<Callout type="tip" title="跑完 setup，开一个新对话">
+<u>这条规则只对新对话生效</u>。在旧对话里接着干，用的还是默认模型。
+</Callout>
+
+## 先从 / 菜单选，再写任务
+
+用 `/poteto-mode` 的正确姿势：先在对话框里打 `/`，从弹出的菜单里选中 `/poteto-mode`，<u>然后再写你的任务</u>。这样 Cursor 才会把这个技能挂到这条消息上。
+
+<Copy id="cursor-first" title="第一个任务" code="/poteto-mode 给这个命令加一个 --json 参数。原来的文字输出一个字节都不能变。两种输出都验证一下。" />
+
+发出去以后看它的<Term k="待办清单" />：前几项是它挑中的那个<Term k="剧本" />的步骤，原样抄进来的。跳过的步骤会留在清单里，写着 `skip: 理由`。
+
+## 让它每一轮都在：Custom Mode
+
+从菜单选中 `/poteto-mode` 以后，按哪个键发送，结果不一样：
+
+| 你按的是 | 效果 |
+| --- | --- |
+| Enter | 只挂在这一条消息上。聊着聊着，它的影响就淡了 |
+| Option+Enter（Mac）或 Alt+Enter（Windows） | 变成 Custom Mode，<u>每一轮都在，直到你退出这个模式</u> |
+
+<Term k="Custom Mode" /> 就是「常驻模式」。技能条目上的 Use as Mode 也能把它变成 Custom Mode。Custom Mode 在 Agents 窗口和 Cursor 命令行里能用。
+
+开了 Custom Mode，后面的消息就可以很短：「do it」「continue」「keep going until done」都算完整的提示词，剧本里的规矩一直在。
+
+<Callout type="warn" title="换话题要说 new task">
+一个对话里做完一件事、要换下一件时，<u>开头写一句「new task」</u>。不说的话，它会把你的新问题当成上一个任务的下一步。
+</Callout>
+
+## 长时间跑：/loop
+
+`/loop` 是 Cursor 自带的命令，不是 pstack 的技能。它让 AI 隔一段时间或者遇到事件时醒来，重新检查「做完了没有」。配上 `/poteto-mode`，可以连着干好几个小时，规矩不松。
+
+<mark>关键是给它一个能判断通过还是失败的完成条件，而不是一段时间</mark>：
+
+<Copy id="cursor-loop" title="睡前交代" code={`/poteto-mode 我去睡了。在一个新的 worktree 里（从 <你的基础分支> 拉出来），把所有调用方迁到新的解析器。
+做完的标准：旧调用方一个都不剩，所有解析器测试数据都通过，旧 API 删掉。
+记决策日志。提交之前不用问我。
+/loop until done。如果几个小时后真的卡死了，停下来，写清楚为什么。`} />
+
+「干 4 小时」不是完成条件。它没东西可检查，你醒来只会看到 4 小时的忙碌，没有结果。更完整的写法看[放手让它跑](/guide/7-overnight/)。
+
+## 并行干活：云端子代理
+
+一台电脑上同时开好几个 AI 改同一个仓库，它们会抢工作目录、抢端口、互相覆盖构建结果。最干净的隔离是 Cursor 的云端子代理：每个都有自己的虚拟机和分支，能装依赖、跑你的应用、录操作视频，完全不碰你的电脑。
+
+用法：在任务前面打 `/in-cloud`，或者直接让主对话把活交给云端子代理。
+
+只能在本地跑的话，就让每个任务用自己的 <Term k="worktree" />：
+
+<Copy id="cursor-wt" code={`/poteto-mode new task. 从 <基础分支> 拉一个新的 worktree，在那里把解析器的改动移植过去。`} />
+
+worktree 占硬盘和机器资源，笔记本上<u>一次开几个就够了</u>。
+
+## 不在 pstack 里、要另外装的
+
+`/poteto-mode` 有些步骤会用到别的插件里的技能。没装也能跑，只是那一步会退而求其次：
+
+| 名字 | 是什么 | 在哪 |
+| --- | --- | --- |
+| `/deslop`、`deslop` | 清掉代码里的「AI 味」 | `cursor-team-kit` 插件 |
+| `control-cli` | 操作命令行程序和终端界面 | `cursor-team-kit` 插件 |
+| `control-ui` | 操作浏览器、Electron、网页 | `cursor-team-kit` 插件 |
+| `/create-skill` | 写技能 | Cursor 自带 |
+| `/autopilot` | 盯着一个 PR | Cursor 自带。在 `/poteto-mode` 里问 PR 状态，会走它自己的 babysit 剧本 |
+
+想要全套，把 `cursor-team-kit` 插件也装上。
+
+pstack 还带了一个默认不启用的自动化包，叫 benny：它会分拣 Slack 里报上来的问题，把确认是 bug 的复现、修好，并附上真实界面的证据。它跑在 Cursor Automations 上，所以只能在 Cursor 里用。要启用，把 Cursor 指到 benny 目录里的 `FOR_AGENTS.md`，安装时会把它复制到你仓库的 `.cursor/automations/benny/`。
+
+另外，pstack 没有做计划的技能。Cursor 自带的 Plan Mode 可以和它一起用。
+
+## 卡住了？
+
+<Q q="/poteto-mode 用了几轮就不灵了。">
+<u>你多半是按 Enter 发的</u>，它只挂在了第一条消息上。重新从菜单选它，按 Option+Enter（Windows 是 Alt+Enter）变成 Custom Mode；或者每个新任务都重新打一次 `/poteto-mode`。
+</Q>
+<Q q="改了模型设置，跑起来还是原来的模型。">
+规则只对新对话生效。开一个新对话再试。
+</Q>
+<Q q="几个 AI 同时干活，互相把文件改乱了。">
+给每个任务开自己的 worktree，或者用 `/in-cloud` 交给云端子代理，各用各的机器。
+</Q>
+<Q q="开了 /loop 一晚上，什么都没做完。">
+检查你的完成条件：要是一个能跑、能判断过没过的检查，比如「这个命令返回 0」「这些测试全过」，不能是「干到早上」。
+</Q>

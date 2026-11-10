@@ -1,0 +1,21 @@
+{
+  "name": "xxd-pstack-site",
+  "private": true,
+  "license": "MIT",
+  "description": "pstack 新手教程站：从入门到在真实项目里用起来，说人话。界面用 xxd-ui-kit，骨架沿用小小东 VPS 教程站。",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4420",
+    "build": "astro build && node scripts/search-sections.mjs && node scripts/base-links.mjs",
+    "preview": "astro preview --port 4420",
+    "sync-xxd": "node scripts/sync-xxd.mjs",
+    "release": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "7.0.3",
+    "astro": "7.2.8"
+  },
+  "devDependencies": {
+    "wrangler": "4.127.1"
+  }
+}

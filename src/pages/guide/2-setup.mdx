@@ -1,0 +1,79 @@
+---
+layout: ../../layouts/Guide.astro
+step: 2
+need: 上一步装好的 pstack
+description: 跑一次 /setup-pstack：选推理预算、看每个角色用什么模型、决定要不要生成验证技能，然后开新对话。
+---
+import Callout from "../../components/Callout.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Term from "../../components/Term.astro";
+import Copy from "../../components/Copy.astro";
+import Q from "../../components/Q.astro";
+
+## 这一步做什么
+
+告诉 pstack 用哪些模型、花多少钱。只要一条命令，然后回答它几个问题：
+
+<Copy id="setup" title="Claude Code 插件版写成 /pstack:setup-pstack" code="/setup-pstack" />
+
+`/setup-pstack` 会检测你能用哪些模型，问你预算，给你看每个<Term k="模型角色" />打算用什么，然后写一份小配置文件。以后所有技能派活时都读它。
+
+## 第一个问题：推理预算
+
+<Term k="推理预算" />就是让模型「想多久」。它会给你四个选项：
+
+| 选项 | 意思 | 适合 |
+| --- | --- | --- |
+| `large` | xhigh 档，等于默认值 | <u>拿不准就选这个</u> |
+| `unlimited` | max 档；到不了 max 的模型停在它的最高档（比如 grok 停在 xhigh） | 很难、很贵的活，不在乎花费 |
+| `medium` | high 档 | 想省一点 |
+| `small` | medium 档 | 主要做简单任务、预算紧 |
+
+## 第二个问题：每个角色用什么模型
+
+pstack 把活分成几种角色，每种可以配不同的模型：
+
+- **写代码的角色**（功能、重构、修 bug、性能……）：默认给 grok，又快又便宜。
+- **做判断的角色**（最难的改动、写文字、拿主意）：默认给 opus 5.5。
+- **评审小组**：默认 opus 5.5 加 grok 两家，**故意用不同家族的模型互相挑刺**。小组名单有几个模型就派几个子代理。
+- **swarm 工人**：`/swarm` 每个工人默认用的模型。
+
+你只改你在意的那几个，<u>没写的角色用默认值</u>。设成 `auto` 或 `inherit-parent` 的角色，意思是「不另外指定，跟主对话用同一个模型」。
+
+<Callout type="tip" title="用 Claude Code 的注意">
+Claude Code 的子代理只能选 Claude 家的模型（opus、sonnet、haiku 等）。默认配置里给 grok 的角色，在 Claude Code 里<u>会直接用你当前会话的模型</u>。`/setup-pstack` 会按你实际能用的模型来问，照着选就行。
+</Callout>
+
+## 最后两个提议：要不要生成验证技能
+
+配完模型，它会看你的项目里有没有办法「证明应用真的能用」。没有的话，它会**提议一次**帮你生成一个<Term k="验证技能" />。
+
+<mark><strong>新手选「要」。</strong></mark> 作者说这是整套东西里回报最高的一件：能检查自己工作的 AI，会一直干到检查通过；不能的，只能把每个结果都扔回给你手动检查。它生成完会自己先完整跑一遍，确认能用才交给你。
+
+接着它可能再提议生成一个<Term k="形式化验证" />技能。你的代码里有并发、重试、状态机、解析器这类「出错很贵、测试又很难碰到」的地方，选「要」；否则先选「不要」，<u>以后随时能补</u>。
+
+## 配完开一个新对话
+
+配置写在这里：
+
+| 工具 | 文件 |
+| --- | --- |
+| Cursor | `~/.cursor/rules/pstack-models.mdc` |
+| Claude Code | `~/.claude/rules/pstack-models.md` |
+| Codex 等其他工具 | `~/.agents/pstack-models.md` |
+
+Cursor 和 Claude Code 只在**新对话开始时**读它，所以<mark>配完关掉这个对话，开一个新的</mark>。
+
+## 卡住了？
+
+<Q q="以后想换模型、换预算怎么办？">
+<p>再跑一次 <code>/setup-pstack</code>。<u>你改过的角色会保留</u>。想恢复某个角色的默认值，就去配置文件里删掉那一行。</p>
+</Q>
+<Q q="pstack 更新后默认模型变了，我的没跟着变。">
+<p>旧配置里写死的还是旧的默认值。删掉那几行（或者整个文件），再跑一次 <code>/setup-pstack</code>。</p>
+</Q>
+<Q q="验证技能当时没要，现在想要。">
+<p>随时运行 <code>/create-verification-skill</code>。详细见<a href="/guide/6-verify-ship/">第 6 步</a>。</p>
+</Q>
+
+<Checkpoint id="s2" items={["跑完了 /setup-pstack，选了一个预算", "它告诉我配置写到了哪个文件", "想清楚了要不要验证技能（新手建议要）", "已经开了一个新对话"]} />

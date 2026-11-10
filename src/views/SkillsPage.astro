@@ -1,0 +1,37 @@
+---
+// 技能速查：34 个技能按用途分组，每个一块：名字、谁来调用、一句话、什么时候用、例句、要一起装的技能。锚点就是技能名（搜索直接跳过来）。
+import Site from "../layouts/Site.astro";
+import { SKILLS, SKILL_COUNT } from "../data/skills.js";
+import { link, wikiHref, PSTACK } from "../data/nav.js";
+const headings = SKILLS.map((g) => ({ slug: g.id, text: g.title, depth: 2 }));
+---
+<Site title="技能速查" description={`pstack 的 ${SKILL_COUNT} 个技能，每个都用一句人话讲清楚：干什么、什么时候用、怎么说。`} headings={headings}>
+  <article class="xxd-prose skills">
+    <h1>技能速查</h1>
+    <p>pstack 一共有 {SKILL_COUNT} 个技能，外加 <a href={wikiHref("principles")}>24 条原则</a>。<strong>新手不用全记住</strong>：平时只打 <code class="xxd-code-inline">/poteto-mode</code>，标着「自动调用」的那些它会在需要时自己叫上。AI 不会在你没点名、也没用 /poteto-mode 的时候自己去用这些技能（只有 /setup-pstack 例外）。这一页是给你「想点名用某一个」或者「看到 AI 提到一个名字想查查」时用的。</p>
+    <ul class="skills__legend">
+      <li><span class="xxd-badge" data-tone="success">自动调用</span>/poteto-mode 的步骤需要时会自己用它，你不用点名</li>
+      <li><span class="xxd-badge" data-tone="warning">要你亲手打</span>只有你在对话框里打出来才会运行</li>
+      <li><span class="xxd-badge">按需点名</span>想用的时候自己打</li>
+    </ul>
+    <p class="skills__note">在 Claude Code 里用插件方式装的，命令前面要加 <code class="xxd-code-inline">pstack:</code>，比如 <code class="xxd-code-inline">/pstack:how</code>。见 <a href={link("/howto/claude-code/")}>在 Claude Code 里用</a>。每个技能的原文在 <a href={`${PSTACK}/tree/main/skills`}>pstack 仓库的 skills 目录</a>。</p>
+    {SKILLS.map((g) => (
+      <>
+        <h2 id={g.id}>{g.title}</h2>
+        {g.items.map((s) => (
+          <section class="skill" id={s.name} aria-labelledby={`${s.name}-h`}>
+            <div class="skill__head">
+              <h3 id={`${s.name}-h`}><code>/{s.name}</code></h3>
+              {s.auto ? <span class="xxd-badge" data-tone="success">自动调用</span> : s.manual ? <span class="xxd-badge" data-tone="warning">要你亲手打</span> : <span class="xxd-badge">按需点名</span>}
+              <a class="skill__src" href={`${PSTACK}/blob/main/skills/${s.name}/SKILL.md`} rel="noopener" aria-label={`${s.name} 的原文 SKILL.md`}>原文<i data-xxd-icon="ArrowUpRight" data-size="12"></i></a>
+            </div>
+            <p class="skill__zh">{s.zh}</p>
+            <p class="skill__use"><span>什么时候用</span>{s.use}</p>
+            <pre class="xxd-code skill__ex"><code>{s.ex}</code></pre>
+            {s.needs && <p class="skill__needs"><span>要一起装</span>{s.needs.join("、")}</p>}
+          </section>
+        ))}
+      </>
+    ))}
+  </article>
+</Site>

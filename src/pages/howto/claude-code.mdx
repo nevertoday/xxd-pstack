@@ -1,0 +1,136 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: claude-code
+time: 装好 5 分钟，读完 10 分钟
+for: 平时用 Claude Code，想在里面用 pstack
+step: 1
+description: "在 Claude Code 里装 pstack 的两种方法、命令前要加的 pstack 前缀、模型设置文件放在哪、Cursor 的名字怎么对应过来、哪些功能会被跳过，以及怎么打开自动更新。"
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Cmd from "../../components/Cmd.astro";
+
+## 两种装法，选一种就行
+
+pstack 本来是给 Cursor 写的，不过在 Claude Code 里也能装。有两条路：
+
+**路线一：插件市场。** 在 Claude Code 的对话框里依次输入这两条：
+
+<Copy id="cc-plugin" title="从插件市场装" code={`/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins`} />
+
+第一条把 Cursor 官方的插件市场加进来，第二条从里面装 pstack。装的是一份专门为 Claude Code 生成的副本，技能、README、使用指南都在里面，还有两个现成的<Term k="子代理" />（`poteto-agent` 和 `comment-sicko`）。
+
+**路线二：skills 命令行。** 在终端里（不是在 Claude Code 对话框里）输入：
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+它会列出所有技能让你挑，再让你选装到哪个工具。选 Claude Code，技能就放进 `.claude/skills/`。这条路装的是 backnotprop 维护的镜像版，里面原本只适合 Cursor 的写法已经改成了任何工具都能用。想只装几个技能，看[只装几个技能](/howto/pick-skills/)。
+
+| | 插件市场 | npx skills |
+| --- | --- | --- |
+| 在哪输入 | Claude Code 对话框 | 终端 |
+| 装什么 | 全套，没法挑 | 列表里自己勾 |
+| 命令前缀 | 要加 `pstack:` | 不用加 |
+| 更新 | `claude plugin update`，或开自动更新 | `npx skills update` |
+
+<u>拿不准就选路线一</u>。全套装上，`/poteto-mode` 需要的东西一样不缺。
+
+## 命令前面要加 pstack:
+
+Claude Code 会给插件里的命令加上插件名当前缀。所以教程里写的 `/poteto-mode`，你要打成：
+
+<Cmd c="/pstack:poteto-mode" />
+
+同理，`/setup-pstack` 是 `/pstack:setup-pstack`，`/poteto-help` 是 `/pstack:poteto-help`，`/how` 是 `/pstack:how`。本站其他页面为了好读，都写不带前缀的版本，<mark>你在 Claude Code 里自己补上</mark>。
+
+这个前缀只跟插件有关。用 `npx skills` 装的是放在 `.claude/skills/` 里的普通技能，不是插件，直接打 `/poteto-mode` 就行。
+
+<Callout type="warn" title="技能不会自己跳出来">
+pstack 的技能，除了 `setup-pstack`，都设置成了「<u>只有你点名才运行</u>」。`/pstack:poteto-mode` 一定要你亲手打出来，它不会因为你说了「帮我修个 bug」就自动启用。
+</Callout>
+
+## 选模型：设置文件在 ~/.claude/rules/
+
+装完先跑一次选模型：
+
+<Cmd c="/pstack:setup-pstack" />
+
+它会问你<Term k="推理预算" />、给每个<Term k="模型角色" />配模型，最后写一个文件：`~/.claude/rules/pstack-models.md`。Claude Code 每开一个新会话，都会把 `~/.claude/rules/` 里所有 `.md` 文件读进来，所以这份设置以后每次都在。
+
+在 Claude Code 里，模型写成「名字 + 档位」，比如 `opus xhigh`。名字只有 `opus`、`sonnet`、`haiku`、`fable` 这几个。写出来的文件大概是这个样子（节选）：
+
+<Copy id="cc-rule" title="~/.claude/rules/pstack-models.md 节选" code={`# budget: large (xhigh)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+judgment and prose: opus xhigh
+hardest tasks: opus xhigh
+interrogate reviewers: opus xhigh, inherit-parent`} />
+
+<Callout type="tip" title="设置完，开一个新会话">
+这份文件只在新会话开始时读进来。当前这个会话还是旧设置。<mark>跑完 setup 之后，退出重开一个会话再干活</mark>。
+</Callout>
+
+两个小提醒：这些角色行不要抄进 `CLAUDE.md` 或 `AGENTS.md`，<u>就放在这一个文件里</u>。以前的版本把设置写在 `~/.agents/pstack-models.md`，如果新文件不存在，技能会去那里找。
+
+## Cursor 的名字在这里怎么对应
+
+pstack 的技能里写的是 Cursor 的叫法。插件里带了一份对照说明（`docs/harness/claude-code.md`），AI 每个会话读一次，自己换算。你不用记，但看懂下面这张表（表里的 <Term k="worktree" /> 是同一个仓库的第二份工作目录），就明白它为什么那样做：
+
+| 技能里写的 | 在 Claude Code 里变成 |
+| --- | --- |
+| `Task`（派子代理） | `Agent` 工具 |
+| `poteto-agent` | `pstack:poteto-agent` |
+| 只读的子代理 | `Explore` 类型。它还能跑命令，所以 AI 会在任务说明里写「不要改文件」，事后再看一眼 `git status` |
+| 云端代理 | 本地开一个 worktree，在里面干 |
+| `claude-opus-5-5-xhigh` 这类名字 | 模型 `opus`，档位 `xhigh` |
+| `grok-*`、`gpt-*` 这类非 Claude 模型 | 不填模型，子代理就用你当前会话的模型，并且会说一声 |
+| `auto` 或 `inherit-parent` | 同样不填模型 |
+| 提问工具 `AskQuestion` | `AskUserQuestion` |
+| `.cursor/rules/` 里的规则 | `CLAUDE.md`（没有就用 `AGENTS.md`） |
+
+最后两行模型规则对你影响最大。pstack 默认让 grok 写代码、opus 5.5 做判断。到了 Claude Code，grok 用不了，原本给 grok 的活<u>就落在你当前会话的模型上</u>。如果你的会话本身就是 opus，「两个不同模型互相挑刺」的评审组就变成了同一家模型。想要更多样，在 setup 时给评审组换上 `sonnet` 之类的其他模型。
+
+## Cursor 独有的功能会被跳过
+
+Claude Code 没有这几样：Cursor Automations（定时自动任务）、Bugbot（Cursor 的代码审查机器人）、Cursor 的云端代理、Cursor 自带的 PR 工具。
+
+步骤用到它们时，AI 不会停下来问你，也不会反复重试。它会在回复里留一行：
+
+<Copy id="cc-skip" title="你会看到这样一行" code="Skipped in Claude Code: <哪一步>. <为什么跳过>." />
+
+然后接着做下一步。如果后面的步骤需要被跳过那一步的产物（比如一个链接、一个密钥），它会留个占位符，并在这一行里写明。
+
+开 PR 不算跳过：没有 Cursor 的 PR 工具，它就用 `gh pr create` 这类命令，不会写跳过说明。PR 上如果本来就有 Bugbot 的评论，它会当普通评论处理。另外 `/loop` 在 Claude Code 里也有，长任务照样能跑。
+
+## 自动更新默认是关的
+
+Claude Code 对第三方插件市场<u>默认不自动更新</u>，所以 pstack 会一直停在你装的那个版本。想打开：
+
+1. 在对话框输入 `/plugin`。
+2. 打开 **marketplaces** 标签页。
+3. 选中 `cursor-plugins`。
+4. 选 **enable auto-update**。
+
+不想开自动更新，想更新时手动跑一次：
+
+<Cmd c="claude plugin update pstack@cursor-plugins" />
+
+更新后如果默认模型变了，你的旧设置文件还会钉着旧的默认值，处理办法看[更新、查看、卸载](/howto/update-remove/)。
+
+## 卡住了？
+
+<Q q="打 /poteto-mode 没反应，菜单里也找不到。">
+用插件市场装的，要打 `/pstack:poteto-mode`。在对话框里先输入 `/pstack:`，菜单会按这个前缀把 pstack 的命令筛出来。
+</Q>
+<Q q="跑完 setup，换的模型没生效。">
+设置文件只在新会话开始时读。退出当前会话，重新开一个。还不行，看一下 `~/.claude/rules/pstack-models.md` 有没有写出来，里面那一行是不是你选的模型。
+</Q>
+<Q q="AI 说 Skill 工具调不动 pstack 的技能，这是坏了吗？">
+不是。这是预期的：在 Claude Code 里，大部分 pstack 技能没法用 Skill 工具调起来，AI 会直接去读那个技能的 `SKILL.md` 照着做。你这边照常打命令就行。
+</Q>
+<Q q="回复里出现 Skipped in Claude Code，要管吗？">
+一般不用。那一步要的是 Cursor 才有的功能，<u>跳过是设计好的</u>。只有它提到占位符时，看一眼占位符缺的是什么，需要的话自己补上。
+</Q>

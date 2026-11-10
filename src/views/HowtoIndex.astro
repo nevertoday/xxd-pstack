@@ -1,0 +1,19 @@
+---
+import Site from "../layouts/Site.astro";
+import { HOWTO, howtoHref } from "../data/nav.js";
+const headings = HOWTO.map((g, i) => ({ slug: `g${i}`, text: g.group, depth: 2 }));
+---
+<Site title="How-to：具体怎么做" headings={headings}>
+  <article class="xxd-prose">
+    <h1>How-to：具体怎么做</h1>
+    <p>一篇只讲一件事。主线教程讲的是「pstack 怎么想问题」，这里讲的是「我手上这件活，具体该怎么跟它说」。每篇都有能直接复制的提示词。</p>
+    {HOWTO.map((g, i) => (
+      <>
+        <h2 id={`g${i}`}>{g.group}</h2>
+        <ul class="xxd-list" data-interactive>
+          {g.items.map((it) => <li class="xxd-list__item"><a class="xxd-list__main list-link" href={howtoHref(it.slug)}><span class="xxd-list__title">{it.title}</span></a></li>)}
+        </ul>
+      </>
+    ))}
+  </article>
+</Site>

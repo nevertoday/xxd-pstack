@@ -1,0 +1,131 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: which-skill
+time: 查一下 2 分钟
+for: 有件事要做，不知道该打哪个命令
+step: 3
+description: 一张「我想… → 用这个」的对照表；拿不准时问 /poteto-help（它只回答、给提示词，不开工）；几对容易混的技能怎么分，比如 arena 和 swarm；一件事值得做多少设计；以及为什么别在提示词里排技能顺序。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Cmd from "../../components/Cmd.astro";
+
+## 默认答案：/poteto-mode
+
+<mark>拿不准的时候，答案几乎都是 `/poteto-mode`</mark>。它是总入口：你说目标和怎么算做完，它挑一个<Term k="剧本" />，再在步骤需要时自己调用 `/how`、`/architect`、`/interrogate` 这些技能。
+
+只有当你想要的比剧本给的**更多或更少**时，才直接点名某个技能。比如只想看懂代码、不想它动手，就用 `/how`；想在剧本之外再多找几个模型挑刺，就用 `/interrogate`。
+
+记住一点：除了 `/setup-pstack`，所有技能<u>都要你自己打出来才运行</u>，`/poteto-mode` 也一样。
+
+## 我想… → 用这个
+
+| 我想… | 用这个 |
+| --- | --- |
+| 认真做一件不简单的事 | `/poteto-mode` |
+| 开工前确认 AI 听懂了我的目标 | `/in-your-own-words` |
+| 发出去之前把提示词磨准 | `/sharpen` |
+| 知道这段代码现在怎么工作 | `/how` |
+| 知道当初为什么这么做 | `/why` |
+| 真正弄懂一个改动或模块 | `/teach` |
+| 找回我自己最近在某件事上的进度 | `/recall` |
+| 知道这个对话里我走开后变了什么 | `/ketchup` |
+| 写跨函数的代码前先定好结构 | `/architect` |
+| 同一个题目要几份方案，挑最好的 | `/arena` |
+| 很多份东西分头检查，最后一份报告 | `/swarm` |
+| 提交前让几个模型挑刺 | `/interrogate` |
+| 知道一个小改动还会弄坏哪里 | `/blast-radius` |
+| 修 bug 时先写失败的测试 | `/tdd` |
+| 去掉文字里的 AI 味 | `/unslop` |
+| 写文档、README、PR 说明 | `/technical-writing` |
+| 上一条回复用人话再说一遍 | `/bro` |
+| 让 AI 能自己操作我的应用拿证据 | `/create-verification-skill` |
+| 核一下测出来的性能数字 | `/benchmark-checklist` |
+| 一件很大的事，或者我要离开、回来再审 | `/figure-it-out` |
+| 长任务留一份决策记录 | `/show-me-your-work` |
+| 同一个错误别再犯 | `/correct` |
+| 选模型、调预算 | `/setup-pstack` |
+| 做一个我自己的模式 | `/automate-me` |
+
+每个技能的详细说明和例句，看[技能速查](/skills/)。
+
+## 还是拿不准：问 /poteto-help
+
+<Cmd c="/poteto-help 我想审一下这个分支，该用哪个技能？" />
+
+`/poteto-help` 是 pstack 的问路处。它会做三件事：
+
+1. 回答你的问题。
+2. 给你一段可以直接发的提示词。
+3. 附上答案出自哪个文件的链接。
+
+它**不会开始干活**。这是故意的：真跑一次 pstack 要花实打实的 <Term k="token" />，你问的是「怎么做」，所以<u>由你决定要不要发那段提示词</u>。
+
+如果它看不出你想干嘛，会问你一个选择题：装好、开始一个任务、挑技能、修一次跑歪的运行、变成你自己的。<u>选一个就行</u>。
+
+<Callout type="warn" title="它只在你打出来时才运行">
+`/poteto-help` 不会自己跳出来，要你亲手打。另外，如果你对它说的是「用 pstack 修这个 bug」这种要干活的话，它就不当问路处理了，会直接按 `/poteto-mode` 的规矩去干。
+</Callout>
+
+## 几对容易混的
+
+**`/arena` 和 `/swarm`**：最常被搞混的一对。
+
+| | `/arena` | `/swarm` |
+| --- | --- | --- |
+| 每个人拿到的 | 同一个题目 | 各自不同的一块 |
+| 适合 | 命名、格式、算法这类要挑最好的决定 | 每个包都检查一遍、几条路线比赛 |
+| 最后 | 挑一份当底子，把别的好点子嫁接进来 | 汇总成一份报告：通过、有问题、卡住 |
+
+一句话：`/arena` 是「同一道题，做几遍，挑最好的」；`/swarm` 是「一堆活，分头做，合一份报告」。拿 `/arena` 去做覆盖检查是常见的坑。
+
+其他几对：
+
+- **`/how`、`/why`、`/teach`**：`/how` 讲代码在做什么，`/why` 讲为什么这么做，`/teach` 把一个或两个都跑了，再给你一份讲透的解释。
+- **`/interrogate` 和 `/blast-radius`**：`/interrogate` 审改动本身；`/blast-radius` 找改动**之外**可能被弄坏的地方，并证明那条让它安全的事实。
+- **`/recall` 和 `/ketchup`**：`/recall` 跨多个对话找回你的进度；`/ketchup` 只讲这一个对话里你上条消息之后的变化。
+- **`/architect`**：定完设计会直接开始写。想先看设计，说「with checkpoint」。
+
+## 一件事值得做多少设计
+
+<u>大多数改动根本不需要下面这些</u>。按事情的大小往上爬：
+
+| 情况 | 用什么 |
+| --- | --- |
+| 一个写完了的小改动，心里没底 | 只用 `/interrogate` |
+| 改动跨过函数边界，或者要动所有权 | `/architect`（它会带上 `/arena`） |
+| 一个独立的决定，多看几个方案会有帮助（命名、格式、算法） | 直接 `/arena` |
+| 一组并行检查，或者几条路线比赛 | `/swarm` |
+| 一个跑一下就能回答的问题（布局、时机、做法） | 做个原型，别争论 |
+| 有争议、而且改起来很贵的设计 | 先 `/architect`，上线前再 `/interrogate` |
+| 横跨好几个 PR 的工作 | 设计定了以后，再写计划 |
+
+`/poteto-mode` 本身就按这个梯子在走：跨边界的活它会自己触发 `/architect`。所以你直接点名这些技能，主要是想要比默认更多或更少的把关。
+
+## 别在提示词里排技能顺序
+
+新手最常见的写法是这样的：
+
+<Copy id="ws-bad" title="别这么写" code="/poteto-mode 先用 /how，然后 /architect，然后 /arena，最后 /interrogate，帮我加一个导出功能。" />
+
+剧本里已经排好了这些技能的顺序。<mark>你自己手排一遍，通常会打乱步骤</mark>，或者漏掉剧本本来会保留的那几步。
+
+换成说目标和约束：
+
+<Copy id="ws-good" title="这么写" code="/poteto-mode 加一个导出 CSV 的功能。原来的 JSON 导出一个字节都不能变。两种都验证一下。" />
+
+只有当你想**推翻**某一个默认选择时，才点名技能。比如「这次 /arena 来 5 个方案」。
+
+## 卡住了？
+
+<Q q="我打了 /how，它没自动接着去修。">
+这是对的。`/how` <u>只负责讲清楚，不动代码</u>。看懂了以后，再用 `/poteto-mode` 说你要它做什么。
+</Q>
+<Q q="表里找不到我想做的事。">
+直接交给 `/poteto-mode`。没有现成剧本对得上时，它会转给 `/figure-it-out`，现场设计一套做法。拿不准就先问 `/poteto-help`。
+</Q>
+<Q q="斜杠菜单里有个 /orchestrate，是 pstack 的吗？">
+不是。pstack 没有叫 `/orchestrate` 的技能，Orchestrate 是 `/poteto-mode` 里的一个剧本。菜单里那个是别的插件提供的。
+</Q>
