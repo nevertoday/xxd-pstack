@@ -15,8 +15,8 @@ const titleOf = (slug) => { const x = WIKI.find((y) => y.slug === slug); if (!x)
 const howto = w.howto && HOWTO_FLAT.find((h) => h.slug === w.howto);
 const step = w.step !== undefined && STEPS.find((s) => s.n === w.step);
 const T = en
-  ? { like: "An analogy", here: "In pstack", list: "List", head: ["Name", "In plain words"], myths: "Common misconceptions", try: "Try it: ", step: (n) => `Main guide step ${n}: `, see: "Related: ", sep: ", " }
-  : { like: "打个比方", here: "在 pstack 里", list: "清单", head: ["名字", "说人话"], myths: "常见误区", try: "动手操作：", step: (n) => `主线第 ${n} 步：`, see: "相关条目：", sep: "、" };
+  ? { like: "An analogy", here: "In pstack", list: "List", head: ["Name", "In plain words"], myths: "Common misconceptions", try: "Try it: ", step: (n) => `Full guide step ${n}: `, see: "Related: ", sep: ", " }
+  : { like: "打个比方", here: "在 pstack 里", list: "清单", head: ["名字", "说人话"], myths: "常见误区", try: "动手操作：", step: (n) => `完整教程第 ${n} 步：`, see: "相关条目：", sep: "、" };
 const headings = [
   { slug: "like", text: T.like, depth: 2 },
   { slug: "here", text: T.here, depth: 2 },

@@ -6,7 +6,7 @@ const en = lang === "en";
 const headings = HOWTO.map((g, i) => ({ slug: `g${i}`, text: t(g, "group", lang), depth: 2 }));
 const T = en
   ? { h: "How-to: how exactly", p: "Each article covers one thing. The main guide is about how pstack thinks; this is about what to actually say to it for the job in front of you. Every article has prompts you can copy." }
-  : { h: "How-to：具体怎么做", p: "一篇只讲一件事。主线教程讲的是「pstack 怎么想问题」，这里讲的是「我手上这件活，具体该怎么跟它说」。每篇都有能直接复制的提示词。" };
+  : { h: "How-to：具体怎么做", p: "一篇只讲一件事。完整教程讲的是「pstack 怎么想问题」，这里讲的是「我手上这件活，具体该怎么跟它说」。每篇都有能直接复制的提示词。" };
 ---
 <Site title={T.h} headings={headings}>
   <article class="xxd-prose">

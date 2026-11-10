@@ -1,10 +1,10 @@
 ---
 import Site from "../layouts/Site.astro";
-import { STEPS, stepHref, link, langOf } from "../data/nav.js";
+import { LESSONS, lessonHref, link, langOf } from "../data/nav.js";
 const lang = langOf(Astro.url.pathname);
 const T = lang === "en"
-  ? { h: "Page not found", p: ["The link may be wrong, or the page has moved. Press ", " to search, or start again from here:"], home: "Home: the big picture", step0: "Main guide: start at step 0", skills: "Skills at a glance", faq: "FAQ" }
-  : { h: "找不到这个页面", p: ["链接可能写错了，或者页面换了地址。可以按 ", " 搜索，或者从这里重新开始："], home: "首页：一张图看懂", step0: "主线教程：从第 0 步开始", skills: "技能速查", faq: "常见问题" };
+  ? { h: "Page not found", p: ["The link may be wrong, or the page has moved. Press ", " to search, or start again from here:"], home: "Home", step0: "Beginner track: lesson 1", skills: "Skills at a glance", faq: "FAQ" }
+  : { h: "找不到这个页面", p: ["链接可能写错了，或者页面换了地址。可以按 ", " 搜索，或者从这里重新开始："], home: "首页", step0: "新手入门：第 1 课", skills: "技能速查", faq: "常见问题" };
 ---
 <Site title={T.h}>
   <article class="xxd-prose">
@@ -12,7 +12,7 @@ const T = lang === "en"
     <p>{T.p[0]}<kbd class="xxd-kbd">⌘K</kbd>{T.p[1]}</p>
     <ul>
       <li><a href={link("/", lang)}>{T.home}</a></li>
-      <li><a href={stepHref(STEPS[0], lang)}>{T.step0}</a></li>
+      <li><a href={lessonHref(LESSONS[0], lang)}>{T.step0}</a></li>
       <li><a href={link("/skills/", lang)}>{T.skills}</a></li>
       <li><a href={link("/faq/", lang)}>{T.faq}</a></li>
     </ul>

@@ -20,7 +20,7 @@ const group = en ? me.groupEn : me.group;
     <div class="step-head__meta">
       {frontmatter.time && <span class="xxd-badge">{frontmatter.time}</span>}
       {frontmatter.for && <span class="xxd-badge">{en ? "For: " : "适用："}{frontmatter.for}</span>}
-      {step && <a class="xxd-badge" href={stepHref(step, lang)}>{en ? `Main guide step ${step.n}: ` : `主线第 ${step.n} 步：`}{t(step, "title", lang)}</a>}
+      {step && <a class="xxd-badge" href={stepHref(step, lang)}>{en ? `Full guide step ${step.n}: ` : `完整教程第 ${step.n} 步：`}{t(step, "title", lang)}</a>}
     </div>
   </header>
   <article class="xxd-prose"><slot /></article>

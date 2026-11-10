@@ -10,6 +10,8 @@
 
 ### 👉 [在线阅读：pstack.xiaoxiaodong.ai](https://pstack.xiaoxiaodong.ai)
 
+**不会写代码？** 先看 [新手入门三课](https://pstack.xiaoxiaodong.ai/start/1-why/)，20 分钟就能用起来。
+
 ![主线](https://img.shields.io/badge/主线教程-9_步-8A9A8C?style=flat-square)
 ![技能](https://img.shields.io/badge/技能速查-34_个-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_篇-C9A97A?style=flat-square)

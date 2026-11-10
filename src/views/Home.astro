@@ -1,18 +1,39 @@
 ---
-// 首页：一张图看懂（你的一句话 → /poteto-mode 挑剧本 → 调技能 → 带证据交回）、好处、两种用法、完整路线（xxd-steps 竖排）、适不适合、反馈
+// 首页：先对没写过代码的新人说话（遇到过的事 → 装上以后的不同 → 三课入门 → 适不适合），
+// 最后才是给会写代码的人的一张图和完整教程路线。
 import Site from "../layouts/Site.astro";
 import Contact from "../components/Contact.astro";
-import { STEPS, stepHref, link, langOf, t } from "../data/nav.js";
-import { SKILL_COUNT } from "../data/skills.js";
+import { LESSONS, lessonHref, STEPS, stepHref, link, langOf, t } from "../data/nav.js";
 import { inline } from "../lib/md.js";
 
 const lang = langOf(Astro.url.pathname);
 const ZH = {
   brand: "pstack 新手教程",
-  h1: "让 AI 写代码像个靠谱的资深工程师：先搞懂，再动手，拿出证据",
-  lead: ["pstack 是一包免费开源的 AI 编程「技能」：", " 个技能，加 24 条工程原则。作者 poteto 在 Cursor 工作，也是 React 核心团队成员，这是作者每天自己写代码用的那一套。装进 Claude Code、Cursor 或 Codex 之后，你只要说清楚要什么、怎么算做完，剩下的它按资深工程师的规矩来：", "先搞懂，再动手，拿出证据", "。"],
-  cta: ["从第 0 步开始", "看技能速查", "直接抄提示词"],
-  flowH: "一张图看懂", flowP: "你每次交代一件事，pstack 都走这四步。中间两步你不用管，但能在待办清单里看得一清二楚。",
+  h1: "让 AI 做完事，拿出证据给你看",
+  lead: ["pstack 是一份装进 AI 里的「靠谱工作守则」，免费开源。装上以后，AI 会先弄清楚你要什么，再动手，做完拿出截图、操作结果这类你看得懂的证据。不会写代码也能用：", "你不用看懂代码，只要看懂证据", "。"],
+  cta: ["新手从这里开始", "我会写代码，看完整教程"],
+  ctaNote: "新手入门一共三课，20 分钟。",
+  painH: "你是不是遇到过这些",
+  PAIN: [
+    "AI 说「做好了」，你一打开，按钮点了没反应。",
+    "你说「还是不行」，它说「抱歉，已修复」，结果还是一样，来回好几次。",
+    "你只想改一个地方，它顺手改了一堆你没让它动的东西。",
+  ],
+  painP: "不怪你说得不清楚。AI 说「好了」的时候，它自己并没有打开看过。",
+  diffH: "装上以后，有什么不一样",
+  diffA: "平常的 AI", diffB: "装了 pstack",
+  DIFF: [
+    ["没弄清你要什么，直接就做", "先用自己的话复述一遍，你能马上纠正"],
+    ["在看起来差不多的地方乱改", "先把问题弄清楚，再动手，改得越少越好"],
+    ["一句「应该没问题了」", "列出它实际检查过什么、看到了什么；查不了的直说"],
+  ],
+  lessonsH: "新手只要三课", lessonsP: "按顺序看，一共 20 分钟。学完这三课就会用了，网站上其他内容都是以后遇到了再查。",
+  lessonsLabel: "新手入门：共 3 课",
+  fitH: "适不适合你", yesH: "适合", noH: "先不用",
+  YES: ["用 AI 做过小网页、小插件、小工具，被「已完成但其实没好」坑过", "已经装了 Claude Code（或 Cursor、Codex），能在里面和 AI 聊天", "想要做对，不在乎慢一点"],
+  NO: ["还没用过 Claude Code 这类工具：先照官方指南装好，能聊天了再来", "改个错别字、换个颜色这种小事：直接跟 AI 说就行", "只要最快、最省额度：pstack 会多检查，更慢，也更费额度"],
+  devH: "会写代码的人看这里",
+  devP: "pstack 是 poteto（React 核心团队成员，在 Cursor 工作）每天自己写代码用的一包技能：34 个技能、23 套剧本、24 条工程原则。下面是它每接一件事走的四步，和 9 步的完整教程。",
   FLOW: [
     ["MessageCircle", "你说一句话", "目标，加上怎么算做完。比如「先复现，再修，再验证」。"],
     ["Route", "/poteto-mode 挑剧本", "从 23 套剧本里选一套，把它的步骤原样抄进待办清单。"],
@@ -20,37 +41,35 @@ const ZH = {
     ["ShieldCheck", "带着证据交回来", "真实的命令输出、截图、前后对比。验证不了的，直说「没法确定」。"],
   ],
   CONN: ["匹配", "执行", "验证"],
-  howH: "比如你说「导出偶尔会写出重复的行，先复现，再修，再验证」：",
-  HOW: [
-    "它先用自己的话复述你的目标，匹配到「修 bug」剧本，待办清单里出现：复现 → 找根因 → 修 → 验证 → 开 PR。",
-    "它先真的把重复写入跑出来，再用 /how 读懂相关代码，找到第一个出错的地方，而不是在表面加一层去重了事。",
-    "修完再跑一遍同样的复现步骤，把修之前和修之后的输出都贴给你看。",
-  ],
-  note: "你不用记技能名，也不用写长篇需求。pstack 的价值在于：AI 平时容易跳过的那几步（复现、读代码、找根因、验证），现在一步都不会少；真要跳过，也会在清单里写明理由。",
-  getH: "用了有什么好处",
-  GET: [
-    ["少写，但写得好", "第一条原则就是「能删就删，用最小的改动解决问题」。它追求的不是代码行数，正好相反。"],
-    ["不再听「应该好了」", "每个任务都要拿真实证据收尾：跑真命令、读真数据、点真界面。「编译通过」不算数。"],
-    ["敢同时开好几个 AI", "每个 AI 都按同一套规矩干活、各用各的 worktree，你可以放心并行，不用一个个盯着。"],
-    ["越用越像你", "同一个错犯两次，就用 /correct 从根上堵住；用熟了，用 /automate-me 生成你自己的工作模式。"],
-  ],
-  routesH: "两种用法，从第一种开始", routesP: "两种可以混着用。新手先只记 /poteto-mode 一个命令。",
-  ROUTES: [
-    ["Route", "只打 /poteto-mode（推荐）", "说清楚目标和怎么算做完，剩下的它安排。大部分时候你只需要这一个命令。"],
-    ["Puzzle", "按需点名单个技能", "只想看懂代码就 /how，只想把回复翻成人话就 /bro。不想装全套，也可以只挑几个装。"],
-  ],
-  stepsH: "完整路线", stepsP: "第一次按顺序看，前 4 步（装好、配好、跑通第一个任务）大约 40 分钟。之后每一页都能单独查。",
-  stepsLabel: (n, first) => `完整路线：共 ${n} 步，从第 ${first} 步开始`, pending: "编写中",
-  fitH: "适不适合你", yesH: "适合", noH: "不太适合",
-  YES: ["已经在用 Claude Code、Cursor 或 Codex 写代码，觉得 AI 改得快、但不够靠谱", "做的是要长期维护的真实项目，在乎质量和可审查", "愿意多花一点 token 和时间，换来少返工"],
-  NO: ["还没用过任何 AI 编程工具：先把工具本身用起来，再回来", "只要最快、最便宜：pstack 会多派子代理、多做检查，更慢也更费 token", "一次性的小脚本、改一行文案：直接让 AI 改就行，用不上这么重的流程"],
+  stepsLabel: (n) => `完整教程：共 ${n} 步`,
 };
 const EN = {
   brand: "pstack for beginners",
-  h1: "Make AI code like a dependable senior engineer: understand first, then change, then show the evidence",
-  lead: ["pstack is a free, open-source pack of AI coding “skills”: ", " skills plus 24 engineering principles. Its author, poteto, works at Cursor and is on the React core team; this is the setup they use for their own code every day. Install it in Claude Code, Cursor or Codex, say what you want and how you'll know it's done, and it handles the rest the way a senior engineer would: ", "understand first, then change, then show the evidence", "."],
-  cta: ["Start at step 0", "Skills at a glance", "Copy a prompt"],
-  flowH: "The big picture", flowP: "Every time you hand it a task, pstack goes through these four steps. You don't manage the middle two, but you can see all of it in the todo list.",
+  h1: "Make the AI show you proof when it's done",
+  lead: ["pstack is a free, open-source “work code” you install into your AI. With it, the AI first checks what you want, then does the work, then shows you proof you can understand, like screenshots and what happened when it tried things. You don't need to code: ", "you don't have to understand the code, only the proof", "."],
+  cta: ["Start here if you're new", "I code: the full guide"],
+  ctaNote: "The beginner track is three lessons, 20 minutes.",
+  painH: "Has this happened to you?",
+  PAIN: [
+    "The AI says “done!” You open it, and the button does nothing.",
+    "You say “still broken.” It says “sorry, fixed now.” Same result, again and again.",
+    "You wanted one small change, and it changed a pile of things you never asked about.",
+  ],
+  painP: "It's not that you explained it badly. When the AI says “done,” it never opened the thing to look.",
+  diffH: "What changes once it's installed",
+  diffA: "AI as usual", diffB: "With pstack",
+  DIFF: [
+    ["Starts without checking what you want", "Repeats your goal in its own words first, so you can correct it right away"],
+    ["Changes things somewhere that looks about right", "Figures out the problem first, then changes as little as it can"],
+    ["“Should be fine now”", "Lists what it actually checked and what it saw, and says plainly what it couldn't check"],
+  ],
+  lessonsH: "Beginners need just three lessons", lessonsP: "Read them in order, 20 minutes in all. After these three you can use it. Everything else on the site is for looking up later.",
+  lessonsLabel: "Beginner track: 3 lessons",
+  fitH: "Is it for you?", yesH: "Yes, if", noH: "Not yet, if",
+  YES: ["You've made small pages, plug-ins or tools with AI and been burned by “done” that wasn't", "You already have Claude Code (or Cursor or Codex) and can chat with the AI in it", "You'd rather get it right than get it fast"],
+  NO: ["You haven't used a tool like Claude Code yet: install it with the official guide first, and come back once you can chat", "It's a tiny change like a typo or a color: just ask the AI directly", "You only want fastest and cheapest: pstack checks more, so it's slower and uses more of your plan"],
+  devH: "If you write code",
+  devP: "pstack is the pack of skills poteto (on the React core team, working at Cursor) uses for their own code every day: 34 skills, 23 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
   FLOW: [
     ["MessageCircle", "You say one sentence", "The goal, plus how you'll know it's done. For example: “reproduce it first, then fix, then verify.”"],
     ["Route", "/poteto-mode picks a playbook", "It chooses one of 23 playbooks and copies its steps into the todo list as they are."],
@@ -58,46 +77,63 @@ const EN = {
     ["ShieldCheck", "It comes back with evidence", "Real command output, screenshots, before-and-after. If something can't be verified, it says so."],
   ],
   CONN: ["match", "do", "verify"],
-  howH: "Say you tell it: “Exports sometimes write duplicate rows. Reproduce it first, then fix, then verify.”",
-  HOW: [
-    "It restates your goal in its own words and matches the “fix a bug” playbook. The todo list shows: reproduce → find root cause → fix → verify → open PR.",
-    "It actually triggers the duplicate write first, then uses /how to read the code and find the first place things go wrong, instead of adding a de-dupe on the surface.",
-    "After the fix it runs the same reproduction again and shows you the output from before and after.",
-  ],
-  note: "You don't need to remember skill names or write a long spec. The value is that the steps AI usually skips (reproducing, reading the code, finding the root cause, verifying) now all happen. If one is skipped, the list says why.",
-  getH: "What you get",
-  GET: [
-    ["Less code, better code", "The first principle is “delete what you can; solve it with the smallest change.” It isn't chasing line counts. Quite the opposite."],
-    ["No more “should be fixed now”", "Every task ends with real evidence: real commands, real data, a real click through the UI. “It compiles” doesn't count."],
-    ["Run several AIs at once", "Every AI follows the same rules and works in its own worktree, so you can run them in parallel without watching each one."],
-    ["It gets more like you", "When the same mistake happens twice, close it off at the root with /correct. Once you're comfortable, /automate-me builds your own working mode."],
-  ],
-  routesH: "Two ways to use it. Start with the first", routesP: "You can mix them. As a beginner, just remember /poteto-mode.",
-  ROUTES: [
-    ["Route", "Just type /poteto-mode (recommended)", "Say the goal and how you'll know it's done; it arranges the rest. Most of the time this is the only command you need."],
-    ["Puzzle", "Call single skills by name", "/how when you only want to understand code, /bro to turn a reply into plain words. You can also install just a few skills instead of the whole pack."],
-  ],
-  stepsH: "The full route", stepsP: "Read it in order the first time. The first 4 steps (install, configure, finish a first task) take about 40 minutes. After that, every page works on its own.",
-  stepsLabel: (n, first) => `Full route: ${n} steps, starting at step ${first}`, pending: "In progress",
-  fitH: "Is it for you?", yesH: "A good fit", noH: "Not a great fit",
-  YES: ["You already code with Claude Code, Cursor or Codex and find the AI fast but not dependable", "You work on real projects that need long-term upkeep and care about quality and reviewability", "You're willing to spend a bit more time and tokens to redo less"],
-  NO: ["You haven't used any AI coding tool yet: get comfortable with the tool first, then come back", "You only want fastest and cheapest: pstack sends more subagents and runs more checks, so it's slower and uses more tokens", "One-off scripts or a one-line text change: just ask the AI directly; this process is more than you need"],
+  stepsLabel: (n) => `Full guide: ${n} steps`,
 };
 const C = lang === "en" ? EN : ZH;
 ---
 <Site title={C.brand} wide>
   <div class="home">
     <h1>{C.h1}</h1>
-    <p class="home__lead">{C.lead[0]}{SKILL_COUNT}{C.lead[1]}<mark>{C.lead[2]}</mark>{C.lead[3]}</p>
+    <p class="home__lead">{C.lead[0]}<mark>{C.lead[1]}</mark>{C.lead[2]}</p>
     <div class="home__cta">
-      <a class="xxd-btn" data-variant="primary" href={stepHref(STEPS[0], lang)}>{C.cta[0]}<i data-xxd-icon="ArrowRight" data-size="16"></i></a>
-      <a class="xxd-btn" href={link("/skills/", lang)}>{C.cta[1]}</a>
-      <a class="xxd-btn" data-variant="ghost" href={link("/howto/recipes/", lang)}>{C.cta[2]}</a>
+      <a class="xxd-btn" data-variant="primary" href={lessonHref(LESSONS[0], lang)}>{C.cta[0]}<i data-xxd-icon="ArrowRight" data-size="16"></i></a>
+      <a class="xxd-btn" data-variant="ghost" href={stepHref(STEPS[0], lang)}>{C.cta[1]}</a>
     </div>
+    <p class="home__note">{C.ctaNote}</p>
 
-    <section aria-labelledby="h-flow">
-      <h2 id="h-flow">{C.flowH}</h2>
-      <p>{C.flowP}</p>
+    <section aria-labelledby="h-pain">
+      <h2 id="h-pain">{C.painH}</h2>
+      <ul class="pain">{C.PAIN.map((x) => <li>{x}</li>)}</ul>
+      <p>{C.painP}</p>
+    </section>
+
+    <section aria-labelledby="h-diff">
+      <h2 id="h-diff">{C.diffH}</h2>
+      <div class="xxd-table-wrap diff">
+        <table class="xxd-table">
+          <thead><tr><th scope="col">{C.diffA}</th><th scope="col">{C.diffB}</th></tr></thead>
+          <tbody>{C.DIFF.map(([a, b]) => <tr><td>{a}</td><td>{b}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-lessons">
+      <h2 id="h-lessons">{C.lessonsH}</h2>
+      <p>{C.lessonsP}</p>
+      <ol class="xxd-steps roadmap" data-vertical aria-label={C.lessonsLabel}>
+        {LESSONS.map((s) => (
+          <li class="xxd-steps__item">
+            <span class="xxd-steps__mark" aria-hidden="true">{s.n}</span>
+            <span class="xxd-steps__text">
+              <a class="xxd-steps__title xxd-steps__link" href={lessonHref(s, lang)}>{t(s, "title", lang)}</a>
+              <span class="xxd-steps__desc">{t(s, "minutes", lang)} · {t(s, "sum", lang)}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section aria-labelledby="h-fit">
+      <h2 id="h-fit">{C.fitH}</h2>
+      <div class="fit">
+        <div class="route"><h3><i data-xxd-icon="CircleCheck" data-size="18"></i>{C.yesH}</h3><ul>{C.YES.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="route"><h3><i data-xxd-icon="CircleX" data-size="18"></i>{C.noH}</h3><ul>{C.NO.map((x) => <li>{x}</li>)}</ul></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-dev">
+      <h2 id="h-dev">{C.devH}</h2>
+      <p>{C.devP}</p>
       <div class="flow">
         {C.FLOW.map(([icon, h, p], i) => (
           <>
@@ -115,50 +151,17 @@ const C = lang === "en" ? EN : ZH;
           </>
         ))}
       </div>
-      <p class="flow__how-h">{C.howH}</p>
-      <ol class="flow__how">{C.HOW.map((x) => <li set:html={inline(x)} />)}</ol>
-      <p class="flow__note"><i data-xxd-icon="Info" data-size="14"></i>{C.note}</p>
-    </section>
-
-    <section aria-labelledby="h-get">
-      <h2 id="h-get">{C.getH}</h2>
-      <ul class="xxd-list">
-        {C.GET.map(([a, b]) => <li class="xxd-list__item"><div class="xxd-list__main"><div class="xxd-list__title">{a}</div><div class="xxd-list__meta" set:html={inline(b)} /></div></li>)}
-      </ul>
-    </section>
-
-    <section aria-labelledby="h-routes">
-      <h2 id="h-routes">{C.routesH}</h2>
-      <p>{C.routesP}</p>
-      <div class="routes">
-        {C.ROUTES.map(([icon, h, p]) => <div class="route"><h3><i data-xxd-icon={icon} data-size="18"></i>{h}</h3><p>{p}</p></div>)}
-      </div>
-    </section>
-
-    <section aria-labelledby="h-steps">
-      <h2 id="h-steps">{C.stepsH}</h2>
-      <p>{C.stepsP}</p>
-      <ol class="xxd-steps roadmap" data-vertical start={STEPS[0].n} aria-label={C.stepsLabel(STEPS.length, STEPS[0].n)}>
+      <ol class="xxd-steps roadmap" data-vertical start={STEPS[0].n} aria-label={C.stepsLabel(STEPS.length)}>
         {STEPS.map((s) => (
           <li class="xxd-steps__item">
             <span class="xxd-steps__mark" aria-hidden="true">{s.n}</span>
             <span class="xxd-steps__text">
-              {s.ready
-                ? <a class="xxd-steps__title xxd-steps__link" href={stepHref(s, lang)}>{t(s, "title", lang)}</a>
-                : <span class="xxd-steps__title">{t(s, "title", lang)}<span class="xxd-badge roadmap__pending">{C.pending}</span></span>}
+              <a class="xxd-steps__title xxd-steps__link" href={stepHref(s, lang)}>{t(s, "title", lang)}</a>
               <span class="xxd-steps__desc">{t(s, "minutes", lang)} · {t(s, "sum", lang)}</span>
             </span>
           </li>
         ))}
       </ol>
-    </section>
-
-    <section aria-labelledby="h-fit">
-      <h2 id="h-fit">{C.fitH}</h2>
-      <div class="fit">
-        <div class="route"><h3><i data-xxd-icon="CircleCheck" data-size="18"></i>{C.yesH}</h3><ul>{C.YES.map((x) => <li>{x}</li>)}</ul></div>
-        <div class="route"><h3><i data-xxd-icon="CircleX" data-size="18"></i>{C.noH}</h3><ul>{C.NO.map((x) => <li>{x}</li>)}</ul></div>
-      </div>
     </section>
 
     <Contact />

@@ -1,4 +1,4 @@
-// 构建后处理：把主线、How-to、Wiki 每篇正文按小节（h2/h3）切开，生成全文搜索数据
+// 构建后处理：把新手入门、完整教程、How-to、Wiki 每篇正文按小节（h2/h3）切开，生成全文搜索数据
 // dist/search-sections.json（中文）和 dist/en/search-sections.json（英文）。
 // 搜索框打开时才加载；结果是「文章 › 小节」，点了跳到那一节（锚点用页面右侧「本页」目录里的同一个）。
 // 在 base-links.mjs 之前运行：这里的 href 不带子路径前缀，由页面脚本按 BASE_URL 补。
@@ -12,14 +12,14 @@ const text = (html) => html
   .replace(/<[^>]+>/g, " ")
   .replace(/&(#x?[0-9a-f]+|\w+);/gi, (m, e) => ENT[e] ?? (e[0] === "#" ? String.fromCodePoint(e[1] === "x" ? parseInt(e.slice(2), 16) : +e.slice(1)) : m))
   .replace(/\s+/g, " ").trim();
-const KIND = { zh: { guide: "主线", howto: "How-to", wiki: "Wiki", section: "小节" }, en: { guide: "Main guide", howto: "How-to", wiki: "Wiki", section: "Section" } };
+const KIND = { zh: { start: "新手入门", guide: "完整教程", howto: "How-to", wiki: "Wiki", section: "小节" }, en: { start: "Beginner track", guide: "Full guide", howto: "How-to", wiki: "Wiki", section: "Section" } };
 const out = { zh: [], en: [] };
 for (const file of walk("dist").filter((f) => f.endsWith("index.html"))) {
   const path = "/" + file.slice("dist/".length).split(sep).join("/").replace(/index\.html$/, "");
   const lang = path.startsWith("/en/") ? "en" : "zh";
   const rel = lang === "en" ? path.slice(3) : path;
   const kind = rel.split("/")[1];
-  if (!["guide", "howto", "wiki"].includes(kind) || rel === `/${kind}/`) continue;
+  if (!["start", "guide", "howto", "wiki"].includes(kind) || rel === `/${kind}/`) continue;
   const html = readFileSync(file, "utf8");
   const art = html.match(/<article class="xxd-prose[^"]*"[^>]*>([\s\S]*?)<\/article>/)?.[1];
   if (!art) continue;

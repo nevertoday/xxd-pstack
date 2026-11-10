@@ -10,6 +10,8 @@
 
 ### 👉 [Читать онлайн: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
 
+**Не пишете код?** Начните с [трёх уроков для новичков](https://pstack.xiaoxiaodong.ai/en/start/1-why/) — через 20 минут уже будете пользоваться.
+
 Сайт с руководством доступен на английском и китайском (китайская версия: <https://pstack.xiaoxiaodong.ai>).
 
 ![Руководство](https://img.shields.io/badge/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-9_%D1%88%D0%B0%D0%B3%D0%BE%D0%B2-8A9A8C?style=flat-square)

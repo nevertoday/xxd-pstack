@@ -10,6 +10,8 @@
 
 ### 👉 [온라인으로 읽기: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
 
+**코딩을 안 해 봤나요?** [입문 3강](https://pstack.xiaoxiaodong.ai/en/start/1-why/)부터 보세요. 20분이면 쓸 수 있습니다.
+
 튜토리얼 사이트는 영어와 중국어로 제공됩니다 (중국어판: <https://pstack.xiaoxiaodong.ai>).
 
 ![가이드](https://img.shields.io/badge/%EA%B0%80%EC%9D%B4%EB%93%9C-9%EB%8B%A8%EA%B3%84-8A9A8C?style=flat-square)

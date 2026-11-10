@@ -10,6 +10,8 @@
 
 ### 👉 [オンラインで読む：pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
 
+**コードを書いたことがない？** まず [入門 3 レッスン](https://pstack.xiaoxiaodong.ai/en/start/1-why/) から。20 分で使えるようになります。
+
 チュートリアルサイトは英語と中国語で読めます（中国語版：<https://pstack.xiaoxiaodong.ai>）。
 
 ![ガイド](https://img.shields.io/badge/%E3%82%AC%E3%82%A4%E3%83%89-9%E3%82%B9%E3%83%86%E3%83%83%E3%83%97-8A9A8C?style=flat-square)

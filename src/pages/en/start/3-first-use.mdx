@@ -1,0 +1,123 @@
+---
+layout: ../../../layouts/Lesson.astro
+lesson: 3
+description: Make an empty folder, send one three-part message, and have the AI build a small page that tracks how much water you drink. Where to look in its reply, how to tell whether it did well, and what to say when it didn't.
+---
+import Callout from "../../../components/Callout.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Reply from "../../../components/Reply.astro";
+import Q from "../../../components/Q.astro";
+
+In this lesson you use pstack to make something real and small: a web page that tracks how many glasses of water you drink each day. By the end you'll see how it differs from the AI as usual.
+
+## First, make an empty folder
+
+1. Make a new folder on your desktop called `water`.
+2. If Claude Code is open, type `/exit` to quit.
+3. In the same window, type this line and press Enter. It means "go into the water folder on the desktop":
+
+<Cmd c="cd ~/Desktop/water" />
+
+4. Type `claude` and press Enter. Claude Code opens inside that folder.
+
+Why a new folder: the AI works in whatever folder you open it in. With a new, empty folder, it can't touch anything else on your computer.
+
+## Send it this message
+
+<Copy id="first" title="Copy, paste into the box, press Enter" code={`/pstack:poteto-mode Make me a small web page that tracks how much water I drink each day. This is an empty folder; do whatever setup it needs.
+What done looks like: I open the page and click "I drank a glass," and today's count goes up by one; I close it and open it again and the number is still there; the page shows how many glasses I drank on each of the last 7 days.
+When you're done, show me: how you checked it, what you did and what you saw, with a screenshot if you can. Then tell me how to open the page.`} />
+
+The `/pstack:poteto-mode` at the start is the switch. With it, the AI follows pstack's rules. Without it, it works the way it always does.
+
+The rest of the message has just three parts, and that's the whole trick to using pstack:
+
+<mark><strong>What I want · What done looks like · What to show me when it's done</strong></mark>
+
+- **What I want**: a page that tracks water.
+- **What done looks like**: clicking adds one, the number survives closing and reopening, and you can see 7 days. This tells it "how to know it's done," and it will check each of these.
+- **What to show me when it's done**: how it checked and what it found. You can't read the code, so ask for something you can understand.
+
+## It will stop and ask you things
+
+While it works, Claude Code will stop now and then to ask: may I create this file? May I run this command?
+
+That's Claude Code protecting you. Every step needs your OK. This folder is new and empty, so pick **Yes**.
+
+## Where to look in its reply
+
+Its reply will be longer than usual and may be full of technical words. Skip what you don't understand and **look only at the four marked places**:
+
+<Reply code={`① My understanding of the goal: a page that tracks water. Clicking
+   "I drank a glass" adds one to today's count; the number survives
+   closing and reopening; it shows the last 7 days.
+
+② To do
+   ☐ Set up this folder
+   ☐ Build the page
+   ☐ Check: add a glass, close and reopen, see 7 days
+   ☐ Hand you the results
+
+   … (the middle is it doing the work; you can skip it) …
+
+③ What I checked
+   ✓ Clicked "I drank a glass" 3 times; today shows 3
+   ✓ Closed the page and opened it again; still 3
+   ✓ There's a bar for each of the last 7 days; today's is tallest
+   ? Couldn't check: how it looks on a phone (I only checked on a computer)
+
+④ How to open it: double-click index.html in the water folder`} />
+
+1. **Look at ① first.** Did it get it right? If not, just type a correction, like "not 7 days, 30 days."
+- **② is the steps it plans to take.** It ticks them off as it goes. You don't need to manage it.
+- **③ matters most.** Each line should be a check it really did, not "should be fine." The "couldn't check" line is it being honest, and that's a good thing.
+4. **Do what ④ says and look for yourself.**
+
+## How to tell whether it did well
+
+Ask yourself three questions:
+
+- Is the goal it repeated back the same as what I meant?
+- When it said it was done, did it list the checks it actually did and what it saw?
+- When I open it myself, does it match what it said?
+
+If all three are yes, the job is done.
+
+If it only says "done" with no checks at all, it isn't done. Reply with:
+
+<Copy id="no-proof" code="Show me what you actually checked: what you did and what you saw. Don't just tell me it's done." />
+
+## What to say when it's wrong
+
+<Q q="The result is wrong, for example the number doesn't change when I click.">
+<p>Tell it what you saw, and don't guess the cause: "I clicked three times and the number stayed at 0." Don't say "maybe the storage is broken." Your guess can send it the wrong way.</p>
+</Q>
+<Q q="The reply is long and full of words I don't know.">
+<p>Type `/pstack:bro`. It retells the last reply in plain words, much shorter.</p>
+</Q>
+<Q q="It asked me a question I don't understand.">
+<p>Reply: "I don't code. Please ask me in plain words, or pick the safest option for me and tell me why."</p>
+</Q>
+<Q q="It's doing things I didn't ask for, and I want it to stop.">
+<p>Press Esc and it stops. Then tell it what you want, like "only the water tracker, don't add anything else for now."</p>
+</Q>
+<Q q="On Windows, the cd line says it can't find the folder.">
+<p>On some Windows computers the desktop lives inside OneDrive. Try `cd ~/OneDrive/Desktop/water` instead.</p>
+</Q>
+
+## You've got it
+
+Whatever you do from now on, it looks the same: `/pstack:poteto-mode` plus the three parts. Two more examples:
+
+<Copy id="ex-fix" title="Fix a problem that keeps coming back" code={`/pstack:poteto-mode My bookmarks plug-in sometimes saves the same item twice when I click save.
+What done looks like: click save ten times in a row, and the list still has only one.
+When you're done, show me: how you made the problem happen again, and what happened when you tried again after the fix.`} />
+
+<Copy id="ex-how" title="Change nothing, just understand it" code="/pstack:how How does the stuff in this folder work? Explain in plain words; I don't code." />
+
+The second example uses `/pstack:how`: it only explains and doesn't touch your things. Use it when you want to understand something before deciding whether to change it.
+
+<Callout type="tip" title="That's enough for now">
+These three lessons are all a beginner needs. The best practice from here is to pick a small thing you actually want and describe it with the same three parts. Look up everything else on the site when you need it: if it drifts off track, see [Pull it back in one sentence](/en/howto/steer/); if it uses your plan up fast, see [Keep costs down](/en/howto/cost/); for other questions, see the [FAQ](/en/faq/). If you code and want to use it on bigger projects, see the [full guide](/en/guide/0-what/).
+</Callout>

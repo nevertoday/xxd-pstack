@@ -10,6 +10,8 @@ A plain-language beginner's guide to [pstack](https://github.com/backnotprop/pst
 
 ### 👉 [Read it online: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
 
+**Don't code?** Start with the [three beginner lessons](https://pstack.xiaoxiaodong.ai/en/start/1-why/). You'll be using it in 20 minutes.
+
 ![Guide](https://img.shields.io/badge/Guide-9_steps-8A9A8C?style=flat-square)
 ![Skills](https://img.shields.io/badge/Skills-34-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_guides-C9A97A?style=flat-square)

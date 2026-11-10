@@ -10,6 +10,8 @@ Un guide pour débutants de [pstack](https://github.com/backnotprop/pstack), en 
 
 ### 👉 [Lire en ligne : pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
 
+**Vous ne codez pas ?** Commencez par les [trois leçons pour débutants](https://pstack.xiaoxiaodong.ai/en/start/1-why/). Vous l’utiliserez en 20 minutes.
+
 Le site du tutoriel est disponible en anglais et en chinois (version chinoise : <https://pstack.xiaoxiaodong.ai>).
 
 ![Guide](https://img.shields.io/badge/Guide-9_%C3%A9tapes-8A9A8C?style=flat-square)

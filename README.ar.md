@@ -12,6 +12,8 @@
 
 ### 👉 [اقرأ على الإنترنت: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
 
+**لا تكتب الكود؟** ابدأ بـ [الدروس الثلاثة للمبتدئين](https://pstack.xiaoxiaodong.ai/en/start/1-why/)، وستستخدمه خلال 20 دقيقة.
+
 موقع الدليل متوفر بالإنجليزية والصينية (النسخة الصينية: <https://pstack.xiaoxiaodong.ai>).
 
 ![الدليل](https://img.shields.io/badge/%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84-9_%D8%AE%D8%B7%D9%88%D8%A7%D8%AA-8A9A8C?style=flat-square)

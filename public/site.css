@@ -91,6 +91,20 @@
   .home section { margin-top: var(--space-8); }
   .home h2 { margin: 0 0 var(--space-3); font: var(--weight-strong) var(--text-lg) / 1.4 var(--font-title); }
   .home h2 + p { margin: -6px 0 var(--space-4); color: var(--muted); font-size: var(--text-sm); line-height: 20px; }
+  .home__note { margin: var(--space-2) 0 0; color: var(--muted); font-size: var(--text-xs); }
+  /* 「你是不是遇到过」：三句话，左边一条细线把它们收成一组 */
+  .home .pain { max-width: var(--site-read); margin: 0; padding: 0 0 0 var(--space-4); border-left: 2px solid var(--line); list-style: none; }
+  .home .pain li { margin: 0 0 var(--space-2); line-height: 26px; }
+  .home .pain + p { max-width: var(--site-read); margin: var(--space-3) 0 0; }
+  .home .diff { max-width: var(--site-read); }
+  .home .diff th:last-child, .home .diff td:last-child { color: var(--ink); }
+  .home .diff td:first-child { color: var(--muted); }
+  .home .diff table { width: 100%; table-layout: fixed; }
+  .home .diff th, .home .diff td { white-space: normal; overflow-wrap: anywhere; vertical-align: top; }
+  .home .flow + .roadmap { margin-top: var(--space-6); }
+  /* 示意 AI 回复：不是复制用的，没有按钮；字号和代码块一样，换行保留 */
+  .reply-demo { margin: var(--space-4) 0; }
+  .reply-demo .xxd-code { white-space: pre-wrap; }
 
   /* 一张图看懂：你的一句话 → /poteto-mode 挑剧本 → 调技能 → 带证据交回。小点沿线跑过表示流向（只动 transform / opacity，减少动效时静止）。窄屏竖排 */
   .flow { display: grid; grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr) 52px minmax(0, 1fr) 52px minmax(0, 1fr); gap: var(--space-2) 0; align-items: stretch; }

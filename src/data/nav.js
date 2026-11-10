@@ -21,6 +21,14 @@ export const REPO = "https://github.com/nevertoday/xxd-pstack";
 export const PSTACK = "https://github.com/backnotprop/pstack";
 export const PSTACK_UPSTREAM = "https://github.com/cursor/plugins/tree/main/pstack";
 
+// 新手入门：给没写过代码、只和 AI 聊过天的人。三课，一条路走到底；做完这三课就够用了。
+export const LESSONS = [
+  { n: 1, slug: "1-why", title: "它能帮你什么", minutes: "3 分钟", sum: "AI 说「好了」却没好？pstack 让它做完拿出证据", en: { title: "What it does for you", minutes: "3 minutes", sum: "AI says “done” but it isn't? pstack makes it show proof" } },
+  { n: 2, slug: "2-install", title: "装上它", minutes: "5 分钟", sum: "在 Claude Code 里输入两行，选一个选项", en: { title: "Install it", minutes: "5 minutes", sum: "Type two lines in Claude Code and pick one option" } },
+  { n: 3, slug: "3-first-use", title: "第一次用", minutes: "10 分钟", sum: "用一段三句话，做出一个小网页", en: { title: "Use it for the first time", minutes: "10 minutes", sum: "Make a small web page with one three-part message" } },
+];
+export const lessonHref = (s, lang = "zh") => link(`/start/${s.slug}/`, lang);
+
 export const STEPS = [
   { n: 0, slug: "0-what", title: "先搞懂 pstack 是什么", minutes: "读 10 分钟", ready: true, sum: "它是什么、解决什么问题、好处在哪、要准备什么", en: { title: "Understand what pstack is", minutes: "10-minute read", sum: "What it is, what it fixes, why it helps, what you need" } },
   { n: 1, slug: "1-install", title: "安装 pstack", minutes: "5 分钟", ready: true, sum: "一条命令装进 Claude Code、Cursor 或 Codex", en: { title: "Install pstack", minutes: "5 minutes", sum: "One command for Claude Code, Cursor or Codex" } },
