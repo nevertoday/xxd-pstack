@@ -1,10 +1,11 @@
 ---
 layout: ../../layouts/HowTo.astro
 slug: cost
-time: 读 8 分钟，改设置 5 分钟
+time: 读 5 分钟，改设置 5 分钟
 for: 觉得 pstack 太费 token、想省点钱
 step: 2
-description: pstack 为什么比直接聊天贵，钱花在哪；四档预算各是什么意思；怎么让主对话用强模型、写代码用便宜模型；auto 和 inherit-parent 是什么；怎么缩小评审组；什么时候不该用 /poteto-mode。
+tldr: 小事直接说；大事让主对话用强模型、写代码用便宜模型，或者降一档预算。
+description: pstack 的钱花在哪；小事别开 /poteto-mode；主对话用强模型、写代码用便宜模型；四档预算；缩小评审组；auto 和 inherit-parent 是什么意思。
 ---
 import Callout from "../../components/Callout.astro";
 import Term from "../../components/Term.astro";
@@ -14,85 +15,73 @@ import Cmd from "../../components/Cmd.astro";
 
 ## 钱花在哪了
 
-同样一件事，用 `/poteto-mode` 做比直接跟 AI 聊要多花不少 <Term k="token" />。多出来的主要是三块：
+同一件事，用 `/poteto-mode` 做要多花不少 <Term k="token" />（AI 的额度）。多在三处：
 
-- **子代理。** 它会把读代码、写代码这些活分给<Term k="子代理" />去做，每个子代理都要单独花一份。
-- **评审组。** `arena`、`architect`、`interrogate` 这些技能会让好几个模型各做一遍或各挑一遍刺。默认每组两个模型，就是两份花费。
-- **推理档位。** 默认是 `xhigh`，让模型想得很久、很仔细。想得越久越贵。
+- **派出去的帮手 AI。** 读代码、写代码会分给几个<Term k="子代理" />，每个都单独花钱。
+- **评审组。** `arena`、`architect`、`interrogate` 会让几个模型各做一遍。默认两个，就是两份钱。
+- **想得久。** 默认档位 `xhigh`，想得越久越贵。
 
-这是严谨的代价：多出来的钱换来的是复现、验证、换个模型再看一眼。下面几招是在不丢掉这些的前提下少花一点。
+这些钱换来的是检查和第二意见。下面几招少花一点，又不丢掉它们。
 
-## 换一档预算
+## 小事别开 /poteto-mode
 
-最直接的办法：重新跑一次选模型，换一个小一点的预算。
+改错别字、调颜色、加一行日志，一眼能看出对不对，直接说就行。
 
-<Cmd c="/setup-pstack" />
-
-（Claude Code 里是 `/pstack:setup-pstack`。）它会给你四个选项：
-
-| 预算 | 推理档位 | 说明 |
-| --- | --- | --- |
-| `unlimited` | 最高到 `max` | 每个模型拉到它能到的最高档。opus 升到 `max`；grok 最高就是 `xhigh`，所以不变 |
-| `large` | `xhigh` | 和默认设置一模一样 |
-| `medium` | `high` | 少想一点，便宜一点 |
-| `small` | `medium` | 最省。opus 和 grok 都降到 `medium` |
-
-预算只改「想多久」，不改用哪个模型。你自己改过的角色（换了模型、换成 `auto` 这类）在重跑时会保留。
-
-<u>选完要开一个新对话</u>，新设置才会生效。
-
-<Callout type="tip" title="它本来就会看活下菜">
-预算定的是每个角色的起点。`/poteto-mode` 每次派子代理前，还会按活的难度调：最难的升一档，做判断的降一档，例行的杂活降两档或更多。所以即使在 `large` 下，简单的活也不会按最高价算。
-</Callout>
+- **只想问怎么做**：用 `/poteto-help`。它只回答，不干活。
+- **没看懂代码**：先问 `/how`，比改错了再返工便宜。
 
 ## 主对话用强的，写代码用便宜的
 
-一个好用的搭配：你正在聊天的那个<mark>主对话，用一个强模型；写代码的那几个角色，换成更便宜、更快的模型</mark>。
+<mark>你直接对话的主对话用强模型；写代码的那几个角色换成便宜的模型。</mark>
 
-原因是分工不同。主对话要理解你的意图、做判断、审子代理交回来的改动，这里省了容易出错。写代码的子代理拿到的是说清楚了的具体任务，便宜的模型通常也能做好，做完还有主对话把关。
+主对话要读懂你、审改动，省了容易出错。写代码的帮手拿到的是说清楚的活，便宜模型也做得好。
 
-在 `/setup-pstack` 最后一步「确认角色」时，把 `feature, refactoring`、`bug-fix`、`perf-issue` 这几行换成你手上更便宜的模型就行。
+跑 `/setup-pstack`，到最后「确认角色」时，把 `feature, refactoring`、`bug-fix`、`perf-issue` 这几行换成更便宜的模型。
 
-## auto 和 inherit-parent：跟着主对话走
+## 降一档预算
 
-给某个角色填 `auto` 或 `inherit-parent`，意思是：派子代理时不指定模型，让它跟主对话用同一个模型。这两个词意思完全一样。
+<Cmd c="/setup-pstack" />
 
-<Callout type="warn" title="它不是一个模型名">
-`auto` 在这里不是「某个叫 auto 的模型」，而是「这一栏留空，跟着主对话」。如果你的主对话本身用的是 Cursor 的 Auto 或者一个便宜模型，把角色设成 `auto`，子代理也就跟着便宜。
+（Claude Code 里是 `/pstack:setup-pstack`。）它会给你四档：
+
+| 预算 | 档位 | 说明 |
+| --- | --- | --- |
+| `unlimited` | 最高到 `max` | 最贵 |
+| `large` | `xhigh` | 就是默认 |
+| `medium` | `high` | 便宜一点 |
+| `small` | `medium` | 最省 |
+
+预算只改「想多久」，不换模型。你自己改过的角色会保留。<u>选完要开一个新对话</u>，才会生效。
+
+<Callout type="tip" title="它本来就会看活定档位">
+预算只是起点。最难的活它会升一档，例行杂活会降两档以上。所以就算在 `large`，简单的活也不按最高价算。
 </Callout>
 
-在 Claude Code 里，默认的 grok 角色本来就被换成了 `inherit-parent`，因为那边用不了 grok。所以那几个角色的花费，取决于你会话用的是什么模型。
+## 评审组少派一个
 
-## 缩短评审组
-
-`arena runners`、`architect runners`、`interrogate reviewers` 这几行的值是一个列表，**列表里有几项，就派几个子代理**。默认是两项：
+`arena runners`、`architect runners`、`interrogate reviewers` 这几行，列了几个模型就派几个帮手。默认两个：
 
 <Copy id="cost-panel-before" title="默认：每组两个" code={`arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
 interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
 
-删掉一项，就少一个子代理。代价是少了「两家模型互相印证」的那一层：不同模型会找到不同的问题，两家都同意的结论更可信。
-
-也可以不改设置，按任务临时说。决定很重要时说「来 5 个方案」，不重要时说少几个：
+删掉一个，就少一份钱，也少了一个模型的眼光。也可以每次临时说：
 
 <Copy id="cost-arena" code="/arena 这个命名问题不大，2 个方案就够了。" />
 
-## 小事别开 /poteto-mode
+## auto 和 inherit-parent：跟着主对话走
 
-最省钱的一招：只在需要严谨的活上用 `/poteto-mode`。改个错别字、调个颜色、加一行日志这种一眼就能看出对不对的改动，直接说就行，不用开剧本、派子代理、拿证据。
+给角色填 `auto` 或 `inherit-parent`，意思一样：不指定模型，跟主对话用同一个。`auto` 不是一个叫 auto 的模型。
 
-另外两个不花大钱的习惯：
-
-- **只想问「该怎么做」，用 `/poteto-help`。** 它只回答你的问题、给你一段能直接发的提示词，**不会开始干活**。这是故意的：真跑一次 pstack 要花实打实的 token，所以它让你自己决定发不发。
-- **有疑问就先问 `/how`。** 弄清楚代码怎么工作，比让 `/poteto-mode` 带着误解改一轮再返工便宜得多。
+主对话便宜，这些角色就跟着便宜。Claude Code 里写代码的角色默认就是它。
 
 ## 卡住了？
 
 <Q q="改成 small 以后，结果明显变差了。">
-先试 `medium`。或者保留 `large`，只把写代码的角色换成便宜模型，判断和评审的角色不动。判断出错的代价，通常比省下的那点 token 大。
+先试 `medium`。或者保留 `large`，只把写代码的角色换成便宜模型。判断出错的代价，通常比省下的钱大。
 </Q>
-<Q q="我手动改了设置文件里的模型名，它说这个模型用不了。">
-`/setup-pstack` 只会写它检测到你真能用的模型。手写的名字可能拼错，也可能你没有权限。被拒绝时，技能会退回这个角色的默认模型，并在回复里说明。想换模型，重跑一次 `/setup-pstack`，从它列出的选项里选。
+<Q q="我手改了设置文件里的模型名，它说用不了。">
+名字可能拼错了，或者你没有权限。它会退回默认模型，并说一声。想换模型，重跑 `/setup-pstack`，从列出的里面选。
 </Q>
 <Q q="改了预算，花费没变。">
-新设置只对新对话生效。开一个新对话再看。Codex 这类工具没有「新对话才生效」这回事，但要确认设置文件 `~/.agents/pstack-models.md` 真的写出来了。
+新设置只对新对话生效，开一个新对话再看。用 Codex 这类工具的，确认 `~/.agents/pstack-models.md` 真的写出来了。
 </Q>

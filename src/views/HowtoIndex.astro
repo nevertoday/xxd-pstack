@@ -5,8 +5,8 @@ const lang = langOf(Astro.url.pathname);
 const en = lang === "en";
 const headings = HOWTO.map((g, i) => ({ slug: `g${i}`, text: t(g, "group", lang), depth: 2 }));
 const T = en
-  ? { h: "How-to: how exactly", p: "Each article covers one thing. The main guide is about how pstack thinks; this is about what to actually say to it for the job in front of you. Every article has prompts you can copy." }
-  : { h: "How-to：具体怎么做", p: "一篇只讲一件事。完整教程讲的是「pstack 怎么想问题」，这里讲的是「我手上这件活，具体该怎么跟它说」。每篇都有能直接复制的提示词。" };
+  ? { h: "How-to: how exactly", p: "One job per article: find the one that matches what you're doing, copy the prompt, change it to fit." }
+  : { h: "How-to：具体怎么做", p: "一篇只讲一件事。找到和你手上的活一样的那篇，复制里面的话，改成你的情况就能用。" };
 ---
 <Site title={T.h} headings={headings}>
   <article class="xxd-prose">

@@ -2,57 +2,31 @@
 layout: ../../../layouts/HowTo.astro
 slug: add-feature
 time: One or two conversations for a small feature
-for: You want to add a feature to a project people already use, without breaking what already works
+for: You want to add a feature to a project people already use, without breaking what works
 step: 5
-description: "Add a feature with /poteto-mode: first say what the new thing looks like and which existing behavior must not change, then have it verify both the new and the old cases."
+tldr: Say what to add and which old behavior must not change. Then have it verify both the new and the old cases.
+description: "Add a feature with /poteto-mode: say what the new thing looks like and what must not change, then have it verify both cases. Includes a Chrome extension example."
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 
-## The hard part is not breaking the old stuff
-
-Ask an AI to add a feature and it can usually build it. The trouble is elsewhere. It tweaks the old output format a little along the way, changes a default that long-time users rely on, or adds a check somewhere you didn't notice. The new feature works, and the old one quietly changed.
-
-pstack's Feature <Term k="剧本" /> is built for exactly this. It wants two things settled before any code is written: **what the new feature's data looks like**, and **which existing behavior must stay exactly as it is**. <mark>Say the second one in your prompt, and it becomes a check it has to verify.</mark>
-
-## The one-line version
+## Copy this first
 
 <Copy id="feat-min" title="The shortest version" code="/poteto-mode add a --json flag. text output stays byte-identical. verify both forms." />
 
-This is the example prompt from pstack's own docs. Each of the three sentences does one job:
+This is the example from pstack's own docs. It has three parts:
 
-- "Add a --json flag" is the goal.
-- "Stays byte-identical" is what must not change. It can compare the output from before and after the change directly. One byte different means it failed.
-- "Verify both forms" stops it from testing only the new JSON and forgetting the old text.
+1. **What you want**: a `--json` flag.
+2. **What must not change**: the text output. It compares the output before and after. One byte different means it failed.
+3. **Verify both**: so it doesn't test only the new JSON and forget the old text.
 
-If you installed pstack as a Claude Code plugin, type the command as `/pstack:poteto-mode`. See [Using pstack in Claude Code](/en/howto/claude-code/).
+The hard part is not breaking the old stuff. The new feature works, but the old output quietly changed. <mark>Put what must not change in the prompt, and it becomes something it checks.</mark>
 
-## What it will do
+## A Chrome extension example
 
-After you send it, the steps of the Feature playbook show up in its <Term k="待办清单" />, roughly:
-
-1. Read the code it's about to change with `/how`, to understand how it works today.
-2. Design with `/architect`. It writes down "how callers will use this" first, then decides on types and how to split modules.
-3. Write a "how to split the work" checkpoint with four items: which steps must come first, what can run in parallel, whether several workers need to change the same data, and what the smallest safe split is. Items that don't apply aren't deleted. They get `n/a: reason`.
-4. Hand the coding to a <Term k="子代理" />, spelling out which files to change, **what structure represents the data**, and what success looks like.
-5. Verify in the right place: run the real command for a CLI, click through the running app for a UI. Anything it can't verify gets marked "inconclusive," not passed.
-6. Tidy the work into a few small commits and open a <Term k="PR" />.
-
-The "data structure" in step 4 deserves a closer look. The playbook asks it to pick the shape before writing logic. A pile of scattered true/false flags becomes a state machine. A long chain of if/else becomes a table. Assumptions everywhere that "this object should have some field" become a typed model. Pick the right shape, and the code that follows has far fewer branches.
-
-## When the change spans several parts of the code
-
-If the feature touches several files or changes who owns a module, `/poteto-mode` calls `/architect` on its own. By default it starts coding right after the design. If you want to see the design before deciding, say so in your prompt:
-
-<Copy id="feat-arch" title="Stop and show me the design first" code="/architect with checkpoint. Stop after the design and show it to me. Don't start until I agree." />
-
-A design isn't set in stone either. If, halfway through, the same awkward workaround keeps showing up everywhere, or the types only compile with `any` and forced casts, `/architect` treats that as evidence the design was wrong and starts over, instead of piling on patches.
-
-## An example from a real project
-
-Say you maintain a Chrome extension and want to add a setting to the options page: "which group to show by default when the side panel opens." There was no such setting before, and the side panel always showed "All."
+You want a new setting on the options page: which group the side panel shows when it opens. There was no such setting before. The side panel always showed "All."
 
 <Copy id="feat-ext" title="Chrome extension example" code={`/poteto-mode Add a setting to the options page: which group to show by default when the side panel opens.
 Before writing code, tell me how this setting will be stored in chrome.storage.sync.
@@ -60,28 +34,41 @@ What must not change: users who never set it still see "All" in the side panel, 
 Verify both cases: a brand-new profile that never set it, and a profile set to the "Work" group.
 Show me what's actually in chrome.storage.sync in both cases, plus a screenshot of the side panel when it opens.`} />
 
-A few things in this prompt are worth copying:
+- **Say how it's stored first**: you catch problems before any code. Maybe it wants a new key, and you want it inside the existing settings.
+- **Users who never set it see no change**: they upgrade and touch nothing. That case breaks most easily.
+- **Two profiles**: one pass-or-fail check for the old case, one for the new.
+- **Storage plus a screenshot**: a UI that looks right isn't enough. Check the value that was really saved.
 
-- **"Tell me how it will be stored first"**: it has to say the data shape out loud. You can catch problems at this step, like it wanting a new storage key when you'd rather put it inside the existing settings object.
-- **"Users who never set it see the same thing"**: an existing user upgrades the extension and touches nothing. That's the case most likely to break, so it gets named on its own.
-- **Two profiles**: one check that can clearly pass or fail for each case, old and new.
-- **Storage contents and a screenshot**: a UI that looks right isn't enough. You also want the value that was really saved.
+## Where to look after you send it
+
+**At the start: its restatement and the storage shape.** It reads the code first, then says how it plans to store the setting. If that's wrong, stop it right away.
+
+**At the end: evidence for both cases.** Two sets of storage contents and screenshots. Anything it can't verify is marked "inconclusive," not passed.
+
+## See the design before it starts
+
+When a change spans several files, it runs `/architect` on its own. By default it starts coding right after the design. To look first, send this:
+
+<Copy id="feat-arch" title="Stop and show me the design first" code="/architect with checkpoint. Stop after the design and show it to me. Don't start until I agree." />
 
 <Callout type="tip" title="Let it open your extension itself">
-"Click through the running app" means it needs to know how to launch and drive your project. If it keeps saying it can't verify the UI, run <code>/create-verification-skill</code> once to generate a <a href="/en/wiki/verify-skill/">verification skill</a> for your project. See <a href="/en/guide/6-verify-ship/">step 6 of the guide</a>.
+To check the UI, it has to know how to launch your project. If it keeps saying it can't, run <code>/create-verification-skill</code> once. It makes a <a href="/en/wiki/verify-skill/">verification skill</a> for your project. See <a href="/en/guide/6-verify-ship/">step 6 of the guide</a>.
 </Callout>
 
 ## Stuck?
 
-<Q q="It changed the old output format while it was at it.">
-Reply: "The original text output must not change. Show me the diff between the output before and after your change. It must be empty." Next time, put what must not change in your very first prompt instead of waiting until it's done.
+<Q q="It changed the old output format along the way.">
+Reply: "The original text output must not change. Show me the diff of the output before and after. It must be empty." Next time, say what must not change in your first prompt.
 </Q>
 <Q q="It only verified the new feature, not the old behavior.">
-"Verify both" has to be in the prompt. If you forgot, add: "apply prove it works. Run the real command for both cases and paste the output." <code>prove it works</code> is the name of a <a href="/en/wiki/principles/">principle</a>. Saying it tells it you want real output, not "it compiles."
+Add: "apply prove it works. Run the real command for both cases and paste the output." <code>prove it works</code> means: show real results that it works. It's the name of a pstack <a href="/en/wiki/principles/">principle</a>. Type it as is, and it knows what you mean. You get real output, not just "it compiles."
 </Q>
-<Q q="Does a tiny feature really need the whole design process?">
-Not necessarily. When the change stays in one file and doesn't cross modules, the steps it doesn't need are marked <code>n/a</code> or <code>skip</code> in the todo list, with a reason. You can see why it skipped them. If you disagree with a reason, say so.
+<Q q="Does a tiny feature need the whole design process?">
+Not always. When only one file changes, steps it doesn't need are marked <code>n/a</code> or <code>skip</code> in the <Term k="待办清单" />, with a reason. If you disagree with a reason, say so.
 </Q>
 <Q q="It added features I didn't ask for.">
-Remind it of the scope: "Only build the one setting I asked for. List your other ideas for me, but don't build them." The playbook already asks it to list "open decisions" in its reply. Extra ideas belong there, not in the code.
+Reply: "Only build the one setting I asked for. List your other ideas, but don't build them." Extra ideas belong in the reply, not in the code.
+</Q>
+<Q q="Nothing happens when I type /poteto-mode in Claude Code.">
+If you installed pstack as a plugin, type <code>/pstack:poteto-mode</code>. See <a href="/en/howto/claude-code/">Using pstack in Claude Code</a>.
 </Q>

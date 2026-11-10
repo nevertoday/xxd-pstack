@@ -2,90 +2,73 @@
 layout: ../../../layouts/HowTo.astro
 slug: fix-bug
 time: One bug, one conversation
-for: You have a bug and want the AI to fix it properly, not roughly
+for: You have a bug and want it fixed properly, not roughly
 step: 6
-description: "Fix a bug with /poteto-mode: reproduce it first, find the root cause, fix it, then use the same repro steps to prove it's fixed. Includes a real example from a Chrome extension."
+tldr: Describe the symptom and add "reproduce it first." It finds the real cause, fixes it, and proves the fix with the same steps.
+description: "Fix a bug with /poteto-mode: make the problem happen again, find the real cause, fix it, then prove it with the same steps. Includes a Chrome extension example."
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 
-## Why bug fixing gets its own page
-
-The most common way AI fixes a bug: it sees the symptom, adds a check in the first place that looks reasonable, and tells you "fixed." The symptom goes away for now. The root cause is still there, and a few days later it comes back in a different shape.
-
-pstack's bug-fix <Term k="剧本" /> locks the order in place: <mark><strong>reproduce → find the root cause → fix → verify with the same repro steps</strong></mark>. Describe the symptom in your prompt, say "reproduce first," and it handles the rest.
-
-## The one-line version
+## Copy this first
 
 <Copy id="bug-min" title="The shortest version" code="/poteto-mode After a retry, users get two notifications. Reproduce it first, then fix it, then verify." />
 
-"Reproduce it first" isn't politeness. It's a real constraint: the playbook makes the bug happen before anything else, and if it can't, it won't touch the code.
+"Reproduce" means making the problem happen again. It does that first. If it can't, it won't change the code.
 
-## Give it everything you know
+The order is fixed: <mark><strong>reproduce, find the real cause, fix it, then verify with the same steps.</strong></mark>
 
-One line works, but a few more clues save it a lot of time. A good bug prompt has these pieces, one sentence each:
-
-| What to include | Example |
-| --- | --- |
-| The symptom | The last row goes missing when exporting CSV |
-| When it started | Since yesterday's release |
-| Clues you have | The failing job id is 4812, and the log has a line `offset out of range` |
-| What counts as fixed | The 60,000-row test dataset exports with every row present |
-| What evidence you want | Row counts before and after the fix |
-
-Put together:
+## Give it a few more clues
 
 <Copy id="bug-full" title="The full version" code="/poteto-mode Since yesterday's release, CSV export drops the last row. The failing job id is 4812. Reproduce it first, then fix it. It's fixed when the 60,000-row test dataset exports with no rows missing. Show me the row counts before and after the fix." />
 
-<Callout type="warn" title="Hold back your guess at first">
-Resist saying "I think it's something in the pagination code" at the start. Once you say it, it only looks where you pointed. Let it restate the problem and give its own read first, then add your guess.
+Each part does one job:
+
+- **Symptom and when it started**: since the release, export drops the last row.
+- **A clue you have**: the job id. It saves a round of searching.
+- **What counts as fixed**: all 60,000 rows export.
+- **What to show you**: row counts before and after.
+
+<Callout type="warn" title="Hold back your guess">
+Say "I think it's the pagination code," and it only looks there. Let it give its own read first. Then add yours.
 </Callout>
 
-## What it will do
+## A Chrome extension example
 
-After you send it, watch its <Term k="待办清单" />. The first items are the steps of the bug-fix playbook:
-
-1. Restate your goal and the problem in its own words (if it misunderstood, you'll see it here).
-2. Make the bug happen in a real environment and write down the repro steps.
-3. List a few possible causes, read the relevant code with `/how`, and rule them out one by one until only one is left: **the first place things go wrong**.
-4. Fix it there (running `/architect` first if the fix crosses modules), instead of patching a check further downstream.
-5. Run the repro from step 2 again and show a before-and-after comparison.
-6. Tidy up the commits (with "reproduce" ordered before "fix," so the history shows it broken and then working) and open a <Term k="PR" />.
-
-Skipped steps don't vanish. They stay on the list, marked `skip: reason`.
-
-## An example from a real project
-
-Say you maintain a Chrome extension, and users report: "Items I saved in the side panel sometimes show up twice after a refresh."
+Users report: saved items in the side panel sometimes show up twice after a refresh.
 
 <Copy id="bug-ext" title="Chrome extension example" code={`/poteto-mode Users report that the saved list in the side panel sometimes shows duplicate items after a refresh.
 I tried it myself, and clicking "Save" twice quickly makes it more likely. Reproduce it first. Don't change any code yet.
 It's fixed when clicking Save ten times leaves exactly one item in the list, and exactly one in chrome.storage.
 Show me what's actually in storage before and after the fix.`} />
 
-Two details are worth copying:
+- **"Exactly one in chrome.storage"**: the UI might hide duplicates while the data still has two. Check the stored value.
+- **"Clicking Save ten times"**: turns "sometimes" into a check that passes or fails every time.
 
-- **"Exactly one in chrome.storage"**: checking the UI isn't enough. The UI might dedupe while the data still has two entries. Make it read the value that's really stored.
-- **"Clicking Save ten times"**: this turns a "sometimes" problem into a check that reliably passes or fails.
+## Where to look after you send it
 
-## When there's a cheap test path, use /tdd
+**At the start: its restatement.** If it describes a different problem, stop it right away.
 
-If the bug is easy to capture in a unit test, have it write a failing test first:
+**In the middle: the <Term k="待办清单" />.** It lists a few possible causes and rules them out, until it finds the first place things go wrong. The fix belongs there, not in a later check.
+
+**At the end: before and after.** Both use the same repro steps.
+
+## Easy to test? Add /tdd
 
 <Copy id="bug-tdd" code="/poteto-mode Reproduce the duplicate write first. If there's a cheap test path, use /tdd: write a failing test, then fix it, then run it again." />
 
-The "if there's a cheap test path" part matters. A test forced into existence and held up by a pile of mocks proves less than just running the real command. The playbook lets it say so.
+Keep "if there's a cheap test path." A test propped up by piles of fake data proves less than running the real command.
 
 ## Stuck?
 
-<Q q="It says it can't reproduce the bug. Now what?">
-That's a good sign. It means it isn't changing things blindly. Describe your environment in more detail: which page, what data, what you clicked, which version. You can also paste a log or a screen recording. If it can't reproduce the bug, it shouldn't be fixing it.
+<Q q="It says it can't reproduce the bug.">
+That's good. It isn't changing things blindly. Be more specific: which page, what data, what you clicked, which version. You can also paste a log or a recording.
 </Q>
 <Q q="It said “fixed” but showed no evidence.">
-Reply: "apply prove it works. Run the repro steps again and show me the real output." `prove it works` is the name of one of pstack's <a href="/en/wiki/principles/">principles</a>. It has read them, so naming it tells it exactly what you want.
+Reply: "apply prove it works. Run the repro steps again and show me the real output." <code>prove it works</code> means: show real results that it works. It's the name of a pstack <a href="/en/wiki/principles/">principle</a>. Type it as is, and it knows what you mean.
 </Q>
-<Q q="It added an if check downstream and called it fixed.">
-Reply: "fix root causes. This state should never happen in the first place. Find where it first goes wrong." Adding a check only counts as a fix when that state is actually valid.
+<Q q="It added an if check later on and called it fixed.">
+Reply: "fix root causes. This state should never happen. Find where it first goes wrong." <code>fix root causes</code> means fix the real cause. It's also a principle name. A check only counts as a fix if that state is actually valid.
 </Q>

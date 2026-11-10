@@ -1,92 +1,77 @@
 ---
 layout: ../../layouts/HowTo.astro
 slug: update-remove
-time: 读 6 分钟
+time: 读 4 分钟
 for: 想更新 pstack、看看装了什么，或者把它卸掉
 step: 1
-description: 按你当初的装法，找到查看、检查更新、更新、卸载的命令。重点讲一个容易忽略的坑：更新后默认模型变了，你的旧设置文件还钉着旧的默认值。
+tldr: 按当初的装法找到更新和卸载命令；更新后清掉设置文件里的旧默认，再开新对话。
+description: 按你当初的装法，找到查看、更新、卸载的命令。重点是一个坑：更新后默认模型变了，旧的设置文件还写着旧模型。
 ---
 import Callout from "../../components/Callout.astro";
 import Term from "../../components/Term.astro";
 import Q from "../../components/Q.astro";
-import Copy from "../../components/Copy.astro";
 import Cmd from "../../components/Cmd.astro";
 import Tabs from "../../components/Tabs.astro";
 
-## 先想想你当初是怎么装的
-
-更新和卸载的办法，取决于你当初走的哪条路：
-
-| 当初输入的是 | 属于 |
-| --- | --- |
-| `npx skills add backnotprop/pstack` | skills 命令行 |
-| `/plugin install pstack@cursor-plugins` | Claude Code 插件 |
-| `/add-plugin pstack` | Cursor 插件 |
-
-记不清了？用 skills 命令行装的，技能会出现在 `.claude/skills/`、`.agents/skills/` 这类文件夹里，每个技能一个子文件夹。用 Claude Code 插件装的，命令要带 `pstack:` 前缀，比如 `/pstack:poteto-mode`。
-
 ## 按装法找命令
+
+按你当初输入的命令选：
+
+- `npx skills add` → skills 命令行
+- `/plugin install` → Claude Code 插件
+- `/add-plugin` → Cursor 插件
+
+记不清的话：命令要带 `pstack:` 前缀的，是 Claude Code 插件。
 
 <Tabs id="ur" items={[["skills","skills 命令行"],["cc","Claude Code 插件"],["cursor","Cursor 插件"]]}>
 <div slot="skills">
 <p>在终端里运行（不是在 AI 对话框里）：</p>
-<p><Cmd c="npx skills list" /> 看现在装了哪些技能。</p>
+<p><Cmd c="npx skills list" /> 看装了哪些技能。</p>
 <p><Cmd c="npx skills check" /> 检查有没有新版本。</p>
-<p><Cmd c="npx skills update" /> 把技能更新到最新。</p>
+<p><Cmd c="npx skills update" /> 更新到最新。</p>
 <p><Cmd c="npx skills remove" /> 卸载技能。</p>
-<p>注意范围：不加 <code>-g</code> 装的，技能在当时那个项目文件夹里；加了 <code>-g</code> 的，在你的用户目录里。在 A 项目里装的，到 B 项目里看不到，这是正常的。</p>
+<p>不加 <code>-g</code> 装的，只在当时那个项目里。</p>
 </div>
 <div slot="cc">
-<p>Claude Code 对第三方插件市场默认不自动更新。手动更新一次：</p>
+<p>第三方插件默认不自动更新。手动更新一次：</p>
 <p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
-<p>想以后自动更新：在对话框输入 <code>/plugin</code>，打开 <strong>marketplaces</strong> 标签页，选中 <code>cursor-plugins</code>，再选 <strong>enable auto-update</strong>。查看和卸载插件，也在 <code>/plugin</code> 这个菜单里管理。</p>
+<p>想自动更新：输入 <code>/plugin</code>，打开 <strong>marketplaces</strong> 标签页，选中 <code>cursor-plugins</code>，再选 <strong>enable auto-update</strong>。查看和卸载也在 <code>/plugin</code> 里。</p>
 </div>
 <div slot="cursor">
-<p>在 Cursor 里装的插件，在侧边栏的 Customize 里管理。pstack 的说明里没有专门写 Cursor 插件的更新步骤，以 Cursor 自己的界面为准。</p>
+<p>在侧边栏的 Customize 里管理。pstack 没写 Cursor 插件的更新步骤，以 Cursor 的界面为准。</p>
 </div>
 </Tabs>
 
-## 更新以后：旧设置还钉着旧默认
+## 更新以后：清掉旧默认
 
-这是更新时最容易踩的坑。
+`/setup-pstack` 会把每个<Term k="模型角色" />的模型一行一行写进设置文件。新版本换了默认模型，你的文件里写的还是旧的。<mark>技能读到这一行，就照旧用旧模型</mark>。
 
-`/setup-pstack` 写的设置文件，会把每个<Term k="模型角色" />用的模型一行一行写死。如果新版本 pstack 换了默认模型，你的旧文件里写的还是**旧的默认值**。<mark>技能读到这一行，就照旧用旧模型，新默认对你不生效</mark>。
+二选一：
 
-解决办法，二选一：
-
-1. 打开设置文件，删掉那些你没特意改过、只是当时照默认写进去的角色行。删掉的角色会回到技能的新默认。
-2. 直接把整个文件删了，再跑一次 `/setup-pstack`。
-
-设置文件在哪，看你用的工具：
+1. 打开设置文件，删掉你没特意改过的那些行。删掉的角色会用新的默认。
+2. 把整个文件删了，再跑一次 `/setup-pstack`。
 
 | 工具 | 设置文件 |
 | --- | --- |
 | Cursor | `~/.cursor/rules/pstack-models.mdc` |
 | Claude Code | `~/.claude/rules/pstack-models.md` |
-| Codex 和其他工具 | `~/.agents/pstack-models.md` |
+| Codex 等 | `~/.agents/pstack-models.md` |
 
-<Callout type="ok" title="重跑不会冲掉你改过的">
-重跑 `/setup-pstack` 时，模型和默认值不一样的角色（就是你特意改过的）会被保留。所以放心重跑。重跑还会顺手删掉已经废弃的角色行，并告诉你删了哪些。
+<Callout type="ok" title="放心重跑">
+重跑 `/setup-pstack`，你特意改过的角色会保留。改完开一个新对话，才会生效。
 </Callout>
 
-改完同样要开一个新对话（Cursor 和 Claude Code）才生效。
+## 卸载以后：把设置文件也删掉
 
-## 卸载以后：设置文件还在
+卸载不会删设置文件。Claude Code 每个新会话都会读它，白占地方。彻底不用了，把上面表里那个文件也删掉。
 
-卸载技能或插件，不会顺手删掉你的模型设置文件。在 Claude Code 里要特别注意：它会把 `~/.claude/rules/` 里所有的 `.md` 文件读进每一个新会话。卸了 pstack 但留着 `pstack-models.md`，这些角色行还是会出现在每个会话里，白占地方。
-
-彻底不用了，就把上面表里对应的那个文件也删掉。
-
-另外，如果你当时让 `/setup-pstack` 生成过<Term k="验证技能" />（项目里的 `verify-你的应用` 这类文件夹），它属于你的项目，不会跟着 pstack 一起卸掉。还想用就留着，不想要就自己删。
+生成过的<Term k="验证技能" />（`verify-你的应用` 这类文件夹）属于你的项目，不会跟着卸掉。
 
 ## 卡住了？
 
-<Q q="更新完了，跑起来用的还是老模型。">
-多半就是上面说的旧设置文件。打开它看看那个角色的行，删掉或者重跑 `/setup-pstack`。然后开一个新对话。
-</Q>
-<Q q="Claude Code 里的 pstack 一直不更新。">
-第三方插件市场默认不自动更新。手动跑 `claude plugin update pstack@cursor-plugins`，或者在 `/plugin` 的 marketplaces 标签页里给 `cursor-plugins` 打开自动更新。
+<Q q="更新完了，用的还是老模型。">
+多半是旧设置文件。删掉那个角色的行，或者重跑 `/setup-pstack`，再开一个新对话。
 </Q>
 <Q q="npx skills list 里看不到 pstack 的技能。">
-确认你是在当初安装的那个项目文件夹里运行的。用 `-g` 装到用户目录的，和装在项目里的，是两份不同的位置。
+确认你在当初安装的项目文件夹里运行。装在项目里的和用 `-g` 装的，不在同一个地方。
 </Q>

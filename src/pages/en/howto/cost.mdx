@@ -1,10 +1,11 @@
 ---
 layout: ../../../layouts/HowTo.astro
 slug: cost
-time: 8-minute read, 5 minutes to change settings
-for: pstack feels like it burns too many tokens, and you want to spend less
+time: 5 minutes to read, 5 to change settings
+for: You think pstack burns too many tokens and want to save a bit
 step: 2
-description: Why pstack costs more than plain chat and where the money goes; what the four budget tiers mean; how to use a strong model for the main conversation and a cheap one for writing code; what auto and inherit-parent are; how to shrink the review panel; and when not to use /poteto-mode.
+tldr: Just ask for small things. For big ones, use a strong main model and cheap coding models, or drop a budget level.
+description: Where pstack's money goes; skip /poteto-mode for small things; a strong main model with cheap coding models; the four budgets; smaller review panels; what auto and inherit-parent mean.
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
@@ -14,85 +15,73 @@ import Cmd from "../../../components/Cmd.astro";
 
 ## Where the money goes
 
-The same task done with `/poteto-mode` costs quite a few more <Term k="token" text="tokens" /> than just chatting with the AI. The extra comes mostly from three places:
+The same job costs a lot more <Term k="token" text="tokens" /> (AI usage) with `/poteto-mode`. The extra goes to three places:
 
-- **Subagents.** It hands off work like reading and writing code to <Term k="子代理" text="subagents" />, and each subagent costs its own share.
-- **Review panels.** Skills like `arena`, `architect`, and `interrogate` have several models each do the task or each pick at it. By default each panel has two models, so that's two shares.
-- **Reasoning level.** The default is `xhigh`, which makes the model think long and carefully. The longer it thinks, the more it costs.
+- **Helper AIs.** Reading and writing code goes to several <Term k="子代理" text="subagents" />, and each one costs separately.
+- **Review panels.** `arena`, `architect`, and `interrogate` have several models each do a pass. The default is two, so two costs.
+- **Thinking longer.** The default level is `xhigh`. The longer it thinks, the more it costs.
 
-That's the price of rigor. The extra money buys reproduction, verification, and a second look from a different model. The tips below spend a bit less without giving those up.
+That money buys checks and second opinions. The moves below spend less without losing them.
 
-## Switch to a different budget
+## Skip /poteto-mode for small things
 
-The most direct way: run model setup again and pick a smaller budget.
+A typo, a color tweak, one more log line: if you can see at a glance whether it's right, just ask.
+
+- **Only want to know how**: use `/poteto-help`. It answers and doesn't start work.
+- **Don't understand the code yet**: ask `/how` first. It's cheaper than redoing a wrong change.
+
+## Strong main model, cheap models for code
+
+<mark>Run the main conversation, the one you talk to, on a strong model. Switch the code-writing roles to cheaper models.</mark>
+
+The main conversation has to understand you and review changes, so skimping there causes mistakes. Coding helpers get clearly scoped work, which cheaper models handle well.
+
+Run `/setup-pstack`. At the last step, "confirm roles," change the `feature, refactoring`, `bug-fix`, and `perf-issue` lines to a cheaper model.
+
+## Drop a budget level
 
 <Cmd c="/setup-pstack" />
 
-(In Claude Code it's `/pstack:setup-pstack`.) It gives you four options:
+(In Claude Code it's `/pstack:setup-pstack`.) It offers four budgets:
 
-| Budget | Reasoning level | What it means |
+| Budget | Level | Notes |
 | --- | --- | --- |
-| `unlimited` | Up to `max` | Pushes every model to its highest level. opus goes up to `max`. grok tops out at `xhigh`, so it stays the same |
-| `large` | `xhigh` | Exactly the same as the default |
-| `medium` | `high` | Thinks a bit less, costs a bit less |
-| `small` | `medium` | The cheapest. opus and grok both drop to `medium` |
+| `unlimited` | Up to `max` | Most expensive |
+| `large` | `xhigh` | The default |
+| `medium` | `high` | A bit cheaper |
+| `small` | `medium` | Cheapest |
 
-The budget only changes how long models think, not which model is used. Any roles you've changed yourself (a different model, or something like `auto`) are kept when you rerun it.
+The budget only changes how long models think, not which models. Roles you changed yourself are kept. <u>Start a new conversation after you pick</u>, or it won't apply.
 
-<u>Start a new conversation after you choose</u>, so the new settings take effect.
-
-<Callout type="tip" title="It already sizes the effort to the task">
-The budget sets each role's starting point. Before `/poteto-mode` sends out each subagent, it also adjusts for how hard the work is: the hardest goes up one level, judgment calls go down one, and routine chores go down two or more. So even on `large`, simple work isn't charged at the top rate.
+<Callout type="tip" title="It already adjusts to the job">
+The budget is only the starting point. It raises the level one step for the hardest work, and lowers it two or more for routine chores. So even on `large`, simple work isn't billed at the top rate.
 </Callout>
 
-## Strong model for the main conversation, cheap one for code
+## Send one fewer reviewer
 
-A combination that works well: <mark>use a strong model for the main conversation you're chatting in, and switch the code-writing roles to a cheaper, faster model</mark>.
-
-The reason is that they do different jobs. The main conversation has to understand what you mean, make judgment calls, and review the changes subagents hand back. Cutting corners there leads to mistakes. The code-writing subagents get specific, clearly described tasks, which a cheaper model can usually handle, and the main conversation checks the work afterward.
-
-At the last step of `/setup-pstack`, "confirm roles," switch the `feature, refactoring`, `bug-fix`, and `perf-issue` rows to a cheaper model you have.
-
-## auto and inherit-parent: follow the main conversation
-
-Setting a role to `auto` or `inherit-parent` means: when sending out a subagent, don't specify a model, and let it use the same model as the main conversation. The two words mean exactly the same thing.
-
-<Callout type="warn" title="It's not a model name">
-`auto` here isn't "some model called auto." It means "leave this blank and follow the main conversation." If your main conversation itself uses Cursor's Auto or a cheap model, setting a role to `auto` makes the subagent cheap too.
-</Callout>
-
-In Claude Code, the default grok roles are already replaced with `inherit-parent`, because grok isn't available there. So what those roles cost depends on which model your session uses.
-
-## Shrink the review panel
-
-The values for `arena runners`, `architect runners`, and `interrogate reviewers` are lists, and **it sends out one subagent per item in the list**. The default is two items:
+The `arena runners`, `architect runners`, and `interrogate reviewers` lines send one helper per model listed. The default is two:
 
 <Copy id="cost-panel-before" title="Default: two per panel" code={`arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
 interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
 
-Remove one item and you have one fewer subagent. The cost is losing the layer where two model families check each other: different models find different problems, and a conclusion both agree on is more trustworthy.
-
-You can also leave the settings alone and say it per task. When a decision matters, say "give me 5 options." When it doesn't, ask for fewer:
+Delete one and you pay for one less, but you also lose one model's view. You can also say it per task:
 
 <Copy id="cost-arena" code="/arena this naming question isn't a big deal. 2 options is enough." />
 
-## Don't use /poteto-mode for small things
+## auto and inherit-parent: follow the main conversation
 
-The cheapest trick of all: only use `/poteto-mode` for work that needs rigor. Fixing a typo, adjusting a color, adding a log line: changes where you can tell at a glance whether they're right. Just ask directly. No playbook, no subagents, no evidence needed.
+Putting `auto` or `inherit-parent` on a role means the same thing: no model is set, so it uses the main conversation's model. `auto` isn't a model called auto.
 
-Two more habits that don't cost much:
-
-- **If you only want to ask "how should I do this," use `/poteto-help`.** It only answers your question and gives you a prompt you can send as-is. It **doesn't start working**. That's on purpose: a real pstack run costs real tokens, so it leaves the decision to send to you.
-- **When in doubt, ask `/how` first.** Understanding how the code works is much cheaper than letting `/poteto-mode` make a round of changes based on a misunderstanding and then redoing them.
+When the main conversation is cheap, these roles are cheap too. In Claude Code, the coding roles use it by default.
 
 ## Stuck?
 
-<Q q="After switching to small, the results got noticeably worse.">
-Try `medium` first. Or keep `large` and switch only the code-writing roles to a cheaper model, leaving the judgment and review roles alone. A wrong judgment call usually costs more than the tokens you save.
+<Q q="After switching to small, results got noticeably worse.">
+Try `medium` first. Or keep `large` and only switch the coding roles to a cheaper model. A bad judgment call usually costs more than the tokens you save.
 </Q>
 <Q q="I edited a model name in the settings file by hand, and it says the model isn't available.">
-`/setup-pstack` only writes models it detected you can really use. A hand-written name may be misspelled, or you may not have access. When a model is rejected, the skill falls back to that role's default model and says so in the reply. To change models, rerun `/setup-pstack` and choose from the options it lists.
+The name may be misspelled, or you may not have access. It falls back to the default model and says so. To change models, rerun `/setup-pstack` and pick from its list.
 </Q>
-<Q q="I changed the budget, and the cost didn't change.">
-New settings only apply to new conversations. Start a new one and check again. Tools like Codex don't have the "new conversation" rule, but make sure the settings file `~/.agents/pstack-models.md` was really written.
+<Q q="I changed the budget, but the cost didn't change.">
+New settings only apply to new conversations. Start a new one and check again. On tools like Codex, make sure `~/.agents/pstack-models.md` was actually written.
 </Q>

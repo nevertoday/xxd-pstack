@@ -2,87 +2,86 @@
 layout: ../../../layouts/Guide.astro
 step: 4
 need: A module you don't know well, or a problem with an unknown cause
-description: "Have the AI explain before you change code: read-only investigation, /how for how it works now, /why for why it was built that way, /teach until you really get it, /recall to bring back your own context."
+tldr: Before changing code, have the AI explain how it works now, why it was built that way, and where you left off.
+description: "Have the AI explain before you change code: investigate without touching anything, /how for now, /why for back then, /teach until you get it, /recall for where you left off."
 ---
-import Callout from "../../../components/Callout.astro";
 import Checkpoint from "../../../components/Checkpoint.astro";
-import Term from "../../../components/Term.astro";
 import Copy from "../../../components/Copy.astro";
 import Q from "../../../components/Q.astro";
 
-## Why understand first
-
-<mark>Changing code you don't understand is the number one way subtle bugs reach production.</mark> The same goes for AI.
-
-When AI gets it wrong, there are usually only two reasons: **it misunderstood what you want**, or **it didn't have the context it needed to do the job right**. The prompt-writing in Step 3 handles the first. This step handles the second.
-
-pstack gives you four ways in. They share a side benefit: each one makes the AI explain its understanding in words you can check. That's how you supervise an AI that may know this code better than you do.
-
-| Skill | The question it answers |
-| --- | --- |
-| `/how` | How does this code work **now**? |
-| `/why` | Why was it **built this way**? Does the reason still hold? |
-| `/teach` | Both of the above, explained until I **really get it** |
-| `/recall` | Where did **I** leave off on this? |
-
-## Unknown cause? Ask for findings, not a fix
+## Unknown cause: have it investigate, not fix
 
 <Copy id="inv" code="/poteto-mode Find out why the background job times out every few hours. Tell me the known facts, what data you used, and your strongest guesses. Don't change any code yet." />
 
-"Don't change any code yet" sends it into the read-only Investigation <Term k="剧本" text="playbook" />: it runs `/how`, adds `/why` for any "why" questions, and ends with an explanation that cites its sources. When there are several options to choose from, you get one recommendation plus a table of pros and cons.
+"Don't change any code yet" makes it only investigate, without touching anything. It ends with an explanation, and each point says where it came from.
 
-The "what data you used" part is worth a lot: it makes it write the **evidence** and the **guesses** separately. When the findings point to a fix, start a new task to make it (say "new task").
+The "what data you used" part makes it write evidence and guesses separately.
 
-## /how: how it works now
+Once you know the cause and want it fixed, say "new task" to start a new task for the fix.
 
-Ask what you actually want to know:
+## Before you change anything, have it explain
+
+<mark>Changing code you don't understand is the number one way hidden bugs reach production.</mark> The same goes for AI.
+
+pstack has four skills for this:
+
+| Skill | What it answers |
+| --- | --- |
+| `/how` | How does it work now? |
+| `/why` | Why was it built this way? |
+| `/teach` | Explain until I get it |
+| `/recall` | Where did I leave off? |
+
+Each one says its understanding out loud. That lets you check whether it got it right.
+
+## Ask how it works now: /how
 
 <Copy id="how" code="/how How are notifications deduplicated? Is there an N+1 query when looking up subscribers?" />
 
-It reads the code and answers the way a senior coworker would walk you through a module: the runtime flow, the key data types, the parts that aren't obvious. For a big module, it first sends out two to four read-only <Term k="子代理" text="subagents" /> to read in parallel. For a narrow question, it just reads and explains.
+Ask what you really want to know. It reads the code and explains it like a senior coworker showing you around: how the code runs, the key data, the parts that are easy to miss.
 
-## /why: why it was built this way
+For a big module, it first sends a few helper AIs to read different parts.
+
+## Ask why it was built this way: /why
 
 <Copy id="why" code="/why Why is the retry limit 5? Does that reason still hold?" />
 
-It goes through the Git history first, then checks the other sources you've connected (issues, docs, team chat, monitoring, error tracking, and so on, depending on which MCPs you've installed), all in parallel. Every point in the report cites a source, direct evidence is kept apart from inference, and when the record is thin it says "it looks like." If it finds nothing, it says so, because "nobody wrote down why at the time" is an answer too.
+It goes through the Git history first. Then it checks the other places you've connected, like issues, docs, and chat. Every point cites a source, and it keeps evidence apart from guesses.
 
-The two work well together: when you suspect history explains the mess in front of you, say "why first, then how."
+If it finds nothing, it says so. "Nobody wrote down why" is an answer too.
 
-## /teach: until you really get it
+To use both, say "why first, then how."
 
-<Copy id="teach" code="/teach Walk me through how this PR changes retries. Convince me it fixes the root cause, not a symptom." />
+## Explain until you get it: /teach
 
-Use it when a summary isn't enough. It runs `/how` and `/why` (for small changes it may run just one), then turns the results into a plain-language explanation that builds up one diagram at a time.
+<Copy id="teach" code="/teach Walk me through how this PR changes retries. Convince me it fixes the real cause, not a surface symptom." />
 
-"Convince me" is a phrase worth using often: it turns a tour into an argument you can push back on. You can also use it to question the AI's own choices:
+Use it when a summary isn't enough. It runs `/how` and `/why`, then writes it all up in plain words.
+
+"Convince me" is worth using often: it lets you push back on what it says. You can also use it to question the AI's own choices:
 
 <Copy id="teach2" code="/teach Explain why you implemented it this way instead of with a queue. What did you give up, and why?" />
 
-To explain, it has to actually read the code and find evidence for each claim, instead of sounding confident and moving on.
-
-## /recall: bring back your own context
+## Find where you left off: /recall
 
 <Copy id="recall" code="/recall Help me remember where I left off on the export feature last week" />
 
-It goes through your recent conversation history, plus shared records (issues, past fixes, errors still being reported), and hands you a brief: where things stand and what's next. When you start new work on an old topic, have it load the context first, then give it the new material:
+It goes through your recent conversations, plus shared records (issues, past fixes). Then it tells you where things stand and what's next.
+
+When you start new work on an old topic, have it bring back the earlier work first, then give it the new material:
 
 <Copy id="recall2" code="/recall my work on the virtual list yesterday, then read this bug report." />
 
-## Picking up unfinished work from someone else (or last week's you)
+## Pick up unfinished work
 
 <Copy id="pickup" code="/poteto-mode Pick up this branch. Read the decision log, figure out what's done, and continue from there. Don't redo work that's already finished." />
 
-The pickup playbook treats the records left behind as its source of truth: it rebuilds the branch state and the decisions made, says where it will pick up, and checks the parts someone said were "done" against the original goal.
-
-<Callout type="warn" title="Don't skip this step because “it'll read the code anyway”">
-An AI that starts changing code before it understands it tends to fix the symptom at the first spot that looks right. Running `/how` once is cheaper than one more bug.
-</Callout>
+It reads the records left behind and says where it will pick up. For parts someone said were "done," it checks them again against the original goal.
 
 ## Stuck?
 
 <Q q="/why says it can't find the reason.">
-<p>That's normal. It can only search the sources you've connected. For it to search issues, chat history, and docs, connect the matching MCP in your tool first (GitHub, Linear, Slack, Notion, for example). Without them, it will at least go through the Git history.</p>
+<p>That's normal. It can only search places you've connected. To search issues, chat, and docs, connect the matching MCP in your tool first (GitHub, Linear, Slack, Notion, for example). Without them, it will at least go through the Git history.</p>
 </Q>
 <Q q="It's too technical.">
 <p>Say "explain it for someone new to this project," or type <code>/bro</code> after it's done.</p>

@@ -19,6 +19,7 @@ const T = en
     <div class="step-head__eyebrow"><span>{T.eyebrow}</span><span>{t(s, "minutes", lang)}</span></div>
     <progress class="xxd-progress" value={s.n} max={total} aria-label={T.prog}></progress>
     <h1>{title}</h1>
+    {frontmatter.tldr && <p class="page-tldr"><span class="page-tldr__label">{en ? "In one line" : "一句话"}</span>{frontmatter.tldr}</p>}
   </header>
   <article class="xxd-prose"><slot /></article>
   <Feedback page={en ? `Lesson ${s.n} ${title}` : `第 ${s.n} 课 ${title}`} />

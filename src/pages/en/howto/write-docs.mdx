@@ -2,75 +2,34 @@
 layout: ../../../layouts/HowTo.astro
 slug: write-docs
 time: One conversation per README
-for: You need to write a README, user docs, or a PR description, and don't want to hand over something that obviously came from AI
+for: You need a README, user docs, or a PR description that doesn't read like AI wrote it
 step: 5
-description: Use /technical-writing to pick a doc type before writing, /sharpen to tighten your request, write the README first for shared code, and finish with /unslop to strip out the AI tone.
+tldr: Have /technical-writing sort each section into a doc type first, run every step, then strip the AI tone with /unslop.
+description: Use /technical-writing to pick a doc type before writing, /sharpen to tighten your request, write the tutorial first for shared code, and finish with /unslop to strip out the AI tone.
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 
-## AI's usual habits with docs
-
-Ask an AI for a README and you often get this: an opening line saying "this is a powerful tool," then install steps, a section on design philosophy wedged in the middle, a table of every option, and a closing "hope this helps." A bit of everything, and not much use to any reader.
-
-A beginner learning how to use it wants step-by-step instructions to follow. Someone who already knows it and is looking up an option wants a clean table. Mix the two, and both have to skip around.
-
-Two pstack <Term k="技能" text="skills" /> do most of the work on docs: `/technical-writing` handles how to write, and `/unslop` strips out the AI tone.
-
-If you installed pstack as a Claude Code plugin, add `pstack:` before the command, like `/pstack:unslop`. See [Using pstack in Claude Code](/en/howto/claude-code/).
-
-## Pick the type first: /technical-writing
-
-The first rule of `/technical-writing` is: <mark><strong>one document does one job</strong></mark>. Before writing, it asks two questions. Does the reader want to do something, or understand something? Are they learning, or working? Combine the two answers and you get four kinds of docs:
-
-| | Learning | Working |
-| --- | --- | --- |
-| **Doing** | Tutorial: follow along once and see a result at every step | How-to: steps to solve one specific problem |
-| **Understanding** | Explanation: why it's designed this way, and what the tradeoffs are | Reference: options, flags, error codes, facts only |
-
-If a README needs several kinds, split it into sections that link to each other, instead of stirring them together. For example, install and first use as a tutorial, and the options table in a reference section.
+## Copy this first
 
 <Copy id="doc-tw" title="Write a README" code="/technical-writing Write a README for this Node CLI. First tell me which doc type each section should be, and write it once I've confirmed." />
 
-Besides the type, it also looks after sentences: talk to the reader as "you," use the present tense, one idea per sentence, put conditions before actions, write instructions as commands, and don't say "simple," "easy," or "quick." Use the same names the codebase uses, with no synonyms.
+AI-written READMEs often have a bit of everything: install steps, philosophy, and an option table, all mixed up. Beginners and people looking up options both have to skip around.
 
-## Sharpen the request before writing: /sharpen
+The first rule of `/technical-writing`: <mark><strong>one doc does one job.</strong></mark> It sorts each section into one of four types:
 
-If you're not sure your request is asking the right thing, run `/sharpen` first:
+- **Tutorial**: follow along once, and see a result at every step.
+- **How-to guide**: steps to solve one specific problem.
+- **Explanation**: why it's designed this way, and the tradeoffs.
+- **Reference**: options, flags, error codes. Facts only.
 
-<Copy id="doc-sharpen" code="/sharpen Write onboarding docs for the new billing service." />
+If a README needs several types, split it into parts that link to each other.
 
-It **won't** write the docs. First it tells you four things: what an expert in this area would do that you didn't ask for, what raw material an expert would start from, what methods and tools they'd use, and what, besides you and the AI, could prove the result is right. Then it rewrites your request to ask deeper rather than broader, and leaves the decisions that are yours to you. Read the rewrite, and if it looks right, send it.
+## A Node CLI example
 
-## For shared code, write the README first
-
-If you're building a package or interface that other code will call, you can flip the order: **write the docs first, then the code**.
-
-<Copy id="doc-readme-first" title="Write the tutorial first" code="/poteto-mode write a tutorial for how i would use the new config package first. then /teach me why it beats the current one." />
-
-This is the example prompt from pstack's own docs.
-
-Writing the tutorial first forces it to think from the caller's side: how someone will write the code, what they do first, what they'll see. The finished tutorial also becomes a concrete target you can check the code against later.
-
-## Strip the AI tone at the end: /unslop
-
-Follow `/unslop` with what to clean up, then add your own rules:
-
-<Copy id="doc-unslop" code="/unslop the readme changes, no emdashes" />
-
-This is the example from pstack's own docs. Its built-in rules target the usual AI tells in English: em dashes everywhere, "it's not just X, it's Y," lists of three for rhythm, empty closing lines. If there are other words that bother you, add them to the rules, like "no 'seamless,' no 'leverage.'"
-
-Once you're used to it, it understands short requests too, like "unslop this, make it tighter."
-
-<Callout type="tip" title="A PR description is a doc too">
-The playbook that opens a <a href="/en/wiki/pr/">PR</a> uses <code>/technical-writing</code> for the title, description, and commit messages, then runs <code>/unslop</code> over them. The description is a one-minute briefing for reviewers, with fixed sections: Why, What changed, Scope, Tradeoffs, Blast Radius, Verification. Sections with nothing to say are deleted. Detailed run logs go in links, not in the body.
-</Callout>
-
-## An example from a real project
-
-Say you have a Node CLI that batch-exports Markdown notes to HTML. Now you need a README to put on GitHub.
+A CLI that batch-exports Markdown notes to HTML needs a README for GitHub:
 
 <Copy id="doc-cli" title="Node CLI example" code={`/technical-writing Write a README for this CLI.
 Write install and the first export as a tutorial: at each step, tell the reader what output they should see.
@@ -78,21 +37,54 @@ Put all options in a separate reference section, built from the real output of -
 When you're done, follow the tutorial from scratch in an empty folder, make sure every command works, and paste the terminal output.
 Finally, run /unslop over it: no em dashes, no "powerful," no "effortless."`} />
 
-The most useful part here is "follow the tutorial in an empty folder." You can argue about whether docs read well. You can't argue about whether the commands run. If a step fails, the tutorial is missing a step.
+- **"Follow the tutorial in an empty folder"**: the most useful line. You can argue about style. You can't argue about whether a command runs.
+- **"Built from the real output of --help"**: reference docs state facts, and the facts come from the code.
+- **"Finally, run /unslop"**: strips the AI tone, plus any words you don't want.
 
-"Built from the real output of --help" works the same way: reference docs state only facts, and the facts come from the code.
+## Where to look after you send it
+
+**At the start: how it sorted the types.** If philosophy ended up in the getting-started part, correct it right away.
+
+**At the end: the terminal output.** If a step fails, the tutorial is missing a step.
+
+## Strip the AI tone at the end: /unslop
+
+<Copy id="doc-unslop" code="/unslop the readme changes, no emdashes" />
+
+Its built-in rules target common AI tone in English: overused em dashes, forced lists of three, empty endings. Add any words you care about to the rules, like "no 'seamless,' no 'empower.'"
+
+## Code others will call: write the tutorial first
+
+For a package or API that other code will use, you can write the docs before the code:
+
+<Copy id="doc-readme-first" title="Write the tutorial first" code="/poteto-mode write a tutorial for how i would use the new config package first. then /teach me why it beats the current one." />
+
+Writing the tutorial first makes it think like the user: what to write first, and what you'll see. The tutorial also becomes the target to check the code against.
+
+## Not sure you asked the right thing: /sharpen
+
+<Copy id="doc-sharpen" code="/sharpen Write onboarding docs for the new billing service." />
+
+It doesn't write the docs. It rewrites your request to be sharper. For example: what an expert would also do, what source material they'd start from, and what could prove the result right. Read the rewrite. If it looks right, send it.
+
+<Callout type="tip" title="A PR description is a doc too">
+When it opens a <Term k="PR" />, it writes the description with <code>/technical-writing</code> and runs <code>/unslop</code> over it. The description is a one-minute brief for reviewers. Empty sections get deleted.
+</Callout>
 
 ## Stuck?
 
 <Q q="The README still has a bit of everything.">
-Reply: "Split it the technical-writing way: keep only the tutorial in the getting-started part, move the options table to the reference section, and put the design philosophy in its own explanation section. Don't mix them."
+Reply: "Split it the technical-writing way: keep only the tutorial in getting started, move the option table to the reference section, and give the design ideas their own explanation section. Don't mix them."
 </Q>
-<Q q="I ran /unslop and it still reads like AI.">
-List the specific words and phrases that bother you and add them as extra rules after the command, like "/unslop this section, no em dashes, no 'seamless' or 'empower', no sentence over 25 words." The more specific the rules, the more precise its edits.
+<Q q="I ran /unslop, and it still sounds like AI.">
+List the exact words and phrases that bother you, and add them after the command. For example: "/unslop this section, no em dashes, no 'seamless' or 'empower,' sentences under 20 words." The more specific the rules, the better it does.
 </Q>
 <Q q="/sharpen didn't write my docs.">
-That's by design. It only rewrites your request. Read the rewrite, and if it looks right, send the rewritten request on, for example to <code>/poteto-mode</code> or <code>/technical-writing</code>.
+It only rewrites the request. Send the rewritten request to <code>/poteto-mode</code> or <code>/technical-writing</code>.
 </Q>
 <Q q="The PR description is too long.">
-Reply: "A PR description is a one-minute briefing. One to three sentences per section, and put detailed data in linked files."
+Reply: "A PR description is a one-minute brief. One to three sentences per section. Put detailed data in a linked file."
+</Q>
+<Q q="Nothing happens when I type these commands in Claude Code.">
+If you installed pstack as a plugin, add <code>pstack:</code> in front, like <code>/pstack:unslop</code>. See <a href="/en/howto/claude-code/">Using pstack in Claude Code</a>.
 </Q>

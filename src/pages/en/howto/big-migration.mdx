@@ -2,64 +2,46 @@
 layout: ../../../layouts/HowTo.astro
 slug: big-migration
 time: 5 minutes before bed, 15 minutes in the morning
-for: You have a big, mechanical migration and want the AI to run it overnight, so you can review it with confidence the next morning
+for: You have a big, mechanical migration and want the AI to run it overnight, then review it with confidence in the morning
 step: 7
-description: "Hand off a big migration before bed: spell out the goal and a done condition that can pass or fail, run it in a fresh worktree, keep a decision log, /loop until done, and audit it the next day with /show-me-your-work."
+tldr: Before bed, give it a goal and a pass-or-fail done condition. Let it run all night, then check the evidence in the morning.
+description: "Hand off a big migration before bed: a goal and a pass-or-fail done condition, a fresh worktree, a decision log, /loop until done, and a morning check with /show-me-your-work."
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 
-## First, make sure it's ready for an overnight run
-
-Letting an AI run on its own all night <mark>only works if it can check its own work</mark>. Otherwise the loop just produces unchecked code faster, and the mess keeps piling up.
-
-Before you let go, check these four things:
-
-1. You've done this task yourself once, or watched the AI do it once, and you know what done right looks like.
-2. It has the tools and signals you'd use yourself: a <Term k="验证技能" />, a profiler, logs.
-3. Every step proves it was done right, and it can stop when something falls short.
-4. You've read a few of its transcripts and turned the mistakes that kept coming up into tools, skills, or checks.
-
-Only let it run on its own once all four are true. Until then, run it with the session open and keep an eye on it.
-
-## What to say before bed
-
-A good handoff has a goal, a done condition, permission given in advance, and a way out. It doesn't need to be long:
+## Copy this first
 
 <Copy id="mig-contract" title="The bedtime handoff" code={`/poteto-mode I'm going to bed. In a fresh worktree off <base>, migrate every caller to the new parser.
 Done means: zero old callers, all parser fixtures pass, and the old API is deleted.
 Keep a decision log. You don't need to ask me before committing.
 /loop until done. If you're truly stuck after a few hours, stop and write up why.`} />
 
-Here is the original wording, as pstack's docs give it:
+The original wording, from pstack's docs:
 
 <Copy id="mig-contract-en" title="The original wording" code={`/poteto-mode im going to bed. migrate every caller to the new parser in a fresh worktree off <base>.
 done means zero old callers, all parser fixtures pass, old api deleted.
 keep a decision log. don't ask me before committing.
 /loop until done. if you're truly stuck after a few hours, stop and write up why.`} />
 
-Each line does one job:
+## What each line does
 
-| This line | What it gets you |
-| --- | --- |
-| "I'm going to bed" | Tells it not to stop and ask you anything in this conversation, just keep going |
-| "Done means…" | Turns the goal into a check it can run every round |
-| "Fresh worktree" | Keeps it from colliding with your other open work. See [worktree](/en/wiki/worktree/) |
-| "You don't need to ask me before committing" | Answers in advance the question it would otherwise stop and wait on |
-| `/loop` | The loop command built into Cursor and Claude Code, not a pstack skill. It makes the AI keep coming back to check the done condition |
-| The way out | When it truly hits a dead end, stopping to write up why beats eight hours of "creatively reinterpreting the goal" |
-
-If you installed pstack as a Claude Code plugin, write `/pstack:poteto-mode`. See [Using pstack in Claude Code](/en/howto/claude-code/). `/loop` is built into the host, so it has no prefix.
+- **"I'm going to bed"**: don't stop to ask you. Keep going.
+- **"Done means"**: a check it can run every round.
+- **"A fresh worktree"**: a separate workspace (a <Term k="worktree" />), so it doesn't touch your other open work.
+- **"You don't need to ask me before committing"**: answers the question it would otherwise stop to ask.
+- **`/loop until done`**: makes it keep coming back to the done condition. `/loop` is built into Cursor and Claude Code. It isn't a pstack skill.
+- **The way out**: if it's truly stuck, it stops and explains why, instead of grinding all night.
 
 <Callout type="no" title="Time spent isn't a done condition">
-"Work on this for 4 hours" gives it nothing it can check. When you wake up, you'll see 4 hours of activity, not a result. Give <code>/loop</code> a condition that can clearly pass or fail.
+"Work on this for 4 hours" gives it nothing to check. Give <code>/loop</code> a condition that can pass or fail.
 </Callout>
 
-## An example from a real project
+## A Chrome extension example
 
-Say your Chrome extension has dozens of files that call `chrome.storage.sync` directly. You've written a new `settings` module and want to move every call over to it, then delete the old `getPref` helper.
+Dozens of files call `chrome.storage.sync` directly. You wrote a new `settings` module and want every call moved over, then the old `getPref` deleted.
 
 <Copy id="mig-ext" title="Chrome extension example" code={`/poteto-mode I'm going to bed. In a fresh worktree off main, move every direct call to chrome.storage.sync over to the new settings module.
 Done means:
@@ -71,61 +53,60 @@ Keep the behavior exactly the same. If you find bugs during the migration, note 
 Keep a decision log. You don't need to ask me before committing.
 /loop until done. If you're truly stuck, stop and write up why.`} />
 
-Each of the four done conditions can clearly pass or fail: the output of one grep, the result of one test run, whether two names still exist, and one screenshot. In the morning, those four are all you need to look at.
+- **Four done conditions**: one grep, one test run, whether two names still exist, one screenshot. Each passes or fails. In the morning, check just these four.
+- **"Don't fix bugs along the way"**: so before and after compare directly.
 
-"Don't fix bugs along the way" keeps the before and after directly comparable. If it fixes things while migrating, you can't tell which differences are fixes and which are breakage.
+## Before you let go: can it check itself?
 
-## What it does overnight, and how to stop it
+<mark>Letting it run all night only works if it can check its own work.</mark> Otherwise it just piles up unchecked code faster. Let go only when all four are true:
 
-Since this work will wait for you to review it, `/poteto-mode` hands it to `/figure-it-out`, which first designs the whole run: what phases it has and how each gets verified. Only then does it write code. After that, every round is the same loop:
+1. **You've done it once.** By hand, or by watching the AI. You know what done looks like.
+2. **It has the tools.** The <Term k="验证技能" />, profiler, and logs you'd use.
+3. **Each step proves itself.** It can stop when a step falls short.
+4. **Repeat mistakes are covered.** You read its transcripts and turned repeat errors into checks.
 
-1. Check the done condition.
-2. Make the smallest change the evidence supports.
-3. Verify it on the real output.
-4. If it made progress, commit. If not, throw the change away.
-5. Write a line in the <Term k="决策日志" />.
+If not, run it while you watch.
 
-Changes that "might help" don't stay. When it hits a plateau, it tries a different approach instead of stopping. The done condition is never quietly loosened to declare success.
-
-To stop it **on purpose**, say because you need to close your laptop or restart your editor, tell it clearly "pause" or "I'm going offline." That runs the Pause safely <Term k="剧本" />: it finishes or backs out of the current step, commits any uncommitted changes as a `wip:` commit, and writes a note on how to resume. Later, start a new conversation, and it picks up from the note through the Session pickup playbook.
-
-Note: phrases like "keep going" or "continue" never trigger a pause.
-
-## What to look at in the morning
-
-When you're back, have it package the whole night's work into something you can review:
+## Where to look in the morning
 
 <Copy id="mig-audit" title="Morning audit" code="/show-me-your-work tell me what you did last night" />
 
-The decision log is a TSV file, by default `decisions.tsv` in the working directory, and it isn't committed to the repo. Each line has: time, phase, decision, reason, evidence (commit hash, file and line, screenshot path), and outcome.
+**Read the Attention section at the end first.** A helper from a different model family reads the log first. Attention lists what deserves a closer look, like decisions with weak evidence. Follow those log lines.
 
-Before handing back its summary, it sends a <Term k="子代理" /> from a **different model family** to read the log and the transcript. At the end of the reply there's an **Attention** section listing what deserves a closer look: decisions with thin evidence, verification it claimed but that doesn't show up in the records, and choices that look risky in hindsight. **Read Attention first**, then follow it to the log lines it points to. What you're reviewing is the decisions, not the whole night all over again.
+The <Term k="决策日志" /> is `decisions.tsv` in the work folder by default, and isn't committed. Each row is one decision, with its reason and evidence.
 
-If you only want a quick progress check, not an audit, type `/ketchup` in the conversation that's running the work. It only reads, never changes anything. It tells you in plain words what has changed since your last message, then lists what's waiting on your decision, each with its recommendation, evidence, and risk.
+Just want a quick status? Type `/ketchup` in the running conversation. It only reads. It tells you what changed and what's waiting for your call.
 
-## More than one thing in a night
+## Stopping partway
 
-The handoff above is one task with one done condition. If you have a series of independent changes, or a big project that will run for days, there are three playbooks:
+If you need to close your laptop or restart your editor, say "pause" or "I'm going offline." It commits unsaved work as a `wip:` commit and writes notes for picking up later. Start a new conversation and have it take over. It continues from the notes.
 
-| Playbook | Good for | Does it merge? |
-| --- | --- | --- |
-| Autopilot-stack | A series of changes you want to look over yourself in the morning before merging | No. You wake up to verified PRs, each with its verdict |
-| Autopilot-full | A series of independent PRs you want merged by morning | Yes. Each PR merges only after a verifier who didn't write it signs off |
-| Orchestrate | A big project spanning days, many PRs, and many subagents | Each PR's owning agent merges it. The coordinator writes no code itself |
+"Keep going" or "continue" never makes it pause.
 
-If you're unsure, pick Autopilot-stack. You still get a say before anything merges. These three playbooks were designed for Cursor's cloud agents. In other hosts, some steps are skipped, with the reason written down.
+## More than one job overnight
+
+For a series of changes, or a project that runs for days, there are three <Term k="剧本" text="playbooks" />:
+
+- **Autopilot-stack: doesn't merge.** In the morning you see verified PRs and decide yourself.
+- **Autopilot-full: merges.** Each PR merges only after a different helper verifies it.
+- **Orchestrate: multi-day projects.** The coordinator writes no code itself.
+
+Not sure? Pick Autopilot-stack. You still get the final say before merging.
 
 ## Stuck?
 
-<Q q="I woke up, it says “done,” but I'm not sure.">
-Don't trust the summary. Look at the evidence: rerun each check in the done condition yourself, like that grep and that test run. Then read the Attention section in the <code>/show-me-your-work</code> reply.
+<Q q="In the morning it says “done,” but I'm not sure.">
+Don't trust the summary. Look at the evidence. Rerun the done-condition checks yourself, like the grep and the test run. Then read the Attention section of the <code>/show-me-your-work</code> reply.
 </Q>
-<Q q="It stopped in the middle of the night to ask me a question, and sat waiting all night.">
-Your handoff was missing permission given in advance. Next time, include "You don't need to ask me before committing" and "I'm going to bed." The only things that should really need your decision are irreversible actions, or product choices an experiment can't answer.
+<Q q="It stopped in the night to ask me something, and sat idle.">
+The handoff was missing up-front permission. Next time add "I'm going to bed" and "you don't need to ask me before committing."
 </Q>
-<Q q="It loosened the done condition, then declared it finished.">
-The playbook doesn't allow that. Reply: "The done condition stays the same. Run the original four checks one by one and show me." If the condition itself was too vague, like "mostly migrated," that's a problem with the handoff. Next time, write it so it can clearly pass or fail.
+<Q q="It loosened the done condition, then declared victory.">
+It isn't supposed to. Reply: "The done condition stays. Run the original four checks one by one and show me."
 </Q>
-<Q q="I said “keep going,” and it made a pause commit.">
-That shouldn't happen. "Keep going" and "continue" don't trigger Pause safely. It only pauses when you clearly say pause, going offline, or restarting. If it happens, reply: "I didn't ask you to pause. Keep going."
+<Q q="I said “continue,” and it made a pause commit.">
+That shouldn't happen. Reply: "I didn't ask you to pause. Keep going."
+</Q>
+<Q q="Nothing happens when I type /poteto-mode in Claude Code.">
+If you installed pstack as a plugin, type <code>/pstack:poteto-mode</code>. <code>/loop</code> is built in, so it gets no prefix. See <a href="/en/howto/claude-code/">Using pstack in Claude Code</a>.
 </Q>

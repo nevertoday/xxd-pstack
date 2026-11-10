@@ -2,52 +2,48 @@
 layout: ../../../layouts/HowTo.astro
 slug: new-codebase
 time: Half an hour on day one, then ask as you go
-for: You're taking over someone else's project, or coming back to your own code after six months, and want to understand it before changing anything
+for: You're taking over someone else's project, or coming back to your own after months, and want to understand it first
 step: 4
-description: "When you take over an unfamiliar project, have the AI read without changing anything: get the big picture with a read-only investigation, ask about details with /how, /why, /teach, and /recall, and use Session pickup for a half-finished branch."
+tldr: Start with "don't change any code yet" and let it walk you through. Then ask about details with /how and /why.
+description: "Taking over an unfamiliar project: have the AI read without changing anything, ask about details with /how, /why, /teach, and /recall, and use Session pickup for a half-finished branch."
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 
-## First thing: agree it only reads
-
-When you take over an unfamiliar project, the worst move is changing things before you understand them. That's true for people, and it's true for AI. If it hasn't worked out how the code flows, it will start editing in the first place that looks reasonable. It fixes the surface and plants a new problem.
-
-So your first prompt should tell it clearly: <mark><strong>don't change any code yet</strong></mark>.
+## Copy this first
 
 <Copy id="nc-first" title="Your first prompt" code="/poteto-mode Help me understand this project: what it does, how to run it locally, and where the main code lives. Tell me which files you read and what sources you used. Don't change any code yet." />
 
-"Don't change any code yet" sends the task into the Investigation <Term k="剧本" />. This playbook only reads and never opens a <Term k="PR" />. What comes back is a write-up with sources, usually in these parts: overview, key concepts, how it works, where things live, and common traps.
+- **"Don't change any code yet"**: <mark><strong>until it understands the code, it only reads.</strong></mark> It investigates and opens no <Term k="PR" />.
+- **"Tell me which files you read"**: it keeps what it read apart from what it inferred.
 
-"Tell me what sources you used" makes it write evidence and guesses separately. You can see at a glance which parts it read in the code and which parts it inferred.
+## Where to look after you send it
 
-If you installed pstack as a Claude Code plugin, type the command as `/pstack:poteto-mode`, and add the `pstack:` prefix to the other commands too. See [Using pstack in Claude Code](/en/howto/claude-code/).
+You get back a write-up, with a source for each point. It usually covers:
 
-## Four tools for asking about details
+- **Overview**: what the project does.
+- **Key ideas and how it works.**
+- **Where things live.**
+- **Traps to watch for.**
 
-Once you have the big picture, ask specific questions directly with these four commands. The Investigation playbook uses the first two on its own as well.
+## Then ask about details: four commands
 
-| Command | What it answers | Example |
+| Command | Answers | Example |
 | --- | --- | --- |
-| `/how` | How this code works right now | How are notifications deduplicated? |
-| `/why` | Why it was written this way, and whether the reason still holds | Why is the retry limit 5? |
-| `/teach` | The two above combined, explained until you really get it | Teach me how this PR changed the retry logic |
-| `/recall` | Where you yourself left off | How far did I get on the export feature last week? |
+| `/how` | How it works now | How are alerts deduped? |
+| `/why` | Why it was built this way | Why 5 retries max? |
+| `/teach` | Until you really get it | Teach me this retry change |
+| `/recall` | Where you left off | Where's the export work? |
 
-A few tips for using them:
+- **`/why`** checks Git history first, then issues and docs. If it finds nothing, it says so. "Nobody wrote down why" is an answer too.
+- **`/teach`**: add "convince me," and the explanation becomes an argument you can check.
+- **`/recall`** reads only your own history in this project, from the last 7 days by default.
 
-- **`/how`**: just ask the question you actually want answered. For a big question, it first sends out two to four read-only <Term k="子代理" text="subagents" /> to read the code in parallel. For a small one, it reads and explains directly.
-- **`/why`** checks the Git history first, then any other sources you've connected, like issues, docs, and chat logs. The report keeps direct evidence and inference apart, and says "it looks like" when evidence is thin. If it finds nothing, it says so. "Nobody wrote down the reason" is an answer too.
-- **`/teach`** is for when a summary isn't enough. Add "convince me" to the prompt, and the explanation becomes an argument you can check.
-- **`/recall`** only looks through your own chat history in this project, plus shared information like issues and fix records. By default it covers the last 7 days.
+## A member site example
 
-## An example from a real project
-
-Say a friend hands you a member site on Cloudflare Workers, with data in D1. Next you need to change how membership expiry works.
-
-Start with the big picture, using the prompt from the first section. Then follow the thread toward the part you'll change:
+A friend hands you a member site on Cloudflare Workers, with data in D1. You need to change how membership expiry works. Start with the first prompt above, then ask:
 
 <Copy id="nc-how" title="First, ask how it works now" code="/how After a user logs in, how does their membership status make its way to the page? Where is the session stored? Where is membership expiry checked?" />
 
@@ -55,39 +51,34 @@ Start with the big picture, using the prompt from the first section. Then follow
 
 <Copy id="nc-teach" title="Finally, until you really get it" code="/teach I need to change the membership expiry logic. Teach me how this part works, and convince me that changing it in only one place won't kick out users who already paid." />
 
-The order is `/how` then `/why`: first understand how the code runs today, then dig into why it's that way. If you suspect history is what made it such a mess, you can flip it and do `/why` before `/how`.
+After these three, let it make changes. By then you both have the same picture.
 
-After those three, ask it to make the change. By then, you and it have the same picture in mind.
+## Picking up a half-finished branch
 
-## Taking over a half-finished branch
-
-Another kind of takeover: a different AI conversation (or you, last week) got halfway through something on a branch. For this, use the Session pickup playbook:
+Last week's you, or another AI conversation, got halfway through a branch. Send this:
 
 <Copy id="nc-pickup" title="Pick up where it left off" code="/poteto-mode Take over this branch. Read the decision log, work out what's already done, and continue from there. Don't redo anything that's already done." />
 
-It will:
+It finds the earlier records (conversations, branches, the <Term k="决策日志" />) and says which step it will continue from. If the earlier conversation said "passed," it checks again itself.
 
-1. Find the records left behind: chat transcripts, pushed branches, the <Term k="决策日志" />.
-2. Reconstruct the scene: which branch and <Term k="worktree" />, what's already committed, what's still on the todo list, and what decisions were made.
-3. Compare "what was planned" with "what was done," and say which step to continue from.
-4. Hand the remaining work to the right playbook.
-5. Check, against the original goal and on the real output, what the previous conversation claimed it finished. The previous conversation saying "it passed" doesn't count as evidence.
-
-<Callout type="tip" title="Don't mix up /recall and Session pickup">
-To continue one specific conversation, use Session pickup. To pull back the story of your last few related conversations before starting new work, use <code>/recall</code>. For example: "/recall the work I did on the virtual list yesterday, then read this bug report."
+<Callout type="tip" title="/recall versus picking up a branch">
+To continue one specific conversation, use the prompt above. To recover the story of your last few conversations before starting something new, use <code>/recall</code>. For example: "/recall my work on the virtual list yesterday, then read this bug report."
 </Callout>
 
 ## Stuck?
 
-<Q q="I told it not to change anything, and it changed code anyway.">
-If this is a new question in the same conversation, start with "new task": "/poteto-mode new task. Figure out why the cache is still there after logging out. Don't change any code yet." Without "new task," a conversation that's in the middle of a feature can easily treat your question as the next step of that feature.
+<Q q="I said don't change anything, and it changed code anyway.">
+For a new question in the same conversation, start with "new task": "/poteto-mode new task. Figure out why the cache is still there after logout. Don't change any code yet." Without it, it treats your question as the next step of the last job.
 </Q>
 <Q q="/why says it can't find the original reason.">
-That's a normal result, not a failure. It will tell you which sources it checked. If you know the answer might be somewhere, like an issue link or an old doc, paste it in.
+That's a normal result. If you know where the answer might be, like an issue link or an old doc, paste it in.
 </Q>
-<Q q="The explanation was thorough, but I didn't follow it.">
-Type <code>/bro</code>, and it will say its last reply again in plain words, and shorter. You can also tell <code>/teach</code> "start from the basics," and it will go at your pace.
+<Q q="It explained everything, but I didn't follow.">
+Type <code>/bro</code>. It retells its last reply in plain words, shorter.
 </Q>
-<Q q="When it took over the branch, it redid the earlier work from scratch.">
-Reply: "The earlier records are trustworthy. Don't start over. Tell me which step you're continuing from." The Session pickup playbook already says not to redo finished work, only to verify its conclusions.
+<Q q="Picking up a branch, it redid work that was already done.">
+Reply: "The earlier records are trustworthy. Don't start over. Tell me which step you'll continue from."
+</Q>
+<Q q="Nothing happens when I type these commands in Claude Code.">
+If you installed pstack as a plugin, add <code>pstack:</code> in front, like <code>/pstack:poteto-mode</code> or <code>/pstack:how</code>. See <a href="/en/howto/claude-code/">Using pstack in Claude Code</a>.
 </Q>

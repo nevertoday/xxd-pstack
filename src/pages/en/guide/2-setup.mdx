@@ -2,7 +2,8 @@
 layout: ../../../layouts/Guide.astro
 step: 2
 need: pstack, installed in the last step
-description: "Run /setup-pstack once: pick a reasoning budget, see which model each role uses, decide whether to generate a verification skill, then start a new conversation."
+tldr: Run /setup-pstack once, answer a few questions to set models and budget, then start a new conversation.
+description: "Run /setup-pstack once: pick a budget, see which model each role uses, decide on a verification skill, then start a new conversation."
 ---
 import Callout from "../../../components/Callout.astro";
 import Checkpoint from "../../../components/Checkpoint.astro";
@@ -10,70 +11,65 @@ import Term from "../../../components/Term.astro";
 import Copy from "../../../components/Copy.astro";
 import Q from "../../../components/Q.astro";
 
-## What this step does
-
-You tell pstack which models to use and how much to spend. It takes one command, then you answer a few questions:
+## Send this one command
 
 <Copy id="setup" title="With the Claude Code plugin, type /pstack:setup-pstack" code="/setup-pstack" />
 
-`/setup-pstack` checks which models you can use, asks about your budget, shows you what it plans to use for each <Term k="模型角色" />, then writes a small config file. From then on, every skill reads it when handing out work.
+It checks which models you can use, then asks a few questions. Your answers go into a config file. From then on, every skill picks models from it.
 
-## First question: reasoning budget
+## When it asks about budget: not sure? Pick large
 
-The <Term k="推理预算" /> is how long the model gets to "think." You get four options:
+The <Term k="推理预算" /> is how long the model gets to think. Longer is more careful, and more expensive.
 
-| Option | What it means | Good for |
+| Option | Reasoning level | Good for |
 | --- | --- | --- |
-| `large` | xhigh level, same as the default | Pick this if you're not sure |
-| `unlimited` | max level; models that can't reach max stop at their highest (grok stops at xhigh, for example) | Very hard, high-stakes work where cost doesn't matter |
-| `medium` | high level | Saving a bit |
-| `small` | medium level | Mostly simple tasks, tight budget |
+| `large` | xhigh (default) | Pick this if unsure |
+| `unlimited` | max | Very hard work, cost no issue |
+| `medium` | high | Saving a bit |
+| `small` | medium | Simple tasks, tight budget |
 
-## Second question: which model for each role
+## When it asks about models per role: keep the defaults
 
-pstack splits the work into a few roles, and each one can use a different model:
+Each <Term k="模型角色" /> can use a different model:
 
-- **Coding roles** (features, refactors, bug fixes, performance...): grok by default. Fast and cheap.
-- **Judgment roles** (the hardest changes, writing, making calls): opus 5.5 by default.
-- **Review panel**: opus 5.5 plus grok by default, **two model families on purpose, so they poke holes in each other's work**. It sends out one subagent per model on the panel.
-- **Swarm workers**: the model each `/swarm` worker uses by default.
+- **Coding roles**: grok by default. Fast and cheap.
+- **Judgment roles** (the hardest changes, making calls): opus 5.5 by default.
+- **Review panel**: opus 5.5 plus grok by default. Two model families, on purpose, so they find each other's mistakes.
 
-Only change the roles you care about. Any role you leave out uses the default. A role set to `auto` or `inherit-parent` means "don't pick a separate model, use the same one as the main conversation."
+Only change the ones you care about. `auto` or `inherit-parent` means "use the same model as the main conversation."
 
 <Callout type="tip" title="If you use Claude Code">
-Claude Code subagents can only use Claude models (opus, sonnet, haiku, and so on). Roles that default to grok will just use your current session's model in Claude Code. `/setup-pstack` asks based on the models you actually have. For how to pair the session model with each role, [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well) has three ready-made plans.
+In Claude Code, helper AIs can only use Claude models. Roles that default to grok will use your current conversation's model. For three ready-made setups, see [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well).
 </Callout>
 
-## Two last offers: a verification skill
+## When it asks about a verification skill: as a beginner, say yes
 
-After the models are set, it checks whether your project has a way to "prove the app really works." If not, it **offers once** to generate a <Term k="验证技能" /> for you.
+If your project has no way yet to prove "the app really works," it offers to generate a <Term k="验证技能" />.
 
-<strong>As a beginner, say yes.</strong> The author calls it the single highest-payoff piece of the whole pack: an AI that can check its own work keeps going until the check passes. One that can't has to hand every result back to you to check by hand. Once it's generated, it runs it end to end itself, and only hands it over once it works.
+<strong>As a beginner, say yes.</strong> An AI that can check its own work keeps going until the check passes. You don't have to check by hand.
 
-Next it may offer to generate a <Term k="形式化验证" /> skill. If your code has concurrency, retries, state machines, parsers, or other spots where "a bug is expensive and tests rarely hit it," say yes. Otherwise say no for now. You can add it any time.
+It may also ask about a <Term k="形式化验证" /> skill. Say yes only if your code has hard-to-test spots like concurrency or retries. You can add it later.
 
 ## When you're done, start a new conversation
 
-The config is written here:
+The config file is written here:
 
-| Tool | File |
-| --- | --- |
-| Cursor | `~/.cursor/rules/pstack-models.mdc` |
-| Claude Code | `~/.claude/rules/pstack-models.md` |
-| Codex and other tools | `~/.agents/pstack-models.md` |
+- **Cursor**: `~/.cursor/rules/pstack-models.mdc`
+- **Claude Code**: `~/.claude/rules/pstack-models.md`
+- **Codex and other tools**: `~/.agents/pstack-models.md`
 
-Cursor and Claude Code only read it **when a new conversation starts**, so <mark>once you're set up, close this conversation and start a new one</mark>.
+Cursor and Claude Code only read it when a new conversation starts. So <mark>once you're set up, close this conversation and start a new one</mark>.
 
 ## Stuck?
 
 <Q q="What if I want to change models or budget later?">
-<p>Run <code>/setup-pstack</code> again. Roles you've changed are kept. To reset a role to its default, delete that line from the config file.</p>
+<p>Run <code>/setup-pstack</code> again. Roles you changed are kept. To reset a role to its default, delete that line from the config file.</p>
 </Q>
 <Q q="pstack updated its default models, but mine didn't change.">
-<p>Your old config still has the old defaults written into it. Delete those lines (or the whole file), then run <code>/setup-pstack</code> again.</p>
+<p>Your old config still has the old values. Delete those lines (or the whole file), then run <code>/setup-pstack</code> again.</p>
 </Q>
 <Q q="I said no to the verification skill, and now I want it.">
-<p>Run <code>/create-verification-skill</code> any time. See <a href="/en/guide/6-verify-ship/">Step 6</a> for details.</p>
+<p>Run <code>/create-verification-skill</code>. See <a href="/en/guide/6-verify-ship/">Step 6</a>.</p>
 </Q>
 
 <Checkpoint id="s2" items={["I ran /setup-pstack and picked a budget", "It told me which file the config was written to", "I've decided whether I want a verification skill (beginners: yes)", "I've started a new conversation"]} />

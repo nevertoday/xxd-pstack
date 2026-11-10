@@ -17,6 +17,7 @@ const group = en ? me.groupEn : me.group;
   <header class="step-head">
     <ol class="xxd-breadcrumbs" data-size="sm"><li><a href={link("/howto/", lang)}>How-to</a></li><li>{group}</li><li aria-current="page">{title}</li></ol>
     <h1>{title}</h1>
+    {frontmatter.tldr && <p class="page-tldr"><span class="page-tldr__label">{en ? "In one line" : "一句话"}</span>{frontmatter.tldr}</p>}
     <div class="step-head__meta">
       {frontmatter.time && <span class="xxd-badge">{frontmatter.time}</span>}
       {frontmatter.for && <span class="xxd-badge">{en ? "For: " : "适用："}{frontmatter.for}</span>}

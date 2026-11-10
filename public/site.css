@@ -160,6 +160,9 @@
   .step-head__eyebrow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); color: var(--muted); font-size: var(--text-xs); }
   .step-head .xxd-progress { width: 100%; margin-top: 6px; }
   .step-head h1 { margin: var(--space-4) 0 0; font: var(--weight-strong) var(--text-xxl) / 1.3 var(--font-title); }
+  /* 每页顶上的「一句话」：看完这页能做成什么。比正文大一号、左边一条细线，读者先读这一行 */
+  .page-tldr { margin: var(--space-3) 0 0; padding-left: var(--space-3); border-left: 2px solid var(--ink); color: var(--ink); font-size: var(--text-md); line-height: 28px; }
+  .page-tldr__label { display: block; color: var(--muted); font-size: var(--text-xs); line-height: 20px; }
   .step-head__meta { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
 
   .xxd-prose .xxd-banner { margin: var(--space-4) 0; }

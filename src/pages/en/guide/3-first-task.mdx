@@ -2,7 +2,8 @@
 layout: ../../../layouts/Guide.astro
 step: 3
 need: pstack, set up; a small requirement that's real but not big
-description: "Run your first task with /poteto-mode: what goes in a good prompt and what doesn't, how to read its to-do list, and how to keep the conversation going."
+tldr: "Hand over one small task in one message: what you want, what counts as done, what to show you. Then check its restatement and evidence."
+description: "Run your first task with /poteto-mode: what to put in one message and what to leave out, where to look after you send it, and how to keep going."
 ---
 import Callout from "../../../components/Callout.astro";
 import Checkpoint from "../../../components/Checkpoint.astro";
@@ -10,85 +11,85 @@ import Term from "../../../components/Term.astro";
 import Copy from "../../../components/Copy.astro";
 import Q from "../../../components/Q.astro";
 
-## What this step does
+## Copy one first
 
-You use <Term k="poteto-mode" /> to do one small, real thing. Pick a requirement from your own project that's **real but not big**, and explain it the way you'd hand work to a coworker.
+Pick one small, real thing in your project. For example, add an export button to a Chrome extension's settings page:
 
-The author's advice for beginners fits in one sentence: <mark><strong>give it a goal and a way to check, in your own words.</strong></mark> You don't need to name a playbook or list skills.
+<Copy id="first-ext" title="Swap in your own task" code="/poteto-mode Add an “Export settings” button to the settings page that downloads the current settings as a JSON file. The existing settings and how they're saved must not change. When done, show me: the exported file's contents and what's stored in chrome.storage. The two must match exactly." />
 
-## An example first
+This message has just three parts:
 
-Say you have a command-line tool and want to add a `--json` flag:
+1. **What you want**: an export button.
+2. **What counts as done**: the export matches what's stored, and the old settings aren't affected.
+3. **What to show you**: the actual contents of both.
 
-<Copy id="first" title="The first task from the official guide" code="/poteto-mode Add a --json flag to this command. The existing text output must not change by a single byte. Verify both outputs." />
+The author's advice for beginners fits in one line: <mark><strong>give it a goal and a way to check, in your own words.</strong></mark>
 
-Now swap in your own project, for example the settings page of a Chrome extension:
+## Make "done" something you can check
 
-<Copy id="first-ext" title="With your own project" code="/poteto-mode Add an “Export settings” button to the settings page that downloads the current settings as a JSON file. The existing settings and save logic must not change. Verify: the exported file parses as JSON, and its values exactly match what's stored in chrome.storage. Show me the actual contents of both." />
+It uses this part to check its own work. So it has to be a clear pass or fail.
 
-## What goes in a good prompt
+- **Checkable**: the exported file matches what's stored, exactly.
+- **Not checkable**: make it better. Make it look nicer. Spend an hour on it.
 
-Up to five things, one sentence each is enough:
+Without a check, it can only go by feel when it says "done."
 
-| What to write | Why | Example |
-| --- | --- | --- |
-| **The goal** | Say what's wrong, or what you want | Add an export button |
-| **What counts as done** | It has to be a clear pass or fail | The exported file parses, and the values match storage |
-| **What evidence you want** | Something you can check yourself | Actual contents of both / a screenshot / before-and-after numbers |
-| **What you already know** | Saves it a round of searching | An error line, steps to reproduce, a link |
-| **Real constraints** | Things that change how it works | Reproduce first / don't change code yet / behavior must not change / show me before you do it |
+## Two things you can add
 
-Two things are **better left out**:
+They're optional. If you have them, add one sentence each:
 
-- **Exactly how to do it.** Say what you want to achieve, and leave it room to find a better way.
-- **Your guess at the cause (at least at first).** Once you say it, it only looks where you pointed. Wait until it has restated the problem in its own words, then add your guess.
+- **Clues you already have**: an error line, the step where it breaks, a link. It saves a round of searching.
+- **What it really must not touch**: for example, "Don't change code yet, just investigate," or "The old output must not change at all."
 
-<Callout type="no" title="“Make it better” or “spend an hour on it” is not a check">
-It can't tell whether that's a pass or a fail, so in the end it just goes by feel. Replace it with a command it can run, or a result you can look at.
+## Two things to leave out at first
+
+- **Exactly how to do it.** Say the result you want. It may find a better way.
+- **Your guess at the cause.** Once you say it, it only looks where you pointed. Wait until it gives its own view, then add yours.
+
+Also, don't line up skills in your message, like "use /how first, then /architect." It calls them in order on its own. Your order can get in its way.
+
+## After you send it, look in three places
+
+**At the start: its restatement.** It says in its own words what you want and where it plans to change things. It won't wait for your OK. So if it got it wrong, interrupt right away.
+
+**In the middle: the <Term k="待办清单" />.** These are the steps it will take next. Once it picks an approach (a <Term k="剧本" />), that approach's steps are copied into the list. Steps it decides to skip stay on the list too, marked `skip:` with a reason.
+
+**At the end: evidence.** What you asked to see should be here, like real commands and their output. If it couldn't check something, it says "not sure."
+
+<Callout type="warn" title="A “done” with no evidence">
+If it sounds sure but can't show any check results, don't trust it. Reply: "Show me the results of what you actually checked."
 </Callout>
-
-## What to watch for once it's sent
-
-**The first reply**: it restates your goal in its own words, what problem you're solving, and what it expects the smallest change to be. It won't wait for your OK before moving on, so if it got it wrong, interrupt right away.
-
-**The <Term k="待办清单" />**: the first few items are the steps of the <Term k="剧本" /> it matched, copied in as is. The example above matches the Feature playbook: read the relevant code with `/how` first, settle the design with `/architect`, then send subagents to write the code and verify it in the real UI, and finally tidy it into small commits and open a <Term k="PR" />. Steps it decides to skip don't disappear. They stay on the list marked `skip: reason`.
-
-**The final reply**: it should come with the evidence you asked for, like the real commands and their output. When it can't verify something, a good reply says "not sure." <strong>A confident reply with no evidence is a red flag.</strong>
 
 ## Keep going: shorter is better
 
-Once the conversation already has context, follow-ups can be very short:
+Within the same task, follow-ups can be very short:
 
 <Copy id="short" title="Any of these is enough" code={`/poteto-mode go ahead
 continue
 keep going until it's done`} />
 
-They can be this short because the playbook remembers the structure. Your words only need to carry the intent.
+It remembers how far the task has gotten. You only need to say what you want next.
 
-**When you switch tasks, say "new task."** Otherwise it treats your new question as the next step of the last task:
+**When you switch to something else, say "new task" first.** Otherwise it treats your new question as the next step of the last task:
 
 <Copy id="newtask" code="/poteto-mode new task. Find out why the cache is still there after logging out. Don't change any code yet." />
 
-"Don't change any code yet" pins this task to the read-only Investigation playbook.
+"Don't change any code yet" makes it only investigate, without touching anything.
 
 <Callout type="tip" title="If you use Cursor">
-Choose `/poteto-mode` from the `/` menu and press Option+Enter (Mac) or Alt+Enter (Windows). It becomes a <Term k="Custom Mode" /> that stays on every turn, so you don't have to type it each time. A plain Enter applies to that one message only.
+Choose `/poteto-mode` from the `/` menu, then press Option+Enter (Mac) or Alt+Enter (Windows). It becomes a <Term k="Custom Mode" />, so it applies to every message after that. A plain Enter applies to that one message only.
 </Callout>
-
-## Don't line up skills in your prompt
-
-"First use /how, then /architect, then /arena..." is the number one pitfall the official guide calls out. The playbook already has the order worked out, and an order you write by hand often scrambles it or drops steps it would have done. Only name a skill when you want to override one of its default choices.
 
 ## Stuck?
 
 <Q q="It misunderstood what I meant.">
-<p>Just say so: "No, my goal is...". A misunderstanding is cheapest to catch in that first restatement. It costs you one message. For messy requirements (a long discussion, a bug you can't quite describe), you can have it only restate things first: <code>/poteto-mode Read this discussion and restate the root problem in plain words. Don't change any code yet.</code></p>
+<p>Just say so: "No, what I want is...". It's easiest to fix at its first restatement. When the request is messy (a long discussion, a problem you can't quite describe), have it only restate things first: <code>/poteto-mode Read this discussion and say in plain words what the root problem is. Don't change any code yet.</code></p>
 </Q>
 <Q q="It skipped a step I think matters.">
-<p>Look at the <code>skip:</code> reason after that item on the list. If you disagree, say: "Don't skip step 2. Reproduce first."</p>
+<p>Read the reason after <code>skip:</code> on that item. If you disagree, say: "Don't skip step 2. Make the problem happen again first."</p>
 </Q>
-<Q q="The reply is too long and too technical to follow.">
+<Q q="The reply is too long to follow.">
 <p>Type <code>/bro</code>, and it will say the last reply again in plain words.</p>
 </Q>
 
-<Checkpoint id="s3" items={["I sent /poteto-mode a real task that says what counts as done", "I spotted the playbook it picked in the to-do list", "The final reply came with evidence I can check myself"]} />
+<Checkpoint id="s3" items={["I gave /poteto-mode one small, real task and said what counts as done", "I saw its restatement at the start", "The final reply had evidence I can check myself"]} />

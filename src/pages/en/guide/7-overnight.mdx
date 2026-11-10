@@ -2,7 +2,8 @@
 layout: ../../../layouts/Guide.astro
 step: 7
 need: "An AI that can already verify its own work (the verification skill from step 6)"
-description: "Hand a big task to the AI to run overnight: earn trust first, write a clear bedtime contract, and the next morning read the decision log instead of rereading the whole night's chat."
+tldr: "Hand a big task over at bedtime with clear instructions. In the morning, read its \"needs attention\" section first."
+description: "Let the AI run a big task overnight: make sure you can trust it, write clear bedtime instructions, and read the decision log in the morning instead of the whole chat."
 ---
 import Callout from "../../../components/Callout.astro";
 import Checkpoint from "../../../components/Checkpoint.astro";
@@ -10,87 +11,71 @@ import Term from "../../../components/Term.astro";
 import Copy from "../../../components/Copy.astro";
 import Q from "../../../components/Q.astro";
 
-## Why this step comes late
+## First, make sure you can trust it
 
-This is where all the earlier steps pay off: only an AI you trust, one that can verify its own work, is an AI you can leave alone with hard work. What makes that safe isn't luck. It's three things: **a done condition it can check, an isolated working directory, and a <Term k="决策日志" /> you can review in the morning.**
+Before you let go, all four of these should hold:
 
-## Earn trust before you let it loop
-
-A loop you don't trust just turns out unchecked work faster, and the mess snowballs. Before you let it run on its own, all four of these should hold:
-
-1. You've done it once yourself, or watched the AI do it once, and you know what good looks like.
-2. It has the tools and signals you'd use yourself: a verification skill, a profiler, logs.
-3. Every phase can prove its own results, and can call a stop when they fall short.
-4. You've read a few transcripts and turned repeated failures into tools, skills or checks.
+1. **You know what good looks like**: you did it once, or watched it done once.
+2. **It has the tools you'd use**: a verification skill, logs.
+3. **Every step can prove itself**: it stops when it falls short.
+4. **Repeated mistakes now have checks**: you've read a few transcripts.
 
 <mark>Until all four hold, run it while you're watching.</mark>
 
-## The bedtime contract
+## Write bedtime instructions
 
-A good handoff has a goal, a done condition, permissions and an escape hatch. It doesn't need to be long:
-
-<Copy id="contract" title="Bedtime contract" code={`/poteto-mode I'm going to bed. In a fresh worktree off main, migrate every caller to the new parser.
+<Copy id="contract" title="Bedtime instructions" code={`/poteto-mode I'm going to bed. In a fresh worktree off main, migrate every caller to the new parser.
 Done means: no old callers left, every parser fixture passes, and the old API is deleted.
 Keep a decision log. You don't need to ask me before committing.
 /loop until done. If you've been stuck for hours and truly can't go on, stop and write down why.`} />
 
-Every sentence buys you something:
+What each sentence does:
 
-| This sentence | What it buys |
-| --- | --- |
-| I'm going to bed | Tells it not to ask you this time, just keep going |
-| Done means... | Turns the goal into a check it can run every round |
-| A fresh worktree off main | Doesn't collide with anything else you have open |
-| You don't need to ask me before committing | Answers ahead of time the permission question it would otherwise stop and wait on |
-| `/loop` until done | Makes it recheck the done condition on events or on a timer (built into Cursor and Claude Code, not a pstack skill) |
-| If you're stuck, stop and write down why | When it really hits a dead end, stopping to write down the reason beats eight hours of "creatively reinterpreting the goal" |
+- **I'm going to bed**: keep going, don't ask me.
+- **Done means**: it checks this every round.
+- **A fresh <Term k="worktree" />**: a separate working folder, away from your own work.
+- **Don't need to ask before committing**: it won't sit waiting for your OK.
+- **/loop until done**: it keeps checking whether it's done (built into Cursor and Claude Code).
+- **If stuck, stop and write why**: stopping beats eight hours of busywork.
 
-Because you'll come back to review it, `/poteto-mode` hands this to `/figure-it-out`: it designs the phases of the run first, then hooks up the decision log.
+<Callout type="no" title={`"Work for 4 hours" isn't a done condition`}>
+A duration can't be checked. Give it a condition that clearly passes or fails.
+</Callout>
 
 ## What it does all night
 
-Every round is the same four things:
+Each round: check if it's done, make the smallest change, verify, commit if it helped, throw it away if not. Every round adds one line to the <Term k="决策日志" />.
 
-1. Check the done condition.
-2. Make the smallest change it has a reason for.
-3. Verify against the real artifact.
-4. Commit if it made progress, discard if it didn't. Either way, write one line in the log.
-
-One change, one check, one log line. A change that didn't help gets thrown away, not left in to slip through. Hitting a plateau means changing direction, not stopping. And the done condition is **never quietly loosened** to declare victory.
-
-To stop it on purpose, tell it "pause", or say you're going offline or restarting the tool. The safe-pause playbook finishes or backs out the current step, commits a work-in-progress checkpoint, and writes a resume note that a new chat can pick up from. Saying "continue" never triggers a pause.
-
-## The next morning: review decisions, don't reread the night
+## In the morning: read "needs attention" first
 
 <Copy id="audit" code="/show-me-your-work Walk me through what you did last night" />
 
-Each log line records the time, phase, decision, reason, where the evidence is, and the outcome. It's stored in `decisions.tsv` (or `.audit/<task-name>.tsv` when several tasks share a directory). By default it stays local. Commit it to the repo only when the work matters enough that reviewers need the record to feel confident.
+**What you get**: a summary. Before handing it back, a model from another family reads the log and adds a "needs attention" section. <strong>Read that section first, then the lines it points to.</strong>
 
-Before handing back its summary, it sends a reviewer from **a different model family** to read the log and the chat, and the reply ends with a "needs attention" section. <strong>Read that section first, then look at the lines it points to.</strong> You're reviewing decisions, not a whole night.
+The log is `decisions.tsv` (or `.audit/<task-name>.tsv` when several tasks share a folder). By default it stays on your machine.
 
-If you just want progress, not a review: type `/ketchup` in the chat running the task. It's read-only. It tells you in plain words what changed since your last message, and lists everything waiting on your call (merge, approve, pick one of several options) with its recommendation, evidence and risks, so you can decide from the reply alone.
+Just want progress? Type `/ketchup` in that chat. It tells you what changed and what's waiting on your call.
 
-## More than one thing overnight
-
-| What you have | Which playbook | In one line |
-| --- | --- | --- |
-| A queue of unrelated PRs you want all merged by morning | Autopilot-full | One owner per PR, a fresh group of verifiers checks them, **only verified ones get merged** |
-| Same, but you want to look before merging | Autopilot-stack | You wake up to a row of verified PRs, and you review and merge them yourself |
-| A big project that takes days | Orchestrate | A standing coordinator assigns and checks work, and doesn't write code itself |
+## Several jobs in one night
 
 <Copy id="autopilot" code="/poteto-mode Autopilot these five changes, but don't merge. I'll merge them myself in the morning." />
 
-<Callout type="no" title={`"Work for 4 hours" isn't a done condition`}>
-A duration gives it nothing to check. You'll wake up to four hours of busyness, not a result. Give `/loop` a condition that clearly passes or fails.
-</Callout>
+| What you have | Which approach | In the morning |
+| --- | --- | --- |
+| Many unrelated PRs | Autopilot-full | Verified ones merged |
+| Same, you merge | Autopilot-stack | A row of verified PRs |
+| A multi-day project | Orchestrate | A coordinator assigning work |
 
 ## Stuck?
 
 <Q q="I'm not comfortable letting it commit on its own.">
-<p>Then leave out "you don't need to ask me before committing", or use Autopilot-stack so it stops once things are verified. After you've read its decision log a few times and know what to expect, give it more room.</p>
+<p>Leave out "you don't need to ask me before committing", or use Autopilot-stack so it stops once things are verified.</p>
 </Q>
-<Q q="I woke up and it had been going in circles all night.">
-<p>Most likely the done condition wasn't firm enough, or the verification tools weren't good enough. Use <code>/reflect</code> to record what you learned this time, and <code>/correct</code> to turn repeated failures into checks. The next run will go much better.</p>
+<Q q="I woke up and it had been going in circles.">
+<p>Most likely the done condition wasn't firm enough. Use <code>/reflect</code> to record the lesson, and <code>/correct</code> to turn repeated mistakes into checks.</p>
+</Q>
+<Q q="I want to stop it partway.">
+<p>Tell it "pause" or "I'm going offline". It wraps up the current step and writes a resume note. A new chat can pick up from there.</p>
 </Q>
 
-<Checkpoint id="s7" items={["I know the four trust conditions to meet before letting go", "I can write a bedtime contract with a done condition, a worktree, a decision log and an escape hatch", "In the morning, I read the \"needs attention\" section first"]} />
+<Checkpoint id="s7" items={["I know the four conditions to meet before letting go", "I can write bedtime instructions with a done condition, a worktree, a decision log and a stop condition", "In the morning, I read the \"needs attention\" section first"]} />

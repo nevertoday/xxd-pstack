@@ -9,8 +9,8 @@ const items = WIKI.map((w) => (en ? { ...w, ...WIKI_EN[w.slug], group: w.group }
 const gName = (g) => (en ? WIKI_GROUPS_EN[g] : g);
 const headings = WIKI_GROUPS.map((g, i) => ({ slug: `g${i}`, text: gName(g), depth: 2 }));
 const T = en
-  ? { h: "Wiki: what is it", p1: "Every idea that shows up in the guide, explained. Each entry has the same shape: one sentence → an analogy → in pstack → common misconceptions.", p2: ["Don't want the full article? Hover over any word with a dotted underline in the guide for a one-line explanation; click it to come here. To look up a skill by name, see ", "Skills at a glance", "."] }
-  : { h: "Wiki：这是什么", p1: "讲清楚教程里出现的每个概念。每篇都是同样的结构：一句话解释 → 打个比方 → 在 pstack 里 → 常见误区。", p2: ["不想看完整文章的话：教程正文里带虚线的词，鼠标停在上面就能看到一句话解释，点一下进到这里。想按名字查某个技能，去", "技能速查", "。"] };
+  ? { h: "Wiki: what is it", p1: "Every term in the guide, explained in plain words. Each one starts with a single sentence; read on only if you want more.", p2: ["Don't want the full article? Hover over any word with a dotted underline in the guide for a one-line explanation; click it to come here. To look up a skill by name, see ", "Skills at a glance", "."] }
+  : { h: "Wiki：这是什么", p1: "教程里出现的每个词，用大白话讲清楚。每篇第一句就是答案，想多了解再往下看。", p2: ["不想看完整文章的话：教程正文里带虚线的词，鼠标停在上面就能看到一句话解释，点一下进到这里。想按名字查某个技能，去", "技能速查", "。"] };
 ---
 <Site title={T.h} headings={headings}>
   <article class="xxd-prose">

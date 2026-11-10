@@ -1,105 +1,74 @@
 ---
 layout: ../../../layouts/HowTo.astro
 slug: pick-skills
-time: 5-minute read
-for: You're installing with npx skills and want to pick a few instead of everything
+time: 4 minutes to read
+for: You're installing with npx skills and want to pick a few, not install everything
 step: 1
-description: Some pstack skills work on their own, and some call other skills and must be installed together. This page lays out the README's two tables, suggests a few common combinations, and shows how to pick from the npx skills list.
+tldr: Using /poteto-mode? Install everything. Want one or two features? Pick here, and bring what they need along.
+description: Some pstack skills work alone, and some need others installed with them. Which work alone, what each one needs, a few common sets, and how to pick in the npx skills list.
 ---
-import Callout from "../../../components/Callout.astro";
-import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
-import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 
-## The short answer
+## Using /poteto-mode? Install everything
 
-- Planning to use `/poteto-mode`? <mark><strong>Install everything</strong></mark>. It uses every principle skill and most of the other skills, so picking a few just leaves things missing.
-- Only want one or two features, like removing AI flavor or understanding code? Pick from the tables below, and remember to bring along anything marked "also install."
+`/poteto-mode` uses almost every skill. <mark><strong>If you plan to use it, install everything</strong></mark>. Only pick from the lists below if you want one or two features.
 
-If you installed with Cursor's `/add-plugin pstack` or the Claude Code plugin marketplace, you already have the full set and can skip this page. Only `npx skills` lets you pick.
+If you installed the Cursor plugin or from the Claude Code marketplace, you already have the full set. Skip this page.
 
-## 17 skills that work on their own
+## 17 that work on their own
 
-These skills don't call any other pstack skill. Install one and it works:
+Install one, and you can use that one:
 
-| Skill | In one line |
-| --- | --- |
-| `unslop` | Takes the AI flavor out of text |
-| `bro` | Says the last reply again in plain words |
-| `how` | Explains how a piece of code works right now |
-| `tdd` | Writes a failing test first, then fixes |
-| `typescript-best-practices` | Keeps you to the type rules when writing TypeScript |
-| `arena` | Has several AIs each solve the same problem, picks the best, and grafts in the rest |
-| `swarm` | Splits the work into pieces, runs them in parallel, and sums up in one report |
-| `interrogate` | Has several models attack your change and keeps only the problems that produce a real failure |
-| `reflect` | When a task is done, turns what was learned into suggested skill changes |
-| `show-me-your-work` | Writes one line in a decision log for every decision |
-| `figure-it-out` | Designs a rigorous approach on the spot when no playbook fits |
-| `automate-me` | Builds a mode skill of your own from your chat history |
-| `correct` | Blocks a kind of mistake at the root when it keeps coming back |
-| `benchmark-checklist` | Checks a measured performance number before you publish it |
-| `in-your-own-words` | Has the AI restate your goal and problem first |
-| `sharpen` | Makes your prompt deeper, not longer |
-| `statechart` | Draws "what the user will see" as a checked state diagram |
+- **Understanding and explaining**: `how` (how code works), `bro` (says it again in plain words), `in-your-own-words` (restates your goal first).
+- **Writing**: `unslop` (removes the AI feel), `sharpen` (makes your prompt more precise).
+- **Writing code**: `tdd` (write a failing test first), `typescript-best-practices` (keeps the type rules), `statechart` (draws a checked state chart).
+- **Several AIs together**: `arena` (several takes on one task, keep the best), `swarm` (split it up and work in parallel), `interrogate` (several models pick at it).
+- **Checking and recording**: `benchmark-checklist` (checks performance numbers), `show-me-your-work` (keeps a decision log), `correct` (stops a repeated mistake at the root).
+- **Other**: `figure-it-out` (designs an approach on the spot), `reflect` (turns lessons into suggested edits), `automate-me` (sums up a skill of your own).
 
-## These need others installed with them
+## These need others along
 
-The skills below call other skills. Install the left column without the right, and when it reaches that step it won't find what it needs:
+If you skip what's right of the arrow, that step won't find it:
 
-| To install | Also install |
-| --- | --- |
-| `teach` | `how`, `why` |
-| `why` | `how` |
-| `technical-writing` | `unslop` |
-| `architect` | `arena`, `how` |
-| `blast-radius` | `arena`, `how`, `why`, `unslop` |
-| `create-verification-skill` | `maintain-verification-skill` |
-| `create-formal-verification-skill` | `maintain-formal-verification-skill`, `statechart` |
-| `ketchup` | `bro` |
-| `ketchup-video` | `ketchup`, `bro` |
-| `poteto-mode` | Every `principle-*` principle skill, plus most of the other skills |
-| `poteto-help` | Whichever skills you want to ask about |
+- `teach` → also `how`, `why`
+- `why` → also `how`
+- `technical-writing` → also `unslop`
+- `architect` → also `arena`, `how`
+- `blast-radius` → also `arena`, `how`, `why`, `unslop`
+- `create-verification-skill` → also `maintain-verification-skill`
+- `create-formal-verification-skill` → also `maintain-formal-verification-skill`, `statechart`
+- `ketchup` → also `bro`; `ketchup-video` → also `ketchup`, `bro`
+- `poteto-help` → also whichever skills you want to ask about
 
-<Callout type="tip" title="A few not listed in the tables">
-The README's two tables leave out `recall`, `no-comments`, `setup-pstack`, and `make-bot-ui`. Their descriptions show that `recall` uses `why` and `unslop`, and `no-comments` mentions `how`, `why`, and `architect`. To be safe, bring the mentioned ones along when you install those two. `setup-pstack` doesn't depend on other skills, but install it if you want to choose models yourself. Without it, each skill uses its own default model.
-</Callout>
+## A few common sets
 
-One more detail: skills that send out <Term k="子代理" text="subagents" /> (like `arena` and `swarm`) rely on a section in `poteto-mode` to decide how long each subagent should think. Without `poteto-mode` they still run, but always at the default reasoning effort.
+- **Just understand code**: `how`, `why`, `teach`
+- **Remove the AI feel from writing**: `unslop`, `bro`
+- **Settle a design before changing code**: `architect`, `arena`, `how`
+- **Let the AI verify your app itself**: `create-verification-skill`, `maintain-verification-skill`
 
-## Common combinations
+What the author actually uses is `/poteto-mode` chaining them together. For the full experience, select all.
 
-| You want | Check these |
-| --- | --- |
-| Just understanding code | `how`, `why`, `teach` |
-| Just removing AI flavor from text | `unslop`, `bro` |
-| Writing docs, a README, or PR descriptions | `technical-writing`, `unslop` |
-| Settling the design before changing code | `architect`, `arena`, `how` |
-| Several models picking at it before you commit | `interrogate` |
-| Writing a test first when fixing a bug | `tdd` |
-| Letting the AI verify your app itself | `create-verification-skill`, `maintain-verification-skill` |
-| The full pstack experience | Select all |
+## How to pick in the list
 
-The last row is serious. The most valuable part of pstack is `/poteto-mode` chaining these skills together by playbook. Each skill is useful alone, but chained together is how the author, poteto, really uses them day to day.
-
-## How to pick from the npx skills list
-
-Run this in your terminal:
+In your terminal, run:
 
 <Cmd c="npx skills add backnotprop/pstack" />
 
-It lists every skill, and you can search the list. Type a skill name to filter it, and select everything you want, including the "also install" column above. After the skills, choose which tools to install them into (Codex, Claude Code, and so on).
-
-If you realize you missed something, run the same command again and add what's missing. For install details per tool, see [Use it in Codex and other tools](/en/howto/codex/).
+Type a skill name to filter. Check what you want, including the "also" ones, then pick which tools to install into. Missed one? Run it again and add it. For per-tool details, see [Use it in Codex and other tools](/en/howto/codex/).
 
 ## Stuck?
 
-<Q q="I only installed teach, and it's missing things when it runs.">
-`teach` needs `how` and `why` to do its job. Run `npx skills add backnotprop/pstack` again and check those two as well.
+<Q q="I only installed teach, and it's missing things.">
+`teach` relies on `how` and `why`. Run `npx skills add backnotprop/pstack` again and check those two as well.
 </Q>
-<Q q="I only installed a few skills. Can I still use /poteto-mode?">
-Not recommended. `poteto-mode` reads every principle skill and calls most of the other skills along the way. Whatever is missing, that step won't be done fully. If you want it, install everything.
+<Q q="I only installed a few. Can I use /poteto-mode?">
+Not recommended. It reads every principle skill (`principle-*`) and calls most of the other skills. Missing one leaves a step incomplete.
 </Q>
-<Q q="Do I need to pick the principle skills (principle-*) separately?">
-Only when you install `poteto-mode`, and then you need all of them. You won't type them directly. They're there for `poteto-mode` to read. You only need to say their names when steering, see <a href="/en/howto/steer/">Pull it back in one line</a>.
+<Q q="What do recall, no-comments, and setup-pstack need?">
+`recall` uses `why` and `unslop`. `no-comments` mentions `how`, `why`, and `architect`, so bring those along to be safe. `setup-pstack` needs nothing else. Install it if you want to pick models.
+</Q>
+<Q q="Do I pick the principle skills (principle-*) separately?">
+Install all of them when you install `poteto-mode`. You never type them. Just say their names when you steer, as in <a href="/en/howto/steer/">Pull it back in one line</a>.
 </Q>

@@ -19,9 +19,9 @@ const T = en
     <div class="step-head__eyebrow"><span>{T.eyebrow}</span><span>{t(s, "minutes", lang)}</span></div>
     <progress class="xxd-progress" value={s.n} max={last} aria-label={T.prog}></progress>
     <h1>{title}</h1>
+    {frontmatter.tldr && <p class="page-tldr"><span class="page-tldr__label">{en ? "In one line" : "一句话"}</span>{frontmatter.tldr}</p>}
     <div class="step-head__meta">
       {frontmatter.need && <span class="xxd-badge">{T.need}{frontmatter.need}</span>}
-      <span class="xxd-badge">{t(s, "sum", lang)}</span>
     </div>
   </header>
   <article class="xxd-prose"><slot /></article>

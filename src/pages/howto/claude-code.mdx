@@ -1,10 +1,11 @@
 ---
 layout: ../../layouts/HowTo.astro
 slug: claude-code
-time: 装好 5 分钟，读完 15 分钟
+time: 装好 5 分钟，读完 10 分钟
 for: 平时用 Claude Code，想在里面用 pstack
 step: 1
-description: "在 Claude Code 里装 pstack 的两种方法、命令前要加的 pstack 前缀、模型设置文件放在哪、三套推荐的模型配置、Cursor 的名字怎么对应过来、哪些功能会被跳过，以及怎么打开自动更新。"
+tldr: 两条命令装好，命令前加 pstack:，按「均衡」方案配模型，再开一个新会话。
+description: "在 Claude Code 里装 pstack、命令前加 pstack: 前缀、三套现成的模型配置怎么选，以及被跳过的 Cursor 功能和自动更新。"
 ---
 import Callout from "../../components/Callout.astro";
 import Term from "../../components/Term.astro";
@@ -13,137 +14,77 @@ import Copy from "../../components/Copy.astro";
 import Tabs from "../../components/Tabs.astro";
 import Cmd from "../../components/Cmd.astro";
 
-## 两种装法，选一种就行
+## 先装上
 
-pstack 本来是给 Cursor 写的，不过在 Claude Code 里也能装。有两条路：
-
-**路线一：插件市场。** 在 Claude Code 的对话框里依次输入这两条：
+在 Claude Code 的对话框里，依次输入这两条：
 
 <Copy id="cc-plugin" title="从插件市场装" code={`/plugin marketplace add cursor/plugins
 /plugin install pstack@cursor-plugins`} />
 
-第一条把 Cursor 官方的插件市场加进来，第二条从里面装 pstack。装的是一份专门为 Claude Code 生成的副本，技能、README、使用指南都在里面，还有两个现成的<Term k="子代理" />（`poteto-agent` 和 `comment-sicko`）。
+装的是全套，`/poteto-mode` 要的东西都在。拿不准就用这个。
 
-**路线二：skills 命令行。** 在终端里（不是在 Claude Code 对话框里）输入：
+**想自己挑技能**，在终端里（不是对话框里）输入：
 
 <Cmd c="npx skills add backnotprop/pstack" />
 
-它会列出所有技能让你挑，再让你选装到哪个工具。选 Claude Code，技能就放进 `.claude/skills/`。这条路装的是 backnotprop 维护的镜像版，里面原本只适合 Cursor 的写法已经改成了任何工具都能用。想只装几个技能，看[只装几个技能](/howto/pick-skills/)。
+勾好技能，工具选 Claude Code，技能会放进 `.claude/skills/`。怎么挑看[只装几个技能](/howto/pick-skills/)。
 
-| | 插件市场 | npx skills |
-| --- | --- | --- |
-| 在哪输入 | Claude Code 对话框 | 终端 |
-| 装什么 | 全套，没法挑 | 列表里自己勾 |
-| 命令前缀 | 要加 `pstack:` | 不用加 |
-| 更新 | `claude plugin update`，或开自动更新 | `npx skills update` |
+## 命令前面加 pstack:
 
-拿不准就选路线一。全套装上，`/poteto-mode` 需要的东西一样不缺。
-
-## 命令前面要加 pstack:
-
-Claude Code 会给插件里的命令加上插件名当前缀。所以教程里写的 `/poteto-mode`，你要打成：
+用插件市场装的，命令前要加插件名。教程里的 `/poteto-mode`，你要打成：
 
 <Cmd c="/pstack:poteto-mode" />
 
-同理，`/setup-pstack` 是 `/pstack:setup-pstack`，`/poteto-help` 是 `/pstack:poteto-help`，`/how` 是 `/pstack:how`。本站其他页面为了好读，都写不带前缀的版本，你在 Claude Code 里自己补上。
-
-这个前缀只跟插件有关。用 `npx skills` 装的是放在 `.claude/skills/` 里的普通技能，不是插件，直接打 `/poteto-mode` 就行。
+其他命令也一样，比如 `/pstack:how`。本站其他页面都不写前缀，你自己补上。用 `npx skills` 装的不用加。
 
 <Callout type="warn" title="技能不会自己跳出来">
-pstack 的技能，除了 `setup-pstack`，都设置成了「只有你点名才运行」。`/pstack:poteto-mode` 一定要你亲手打出来，它不会因为你说了「帮我修个 bug」就自动启用。
+除了 `setup-pstack`，每个技能都要你亲手打出来才运行。你说「帮我修个 bug」，它不会自己启用 `/pstack:poteto-mode`。
 </Callout>
 
-## 选模型：设置文件在 ~/.claude/rules/
+## 选模型，然后开新会话
 
-装完先跑一次选模型：
+装完先跑一次：
 
 <Cmd c="/pstack:setup-pstack" />
 
-它会问你<Term k="推理预算" />、给每个<Term k="模型角色" />配模型，最后写一个文件：`~/.claude/rules/pstack-models.md`。Claude Code 每开一个新会话，都会把 `~/.claude/rules/` 里所有 `.md` 文件读进来，所以这份设置以后每次都在。
+它会问你<Term k="推理预算" />（让模型想多久），再给每个<Term k="模型角色" />配一个模型。最后写出一个文件：`~/.claude/rules/pstack-models.md`。
 
-在 Claude Code 里，模型写成「名字 + 档位」，比如 `opus xhigh`。名字只有 `opus`、`sonnet`、`haiku`、`fable` 这几个。写出来的文件大概是这个样子（节选）：
+Claude Code 每次开新会话，都会读这个文件夹里的 `.md` 文件。所以<mark>跑完 setup，退出重开一个会话再干活</mark>。当前会话用的还是旧设置。
 
-<Copy id="cc-rule" title="~/.claude/rules/pstack-models.md 节选" code={`# budget: large (xhigh)
-feature, refactoring: inherit-parent
-bug-fix: inherit-parent
-judgment and prose: opus xhigh
-hardest tasks: opus xhigh
-interrogate reviewers: opus xhigh, inherit-parent`} />
-
-<Callout type="tip" title="设置完，开一个新会话">
-这份文件只在新会话开始时读进来。当前这个会话还是旧设置。<mark>跑完 setup 之后，退出重开一个会话再干活</mark>。
-</Callout>
-
-两个小提醒：这些角色行不要抄进 `CLAUDE.md` 或 `AGENTS.md`，就放在这一个文件里。以前的版本把设置写在 `~/.agents/pstack-models.md`，如果新文件不存在，技能会去那里找。
-
-## Cursor 的名字在这里怎么对应
-
-pstack 的技能里写的是 Cursor 的叫法。插件里带了一份对照说明（`docs/harness/claude-code.md`），AI 每个会话读一次，自己换算。你不用记，但看懂下面这张表（表里的 <Term k="worktree" /> 是同一个仓库的第二份工作目录），就明白它为什么那样做：
-
-| 技能里写的 | 在 Claude Code 里变成 |
-| --- | --- |
-| `Task`（派子代理） | `Agent` 工具 |
-| `poteto-agent` | `pstack:poteto-agent` |
-| 只读的子代理 | `Explore` 类型。它还能跑命令，所以 AI 会在任务说明里写「不要改文件」，事后再看一眼 `git status` |
-| 云端代理 | 本地开一个 worktree，在里面干 |
-| `claude-opus-5-5-xhigh` 这类名字 | 模型 `opus`，档位 `xhigh` |
-| `grok-*`、`gpt-*` 这类非 Claude 模型 | 不填模型，子代理就用你当前会话的模型，并且会说一声 |
-| `auto` 或 `inherit-parent` | 同样不填模型 |
-| 提问工具 `AskQuestion` | `AskUserQuestion` |
-| `.cursor/rules/` 里的规则 | `CLAUDE.md`（没有就用 `AGENTS.md`） |
-
-最后两行模型规则对你影响最大：原本给 grok 的活，到这里都落在你当前会话的模型上。下一节讲这意味着什么、该怎么配。
+模型写成「名字 + 档位」，比如 `opus xhigh`。名字只有 `opus`、`sonnet`、`haiku`、`fable`。这些行放在这一个文件里就行，不要抄进 `CLAUDE.md`。
 
 ## 怎么配最好
 
-在 Claude Code 里，两样东西决定 pstack 用什么模型：
+**大多数人选「均衡」就行**：会话用 opus，写代码交给 sonnet。
 
-- **会话模型**：你用 `/model` 选的那个。它是协调者，负责挑剧本、派活、审每个子代理交回来的改动、写最后的总结。
-- **设置文件**里每个<Term k="模型角色" />的那一行：派出去的子代理各用什么模型。
+为什么？两样东西决定用什么模型：
 
-### 默认值在这里变成了什么
+- **会话模型**：你用 `/model` 选的那个，就是你直接对话的 AI。它负责挑做法、派活、审每一份改动。
+- **设置文件里的每一行**：派出去干活的帮手 AI（<Term k="子代理" />）各用什么模型。
 
-pstack 的默认分工是「grok 写代码，opus 做判断，评审组两家各出一个」。到了 Claude Code，grok 那几行都变成 `inherit-parent`，也就是跟着会话模型走：
+pstack 默认让 grok 写代码。Claude Code 里用不了 grok，这些行就变成 `inherit-parent`，意思是跟着会话模型走。
 
-| 角色 | pstack 默认 | 在 Claude Code 里 |
+所以什么都不改、会话又用 opus，所有活都是 opus 干的：花费最高，评审的两个座位也是同一个模型。均衡方案把写代码换成 sonnet，价钱减半，评审也有了两个模型。
+
+价钱是 2026 年 10 月的 API 标价，每百万 <Term k="token" />。用订阅的话，贵的型号额度用得快：
+
+| 型号 | 输入 / 输出 | 适合 |
 | --- | --- | --- |
-| 写代码（功能、重构、修 bug、性能、爬坡）、`/how` 的探索、`/why` 的调查、swarm 工人 | grok | 你的会话模型 |
-| 判断和写文字、最难的改动、`/how` 的讲解、各种汇总 | opus xhigh | opus xhigh |
-| 评审组（arena、architect、interrogate） | opus + grok | opus + 你的会话模型 |
+| fable | $10 / $50 | 最强，不计成本时用 |
+| opus | $4 / $20 | 会话、做判断、最难的改动 |
+| sonnet | $2 / $10 | 写代码、评审的第二个座位 |
+| haiku | $0.1 / $0.5 | 不建议用 |
 
-所以结果取决于你的会话用什么：
-
-- **会话是 opus**：所有角色都是 opus。花费在最高的那一档，评审组的两个座位却是同一个模型，pstack 想要的「换个模型来挑刺」没有了。装完不改设置的人，多半是这个状态。
-- **会话是 sonnet**：写代码的是 sonnet，做判断的是 opus，评审组是 opus 加 sonnet。和 pstack 的原意最像，只是协调者换成了 sonnet。
-
-### 一个绕不过去的限制
-
-pstack 按名字前缀给模型分「家族」：`claude-*` 是一家，grok 是另一家。opus、sonnet、fable、haiku 都是 Claude，算同一家。有几步要求「换一家」，在 Claude Code 里做不到：
-
-- `/arena` 的评委不能和协调者同一家。找不到别家的评委，它会跳过评委、由协调者自己挑，并在回复里说明。所以设置文件里 `arena cross-judge pool` 那一行，在 Claude Code 里基本用不上。
-- `/show-me-your-work` 收尾前要派另一家的审阅者读日志；合并前的验证也要求不是同一家。在这里最多换一个型号。
-
-opus 和 sonnet 互相审，比不上两家互审，但比一个模型审自己强。真想要别家的眼光，可以把要紧的评审拿到 Codex 或 Cursor 里，用那边的模型再跑一次 `/interrogate`。
+haiku 不建议用：检查结果也用写代码那一行的模型，换成最便宜的，检查也会变弱。
 
 ### 三套方案
-
-价钱先摆出来（2026 年 10 月的 API 标价，每百万 token；用订阅的看的是额度，贵的型号额度用得快）：
-
-| 型号 | 输入 / 输出 | 在 pstack 里适合做什么 |
-| --- | --- | --- |
-| fable | $10 / $50 | 目前最强。不计成本时做判断、做最难的改动 |
-| opus | $4 / $20 | 会话（协调者）、判断和写文字、最难的改动 |
-| sonnet | $2 / $10 | 写代码、探索、swarm 工人、评审组的第二个座位 |
-| haiku | $0.1 / $0.5 | 不建议给任何角色 |
-
-haiku 不建议用，是因为验证也走 swarm 工人那一行的模型。工人换成最便宜的，验证也跟着变弱，而验证是 pstack 最不该省的一步。
 
 <Tabs id="cc-plans" label="选一套方案" items={[["balanced", "均衡（推荐）"], ["cheap", "省钱"], ["max", "不计成本"]]}>
 <div slot="balanced">
 
-**会话用 opus，设置文件里把 `inherit-parent` 都换成 `sonnet xhigh`。**
+**会话用 opus，设置文件里的 `inherit-parent` 全换成 `sonnet xhigh`。**
 
-协调者要读懂你的意思、审每一份改动、决定什么时候停，这一步不能省，所以给 opus。写代码的子代理拿到的是写清了范围和完成条件的活，sonnet 做得了，价钱是 opus 的一半。评审组变成 opus 加 sonnet，至少是两个不同的模型。最难的改动照样走 `hardest tasks` 那一行，交给 opus。
+会话要读懂你、审改动，给 opus。写代码的帮手拿到的是说清楚了的活，sonnet 做得了。最难的改动走 `hardest tasks`，还是 opus。
 
 <Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md（均衡）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
 # budget: large (xhigh)
@@ -170,7 +111,7 @@ interrogate reviewers: opus xhigh, sonnet xhigh`} />
 
 **会话用 sonnet，设置文件用默认的，预算选 medium。**
 
-一个角色都不用改：会话换成 sonnet，默认文件里的 `inherit-parent` 就都成了 sonnet，自然得到「sonnet 写、opus 判」。预算 medium 把所有档位从 xhigh 降到 high。代价是协调者变成 sonnet，复杂的活它更容易判断失误，那种活临时用 `/model` 换回 opus 再开始。
+一行都不用改：`inherit-parent` 跟着会话变成 sonnet，做判断的还是 opus。medium 把档位从 xhigh 降到 high。复杂的活先用 `/model` 换回 opus 再开始。
 
 <Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md（省钱）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
 # budget: medium (high)
@@ -195,9 +136,9 @@ interrogate reviewers: opus high, inherit-parent`} />
 </div>
 <div slot="max">
 
-**会话用 opus，判断类角色给 fable，写代码给 opus，评审组三个座位。**
+**会话用 opus，做判断给 fable，写代码给 opus，评审三个座位。**
 
-fable 用在最吃判断的地方：讲解、汇总、最难的改动。写代码给 opus。评审组排成 fable、opus、sonnet 三个座位，名单有几个模型就派几个子代理，三个不同的模型盲点最少。fable 的 API 标价是 opus 的 2.5 倍；`/setup-pstack` 只写它检测到的模型，你的账号用不了 fable 就选不出来。
+fable 放在最要判断的地方：讲解、汇总、最难的改动。评审组列了三个模型，就派三个帮手。fable 的标价是 opus 的 2.5 倍。账号用不了 fable 的，setup 里选不到它。
 
 <Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md（不计成本）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
 # budget: large (xhigh)
@@ -222,58 +163,55 @@ interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
 </div>
 </Tabs>
 
-三套都把预算停在 large 或更低。不选 unlimited，是因为 pstack 自己会给最难的那一步临时升一档，日常的活用不着 max。
+三套都不用 unlimited 预算。最难的那一步，pstack 自己会临时升一档。
 
 ### 怎么写进去
 
 1. 用 `/model` 选好会话模型。
 2. 跑 `/pstack:setup-pstack`，预算按方案选。
-3. 它列出所有角色、问你要不要改时，告诉它改哪几行，比如「把所有 inherit-parent 换成 sonnet xhigh」；或者直接把上面的文件内容贴给它，让它照这个写。它会先核对每个模型你都能用。
+3. 它问要不要改角色时，把上面的文件贴给它，让它照着写。
 4. 退出，开一个新会话。
 
-也可以自己把上面那段存成 `~/.claude/rules/pstack-models.md`。手写的话，确认里面每个模型你的账号都能用，下次跑 setup 时它会把这份当成当前设置。
+## 看到 Skipped in Claude Code
 
-## Cursor 独有的功能会被跳过
-
-Claude Code 没有这几样：Cursor Automations（定时自动任务）、Bugbot（Cursor 的代码审查机器人）、Cursor 的云端代理、Cursor 自带的 PR 工具。
-
-步骤用到它们时，AI 不会停下来问你，也不会反复重试。它会在回复里留一行：
+Cursor 的定时任务、Bugbot 审查机器人、云端代理，Claude Code 都没有。用到它们的步骤会被跳过，回复里留一行，然后接着做：
 
 <Copy id="cc-skip" title="你会看到这样一行" code="Skipped in Claude Code: <哪一步>. <为什么跳过>." />
 
-然后接着做下一步。如果后面的步骤需要被跳过那一步的产物（比如一个链接、一个密钥），它会留个占位符，并在这一行里写明。
+开 <Term k="PR" /> 不受影响，它会改用 `gh pr create`。`/loop` 这里也有。如果它说留了占位符（比如缺一个链接），看一眼缺什么，需要就自己补上。
 
-开 PR 不算跳过：没有 Cursor 的 PR 工具，它就用 `gh pr create` 这类命令，不会写跳过说明。PR 上如果本来就有 Bugbot 的评论，它会当普通评论处理。另外 `/loop` 在 Claude Code 里也有，长任务照样能跑。
+## 打开自动更新
 
-## 自动更新默认是关的
-
-Claude Code 对第三方插件市场默认不自动更新，所以 pstack 会一直停在你装的那个版本。想打开：
+Claude Code 默认不更新第三方插件。打开自动更新：
 
 1. 在对话框输入 `/plugin`。
 2. 打开 **marketplaces** 标签页。
 3. 选中 `cursor-plugins`。
 4. 选 **enable auto-update**。
 
-不想开自动更新，想更新时手动跑一次：
+想手动更新，就跑：
 
 <Cmd c="claude plugin update pstack@cursor-plugins" />
 
-更新后如果默认模型变了，你的旧设置文件还会钉着旧的默认值，处理办法看[更新、查看、卸载](/howto/update-remove/)。
+更新后默认模型变了，旧的设置文件还会用旧模型。处理办法看[更新、查看、卸载](/howto/update-remove/)。
 
 ## 卡住了？
 
 <Q q="打 /poteto-mode 没反应，菜单里也找不到。">
-用插件市场装的，要打 `/pstack:poteto-mode`。在对话框里先输入 `/pstack:`，菜单会按这个前缀把 pstack 的命令筛出来。
+插件市场装的，要打 `/pstack:poteto-mode`。先输入 `/pstack:`，菜单会只列出 pstack 的命令。
 </Q>
 <Q q="跑完 setup，换的模型没生效。">
-设置文件只在新会话开始时读。退出当前会话，重新开一个。还不行，看一下 `~/.claude/rules/pstack-models.md` 有没有写出来，里面那一行是不是你选的模型。
+设置文件只在新会话开始时读。退出重开一个会话。还不行，就打开 `~/.claude/rules/pstack-models.md`，看那一行是不是你选的模型。
 </Q>
-<Q q="AI 说 Skill 工具调不动 pstack 的技能，这是坏了吗？">
-不是。这是预期的：在 Claude Code 里，大部分 pstack 技能没法用 Skill 工具调起来，AI 会直接去读那个技能的 `SKILL.md` 照着做。你这边照常打命令就行。
+<Q q="回复说 /arena 跳过了评委，或者没找到别家的审阅者。">
+有几步要求「另一家」的模型来审，比如 `/arena` 的评委。Claude 的模型都算同一家，所以它会跳过评委、自己挑，并说一声。`arena cross-judge pool` 那一行在这里基本用不上。想要别家的眼光，把要紧的评审拿到 Codex 或 Cursor 里再跑一次 `/interrogate`。
 </Q>
-<Q q="回复里出现 Skipped in Claude Code，要管吗？">
-一般不用。那一步要的是 Cursor 才有的功能，跳过是设计好的。只有它提到占位符时，看一眼占位符缺的是什么，需要的话自己补上。
+<Q q="技能里写的是 Cursor 的叫法，要我自己换吗？">
+不用，插件里带了对照说明（`docs/harness/claude-code.md`），AI 自己换算。比如 `.cursor/rules/` 改读 `CLAUDE.md`（没有就读 `AGENTS.md`），云端代理改成本地的 <Term k="worktree" />。
 </Q>
-<Q q="放它跑了一晚上，早上发现停在一个权限确认上。">
-<p>Claude Code 每次跑没放行过的命令都会问你。放手之前，把常用的命令（git、gh、项目的测试和构建命令）提前放行。Claude Code 自带的 `/fewer-permission-prompts` 会从你以前的会话里找出常用的只读命令，写进项目的 `.claude/settings.json`；会改东西的命令要你自己决定放不放。</p>
+<Q q="AI 说 Skill 工具调不动 pstack 的技能，坏了吗？">
+没坏。在 Claude Code 里，大部分 pstack 技能本来就调不动。AI 会直接读那个技能的 `SKILL.md` 照着做。你照常打命令就行。
+</Q>
+<Q q="放它跑了一晚上，早上发现停在权限确认上。">
+放手之前，先放行常用命令：git、gh、测试和构建命令。Claude Code 自带的 `/fewer-permission-prompts` 会找出你常用的只看不改的命令，写进项目的 `.claude/settings.json`。会改东西的命令，放不放你自己定。
 </Q>

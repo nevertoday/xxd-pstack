@@ -2,7 +2,8 @@
 layout: ../../../layouts/Guide.astro
 step: 0
 need: Nothing yet, just read
-description: What pstack is, which bad AI coding habits it fixes, what's inside, what you get from it, and what to have ready before you start.
+tldr: Know what pstack does for you, what it costs, and the four things to have ready before you start.
+description: What pstack is, which bad AI coding habits it fixes, what it costs, and what to have ready before you start.
 ---
 import Callout from "../../../components/Callout.astro";
 import Checkpoint from "../../../components/Checkpoint.astro";
@@ -12,55 +13,49 @@ import Term from "../../../components/Term.astro";
 This full guide is for people who write code, and it uses words like Git and PR. If you've never written code, start with the [three beginner lessons](/en/start/1-why/). You'll be using it in 20 minutes.
 </Callout>
 
-## The short version
+## What pstack is
 
-pstack is a pack of <Term k="技能" text="skills" /> that goes into your AI coding tool. Once it's installed, the AI writes code by a senior engineer's rules: <mark><strong>understand first, then act, then show the evidence.</strong></mark>
+pstack is a pack of <Term k="技能" text="skills" />. It goes into the AI coding tool you already use, like Claude Code, Cursor, or Codex.
 
-It isn't a new model or a new app. It's a set of instruction files written for the AI, and they live inside the Claude Code, Cursor, or Codex you already use. The model stays the same. What changes is the order it works in and the bar it has to clear.
+Once it's in, the AI writes code by a senior engineer's rules: <mark><strong>understand first, then act, then show the evidence.</strong></mark>
 
-## What problems it solves
+The model stays the same. What changes is the order it works in and the bar it has to clear.
 
-If you've written code with AI, you've probably seen some of these:
+## Which bad habits it fixes
 
-- **Changing code it hasn't understood.** It dives straight in and edits a spot that looks right but isn't.
-- **Treating only the symptom.** It sees duplicate data and adds a dedupe where the data is displayed. The bug that creates the duplicates is still there.
-- **Saying "done" without proof.** "Fixed, should be fine now." You run it, and it's still broken.
-- **Changes that keep growing.** A pile of compatibility shims, comments, and defensive checks nobody needs. They're tiring to review, and the next bug hides in them.
+- **Changing code it hasn't understood.** It edits a spot that looks right but isn't.
+- **Treating only the symptom.** It hides duplicate data where it's shown. The bug that creates them is still there.
+- **Saying "done" without proof.** It says "should be fine now." You run it, and it's still broken.
+- **Changes that keep growing.** It adds code nobody needs, and the next bug hides in it.
 
-pstack's author, poteto, has written code at the scale of millions of lines at Meta, Netflix, and Cursor, and works on React Compiler on the React core team. Their stance is blunt: **there's too much AI slop code; to go fast, you first have to go deep.** pstack is the setup they use every day in Cursor to write high-quality code, later open-sourced.
+## You only need one command
 
-## What's inside
+Day to day, just type `/poteto-mode`. You say the goal, and it plans the rest. Behind it there's more, but you don't need to learn it yet:
 
-| Thing | How many | In plain words |
-| --- | --- | --- |
-| Main entry `/poteto-mode` | 1 | You state the goal, it plans everything. As a beginner, this is the only one you need to remember. |
-| <Term k="剧本" text="Playbooks" /> | 23 | Fix a bug, add a feature, refactor, chase performance... one standard approach per kind of task. |
-| Skills | 34 | `/how` explains code, `/interrogate` brings in critics to poke holes, `/bro` puts things in plain words... see the [skills list](/en/skills/). |
-| <Term k="原则" text="Principles" /> | 24 | "subtract before you add", "prove it works", "fix root causes"... each one has a name, and saying the name steers the AI back on track. |
-| Subagents | 2 | `poteto-agent` (helpers it sends out follow the same rules) and Comment Sicko (reviews comments, nothing else). |
-
-You don't need to learn all of this. Day to day, just type `/poteto-mode`. It calls in the other skills when it needs them.
+- **23 <Term k="剧本" text="playbooks" />**: fix a bug, add a feature, refactor... one approach per kind of task.
+- **34 skills**: for example, `/how` explains code and `/bro` puts things in plain words. See the [skills list](/en/skills/).
+- **24 <Term k="原则" text="principles" />**: for example, "subtract before you add" and "prove it works."
+- **2 helper AIs**: one follows the same rules when it's sent off to work; one only reviews comments.
 
 ## What you get from it
 
-- **Less code, but better code.** The first principle is "delete what you can, solve the problem with the smallest change." It isn't chasing line count. Quite the opposite.
-- **No more "should be fixed now."** Every task has to end with real evidence: run real commands, read real data, click through the real UI.
-- **Confidence to run several AIs at once.** Every AI follows the same rules and works in its own directory, so you can run them in parallel without watching each one. The author calls this "fearless parallelism."
-- **It gets smoother the more you use it.** Make the same mistake twice and it gets blocked at the root (`/correct`). Once you know it well, generate a working mode of your own (`/automate-me`).
+- **Smaller changes, with evidence every time.** It deletes what it can, and ends by running real commands and clicking the real UI.
+- **You can run several AIs at once.** Each follows the same rules and works in its own folder.
+- **The same mistake doesn't happen twice.** Use `/correct` to block it at the root.
 
-<Callout type="warn" title="The cost, stated plainly">
-pstack sends out extra subagents and has several models review each other, so **the same job is slower and uses more tokens**. That's the price of being rigorous. Skip it for small changes. For ways to save, see [Controlling cost](/en/howto/cost/).
+<Callout type="warn" title="The cost: slower and pricier">
+It sends out more helper AIs and has several models check each other. So it's slower and uses more tokens. Skip it for small changes. To save, see [Controlling cost](/en/howto/cost/).
 </Callout>
 
-## What to have ready before you start
+## Have four things ready
 
-- **An AI coding tool**: any one of Claude Code, Cursor, or Codex (OpenCode and Pi work too). It needs to be able to read and write your code and run commands. <u>A chat-only AI in the browser won't work</u>.
-- **A model you can use**: a paid subscription to the tool, or an API key. pstack defaults to a fairly high reasoning level.
-- **A real project, ideally in Git**: most playbooks create a <Term k="worktree" />, make commits, and open a <Term k="PR" />. If you're not using Git yet, run `git init` and make one commit first.
-- **Node.js 22.20 or later**: only needed if you install with `npx skills` (covered in the next step).
+- **An AI coding tool**: any one of Claude Code, Cursor, or Codex (OpenCode and Pi work too). It must be able to change your code and run commands. <u>A chat-only AI in the browser won't work</u>.
+- **A model you can use**: a paid plan for the tool, or an API key.
+- **A real project in Git**: most playbooks create a <Term k="worktree" /> and open a <Term k="PR" />. Not using Git yet? Run `git init` and make one commit first.
+- **Node.js 22.20 or later**: only if you install with `npx skills`.
 
 <Callout type="tip">
-The official pstack is written for Cursor. This site uses the [backnotprop/pstack](https://github.com/backnotprop/pstack) mirror, which syncs with the official version daily and is rewritten so it also works in Claude Code and Codex. You use both the same way.
+This site uses the [backnotprop/pstack](https://github.com/backnotprop/pstack) mirror. It syncs with the official version daily, and also works in Claude Code and Codex. You use both the same way.
 </Callout>
 
-<Checkpoint id="s0" items={["I know pstack is a pack of skills that goes into an AI coding tool, not a new model", "I know a beginner only needs to remember one command first: <code>/poteto-mode</code>", "I have one of Claude Code, Cursor, or Codex, plus a project I want to work on with it"]} />
+<Checkpoint id="s0" items={["I know pstack is a pack of skills that goes into an AI coding tool, not a new model", "I know that day to day I only type one command: <code>/poteto-mode</code>", "I have one of Claude Code, Cursor, or Codex, plus a project I want to work on with it"]} />

@@ -12,7 +12,8 @@
 
 **不会写代码？** 先看 [新手入门三课](https://pstack.xiaoxiaodong.ai/start/1-why/)，20 分钟就能用起来。
 
-![主线](https://img.shields.io/badge/主线教程-9_步-8A9A8C?style=flat-square)
+![新手入门](https://img.shields.io/badge/新手入门-3_课-8A9A8C?style=flat-square)
+![完整教程](https://img.shields.io/badge/完整教程-9_步-8A9A8C?style=flat-square)
 ![技能](https://img.shields.io/badge/技能速查-34_个-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_篇-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20_条-9AA8C4?style=flat-square)
@@ -130,7 +131,8 @@ npx skills add backnotprop/pstack
 
 | 栏目 | 内容 |
 |---|---|
-| [主线教程](https://pstack.xiaoxiaodong.ai/guide/0-what/) | 9 步，按顺序看：是什么 → 安装 → 选模型 → 第一个任务 → 先看懂 → 设计动手清理 → 验证交付 → 跑一夜 → 变成你自己的 |
+| [新手入门](https://pstack.xiaoxiaodong.ai/start/1-why/) | 3 课 20 分钟，不会写代码也能看懂：它能帮你什么 → 装上它 → 第一次用 |
+| [完整教程](https://pstack.xiaoxiaodong.ai/guide/0-what/) | 9 步，给会写代码的人：是什么 → 安装 → 选模型 → 第一个任务 → 先看懂 → 设计动手收拾 → 验证交付 → 跑一夜 → 用熟以后 |
 | [技能速查](https://pstack.xiaoxiaodong.ai/skills/) | 34 个技能，一个一块 |
 | [How-to](https://pstack.xiaoxiaodong.ai/howto/) | 17 篇，一篇只讲一件事 |
 | [Wiki](https://pstack.xiaoxiaodong.ai/wiki/) | 20 个概念：一句话 → 打个比方 → 在 pstack 里 → 常见误区；含 24 条原则和 23 套剧本对照表 |
@@ -148,11 +150,12 @@ npm run release    # 构建并部署到 Cloudflare
 ```
 
 ```text
-src/data/nav.js        站点结构：主线、How-to 清单、术语表（唯一来源）
+src/data/nav.js        站点结构：新手入门、完整教程、How-to 清单、术语表（唯一来源）
 src/data/skills.js     技能速查的数据
 src/data/wiki.js       Wiki 条目
 src/data/faq.js        常见问题
-src/pages/guide/       主线教程（MDX）
+src/pages/start/       新手入门三课（MDX）
+src/pages/guide/       完整教程（MDX）
 src/pages/howto/       How-to（MDX）
 public/xxd/            小小东 UI Kit（自带一份，不走 CDN）
 tools/build_assets.py  生成 README 插画、SVG 动画和分享大图（social.svg → social.png / public/og.png）

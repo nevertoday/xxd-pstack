@@ -1,10 +1,11 @@
 ---
 layout: ../../../layouts/HowTo.astro
 slug: codex
-time: 5 minutes to install, 10 to read
+time: 5 minutes to install, 6 to read
 for: You use Codex, OpenCode, Pi, or another tool that supports Agent Skills
 step: 1
-description: "Install pstack into Codex and other tools with npx skills: which Node.js version you need, installing per project or globally, where the skill files go, where the model settings file is, and what happens when there are no subagents or /loop."
+tldr: Install with one command, run setup once to pick models, then start with $poteto-mode.
+description: "Installing pstack into Codex and other tools with npx skills: the Node.js version, project or global install, where skills and model settings live, and what happens when your tool lacks a feature."
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
@@ -14,88 +15,73 @@ import Cmd from "../../../components/Cmd.astro";
 
 ## One command to install
 
-pstack is really just a folder where each skill is a `SKILL.md`, following the common <Term k="Agent Skill" /> format. So you can use it without Cursor. In your terminal, type:
+Each pstack skill is a `SKILL.md` in the common <Term k="Agent Skill" /> format, so it installs without Cursor. In your terminal, type:
 
 <Cmd c="npx skills add backnotprop/pstack" />
 
-This command needs Node.js 22.20 or newer. If you're not sure, run `node -v` in your terminal first to check.
+It needs Node.js 22.20 or newer. If you're not sure, run `node -v` first.
 
-Once it runs, two things happen:
+Check the skills you want, then pick which tools to install into. If you don't know which to check, select all. For just a few, see [Install only a few skills](/en/howto/pick-skills/).
 
-1. It lists every skill. You can search the list. Check the ones you want.
-2. Then it asks which tools to install into, like Codex, OpenCode, Pi, or Claude Code.
-
-<Callout type="tip" title="This project, or every project">
-<p>By default it installs only into the project folder you're in. To make it available in every project, add <code>-g</code>:</p>
+<Callout type="tip" title="Install for every project">
+<p>By default it installs only into the current project folder. To make it available in every project, add <code>-g</code>:</p>
 <p><Cmd c="npx skills add backnotprop/pstack -g" /></p>
 </Callout>
 
-If you don't know which ones to check, select all. If you only want a few, some skills need others installed alongside them. See [Install only a few skills](/en/howto/pick-skills/).
+## Check where it installed
 
-## Where the skills were installed
+Look in the matching folder for subfolders like `poteto-mode`:
 
-Each tool reads skills from a different folder. To confirm the install, look in the matching folder for subfolders like `poteto-mode`:
-
-| Tool | In the project | In your user folder (all projects) |
+| Tool | This project | All projects (-g) |
 | --- | --- | --- |
-| Codex, OpenCode, and others | `.agents/skills/` | `~/.agents/skills/`, and for Codex also `~/.codex/skills/` |
+| Codex and others | `.agents/skills/` | `~/.agents/skills/` |
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 | Pi | `.pi/skills/` | `~/.pi/agent/skills/` |
 | Cursor | `.cursor/skills/` | `~/.cursor/skills/` |
 
-Once installed, <mark>the skills don't start on their own</mark>. Except for `setup-pstack`, the AI never decides by itself to use a skill. Either you name it, or you name `poteto-mode` and it reads the ones each step needs.
+Codex also reads `~/.codex/skills/`.
 
-## Choosing models: the settings file is in ~/.agents/
+<mark>Skills don't start on their own</mark>. Except for `setup-pstack`, each one runs only when you name it.
 
-After installing, run `setup-pstack` once. It lists the models your tool can use, asks about your <Term k="推理预算" />, and then writes a file:
+## Pick models
+
+After installing, run `setup-pstack` once. It lists the models you can use, asks about your <Term k="推理预算" /> (how long models think), then writes one file:
 
 <Copy id="codex-file" title="Where the settings file lives" code="~/.agents/pstack-models.md" />
 
-Unlike Cursor and Claude Code, tools like Codex don't load this file automatically. pstack's skills read it themselves when picking a model, and `poteto-mode` also reads it once at the start of every task.
+The skills read it themselves when they pick a model, so you don't need a new conversation.
 
-<Callout type="warn" title="The default model names may not match">
-pstack's default model names are written for Cursor (grok writes code, opus 5.5 makes judgment calls). If your tool doesn't have that name, the skill switches to the closest one. If there's nothing close, it leaves the model blank so the subagent uses your current conversation's model, and says so in the reply. So it's best to run setup once and switch every role to a model you really have.
+<Callout type="warn" title="Run setup at least once">
+pstack's default model names are written for Cursor. If your tool lacks a name, the skill switches to the closest one. If there's nothing close, it uses your current conversation's model and says so. Run setup once, and every role gets a model you actually have.
 </Callout>
-
-In Cursor, the reasoning level is part of the model name (`-xhigh`, `-fast`). In other tools, if the tool that sends out subagents has an option like "reasoning effort," it uses that. If not, it skips it.
-
-## What about subagents, questions, and /loop
-
-pstack's skills use Cursor's terms, and `poteto-mode` has a section on how they map to other tools. The AI translates on its own, so you only need the rough idea (a <Term k="子代理" /> is a helper the main conversation sends out to do one small piece of work):
-
-| What the skill says | In other tools |
-| --- | --- |
-| Send out a subagent (`Task`) | `spawn_agent` in Codex, `task` in OpenCode |
-| No subagent tool (like Pi without extensions) | The AI does the steps that would have been handed off itself, one at a time |
-| `poteto-agent` isn't registered | Send out an ordinary subagent and have it read all of `poteto-mode` before starting |
-| A cloud agent | Run it in a worktree of its own, locally |
-| Ask you a question with options | Use a question tool if there is one. If not, list numbered options in the chat |
-| `/loop` | If there isn't one, use a timed wait command and check again after a while |
-| Cursor's Custom Mode | Only Cursor has it. Write `poteto-mode` at the start of every new task |
-
-Without a subagent tool, work that would have run in parallel queues up and runs one piece at a time. That's slower, and it loses the layer where a different model takes a second look.
-
-A few things aren't in pstack: `deslop`, `control-cli`, and `control-ui` come from another Cursor plugin. Without `deslop`, the AI rereads its changes before committing and removes the AI flavor itself. Without the two control skills, it uses whatever automation tools you have, like Playwright for web pages and tmux for command-line programs.
 
 ## Your first task
 
-Once your models are set, try something real but small. In your tool, name `poteto-mode`, then add the goal and what "done" means:
+In Codex, you name a skill with `$` plus its name. Where this site writes `/poteto-mode`, Codex uses `$poteto-mode`:
 
-<Copy id="codex-first" title="In Codex, name a skill with $" code="$poteto-mode add a --json flag to this command. The existing text output must not change by a single byte. Verify both outputs." />
+<Copy id="codex-first" title="In Codex, name a skill with $" code="$poteto-mode add a --json flag to this command. The existing text output must stay byte-for-byte identical. Verify both outputs." />
 
-In Codex you name a skill with `$` plus the skill name (where other pages on this site write `/poteto-mode`, in Codex it's `$poteto-mode`). You can also just say "use the poteto-mode skill for this." Other tools have their own syntax, and the rest of the message stays the same. For how to write this message well, see [Your first task](/en/guide/3-first-task/).
+You can also say "use the poteto-mode skill for this." In other tools, use their syntax instead. For how to write this message well, see [Your first task](/en/guide/3-first-task/).
+
+## What your tool lacks, it works around
+
+The skills use Cursor's names, and the AI translates them. A few things you'll notice:
+
+- **No way to send out helpers** (<Term k="子代理" text="subagents" />): steps meant to run side by side run one at a time, a bit slower.
+- **No question tool**: it lists numbered options in the chat.
+- **No `/loop`**: it uses a timed wait command and checks again later.
+- **No Custom Mode**: only Cursor has it. Write `poteto-mode` at the start of each new task.
+
+`deslop`, `control-cli`, and `control-ui` come from another Cursor plugin. Without them, the AI uses the tools you have, like Playwright or tmux.
 
 ## Stuck?
 
-<Q q="npx skills throws an error and won't run.">
+<Q q="npx skills errors out and won't run.">
 Run `node -v` first. If it's below 22.20, upgrade Node.js and try again.
 </Q>
 <Q q="I can't find pstack's skills in another project.">
-<u>By default it only installs into the project you were in at the time</u>. Run it again in the new project, or use `-g` to install into your user folder so every project can use it.
+<u>By default it only installs into the project you were in</u>. Run it again in the new project, or add `-g` to install for every project.
 </Q>
-<Q q="I changed the model settings, and it doesn't seem to have worked.">
-First check that the line in `~/.agents/pstack-models.md` is the model you chose. Then check that the name really exists in your tool. When the name doesn't match, the skill switches to the closest one and says so in the reply.
-</Q>
-<Q q="It didn't send out any subagents and did everything itself, step by step. Is that normal?">
-If your tool has no subagent feature, yes. pstack runs the steps that would have been parallel one after another. It still has to show evidence. It's just slower.
+<Q q="I changed the model settings, but it doesn't seem to apply.">
+Open `~/.agents/pstack-models.md` and check the line shows the model you chose. Then check that name exists in your tool. If it doesn't, the skill switches to the closest one and says so in the reply.
 </Q>

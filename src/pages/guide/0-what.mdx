@@ -2,7 +2,8 @@
 layout: ../../layouts/Guide.astro
 step: 0
 need: 什么都不用，先读
-description: pstack 是什么、解决 AI 写代码的哪些老毛病、里面有什么、用了有什么好处、开始之前要准备什么。
+tldr: 知道 pstack 能帮你什么、要付出什么，以及开始前要准备哪四样东西。
+description: pstack 是什么、改掉 AI 写代码的哪些毛病、要付出什么代价、开始前要准备什么。
 ---
 import Callout from "../../components/Callout.astro";
 import Checkpoint from "../../components/Checkpoint.astro";
@@ -12,55 +13,49 @@ import Term from "../../components/Term.astro";
 这套完整教程是给会写代码的人看的，会用到 Git、PR 这些词。没写过代码的话，先看[新手入门的三课](/start/1-why/)，20 分钟就能用起来。
 </Callout>
 
-## 一句话说清楚
+## pstack 是什么
 
-pstack 是一包装进 AI 编程工具里的<Term k="技能" />。装上以后，AI 写代码会按资深工程师的规矩来：<mark><strong>先搞懂，再动手，最后拿出证据。</strong></mark>
+pstack 是一包<Term k="技能" />，装进你已经在用的 AI 编程工具里，比如 Claude Code、Cursor 或 Codex。
 
-它不是新模型，也不是新 App。它是一堆写给 AI 看的说明文件，放进你已经在用的 Claude Code、Cursor 或 Codex 里。模型还是那个模型，变的是做事的顺序和标准。
+装上以后，AI 写代码会按资深工程师的规矩来：<mark><strong>先搞懂，再动手，最后拿出证据。</strong></mark>
 
-## 它解决什么问题
+模型还是那个模型。变的是它做事的顺序和标准。
 
-用 AI 写过代码的人，大概都遇到过这几种情况：
+## 它改掉哪些毛病
 
-- **没读懂就改。** 一上来就动手，改在了看起来合理、其实不对的地方。
-- **只治表面。** 看到重复数据就在显示的地方加个去重，产生重复的那个 bug 还在。
-- **没证据就说做完了。** 「已修复，应该没问题了」，你一跑还是坏的。
-- **改得越来越多。** 加了一堆用不上的兼容代码、注释、防御性判断，审起来累，下一个 bug 就藏在里面。
+- **没读懂就改。** 改在看着对、其实不对的地方。
+- **只治表面。** 在显示的地方去掉重复数据，产生重复的 bug 还在。
+- **没证据就说做完了。** 它说「应该没问题了」，你一跑还是坏的。
+- **越改越多。** 加一堆用不上的代码，下一个 bug 就藏在里面。
 
-pstack 的作者 poteto 在 Meta、Netflix、Cursor 写过几百万行级别的代码，也在 React 核心团队做 React Compiler。作者的态度很直接：**AI 写的垃圾代码太多了；要快，先要深。** pstack 就是作者每天在 Cursor 里用来写高质量代码的那一套，后来开源了。
+## 你只要记住一个命令
 
-## 里面有什么
+平时只打 `/poteto-mode`。你说目标，它安排剩下的。它背后还有这些，先不用学：
 
-| 东西 | 有多少 | 说人话 |
-| --- | --- | --- |
-| 总入口 `/poteto-mode` | 1 个 | 你说目标，它安排一切。新手只需要记住这一个。 |
-| <Term k="剧本" /> | 23 套 | 修 bug、加功能、重构、查性能……每类任务一套标准做法。 |
-| 技能 | 34 个 | `/how` 讲清代码、`/interrogate` 找人挑刺、`/bro` 翻成大白话……见[技能速查](/skills/)。 |
-| <Term k="原则" /> | 24 条 | 「先删再加」「证明它能用」「修根因」……每条一个名字，说出来就能纠偏。 |
-| 子代理 | 2 个 | `poteto-agent`（被派出去的助手也守同样的规矩）和 Comment Sicko（专门审注释）。 |
-
-你不用把它们都学会。平时只打 `/poteto-mode`，它会在需要时自己叫上别的技能。
+- **23 套<Term k="剧本" />**：修 bug、加功能、重构……每类任务一套做法。
+- **34 个技能**：比如 `/how` 讲清代码，`/bro` 翻成大白话。见[技能速查](/skills/)。
+- **24 条<Term k="原则" />**：比如「先删再加」「证明它能用」。
+- **2 个帮手 AI**：一个被派出去干活时也守同样的规矩，一个专门审注释。
 
 ## 用了有什么好处
 
-- **少写，但写得好。** 第一条原则是「能删就删，用最小的改动解决问题」。它追求的不是代码行数，正好相反。
-- **不再听「应该好了」。** 每个任务都要拿真实证据收尾：跑真命令、读真数据、点真界面。
-- **敢同时开好几个 AI。** 每个 AI 都守同一套规矩、各用各的工作目录，你可以放心并行，不用一个个盯着。作者把这叫作「无畏的并行」。
-- **越用越顺。** 同样的错犯两次，就从根上堵住（`/correct`）；用熟了，生成一套你自己的工作模式（`/automate-me`）。
+- **改动更小，每次都有证据。** 能删就删；收尾时跑真命令、点真界面。
+- **能放心同时开几个 AI。** 每个都守同一套规矩，各用各的工作目录。
+- **同样的错不犯第二次。** 用 `/correct` 从根上堵住。
 
-<Callout type="warn" title="代价也要说清楚">
-pstack 会多派子代理、让几个模型互相评审，所以**同一件事会更慢、更费 token**。这是换来严谨的价格。小改动不用它；怎么省钱见[控制花费](/howto/cost/)。
+<Callout type="warn" title="代价：更慢、更费钱">
+它会多派帮手 AI、让几个模型互相检查，所以更慢、更费 token。小改动不用它。省钱见[控制花费](/howto/cost/)。
 </Callout>
 
-## 开始之前要准备什么
+## 开始前准备四样东西
 
-- **一个 AI 编程工具**：Claude Code、Cursor、Codex 任选其一（OpenCode、Pi 也行）。它要能读写你的代码、执行命令。<u>只能聊天的网页版 AI 不行</u>。
-- **能用的模型**：工具本身的付费订阅或 API。pstack 默认用比较高的推理档位。
-- **一个真实项目，最好在 Git 里**：大部分剧本会建 <Term k="worktree" />、提交、开 <Term k="PR" />。还没用 Git 的，先 `git init` 提交一次。
-- **Node.js 22.20 以上**：只有用 `npx skills` 安装时需要（下一步会讲）。
+- **一个 AI 编程工具**：Claude Code、Cursor、Codex 任选一个（OpenCode、Pi 也行）。它要能改你的代码、能执行命令。<u>只能聊天的网页版 AI 不行</u>。
+- **能用的模型**：工具的付费订阅，或者 API。
+- **一个放在 Git 里的真实项目**：大部分剧本会建 <Term k="worktree" />、开 <Term k="PR" />。还没用 Git 的，先 `git init` 提交一次。
+- **Node.js 22.20 以上**：只有用 `npx skills` 安装才需要。
 
 <Callout type="tip">
-官方版 pstack 是为 Cursor 写的。本站用的是 [backnotprop/pstack](https://github.com/backnotprop/pstack) 这个镜像：每天和官方同步，并改成了 Claude Code、Codex 也能用的写法。两者的用法是一样的。
+本站用的是 [backnotprop/pstack](https://github.com/backnotprop/pstack) 镜像：每天和官方版同步，Claude Code、Codex 也能用。用法一样。
 </Callout>
 
-<Checkpoint id="s0" items={["我知道 pstack 是装进 AI 编程工具里的一包技能，不是新模型", "我知道新手只需要先记住 <code>/poteto-mode</code> 一个命令", "我手上有 Claude Code、Cursor 或 Codex 里的一个，还有一个想用它来改的项目"]} />
+<Checkpoint id="s0" items={["我知道 pstack 是装进 AI 编程工具里的一包技能，不是新模型", "我知道平时只要打 <code>/poteto-mode</code> 一个命令", "我手上有 Claude Code、Cursor 或 Codex 里的一个，还有一个想用它来改的项目"]} />
