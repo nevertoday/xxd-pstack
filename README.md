@@ -78,7 +78,7 @@ pstack 是 poteto（React 核心团队成员，在 Cursor 工作）每天自己�
 npx skills add backnotprop/pstack
 ```
 
-**2. 选模型**：新开对话跑一次 `/setup-pstack`，问到要不要生成「验证技能」时选**要**。
+**2. 选模型**：新开对话跑一次 `/setup-pstack`，问到要不要生成「验证技能」时选**要**。 用 Claude Code 的，会话模型和各角色怎么搭见 [三套推荐配置](https://pstack.xiaoxiaodong.ai/howto/claude-code/#怎么配最好)。
 
 **3. 第一个任务**：挑一件真实但不大的事，像跟同事交代工作一样说：
 

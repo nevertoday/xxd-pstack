@@ -78,7 +78,7 @@ You only need to remember one command, `/poteto-mode`, and say clearly **what yo
 npx skills add backnotprop/pstack
 ```
 
-**2. Pick models**: in a new conversation, run `/setup-pstack` once. When it asks whether to generate a "verification skill", say **yes**.
+**2. Pick models**: in a new conversation, run `/setup-pstack` once. When it asks whether to generate a "verification skill", say **yes**. On Claude Code, see [three recommended setups](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) for pairing the session model with each role.
 
 **3. Your first task**: pick something real but not big, and explain it the way you'd hand work to a coworker:
 

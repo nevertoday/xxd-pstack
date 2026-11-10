@@ -1,15 +1,16 @@
 ---
 layout: ../../../layouts/HowTo.astro
 slug: claude-code
-time: 5 minutes to install, 10 to read
+time: 5 minutes to install, 15 to read
 for: You use Claude Code and want pstack in it
 step: 1
-description: "Two ways to install pstack in Claude Code, the pstack prefix you add before commands, where the model settings file lives, how Cursor's names map over, which features get skipped, and how to turn on auto-update."
+description: "Two ways to install pstack in Claude Code, the pstack prefix you add before commands, where the model settings file lives, three recommended model setups, how Cursor's names map over, which features get skipped, and how to turn on auto-update."
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
 import Cmd from "../../../components/Cmd.astro";
 
 ## Two ways to install, pick one
@@ -91,7 +92,146 @@ pstack's skills use Cursor's terms. The plugin includes a mapping guide (`docs/h
 | The question tool `AskQuestion` | `AskUserQuestion` |
 | Rules in `.cursor/rules/` | `CLAUDE.md` (or `AGENTS.md` if there isn't one) |
 
-The two model rows matter most to you. By default, pstack has grok write code and opus 5.5 make judgment calls. In Claude Code, grok isn't available, so grok's work falls to your current session's model. If your session is already opus, the review panel where "two different models pick at each other's work" becomes one model family. For more variety, give the review panel other models like `sonnet` during setup.
+The two model rows matter most to you: the work meant for grok all lands on your current session's model here. The next section covers what that means and how to set it up.
+
+## How to set it up well
+
+In Claude Code, two things decide which models pstack uses:
+
+- **The session model**: the one you pick with `/model`. It's the coordinator. It picks the playbook, hands out work, reviews every change a subagent brings back, and writes the final summary.
+- **The line for each <Term k="模型角色" />** in the settings file: which model each subagent runs on.
+
+### What the defaults turn into here
+
+pstack's default split is "grok writes code, opus makes judgment calls, and the review panels seat one model from each family." In Claude Code, every grok line becomes `inherit-parent`, which means it follows the session model:
+
+| Role | pstack default | In Claude Code |
+| --- | --- | --- |
+| Writing code (feature, refactor, bug fix, perf, hillclimb), `/how` exploring, `/why` investigating, swarm workers | grok | your session model |
+| Judgment and prose, the hardest changes, `/how` explaining, the synthesizers | opus xhigh | opus xhigh |
+| Review panels (arena, architect, interrogate) | opus + grok | opus + your session model |
+
+So the result depends on your session:
+
+- **Session on opus**: every role is opus. You pay top rates everywhere, and both panel seats are the same model, so the "a different model picks at it" that pstack wants is gone. If you installed it and never changed the settings, this is probably you.
+- **Session on sonnet**: sonnet writes the code, opus makes the judgment calls, and the panels are opus plus sonnet. That's closest to what pstack intends, except the coordinator is now sonnet.
+
+### One limit you can't get around
+
+pstack sorts models into "families" by name prefix: `claude-*` is one family and grok is another. opus, sonnet, fable, and haiku are all Claude, so they count as one family. A few steps require a different family, and Claude Code can't provide one:
+
+- The `/arena` judge must never share the coordinator's family. With no judge from another family available, it skips the judge, picks the base itself, and says so. So the `arena cross-judge pool` line in your settings file does almost nothing in Claude Code.
+- Before handing back, `/show-me-your-work` sends a reviewer from another family to read the log, and checks before merging also want a different family. Here the best you get is a different model.
+
+opus and sonnet reviewing each other is weaker than two families, but better than one model reviewing itself. If you really want another vendor's eyes, take the review that matters to Codex or Cursor and run `/interrogate` again on the models there.
+
+### Three plans
+
+Prices first (API list prices as of October 2026, per million tokens; on a subscription you see it as usage limits, and pricier models use them up faster):
+
+| Model | Input / output | What it's good for in pstack |
+| --- | --- | --- |
+| fable | $10 / $50 | The most capable. Judgment and the hardest changes when cost doesn't matter |
+| opus | $4 / $20 | The session (coordinator), judgment and prose, the hardest changes |
+| sonnet | $2 / $10 | Writing code, exploring, swarm workers, the second panel seat |
+| haiku | $0.1 / $0.5 | Not recommended for any role |
+
+haiku isn't recommended because verification also runs on the swarm workers model. Put the cheapest model there and verification gets weaker too, and verification is the last step pstack should skimp on.
+
+<Tabs id="cc-plans" label="Pick a plan" items={[["balanced", "Balanced (recommended)"], ["cheap", "Save money"], ["max", "Cost no object"]]}>
+<div slot="balanced">
+
+**Run the session on opus, and change every `inherit-parent` in the settings file to `sonnet xhigh`.**
+
+The coordinator has to understand what you meant, review every change, and decide when to stop. That's not the place to save, so it gets opus. Code-writing subagents get work with the scope and done-criteria spelled out. sonnet can handle that at half the price of opus. The panels become opus plus sonnet, so at least two different models. The hardest changes still go through the `hardest tasks` line to opus.
+
+<Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md (balanced)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# budget: large (xhigh)
+feature, refactoring: sonnet xhigh
+bug-fix: sonnet xhigh
+perf-issue: sonnet xhigh
+hillclimb: sonnet xhigh
+judgment and prose: opus xhigh
+hardest tasks: opus xhigh
+how explorer: sonnet xhigh
+how explainer: opus xhigh
+why investigators: sonnet xhigh
+why synthesizer: opus xhigh
+reflect tooling: sonnet xhigh
+reflect judgment, divergent, synthesizer: opus xhigh
+arena runners: opus xhigh, sonnet xhigh
+arena cross-judge pool: opus xhigh, sonnet xhigh
+swarm workers: sonnet xhigh
+architect runners: opus xhigh, sonnet xhigh
+interrogate reviewers: opus xhigh, sonnet xhigh`} />
+
+</div>
+<div slot="cheap">
+
+**Run the session on sonnet, keep the default settings file, and pick the medium budget.**
+
+You don't change a single role. With the session on sonnet, every `inherit-parent` in the default file becomes sonnet, so you get "sonnet writes, opus judges" for free. The medium budget lowers every level from xhigh to high. The cost is a sonnet coordinator, which misjudges complex work more often. For that kind of job, switch back to opus with `/model` before you start.
+
+<Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md (save money)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# budget: medium (high)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: inherit-parent
+judgment and prose: opus high
+hardest tasks: opus high
+how explorer: inherit-parent
+how explainer: opus high
+why investigators: inherit-parent
+why synthesizer: opus high
+reflect tooling: inherit-parent
+reflect judgment, divergent, synthesizer: opus high
+arena runners: opus high, inherit-parent
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: inherit-parent
+architect runners: opus high, inherit-parent
+interrogate reviewers: opus high, inherit-parent`} />
+
+</div>
+<div slot="max">
+
+**Run the session on opus, give the judgment roles to fable, the code to opus, and seat three models on each panel.**
+
+fable goes where judgment matters most: explaining, synthesizing, the hardest changes. opus writes the code. The panels seat fable, opus, and sonnet. A panel runs one subagent per model in its list, and three different models leave the fewest blind spots. fable's API price is 2.5 times opus. `/setup-pstack` only writes models it detects, so if your account can't use fable, it won't offer it.
+
+<Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md (cost no object)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# budget: large (xhigh)
+feature, refactoring: opus xhigh
+bug-fix: opus xhigh
+perf-issue: opus xhigh
+hillclimb: opus xhigh
+judgment and prose: fable xhigh
+hardest tasks: fable xhigh
+how explorer: sonnet xhigh
+how explainer: fable xhigh
+why investigators: opus xhigh
+why synthesizer: fable xhigh
+reflect tooling: opus xhigh
+reflect judgment, divergent, synthesizer: fable xhigh
+arena runners: fable xhigh, opus xhigh, sonnet xhigh
+arena cross-judge pool: fable xhigh, opus xhigh
+swarm workers: opus xhigh
+architect runners: fable xhigh, opus xhigh, sonnet xhigh
+interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
+
+</div>
+</Tabs>
+
+All three keep the budget at large or below. Not unlimited, because pstack already raises the level one step for the hardest work on its own. Everyday work doesn't need max.
+
+### How to write it in
+
+1. Pick the session model with `/model`.
+2. Run `/pstack:setup-pstack` and pick the budget for your plan.
+3. When it lists every role and asks whether to change any, tell it which lines to change, such as "change every inherit-parent to sonnet xhigh." Or paste it the file above and have it write that. It checks first that you can use every model.
+4. Quit and start a new session.
+
+You can also save the block above as `~/.claude/rules/pstack-models.md` yourself. If you write it by hand, make sure your account can use every model in it. The next time you run setup, it treats this file as your current settings.
 
 ## Cursor-only features get skipped
 
@@ -133,4 +273,7 @@ No. That's expected. In Claude Code, most pstack skills can't be started through
 </Q>
 <Q q="A reply says Skipped in Claude Code. Do I need to do anything?">
 Usually not. That step needs a feature only Cursor has, and skipping it is by design. Only when it mentions a placeholder should you check what the placeholder is missing, and fill it in yourself if needed.
+</Q>
+<Q q="I let it run overnight and found it stuck on a permission prompt in the morning.">
+<p>Claude Code asks you every time it runs a command you haven't allowed. Before you let it run alone, allow the commands it uses most (git, gh, your project's test and build commands). Claude Code's built-in `/fewer-permission-prompts` finds the read-only commands you use often in your past sessions and writes them into the project's `.claude/settings.json`. Whether to allow commands that change things is your call.</p>
 </Q>

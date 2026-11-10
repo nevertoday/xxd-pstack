@@ -80,7 +80,7 @@ Solo tienes que recordar un comando, `/poteto-mode`, y decir con claridad **qué
 npx skills add backnotprop/pstack
 ```
 
-**2. Elige los modelos**: en una conversación nueva, ejecuta `/setup-pstack` una vez. Cuando pregunte si quieres generar una «skill de verificación», responde **sí**.
+**2. Elige los modelos**: en una conversación nueva, ejecuta `/setup-pstack` una vez. Cuando pregunte si quieres generar una «skill de verificación», responde **sí**. En Claude Code, mira [tres configuraciones recomendadas](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) para combinar el modelo de la sesión con cada rol.
 
 **3. Tu primera tarea**: elige algo real pero no muy grande y explícalo como si le pasaras el trabajo a un compañero:
 

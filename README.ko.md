@@ -80,7 +80,7 @@ pstack은 poteto(React 코어 팀 멤버, Cursor 재직)가 매일 직접 코드
 npx skills add backnotprop/pstack
 ```
 
-**2. 모델 고르기**: 새 대화에서 `/setup-pstack`을 한 번 실행하세요. "검증 스킬"을 만들지 물으면 **예**를 고르세요.
+**2. 모델 고르기**: 새 대화에서 `/setup-pstack`을 한 번 실행하세요. "검증 스킬"을 만들지 물으면 **예**를 고르세요. Claude Code에서는 세션 모델과 역할별 모델 조합을 [추천 설정 세 가지](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well)에서 확인하세요.
 
 **3. 첫 번째 작업**: 실제 일이지만 크지 않은 것을 골라, 동료에게 일을 맡기듯 말하세요:
 

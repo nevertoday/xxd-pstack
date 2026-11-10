@@ -1,15 +1,16 @@
 ---
 layout: ../../layouts/HowTo.astro
 slug: claude-code
-time: 装好 5 分钟，读完 10 分钟
+time: 装好 5 分钟，读完 15 分钟
 for: 平时用 Claude Code，想在里面用 pstack
 step: 1
-description: "在 Claude Code 里装 pstack 的两种方法、命令前要加的 pstack 前缀、模型设置文件放在哪、Cursor 的名字怎么对应过来、哪些功能会被跳过，以及怎么打开自动更新。"
+description: "在 Claude Code 里装 pstack 的两种方法、命令前要加的 pstack 前缀、模型设置文件放在哪、三套推荐的模型配置、Cursor 的名字怎么对应过来、哪些功能会被跳过，以及怎么打开自动更新。"
 ---
 import Callout from "../../components/Callout.astro";
 import Term from "../../components/Term.astro";
 import Q from "../../components/Q.astro";
 import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
 import Cmd from "../../components/Cmd.astro";
 
 ## 两种装法，选一种就行
@@ -91,7 +92,146 @@ pstack 的技能里写的是 Cursor 的叫法。插件里带了一份对照说�
 | 提问工具 `AskQuestion` | `AskUserQuestion` |
 | `.cursor/rules/` 里的规则 | `CLAUDE.md`（没有就用 `AGENTS.md`） |
 
-最后两行模型规则对你影响最大。pstack 默认让 grok 写代码、opus 5.5 做判断。到了 Claude Code，grok 用不了，原本给 grok 的活就落在你当前会话的模型上。如果你的会话本身就是 opus，「两个不同模型互相挑刺」的评审组就变成了同一家模型。想要更多样，在 setup 时给评审组换上 `sonnet` 之类的其他模型。
+最后两行模型规则对你影响最大：原本给 grok 的活，到这里都落在你当前会话的模型上。下一节讲这意味着什么、该怎么配。
+
+## 怎么配最好
+
+在 Claude Code 里，两样东西决定 pstack 用什么模型：
+
+- **会话模型**：你用 `/model` 选的那个。它是协调者，负责挑剧本、派活、审每个子代理交回来的改动、写最后的总结。
+- **设置文件**里每个<Term k="模型角色" />的那一行：派出去的子代理各用什么模型。
+
+### 默认值在这里变成了什么
+
+pstack 的默认分工是「grok 写代码，opus 做判断，评审组两家各出一个」。到了 Claude Code，grok 那几行都变成 `inherit-parent`，也就是跟着会话模型走：
+
+| 角色 | pstack 默认 | 在 Claude Code 里 |
+| --- | --- | --- |
+| 写代码（功能、重构、修 bug、性能、爬坡）、`/how` 的探索、`/why` 的调查、swarm 工人 | grok | 你的会话模型 |
+| 判断和写文字、最难的改动、`/how` 的讲解、各种汇总 | opus xhigh | opus xhigh |
+| 评审组（arena、architect、interrogate） | opus + grok | opus + 你的会话模型 |
+
+所以结果取决于你的会话用什么：
+
+- **会话是 opus**：所有角色都是 opus。花费在最高的那一档，评审组的两个座位却是同一个模型，pstack 想要的「换个模型来挑刺」没有了。装完不改设置的人，多半是这个状态。
+- **会话是 sonnet**：写代码的是 sonnet，做判断的是 opus，评审组是 opus 加 sonnet。和 pstack 的原意最像，只是协调者换成了 sonnet。
+
+### 一个绕不过去的限制
+
+pstack 按名字前缀给模型分「家族」：`claude-*` 是一家，grok 是另一家。opus、sonnet、fable、haiku 都是 Claude，算同一家。有几步要求「换一家」，在 Claude Code 里做不到：
+
+- `/arena` 的评委不能和协调者同一家。找不到别家的评委，它会跳过评委、由协调者自己挑，并在回复里说明。所以设置文件里 `arena cross-judge pool` 那一行，在 Claude Code 里基本用不上。
+- `/show-me-your-work` 收尾前要派另一家的审阅者读日志；合并前的验证也要求不是同一家。在这里最多换一个型号。
+
+opus 和 sonnet 互相审，比不上两家互审，但比一个模型审自己强。真想要别家的眼光，可以把要紧的评审拿到 Codex 或 Cursor 里，用那边的模型再跑一次 `/interrogate`。
+
+### 三套方案
+
+价钱先摆出来（2026 年 10 月的 API 标价，每百万 token；用订阅的看的是额度，贵的型号额度用得快）：
+
+| 型号 | 输入 / 输出 | 在 pstack 里适合做什么 |
+| --- | --- | --- |
+| fable | $10 / $50 | 目前最强。不计成本时做判断、做最难的改动 |
+| opus | $4 / $20 | 会话（协调者）、判断和写文字、最难的改动 |
+| sonnet | $2 / $10 | 写代码、探索、swarm 工人、评审组的第二个座位 |
+| haiku | $0.1 / $0.5 | 不建议给任何角色 |
+
+haiku 不建议用，是因为验证也走 swarm 工人那一行的模型。工人换成最便宜的，验证也跟着变弱，而验证是 pstack 最不该省的一步。
+
+<Tabs id="cc-plans" label="选一套方案" items={[["balanced", "均衡（推荐）"], ["cheap", "省钱"], ["max", "不计成本"]]}>
+<div slot="balanced">
+
+**会话用 opus，设置文件里把 `inherit-parent` 都换成 `sonnet xhigh`。**
+
+协调者要读懂你的意思、审每一份改动、决定什么时候停，这一步不能省，所以给 opus。写代码的子代理拿到的是写清了范围和完成条件的活，sonnet 做得了，价钱是 opus 的一半。评审组变成 opus 加 sonnet，至少是两个不同的模型。最难的改动照样走 `hardest tasks` 那一行，交给 opus。
+
+<Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md（均衡）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# budget: large (xhigh)
+feature, refactoring: sonnet xhigh
+bug-fix: sonnet xhigh
+perf-issue: sonnet xhigh
+hillclimb: sonnet xhigh
+judgment and prose: opus xhigh
+hardest tasks: opus xhigh
+how explorer: sonnet xhigh
+how explainer: opus xhigh
+why investigators: sonnet xhigh
+why synthesizer: opus xhigh
+reflect tooling: sonnet xhigh
+reflect judgment, divergent, synthesizer: opus xhigh
+arena runners: opus xhigh, sonnet xhigh
+arena cross-judge pool: opus xhigh, sonnet xhigh
+swarm workers: sonnet xhigh
+architect runners: opus xhigh, sonnet xhigh
+interrogate reviewers: opus xhigh, sonnet xhigh`} />
+
+</div>
+<div slot="cheap">
+
+**会话用 sonnet，设置文件用默认的，预算选 medium。**
+
+一个角色都不用改：会话换成 sonnet，默认文件里的 `inherit-parent` 就都成了 sonnet，自然得到「sonnet 写、opus 判」。预算 medium 把所有档位从 xhigh 降到 high。代价是协调者变成 sonnet，复杂的活它更容易判断失误，那种活临时用 `/model` 换回 opus 再开始。
+
+<Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md（省钱）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# budget: medium (high)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: inherit-parent
+judgment and prose: opus high
+hardest tasks: opus high
+how explorer: inherit-parent
+how explainer: opus high
+why investigators: inherit-parent
+why synthesizer: opus high
+reflect tooling: inherit-parent
+reflect judgment, divergent, synthesizer: opus high
+arena runners: opus high, inherit-parent
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: inherit-parent
+architect runners: opus high, inherit-parent
+interrogate reviewers: opus high, inherit-parent`} />
+
+</div>
+<div slot="max">
+
+**会话用 opus，判断类角色给 fable，写代码给 opus，评审组三个座位。**
+
+fable 用在最吃判断的地方：讲解、汇总、最难的改动。写代码给 opus。评审组排成 fable、opus、sonnet 三个座位，名单有几个模型就派几个子代理，三个不同的模型盲点最少。fable 的 API 标价是 opus 的 2.5 倍；`/setup-pstack` 只写它检测到的模型，你的账号用不了 fable 就选不出来。
+
+<Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md（不计成本）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# budget: large (xhigh)
+feature, refactoring: opus xhigh
+bug-fix: opus xhigh
+perf-issue: opus xhigh
+hillclimb: opus xhigh
+judgment and prose: fable xhigh
+hardest tasks: fable xhigh
+how explorer: sonnet xhigh
+how explainer: fable xhigh
+why investigators: opus xhigh
+why synthesizer: fable xhigh
+reflect tooling: opus xhigh
+reflect judgment, divergent, synthesizer: fable xhigh
+arena runners: fable xhigh, opus xhigh, sonnet xhigh
+arena cross-judge pool: fable xhigh, opus xhigh
+swarm workers: opus xhigh
+architect runners: fable xhigh, opus xhigh, sonnet xhigh
+interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
+
+</div>
+</Tabs>
+
+三套都把预算停在 large 或更低。不选 unlimited，是因为 pstack 自己会给最难的那一步临时升一档，日常的活用不着 max。
+
+### 怎么写进去
+
+1. 用 `/model` 选好会话模型。
+2. 跑 `/pstack:setup-pstack`，预算按方案选。
+3. 它列出所有角色、问你要不要改时，告诉它改哪几行，比如「把所有 inherit-parent 换成 sonnet xhigh」；或者直接把上面的文件内容贴给它，让它照这个写。它会先核对每个模型你都能用。
+4. 退出，开一个新会话。
+
+也可以自己把上面那段存成 `~/.claude/rules/pstack-models.md`。手写的话，确认里面每个模型你的账号都能用，下次跑 setup 时它会把这份当成当前设置。
 
 ## Cursor 独有的功能会被跳过
 
@@ -133,4 +273,7 @@ Claude Code 对第三方插件市场默认不自动更新，所以 pstack 会一
 </Q>
 <Q q="回复里出现 Skipped in Claude Code，要管吗？">
 一般不用。那一步要的是 Cursor 才有的功能，跳过是设计好的。只有它提到占位符时，看一眼占位符缺的是什么，需要的话自己补上。
+</Q>
+<Q q="放它跑了一晚上，早上发现停在一个权限确认上。">
+<p>Claude Code 每次跑没放行过的命令都会问你。放手之前，把常用的命令（git、gh、项目的测试和构建命令）提前放行。Claude Code 自带的 `/fewer-permission-prompts` 会从你以前的会话里找出常用的只读命令，写进项目的 `.claude/settings.json`；会改东西的命令要你自己决定放不放。</p>
 </Q>

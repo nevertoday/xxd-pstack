@@ -234,7 +234,7 @@ export const WIKI = [
     here: [
       "默认分工：写代码的活（功能、重构、修 bug、性能、爬坡）给 grok，最难的改动、写文字和做判断给 opus 5.5；评审小组默认是 opus 5.5 加 grok 两家。==用不同家族的模型互相评审，是 pstack 的一个核心做法==。",
       "`/setup-pstack` 会检测你能用哪些模型，写一份配置：Cursor 在 `~/.cursor/rules/pstack-models.mdc`，Claude Code 在 `~/.claude/rules/pstack-models.md`，其他工具在 `~/.agents/pstack-models.md`。改完要开一个新对话才生效。",
-      "在 Claude Code 里只能选 Claude 的模型（opus、sonnet、haiku 等）。配置里出现 grok、gpt 这类别家模型时，那个角色会直接用当前会话的模型，并说明一声。",
+      "在 Claude Code 里只能选 Claude 的模型（opus、sonnet、haiku 等）。配置里出现 grok、gpt 这类别家模型时，那个角色会直接用当前会话的模型，并说明一声。而且 Claude 的模型都算同一家，`/arena` 找不到别家的评委就会跳过评委。怎么配见 [在 Claude Code 里用](/howto/claude-code/#怎么配最好)。",
     ],
     myths: [
       "「配置里没写的角色就不能用」：没写的角色用技能自带的默认值。你只覆盖你在意的。",

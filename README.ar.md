@@ -86,7 +86,7 @@ npx skills add backnotprop/pstack
 
 <div dir="rtl">
 
-**2. اختيار النماذج**: في محادثة جديدة، شغّل `/setup-pstack` مرة واحدة. وعندما يسألك هل يُنشئ "مهارة تحقق" (verification skill)، أجب **نعم**.
+**2. اختيار النماذج**: في محادثة جديدة، شغّل `/setup-pstack` مرة واحدة. وعندما يسألك هل يُنشئ "مهارة تحقق" (verification skill)، أجب **نعم**. في Claude Code، راجع [ثلاثة إعدادات مقترحة](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) لتوزيع النماذج على الأدوار.
 
 **3. مهمتك الأولى**: اختر شيئًا حقيقيًا لكنه ليس كبيرًا، واشرحه كما لو كنت تسلّم العمل لزميل:
 

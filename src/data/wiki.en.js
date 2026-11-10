@@ -212,7 +212,7 @@ export const WIKI_EN = {
     here: [
       "Default split: coding work (features, refactors, bug fixes, perf, hillclimbing) goes to grok; the hardest changes, writing and judgment go to opus 5.5. The review panel defaults to opus 5.5 plus grok. ==Having models from different families review each other is one of pstack's core practices==.",
       "`/setup-pstack` detects which models you can use and writes a config: in Cursor at `~/.cursor/rules/pstack-models.mdc`, in Claude Code at `~/.claude/rules/pstack-models.md`, and in other tools at `~/.agents/pstack-models.md`. Changes take effect in a new conversation.",
-      "In Claude Code you can only pick Claude models (opus, sonnet, haiku, etc.). If the config names another vendor's model like grok or gpt, that role simply uses the current session's model and says so.",
+      "In Claude Code you can only pick Claude models (opus, sonnet, haiku, etc.). If the config names another vendor's model like grok or gpt, that role simply uses the current session's model and says so. And all Claude models count as one family, so `/arena` skips its judge when it can't find one from another family. For how to set it up, see [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well).",
     ],
     myths: [
       "\"Roles not in the config can't be used\": unlisted roles use the skill's built-in defaults. You only override the ones you care about.",

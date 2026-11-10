@@ -41,7 +41,7 @@ pstack 把活分成几种角色，每种可以配不同的模型：
 你只改你在意的那几个，没写的角色用默认值。设成 `auto` 或 `inherit-parent` 的角色，意思是「不另外指定，跟主对话用同一个模型」。
 
 <Callout type="tip" title="用 Claude Code 的注意">
-Claude Code 的子代理只能选 Claude 家的模型（opus、sonnet、haiku 等）。默认配置里给 grok 的角色，在 Claude Code 里会直接用你当前会话的模型。`/setup-pstack` 会按你实际能用的模型来问，照着选就行。
+Claude Code 的子代理只能选 Claude 家的模型（opus、sonnet、haiku 等）。默认配置里给 grok 的角色，在 Claude Code 里会直接用你当前会话的模型。`/setup-pstack` 会按你实际能用的模型来问。会话模型和每个角色怎么搭最合适，[在 Claude Code 里用](/howto/claude-code/#怎么配最好)给了三套现成的方案。
 </Callout>
 
 ## 最后两个提议：要不要生成验证技能

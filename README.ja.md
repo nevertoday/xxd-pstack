@@ -80,7 +80,7 @@ pstack は、poteto（React コアチームのメンバーで、Cursor で働い
 npx skills add backnotprop/pstack
 ```
 
-**2. モデルを選ぶ**：新しい会話で `/setup-pstack` を一度実行します。「検証スキル」を作るか聞かれたら**作る**を選んでください。
+**2. モデルを選ぶ**：新しい会話で `/setup-pstack` を一度実行します。「検証スキル」を作るか聞かれたら**作る**を選んでください。 Claude Code では、セッションのモデルと各役割の組み合わせを [おすすめ設定 3 種](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) で確認できます。
 
 **3. 最初のタスク**：本物だけれど大きくない仕事を一つ選び、同僚に仕事を頼むように伝えます：
 

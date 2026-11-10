@@ -41,7 +41,7 @@ pstack splits the work into a few roles, and each one can use a different model:
 Only change the roles you care about. Any role you leave out uses the default. A role set to `auto` or `inherit-parent` means "don't pick a separate model, use the same one as the main conversation."
 
 <Callout type="tip" title="If you use Claude Code">
-Claude Code subagents can only use Claude models (opus, sonnet, haiku, and so on). Roles that default to grok will just use your current session's model in Claude Code. `/setup-pstack` asks based on the models you actually have, so just follow along.
+Claude Code subagents can only use Claude models (opus, sonnet, haiku, and so on). Roles that default to grok will just use your current session's model in Claude Code. `/setup-pstack` asks based on the models you actually have. For how to pair the session model with each role, [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well) has three ready-made plans.
 </Callout>
 
 ## Two last offers: a verification skill
