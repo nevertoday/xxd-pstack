@@ -1,0 +1,136 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: claude-code
+time: 5 minutes to install, 10 to read
+for: You use Claude Code and want pstack in it
+step: 1
+description: "Two ways to install pstack in Claude Code, the pstack prefix you add before commands, where the model settings file lives, how Cursor's names map over, which features get skipped, and how to turn on auto-update."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## Two ways to install, pick one
+
+pstack was written for Cursor, but it installs in Claude Code too. There are two routes:
+
+**Route one: the plugin marketplace.** In the Claude Code chat box, type these two lines one after the other:
+
+<Copy id="cc-plugin" title="Install from the plugin marketplace" code={`/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins`} />
+
+The first adds Cursor's official plugin marketplace, and the second installs pstack from it. What you get is a copy generated specifically for Claude Code. It has the skills, the README, and the usage guide, plus two ready-made <Term k="子代理" text="subagents" /> (`poteto-agent` and `comment-sicko`).
+
+**Route two: the skills command line.** In your terminal (not the Claude Code chat box), type:
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+It lists every skill for you to pick from, then asks which tool to install into. Choose Claude Code, and the skills go into `.claude/skills/`. This route installs the mirror maintained by backnotprop, where wording that only suited Cursor has been changed to work in any tool. To install just a few skills, see [Install only a few skills](/en/howto/pick-skills/).
+
+| | Plugin marketplace | npx skills |
+| --- | --- | --- |
+| Where you type it | Claude Code chat box | Terminal |
+| What it installs | The full set, no picking | Whatever you check in the list |
+| Command prefix | Add `pstack:` | Not needed |
+| Updating | `claude plugin update`, or turn on auto-update | `npx skills update` |
+
+If you're not sure, take route one. With the full set installed, `/poteto-mode` has everything it needs.
+
+## Add pstack: before commands
+
+Claude Code puts the plugin name in front of a plugin's commands as a prefix. So where this tutorial says `/poteto-mode`, you type:
+
+<Cmd c="/pstack:poteto-mode" />
+
+Likewise, `/setup-pstack` becomes `/pstack:setup-pstack`, `/poteto-help` becomes `/pstack:poteto-help`, and `/how` becomes `/pstack:how`. To keep things readable, the other pages on this site write the version without the prefix. Add it yourself in Claude Code.
+
+The prefix only applies to the plugin. What `npx skills` installs is a set of ordinary skills in `.claude/skills/`, not a plugin, so you just type `/poteto-mode`.
+
+<Callout type="warn" title="Skills don't start on their own">
+Except for `setup-pstack`, every pstack skill is set to run only when you name it. You have to type `/pstack:poteto-mode` yourself. It won't switch on just because you said "help me fix a bug."
+</Callout>
+
+## Choosing models: the settings file is in ~/.claude/rules/
+
+After installing, run model setup once:
+
+<Cmd c="/pstack:setup-pstack" />
+
+It asks about your <Term k="推理预算" />, assigns a model to each <Term k="模型角色" />, and finally writes a file: `~/.claude/rules/pstack-models.md`. Every time Claude Code starts a new session, it reads every `.md` file in `~/.claude/rules/`, so these settings are there every time from then on.
+
+In Claude Code, a model is written as "name + level," like `opus xhigh`. The only names are `opus`, `sonnet`, `haiku`, and `fable`. The file it writes looks roughly like this (excerpt):
+
+<Copy id="cc-rule" title="Excerpt from ~/.claude/rules/pstack-models.md" code={`# budget: large (xhigh)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+judgment and prose: opus xhigh
+hardest tasks: opus xhigh
+interrogate reviewers: opus xhigh, inherit-parent`} />
+
+<Callout type="tip" title="After setup, start a new session">
+This file is only read when a new session starts. The current session still has the old settings. <mark>After setup finishes, quit and open a new session before you start working</mark>.
+</Callout>
+
+Two small reminders: don't copy these role lines into `CLAUDE.md` or `AGENTS.md`. Keep them in this one file. Older versions wrote the settings to `~/.agents/pstack-models.md`, and if the new file doesn't exist, the skills look there.
+
+## How Cursor's names map here
+
+pstack's skills use Cursor's terms. The plugin includes a mapping guide (`docs/harness/claude-code.md`) that the AI reads once per session and translates on its own. You don't need to memorize it, but if you understand the table below (a <Term k="worktree" /> in the table is a second working folder for the same repo), you'll see why it behaves the way it does:
+
+| What the skill says | What it becomes in Claude Code |
+| --- | --- |
+| `Task` (send out a subagent) | The `Agent` tool |
+| `poteto-agent` | `pstack:poteto-agent` |
+| A read-only subagent | The `Explore` type. It can still run commands, so the AI writes "don't change files" in the task description and checks `git status` afterward |
+| A cloud agent | Open a worktree locally and work in it |
+| Names like `claude-opus-5-5-xhigh` | Model `opus`, level `xhigh` |
+| Non-Claude models like `grok-*` and `gpt-*` | Leave the model blank, so the subagent uses your current session's model, and say so |
+| `auto` or `inherit-parent` | Also leave the model blank |
+| The question tool `AskQuestion` | `AskUserQuestion` |
+| Rules in `.cursor/rules/` | `CLAUDE.md` (or `AGENTS.md` if there isn't one) |
+
+The two model rows matter most to you. By default, pstack has grok write code and opus 5.5 make judgment calls. In Claude Code, grok isn't available, so grok's work falls to your current session's model. If your session is already opus, the review panel where "two different models pick at each other's work" becomes one model family. For more variety, give the review panel other models like `sonnet` during setup.
+
+## Cursor-only features get skipped
+
+Claude Code doesn't have these: Cursor Automations (scheduled automatic tasks), Bugbot (Cursor's code review bot), Cursor's cloud agents, and Cursor's built-in PR tools.
+
+When a step uses them, the AI won't stop to ask you, and it won't keep retrying. It leaves one line in the reply:
+
+<Copy id="cc-skip" title="You'll see a line like this" code="Skipped in Claude Code: <which step>. <why it was skipped>." />
+
+Then it moves on to the next step. If a later step needs something the skipped step would have produced (like a link or a key), it leaves a placeholder and says so in that line.
+
+Opening a PR doesn't count as a skip. Without Cursor's PR tools, it uses commands like `gh pr create` and writes no skip note. If a PR already has Bugbot comments, it treats them as ordinary comments. Also, `/loop` exists in Claude Code too, so long tasks still run.
+
+## Auto-update is off by default
+
+Claude Code doesn't auto-update third-party plugin marketplaces by default, so pstack stays at the version you installed. To turn it on:
+
+1. Type `/plugin` in the chat box.
+2. Open the **marketplaces** tab.
+3. Select `cursor-plugins`.
+4. Choose **enable auto-update**.
+
+If you'd rather not turn on auto-update, run this by hand whenever you want to update:
+
+<Cmd c="claude plugin update pstack@cursor-plugins" />
+
+If the default models change after an update, your old settings file still pins the old defaults. For how to handle that, see [Update, check, uninstall](/en/howto/update-remove/).
+
+## Stuck?
+
+<Q q="I typed /poteto-mode and nothing happened. It's not in the menu either.">
+If you installed from the plugin marketplace, type `/pstack:poteto-mode`. Type `/pstack:` in the chat box first, and the menu filters down to pstack's commands.
+</Q>
+<Q q="I ran setup, but the models I chose didn't take effect.">
+The settings file is only read when a new session starts. Quit the current session and open a new one. If that doesn't help, check that `~/.claude/rules/pstack-models.md` was written and that the line in it is the model you chose.
+</Q>
+<Q q="The AI says the Skill tool can't call pstack's skills. Is it broken?">
+No. That's expected. In Claude Code, most pstack skills can't be started through the Skill tool, so the AI reads that skill's `SKILL.md` directly and follows it. Keep typing commands as usual.
+</Q>
+<Q q="A reply says Skipped in Claude Code. Do I need to do anything?">
+Usually not. That step needs a feature only Cursor has, and skipping it is by design. Only when it mentions a placeholder should you check what the placeholder is missing, and fill it in yourself if needed.
+</Q>

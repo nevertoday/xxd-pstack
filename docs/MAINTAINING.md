@@ -5,7 +5,11 @@
 
 - 站点骨架沿用 [小小东 VPS 教程站](https://vps.xiaoxiaodong.ai)（`../小小东VPS/site`）：同样的外壳、组件、搜索和写作规矩。
 - 界面用 xxd-ui-kit（`public/xxd/` 里自带一份，不走 CDN）。
-- 目前只有中文。`data/nav.js` 里的 `langOf` / `t` 保留着，加英文时照 VPS 站的做法在 `/en/` 下补一套。
+- 中英双语：中文在根路径，英文在 `/en/` 下，slug 相同，顶栏按钮切到对应页。改了一篇中文，**同一次提交里把英文版也改了**：
+  - 正文：`src/pages/en/guide/`、`src/pages/en/howto/`（MDX，路径多一层 `../`；站内链接加 `/en`；`<Term k="中文键" />` 照原样，英文名在 `nav.js` 的 `GLOSSARY[k].en`）。
+  - 数据：`nav.js` 各条目的 `en: {}`；`wiki.en.js`、`faq.en.js`、`skills.en.js`（按 slug / 技能名叠加，结构和条数要和中文一致）；界面文字在各组件和 `views/` 里的 zh / en 两份。
+  - 强调：每页最多一处 `<mark>`（这页最要紧的一句），`<u>` 只给照做会失败的坑；英文页放在对应的那句上。
+- README 有 10 种语言（`README.md` 中文，`README.<lang>.md` 其他）；非中文版用 `assets/en/` 的英文插画（同一个 `build_assets.py` 生成）。
 
 ```bash
 npm install

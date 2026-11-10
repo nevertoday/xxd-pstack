@@ -3,15 +3,21 @@ import Site from "../layouts/Site.astro";
 import Q from "../components/Q.astro";
 import Contact from "../components/Contact.astro";
 import { FAQ } from "../data/faq.js";
-import { REPO } from "../data/nav.js";
+import { FAQ_EN } from "../data/faq.en.js";
+import { REPO, langOf } from "../data/nav.js";
 import { inline } from "../lib/md.js";
-const headings = FAQ.map((g) => ({ slug: g.id, text: g.title, depth: 2 }));
+const en = langOf(Astro.url.pathname) === "en";
+const groups = en ? FAQ_EN : FAQ;
+const headings = groups.map((g) => ({ slug: g.id, text: g.title, depth: 2 }));
+const T = en
+  ? { h: "FAQ", p: ["The questions that come up most when people first meet pstack. Didn't find yours? Open one on ", ", or press ", " to search the whole site."] }
+  : { h: "常见问题", p: ["第一次接触 pstack 时最常冒出来的问题。没找到你的？到 ", " 提一个，或者按 ", " 搜索全站。"] };
 ---
-<Site title="常见问题" headings={headings}>
+<Site title={T.h} headings={headings}>
   <article class="xxd-prose">
-    <h1>常见问题</h1>
-    <p>第一次接触 pstack 时最常冒出来的问题。没找到你的？到 <a href={`${REPO}/issues`}>GitHub</a> 提一个，或者按 <kbd class="xxd-kbd">⌘K</kbd> 搜索全站。</p>
-    {FAQ.map((g) => (
+    <h1>{T.h}</h1>
+    <p>{T.p[0]}<a href={`${REPO}/issues`}>GitHub</a>{T.p[1]}<kbd class="xxd-kbd">⌘K</kbd>{T.p[2]}</p>
+    {groups.map((g) => (
       <>
         <h2 id={g.id}>{g.title}</h2>
         {g.items.map(([q, a], i) => <Q q={q} group={g.id} id={`${g.id}-${i + 1}`}><p set:html={inline(a)} /></Q>)}

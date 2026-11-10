@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 8
+need: A few real tasks done with pstack
+description: "Steer with a principle name in one sentence; /reflect records the lessons of one task; /correct shuts out a recurring mistake at the root; /automate-me generates your own working mode; blind-test a skill before you change it."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## First: start small
+
+`poteto-mode` is one person's style. The playbooks, the division of labor and the model roles underneath it work just as well with your style.
+
+But don't pile it all on at once. On day one you don't need many skills, or even all of pstack. <mark><strong>Prompt normally, watch where the AI slips, and when the same slip happens a second time, add a skill or a check.</strong></mark>
+
+## Steer with a principle name in one sentence
+
+Each of pstack's 24 <Term k="原则" text="principles" /> has a name. `/poteto-mode` reads them all when it starts, so saying a name is more precise than writing a paragraph:
+
+| What the AI is doing | Your one-line reply |
+| --- | --- |
+| About to add a fourth adapter on top of three old ones | subtract before you add. Delete the outdated adapters first, then design what's left. |
+| Calling it a success because it compiles | apply prove it works. Run the real import flow and show me the records it wrote. |
+| Two parallel attempts about to write to the same branch | separate before serializing shared state. Give each attempt its own worktree, no locks. |
+| Saying it's fixed after adding a check downstream | fix root causes. Find where it first goes wrong. |
+| Still trying the same fix after it failed twice | attack the premise. Write down the assumption those fixes share, and test it directly. |
+
+In its reply it should say **which decision the principle changed**. Quoting the name without saying what changed means it didn't use it. All 24, with plain-language explanations, are in [the 24 principles](/en/wiki/principles/). For more steering lines, see [Pull it back on track in one sentence](/en/howto/steer/).
+
+## Lessons from one task: /reflect
+
+A task just finished, and you feel it took a detour:
+
+<Copy id="reflect" code="/reflect That was too slow. Write down what you learned so it doesn't happen again." />
+
+It hands the chat to three reviewers in parallel, then a summarizer sorts their suggestions into "accept", "reject" and "undecided", and **waits for your approval before changing any skill**. Only approve suggestions that would change some future decision: one odd experience is a one-off, not a rule.
+
+## Recurring mistakes: /correct
+
+If you keep correcting the AI on the same kind of mistake, it's the repo that needs to change, not your next prompt. Ranked by how firmly they shut the mistake out:
+
+1. Use architecture or a better data structure so the mistake **can't happen** at all.
+2. Use types, or a lint rule or CI check whose error message spells out the fix, to **block** it.
+3. Use tests to **catch** it.
+4. Write it into docs or rules for the AI. When an AI skips a rule, nothing fails, so this is the last resort.
+
+Human review isn't on this list: a reviewer who has to catch the same mistake in every PR is exactly the problem you're trying to solve.
+
+<Copy id="correct" code="/correct The AI keeps bypassing the repository layer and calling the database client directly" />
+
+It reads recent commits, reverts, review comments and comments that explain workarounds, and groups the mistakes into classes (**it takes two occurrences to make a class**). It makes one commit per class, fixes each at the highest level it can, and proves the new check catches a real past mistake. It also keeps a table in the AI instructions file showing what enforces each rule, so rules with nothing enforcing them stand out. Run `/correct` with no argument and it finds them in the history on its own.
+
+`/reflect` and `/correct` do different jobs: the first improves skills from **one chat**, the second changes the **repo** so a class of mistake can't come back.
+
+## Build your own mode: /automate-me
+
+<Copy id="automate" code="/automate-me" />
+
+You don't have to describe your style. It reads it from your history: it digs through your recent chats in this project, finds the preferences you keep repeating in replies, delegation, verification, code, writing and process, asks which ones really are you, then drafts a `<your-name>-mode` skill, runs it through `/unslop`, and opens a PR from a worktree for you to review. You end up with both `poteto-mode` and your own mode.
+
+When your habits change, run it again: "/automate-me Update my mode skill with everything since the last change." It only digs through history after that point. Rules that haven't been overturned stay, ones with new evidence get revised, and only new patterns get new sections.
+
+## Blind-test a skill before you change it
+
+Changing a skill affects every future chat, so test it like an experiment. The same goes for installing someone else's skill: first make sure it actually makes the AI better on your work.
+
+<Copy id="eval" code="/poteto-mode Update the review skill so it catches missing database migrations, and run an eval on the change." />
+
+The Eval playbook targets one specific failure: **an AI that knows it's being tested behaves differently**. So the candidate AIs get a task that looks natural, work in clean directories, never see words like "eval" or "candidate", and don't know about each other. A judge scores all the results under neutral labels. Whether a candidate followed the skill is judged from which files it actually read, not from what it says.
+
+Even with the judge's verdict, look at each output yourself. When you disagree, suspect the scoring criteria first, and your own judgment second.
+
+<Callout type="warn" title="Don't change a skill in the middle of a task">
+If a skill does poorly during a task, note it down, fix it **in its own PR**, and carry on with the task. A skill change buried in a feature change is invisible to reviewers and can't be evaluated.
+</Callout>
+
+## Stuck?
+
+<Q q="/automate-me says it can't find enough history.">
+<p>It only reads chat history for the current project. Use pstack for normal work in this project for a while first, and run it again once there's more history.</p>
+</Q>
+<Q q="I want to write a skill from scratch myself.">
+<p>Say <code>/poteto-mode Write a skill that verifies database migrations in this repo</code>. The write-a-skill playbook checks the format and links, then goes through the open-PR flow. Writing for an AI needs more care than writing for people: one useless sentence becomes an instruction every future AI will follow, so don't write it carelessly.</p>
+</Q>
+
+<Checkpoint id="s8" items={["I've memorized two or three of the most-used principle names, like prove it works and fix root causes", "When the same mistake happens a second time, I use /correct instead of saying it again", "Skill changes go in their own PR, and get an eval first"]} />

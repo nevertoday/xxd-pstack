@@ -2,6 +2,8 @@
 
 # pstack 新手教程
 
+**中文** · [English](./README.en.md) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
+
 **让 AI 写代码像个靠谱的资深工程师：先搞懂，再动手，拿出证据。**
 
 [pstack](https://github.com/backnotprop/pstack) 的中文入门教程。说人话，从装上第一行命令，讲到在真实项目里放手让它跑一夜。
@@ -11,7 +13,7 @@
 ![主线](https://img.shields.io/badge/主线教程-9_步-8A9A8C?style=flat-square)
 ![技能](https://img.shields.io/badge/技能速查-34_个-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_篇-C9A97A?style=flat-square)
-![Wiki](https://img.shields.io/badge/Wiki-21_条-9AA8C4?style=flat-square)
+![Wiki](https://img.shields.io/badge/Wiki-20_条-9AA8C4?style=flat-square)
 ![工具](https://img.shields.io/badge/Claude_Code_·_Cursor_·_Codex-✓-8A9A8C?style=flat-square)
 
 </div>
@@ -129,7 +131,7 @@ npx skills add backnotprop/pstack
 | [主线教程](https://pstack.xiaoxiaodong.ai/guide/0-what/) | 9 步，按顺序看：是什么 → 安装 → 选模型 → 第一个任务 → 先看懂 → 设计动手清理 → 验证交付 → 跑一夜 → 变成你自己的 |
 | [技能速查](https://pstack.xiaoxiaodong.ai/skills/) | 34 个技能，一个一块 |
 | [How-to](https://pstack.xiaoxiaodong.ai/howto/) | 17 篇，一篇只讲一件事 |
-| [Wiki](https://pstack.xiaoxiaodong.ai/wiki/) | 21 个概念：一句话 → 打个比方 → 在 pstack 里 → 常见误区；含 24 条原则和 23 套剧本对照表 |
+| [Wiki](https://pstack.xiaoxiaodong.ai/wiki/) | 20 个概念：一句话 → 打个比方 → 在 pstack 里 → 常见误区；含 24 条原则和 23 套剧本对照表 |
 | [常见问题](https://pstack.xiaoxiaodong.ai/faq/) | 要钱吗？必须用 Cursor 吗？会不会乱改我的代码？ |
 
 页面右上角 <kbd>⌘</kbd> <kbd>K</kbd> 全站搜索，正文里**荧光笔**和**粗下划线**标的是重点，带虚线的词悬停就有一句话解释。

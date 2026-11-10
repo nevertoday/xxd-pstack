@@ -1,0 +1,90 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 6
+need: A finished change; a GitHub repo helps
+description: "\"It compiles\" isn't proof. Say what done means up front, pick evidence that fits the change, generate a verification skill, check performance numbers, then open the PR, babysit it until it's mergeable, and merge on verified results."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Why this step matters most
+
+<mark><strong>"It compiles" isn't proof.</strong></mark> pstack's `prove it works` principle asks the AI to check against the **real artifact** before it reports success. Your job is to make the real artifact something it can check.
+
+Verification is the slowest part of most AI work, because it usually waits for a human. Once the AI can verify on its own, you stop being the bottleneck. Skip it, and running more AIs just means more unchecked work waiting for your review.
+
+## Say what done means in the first sentence
+
+<Copy id="done" code="/poteto-mode Add JSON output to this command. The text output must not change by a single byte, the JSON must parse, and run both on the example project. Show me the evidence." />
+
+Now it has three checks it can run, instead of a mood it has to please. The reply should include the exact commands and their output. If a check couldn't run, a good reply says "inconclusive".
+
+Pick evidence that fits the change:
+
+| What changed | Evidence |
+| --- | --- |
+| Command line | Run the real command |
+| UI | Walk through the changed flow in the running app; when it has to match a reference pixel for pixel, use the visual-match playbook against fixed screenshots |
+| Parsers, data migrations | Replay a saved input |
+| Performance | Compare a before and an after profile |
+| Storage | Read back the value that was written |
+
+**Ask for an artifact you can check yourself**: a test that fails and then passes, a before/after screen recording, a trace, a screenshot. Once the fix is merged, have it run the same check again on main. An artifact beats a plausible explanation, because you can question it without replaying the whole process.
+
+If you're uneasy about a small change, use `/blast-radius`: it finds the one fact that makes the change safe, and proves it by running code.
+
+## Generate a verification skill so the AI can verify on its own
+
+The "UI" row above hides an assumption: the AI needs a way to drive your app with a script. If your project doesn't have one:
+
+<Copy id="cvs" code="/create-verification-skill" />
+
+It mostly "interviews" your code: what users touch, how the app starts locally, what to drive it with (your existing test tools, otherwise a browser, a terminal or HTTP), what counts as evidence, and whether two copies can run at once. It only asks you what the code can't answer. Before handing it over, it does a full run on its own: start up, self-check, drive one feature, collect evidence, clean up, then confirm the evidence is still there after cleanup. **If that run doesn't pass, don't use what it produced.**
+
+Once you have it, "verify it in the app" becomes a step any AI can carry out:
+
+<Copy id="use-vs" code="/poteto-mode Build the bulk archive feature. Verify it with /verify-<your-app-name>, and give me a screen recording and screenshots as evidence." />
+
+Treat it as infrastructure: commit it to the repo so every person and every AI drives the app the same way. Apps change, so review it regularly with `/maintain-verification-skill` (daily is best). It only fixes the verification skill itself and never touches product code. If it finds the product really is broken, it reports that instead of editing the docs to hide it.
+
+For cases tests can't reach (two retries overlapping, a lock expiring mid-write, state changes arriving out of order), use <Term k="形式化验证" />: `/create-formal-verification-skill Task leases and retry logic. The same task must never run twice at the same time.`
+
+## Check measured numbers before you report them
+
+Before/after numbers are the easiest evidence to get wrong by accident: a warm cache, a debug build on one side, or the work you meant to measure never running inside the timer can all produce a nice-looking speedup. Before you report it or act on it:
+
+<Copy id="bench" code="/benchmark-checklist Check this export speedup before it goes into the PR" />
+
+It asks 7 questions, and each one has to be answered with evidence from a run: What limits this number? Are both sides tuned the way production is? Does the result break physical limits? Are there errors or wrong output? Does it reproduce over several alternating runs (median and range)? Does it affect the path users actually wait on? Is the work you meant to measure really inside the timer? There are only four verdicts: faster, slower, no measurable difference, inconclusive.
+
+## Open the PR, babysit it until it's mergeable, then merge
+
+<Copy id="pr" code="/poteto-mode Open a PR. Small, ordered commits, with the evidence in the description." />
+
+The open-PR playbook works in a <Term k="worktree" />, arranges the change into small, ordered commits, cleans up the code and writing, and gives you the PR link at the end. Five narrow PRs beat one fat one.
+
+<Copy id="babysit" code="/poteto-mode Babysit this PR and get it green." />
+
+The Babysit playbook works in order: conflicts first, then review comments, then CI. It batches all known fixes into one push so CI only reruns once. It's skeptical of comments: real problems get fixed, noise gets pushed back on with the reason written under the comment. <strong>It stops at "ready to merge" and never merges</strong>, because merging is a separate decision. If you only want the status: "/poteto-mode Check PR 123. Is anything still unresolved?"
+
+<Copy id="ship" code="/poteto-mode land the stack." />
+
+Before merging, the Shipping playbook sends, for each PR, an AI that **didn't write that code** to verify it in a real environment. Then it merges only the unbroken run of verified PRs from the bottom up, and tells you which PR the chain broke at. A verified PR sitting on top of an unverified one waits.
+
+<Callout type="tip" title="A note for Claude Code users">
+Opening PRs uses command-line tools like `gh`, so you need to be logged in to GitHub on your machine (`gh auth login`). Bugbot is Cursor-only and gets skipped in other tools; existing Bugbot comments on a PR are still handled as ordinary review comments.
+</Callout>
+
+## Stuck?
+
+<Q q="It says it's done, but didn't show any evidence.">
+<p>Reply: "apply prove it works. Show me the real output, not the build log."</p>
+</Q>
+<Q q="Generating the verification skill gets stuck on starting the app.">
+<p>Make startup repeatable: have seed data and test accounts ready, and ideally one command that brings up the dev environment the same way every time. The author also suggests this: if the AI keeps writing one-off scripts to click through the app, have it build a small control CLI for the verification skill to call. That saves tokens and gives the same result every time.</p>
+</Q>
+
+<Checkpoint id="s6" items={["My prompt says what done means and what evidence I want to see", "I know a \"done\" with no evidence is a red flag", "I know Babysit won't merge; merging needs me to say land the stack"]} />

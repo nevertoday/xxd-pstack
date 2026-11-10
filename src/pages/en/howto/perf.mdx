@@ -1,0 +1,118 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: perf
+time: One or two conversations to diagnose and fix
+for: Something feels slow, and you want the AI to find the real cause and show a before-and-after you can trust
+step: 6
+description: "Track down performance with /poteto-mode: start with a measured number, have it measure, change, and measure again, then use /benchmark-checklist to check whether the number holds up."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Get a number before you say "slow"
+
+"It feels a bit laggy" is an impression. "Startup takes 1.8 seconds on this data" is a measurement. <mark>Performance problems only count the second kind.</mark>
+
+Without a number, it's easy for an AI to read through the code, guess "this part might be slow," change it, and tell you "optimized." Nobody can say what changed or how much faster it got. pstack's Perf issue <Term k="剧本" /> requires every change to be backed by a measurement. Reading code doesn't count as measuring.
+
+## The one-line version
+
+<Copy id="perf-min" title="The shortest version" code="/poteto-mode startup takes 1.8s on this fixture. trace it, fix the measured cause, show me before and after." />
+
+This is the example prompt from pstack's own docs. Note "the measured cause": it should fix what shows up in the trace, not what it guesses.
+
+If you installed pstack as a Claude Code plugin, type the command as `/pstack:poteto-mode`. See [Using pstack in Claude Code](/en/howto/claude-code/).
+
+## What it will do
+
+1. Record a baseline trace first, and check with `/benchmark-checklist` that the baseline can be trusted.
+2. Read the relevant code with `/how` and form a hypothesis. Then try these moves in order from cheapest to most expensive, stopping as soon as one hits the target:
+   - Don't do it: skip work whose result nobody uses.
+   - Don't do it twice.
+   - Do less of it.
+   - Do it later.
+   - Do it while the user isn't waiting.
+   - Do it in parallel.
+   - Do it a cheaper way.
+3. Pick the fix based on the trace, hand it to a <Term k="子代理" /> to write, review the diff itself, then record a trace after the fix.
+4. Parse the two sets of data and compare them. If the measurement is inconclusive or measured the wrong thing, it says so. That doesn't count as a pass.
+5. Write the measurements into the <Term k="PR" />.
+
+The final reply has four things: the baseline number, the number after the fix, the difference, and where the data files are.
+
+## Two other cases: diagnose only, or keep pushing
+
+### Just tell me where it's slow, don't fix yet
+
+Sometimes you only want a diagnosis. pstack has two playbooks that diagnose without fixing:
+
+| What you have | Which playbook | What it does |
+| --- | --- | --- |
+| A profile you already recorded (cpuprofile, trace, heap snapshot) | Trace forensics | Reads that file without rerunning anything. Finds the most expensive calls and maps them to files and lines in the source |
+| Something happening right now (memory growing, CPU busy while idle, UI flickering) | Runtime forensics | Records data from the running program, then runs a small experiment to prove the mechanism it found is right |
+
+<Copy id="perf-trace" title="Diagnosis only" code="/poteto-mode This is a cpuprofile I recorded during a slow startup. Tell me where the time goes and which lines of code are responsible. Don't fix anything yet." />
+
+Both playbooks hand back only a diagnosis with sources. Once the cause is found, you decide whether to go the bug-fix route or the perf route.
+
+### Push one number down and keep going: Hillclimb
+
+Use the playbook above for a one-off fix. If you want to keep improving the same metric, like bundle size or first-screen time, use the Hillclimb playbook. Give it three things: **a metric**, **a target**, and **a minimum number of rounds**.
+
+<Copy id="perf-hill" title="Hillclimb" code="/poteto-mode hillclimb the side panel's first-open time. Target: at least 50% faster than baseline, and try at least 10 rounds. Log one line in the decision log per round." />
+
+"At least 10 rounds" stops it from hitting the target in round one by luck and quitting right away. It first builds a measurement script, checks that the script can actually tell fast from slow, and then **freezes** it, so every round is measured with the same script. Each round changes one thing and measures once. If it got faster, the change is kept and committed on its own. If not, the whole change is reverted. Every round adds a line to `decision.tsv`.
+
+## Can you trust the number: /benchmark-checklist
+
+Before-and-after numbers are the easiest to get wrong without noticing: the cache was warm, one side was a debug build, or the code being timed never actually ran. The Perf and Hillclimb playbooks run this check automatically. If you measured a number yourself, or someone hands you a number that looks too good to be true, type it yourself:
+
+<Copy id="perf-bench" code="/benchmark-checklist Check this 40% speedup before it goes into the PR description" />
+
+It asks seven questions, and each one needs a real run as evidence:
+
+| Question | In plain words |
+| --- | --- |
+| 1. Why isn't it twice as fast? | Name the bottleneck that's holding the number where it is |
+| 2. Are both sides tuned like production? | You can't compare a release build against a debug build |
+| 3. Does it beat a physical limit? | Faster than disk bandwidth means you're measuring something else |
+| 4. Were there errors? | Rejected requests are often fast. Count the errors |
+| 5. Can you reproduce it? | Alternate the two sides at least 5 runs each, and report the median and range |
+| 6. Does it matter to users? | A function that's 1% of total time can save at most 1%, however fast it gets |
+| 7. Did the timed work actually happen? | A promise nobody awaits runs really fast |
+
+There are only four verdicts: faster, slower, no measurable difference, or inconclusive. If it can't name the bottleneck, or one side wasn't tuned, the verdict is inconclusive.
+
+## An example from a real project
+
+Say you have a member site running on Cloudflare Workers, with data in D1. The member list endpoint has been getting slower.
+
+<Copy id="perf-d1" title="Workers and D1 example" code={`/poteto-mode The member list endpoint /api/members has a p50 of about 900ms under local wrangler dev, with 5000 test members imported.
+Measure a baseline first and tell me where the time goes. Fix the measured cause.
+It's fixed when, with the same data, p50 is under 200ms and the members returned (count and content) are exactly the same as before the fix.
+Alternate the two sides 7 runs each, give me the median and range, then run /benchmark-checklist.`} />
+
+A few details:
+
+- **"The members returned are exactly the same"**: this is question 4. Faster but returning less data means it isn't fixed.
+- **"Alternate 7 runs each"**: this is question 5. A number from a single run could be noise.
+- **A specific amount of data**: 5000 members is a scenario you can reproduce. With too little data, the problem might not show up at all.
+
+If it turns out the cause is a configuration problem, like a missing index, question 2 of the checklist counts that as "this side wasn't tuned" and asks to fix it before comparing.
+
+## Stuck?
+
+<Q q="It says “this change will make it faster” without measuring.">
+Reply: "Measure first. Give me the baseline number and the trace file path, then tell me what to change." The playbook already forbids claiming a performance ceiling without running anything.
+</Q>
+<Q q="The improvement is absurdly large, and I don't quite believe it.">
+Run <code>/benchmark-checklist</code>. Look especially at questions 3 and 7: beating a physical limit, or timing work that never happened, both make a number look unnaturally good. This is the <code>explain-the-number</code> <a href="/en/wiki/principles/">principle</a>.
+</Q>
+<Q q="It ran once and drew a conclusion.">
+Reply: "Alternate the two sides at least 5 runs each, and report the median and range. If the gap is smaller than the variation between runs, there's no difference."
+</Q>
+<Q q="Hillclimb is stuck on one number, and it wants to stop.">
+The playbook requires it to try a different approach when it hits a plateau. It can't loosen the target to declare it done. If there are cheap hypotheses it hasn't tried, it shouldn't quit either. If it's truly stuck, it should tell you what's going on instead of going in circles.
+</Q>

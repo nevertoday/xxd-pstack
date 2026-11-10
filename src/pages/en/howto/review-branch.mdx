@@ -1,0 +1,97 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: review-branch
+time: Ten to thirty minutes per review
+for: Your branch is done, and you want other models to find problems before you commit, without drowning in nitpicks
+step: 6
+description: Before committing, use /interrogate to have several models try to break your change and keep only the problems they can actually reproduce. Use /blast-radius for small changes, clean up with /no-comments and /unslop, and once the PR is open, let Babysit watch it until it's ready to merge.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## You can't see the problems in your own work
+
+The AI that wrote the code is the one least likely to spot its problems. It knows what it meant to do, and it reads the code through that intent.
+
+Ordinary AI reviews go to the other extreme: twenty comments about naming, style, and "potential risks," with the real problems buried somewhere in the middle. You have to sort through them one by one.
+
+pstack's approach: <mark><strong>switch to a few different models, have them set out to break the change, and only count a problem if they can make it happen.</strong></mark>
+
+If you installed pstack as a Claude Code plugin, add `pstack:` before the command, like `/pstack:interrogate`. See [Using pstack in Claude Code](/en/howto/claude-code/).
+
+## /interrogate: keep only the problems that reproduce
+
+<Copy id="rv-int" title="Review the whole branch" code="/interrogate the whole branch, be picky. Don't change anything yet. Don't report small stuff that isn't a real bug or a behavior regression." />
+
+Both limits in this prompt help: "Don't change anything yet" keeps it read-only, and "don't report small stuff" filters out noise up front.
+
+Here's what it does:
+
+1. **Sets the scope and the intent.** If you don't give a scope, it looks at every change on the current branch compared to the base branch, including uncommitted ones. Then it says in its own words what the change is trying to do. If the intent is unclear, it asks you.
+2. **Sends in adversaries.** Using the models you set up in `/setup-pstack`, it sends a few adversaries, each in its own <Term k="worktree" />, to try to break the change. Every problem has to come with the command it ran, what the command printed, and what the result should have been given the intent. Nothing gets reported without a run.
+3. **Double-checks.** It reruns the command for every problem. A problem is kept only if the output really shows something wrong, and that wrong thing goes against the change's intent. Problems with the same root cause are merged into one.
+4. **Reports, and doesn't touch anything.** It won't change your code for you.
+
+The report has three parts: **Intent** (what it understood the change to be for), **Findings** (problems that passed the double-check), and **Dropped** (how many of each adversary's items were dropped, and why).
+
+<Callout type="warn" title="Read Dropped too">
+Something being dropped doesn't mean it definitely isn't a problem. It only means no run proved it. Skim the reasons. If you think one was dismissed unfairly, you can overrule it and ask for a repro.
+</Callout>
+
+## Nervous about a small change: /blast-radius
+
+You only changed a few lines, but you have a feeling it'll affect something else. Use `/blast-radius`. Instead of listing a pile of "possible risks," it finds **the one fact that makes this change safe**, then writes real code to prove that fact.
+
+It says how far each fact has been proven: just claimed, pointed to specific lines of code, reasoned out that the failure path can't happen, run as a script, or reproduced in the running app. Anything it can't prove is marked "unproven."
+
+## An example from a real project
+
+Say that in your Chrome extension, you moved saved items from `chrome.storage.sync` to `chrome.storage.local`, because sync has a storage limit. It's a small change, but you're worried existing users will lose all their saved items after upgrading.
+
+<Copy id="rv-blast" title="Chrome extension example" code={`/blast-radius This branch moves saved items from chrome.storage.sync to chrome.storage.local.
+My biggest worry: after an existing user upgrades, are the items they had in sync still there?
+Find the fact this change depends on to be safe, write a script that actually runs to prove it, and paste the output.`} />
+
+A good result looks like this. The key fact it finds is "the first time the extension starts after an upgrade, it moves the old saved items from sync to local." Then it writes a script: put three fake saved items in sync, simulate an upgrade, then read local and check there are exactly three. That script's output is what you want to look at.
+
+If all it hands back is "after analysis, this change is safe," reply: "Prove that fact to the level of something that runs."
+
+## Clean up before committing: comments and wording
+
+After finding problems, there are two cleanup steps before you commit:
+
+- **`/no-comments`**: hands the comments to a reviewer who didn't write the code, to delete them. Only a few kinds stay: license headers, doc comments on public interfaces, external links the code can't express, and workarounds forced by outside dependencies. Every other comment goes. If a comment says something like "don't delete this," it suggests turning that rule into a type, a test, or a lint rule.
+- **`/unslop`**: cleans the AI tone out of PR descriptions and commit messages. You can add your own rules, like `/unslop the PR description, no em dashes`.
+
+<Callout type="no" title="/deslop isn't part of pstack">
+<code>/deslop</code> (cleaning redundancy out of code) comes up often in pstack's docs, but it comes from a different Cursor plugin pack. pstack doesn't include it. If you don't have it, just say it in plain words: "Delete comments that describe what the code does, defensive checks with no reason behind them, compatibility code that's no longer needed, and changes unrelated to this task."
+</Callout>
+
+## Once the PR is open: hand it to Babysit
+
+As soon as a <Term k="PR" /> is open, things start happening: checks fail, people leave comments, the main branch moves ahead. Hand all of that to the Babysit <Term k="剧本" />:
+
+<Copy id="rv-babysit" title="Watch it until it can merge" code="/poteto-mode babysit this PR, get it green." />
+
+It works in a fixed order: conflicts first, then review comments, then CI. It batches all known fixes into one push, so checks only rerun once. It treats comments with suspicion: real problems get fixed, and for noise it posts its evidence against it under the comment and then closes it. If you only want to know where things stand, ask something smaller: "/poteto-mode look at PR 123. What's still unresolved?"
+
+<Callout type="warn" title="Babysit doesn't merge">
+Even when everything is green, it stops at "ready to merge." Merging is a separate decision. You have to say so clearly, with something like "land the stack," and it goes to the Shipping playbook. Shipping first has agents that didn't write the code verify each PR one by one, then merges from the bottom up, only the unbroken run of PRs that passed.
+</Callout>
+
+## Stuck?
+
+<Q q="/interrogate said “no verified findings.” Was it being lazy?">
+Having no problems that passed the double-check is a valid result. Look at the Dropped section to see what each adversary reported and why it was thrown out. If you have a specific suspicion of your own, say it and have it try that one thing.
+</Q>
+<Q q="I think one of the dropped items is a real problem.">
+You can overrule it. Reply: "Write me a repro for the item the second adversary raised in Dropped." If it reproduces, it's a real problem.
+</Q>
+<Q q="Babysit got everything green. Why won't it merge?">
+That's on purpose. Say "land the stack" or "go ahead and merge," and it switches to the Shipping playbook.
+</Q>
+<Q q="/no-comments deleted a comment I wanted to keep.">
+It only keeps comments about "things we can't change." If your comment explains something counterintuitive in your own code, it treats that as a sign the code should be refactored. If you think it got it wrong, tell it which outside constraint the comment is about, and have it decide again.
+</Q>

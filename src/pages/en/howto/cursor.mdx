@@ -1,0 +1,114 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cursor
+time: 2 minutes to install, 10 to read
+for: You use Cursor and want pstack to feel natural there
+step: 1
+description: pstack was written for Cursor in the first place. This page covers the one-command install, the Custom Mode that keeps /poteto-mode on every turn, running for hours with /loop, starting cloud subagents with /in-cloud, and what you need to install separately.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## One command to install
+
+pstack is the setup its author, poteto, uses in Cursor every day, so Cursor is the easiest place to install it. In the Cursor chat box, type:
+
+<Cmd c="/add-plugin pstack" />
+
+Cursor tells you the plugin is installed. You can also install it from Customize in the sidebar. It works the same.
+
+After installing, choose your models:
+
+<Cmd c="/setup-pstack" />
+
+It detects which models you can use, asks about your <Term k="推理预算" />, and assigns a model to each <Term k="模型角色" />. Finally it writes a file: `~/.cursor/rules/pstack-models.mdc`. This is an "always apply" rule, and every pstack skill reads it before handing out work.
+
+<Callout type="tip" title="After setup, start a new conversation">
+<u>This rule only applies to new conversations</u>. If you keep going in an old one, it still uses the default models.
+</Callout>
+
+## Pick from the / menu first, then write the task
+
+The right way to use `/poteto-mode`: type `/` in the chat box, select `/poteto-mode` from the menu that pops up, and then write your task. That's how Cursor attaches the skill to this message.
+
+<Copy id="cursor-first" title="Your first task" code="/poteto-mode add a --json flag to this command. The existing text output must not change by a single byte. Verify both outputs." />
+
+After you send it, watch its <Term k="待办清单" />: the first few items are the steps of the <Term k="剧本" /> it picked, copied in as-is. Skipped steps stay in the list, marked `skip: <reason>`.
+
+## Keep it on every turn: Custom Mode
+
+After you select `/poteto-mode` from the menu, which key you send with makes a difference:
+
+| You press | What happens |
+| --- | --- |
+| Enter | It's attached to this one message only. As the chat goes on, its effect fades |
+| Option+Enter (Mac) or Alt+Enter (Windows) | It becomes a Custom Mode and stays on every turn until you leave the mode |
+
+<Term k="Custom Mode" /> is a persistent mode. Use as Mode on the skill entry also turns it into a Custom Mode. Custom Mode works in the Agents window and the Cursor command line.
+
+With Custom Mode on, your later messages can be very short: "do it," "continue," "keep going until done" all count as complete prompts. The playbook's rules stay in force.
+
+<Callout type="warn" title="Say new task when you switch topics">
+When you finish one thing in a conversation and move on to the next, start with "new task." Otherwise it treats your new question as the next step of the previous task.
+</Callout>
+
+## Running for a long time: /loop
+
+`/loop` is a built-in Cursor command, not a pstack skill. It wakes the AI up at intervals or on events to check again whether the work is done. Paired with `/poteto-mode`, it can work for hours straight without the rules slipping.
+
+The key is to give it a done condition that passes or fails, not an amount of time:
+
+<Copy id="cursor-loop" title="Before bed" code={`/poteto-mode I'm going to bed. In a new worktree (branched from <your base branch>), migrate every caller to the new parser.
+Done means: no old callers left, all parser test data passes, and the old API is deleted.
+Keep a decision log. No need to ask me before committing.
+/loop until done. If you're truly stuck after a few hours, stop and write down why.`} />
+
+"Work for 4 hours" isn't a done condition. It has nothing to check, so when you wake up you'll see 4 hours of busy work and no result. For a fuller version, see [Let it run](/en/guide/7-overnight/).
+
+## Working in parallel: cloud subagents
+
+Run several AIs on one computer against the same repo, and they fight over the working folder, fight over ports, and overwrite each other's builds. The cleanest isolation is Cursor's cloud subagents. Each one has its own virtual machine and branch. It can install dependencies, run your app, and record videos of what it does, all without touching your computer.
+
+To use it, type `/in-cloud` before the task, or just ask the main conversation to hand the work to a cloud subagent.
+
+If you can only run locally, give each task its own <Term k="worktree" />:
+
+<Copy id="cursor-wt" code={`/poteto-mode new task. Create a new worktree from <base branch> and port the parser changes over there.`} />
+
+Worktrees take disk space and machine resources. On a laptop, a few at a time is plenty.
+
+## Not in pstack, install separately
+
+Some `/poteto-mode` steps use skills from other plugins. Without them it still runs, but that step falls back to a second-best approach:
+
+| Name | What it is | Where |
+| --- | --- | --- |
+| `/deslop`, `deslop` | Cleans the "AI flavor" out of code | `cursor-team-kit` plugin |
+| `control-cli` | Drives command-line programs and terminal UIs | `cursor-team-kit` plugin |
+| `control-ui` | Drives browsers, Electron, and web pages | `cursor-team-kit` plugin |
+| `/create-skill` | Writes skills | Built into Cursor |
+| `/autopilot` | Watches a PR | Built into Cursor. Asking about PR status inside `/poteto-mode` uses its own babysit playbook |
+
+For the full set, install the `cursor-team-kit` plugin too.
+
+pstack also ships an automation pack that's off by default, called benny. It sorts issues reported in Slack, reproduces and fixes the ones confirmed as bugs, and attaches evidence from the real UI. It runs on Cursor Automations, so it only works in Cursor. To turn it on, point Cursor at `FOR_AGENTS.md` in the benny folder. Installing copies it into your repo's `.cursor/automations/benny/`.
+
+Also, pstack has no planning skill. Cursor's built-in Plan Mode works fine alongside it.
+
+## Stuck?
+
+<Q q="/poteto-mode stopped working after a few turns.">
+You most likely sent it with Enter, so it was only attached to the first message. Select it from the menu again and press Option+Enter (Alt+Enter on Windows) to make it a Custom Mode. Or type `/poteto-mode` again for every new task.
+</Q>
+<Q q="I changed the model settings, but it still runs the old models.">
+The rule only applies to new conversations. Start a new one and try again.
+</Q>
+<Q q="Several AIs working at once scrambled each other's files.">
+Give each task its own worktree, or use `/in-cloud` to hand it to a cloud subagent, so each one has its own machine.
+</Q>
+<Q q="I left /loop running all night, and nothing got finished.">
+Check your done condition. It has to be a check that runs and passes or fails, like "this command returns 0" or "all these tests pass," not "work until morning."
+</Q>

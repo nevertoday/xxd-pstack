@@ -1,20 +1,35 @@
 ---
 // 技能速查：34 个技能按用途分组，每个一块：名字、谁来调用、一句话、什么时候用、例句、要一起装的技能。锚点就是技能名（搜索直接跳过来）。
 import Site from "../layouts/Site.astro";
-import { SKILLS, SKILL_COUNT } from "../data/skills.js";
-import { link, wikiHref, PSTACK } from "../data/nav.js";
+import { SKILL_COUNT } from "../data/skills.js";
+import { skillsFor } from "../data/skills.i18n.js";
+import { link, wikiHref, PSTACK, langOf } from "../data/nav.js";
+const lang = langOf(Astro.url.pathname);
+const en = lang === "en";
+const SKILLS = skillsFor(lang);
 const headings = SKILLS.map((g) => ({ slug: g.id, text: g.title, depth: 2 }));
+const T = en
+  ? { h: "Skills at a glance", desc: `All ${SKILL_COUNT} pstack skills, each in one plain sentence: what it does, when to use it, what to say.`,
+      auto: "Auto", manual: "Type it yourself", named: "Call when needed", src: "Source", srcLabel: (n) => `Original SKILL.md for ${n}`, use: "When to use", needs: "Install with", sep: ", ",
+      legend: ["/poteto-mode uses it when a step needs it; you don't have to name it", "Runs only when you type it in the chat yourself", "Type it when you want it"] }
+  : { h: "技能速查", desc: `pstack 的 ${SKILL_COUNT} 个技能，每个都用一句人话讲清楚：干什么、什么时候用、怎么说。`,
+      auto: "自动调用", manual: "要你亲手打", named: "按需点名", src: "原文", srcLabel: (n) => `${n} 的原文 SKILL.md`, use: "什么时候用", needs: "要一起装", sep: "、",
+      legend: ["/poteto-mode 的步骤需要时会自己用它，你不用点名", "只有你在对话框里打出来才会运行", "想用的时候自己打"] };
 ---
-<Site title="技能速查" description={`pstack 的 ${SKILL_COUNT} 个技能，每个都用一句人话讲清楚：干什么、什么时候用、怎么说。`} headings={headings}>
+<Site title={T.h} description={T.desc} headings={headings}>
   <article class="xxd-prose skills">
-    <h1>技能速查</h1>
-    <p>pstack 一共有 {SKILL_COUNT} 个技能，外加 <a href={wikiHref("principles")}>24 条原则</a>。<strong>新手不用全记住</strong>：平时只打 <code class="xxd-code-inline">/poteto-mode</code>，标着「自动调用」的那些它会在需要时自己叫上。AI 不会在你没点名、也没用 /poteto-mode 的时候自己去用这些技能（只有 /setup-pstack 例外）。这一页是给你「想点名用某一个」或者「看到 AI 提到一个名字想查查」时用的。</p>
+    <h1>{T.h}</h1>
+    {en
+      ? <p>pstack has {SKILL_COUNT} skills, plus <a href={wikiHref("principles", lang)}>24 principles</a>. <strong>You don't need to memorize them</strong>: day to day, just type <code class="xxd-code-inline">/poteto-mode</code>, and it calls the ones marked “Auto” when it needs them. The AI won't use these skills on its own unless you name one or use /poteto-mode (/setup-pstack is the only exception). This page is for when you want to call one by name, or when the AI mentions one and you want to look it up.</p>
+      : <p>pstack 一共有 {SKILL_COUNT} 个技能，外加 <a href={wikiHref("principles")}>24 条原则</a>。<strong>新手不用全记住</strong>：平时只打 <code class="xxd-code-inline">/poteto-mode</code>，标着「自动调用」的那些它会在需要时自己叫上。AI 不会在你没点名、也没用 /poteto-mode 的时候自己去用这些技能（只有 /setup-pstack 例外）。这一页是给你「想点名用某一个」或者「看到 AI 提到一个名字想查查」时用的。</p>}
     <ul class="skills__legend">
-      <li><span class="xxd-badge" data-tone="success">自动调用</span>/poteto-mode 的步骤需要时会自己用它，你不用点名</li>
-      <li><span class="xxd-badge" data-tone="warning">要你亲手打</span>只有你在对话框里打出来才会运行</li>
-      <li><span class="xxd-badge">按需点名</span>想用的时候自己打</li>
+      <li><span class="xxd-badge" data-tone="success">{T.auto}</span>{T.legend[0]}</li>
+      <li><span class="xxd-badge" data-tone="warning">{T.manual}</span>{T.legend[1]}</li>
+      <li><span class="xxd-badge">{T.named}</span>{T.legend[2]}</li>
     </ul>
-    <p class="skills__note">在 Claude Code 里用插件方式装的，命令前面要加 <code class="xxd-code-inline">pstack:</code>，比如 <code class="xxd-code-inline">/pstack:how</code>。见 <a href={link("/howto/claude-code/")}>在 Claude Code 里用</a>。每个技能的原文在 <a href={`${PSTACK}/tree/main/skills`}>pstack 仓库的 skills 目录</a>。</p>
+    {en
+      ? <p class="skills__note">If you installed it as a Claude Code plugin, commands need the <code class="xxd-code-inline">pstack:</code> prefix, e.g. <code class="xxd-code-inline">/pstack:how</code>. See <a href={link("/howto/claude-code/", lang)}>Using it in Claude Code</a>. Each skill's original text is in <a href={`${PSTACK}/tree/main/skills`}>the skills folder of the pstack repo</a>.</p>
+      : <p class="skills__note">在 Claude Code 里用插件方式装的，命令前面要加 <code class="xxd-code-inline">pstack:</code>，比如 <code class="xxd-code-inline">/pstack:how</code>。见 <a href={link("/howto/claude-code/")}>在 Claude Code 里用</a>。每个技能的原文在 <a href={`${PSTACK}/tree/main/skills`}>pstack 仓库的 skills 目录</a>。</p>}
     {SKILLS.map((g) => (
       <>
         <h2 id={g.id}>{g.title}</h2>
@@ -22,13 +37,13 @@ const headings = SKILLS.map((g) => ({ slug: g.id, text: g.title, depth: 2 }));
           <section class="skill" id={s.name} aria-labelledby={`${s.name}-h`}>
             <div class="skill__head">
               <h3 id={`${s.name}-h`}><code>/{s.name}</code></h3>
-              {s.auto ? <span class="xxd-badge" data-tone="success">自动调用</span> : s.manual ? <span class="xxd-badge" data-tone="warning">要你亲手打</span> : <span class="xxd-badge">按需点名</span>}
-              <a class="skill__src" href={`${PSTACK}/blob/main/skills/${s.name}/SKILL.md`} rel="noopener" aria-label={`${s.name} 的原文 SKILL.md`}>原文<i data-xxd-icon="ArrowUpRight" data-size="12"></i></a>
+              {s.auto ? <span class="xxd-badge" data-tone="success">{T.auto}</span> : s.manual ? <span class="xxd-badge" data-tone="warning">{T.manual}</span> : <span class="xxd-badge">{T.named}</span>}
+              <a class="skill__src" href={`${PSTACK}/blob/main/skills/${s.name}/SKILL.md`} rel="noopener" aria-label={T.srcLabel(s.name)}>{T.src}<i data-xxd-icon="ArrowUpRight" data-size="12"></i></a>
             </div>
             <p class="skill__zh">{s.zh}</p>
-            <p class="skill__use"><span>什么时候用</span>{s.use}</p>
+            <p class="skill__use"><span>{T.use}</span>{s.use}</p>
             <pre class="xxd-code skill__ex"><code>{s.ex}</code></pre>
-            {s.needs && <p class="skill__needs"><span>要一起装</span>{s.needs.join("、")}</p>}
+            {s.needs && <p class="skill__needs"><span>{T.needs}</span>{s.needs.join(T.sep)}</p>}
           </section>
         ))}
       </>

@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: update-remove
+time: 6-minute read
+for: You want to update pstack, see what's installed, or uninstall it
+step: 1
+description: "Find the commands to list, check for updates, update, and uninstall, based on how you installed. The focus is one easy-to-miss trap: after an update the default models change, but your old settings file still pins the old defaults."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Tabs from "../../../components/Tabs.astro";
+
+## First, remember how you installed it
+
+How you update and uninstall depends on which route you took:
+
+| What you typed back then | Route |
+| --- | --- |
+| `npx skills add backnotprop/pstack` | skills command line |
+| `/plugin install pstack@cursor-plugins` | Claude Code plugin |
+| `/add-plugin pstack` | Cursor plugin |
+
+Can't remember? If you used the skills command line, the skills show up in folders like `.claude/skills/` or `.agents/skills/`, one subfolder per skill. If you used the Claude Code plugin, commands need the `pstack:` prefix, like `/pstack:poteto-mode`.
+
+## Commands by install route
+
+<Tabs id="ur" items={[["skills","skills command line"],["cc","Claude Code plugin"],["cursor","Cursor plugin"]]}>
+<div slot="skills">
+<p>Run these in your terminal (not in the AI chat box):</p>
+<p><Cmd c="npx skills list" /> See which skills are installed now.</p>
+<p><Cmd c="npx skills check" /> Check for new versions.</p>
+<p><Cmd c="npx skills update" /> Update the skills to the latest.</p>
+<p><Cmd c="npx skills remove" /> Uninstall skills.</p>
+<p>Mind the scope: skills installed without <code>-g</code> live in the project folder you were in at the time. With <code>-g</code>, they live in your user folder. Skills installed in project A won't show up in project B. That's normal.</p>
+</div>
+<div slot="cc">
+<p>Claude Code doesn't auto-update third-party plugin marketplaces by default. To update once by hand:</p>
+<p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
+<p>To update automatically from now on: type <code>/plugin</code> in the chat box, open the <strong>marketplaces</strong> tab, select <code>cursor-plugins</code>, then choose <strong>enable auto-update</strong>. Listing and uninstalling plugins are also handled in the <code>/plugin</code> menu.</p>
+</div>
+<div slot="cursor">
+<p>Plugins installed in Cursor are managed from Customize in the sidebar. pstack's docs don't give specific update steps for the Cursor plugin, so go by Cursor's own interface.</p>
+</div>
+</Tabs>
+
+## After updating: old settings still pin old defaults
+
+This is the easiest trap to fall into when updating.
+
+The settings file `/setup-pstack` writes hard-codes the model for each <Term k="模型角色" />, one line each. If a new version of pstack changes the default models, your old file still says **the old defaults**. <mark>The skill reads that line and keeps using the old model, so the new defaults never reach you</mark>.
+
+Two ways to fix it, pick one:
+
+1. Open the settings file and delete the role lines you never deliberately changed, the ones that were just written in from the defaults. Deleted roles go back to the skill's new defaults.
+2. Delete the whole file and run `/setup-pstack` again.
+
+Where the settings file is depends on your tool:
+
+| Tool | Settings file |
+| --- | --- |
+| Cursor | `~/.cursor/rules/pstack-models.mdc` |
+| Claude Code | `~/.claude/rules/pstack-models.md` |
+| Codex and other tools | `~/.agents/pstack-models.md` |
+
+<Callout type="ok" title="Rerunning won't wipe what you changed">
+When you rerun `/setup-pstack`, roles whose model differs from the default (the ones you changed on purpose) are kept. So rerun it without worry. Rerunning also removes role lines that are no longer used, and tells you which ones it removed.
+</Callout>
+
+After the change, you again need to start a new conversation (in Cursor and Claude Code) for it to take effect.
+
+## After uninstalling: the settings file is still there
+
+Uninstalling the skills or the plugin doesn't delete your model settings file. Be especially careful in Claude Code: it reads every `.md` file in `~/.claude/rules/` into every new session. If you uninstall pstack but keep `pstack-models.md`, those role lines still show up in every session, taking up space for nothing.
+
+If you're done with pstack for good, delete the matching file from the table above too.
+
+Also, if you had `/setup-pstack` generate a <Term k="验证技能" /> (a folder in your project like `verify-your-app`), it belongs to your project and isn't removed along with pstack. Keep it if you still want it, or delete it yourself if you don't.
+
+## Stuck?
+
+<Q q="I updated, but it still runs the old models.">
+Most likely it's the old settings file described above. Open it and look at that role's line, then delete it or rerun `/setup-pstack`. Then start a new conversation.
+</Q>
+<Q q="pstack in Claude Code never updates.">
+Third-party plugin marketplaces don't auto-update by default. Run `claude plugin update pstack@cursor-plugins` by hand, or turn on auto-update for `cursor-plugins` in the marketplaces tab of `/plugin`.
+</Q>
+<Q q="npx skills list doesn't show pstack's skills.">
+Make sure you're running it in the project folder where you originally installed. Skills installed into your user folder with `-g` and skills installed in a project live in two different places.
+</Q>

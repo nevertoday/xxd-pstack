@@ -1,0 +1,95 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 5
+need: A change you're about to make
+description: "Settle the shape before you build (/architect, /arena, /swarm, /interrogate, prototypes), say what you observed while you build (playbooks, /tdd), and clean up before you hand it over (/unslop, /no-comments)."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## What this step is about
+
+If you try a hard design only once, you end up with whatever the model thought of first. The two most common design mistakes are **taking the AI's first design as is**, and **polishing a plan over and over that no code has ever tested**.
+
+pstack's answer: <mark>plan with code</mark>. Prototypes answer the open questions, a README or tutorial sets the target, and the written plan comes last.
+
+## First, a ladder: do you need design at all?
+
+Most changes need none of this. Use this table to decide:
+
+| Your situation | What to use |
+| --- | --- |
+| A small change that's already written, but you're not sure about it | Just `/interrogate` |
+| It crosses function boundaries, or moves ownership or layers around | `/architect` (it brings in `/arena` on its own) |
+| A single decision where a few independent options help: naming, formats, algorithms | `/arena` directly |
+| A pile of unrelated checks, or a few approaches you want to race | `/swarm` |
+| A question you can answer by running something: layout, timing, approach | Build a prototype, don't argue |
+| A contested design that will be hard to change later | `/architect`, then `/interrogate` before you ship |
+| Work that spans several PRs | Write a plan, but only after the design is settled |
+
+`/poteto-mode` already uses this ladder: for work that crosses boundaries it calls `/architect` itself. You name one directly mainly when you want **more or less** scrutiny than the default.
+
+## Settle the shape: /architect, /arena, /swarm, /interrogate
+
+<Copy id="arch" code="/architect Design the import flow first, don't write code yet. What I care about most is how callers use it." />
+
+`/architect` reads the relevant code first, then has a few designs compete. Each design starts with "how a caller uses it", then the types, function signatures and module layout. By default it goes straight into implementation once the design is done. If you want to see the design first, say "with checkpoint, stop and show me before you implement". If the same workaround keeps showing up during implementation, or the types only compile with `any`, it decides the design was wrong and starts over.
+
+<Copy id="arena" code="/arena This cache key format will be hard to change later. Give me 5 options." />
+
+`/arena`: several AIs each write their own version, a judge from a different model family scores them, the best one becomes the base, and good ideas from the others get grafted in. `/swarm` is something else: it cuts one big job into pieces, one per worker, and merges the results. See [how /arena differs from /swarm](/en/wiki/arena-swarm/).
+
+<Copy id="interro" code="/interrogate Review the whole branch, and be picky. Don't report nitpicks unless it's a real bug or a regression." />
+
+`/interrogate` has several different models "attack" your change, and keeps only the problems that a command actually made fail. It also lists the ones it threw out and why. It doesn't change anything. **Read the thrown-out list too.** You can overrule its calls.
+
+## Not sure? Prototype
+
+<Copy id="proto" code="/poteto-mode Build a few prototypes of the new dropdown menu. Give me screenshots or screen recordings to compare." />
+
+The prototype playbook builds a few throwaway drafts in a temp directory, puts them behind a switcher, then clicks through, screenshots or times each one. It works for UI, behavior and algorithms. A prototype is planning with code: the AI answers the question by running something instead of asking you, and it may turn up an option you hadn't thought of.
+
+<Callout type="tip" title="Code for other people: write the README first">
+When you're building a package or API that other code will call, have it write the doc the users will read first: `/poteto-mode Write a tutorial first on how I'd use this new config package. Then /teach me why it's better than what we have now.` The doc forces the caller's point of view, and it becomes the target the AI checks its own work against.
+</Callout>
+
+## Build: say what you observed, let the playbook ask for proof
+
+Different jobs need different things in the prompt:
+
+| Job | What to put in the prompt | Example |
+| --- | --- | --- |
+| Fix a bug | The symptom + reproduce it first | After a retry it writes two records. Reproduce it first, then fix it, then verify. |
+| Add a feature | The new behavior + what must not change | Add a --json flag. The text output must not change by a single byte. |
+| Refactor | Behavior stays exactly the same + record the current output first | Move parsing into its own module, same behavior. Record the current output first, then prove it didn't change. |
+| Performance | A measurement, not a feeling | Startup takes 1.8 seconds on this data. Capture a trace, fix the cause it shows, and give me a before/after. |
+
+The playbook fills in the steps you left out: reproduce before fixing, settle the data structures before implementing, lock down behavior before refactoring, measure before optimizing. For the full approach for each, see the How-to pages: [fix a bug](/en/howto/fix-bug/), [add a feature](/en/howto/add-feature/), [refactor](/en/howto/refactor/), [find what's slow](/en/howto/perf/).
+
+When a bug has a cheap local test path, two words are enough:
+
+<Copy id="tdd" code="/tdd implement" />
+
+It first writes a test that fails for the right reason, then fixes it, then runs it. If the test can only be written with a pile of mocks, it says so and proves the fix with the closest real command instead. When you're changing TypeScript, remember to name `/typescript-best-practices`. <u>It won't load on its own.</u>
+
+## Clean up before you hand it over
+
+Cleanup isn't optional polish. To a reviewer, a change full of narrating comments and defensive code looks unfinished, and the extra code is exactly where the next bug hides.
+
+- **Writing**: `/unslop` removes the AI smell. You can add your own rules: `/unslop Clean up the new README content, no em dashes`.
+- **Comments**: `/no-comments` sends a read-only reviewer who is **not the author** to review the comments (authors always defend their own comments). It keeps only licenses, public API docs, links that explain what the code can't say, and behavior forced by an external dependency. For a comment that says "don't touch this", it suggests enforcing that with a type, a test or a lint rule instead.
+- **Code**: `/deslop` isn't in pstack (it's in Cursor's cursor-team-kit plugin). If you don't have it, just say: "Remove narrating comments, unjustified defensive checks, dead compatibility code, and changes unrelated to this task."
+
+## Stuck?
+
+<Q q="It went with the first design and didn't give me a choice.">
+<p>Say "don't decide yet, build two or three prototypes and compare them side by side", or name <code>exhaust the design space</code> (it's one of the <a href="/en/wiki/principles/">principles</a>).</p>
+</Q>
+<Q q="I want it to write a plan before it starts.">
+<p>Sure, but after the design is settled: <code>/poteto-mode Turn this design into a plan. Split it into small PRs that can each be verified on their own, each with its verification steps.</code> The multi-phase plan playbook only produces the plan, without implementing it, and tells you which playbook to use to carry it out.</p>
+</Q>
+
+<Checkpoint id="s5" items={["I know most changes don't need /architect, and I use the ladder to decide", "I know that when I'm unsure, I have it build prototypes instead of writing a long analysis", "Before handing it over, I have it clean up the writing and the comments"]} />

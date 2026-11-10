@@ -1,0 +1,190 @@
+<div dir="rtl">
+
+<div align="center">
+
+# دليل pstack للمبتدئين
+
+[中文](./README.md) · [English](./README.en.md) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · **العربية** · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
+
+**اجعل الذكاء الاصطناعي يكتب الكود مثل مهندس خبير يمكنك الوثوق به: يفهم أولًا، ثم يعدّل، ثم يقدّم الدليل.**
+
+دليل للمبتدئين إلى [pstack](https://github.com/backnotprop/pstack) بلغة بسيطة: من أول أمر تثبيت حتى تتركه يعمل طوال الليل على مشروع حقيقي.
+
+### 👉 [اقرأ على الإنترنت: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
+
+موقع الدليل متوفر بالإنجليزية والصينية (النسخة الصينية: <https://pstack.xiaoxiaodong.ai>).
+
+![الدليل](https://img.shields.io/badge/%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84-9_%D8%AE%D8%B7%D9%88%D8%A7%D8%AA-8A9A8C?style=flat-square)
+![المهارات](https://img.shields.io/badge/%D8%A7%D9%84%D9%85%D9%87%D8%A7%D8%B1%D8%A7%D8%AA-34-D7B9C8?style=flat-square)
+![How-to](https://img.shields.io/badge/How--to-17_%D8%AF%D9%84%D9%8A%D9%84%D9%8B%D8%A7-C9A97A?style=flat-square)
+![Wiki](https://img.shields.io/badge/Wiki-20_%D9%85%D8%AF%D8%AE%D9%84%D9%8B%D8%A7-9AA8C4?style=flat-square)
+![الأدوات](https://img.shields.io/badge/Claude_Code_·_Cursor_·_Codex-✓-8A9A8C?style=flat-square)
+
+</div>
+
+<p align="center">
+  <img src="assets/en/hero.svg" width="100%" alt="عرض توضيحي: تكتب أمر /poteto-mode واحدًا، فيسرد الذكاء الاصطناعي خطوات إصلاح الخلل ويؤشّر عليها واحدة تلو الأخرى، ثم يقدّم دليلًا على الحال قبل الإصلاح وبعده">
+</p>
+
+<p align="center">
+  <a href="#-لماذا-تحتاج-إليه">لماذا</a> ·
+  <a href="#-كيف-يعمل">كيف يعمل</a> ·
+  <a href="#-ابدأ-في-ثلاث-دقائق">البدء</a> ·
+  <a href="#️-34-مهارة-في-خريطة-واحدة">خريطة المهارات</a> ·
+  <a href="#-في-مشاريع-حقيقية">مشاريع حقيقية</a> ·
+  <a href="#-دعه-يعمل-طوال-الليل">طوال الليل</a> ·
+  <a href="#-التشغيل-محليًا">التشغيل محليًا</a> ·
+  <a href="https://pstack.xiaoxiaodong.ai/en/">اقرأ على الإنترنت</a>
+</p>
+
+## 😵 لماذا تحتاج إليه
+
+إذا كتبت كودًا بمساعدة الذكاء الاصطناعي، فعلى الأرجح رأيت هذا المشهد: يبدأ التعديل فورًا، ويغيّر شيئًا في موضع يبدو معقولًا، ثم يقول لك: "تم الإصلاح، يُفترض أن كل شيء بخير الآن". تشغّله، فتجده ما زال معطّلًا.
+
+<p align="center">
+  <img src="assets/en/before-after.svg" width="100%" alt="مقارنة: بدون pstack يعدّل الذكاء الاصطناعي الكود فورًا ويتخطى إعادة إنتاج المشكلة والتحقق؛ مع pstack ينفّذ الخطوات الخمس كلها ويقدّم دليلًا على الحال قبل الإصلاح وبعده">
+</p>
+
+pstack هي حزمة Agent Skills التي يستخدمها poteto (عضو في الفريق الأساسي لـ React ويعمل في Cursor) كل يوم لكتابة الكود. **النموذج يبقى كما هو. الذي يتغيّر هو ترتيب العمل والمعيار الذي يلتزم به:**
+
+| | الذكاء الاصطناعي المعتاد | مع pstack |
+|---|---|---|
+| قبل لمس الكود | يعدّل مباشرة | يعيد صياغة الهدف بكلماته، ويقرأ الكود أولًا بـ `/how` |
+| إصلاح خلل | يضيف فحصًا على السطح | يعيد إنتاج المشكلة أولًا، ويجد **أول موضع يحدث فيه الخطأ**، ثم يصلح |
+| عندما يقول "انتهيت" | "يُفترض أن كل شيء بخير الآن" | يلصق مخرجات الأوامر الحقيقية والقيم المخزّنة ومقارنات قبل وبعد |
+| حجم الكود | يزداد باستمرار | المبدأ الأول: احذف ما يمكن حذفه، وحُلّ المشكلة بأصغر تغيير |
+| العمل المتوازي | عدة نماذج تتنازع على مجلد واحد | لكلٍّ منها worktree خاص، فيمكنك تشغيل عدة نماذج معًا بأمان |
+
+> [!NOTE]
+> يرسل pstack وكلاء فرعيين أكثر، ويجعل عدة نماذج تبحث عن الثغرات في عمل بعضها، لذلك هو **أبطأ ويستهلك tokens أكثر**. هذا ثمن الدقة. لا تستخدمه للتغييرات الصغيرة. لطرق التوفير راجع [خفض التكاليف](https://pstack.xiaoxiaodong.ai/en/howto/cost/) (بالإنجليزية).
+
+## 🧭 كيف يعمل
+
+<p align="center">
+  <img src="assets/en/how.svg" width="100%" alt="كيف يعمل pstack: تقول ما تريد، فيختار /poteto-mode دليل عمل، ويستدعي المهارات خطوة بخطوة، ويعود ومعه الدليل">
+</p>
+
+لا تحتاج إلى تذكّر سوى أمر واحد، `/poteto-mode`، وأن تقول بوضوح **ماذا تريد** و**متى يُعدّ العمل منتهيًا**. يختار واحدًا من 23 "دليل عمل" (playbook): إصلاح خلل، إضافة ميزة، إعادة هيكلة، تحسين الأداء...، وينسخ خطواته إلى قائمة مهام، ثم يستدعي المهارات الأخرى خطوة بخطوة. والخطوات التي يقرر تخطيها لا تختفي بصمت، بل تُكتب بجانبها `skip: السبب`.
+
+## ⚡ ابدأ في ثلاث دقائق
+
+**1. التثبيت** (اختر ما يناسب أداتك)
+
+</div>
+
+```bash
+# Claude Code (commands get a pstack: prefix, e.g. /pstack:poteto-mode)
+/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins
+
+# Cursor
+/add-plugin pstack
+
+# Codex, OpenCode and others (Node.js 22.20+; add -g to install globally)
+npx skills add backnotprop/pstack
+```
+
+<div dir="rtl">
+
+**2. اختيار النماذج**: في محادثة جديدة، شغّل `/setup-pstack` مرة واحدة. وعندما يسألك هل يُنشئ "مهارة تحقق" (verification skill)، أجب **نعم**.
+
+**3. مهمتك الأولى**: اختر شيئًا حقيقيًا لكنه ليس كبيرًا، واشرحه كما لو كنت تسلّم العمل لزميل:
+
+</div>
+
+```text
+/poteto-mode تظهر المفضلة أحيانًا مرتين بعد تحديث الصفحة. أعد إنتاج المشكلة أولًا، ولا تغيّر الكود بعد.
+معيار الانتهاء: بعد الضغط على زر المفضلة عشر مرات متتالية، يحتوي كلٌّ من القائمة و chrome.storage على إدخال واحد فقط.
+أرني المحتوى الفعلي لـ storage قبل الإصلاح وبعده.
+```
+
+<div dir="rtl">
+
+> [!TIP]
+> الأمر الجيد يحتوي خمسة أشياء على الأكثر: **الهدف**، و**متى يُعدّ منتهيًا**، و**الدليل الذي تريد رؤيته**، و**ما تعرفه مسبقًا**، و**القيود الحقيقية**. وهناك شيئان من الأفضل عدم كتابتهما: كيف ينفّذ بالضبط، وتخمينك للسبب. التفاصيل في [الخطوة 3](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/) (بالإنجليزية).
+
+## 🗺️ 34 مهارة في خريطة واحدة
+
+<p align="center">
+  <img src="assets/en/skills.svg" width="100%" alt="خريطة مهارات pstack: 34 مهارة في سبع مجموعات، إضافة إلى 24 مبدأ">
+</p>
+
+في الاستخدام اليومي تكتب `/poteto-mode` فقط، وهو يستدعي البقية عند الحاجة. إذا أردت استدعاء مهارة باسمها، أو البحث عن اسم ذكره الذكاء الاصطناعي، فراجع [مرجع المهارات](https://pstack.xiaoxiaodong.ai/en/skills/) (بالإنجليزية): لكل مهارة شرح بسيط في سطر واحد، ومتى تُستخدم، ومثال جاهز للنسخ، وما يجب تثبيته معها.
+
+## 🛠 في مشاريع حقيقية
+
+في كل دليل أوامر يمكنك نسخها كما هي، وأمثلتها من حالات حقيقية مثل إضافة Chrome وموقع Astro وموقع أعضاء على Cloudflare.
+
+| العمل الذي بين يديك | اقرأ هذا | الفكرة في سطر |
+|---|---|---|
+| إصلاح خلل | [أعد إنتاجه، أصلحه، أثبت ذلك](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | "أعد إنتاجه أولًا" قيد، وليست مجاملة |
+| إضافة ميزة | [دون كسر ما هو موجود](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | قل أي سلوك قائم يجب ألا يتغير ولو ببايت واحد |
+| إعادة هيكلة | [بنية جديدة، والسلوك نفسه](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | سجّل المخرجات الحالية أولًا، ثم أثبت أنها لم تتغير |
+| البطء | [أسرع، بالأرقام](https://pstack.xiaoxiaodong.ai/en/howto/perf/) | أعطه قياسًا، لا انطباعًا |
+| استلام مشروع غير مألوف | [افهم قبل أن تلمس](https://pstack.xiaoxiaodong.ai/en/howto/new-codebase/) | "لا تغيّر الكود بعد" تحصره في التحقيق فقط |
+| القلق قبل التسليم | [دع عدة نماذج تبحث عن الثغرات](https://pstack.xiaoxiaodong.ai/en/howto/review-branch/) | أبقِ فقط المشكلات التي يمكن إظهار فشلها فعليًا |
+| كتابة التوثيق | [ملفات README ووصف PR](https://pstack.xiaoxiaodong.ai/en/howto/write-docs/) | للكود الذي سيستخدمه غيرك، اكتب README أولًا |
+| ترحيل كبير | [سلّمه إياه قبل النوم](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | "اعمل 4 ساعات" ليس شرطًا للانتهاء |
+
+وهناك أيضًا [أوامر جاهزة للنسخ](https://pstack.xiaoxiaodong.ai/en/howto/recipes/)، و[أعده إلى المسار بجملة واحدة](https://pstack.xiaoxiaodong.ai/en/howto/steer/)، و[لا أعرف أي مهارة أستخدم](https://pstack.xiaoxiaodong.ai/en/howto/which-skill/) (كلها بالإنجليزية).
+
+## 🌙 دعه يعمل طوال الليل
+
+<p align="center">
+  <img src="assets/en/overnight.svg" width="100%" alt="ترك الذكاء الاصطناعي يعمل طوال الليل: في كل دورة يتحقق من شرط الانتهاء، ويجري أصغر تغيير، ويتحقق، ثم يعتمد التغيير أو يتخلى عنه، ويكتب سطرًا في السجل؛ وفي الصباح تقرأ سجل القرارات">
+</p>
+
+هنا تؤتي كل الخطوات السابقة ثمارها: الذكاء الاصطناعي الذي **يستطيع التحقق من عمله بنفسه** هو وحده الذي يمكنك أن تتركه يعمل وحده مطمئنًا. قبل النوم، أعطه "عقدًا": الهدف، وشرط انتهاء واضح النجاح أو الفشل، وworktree جديدًا، وسجل قرارات، ومخرج طوارئ إذا علق. وفي الصباح اقرأ أولًا قسم "needs attention" في رد `/show-me-your-work`. أنت تراجع القرارات بدل أن تعيد قراءة الليلة كلها. التفاصيل في [الخطوة 7](https://pstack.xiaoxiaodong.ai/en/guide/7-overnight/) (بالإنجليزية).
+
+## 📚 ماذا يوجد في الموقع
+
+| القسم | المحتوى |
+|---|---|
+| [الدليل](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 خطوات بالترتيب: ما هو ← التثبيت ← اختيار النماذج ← المهمة الأولى ← الفهم أولًا ← التصميم والبناء والتنظيف ← التحقق والتسليم ← طوال الليل ← اجعله خاصًا بك |
+| [مرجع المهارات](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 مهارة، بطاقة لكل واحدة |
+| [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 دليلًا، كل دليل لمهمة واحدة |
+| [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 مفهومًا: جملة واحدة ← تشبيه ← في pstack ← أخطاء شائعة؛ مع جداول المبادئ الـ 24 وأدلة العمل الـ 23 |
+| [الأسئلة الشائعة](https://pstack.xiaoxiaodong.ai/en/faq/) | هل يكلّف مالًا؟ هل يجب أن أستخدم Cursor؟ هل سيعبث بالكود الخاص بي؟ |
+
+اضغط <kbd>⌘</kbd> <kbd>K</kbd> أعلى أي صفحة للبحث في الموقع كله. في النص، **قلم التظليل** و**الخط السفلي العريض** يحددان النقاط المهمة، والمصطلحات التي تحتها خط منقّط تُظهر شرحًا من سطر واحد عند تمرير المؤشر فوقها.
+
+## 🧑‍💻 التشغيل محليًا
+
+</div>
+
+```bash
+npm install
+npm run dev        # http://localhost:4420
+npm run build      # outputs to dist/
+npm run release    # build and deploy to Cloudflare
+```
+
+```text
+src/data/nav.js        Site structure: guide, How-to list, glossary (single source)
+src/data/skills.js     Data for the skill reference
+src/data/wiki.js       Wiki entries
+src/data/faq.js        FAQ
+src/pages/guide/       Guide (MDX)
+src/pages/howto/       How-to (MDX)
+public/xxd/            Xiaoxiaodong UI Kit (bundled copy, no CDN)
+tools/build_assets.py  Generates README illustrations, SVG animations and the share image (social.svg → social.png / public/og.png)
+```
+
+<div dir="rtl">
+
+لتعديل المحتوى وإضافة الصفحات وقواعد الكتابة راجع [docs/MAINTAINING.md](docs/MAINTAINING.md) (بالصينية). كل الصور في README تُولَّد بالأمر `python3 tools/build_assets.py`؛ أعد تشغيله بعد تغيير النصوص أو الألوان.
+
+## 🙌 شكر وتقدير
+
+- [pstack](https://github.com/cursor/plugins/tree/main/pstack) من تطوير [poteto](https://x.com/poteto)؛ ويستخدم هذا الموقع [backnotprop/pstack](https://github.com/backnotprop/pstack)، وهي نسخة مرآة عامة. كُتب الدليل استنادًا إلى ملف README الخاص بها وإلى docs/guide، والمرجع في الأوامر والسلوك هو المستودع الرسمي.
+- هيكل الموقع مأخوذ من [موقع دروس Xiaoxiaodong VPS](https://vps.xiaoxiaodong.ai)، والواجهة مبنية بـ [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai)، وألوان الرسوم مستعارة من [ghostty-tint](https://github.com/nevertoday/ghostty-tint).
+
+هذا دليل غير رسمي للمبتدئين. إذا وجدت شيئًا غير واضح، أو لم تنجح الخطوات معك، [افتح Issue](https://github.com/nevertoday/xxd-pstack/issues).
+
+## 📄 الترخيص
+
+نصوص الدليل وكود الموقع مرخّصة بموجب [MIT](LICENSE). ملفات Xiaoxiaodong UI Kit المبنية في `public/xxd/` غير مشمولة، ولها [LICENSE](public/xxd/LICENSE) خاص بها (مجاني للاستخدام غير التجاري، والاستخدام التجاري يتطلب ترخيصًا).
+
+Copyright (c) 2026 [小小东 Xiaoxiaodong](https://x.com/xiaoxiaodong01)
+
+</div>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 270" width="960" height="270" role="img" aria-label="How pstack works: you say what you want, /poteto-mode picks a playbook, calls skills step by step, and comes back with evidence">
+<defs><clipPath id="h0"><rect x="39.0" y="28" width="204" height="190" rx="14"/></clipPath><clipPath id="h1"><rect x="265.0" y="28" width="204" height="190" rx="14"/></clipPath><clipPath id="h2"><rect x="491.0" y="28" width="204" height="190" rx="14"/></clipPath><clipPath id="h3"><rect x="717.0" y="28" width="204" height="190" rx="14"/></clipPath></defs>
+<rect x="0" y="0" width="960" height="270" rx="22" fill="#F1EFEA" />
+<rect x="39.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#h0)"><rect x="39.0" y="28" width="204" height="48" rx="0" fill="#EBD6D3" /></g>
+<text x="55.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">01</text>
+<text x="55.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >You ask</text>
+<text x="55.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >goal + when it's done</text>
+<text x="55.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >“Reproduce, fix, verify”</text>
+<path d="M246.0,123 L262.0,123" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M257.0,118 L262.0,123 L257.0,128" fill="none" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="246.0" cy="123" r="3" fill="#2B2A27" opacity="0"><animate attributeName="cx" dur="4.8s" begin="0.00s" repeatCount="indefinite" keyTimes="0;0.2;1" values="246.0;260.0;260.0"/><animate attributeName="opacity" dur="4.8s" begin="0.00s" repeatCount="indefinite" keyTimes="0;0.03;0.17;0.2;1" values="0;1;1;0;0"/></circle>
+<rect x="265.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#h1)"><rect x="265.0" y="28" width="204" height="48" rx="0" fill="#EFDFC9" /></g>
+<text x="281.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">02</text>
+<text x="281.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >/poteto-mode</text>
+<text x="281.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >picks 1 of 23 playbooks</text>
+<text x="281.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >steps go on the todo list</text>
+<path d="M472.0,123 L488.0,123" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M483.0,118 L488.0,123 L483.0,128" fill="none" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="472.0" cy="123" r="3" fill="#2B2A27" opacity="0"><animate attributeName="cx" dur="4.8s" begin="1.60s" repeatCount="indefinite" keyTimes="0;0.2;1" values="472.0;486.0;486.0"/><animate attributeName="opacity" dur="4.8s" begin="1.60s" repeatCount="indefinite" keyTimes="0;0.03;0.17;0.2;1" values="0;1;1;0;0"/></circle>
+<rect x="491.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#h2)"><rect x="491.0" y="28" width="204" height="48" rx="0" fill="#DDE7D3" /></g>
+<text x="507.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">03</text>
+<text x="507.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >Calls skills</text>
+<text x="507.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/how · /architect, etc.</text>
+<text x="507.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >big jobs go to subagents</text>
+<path d="M698.0,123 L714.0,123" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M709.0,118 L714.0,123 L709.0,128" fill="none" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="698.0" cy="123" r="3" fill="#2B2A27" opacity="0"><animate attributeName="cx" dur="4.8s" begin="3.20s" repeatCount="indefinite" keyTimes="0;0.2;1" values="698.0;712.0;712.0"/><animate attributeName="opacity" dur="4.8s" begin="3.20s" repeatCount="indefinite" keyTimes="0;0.03;0.17;0.2;1" values="0;1;1;0;0"/></circle>
+<rect x="717.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
+<g clip-path="url(#h3)"><rect x="717.0" y="28" width="204" height="48" rx="0" fill="#E0DAEA" /></g>
+<text x="733.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">04</text>
+<text x="733.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >Brings evidence</text>
+<text x="733.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >output · before/after</text>
+<text x="733.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >can't verify? it says so</text>
+<text x="480.0" y="252" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="400" fill="#8A867D" text-anchor="middle" >Every task goes through these four steps. You don't have to manage the middle two, but you can see all of it in the todo list.</text>
+</svg>

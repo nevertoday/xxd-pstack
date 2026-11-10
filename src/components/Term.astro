@@ -7,4 +7,4 @@ const g = GLOSSARY[k];
 if (!g) throw new Error(`GLOSSARY 里没有「${k}」`);
 const lang = langOf(Astro.url.pathname);
 ---
-<a class="term" href={wikiHref(g.wiki, lang)} data-tooltip={lang === "en" ? g.en : g.tip}>{text ?? k}</a>
+<a class="term" href={wikiHref(g.wiki, lang)} data-tooltip={lang === "en" ? g.en.tip : g.tip}>{text ?? (lang === "en" ? g.en.label : k)}</a>

@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: One of Claude Code, Cursor, or Codex; Node.js 22.20+ if you install with npx
+description: Install pstack into Claude Code, Cursor, or Codex with one command, then check it worked with one message.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## What this step does
+
+You install pstack into your AI coding tool (also called the <Term k="宿主" />). It's one or two commands, and then you test it with one message.
+
+There are two ways to install, depending on your tool:
+
+- **Plugin**: Cursor and Claude Code both have plugin marketplaces. This installs the version Cursor maintains officially, with both subagents included.
+- **`npx skills`**: a general-purpose skill installer that supports dozens of tools, including Claude Code, Codex, Cursor, and OpenCode. It installs the backnotprop mirror, and lets you pick skills from a list.
+
+## Install for your tool
+
+<Tabs id="install" label="Choose your tool" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex and others"]]}>
+<div slot="cc">
+
+**We recommend the plugin.** In Claude Code's chat box, enter these in order:
+
+<Copy id="cc-1" title="First: add the plugin marketplace" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="Second: install pstack" code="/plugin install pstack@cursor-plugins" />
+
+Once it's installed, <mark><strong>every command needs the `pstack:` prefix</strong></mark>: `/poteto-mode` becomes `/pstack:poteto-mode`, and `/setup-pstack` becomes `/pstack:setup-pstack`. Claude Code adds this prefix to plugin commands. The rest of this site leaves it out so things are easier to read, so remember to add it yourself.
+
+By default, Claude Code **doesn't auto-update** third-party marketplaces, so pstack stays at the version you installed. To turn on auto-update: type `/plugin`, open the "marketplaces" tab, choose `cursor-plugins`, then choose "enable auto-update".
+
+You can also install with `npx skills` from the "Codex and others" tab. The upside: commands have no prefix, and you can pick just a few skills.
+
+</div>
+<div slot="cursor">
+
+In Cursor's chat box, enter:
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+Cursor will tell you it's installed. Commands keep their plain names, like `/poteto-mode` and `/how`. No prefix needed.
+
+Cursor users can also install the `cursor-team-kit` plugin while they're at it. pstack uses a few things from it in places: `/deslop` (cleans AI traces out of code) and `control-cli`, `control-ui` (drive the terminal and the browser). pstack still works without it and falls back to other ways.
+
+</div>
+<div slot="other">
+
+Open a terminal **in your project folder** and run:
+
+<Copy id="npx-1" lang="bash" title="Install into this project" code="npx skills add backnotprop/pstack" />
+
+It lists every pstack skill (you can search). First pick skills, then pick which tools to install them into. **The first time, select all skills.** To slim it down later, see [Installing only a few skills](/en/howto/pick-skills/).
+
+By default it installs into the current project only. To make it available in every project, add `-g`:
+
+<Copy id="npx-2" lang="bash" title="Install globally" code="npx skills add backnotprop/pstack -g" />
+
+It needs Node.js 22.20 or later. If you're not sure, run `node -v` to check.
+
+</div>
+</Tabs>
+
+## Test it
+
+Start a **new** conversation and send:
+
+<Copy id="test" title="Quick test (with the Claude Code plugin, type /pstack:poteto-help)" code="/poteto-help Which pstack skill should a beginner learn first? Answer in one or two sentences." />
+
+`/poteto-help` is pstack's help desk. It only answers questions and hands you a prompt you can send as is. It **won't start working on anything**. If its answer mentions `/poteto-mode`, you're installed.
+
+<Callout type="ok">
+Type `/` in the chat box, and you can find `poteto-mode` in the menu that pops up (`pstack:poteto-mode` with the Claude Code plugin).
+</Callout>
+
+## Stuck?
+
+<Q q="I type / and can't find poteto-mode.">
+<p>Start a new conversation first. The skill list is usually loaded when a conversation starts. Still missing? With the Claude Code plugin, search for <code>pstack:</code>. If you installed with <code>npx skills</code>, make sure you opened the tool in <strong>the project folder you installed into</strong>, or reinstall globally with <code>-g</code>.</p>
+</Q>
+<Q q="npx skills says my Node version is too old.">
+<p>It needs Node.js 22.20 or later. Install a new LTS version from <a href="https://nodejs.org">nodejs.org</a>, then run it again.</p>
+</Q>
+<Q q="Can I install both the plugin and the npx version?">
+<p>Don't. Two copies of the same skill get confusing. Pick one.</p>
+</Q>
+
+<Checkpoint id="s1" items={["pstack is installed in my tool", "In a new conversation, typing / shows poteto-mode (or pstack:poteto-mode)", "/poteto-help answered my question"]} />

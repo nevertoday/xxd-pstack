@@ -1,0 +1,96 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: refactor
+time: One or two conversations for a medium refactor
+for: The code keeps getting messier and you want to clean up its structure, but nothing can change for users
+step: 5
+description: "Refactor with /poteto-mode: record what the code does now, change the structure, then use the record to prove nothing changed. Includes an Astro static site example."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Refactoring has one rule
+
+Refactoring means: <mark><strong>the structure of the code changes, and the behavior doesn't change at all</strong></mark>. The pages users see, what commands print, the values saved to the database: all of it stays the same as before.
+
+AI refactors tend to go wrong in two ways. First, it "improves" a few behaviors along the way, and you can't tell which differences were on purpose. Second, it finishes and says "type checks pass." But type checks only show the code compiles. They don't show the behavior is unchanged.
+
+pstack's Refactoring <Term k="剧本" /> tackles the second problem first: before touching the structure, it pins down the current behavior.
+
+## The one-line version
+
+<Copy id="ref-min" title="The shortest version" code="/poteto-mode move parsing into one module, zero behavior change. record the current output first and prove it's unchanged after." />
+
+This is the example prompt from pstack's own docs.
+
+"Zero behavior change" is a real constraint. It tells it this task is a refactor, not a new feature or a bug fix. "Record the current output first" decides what it does first.
+
+If you installed pstack as a Claude Code plugin, type the command as `/pstack:poteto-mode`. See [Using pstack in Claude Code](/en/howto/claude-code/).
+
+## What it will do
+
+The playbook's steps, in plain words:
+
+1. **Pin down the behavior first.** It uses `/how` to work out what this code promises today, then writes something that records the current behavior: a test that describes how things are now, an output snapshot, or a script that compares old and new output. If the code had no tests, it adds this before touching the structure. Type checks and lint don't count.
+2. **Name the missing structure.** For example, scattered checks that should become one table. Code that's already clear and used in only one place gets left alone.
+3. **Name the target shape.** If you were writing it from scratch today, how would you split the modules and define the types? Anything that crosses function boundaries goes through `/architect` first.
+4. **Delete before adding.** Remove dead code, wrapper functions with only one caller, and duplicate validation. Only then bring in the new structure. "Might be useful" cleanups get reverted.
+5. **Take small steps, and keep the step 1 record passing at every step.** When an interface changes, all callers move over together, and the old interface is deleted in the same pass. No compatibility layer left behind. Every rename gets checked against the real files again, because renames are where references in strings and docs get missed.
+6. **Prove the behavior didn't change.** Compare real output: run the script that diffs old and new output, or replay the recorded baseline.
+7. **Make sure it's worth keeping.** After the change, the code should be easier to read. If nothing got easier to read, the change is reverted.
+8. Tidy the commits: first a "delete" commit, then a "restructure" commit, then any follow-up cleanup.
+
+The reply says what structure changed, what record it compared against, the result of the comparison, and which changes were kept and which were reverted. There are no new features.
+
+## Two principle names worth knowing
+
+Steps 4 and 5 each match a pstack <Term k="原则" text="principle" />. When you see it drifting, saying the name pulls it back:
+
+| Principle name | What it means | When to say it |
+| --- | --- | --- |
+| `subtract-before-you-add` | Delete what isn't needed first, then build on the simpler base | It starts by creating new files and adding abstraction layers |
+| `migrate-callers-then-delete-legacy-apis` | Once callers have moved, delete the old interface in the same pass | It kept an old function "for compatibility" |
+
+## An example from a real project
+
+Say you have an Astro static site, and a dozen pages each have their own code for formatting dates, all written a little differently. You want to pull it into one utility function.
+
+<Copy id="ref-astro" title="Astro static site example" code={`/poteto-mode Pull the date-formatting code from all the pages into one utility function, zero behavior change.
+Before you start: run npm run build and copy the whole dist folder as a baseline.
+When you're done, build again and diff against the baseline. The diff must be empty for every HTML file.
+Delete all the old code. Don't keep any old functions for compatibility.
+Show me the diff command and its output.`} />
+
+What makes this example good is that the check is rigid: **an empty diff of the dist folder means the behavior didn't change. One different line means it did.** You don't have to understand every line it changed. The output of that one command is enough to judge.
+
+If the diff isn't empty, have it explain each difference one by one. Some might come from your pages formatting dates inconsistently to begin with. That's exactly the situation the next section covers.
+
+## Finding a bug in the middle of a refactor
+
+While cleaning up code, you'll often find "this was wrong all along." The playbook's answer is to **split it out**:
+
+- First finish the restructure against the pinned behavior and commit it. The old bug stays exactly as it was.
+- Then treat the bug as a new task and go through the bug-fix process. See [Fix a bug](/en/howto/fix-bug/).
+
+The upside: the refactor's diff can still be compared strictly against the baseline. If you fix things while refactoring, you can't tell which differences are fixes and which are breakage.
+
+<Callout type="warn" title="Do you actually want a redesign?">
+If you really want to change behavior, that's not a refactor. Say so directly, and have it follow the feature process. See <a href="/en/howto/add-feature/">Add a feature</a>. For a very large restructure that spans many modules, the playbook hands it to <code>/figure-it-out</code> to design the whole run first.
+</Callout>
+
+## Stuck?
+
+<Q q="It says “type checks and tests pass,” so nothing changed.">
+Reply: "Type checks aren't a comparison. Record the real output from before the change, run the same input again after, and show me the diff." If it already finished, have it check out the commit from before the change and regenerate the baseline.
+</Q>
+<Q q="It kept an old function and says it's for compatibility.">
+Reply: "migrate-callers-then-delete-legacy-apis. Move all callers over and delete the old function in this pass." This principle is about code inside your project. If outside users depend on that interface, tell it first. That's a different situation.
+</Q>
+<Q q="The code is more convoluted after the change.">
+That's exactly what step 7 of the playbook is for: if it isn't easier to read, revert it. You can just say: "This change makes readers jump through more layers. Revert it."
+</Q>
+<Q q="It fixed a bug along the way.">
+Have it split the bug fix out: "Revert the bug fix first, finish the refactor with the original behavior, and verify it. Open a separate task for the bug."
+</Q>

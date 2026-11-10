@@ -1,8 +1,9 @@
 ---
 // 标签页：按设备或路线切换同一处内容。用法：
 // <Tabs id="os" items={[["win","Windows"],["mac","Mac"]]}><div slot="win">…</div><div slot="mac">…</div></Tabs>
+import { langOf } from "../data/nav.js";
 interface Props { id: string; items: [string, string][]; label?: string }
-const { id, items, label = "选择" } = Astro.props;
+const { id, items, label = langOf(Astro.url.pathname) === "en" ? "Choose" : "选择" } = Astro.props;
 const html = await Promise.all(items.map(([key]) => Astro.slots.render(key)));
 ---
 <div class="tabs-block">

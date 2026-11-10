@@ -1,0 +1,107 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: steer
+time: One line does it
+for: The AI drifted off course, and you want to pull it back without writing a long message
+step: 8
+description: "Steer in one line with pstack principle names, /bro, /unslop, and new task. Includes a table of \"what the AI is doing → what you reply\", and how to tell whether it really changed course or just said the principle's name."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Why one line is enough
+
+pstack comes with 24 <Term k="原则" text="principles" />, and each has a name, like `prove it works` or `fix root causes`. `/poteto-mode` reads the index of these principles at the start of every multi-step task.
+
+So when you steer, you don't need to explain the reasoning at length. Say the principle's name, and the AI knows which full rule you mean, because it has already read it. <mark>A name points more precisely than a paragraph.</mark>
+
+You don't need to "invoke" principles, and you don't need to memorize them. When you notice the AI doing something a name could have prevented, come back and look it up here.
+
+## Four common ways to pull it back
+
+**1. Restate the goal.** It did something you didn't ask for:
+
+<Copy id="s-goal" code="i said the goal is to repro. i did not ask for a fix yet." />
+
+That's the exact line from the pstack docs, lowercase and all.
+
+**2. Say the principle's name, plus one concrete ask.**
+
+<Copy id="s-prove" code="apply prove it works. Run the real import flow and show me the records it wrote." />
+
+The name tells it which rule. The second half tells it what evidence you want this time.
+
+**3. The reply is hard to follow, or sounds too much like AI.**
+
+<Copy id="s-bro" code="/bro" />
+
+<Copy id="s-unslop" code="/unslop that, no emdashes" />
+
+`/bro` says the last reply again in plain language. `/unslop that` takes the AI flavor out of the text it just wrote, and `no emdashes` adds one more rule: no em dashes.
+
+**4. Changing topics? Say new task.**
+
+<Copy id="s-new" code="/poteto-mode new task. Find out why the cache is still there after logging out. Don't change any code yet." />
+
+Without `new task`, a `/poteto-mode` that's in the middle of a feature treats your question as the feature's next step. "Don't change any code yet" pins this one to a read-only investigation.
+
+## Cheat sheet: what the AI is doing, and what you reply
+
+| What the AI is doing | You reply |
+| --- | --- |
+| You only wanted a repro, and it's already changing code | `i said the goal is to repro. i did not ask for a fix yet.` |
+| Says "done" because the build passed | `apply prove it works.` Run the real command and show me the real output, not the build log. |
+| Adds an if check downstream and calls it fixed | `fix root causes.` Find where it first goes wrong. |
+| Stacks a new adapter on top of three old ones | `subtract before you add.` Delete the stale ones first, then design what's left. |
+| Two parallel attempts want the same branch, and it wants to add a lock | `separate before serializing shared state.` Each attempt gets its own worktree. No locks. |
+| Fixed the same check two or three times and it still fails | `attack the premise.` Write down the assumption those fixes share, and test it directly first. |
+| Making dozens of identical changes one by one by hand | `build the lever.` Write a script or codemod to do it. I want to be able to rerun it. |
+| Leaves a compatibility layer for the old interface during a migration | `migrate callers then delete legacy apis.` Once the callers are migrated, delete the old API in the same pass. |
+| Adds argument validation everywhere | `boundary discipline.` Validate only at the entry point. Trust the types inside. |
+| Wants to put a "40% faster" in the PR | `explain the number.` First explain what limits it, then run `/benchmark-checklist`. |
+| Tests assert which internal function was called | `test behavior not implementation.` Assert on what the user can see. |
+| Pastes a pile of raw logs into the main conversation | `guard the context window.` Have a subagent read them and bring back only the conclusion. |
+| Stops to ask you about a small thing that can be undone | `never block on the human.` Do it first, show me after, and I'll correct it. |
+| Starts writing the first design straight away | `exhaust the design space.` Build two or three prototypes first and compare them side by side. |
+
+These are just the common ones. For all 24 and what each covers, see [Principles](/en/wiki/principles/).
+
+## It should say which decision changed
+
+Saying the principle's name doesn't count by itself. The rule in `/poteto-mode` is: whenever a reply uses a principle, it has to say **which decision that principle changed**.
+
+A good reply looks something like this:
+
+<Copy id="s-good" title="A real reply" code="Following subtract before you add, I first deleted two adapters nobody calls anymore. The new one no longer has to stay compatible with them, and the interface is half the size." />
+
+A weak one looks like this:
+
+<Copy id="s-bad" title="Just the name" code="Followed the prove it works principle. Feature works." />
+
+The second one has a name but no decision and no evidence. It mentioned the principle without following it. When that happens, push once more:
+
+<Copy id="s-push" code="You said you used prove it works. Which command, and which output, proved it? Paste them." />
+
+## The same problem shows up a second time
+
+A correction in chat only covers this one time. The next conversation, or the next AI, will make the same mistake.
+
+When the same mistake comes back, stop pulling it back line by line. Use `/correct` to block it at the repo level:
+
+<Copy id="s-correct" code="/correct the AI keeps bypassing the repository layer and calling the database client directly." />
+
+It looks for the highest layer that can fix it, in this order: architecture → types, lint, CI → tests → docs. That way future AIs can't make the mistake even if they try. The matching principle is `encode lessons in structure`: advice you've repeated twice should become a check or a script. For more, see [Make it yours](/en/guide/8-make-it-yours/).
+
+## Stuck?
+
+<Q q="I said the principle's name, and nothing seemed to happen.">
+Check that `/poteto-mode` is still on in this conversation. If you sent it with Enter, its effect fades after a few turns. Type `/poteto-mode` again, or in Cursor use Option+Enter (Alt+Enter on Windows) to turn it into a persistent mode.
+</Q>
+<Q q="I can't remember the principle names.">
+You don't need to memorize them. Saying what you want in plain words works too, like "don't add a check downstream, find the root cause." The names are just shorter and more precise. Use them for a while and the common ones will stick.
+</Q>
+<Q q="I pulled it back, and a bit later it drifted again.">
+First check whether you changed topics without saying `new task`. If the same problem keeps coming back, use `/correct` to turn it into a rule in the repo, instead of correcting it in chat.
+</Q>

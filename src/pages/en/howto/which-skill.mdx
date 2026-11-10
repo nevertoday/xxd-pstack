@@ -1,0 +1,131 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: which-skill
+time: A 2-minute lookup
+for: You have something to do and don't know which command to type
+step: 3
+description: "A table of \"I want to… → use this\"; what to do when you're unsure: ask /poteto-help (it only answers and gives you a prompt, it doesn't start work); how to tell apart skills that get mixed up, like arena and swarm; how much design a task deserves; and why you shouldn't order skills in your prompt."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## The default answer: /poteto-mode
+
+<mark>When you're not sure, the answer is almost always `/poteto-mode`</mark>. It's the main entry point. You say the goal and what "done" means, it picks a <Term k="剧本" />, and it calls skills like `/how`, `/architect`, and `/interrogate` on its own when a step needs them.
+
+Only name a skill directly when you want **more or less** than the playbook gives you. For example, if you only want to understand the code and don't want it to touch anything, use `/how`. If you want a few extra models picking at it beyond what the playbook does, use `/interrogate`.
+
+One thing to remember: except for `/setup-pstack`, every skill runs only when you type it yourself. That includes `/poteto-mode`.
+
+## I want to… → use this
+
+| I want to… | Use this |
+| --- | --- |
+| Do something non-trivial, carefully | `/poteto-mode` |
+| Confirm the AI understood my goal before it starts | `/in-your-own-words` |
+| Sharpen my prompt before sending it | `/sharpen` |
+| Know how this code works right now | `/how` |
+| Know why it was done this way | `/why` |
+| Really understand a change or a module | `/teach` |
+| Find my own recent progress on something | `/recall` |
+| Know what changed in this conversation while I was away | `/ketchup` |
+| Settle the structure before writing code that spans functions | `/architect` |
+| Get several solutions to one problem and pick the best | `/arena` |
+| Check many things separately and get one report | `/swarm` |
+| Have several models pick at it before I commit | `/interrogate` |
+| Know what else a small change might break | `/blast-radius` |
+| Write a failing test first when fixing a bug | `/tdd` |
+| Take the AI flavor out of some text | `/unslop` |
+| Write docs, a README, or a PR description | `/technical-writing` |
+| Hear the last reply again in plain words | `/bro` |
+| Let the AI drive my app itself to get evidence | `/create-verification-skill` |
+| Check a performance number I measured | `/benchmark-checklist` |
+| Take on something big, or leave and review it when I'm back | `/figure-it-out` |
+| Keep a record of decisions on a long task | `/show-me-your-work` |
+| Stop the same mistake from happening again | `/correct` |
+| Pick models and set the budget | `/setup-pstack` |
+| Make a mode of my own | `/automate-me` |
+
+For details and example prompts for every skill, see [Skills reference](/en/skills/).
+
+## Still unsure: ask /poteto-help
+
+<Cmd c="/poteto-help I want to review this branch. Which skill should I use?" />
+
+`/poteto-help` is pstack's help desk. It does three things:
+
+1. Answers your question.
+2. Gives you a prompt you can send as-is.
+3. Links to the file the answer came from.
+
+It **doesn't start working**. That's on purpose. A real pstack run costs real <Term k="token" text="tokens" />, and you asked "how do I," so it's your call whether to send that prompt.
+
+If it can't tell what you want, it asks you a multiple-choice question: install, start a task, pick a skill, fix a run that went wrong, or make it your own. Just pick one.
+
+<Callout type="warn" title="It only runs when you type it">
+`/poteto-help` won't pop up on its own. You have to type it. Also, if what you tell it asks for real work, like "use pstack to fix this bug," it stops acting as a help desk and gets to work under the rules of `/poteto-mode`.
+</Callout>
+
+## Pairs that get mixed up
+
+**`/arena` and `/swarm`**: the pair people confuse most.
+
+| | `/arena` | `/swarm` |
+| --- | --- | --- |
+| Each worker gets | The same problem | A different piece |
+| Good for | Decisions where you want the best option, like naming, formats, algorithms | Checking every package, racing several approaches |
+| At the end | Picks one as the base and grafts in good ideas from the others | Rolls everything into one report: passed, has problems, stuck |
+
+In one line: `/arena` is "one problem, solved several times, pick the best." `/swarm` is "a pile of work, split up, merged into one report." Using `/arena` for coverage checks is a common mistake.
+
+A few other pairs:
+
+- **`/how`, `/why`, `/teach`**: `/how` explains what the code does. `/why` explains why it was done that way. `/teach` runs one or both, then gives you a thorough explanation.
+- **`/interrogate` and `/blast-radius`**: `/interrogate` reviews the change itself. `/blast-radius` looks for things **outside** the change that might break, and proves the fact that makes it safe.
+- **`/recall` and `/ketchup`**: `/recall` finds your progress across many conversations. `/ketchup` only covers what changed in this one conversation since your last message.
+- **`/architect`**: once the design is settled, it starts writing right away. If you want to see the design first, say "with checkpoint."
+
+## How much design a task deserves
+
+Most changes don't need any of this. Climb up only as far as the task's size calls for:
+
+| Situation | What to use |
+| --- | --- |
+| A small change you've finished but aren't sure about | Just `/interrogate` |
+| The change crosses function boundaries, or touches ownership | `/architect` (it brings `/arena` along) |
+| One standalone decision where seeing a few options helps (naming, formats, algorithms) | `/arena` directly |
+| A set of parallel checks, or several approaches racing | `/swarm` |
+| A question you can answer by running something (layout, timing, approach) | Build a prototype. Don't argue about it |
+| A disputed design that's expensive to change | `/architect` first, then `/interrogate` before shipping |
+| Work that spans several PRs | Write a plan once the design is settled |
+
+`/poteto-mode` already climbs this ladder itself: work that crosses boundaries triggers `/architect` on its own. So when you name these skills directly, it's mostly because you want more or less checking than the default.
+
+## Don't order skills in your prompt
+
+Beginners often write something like this:
+
+<Copy id="ws-bad" title="Don't write this" code="/poteto-mode first use /how, then /architect, then /arena, and finally /interrogate, and help me add an export feature." />
+
+The playbook already puts these skills in order. When you order them by hand, you usually scramble the steps or drop ones the playbook would have kept.
+
+State the goal and constraints instead:
+
+<Copy id="ws-good" title="Write this" code="/poteto-mode add a CSV export. The existing JSON export must not change by a single byte. Verify both." />
+
+Name a skill only when you want to **override** one default choice. For example, "use /arena with 5 options this time."
+
+## Stuck?
+
+<Q q="I typed /how, and it didn't go on to fix anything.">
+That's correct. `/how` only explains. It doesn't touch the code. Once you understand it, use `/poteto-mode` and say what you want done.
+</Q>
+<Q q="What I want to do isn't in the table.">
+Hand it straight to `/poteto-mode`. When no existing playbook fits, it passes the task to `/figure-it-out`, which designs an approach on the spot. If you're unsure, ask `/poteto-help` first.
+</Q>
+<Q q="There's an /orchestrate in the slash menu. Is that part of pstack?">
+No. pstack has no skill called `/orchestrate`. Orchestrate is a playbook inside `/poteto-mode`. The one in the menu comes from a different plugin.
+</Q>
