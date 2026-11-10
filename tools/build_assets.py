@@ -262,9 +262,60 @@ def overnight():
     write("overnight.svg", svg(W, H, "放手让 AI 跑一晚上：每一轮检查完成条件、做最小改动、验证、提交或丢弃、记一行日志；早上看决策日志", "\n".join(body)))
 
 
+# ---------- 6. social：GitHub 分享大图 / 网站 og:image（1280×640，静态） ----------
+def social():
+    W, H = 1280, 640
+    b = [f'<rect width="{W}" height="{H}" fill="{PAPER}"/>']
+    # 本站标志：暖黑方块里三根错开叠下去的横条
+    mx, my, ms = 84, 92, 64
+    u = ms / 20
+    b.append(rect(mx, my, ms, ms, INK, 8))
+    for i, op in enumerate([1, .62, .32]):
+        b.append(f'<rect x="{mx + (4 + i * 1.5) * u}" y="{my + (4 + i * 4.5) * u}" width="{9 * u}" height="{3 * u}" fill="{CARD}" opacity="{op}"/>')
+    b.append(t(mx + ms + 22, my + 47, "pstack", 54, INK, 700, MONO, extra='letter-spacing="-1"'))
+    b.append(t(84, 262, "新手教程", 64, INK, 700))
+    b.append(t(84, 338, "让 AI 写代码像个靠谱的", 34, INK, 600))
+    b.append(t(84, 386, "资深工程师。", 34, INK, 600))
+    # 荧光笔：先搞懂，再动手，拿出证据
+    b.append(rect(80, 422, 446, 24, "#F2C46B", 0, extra='opacity=".55"'))
+    b.append(t(84, 440, "先搞懂，再动手，拿出证据。", 34, INK, 700))
+    b.append(t(84, 512, "主线 9 步 · 技能速查 34 个 · How-to 17 篇 · 说人话", 20, MUTED))
+    b.append(t(84, 560, "pstack.xiaoxiaodong.ai", 24, INK, 600, MONO))
+    # 右边：终端卡片（hero 动画的最后一帧）
+    x0, y0, ww, wh = 700, 150, 500, 340
+    b.append(f'<rect x="{x0}" y="{y0}" width="{ww}" height="{wh}" rx="14" fill="#000" opacity=".9" filter="url(#ssh)"/>')
+    b.append(f'<g clip-path="url(#sw)">{rect(x0, y0, ww, wh, TERM)}{rect(x0, y0, ww, 36, "#2A2926")}')
+    for i, c in enumerate(["#FF5F57", "#FEBC2E", "#28C840"]):
+        b.append(f'<circle cx="{x0 + 22 + i * 20}" cy="{y0 + 18}" r="6" fill="{c}"/>')
+    b.append(t(x0 + 22, y0 + 76, "›", 18, "#D7B9C8", 700, MONO))
+    b.append(t(x0 + 42, y0 + 76, "/poteto-mode 收藏会重复。", 16, TERM_FG, 600, MONO))
+    b.append(t(x0 + 42, y0 + 100, "先复现，再修，再验证。", 16, TERM_FG, 600, MONO))
+    steps = [("复现", ROSE), ("找根因", APRICOT), ("修", SAGE), ("验证", MINT), ("开 PR", LILAC)]
+    for i, (name, col) in enumerate(steps):
+        y = y0 + 148 + i * 38
+        b.append(rect(x0 + 42, y - 18, 22, 22, "none", 5, "#55524B", 'stroke-width="1.5"'))
+        b.append(f'<path d="M{x0 + 47},{y - 7} l5,5 l8,-10" fill="none" stroke="{col}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>')
+        b.append(t(x0 + 78, y, name, 16, col, 700))
+    cx, cy = x0 + 250, y0 + 140
+    b.append(rect(cx, cy, 214, 150, "#24231F", 10, "#3A3833"))
+    b.append(t(cx + 18, cy + 30, "证据", 14, "#D7B9C8", 700))
+    b.append(t(cx + 18, cy + 66, "修之前", 14, TERM_MUTED))
+    b.append(t(cx + 196, cy + 66, "2 条", 22, BAD, 700, MONO, "end"))
+    b.append(t(cx + 18, cy + 102, "修之后", 14, TERM_MUTED))
+    b.append(t(cx + 196, cy + 102, "1 条", 22, "#9CC59E", 700, MONO, "end"))
+    b.append(t(cx + 18, cy + 134, "prove it works ✓", 13, TERM_FG, 500, MONO))
+    b.append("</g>")
+    defs = (f'<clipPath id="sw"><rect x="{x0}" y="{y0}" width="{ww}" height="{wh}" rx="14"/></clipPath>'
+            '<filter id="ssh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#3A3326" flood-opacity=".20"/></filter>')
+    content = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">\n'
+               f'<defs>{defs}</defs>\n' + "\n".join(b) + "\n</svg>\n")
+    write("social.svg", content)
+
+
 if __name__ == "__main__":
     hero()
     before_after()
     how()
     skills()
     overnight()
+    social()

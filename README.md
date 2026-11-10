@@ -151,7 +151,7 @@ src/data/faq.js        常见问题
 src/pages/guide/       主线教程（MDX）
 src/pages/howto/       How-to（MDX）
 public/xxd/            小小东 UI Kit（自带一份，不走 CDN）
-tools/build_assets.py  生成 README 里的插画和 SVG 动画
+tools/build_assets.py  生成 README 插画、SVG 动画和分享大图（social.svg → social.png / public/og.png）
 ```
 
 改内容、加页面、写作规矩见 [docs/MAINTAINING.md](docs/MAINTAINING.md)。README 里的图都由 `python3 tools/build_assets.py` 生成，改了文字或颜色重跑一次。
