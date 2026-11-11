@@ -17,7 +17,7 @@ This full guide is for people who write code, and it uses words like Git and PR.
 
 pstack is a pack of <Term k="技能" text="skills" />. It goes into the AI coding tool you already use, like Claude Code, Cursor, or Codex.
 
-Once it's in, the AI writes code by a senior engineer's rules: <mark><strong>understand first, then act, then show the evidence.</strong></mark>
+Once it's in, the AI writes code by a senior engineer's rules: <mark><strong>understand first, then act, then check its own work.</strong></mark>
 
 The model stays the same. What changes is the order it works in and the bar it has to clear.
 
@@ -25,7 +25,7 @@ The model stays the same. What changes is the order it works in and the bar it h
 
 - **Changing code it hasn't understood.** It edits a spot that looks right but isn't.
 - **Treating only the symptom.** It hides duplicate data where it's shown. The bug that creates them is still there.
-- **Saying "done" without proof.** It says "should be fine now." You run it, and it's still broken.
+- **Saying "done" without trying it.** It says "should be fine now." You run it, and it's still broken.
 - **Changes that keep growing.** It adds code nobody needs, and the next bug hides in it.
 
 ## You only need one command
@@ -39,7 +39,7 @@ Day to day, just type `/poteto-mode`. You say the goal, and it plans the rest. B
 
 ## What you get from it
 
-- **Smaller changes, with evidence every time.** It deletes what it can, and ends by running real commands and clicking the real UI.
+- **Smaller changes, tried every time.** It deletes what it can, and ends by running real commands and clicking the real UI.
 - **You can run several AIs at once.** Each follows the same rules and works in its own folder.
 - **The same mistake doesn't happen twice.** Use `/correct` to block it at the root.
 

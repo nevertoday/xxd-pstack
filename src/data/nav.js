@@ -23,7 +23,7 @@ export const PSTACK_UPSTREAM = "https://github.com/cursor/plugins/tree/main/psta
 
 // 新手入门：给没写过代码、只和 AI 聊过天的人。三课，一条路走到底；做完这三课就够用了。
 export const LESSONS = [
-  { n: 1, slug: "1-why", title: "它能帮你什么", minutes: "3 分钟", sum: "AI 说「好了」却没好？pstack 让它做完拿出证据", en: { title: "What it does for you", minutes: "3 minutes", sum: "AI says “done” but it isn't? pstack makes it show proof" } },
+  { n: 1, slug: "1-why", title: "它能帮你什么", minutes: "3 分钟", sum: "pstack 是什么，要准备什么，代价是什么", en: { title: "What it does for you", minutes: "3 minutes", sum: "What pstack is, what you need, what it costs" } },
   { n: 2, slug: "2-install", title: "装上它", minutes: "5 分钟", sum: "在 Claude Code 里输入两行，选一个选项", en: { title: "Install it", minutes: "5 minutes", sum: "Type two lines in Claude Code and pick one option" } },
   { n: 3, slug: "3-first-use", title: "第一次用", minutes: "10 分钟", sum: "发一段三部分的话，做出一个小网页", en: { title: "Use it for the first time", minutes: "10 minutes", sum: "Make a small web page with one three-part message" } },
 ];
@@ -33,10 +33,10 @@ export const STEPS = [
   { n: 0, slug: "0-what", title: "pstack 是什么", minutes: "读 5 分钟", ready: true, sum: "它管什么用、代价是什么、要准备什么", en: { title: "What pstack is", minutes: "5-minute read", sum: "What it's for, what it costs, what you need" } },
   { n: 1, slug: "1-install", title: "安装 pstack", minutes: "5 分钟", ready: true, sum: "Claude Code、Cursor、Codex 各一种装法", en: { title: "Install pstack", minutes: "5 minutes", sum: "One way each for Claude Code, Cursor and Codex" } },
   { n: 2, slug: "2-setup", title: "选模型和预算（可跳过）", minutes: "10 分钟", ready: true, sum: "不设置也能用；想省钱或换模型再看", en: { title: "Pick models and budget (optional)", minutes: "10 minutes", sum: "Works without it; read this to save money or switch models" } },
-  { n: 3, slug: "3-first-task", title: "第一个任务", minutes: "15 分钟", ready: true, sum: "一句话交代清楚，再看它的复述和证据", en: { title: "Your first task", minutes: "15 minutes", sum: "Say it in one message, then check its restatement and proof" } },
+  { n: 3, slug: "3-first-task", title: "第一个任务", minutes: "15 分钟", ready: true, sum: "一句话交代清楚，再看它的复述和结果", en: { title: "Your first task", minutes: "15 minutes", sum: "Say it in one message, then check its restatement and results" } },
   { n: 4, slug: "4-understand", title: "改之前先看懂", minutes: "15 分钟", ready: true, sum: "让 AI 先讲清楚代码怎么工作，再决定改不改", en: { title: "Understand before you change", minutes: "15 minutes", sum: "Have the AI explain how the code works before deciding to change it" } },
   { n: 5, slug: "5-design-build", title: "设计、动手、收拾干净", minutes: "20 分钟", ready: true, sum: "大改动先定方案，写完让别的模型挑毛病，再删掉多余的", en: { title: "Design, build, clean up", minutes: "20 minutes", sum: "Settle the plan for big changes, have other models pick holes, cut what isn't needed" } },
-  { n: 6, slug: "6-verify-ship", title: "验证和交付", minutes: "20 分钟", ready: true, sum: "要它拿出证据，再交上去合并", en: { title: "Verify and ship", minutes: "20 minutes", sum: "Get proof, then hand the change in for merging" } },
+  { n: 6, slug: "6-verify-ship", title: "验证和交付", minutes: "20 分钟", ready: true, sum: "先确认真的能用，再交上去合并", en: { title: "Verify and ship", minutes: "20 minutes", sum: "Make sure it really works, then hand it in for merging" } },
   { n: 7, slug: "7-overnight", title: "放手让它跑", minutes: "15 分钟", ready: true, sum: "睡前交代清楚，早上看它的记录", en: { title: "Let it run on its own", minutes: "15 minutes", sum: "Brief it before bed, read its log in the morning" } },
   { n: 8, slug: "8-make-it-yours", title: "用熟以后", minutes: "随用随看", ready: true, sum: "一句话拉回跑偏，同样的错不犯第二次", en: { title: "Once you're comfortable", minutes: "As needed", sum: "Pull it back in one line; stop the same mistake from happening twice" } },
 ];
@@ -79,11 +79,11 @@ export const GLOSSARY = {
   "SKILL.md": { tip: "技能的正文：开头几行写名字和什么时候用，后面写具体步骤和规矩。", wiki: "skill-md", en: { label: "SKILL.md", tip: "The body of a skill: a few header lines with its name and when to use it, then the steps and rules." } },
   宿主: { tip: "真正跑 AI 的那个工具：Claude Code、Cursor、Codex 等。pstack 装在它里面。", wiki: "harness", en: { label: "harness", tip: "The tool that actually runs the AI: Claude Code, Cursor, Codex and so on. pstack is installed inside it." } },
   剧本: { tip: "一类事情的固定做法。比如修 bug：先让问题再出现一次，找到真正的原因，修，再检查一遍。", wiki: "playbook", en: { label: "playbook", tip: "The standard way to handle one kind of task. “Fix a bug” means reproduce, find the root cause, fix, verify." } },
-  "poteto-mode": { tip: "pstack 的总开关。你说要什么，它自己安排步骤，最后拿出证据。", wiki: "poteto-mode", en: { label: "poteto-mode", tip: "pstack's main entry. You say the goal; it picks a playbook, calls skills and brings back evidence." } },
+  "poteto-mode": { tip: "pstack 的总开关。你说要什么，它自己安排步骤。", wiki: "poteto-mode", en: { label: "poteto-mode", tip: "pstack's main switch. You say what you want; it plans the steps itself." } },
   子代理: { tip: "主对话派出去干一小块活的帮手 AI，干完只把结果交回来。", wiki: "subagent", en: { label: "subagent", tip: "An AI helper the main conversation sends off to do one piece of work; it reports back only the conclusion." } },
   worktree: { tip: "同一个项目的第二份副本。几个 AI 同时改代码，各改各的，互不打架。", wiki: "worktree", en: { label: "worktree", tip: "A second working folder for the same Git repo, so several AIs can change code at once without colliding." } },
   待办清单: { tip: "它开工时列出的步骤。不做的那步会写明为什么。", wiki: "todo", en: { label: "todo list", tip: "The list of steps /poteto-mode writes out at the start. Skipped steps say why." } },
-  验证技能: { tip: "一份说明书，教 AI 怎么打开、操作你的应用，拿出「真的能用」的证据。", wiki: "verify-skill", en: { label: "verification skill", tip: "Teaches the AI how to start and drive your app, and how to bring back proof that it really works." } },
+  验证技能: { tip: "一份说明书，教 AI 怎么打开你的应用，像用户一样点一遍。", wiki: "verify-skill", en: { label: "verification skill", tip: "A guide that teaches the AI to open your app and click through it like a user." } },
   形式化验证: { tip: "把一条规则在所有可能的情况下都检查一遍，比挑几个例子测试更彻底。", wiki: "formal-verification", en: { label: "formal verification", tip: "Instead of testing examples, checks that a rule holds in every possible case." } },
   决策日志: { tip: "AI 每做一个决定就记一行：时间、决定、理由、证据。第二天早上你看这个。", wiki: "decision-log", en: { label: "decision log", tip: "One line per decision the AI makes: time, decision, reason, evidence. You read it in the morning." } },
   原则: { tip: "pstack 的 24 条做事规矩。每条有个英文名字，打出名字它就知道你要什么。", wiki: "principles", en: { label: "principles", tip: "pstack's 24 engineering principles. Each has a name; say the name to correct the AI." } },

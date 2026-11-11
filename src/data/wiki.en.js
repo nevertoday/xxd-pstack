@@ -14,7 +14,7 @@ export const WIKI_EN = {
     one: "pstack is a free set of work rules for AI coding tools. It makes the AI work like a seasoned engineer.",
     like: "Like handing a smart but hasty new teammate a handbook. Same person, but now the work has a method.",
     here: [
-      "It's 34 skills and 24 principles, all instruction files written for the AI. The rules are simple. Before fixing a bug, make it happen again. Before changing code, read it. ==Before saying \"done\", show proof.==",
+      "It's 34 skills and 24 principles, all instruction files written for the AI. The rules are simple. Before fixing a bug, make it happen again. Before changing code, read it. After changing it, try it.",
       "The author is poteto, and this is the setup the author uses in Cursor every day. The official version is written for Cursor. Claude Code and Codex users usually install [the mirror](https://github.com/backnotprop/pstack). It syncs with the official version daily and works in any tool.",
     ],
     myths: [
@@ -108,7 +108,7 @@ export const WIKI_EN = {
   // ---------- How pstack works ----------
   "poteto-mode": {
     title: "/poteto-mode", group: "How pstack works",
-    one: "`/poteto-mode` is the main entry point. You say what you want; it plans the steps, does the work, and shows you proof.",
+    one: "`/poteto-mode` is the main entry point. You say what you want; it plans the steps and does the work.",
     like: "Like an experienced project manager. They repeat the request back, pick the right process, and only hand it over after checking.",
     here: [
       "Its first reply repeats what you want and the problem you're solving. It also names the smallest change it expects. It **doesn't wait for your OK** before carrying on. If it misread you, interrupt right away.",
@@ -246,7 +246,7 @@ export const WIKI_EN = {
   },
   "verify-skill": {
     title: "Verification skill", group: "Verification and evidence",
-    one: "A verification skill is a guide made for your project. It teaches the AI to start your app, use it like a user, and collect proof.",
+    one: "A verification skill is a guide made for your project. It teaches the AI to start your app and use it the way a user would.",
     like: "Like an onboarding guide for a new tester: how to start it, which account, where to click, what to screenshot. Once it exists, anyone can test.",
     here: [
       "Generate it with `/create-verification-skill`. It mostly reads your code to learn how the app starts and how to drive it. Before handing it over, it does a full run itself. The files go in your project: `.cursor/skills/verify-<app-name>/` in Cursor, `.claude/skills/verify-<app-name>/` in Claude Code. From then on you can say \"verify with /verify-<app-name> and give me screenshots\".",

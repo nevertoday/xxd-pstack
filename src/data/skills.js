@@ -6,7 +6,7 @@
 
 export const SKILLS = [
   { id: "entry", title: "入口：先认识这三个", items: [
-    { name: "poteto-mode", zh: "总入口。你说要什么、怎么算做完，它自己安排步骤，最后交证据。", use: "任何要认真做的事。一行就能改完的明显小事不用。", ex: "/poteto-mode 导出有时会写出重复的行。先让问题重现，再修，再证明修好了。", needs: ["所有 principle-* 原则", "大部分其他技能"], manual: true },
+    { name: "poteto-mode", zh: "总入口。你说要什么、怎么算做完，它自己安排步骤。", use: "任何要认真做的事。一行就能改完的明显小事不用。", ex: "/poteto-mode 导出有时会写出重复的行。先让问题重现，再修，再证明修好了。", needs: ["所有 principle-* 原则", "大部分其他技能"], manual: true },
     { name: "poteto-help", zh: "问它「这事该用哪个技能」，它回答，并给一段能直接发的提示词。", use: "刚上手，或者拿不准该用哪个技能。", ex: "/poteto-help 我想审一下这个分支，该用哪个技能？", needs: ["你想问的那些技能"], manual: true },
     { name: "setup-pstack", zh: "帮你选模型：查你能用哪些模型、问预算，写成所有技能共用的配置。", use: "装完先跑它。想换模型、想省钱时再跑一次。", ex: "/setup-pstack" },
   ]},

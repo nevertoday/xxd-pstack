@@ -13,7 +13,7 @@ export const SKILL_GROUPS_EN = {
 };
 
 export const SKILLS_EN = {
-  "poteto-mode": { zh: "The main entry point. You say what you want and what counts as done; it plans the steps and brings back evidence.", use: "Anything that needs care. Skip it for an obvious one-line change.", ex: "/poteto-mode The export sometimes writes duplicate rows. Make it happen again first, then fix it, then prove the fix works.", needs: ["all principle-* principles", "most other skills"] },
+  "poteto-mode": { zh: "The main entry point. You say what you want and what counts as done; it plans the steps itself.", use: "Anything that needs care. Skip it for an obvious one-line change.", ex: "/poteto-mode The export sometimes writes duplicate rows. Make it happen again first, then fix it, then prove the fix works.", needs: ["all principle-* principles", "most other skills"] },
   "poteto-help": { zh: "Ask it \"which skill fits this?\" and it answers with a prompt you can send as is.", use: "You're just starting, or you're not sure which skill to use.", ex: "/poteto-help I want to review this branch. Which skill should I use?", needs: ["the skills you're asking about"] },
   "setup-pstack": { zh: "Picks your models: it checks what you can use, asks your budget, and writes one config all skills share.", use: "Run it right after installing. Run it again to switch models or save money.", ex: "/setup-pstack" },
   "in-your-own-words": { zh: "Has the AI say back what you want in its own words, so you catch misunderstandings early.", use: "Your request is messy or a long discussion, and you worry the AI will get it wrong.", ex: "/in-your-own-words" },

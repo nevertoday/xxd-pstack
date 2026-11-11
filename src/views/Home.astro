@@ -9,8 +9,8 @@ import { inline } from "../lib/md.js";
 const lang = langOf(Astro.url.pathname);
 const ZH = {
   brand: "pstack 新手教程",
-  h1: "让 AI 做完事，拿出证据给你看",
-  lead: ["pstack 是一份装进 AI 里的「靠谱工作守则」，免费开源。装上以后，AI 会先弄清楚你要什么，再动手，做完拿出截图、操作结果这类你看得懂的证据。不会写代码也能用：", "你不用看懂代码，只要看懂证据", "。"],
+  h1: "AI 说「做好了」之前，先让它自己试一遍",
+  lead: ["pstack 是一份装进 AI 里的做事规矩，免费开源。装上以后，AI 会先弄清你要什么，只改该改的地方。", "不会写代码也能用", "。"],
   cta: ["新手从这里开始", "我会写代码，看完整教程"],
   ctaNote: "新手入门一共三课，20 分钟。",
   painH: "你是不是遇到过这些",
@@ -19,7 +19,6 @@ const ZH = {
     "你说「还是不行」，它说「抱歉，已修复」，结果还是一样，来回好几次。",
     "你只想改一个地方，它顺手改了一堆你没让它动的东西。",
   ],
-  painP: "不怪你说得不清楚。AI 说「好了」的时候，它自己并没有打开看过。",
   diffH: "装上以后，有什么不一样",
   diffW: "什么时候", diffA: "平常的 AI", diffB: "装了 pstack",
   DIFF: [
@@ -38,15 +37,15 @@ const ZH = {
     ["MessageCircle", "你说一句话", "目标，加上怎么算做完。比如「先复现，再修，再验证」。"],
     ["Route", "/poteto-mode 挑剧本", "从 23 套剧本里选一套，把它的步骤原样抄进待办清单。"],
     ["Layers", "按步骤调用技能", "读代码用 /how，定设计用 /architect，挑刺用 /interrogate；活多就派子代理。"],
-    ["ShieldCheck", "带着证据交回来", "真实的命令输出、截图、前后对比。验证不了的，直说「没法确定」。"],
+    ["ShieldCheck", "检查完再交回来", "真实的命令输出、截图、前后对比。验证不了的，直说「没法确定」。"],
   ],
   CONN: ["匹配", "执行", "验证"],
   stepsLabel: (n) => `完整教程：共 ${n} 步`,
 };
 const EN = {
   brand: "pstack for beginners",
-  h1: "Make the AI show you proof when it's done",
-  lead: ["pstack is a free, open-source “work code” you install into your AI. With it, the AI first checks what you want, then does the work, then shows you proof you can understand, like screenshots and what happened when it tried things. You don't need to code: ", "you don't have to understand the code, only the proof", "."],
+  h1: "Before the AI says “done,” make it try the thing itself",
+  lead: ["pstack is a free, open-source set of work rules you install into your AI. With it, the AI first makes sure it knows what you want, then changes only what needs changing. ", "You don't need to know how to code", "."],
   cta: ["Start here if you're new", "I code: the full guide"],
   ctaNote: "The beginner track is three lessons, 20 minutes.",
   painH: "Has this happened to you?",
@@ -55,7 +54,6 @@ const EN = {
     "You say “still broken.” It says “sorry, fixed now.” Same result, again and again.",
     "You wanted one small change, and it changed a pile of things you never asked about.",
   ],
-  painP: "It's not that you explained it badly. When the AI says “done,” it never opened the thing to look.",
   diffH: "What changes once it's installed",
   diffW: "When", diffA: "AI as usual", diffB: "With pstack",
   DIFF: [
@@ -74,7 +72,7 @@ const EN = {
     ["MessageCircle", "You say one sentence", "The goal, plus how you'll know it's done. For example: “reproduce it first, then fix, then verify.”"],
     ["Route", "/poteto-mode picks a playbook", "It chooses one of 23 playbooks and copies its steps into the todo list as they are."],
     ["Layers", "Skills run step by step", "/how to read code, /architect to settle a design, /interrogate to pick holes; subagents when there's a lot to do."],
-    ["ShieldCheck", "It comes back with evidence", "Real command output, screenshots, before-and-after. If something can't be verified, it says so."],
+    ["ShieldCheck", "It checks before handing back", "Real command output, screenshots, before-and-after. If something can't be verified, it says so."],
   ],
   CONN: ["match", "do", "verify"],
   stepsLabel: (n) => `Full guide: ${n} steps`,
@@ -94,7 +92,6 @@ const C = lang === "en" ? EN : ZH;
     <section aria-labelledby="h-pain">
       <h2 id="h-pain">{C.painH}</h2>
       <ul class="pain">{C.PAIN.map((x) => <li>{x}</li>)}</ul>
-      <p>{C.painP}</p>
     </section>
 
     <section aria-labelledby="h-diff">
