@@ -336,4 +336,72 @@ export const FIGS = {
       cap: "The name says which rule; the rest says what to do this time and what you want to see.",
     },
   },
+
+  // How-to「给项目配一个验证技能」：生成的 verify-<应用名> 里有哪几节，照这个顺序跑
+  "h-verify": {
+    type: "flow",
+    base: { icons: ["Power", "Activity", "MousePointerClick", "Camera", "Trash2"], marks: [null, null, null, "good", null] },
+    zh: {
+      steps: [
+        { t: "启动", d: "从空数据起到真能用" },
+        { t: "体检", d: "这个实例值不值得测" },
+        { t: "像用户一样操作", d: "点真按钮，打真命令" },
+        { t: "留证据", d: "截图、录屏、存下的数据" },
+        { t: "收拾", d: "只关自己开的，证据留下" },
+      ],
+      cap: "生成的 verify-<应用名> 就是这几节。交给你之前，它照着自己写的从头跑一遍，再确认收拾完证据还在。",
+    },
+    en: {
+      steps: [
+        { t: "Launch", d: "From empty data to actually usable" },
+        { t: "Doctor", d: "Is this instance worth driving?" },
+        { t: "Drive it like a user", d: "Real buttons, real commands" },
+        { t: "Capture evidence", d: "Screenshots, video, stored data" },
+        { t: "Clean up", d: "Stop only what it started; keep the evidence" },
+      ],
+      cap: "The generated verify-<app> has these sections. Before handing it over, it runs them end to end once, then checks the evidence survived the cleanup.",
+    },
+  },
+
+  // How-to「测试碰不到的 bug」：测试走你想到的顺序，模型检查把所有顺序都走一遍
+  "h-formal": {
+    type: "compare",
+    base: { a: { icons: ["FlaskConical", "FlaskConical", "FlaskConical"] }, b: { icons: ["Workflow", "Shuffle", "Crosshair"] } },
+    zh: {
+      a: { who: "测试", steps: ["A 领任务，做完", "B 领下一个，做完", "重试一次，也正常"], end: "全部通过。上线后 A 卡了一下，同一个任务跑了两遍" },
+      b: { who: "形式化验证", steps: ["把领任务、续租约、超时、重试写成一个小模型", "把所有先后顺序都走一遍", "撞上一条坏顺序"], end: "交给你一个几步的反例，用的是你代码里的名字" },
+      cap: "测试只查有人想到的几种顺序。形式化验证在说好的范围里一种不漏，所以能找到那条没人想到的。",
+    },
+    en: {
+      a: { who: "Tests", steps: ["A takes a job and finishes", "B takes the next one and finishes", "One retry, also fine"], end: "All green. In production A stalls once, and the same job runs twice" },
+      b: { who: "Formal verification", steps: ["Model taking a job, renewing the lease, timing out, retrying", "Walk every possible order", "Hit a bad order"], end: "Hands you a short counterexample in your code's own names" },
+      cap: "Tests check the orders someone thought of. Formal verification checks every order within the stated scope, so it finds the one nobody did.",
+    },
+  },
+
+  // 同一篇：一条反例读起来是什么样（任务租约的例子）
+  "h-formal-cex": {
+    type: "flow",
+    base: { icons: ["KeyRound", "Clock", "Users", "Play", "OctagonAlert"], marks: [null, null, "bad", "bad", "bad"] },
+    zh: {
+      steps: [
+        { t: "A 领到任务 42", d: "租约 30 秒" },
+        { t: "A 卡住 31 秒", d: "比如长时间垃圾回收" },
+        { t: "租约过期", d: "B 领到同一个任务 42" },
+        { t: "A 醒来接着写", d: "没再看租约还在不在" },
+        { t: "任务 42 跑了两次", d: "规则被打破" },
+      ],
+      cap: "反例就是这样一串步骤。每一步都对得上你代码里的一个函数，能照着在真实代码里走一遍。",
+    },
+    en: {
+      steps: [
+        { t: "A takes job 42", d: "30-second lease" },
+        { t: "A stalls for 31 s", d: "A long GC pause, say" },
+        { t: "The lease expires", d: "B takes the same job 42" },
+        { t: "A wakes up and writes", d: "Without checking it still holds the lease" },
+        { t: "Job 42 ran twice", d: "The rule is broken" },
+      ],
+      cap: "A counterexample is a list of steps like this. Each step maps to a function in your code, so you can walk it through the real code.",
+    },
+  },
 };

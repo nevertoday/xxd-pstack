@@ -285,6 +285,7 @@ export const WIKI = [
       "「我的项目太小，用不上」：越早有越好。有了它，验证就不用你亲自做，哪个 AI 都能做。",
     ],
     see: ["evidence", "formal-verification"],
+    howto: "verify-app",
     step: 6,
   },
   {
@@ -300,6 +301,7 @@ export const WIKI = [
       "「每个项目都该上」：只在有并发、重试、状态机、解析器，而且出错很贵的地方才值得。",
     ],
     see: ["verify-skill", "evidence"],
+    howto: "formal-verify",
     step: 6,
   },
   {

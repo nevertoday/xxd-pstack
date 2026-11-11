@@ -42,7 +42,7 @@ AI 没法自己操作你的应用时，先跑：
 
 <Copy id="use-vs" code="/poteto-mode 做批量归档功能。用 /verify-<你的应用名> 验证，给我录屏和截图当证据。" />
 
-把验证技能提交进仓库，用 `/maintain-verification-skill` 定期复查（最好每天）。
+把验证技能提交进仓库，用 `/maintain-verification-skill` 定期复查（最好每天）。它会生成什么、怎么检查、作者自己怎么用，看[给项目配一个验证技能](/howto/verify-app/)。
 
 ## 开 PR
 
@@ -85,7 +85,7 @@ stack 指一串叠在一起的 PR。
 <p>用 <code>/blast-radius</code>。它会找出「这个改动为什么安全」，再跑代码证明。</p>
 </Q>
 <Q q="有些情况测试碰不到，比如两次重试撞在一起。">
-<p>用<Term k="形式化验证" />：<code>/create-formal-verification-skill 任务租约和重试逻辑。同一个任务绝不能同时跑两次。</code></p>
+<p>用<Term k="形式化验证" />：<code>/create-formal-verification-skill 任务租约和重试逻辑。同一个任务绝不能同时跑两次。</code>什么时候值得用、反例怎么读，看<a href="/howto/formal-verify/">测试碰不到的 bug：形式化验证</a>。</p>
 </Q>
 
 <Checkpoint id="s6" items={["我的提示词里写明了「怎么算做完」和「想看什么证据」", "我知道没证据的「已完成」不能信", "我知道盯 PR 不会合并，合并要我说 land the stack"]} />

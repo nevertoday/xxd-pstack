@@ -42,7 +42,7 @@ After that, ask for evidence like this:
 
 <Copy id="use-vs" code="/poteto-mode Build the bulk archive feature. Verify it with /verify-<your-app-name>, and give me a screen recording and screenshots as evidence." />
 
-Commit the verification skill to the repo. Review it regularly with `/maintain-verification-skill` (daily is best).
+Commit the verification skill to the repo. Review it regularly with `/maintain-verification-skill` (daily is best). For what it generates, how to check it, and how the author uses it, see [Give your project a verification skill](/en/howto/verify-app/).
 
 ## Open the PR
 
@@ -85,7 +85,7 @@ Opening PRs uses `gh`. Log in to GitHub on your machine first: `gh auth login`.
 <p>Use <code>/blast-radius</code>. It finds why the change is safe, then proves it by running code.</p>
 </Q>
 <Q q="Some cases tests can't reach, like two retries colliding.">
-<p>Use <Term k="形式化验证" />: <code>/create-formal-verification-skill Task leases and retry logic. The same task must never run twice at the same time.</code></p>
+<p>Use <Term k="形式化验证" />: <code>/create-formal-verification-skill Task leases and retry logic. The same task must never run twice at the same time.</code> When it's worth it and how to read a counterexample: <a href="/en/howto/formal-verify/">Bugs tests can't reach: formal verification</a>.</p>
 </Q>
 
 <Checkpoint id="s6" items={["My prompt says what done means and what evidence I want to see", "I know a \"done\" with no evidence can't be trusted", "I know babysitting won't merge; merging needs me to say land the stack"]} />

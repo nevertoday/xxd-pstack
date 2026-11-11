@@ -3,7 +3,7 @@
 // 数据：简介来自 skills.js（英文叠 skills.en.js），原文、译文和写法来自 data/skill-docs/<名>.json（scripts/skill-docs.mjs 生成）。
 import Site from "../layouts/Site.astro";
 import { skillsFor } from "../data/skills.i18n.js";
-import { link, PSTACK, langOf } from "../data/nav.js";
+import { link, PSTACK, langOf, HOWTO_FLAT, howtoHref, t } from "../data/nav.js";
 import { inline } from "../lib/md.js";
 import { micromark } from "micromark";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
@@ -47,6 +47,9 @@ const headings = [
   { slug: "full", text: T.fullH, depth: 2 },
 ];
 const badge = s.auto ? ["success", en ? "Auto" : "自动调用"] : s.manual ? ["warning", en ? "Type it yourself" : "要你亲手打"] : ["", en ? "Call when needed" : "按需点名"];
+// 有专门 How-to 的技能：页头下面给一条「详细教程」
+const GUIDE = { "create-verification-skill": "verify-app", "maintain-verification-skill": "verify-app", "create-formal-verification-skill": "formal-verify", "maintain-formal-verification-skill": "formal-verify" };
+const guide = GUIDE[name] && HOWTO_FLAT.find((h) => h.slug === GUIDE[name]);
 const desc = en ? d.description.en : d.description.zh || d.description.en;
 ---
 <Site title={`/${name} · ${T.crumbs}`} description={s.zh} headings={headings}>
@@ -61,6 +64,7 @@ const desc = en ? d.description.en : d.description.zh || d.description.en;
     <p class="skill__use"><span>{T.ex}</span></p>
     <pre class="xxd-code skill__ex"><code>{s.ex}</code></pre>
     {s.needs && <p class="skill__needs"><span>{T.needs}</span>{s.needs.join(T.sep)}</p>}
+    {guide && <p class="skill__needs"><span>{en ? "Full how-to" : "详细教程"}</span><a class="xxd-link" href={howtoHref(guide.slug, lang)}>{t(guide, "title", lang)}</a></p>}
 
     {lessons.length > 0 && (
       <>

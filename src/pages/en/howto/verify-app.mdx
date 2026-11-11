@@ -1,0 +1,163 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: verify-app
+time: Generate once, use on every task
+for: You're tired of opening the app and clicking through it every time the AI says "done"
+step: 6
+tldr: Run /create-verification-skill once and your project gains a /verify-<app> skill. From then on, any task can end with "verify it with that and show me screenshots."
+description: "Use /create-verification-skill to give your project a verification skill, so the AI launches the app, drives it like a user, and keeps evidence. What it generates, how to check it, how to use it, and how /maintain-verification-skill keeps it in step with the app."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+After the AI changes code, the slowest step is usually checking it: it says "done," and you open the app and click through it yourself. The author says in the official guide that of everything in it, a <Term k="验证技能" /> for your project pays off the most.
+
+The reason is simple: <mark><strong>an AI that can check its own work keeps going until the check passes; one that can't hands every result back to you.</strong></mark> When checking doesn't wait on a person, you stop being the bottleneck. Without it, running more AIs just gets you more results nobody has checked.
+
+## Copy this first
+
+Open the AI in your project folder and send:
+
+<Copy id="cvs" code="/create-verification-skill" />
+
+The `/setup-pstack` you ran at install also offers this once at the end. Saying yes runs exactly this.
+
+It mostly reads your code to work out five things, and only asks you what the code can't answer:
+
+- **What users touch**: a web page, a command line, a desktop app, an API, or a mobile app. If there are several, it picks the main one.
+- **How it starts**: the project's own commands first (scripts in `package.json`, a `Makefile`, the README), plus ports, environment variables, test data and login.
+- **How to drive it**: whatever the project already has (Playwright or Cypress scripts, a debug port). Only then a generic route: browser automation for web and Electron, a virtual terminal for command-line tools, plain requests for APIs.
+- **What evidence it can keep**: screenshots, terminal transcripts, API responses, logs, exit codes, database rows.
+- **Whether two copies can run side by side**: separate ports, separate data folders. If not, the skill says so. Not testing beats touching the copy you're using.
+
+If the project doesn't start as it is, it fixes that first or says exactly where it's stuck. Steps written against a broken project only teach the wrong thing.
+
+## What you get
+
+A new folder in your project: `.claude/skills/` in Claude Code, `.cursor/skills/` in Cursor:
+
+<Copy id="tree" title="The generated files (illustration)" code={`verify-<app>/
+├── SKILL.md          launch, doctor, drive, evidence, cleanup, and how to run its scripts
+└── features/         the feature map: one file per feature
+    ├── README.md     index of the map, plus rules every feature shares
+    ├── create-note.md
+    └── search.md`} />
+
+<Fig id="h-verify" />
+
+`SKILL.md` is written for the next AI, not for you: an AI that has never seen the app should be able to open it mid-task and follow it. Every section uses your project's real commands and button names, with no "fill this in":
+
+| Section | What it says |
+| --- | --- |
+| Launch | Which command starts the app, and what shows it's ready. It starts from empty data, runs migrations and loads test data; ready means actually usable |
+| Doctor | One read-only check: is the process up, the right version, the port its own, the login still valid. Run it first whenever something looks off |
+| Drive | Which tool, which button, which command. Buttons are found by stable handles like names and labels, not screen coordinates |
+| Evidence | What to capture, where it goes, and what counts (see the next section) |
+| Cleanup | Stop what this run started; never kill by process name. The evidence stays, in a named place |
+| Helpers | Any script it ships runs as is, with its usage written in the skill |
+
+`features/` is the feature map. It starts with the three to five main features, one file each, and every file has the same four parts:
+
+- **Sub-features**: "create a note," say, split into opening it from the button, saving, cancelling, and creating from the command line.
+- **How users get there**: every entry point. Buttons, shortcuts and commands all count.
+- **How to drive it**: each step written as "what to do → which command → what you should see."
+- **Gotchas**: traps that waste a run or mislead you. For example: "a 'Saved' message isn't enough; reopen the note from the list."
+
+If the test data lacks something a feature needs, it reports that the path fails and records the reason under Gotchas. It never makes the steps easier just to pass. <u>If the map lists several entry points, all of them get driven; testing only the convenient one doesn't count.</u>
+
+## It runs the skill once before handing it over
+
+Once generated, it follows its own skill end to end: launch, doctor, drive one feature from the map, capture evidence, clean up, then confirm the evidence survived the cleanup. When a step fails, it fixes it, and after every failed attempt it also stops whatever it started.
+
+<Callout type="warn" title="If the trial run failed, don't use the output">
+A verification skill that never ran is a draft. If it tried in a stand-in (a container instead of a fresh server, say), it lists the steps that only ran in the stand-in. Those stay unverified until a run on the real target covers them.
+</Callout>
+
+## How to use it from now on
+
+Name it in the task, and say what evidence you want. These two come from the official guide:
+
+<Copy id="use-build" title="Build a feature and prove it works" code="/poteto-mode build the bulk-archive action. use /verify-<app> to verify your changes and show me a video and screenshots as proof." />
+
+<Copy id="use-repro" title="Reproduce first, then fix" code="/poteto-mode repro this with /verify-<app>. if it repros on main, fix it and show me a video as proof." />
+
+A Chrome extension example:
+
+<Copy id="use-ext" title="Chrome extension" code={`/poteto-mode Saved items sometimes show up twice after a refresh. Reproduce it with /verify-bookmarks: click "Save" ten times, then refresh the side panel.
+Fixed means: one entry in the list, and one in chrome.storage.
+Show me before-and-after screenshots and what's actually stored.`} />
+
+Once the verification skill works, several AIs can test at once. `/swarm` splits the work by feature map entry, each AI covers a few features, and the results come back together. Use it to run every feature before a merge, or to measure a speedup enough times that the sample means something.
+
+## What counts as evidence
+
+The generated skill spells out these standards. Use them when you look at the evidence it hands back:
+
+- **The path a real user takes**: real buttons, real commands. No internal functions, no back doors that exist only for tests.
+- **The action and the result**: not just the last screen. You should see what it did and what changed.
+- **Side effects**: files written, the new database row, the message sent, checked along with what's on screen.
+- **Real wherever possible**: mocks only where production already isolates an outside system (payments, say).
+- **Dry runs get checked too**: some dry runs still go online or open a browser. See what it actually skipped instead of trusting the name.
+
+## Treat it as project infrastructure
+
+- **Commit it.** Then everyone on the team, and every AI, drives the app the same way.
+- **Give it a small command-line tool.** When AIs keep writing throwaway click scripts, have one build a small control tool that the skill calls. It saves tokens and makes every run repeatable. Good control tools usually have a few commands that each do real work, a `--dry-run` on anything destructive, subcommands that open up step by step, errors that say what to do, detailed `--help`, and machine-readable output such as JSON.
+- **Bring the environment up with one command**: fixed test data, test accounts, the same result every time.
+
+## When the app changes: /maintain-verification-skill
+
+The feature map starts going stale as soon as the app changes. The official advice is at least once a day, ideally from a scheduled automation so nobody has to remember:
+
+<Copy id="mvs" code="/maintain-verification-skill" />
+
+Here's how it checks:
+
+1. It tidies the map's index: missing, extra, duplicate or dead entries.
+2. One read-only AI per feature reads the source, explains how the feature works now, and flags where the map may be out of date.
+3. One AI then starts the real app and drives every feature. Source that looks fine still gets a live run.
+4. It sorts what it found: the map is wrong, so fix the map; the feature works but the tooling can't drive it, so fix the tooling; the app is actually broken, so report it to you.
+
+There are three outcomes: **clean** (full coverage, nothing to change), **changed** (one <Term k="PR" /> of proven corrections), **blocked** (it names the blocker). <mark>It only edits the verification skill's own folder, never product code.</mark> If the app has really regressed, it reports that rather than editing the docs to hide it.
+
+## How the author uses it
+
+pstack's author, poteto, wrote a long piece in August 2026 on how she uses pstack ([The Complete Guide to pstack, part 1](https://x.com/poteto/status/2094457600259842065)). Verification carries the most weight in it:
+
+- She calls verification the foundation of how she works with agents, and says to treat it as critical infrastructure, not just another skill.
+- `/create-verification-skill` distills the verification skills she uses at work into a skill that makes skills: it teaches the AI to build the same thing for your app.
+- She calls the feature map "materialized memory": memory written to files, cheap in tokens, readable by every person and every AI on the project.
+- For new features, she has the AI verify its work with the verification skill and send a video and screenshots. For performance, she has it measure where the time goes, make a targeted fix, then uses `/swarm` to send out a batch of AIs to confirm it really got faster.
+- She also runs verification from scheduled automations, such as bots that reproduce bugs users report in Slack.
+- She recommends the maintenance pass at least daily. AIs update the verification skill as they work; the maintenance pass catches what they miss.
+
+## Further reading
+
+- [Official guide: Verify and ship](https://github.com/cursor/plugins/blob/main/pstack/docs/guide/06-verify-and-ship.md): the source for this page.
+- [`/create-verification-skill`](/en/skills/create-verification-skill/) and [`/maintain-verification-skill`](/en/skills/maintain-verification-skill/): the full skill text on this site.
+- [Building verification loops in Claude Code with skills](https://claude.com/blog/building-verification-loops-in-claude-code-with-skills): Anthropic on the same idea, having the AI check its work before it answers.
+- [Flavio Copes: A deep dive into pstack](https://flaviocopes.com/pstack): a full third-party walkthrough.
+
+## Stuck?
+
+<Q q="It says the project won't start, and stopped.">
+That's right: steps written against a project that doesn't run only teach the wrong thing. Fix what it found (a missing environment variable, missing test data, a port in use), or ask it to, then run `/create-verification-skill` again.
+</Q>
+<Q q="Some features need a login or a paid account, and it can't reach them.">
+It marks that feature as unreachable and records the missing prerequisite and the path it tried. Prepare a test account, or add the needed state to the test data, in the project's own seed files. Don't paste a real password into the chat.
+</Q>
+<Q q="Its steps click buttons by screen position, and they break when the window size changes.">
+Reply: "Find buttons by their name or a data attribute, not coordinates or tab order." The generator already requires stable handles, so ask it to fix that.
+</Q>
+<Q q="My project is a command-line tool with no UI.">
+It works the same. It opens a fresh virtual terminal session (tmux, say) for each run, types commands, and records the output and exit code. There's no server to keep running, so "launch" just means building or installing dependencies first.
+</Q>
+<Q q="Two AIs verifying at once get in each other's way.">
+Check whether the skill's Launch section says how to keep them apart: different ports, different data folders. If not, ask it to add that. If they truly can't be separated, the skill should say "one at a time."
+</Q>
+<Q q="Can it find problems tests can't reach, like two retries colliding?">
+A verification skill proves the paths it actually drives. For concurrency and retries, where every possible order matters, use <a href="/en/howto/formal-verify/">formal verification</a>.
+</Q>

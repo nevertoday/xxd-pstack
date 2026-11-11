@@ -1,0 +1,162 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: formal-verify
+time: Generate once, then one command per change
+for: Your code has concurrency, retries, a state machine or a parser, a bug there is costly, and tests rarely reach it
+step: 6
+tldr: Pick a rule that must never break ("the same job never runs twice at once"), and have it check every case within a stated scope. If the rule breaks, you get a counterexample you can walk through in a few steps.
+description: "Use /create-formal-verification-skill for bugs tests can't reach: when it's worth it, how it picks the target and the tool, how to read a counterexample, how to use the generated skill, and how /maintain-formal-verification-skill brings it back in line after the code changes."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+Tests check the cases someone thought to write. <Term k="形式化验证" /> checks **every** case within a stated scope: every order of steps in a model, every input up to a size, or every input at all.
+
+Some bugs live on paths nobody walks: two retries that overlap, a lock that expires mid-write, state updates that arrive out of order. Ten test runs pass. A year after launch, it happens once, and it's a double charge or corrupted data.
+
+<Fig id="h-formal" />
+
+## When it's worth it
+
+- **Concurrency and locks**: several processes or machines competing for one thing. Job leases, stock counts.
+- **Retries and "exactly once"**: a message must not be delivered twice; an order grants membership once.
+- **State machines**: order status, offline edits that sync later, approval flows.
+- **Parsers**: no input may crash it or be read wrong.
+- **Unsafe low-level code**: memory safety, integer overflow, conditions a data structure must always keep.
+
+Ordinary create-read-update pages, copy and styling don't need it; a <a href="/en/howto/verify-app/">verification skill</a> covers them. `/setup-pstack` also offers this once. <mark>Say yes if your code has the kinds of logic above and a bug there is costly; otherwise say no, and run it later if that changes.</mark>
+
+## Copy this first
+
+Let it pick the most valuable target from the code:
+
+<Copy id="fv-auto" code="/create-formal-verification-skill" />
+
+If you already know, name the area and the rule. These two come from the official guide:
+
+<Copy id="fv-lease" title="Job leases and retries" code="/create-formal-verification-skill the job lease and retry logic. a job must never run twice at once." />
+
+<Copy id="fv-queue" title="Retry queue" code="/create-formal-verification-skill the retry queue. a message must never be delivered twice." />
+
+Two more from everyday projects:
+
+<Copy id="fv-order" title="Membership site: payment webhooks" code="/create-formal-verification-skill the payment webhook and membership grant. The provider repeats and reorders webhooks; an order must grant membership exactly once." />
+
+<Copy id="fv-sync" title="Chrome extension: syncing across devices" code="/create-formal-verification-skill the bookmark sync logic. Two computers each edit bookmarks offline, then reconnect; both end up the same, with nothing lost or duplicated." />
+
+One sentence with two things is enough: **which code to check**, and **which rule must never break**.
+
+## How it picks the target
+
+It looks for a promise the code makes, where a break harms users and tests rarely reach the case that breaks it. <u>It picks the most valuable target, not the easiest to verify.</u> If you name an area, it starts there.
+
+## How it picks the tool
+
+The question picks the tool. It tells you what it chose and why, so you don't need to learn these languages:
+
+| What you want to know | Kind of tool | Common examples |
+| --- | --- | --- |
+| Can events happen in a bad order? | A model checker: a small model of the design, with every order walked | TLA+ (the default for this kind of question, whatever language your code is in) |
+| Does the code itself behave for every input: memory safety, overflow, data-structure conditions? | A verifier that runs on the code | Depends on the language: CBMC for C, Kani for Rust |
+| Your language has no such verifier | Lots of generated inputs against the real code | Property-based testing: fast-check, Hypothesis |
+| It must hold at every size, and a bound isn't enough | A proof | A proof assistant such as Lean |
+
+The examples column is this site's; the skill doesn't prescribe a tool. It prefers one your team can install and run.
+
+## What good formal verification looks like
+
+These are the skill's own standards, and what to check when it hands over:
+
+- **True to the code**: every part of the model or proof points to code you can open. What the code does in one step is one step in the model. Names come from your project.
+- **Able to fail**: <mark><strong>a check you've never seen fail proves nothing.</strong></mark> Each rule is shown failing once on deliberately broken code (a removed check, two steps swapped), and the check catches it.
+- **Findings stay findings**: if the current code already breaks the rule, it reports that with a counterexample. It doesn't loosen the rule or the model to pass, and it doesn't touch product code unless you ask.
+- **Honest about scope**: what was verified, within what bounds, under which assumptions, and what's left out. A pass covers that model and bound, not the whole system.
+- **Readable without the tool**: the rule and the harm in one plain sentence each. The counterexample told as steps in your code's words.
+- **Cheap to rerun**: one command, a pinned tool version, fast enough that the next AI runs it on every relevant change.
+- **Kept in step with the code**: it records which files and functions each check covers, and the commit where it last confirmed they match. When that code changes, the next AI knows to look again.
+
+## What a counterexample reads like
+
+If the current code really has the bug, you don't get formulas. You get steps like these:
+
+<Fig id="h-formal-cex" />
+
+Each step maps to a place in the code, so you can walk the counterexample through the real code and confirm the model isn't wrong. To show a PM or designer, use `/statechart`: when a check fails, it tells the shortest failing path in plain words; when it passes, it draws how the system moves between states.
+
+<Copy id="fv-chart" code="/statechart what the user sees when they edit a note offline" />
+
+## What you get
+
+A new skill in your project, named after the code it verifies. Reading only that skill, the next AI can:
+
+1. Tell whether a change touches the verified code.
+2. Run the check with one command.
+3. Tell a real bug from a modeling mistake.
+4. Update the verification when a change is intentional.
+
+Before handing it over, it follows the skill once on a scratch change that breaks the rule in the real code, and the check must catch it. Then it drops the change and confirms the check is back where it started. At handoff it tells you:
+
+- what it verified, with which tool, why that tool, and within what bounds;
+- what the check found, in plain words;
+- how to run it from now on;
+- what it doesn't cover.
+
+It suggests a second target only if it found a close one.
+
+## When the code changes: /maintain-formal-verification-skill
+
+The dangerous case isn't a failing check. It's <mark>a check that keeps passing after the code changed</mark>. It describes code that no longer exists, yet it looks like proof.
+
+When a change goes through the verify skill, the AI updates the verification as it goes. For changes that skipped it (merges, someone editing directly, refactors), run:
+
+<Copy id="mfv" code="/maintain-formal-verification-skill" />
+
+It runs the check once as it is, reads every commit since the last confirmation that touched covered code (including renamed, split or moved functions), and updates the model from the code, not from what would make it pass. Each check ends with one outcome:
+
+| Outcome | Meaning |
+| --- | --- |
+| in sync | Nothing that matters changed in the covered code, and the check passes |
+| updated | The code changed, the verification now describes it, and the check passes |
+| bug | The verification describes the current code, and the code breaks the rule. A finding about the code, not drift |
+| blocked | It couldn't bring the check back in line or couldn't run it; it says why |
+
+A check can be both updated and bug: the update makes it describe the code again, and then the rule fails. When an updated check passes, it breaks the new code on purpose once more to confirm the check still catches it. It changes a rule only when there's evidence the promise changed on purpose (a doc comment, tests, a changelog, a commit message), and cites it. Verification updates go in a change of their own, separate from any product fix.
+
+## How the author uses it
+
+- **Released October 18, 2026**, in pstack v0.15.27, marked beta. In the [announcement](https://x.com/poteto/status/2111926622278521253), poteto gave two examples: TLA+ models for concurrent state machines, and Kani to check Rust for undefined behavior. She says modeling her code in TLA+ has already found several bugs, without saying which.
+- **"The question picks the tool" was tested.** In the [PR that added the skill](https://github.com/cursor/plugins/pull/709), she tried it on six open-source projects it hadn't seen: pg-boss, swr, HikariCP, client-go, cJSON and arrayvec. On cJSON (C) and arrayvec (Rust) it chose a verifier that runs on the code every time: CBMC and Kani. An earlier draft that prescribed TLA+ chose TLA+ on both. She also notes the sample is small, one or two runs per project, so treat it as a lead.
+- **She's candid about the maintenance skill.** In [its PR](https://github.com/cursor/plugins/pull/716), she ran it 54 times on a TLA+ model of Go's semaphore (including a version missing a wakeup) and on Python's cachetools. Her conclusion: the skill didn't make results more correct, because the models already keep verification in step. What it added was breaking the code once more after the update to show the check still catches it: 11 of 11 runs with the skill, 5 of 10 without.
+- **Her pairing** ([October 21 post](https://x.com/poteto/status/2112736749281759566)): first have the AI draw a statechart with `/statechart` to understand the code, then use the generated TLA+ verification skill to find bugs before users do.
+
+## Why it's worth trying now
+
+Formal verification used to be rare: models and proofs took a lot of work, and few people knew how. AI has cut that cost, and people have been talking about it:
+
+- Martin Kleppmann argues AI will make formal verification mainstream: proofs get cheap to write, and proof checkers catch exactly the mistakes AI makes ([post](https://martin.kleppmann.com/2025/12/08/ai-formal-verification.html), December 2025).
+- Hillel Wayne, who has long taught TLA+, says AI greatly multiplies how much specification you can write ([June 2025](https://buttondown.com/hillelwayne/archive/ai-is-a-gamechanger-for-tla-users)), and warns that specs AI writes casually often miss what a spec is for ([March 2026](https://buttondown.com/hillelwayne/archive/llms-are-bad-at-vibing-specifications)). That's why "able to fail" and "true to the code" above matter so much.
+- Datadog checks AI-written code with TLA+ specs, simulation testing and Kani ([Closing the verification loop](https://datadoghq.com/blog/ai/harness-first-agents), March 2026).
+- AWS has long used TLA+ and its own P language to verify the designs of its distributed services ([Systems Correctness Practices at AWS](https://cacm.acm.org/practice/systems-correctness-practices-at-amazon-web-services)).
+
+The full skill text is on this site: [`/create-formal-verification-skill`](/en/skills/create-formal-verification-skill/), [`/maintain-formal-verification-skill`](/en/skills/maintain-formal-verification-skill/), [`/statechart`](/en/skills/statechart/).
+
+## Stuck?
+
+<Q q="It says my language has no verifier that runs on the code.">
+That's an honest answer. It tests the real code with lots of generated inputs instead of writing a hand model of what the code probably does. Ordering questions aren't affected: TLA+ doesn't care what language your code is in.
+</Q>
+<Q q="The check takes too long.">
+Say: "Shrink the scope until it runs in a few minutes, and state the smaller scope in the handoff." A check that's too slow won't get run on every change, which is the same as not having it.
+</Q>
+<Q q="It reported a counterexample, and I can't tell if it's a real bug or a modeling mistake.">
+Ask it to "walk the counterexample through the real code, step by step." If a step can't happen in the code, the model is wrong; fix the model. If every step can happen, it's a real bug. If the steps are hard to follow, use `/statechart`.
+</Q>
+<Q q="It wants to loosen the rule so the check passes.">
+No. Reply: "Keep the rule. The current code breaks it; write me the counterexample as steps in the code." A finding gets reported as a finding; whether and how to fix it is your call.
+</Q>
+<Q q="It passed. Does that mean no bugs?">
+Only within that model and that scope. Read the "doesn't cover" part of the handoff, and after the code changes, run `/maintain-formal-verification-skill`.
+</Q>

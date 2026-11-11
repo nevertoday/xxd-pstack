@@ -81,6 +81,10 @@ export const HOWTO = [
     { slug: "write-docs", title: "写 README、文档、PR 说明", en: { title: "Write READMEs, docs and PR descriptions" } },
     { slug: "big-migration", title: "大改动：睡前交给它，早上看结果", en: { title: "Big changes: hand it over at night, check in the morning" } },
   ]},
+  { group: "让 AI 自己证明", en: { group: "Let the AI prove it" }, items: [
+    { slug: "verify-app", title: "给项目配一个验证技能，让 AI 自己去点", en: { title: "Give your project a verification skill, so the AI checks its own work" } },
+    { slug: "formal-verify", title: "测试碰不到的 bug：形式化验证", en: { title: "Bugs tests can't reach: formal verification" } },
+  ] },
   { group: "工具和环境", en: { group: "Tools and setup" }, items: [
     { slug: "claude-code", title: "在 Claude Code 里用", en: { title: "Using it in Claude Code" } },
     { slug: "cursor", title: "在 Cursor 里用", en: { title: "Using it in Cursor" } },
