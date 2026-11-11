@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="960" height="420" role="img" aria-label="放手让 AI 跑一晚上：每一轮检查完成条件、做最小改动、验证、提交或丢弃、记一行日志；早上看决策日志">
 <defs></defs>
-<rect x="0" y="0" width="960" height="420" rx="22" fill="#F1EFEA" />
-<circle cx="300" cy="205" r="128" fill="none" stroke="#D9D6CE" stroke-width="1.6" stroke-dasharray="3 6"/>
-<rect x="245.0" y="60.0" width="110" height="34" rx="17" fill="#EBD6D3" stroke="#E2DED6" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="0.00s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E2DED6;#2B2A27;#2B2A27;#E2DED6;#E2DED6"/></rect>
+<rect x="0.5" y="0.5" width="959" height="419" rx="22" fill="#FAFAF8" stroke="#E9E7E4" />
+<circle cx="300" cy="205" r="128" fill="none" stroke="#DCD9D4" stroke-width="1.6" stroke-dasharray="3 6"/>
+<rect x="245.0" y="60.0" width="110" height="34" rx="17" fill="#FBE3E0" stroke="#E9E7E4" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="0.00s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E9E7E4;#2B2A27;#2B2A27;#E9E7E4;#E9E7E4"/></rect>
 <text x="300.0" y="82.0" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#2B2A27" text-anchor="middle" >检查完成条件</text>
-<rect x="373.73523408577967" y="148.44582472000673" width="96" height="34" rx="17" fill="#EFDFC9" stroke="#E2DED6" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="1.60s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E2DED6;#2B2A27;#2B2A27;#E2DED6;#E2DED6"/></rect>
+<rect x="373.73523408577967" y="148.44582472000673" width="96" height="34" rx="17" fill="#FCEAD2" stroke="#E9E7E4" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="1.60s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E9E7E4;#2B2A27;#2B2A27;#E9E7E4;#E9E7E4"/></rect>
 <text x="421.73523408577967" y="170.44582472000673" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#2B2A27" text-anchor="middle" >最小的改动</text>
-<rect x="306.2365122934366" y="291.5541752799933" width="138" height="34" rx="17" fill="#DDE7D3" stroke="#E2DED6" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="3.20s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E2DED6;#2B2A27;#2B2A27;#E2DED6;#E2DED6"/></rect>
+<rect x="306.2365122934366" y="291.5541752799933" width="138" height="34" rx="17" fill="#E2F1DC" stroke="#E9E7E4" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="3.20s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E9E7E4;#2B2A27;#2B2A27;#E9E7E4;#E9E7E4"/></rect>
 <text x="375.2365122934366" y="313.5541752799933" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#2B2A27" text-anchor="middle" >对照真实产物验证</text>
-<rect x="162.76348770656347" y="291.5541752799933" width="124" height="34" rx="17" fill="#D7E2EC" stroke="#E2DED6" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="4.80s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E2DED6;#2B2A27;#2B2A27;#E2DED6;#E2DED6"/></rect>
+<rect x="162.76348770656347" y="291.5541752799933" width="124" height="34" rx="17" fill="#E0ECF9" stroke="#E9E7E4" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="4.80s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E9E7E4;#2B2A27;#2B2A27;#E9E7E4;#E9E7E4"/></rect>
 <text x="224.76348770656347" y="313.5541752799933" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#2B2A27" text-anchor="middle" >提交 / 丢弃</text>
-<rect x="123.26476591422033" y="148.44582472000675" width="110" height="34" rx="17" fill="#E0DAEA" stroke="#E2DED6" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="6.40s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E2DED6;#2B2A27;#2B2A27;#E2DED6;#E2DED6"/></rect>
+<rect x="123.26476591422033" y="148.44582472000675" width="110" height="34" rx="17" fill="#ECE6F8" stroke="#E9E7E4" stroke-width="1.5"><animate attributeName="stroke" dur="8.0s" begin="6.40s" repeatCount="indefinite" keyTimes="0;0.04;0.16;0.2;1" values="#E9E7E4;#2B2A27;#2B2A27;#E9E7E4;#E9E7E4"/></rect>
 <text x="178.26476591422033" y="170.44582472000675" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#2B2A27" text-anchor="middle" >日志里记一行</text>
 <circle r="5" fill="#2B2A27"><animateMotion dur="8.0s" repeatCount="indefinite" path="M300,77 a128,128 0 1,1 -0.01,0"/></circle>
-<text x="300" y="199" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13" font-weight="400" fill="#8A867D" text-anchor="middle" >每一轮</text>
+<text x="300" y="199" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13" font-weight="400" fill="#6D6B67" text-anchor="middle" >每一轮</text>
 <text x="300" y="223" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#2B2A27" text-anchor="middle" >一次改动 · 一次检查 · 一行日志</text>
 <rect x="560" y="44" width="360" height="196" rx="12" fill="#1A1A1A" />
 <text x="580" y="78" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="500" fill="#D7B9C8" text-anchor="start" >/poteto-mode 我要去睡了。</text>
@@ -22,8 +22,8 @@
 <text x="580" y="159" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="400" fill="#9CC59E" text-anchor="start" >完成：旧调用方 0 个，测试全过。</text>
 <text x="580" y="186" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="400" fill="#E6E4DC" text-anchor="start" >记决策日志。提交前不用问我。</text>
 <text x="580" y="213" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="400" fill="#EFDFC9" text-anchor="start" >/loop 直到完成；卡住就写清原因。</text>
-<rect x="560" y="258" width="360" height="112" rx="12" fill="#FBFAF8" stroke="#E2DED6" />
+<rect x="560" y="258" width="360" height="112" rx="12" fill="#FFFFFF" stroke="#E9E7E4" />
 <text x="580" y="288" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill="#2B2A27" text-anchor="start" >☀ 第二天早上</text>
 <text x="580" y="316" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12.5" font-weight="400" fill="#2B2A27" text-anchor="start" >/show-me-your-work 讲讲昨晚做了什么</text>
-<text x="580" y="346" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >先读「需要注意」，再看它指向的那几行日志。</text>
+<text x="580" y="346" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#6D6B67" text-anchor="start" >先读「需要注意」，再看它指向的那几行日志。</text>
 </svg>

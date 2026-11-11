@@ -13,13 +13,13 @@ OUT = Path(__file__).resolve().parent.parent / "assets"
 OUT.mkdir(exist_ok=True)
 
 # ---------- 配色（与 ghostty-tint 一致） ----------
-PAPER = "#F1EFEA"   # 画布底
-CARD = "#FBFAF8"    # 卡片
-LINE = "#E2DED6"    # 卡片描边
-LINE2 = "#D9D6CE"
+PAPER = "#FAFAF8"   # 画布底：接近白，靠一圈淡边分出来（以前的灰米色显脏）
+CARD = "#FFFFFF"    # 卡片：纯白
+LINE = "#E9E7E4"    # 卡片描边（UI Kit 的 --line）
+LINE2 = "#DCD9D4"
 INK = "#2B2A27"     # 正文
-MUTED = "#8A867D"   # 次要文字
-ROSE, SAGE, APRICOT, LILAC, MINT, SKY = "#EBD6D3", "#DDE7D3", "#EFDFC9", "#E0DAEA", "#D5EFE5", "#D7E2EC"
+MUTED = "#6D6B67"   # 次要文字（UI Kit 的 --muted）
+ROSE, SAGE, APRICOT, LILAC, MINT, SKY = "#FBE3E0", "#E2F1DC", "#FCEAD2", "#ECE6F8", "#DCF4EA", "#E0ECF9"  # 去掉灰调，干净的浅色
 TERM = "#1A1A1A"    # 终端窗口
 TERM_FG = "#E6E4DC"
 TERM_MUTED = "#8A867D"
@@ -42,7 +42,7 @@ def rect(x, y, w, h, fill, rx=0, stroke=None, extra=""):
 
 def svg(w, h, label, body, defs=""):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" '
-            f'aria-label="{escape(label)}">\n<defs>{defs}</defs>\n{rect(0, 0, w, h, PAPER, 22)}\n{body}\n</svg>\n')
+            f'aria-label="{escape(label)}">\n<defs>{defs}</defs>\n{rect(0.5, 0.5, w - 1, h - 1, PAPER, 22, LINE)}\n{body}\n</svg>\n')
 
 
 def appear(t_in, t_out, total, base=0.0):
@@ -141,7 +141,7 @@ def hero(lang="zh"):
             f'<clipPath id="typing"><rect x="{x0 + 50}" y="{py - 22}" height="30" width="0">'
             f'<animate attributeName="width" dur="{T}s" repeatCount="indefinite" keyTimes="0;0.02;0.2;1" values="0;0;{tw};{tw}"/>'
             f'</rect></clipPath>'
-            '<filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#3A3326" flood-opacity=".16"/></filter>')
+            '<filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#111111" flood-opacity=".09"/></filter>')
     write("hero.svg", svg(W, H, L("演示：输入一句 /poteto-mode 提示词，AI 列出修 bug 的步骤并逐项打勾，最后给出修前修后的证据",
                                   "Demo: type one /poteto-mode prompt; the AI lists the bug-fix steps, checks them off one by one, and ends with before-and-after evidence"),
                           "\n".join(body), defs), lang)
@@ -234,8 +234,8 @@ def skills(lang="zh"):
               ("设计和把关", LILAC, ["architect", "arena", "swarm", "interrogate", "blast-radius", "figure-it-out"]),
               ("动手和清理", SAGE, ["tdd", "typescript-best-practices", "unslop", "no-comments", "technical-writing"]),
               ("验证", MINT, ["create-verification-skill", "maintain-verification-skill", "create-formal-verification-skill", "maintain-formal-verification-skill", "statechart", "benchmark-checklist"]),
-              ("汇报和复盘", "#F2DCE4", ["bro", "ketchup", "ketchup-video", "show-me-your-work", "reflect", "correct", "automate-me"]),
-              ("原则 × 24", "#E6E4DC", ["prove it works", "fix root causes", "subtract before you add", "laziness protocol", "…还有 20 条"])]
+              ("汇报和复盘", "#F9E3EC", ["bro", "ketchup", "ketchup-video", "show-me-your-work", "reflect", "correct", "automate-me"]),
+              ("原则 × 24", "#EEEEEC", ["prove it works", "fix root causes", "subtract before you add", "laziness protocol", "…还有 20 条"])]
     if lang != "zh":
         names = ["Start here", "Understand you first", "Understand the code", "Design & review",
                  "Build & clean up", "Verify", "Report & reflect", "Principles × 24"]
@@ -366,7 +366,7 @@ def social(lang="zh"):
     b.append(t(cx + 18, cy + 134, "prove it works ✓", 13, TERM_FG, 500, MONO))
     b.append("</g>")
     defs = (f'<clipPath id="sw"><rect x="{x0}" y="{y0}" width="{ww}" height="{wh}" rx="14"/></clipPath>'
-            '<filter id="ssh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#3A3326" flood-opacity=".20"/></filter>')
+            '<filter id="ssh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#111111" flood-opacity=".10"/></filter>')
     content = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">\n'
                f'<defs>{defs}</defs>\n' + "\n".join(b) + "\n</svg>\n")
     write("social.svg", content, lang)
@@ -402,8 +402,8 @@ DOOR_TEXT_W = {
     "ru": [[151, 118], [104, 147], [165, 178]],
     "ar": [[144, 91], [79, 142], [132, 133]],
 }
-DOOR_BARS = ["#DDE7D3", "#EFDFC9", "#E0DAEA"]
-DOOR_THEMES = {"light": ("#FBFAF8", "#D9D6CE", "#2B2A27", "#8A867D"), "dark": ("#201F1A", "#3A3833", "#F3F0EA", "#A39E93")}
+DOOR_BARS = [SAGE, APRICOT, LILAC]
+DOOR_THEMES = {"light": ("#FFFFFF", "#E2E0DC", "#1F1E1B", "#6D6B67"), "dark": ("#201F1A", "#3A3833", "#F3F0EA", "#A39E93")}
 
 
 def doors(lang):

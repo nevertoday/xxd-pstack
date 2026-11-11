@@ -121,6 +121,8 @@ npm run build      # 输出到 dist/
 
 ## README 插画和分享大图
 
+配色要干净通透：画布接近白（`#FAFAF8`，一圈 `#E9E7E4` 淡边），卡片纯白，线和次要文字用 UI Kit 的 `--line`、`--muted`，浅色块用去掉灰调的浅色（`build_assets.py` 顶部）。不要灰米色底和偏棕的阴影。
+
 README 顶部的三扇门（没写过代码 / 会写代码 / 想学写提示词）是 `assets/doors/<语言>-<1..3>.svg` 和 `-dark.svg`（GitHub 暗色时用后者，`<picture>` 切换），文字和量好的字宽在 `build_assets.py` 的 `DOORS`、`DOOR_TEXT_W` 里。样子和插画同一张纸：细线框、直角、顶上一条柔和色条，只有箭头隔几秒挪一下。改了文字要重新量字宽（Chrome 里 canvas 的 measureText）。卡片下面那行「免费 · 开源 · 10 种语言」写在 README 里，是文字。
 
 `python3 tools/build_assets.py` 生成 `assets/*.svg`（README 插画、SVG 动画、分享图 `social.svg`）。分享图还要转成 PNG（用 Chrome 渲染，中文字体最准）：

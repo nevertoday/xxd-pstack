@@ -1,29 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-label="Comparison: without pstack the AI edits code right away and skips reproducing and verifying; with pstack it does all five steps and shows before-and-after evidence">
 <defs><clipPath id="c0"><rect x="32" y="28" width="440" height="344" rx="14"/></clipPath><clipPath id="c1"><rect x="488" y="28" width="440" height="344" rx="14"/></clipPath></defs>
-<rect x="0" y="0" width="960" height="400" rx="22" fill="#F1EFEA" />
-<rect x="32" y="28" width="440" height="344" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
-<g clip-path="url(#c0)"><rect x="32" y="28" width="440" height="50" rx="0" fill="#EBD6D3" /></g>
+<rect x="0.5" y="0.5" width="959" height="399" rx="22" fill="#FAFAF8" stroke="#E9E7E4" />
+<rect x="32" y="28" width="440" height="344" rx="14" fill="#FFFFFF" stroke="#E9E7E4" />
+<g clip-path="url(#c0)"><rect x="32" y="28" width="440" height="50" rx="0" fill="#FBE3E0" /></g>
 <text x="54" y="60" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >Without pstack</text>
 <circle cx="66" cy="107" r="9" fill="#B5655B" opacity=".16"/>
 <path d="M61,107 l4,4 l7,-8" fill="none" stroke="#B5655B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="86" y="112" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >Edit the code</text>
-<circle cx="66" cy="143" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
-<text x="86" y="148" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">Reproduce</text>
-<text x="204" y="148" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >skipped</text>
-<circle cx="66" cy="179" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
-<text x="86" y="184" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">Read the code</text>
-<text x="204" y="184" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >skipped</text>
-<circle cx="66" cy="215" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
-<text x="86" y="220" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">Root cause</text>
-<text x="204" y="220" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >skipped</text>
-<circle cx="66" cy="251" r="9" fill="none" stroke="#D9D6CE" stroke-width="1.5"/>
-<text x="86" y="256" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#8A867D" text-anchor="start" text-decoration="line-through">Verify</text>
-<text x="204" y="256" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#8A867D" text-anchor="start" >skipped</text>
-<rect x="54" y="296" width="396" height="56" rx="10" fill="#F1EFEA" />
+<circle cx="66" cy="143" r="9" fill="none" stroke="#DCD9D4" stroke-width="1.5"/>
+<text x="86" y="148" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#6D6B67" text-anchor="start" text-decoration="line-through">Reproduce</text>
+<text x="204" y="148" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#6D6B67" text-anchor="start" >skipped</text>
+<circle cx="66" cy="179" r="9" fill="none" stroke="#DCD9D4" stroke-width="1.5"/>
+<text x="86" y="184" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#6D6B67" text-anchor="start" text-decoration="line-through">Read the code</text>
+<text x="204" y="184" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#6D6B67" text-anchor="start" >skipped</text>
+<circle cx="66" cy="215" r="9" fill="none" stroke="#DCD9D4" stroke-width="1.5"/>
+<text x="86" y="220" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#6D6B67" text-anchor="start" text-decoration="line-through">Root cause</text>
+<text x="204" y="220" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#6D6B67" text-anchor="start" >skipped</text>
+<circle cx="66" cy="251" r="9" fill="none" stroke="#DCD9D4" stroke-width="1.5"/>
+<text x="86" y="256" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="400" fill="#6D6B67" text-anchor="start" text-decoration="line-through">Verify</text>
+<text x="204" y="256" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#6D6B67" text-anchor="start" >skipped</text>
+<rect x="54" y="296" width="396" height="56" rx="10" fill="#FAFAF8" />
 <text x="70" y="320" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="700" fill="#B5655B" text-anchor="start" >“Fixed. Should be fine now.”</text>
-<text x="70" y="341" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >You run it: still two entries.</text>
-<rect x="488" y="28" width="440" height="344" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
-<g clip-path="url(#c1)"><rect x="488" y="28" width="440" height="50" rx="0" fill="#DDE7D3" /></g>
+<text x="70" y="341" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#6D6B67" text-anchor="start" >You run it: still two entries.</text>
+<rect x="488" y="28" width="440" height="344" rx="14" fill="#FFFFFF" stroke="#E9E7E4" />
+<g clip-path="url(#c1)"><rect x="488" y="28" width="440" height="50" rx="0" fill="#E2F1DC" /></g>
 <text x="510" y="60" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >With pstack</text>
 <circle cx="522" cy="107" r="9" fill="#5E8C61" opacity=".16"/>
 <path d="M517,107 l4,4 l7,-8" fill="none" stroke="#5E8C61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,7 +40,7 @@
 <circle cx="522" cy="251" r="9" fill="#5E8C61" opacity=".16"/>
 <path d="M517,251 l4,4 l7,-8" fill="none" stroke="#5E8C61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="542" y="256" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="15" font-weight="600" fill="#2B2A27" text-anchor="start" >Verify</text>
-<rect x="510" y="296" width="396" height="56" rx="10" fill="#F1EFEA" />
+<rect x="510" y="296" width="396" height="56" rx="10" fill="#FAFAF8" />
 <text x="526" y="320" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#5E8C61" text-anchor="start" >2 items before → 1 item after</text>
-<text x="526" y="341" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >Evidence is right in the reply. Check it yourself.</text>
+<text x="526" y="341" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#6D6B67" text-anchor="start" >Evidence is right in the reply. Check it yourself.</text>
 </svg>

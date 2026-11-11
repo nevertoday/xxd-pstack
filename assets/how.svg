@@ -1,38 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 270" width="960" height="270" role="img" aria-label="pstack 怎么干活：你说一句话、/poteto-mode 挑剧本、按步骤调技能、带证据交回来">
 <defs><clipPath id="h0"><rect x="39.0" y="28" width="204" height="190" rx="14"/></clipPath><clipPath id="h1"><rect x="265.0" y="28" width="204" height="190" rx="14"/></clipPath><clipPath id="h2"><rect x="491.0" y="28" width="204" height="190" rx="14"/></clipPath><clipPath id="h3"><rect x="717.0" y="28" width="204" height="190" rx="14"/></clipPath></defs>
-<rect x="0" y="0" width="960" height="270" rx="22" fill="#F1EFEA" />
-<rect x="39.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
-<g clip-path="url(#h0)"><rect x="39.0" y="28" width="204" height="48" rx="0" fill="#EBD6D3" /></g>
+<rect x="0.5" y="0.5" width="959" height="269" rx="22" fill="#FAFAF8" stroke="#E9E7E4" />
+<rect x="39.0" y="28" width="204" height="190" rx="14" fill="#FFFFFF" stroke="#E9E7E4" />
+<g clip-path="url(#h0)"><rect x="39.0" y="28" width="204" height="48" rx="0" fill="#FBE3E0" /></g>
 <text x="55.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">01</text>
 <text x="55.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >你说一句话</text>
 <text x="55.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >目标 + 怎么算做完</text>
-<text x="55.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >「先复现，再修，再验证」</text>
-<path d="M246.0,123 L262.0,123" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round"/>
-<path d="M257.0,118 L262.0,123 L257.0,128" fill="none" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="55.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#6D6B67" text-anchor="start" >「先复现，再修，再验证」</text>
+<path d="M246.0,123 L262.0,123" stroke="#6D6B67" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M257.0,118 L262.0,123 L257.0,128" fill="none" stroke="#6D6B67" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="246.0" cy="123" r="3" fill="#2B2A27" opacity="0"><animate attributeName="cx" dur="4.8s" begin="0.00s" repeatCount="indefinite" keyTimes="0;0.2;1" values="246.0;260.0;260.0"/><animate attributeName="opacity" dur="4.8s" begin="0.00s" repeatCount="indefinite" keyTimes="0;0.03;0.17;0.2;1" values="0;1;1;0;0"/></circle>
-<rect x="265.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
-<g clip-path="url(#h1)"><rect x="265.0" y="28" width="204" height="48" rx="0" fill="#EFDFC9" /></g>
+<rect x="265.0" y="28" width="204" height="190" rx="14" fill="#FFFFFF" stroke="#E9E7E4" />
+<g clip-path="url(#h1)"><rect x="265.0" y="28" width="204" height="48" rx="0" fill="#FCEAD2" /></g>
 <text x="281.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">02</text>
 <text x="281.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >/poteto-mode</text>
 <text x="281.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >从 23 套剧本里挑一套</text>
-<text x="281.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >步骤抄进待办清单</text>
-<path d="M472.0,123 L488.0,123" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round"/>
-<path d="M483.0,118 L488.0,123 L483.0,128" fill="none" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="281.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#6D6B67" text-anchor="start" >步骤抄进待办清单</text>
+<path d="M472.0,123 L488.0,123" stroke="#6D6B67" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M483.0,118 L488.0,123 L483.0,128" fill="none" stroke="#6D6B67" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="472.0" cy="123" r="3" fill="#2B2A27" opacity="0"><animate attributeName="cx" dur="4.8s" begin="1.60s" repeatCount="indefinite" keyTimes="0;0.2;1" values="472.0;486.0;486.0"/><animate attributeName="opacity" dur="4.8s" begin="1.60s" repeatCount="indefinite" keyTimes="0;0.03;0.17;0.2;1" values="0;1;1;0;0"/></circle>
-<rect x="491.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
-<g clip-path="url(#h2)"><rect x="491.0" y="28" width="204" height="48" rx="0" fill="#DDE7D3" /></g>
+<rect x="491.0" y="28" width="204" height="190" rx="14" fill="#FFFFFF" stroke="#E9E7E4" />
+<g clip-path="url(#h2)"><rect x="491.0" y="28" width="204" height="48" rx="0" fill="#E2F1DC" /></g>
 <text x="507.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">03</text>
 <text x="507.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >按步骤调技能</text>
 <text x="507.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >/how · /architect 等</text>
-<text x="507.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >活多就派子代理</text>
-<path d="M698.0,123 L714.0,123" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round"/>
-<path d="M709.0,118 L714.0,123 L709.0,128" fill="none" stroke="#8A867D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="507.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#6D6B67" text-anchor="start" >活多就派子代理</text>
+<path d="M698.0,123 L714.0,123" stroke="#6D6B67" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M709.0,118 L714.0,123 L709.0,128" fill="none" stroke="#6D6B67" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="698.0" cy="123" r="3" fill="#2B2A27" opacity="0"><animate attributeName="cx" dur="4.8s" begin="3.20s" repeatCount="indefinite" keyTimes="0;0.2;1" values="698.0;712.0;712.0"/><animate attributeName="opacity" dur="4.8s" begin="3.20s" repeatCount="indefinite" keyTimes="0;0.03;0.17;0.2;1" values="0;1;1;0;0"/></circle>
-<rect x="717.0" y="28" width="204" height="190" rx="14" fill="#FBFAF8" stroke="#E2DED6" />
-<g clip-path="url(#h3)"><rect x="717.0" y="28" width="204" height="48" rx="0" fill="#E0DAEA" /></g>
+<rect x="717.0" y="28" width="204" height="190" rx="14" fill="#FFFFFF" stroke="#E9E7E4" />
+<g clip-path="url(#h3)"><rect x="717.0" y="28" width="204" height="48" rx="0" fill="#ECE6F8" /></g>
 <text x="733.0" y="60" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" font-weight="700" fill="#2B2A27" text-anchor="start" opacity=".55">04</text>
 <text x="733.0" y="108" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="18" font-weight="700" fill="#2B2A27" text-anchor="start" >带证据交回来</text>
 <text x="733.0" y="140" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" font-weight="400" fill="#2B2A27" text-anchor="start" >命令输出 · 截图 · 前后对比</text>
-<text x="733.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#8A867D" text-anchor="start" >验证不了就说「说不准」</text>
-<text x="480.0" y="252" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="400" fill="#8A867D" text-anchor="middle" >每个任务都走这四步。中间两步你不用管，但在待办清单里看得一清二楚。</text>
+<text x="733.0" y="180" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="12.5" font-weight="400" fill="#6D6B67" text-anchor="start" >验证不了就说「说不准」</text>
+<text x="480.0" y="252" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="400" fill="#6D6B67" text-anchor="middle" >每个任务都走这四步。中间两步你不用管，但在待办清单里看得一清二楚。</text>
 </svg>
