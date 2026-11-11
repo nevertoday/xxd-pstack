@@ -8,7 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack)은 AI가 "다 됐습니다"라고 말하기 전에 직접 돌려 보게 만듭니다.<br>이 가이드는 pstack을 쉬운 말로 설명합니다. 코드를 한 번도 안 써 봤어도 배울 수 있습니다.
 
-<a href="https://pstack.xiaoxiaodong.ai/ko/"><img src="assets/btn/ko.svg" width="560" alt="지금 배우기: 무료 · 20분이면 시작 · 10개 언어"></a>
+<a href="https://pstack.xiaoxiaodong.ai/ko/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/ko-dark.svg"><img src="assets/btn/ko.svg" height="56" alt="지금 배우기"></picture></a>
+
+<sub>무료 · 20분이면 시작 · 10개 언어</sub>
 
 ![입문](https://img.shields.io/badge/%EC%9E%85%EB%AC%B8-3%EA%B0%95-8A9A8C?style=flat-square)
 ![가이드](https://img.shields.io/badge/%EA%B0%80%EC%9D%B4%EB%93%9C-9%EB%8B%A8%EA%B3%84-8A9A8C?style=flat-square)

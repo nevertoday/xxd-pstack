@@ -8,7 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) を入れると、AI は「できました」と言う前に、自分で動かして確かめるようになります。<br>このガイドは pstack をやさしい言葉で説明します。コードを書いたことがなくても学べます。
 
-<a href="https://pstack.xiaoxiaodong.ai/ja/"><img src="assets/btn/ja.svg" width="560" alt="学びはじめる: 無料 · 20 分で使いはじめられる · 10 言語"></a>
+<a href="https://pstack.xiaoxiaodong.ai/ja/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/ja-dark.svg"><img src="assets/btn/ja.svg" height="56" alt="学びはじめる"></picture></a>
+
+<sub>無料 · 20 分で使いはじめられる · 10 言語</sub>
 
 ![入門](https://img.shields.io/badge/%E5%85%A5%E9%96%80-3%E3%83%AC%E3%83%83%E3%82%B9%E3%83%B3-8A9A8C?style=flat-square)
 ![ガイド](https://img.shields.io/badge/%E3%82%AC%E3%82%A4%E3%83%89-9%E3%82%B9%E3%83%86%E3%83%83%E3%83%97-8A9A8C?style=flat-square)

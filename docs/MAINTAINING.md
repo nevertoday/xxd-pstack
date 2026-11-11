@@ -121,7 +121,7 @@ npm run build      # 输出到 dist/
 
 ## README 插画和分享大图
 
-README 顶部的「开始学习」大按钮是 `assets/btn/<语言>.svg`（10 种语言各一张，文字在 `build_assets.py` 的 `BUTTONS` 里），也由这个脚本生成。光扫过用 SVG 自带动画，箭头轻点和光晕用 CSS，系统开了「减少动态效果」就不动。
+README 顶部的「开始学习」按钮是 `assets/btn/<语言>.svg` 和 `<语言>-dark.svg`（GitHub 暗色时用后者，`<picture>` 切换），文字和量好的字宽在 `build_assets.py` 的 `BUTTONS` 里。样子照 UI Kit 的主按钮：墨色、直角、没有阴影和渐变；只有箭头隔几秒挪一下。按钮下面那行说明写在 README 里，是文字。改了标签要重新量字宽（Chrome 里 `600 20px` 系统字体的 measureText）。
 
 `python3 tools/build_assets.py` 生成 `assets/*.svg`（README 插画、SVG 动画、分享图 `social.svg`）。分享图还要转成 PNG（用 Chrome 渲染，中文字体最准）：
 

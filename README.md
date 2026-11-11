@@ -8,7 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) 让它改完先自己试一遍，再来跟你说。<br>这份教程用大白话把 pstack 讲清楚，不会写代码也能学会。
 
-<a href="https://pstack.xiaoxiaodong.ai"><img src="assets/btn/zh.svg" width="560" alt="开始学习: 免费 · 20 分钟上手 · 10 种语言"></a>
+<a href="https://pstack.xiaoxiaodong.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/zh-dark.svg"><img src="assets/btn/zh.svg" height="56" alt="开始学习"></picture></a>
+
+<sub>免费 · 20 分钟上手 · 10 种语言</sub>
 
 ![新手入门](https://img.shields.io/badge/新手入门-3_课-8A9A8C?style=flat-square)
 ![完整教程](https://img.shields.io/badge/完整教程-9_步-8A9A8C?style=flat-square)

@@ -8,7 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) l'oblige à tester son propre travail avant de vous dire que c'est fini.<br>Ce guide explique pstack avec des mots simples. Vous pouvez l'apprendre même si vous n'avez jamais écrit une ligne de code.
 
-<a href="https://pstack.xiaoxiaodong.ai/fr/"><img src="assets/btn/fr.svg" width="560" alt="Commencer à apprendre: Gratuit · prêt en 20 minutes · 10 langues"></a>
+<a href="https://pstack.xiaoxiaodong.ai/fr/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/fr-dark.svg"><img src="assets/btn/fr.svg" height="56" alt="Commencer à apprendre"></picture></a>
+
+<sub>Gratuit · prêt en 20 minutes · 10 langues</sub>
 
 ![Parcours débutant](https://img.shields.io/badge/Parcours_d%C3%A9butant-3_le%C3%A7ons-8A9A8C?style=flat-square)
 ![Guide](https://img.shields.io/badge/Guide-9_%C3%A9tapes-8A9A8C?style=flat-square)

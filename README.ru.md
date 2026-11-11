@@ -8,7 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) заставляет его проверить свою работу, прежде чем сказать «готово».<br>Это руководство объясняет pstack простыми словами. Разобраться можно, даже если вы никогда не писали код.
 
-<a href="https://pstack.xiaoxiaodong.ai/ru/"><img src="assets/btn/ru.svg" width="560" alt="Начать обучение: Бесплатно · старт за 20 минут · 10 языков"></a>
+<a href="https://pstack.xiaoxiaodong.ai/ru/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/ru-dark.svg"><img src="assets/btn/ru.svg" height="56" alt="Начать обучение"></picture></a>
+
+<sub>Бесплатно · старт за 20 минут · 10 языков</sub>
 
 ![Курс для новичков](https://img.shields.io/badge/%D0%9A%D1%83%D1%80%D1%81_%D0%B4%D0%BB%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BA%D0%BE%D0%B2-3_%D1%83%D1%80%D0%BE%D0%BA%D0%B0-8A9A8C?style=flat-square)
 ![Руководство](https://img.shields.io/badge/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-9_%D1%88%D0%B0%D0%B3%D0%BE%D0%B2-8A9A8C?style=flat-square)

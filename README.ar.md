@@ -10,7 +10,9 @@
 
 مع [pstack](https://github.com/backnotprop/pstack)، يجرّب الذكاء الاصطناعي عمله بنفسه قبل أن يقول لك إنه انتهى.<br>هذا الدليل يشرح pstack بكلمات بسيطة، ويمكنك أن تتعلّمه حتى لو لم تكتب سطر كود من قبل.
 
-<a href="https://pstack.xiaoxiaodong.ai/ar/"><img src="assets/btn/ar.svg" width="560" alt="ابدأ التعلّم: مجاني · تبدأ خلال 20 دقيقة · 10 لغات"></a>
+<a href="https://pstack.xiaoxiaodong.ai/ar/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/ar-dark.svg"><img src="assets/btn/ar.svg" height="56" alt="ابدأ التعلّم"></picture></a>
+
+<sub>مجاني · تبدأ خلال 20 دقيقة · 10 لغات</sub>
 
 ![مسار المبتدئين](https://img.shields.io/badge/%D9%85%D8%B3%D8%A7%D8%B1_%D8%A7%D9%84%D9%85%D8%A8%D8%AA%D8%AF%D8%A6%D9%8A%D9%86-3_%D8%AF%D8%B1%D9%88%D8%B3-8A9A8C?style=flat-square)
 ![الدليل](https://img.shields.io/badge/%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84-9_%D8%AE%D8%B7%D9%88%D8%A7%D8%AA-8A9A8C?style=flat-square)
