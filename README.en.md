@@ -8,9 +8,7 @@
 
 [pstack](https://github.com/backnotprop/pstack) makes it try its own work before it tells you it's done.<br>This guide explains pstack in plain words. You can learn it even if you've never written code.
 
-### 👉 [Read online](https://pstack.xiaoxiaodong.ai/en/)
-
-Free and open source. The site comes in 10 languages; switch any time at the top right.
+<a href="https://pstack.xiaoxiaodong.ai/en/"><img src="assets/btn/en.svg" width="560" alt="Start learning: Free · up and running in 20 minutes · 10 languages"></a>
 
 ![Beginner track](https://img.shields.io/badge/Beginner_track-3_lessons-8A9A8C?style=flat-square)
 ![Guide](https://img.shields.io/badge/Guide-9_steps-8A9A8C?style=flat-square)

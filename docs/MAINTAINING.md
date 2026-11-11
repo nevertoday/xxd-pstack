@@ -121,6 +121,8 @@ npm run build      # 输出到 dist/
 
 ## README 插画和分享大图
 
+README 顶部的「开始学习」大按钮是 `assets/btn/<语言>.svg`（10 种语言各一张，文字在 `build_assets.py` 的 `BUTTONS` 里），也由这个脚本生成。光扫过用 SVG 自带动画，箭头轻点和光晕用 CSS，系统开了「减少动态效果」就不动。
+
 `python3 tools/build_assets.py` 生成 `assets/*.svg`（README 插画、SVG 动画、分享图 `social.svg`）。分享图还要转成 PNG（用 Chrome 渲染，中文字体最准）：
 
 ```bash

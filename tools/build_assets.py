@@ -372,6 +372,72 @@ def social(lang="zh"):
     write("social.svg", content, lang)
 
 
+
+# ---------- 7. button：README 顶部的「开始学习」大按钮（每种语言一张，带一点动画） ----------
+# 琥珀色（网站荧光笔的颜色），GitHub 亮色、暗色背景上都显眼。动画只用 CSS：一道光扫过、箭头轻点；
+# 系统开了「减少动态效果」就不动。字体用系统字体（README 里的 SVG 加载不了网页字体）。
+BUTTONS = {
+    "en": ("Start learning", "Free · up and running in 20 minutes · 10 languages"),
+    "zh": ("开始学习", "免费 · 20 分钟上手 · 10 种语言"),
+    "ja": ("学びはじめる", "無料 · 20 分で使いはじめられる · 10 言語"),
+    "ko": ("지금 배우기", "무료 · 20분이면 시작 · 10개 언어"),
+    "es": ("Empieza a aprender", "Gratis · listo en 20 minutos · 10 idiomas"),
+    "pt": ("Comece a aprender", "Grátis · pronto em 20 minutos · 10 idiomas"),
+    "fr": ("Commencer à apprendre", "Gratuit · prêt en 20 minutes · 10 langues"),
+    "de": ("Jetzt loslegen", "Kostenlos · startklar in 20 Minuten · 10 Sprachen"),
+    "ru": ("Начать обучение", "Бесплатно · старт за 20 минут · 10 языков"),
+    "ar": ("ابدأ التعلّم", "مجاني · تبدأ خلال 20 دقيقة · 10 لغات"),
+}
+
+
+def button(lang):
+    main, sub = BUTTONS[lang]
+    rtl = lang == "ar"
+    W, H, R = 720, 128, 28
+    bx, by, bw, bh = 12, 10, W - 24, H - 30
+    font = "-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Apple SD Gothic Neo','Noto Sans','Noto Sans Arabic','Geeza Pro',sans-serif"
+    # 标志（左）、文字、箭头圆（右）；阿拉伯语整个镜像
+    logo_x = bx + 30 if not rtl else bx + bw - 30 - 44
+    text_x = bx + 96 if not rtl else bx + bw - 96
+    anchor = "start"  # 从右往左的文字（direction="rtl"）里 start 就是右边
+    cx = bx + bw - 52 if not rtl else bx + 52
+    cy = by + bh / 2
+    arrow = "M-9,0 h18 M2,-8 l8,8 l-8,8" if not rtl else "M9,0 h-18 M-2,-8 l-8,8 l8,8"
+    nudge = 6 if not rtl else -6
+    u = 44 / 20
+    bars = "".join(
+        f'<rect x="{logo_x + (4 + i * 1.5) * u:.1f}" y="{cy - 22 + (4 + i * 4.5) * u:.1f}" width="{9 * u:.1f}" height="{3 * u:.1f}" fill="#F7E3B8" opacity="{op}"/>'
+        for i, op in enumerate([1, .62, .32]))
+    dirattr = ' direction="rtl"' if rtl else ""
+    content = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">
+<style>
+  .nudge {{ animation: nudge 1.8s ease-in-out infinite; transform-box: fill-box; }}
+  .glow {{ animation: glow 4.2s ease-in-out infinite; }}
+  @keyframes nudge {{ 0%, 100% {{ transform: translateX(0); }} 50% {{ transform: translateX({nudge}px); }} }}
+  @keyframes glow {{ 0%, 100% {{ opacity: .16; }} 50% {{ opacity: .32; }} }}
+  @media (prefers-reduced-motion: reduce) {{ .nudge, .glow {{ animation: none; }} .shine-wrap {{ display: none; }} }}
+</style>
+<defs>
+  <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7D58F"/><stop offset="1" stop-color="#EDB95A"/></linearGradient>
+  <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF" stop-opacity="0"/><stop offset=".5" stop-color="#FFF" stop-opacity=".7"/><stop offset="1" stop-color="#FFF" stop-opacity="0"/></linearGradient>
+  <clipPath id="clip"><rect x="{bx}" y="{by}" width="{bw}" height="{bh}" rx="{R}"/></clipPath>
+  <filter id="soft" x="-10%" y="-30%" width="120%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<rect class="glow" x="{bx + 40}" y="{by + 26}" width="{bw - 80}" height="{bh - 22}" rx="{R}" fill="#D9962E" filter="url(#soft)"/>
+<rect x="{bx}" y="{by}" width="{bw}" height="{bh}" rx="{R}" fill="url(#fill)"/>
+<g clip-path="url(#clip)" class="shine-wrap"><rect x="-240" y="{by - 20}" width="180" height="{bh + 40}" fill="url(#sheen)" transform="skewX(-18)"><animate attributeName="x" values="-240;-240;{W + 120};{W + 120}" keyTimes="0;.45;.85;1" dur="4.2s" repeatCount="indefinite" calcMode="spline" keySplines="0 0 1 1;.4 0 .2 1;0 0 1 1"/></rect></g>
+<rect x="{bx + .5}" y="{by + .5}" width="{bw - 1}" height="{bh - 1}" rx="{R - .5}" fill="none" stroke="#2B2A27" stroke-opacity=".14"/>
+<rect x="{logo_x}" y="{cy - 22}" width="44" height="44" rx="9" fill="{INK}"/>{bars}
+<text x="{text_x}" y="{cy - 4}" font-family="{font}" font-size="32" font-weight="700" fill="{INK}" text-anchor="{anchor}"{dirattr}>{escape(main)}</text>
+<text x="{text_x}" y="{cy + 25}" font-family="{font}" font-size="18" font-weight="500" fill="{INK}" fill-opacity=".72" text-anchor="{anchor}"{dirattr}>{escape(sub)}</text>
+<g class="nudge"><circle cx="{cx}" cy="{cy}" r="27" fill="{INK}"/><path transform="translate({cx} {cy})" d="{arrow}" fill="none" stroke="#F7E3B8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>
+"""
+    out = OUT / "btn"
+    out.mkdir(exist_ok=True)
+    (out / f"{lang}.svg").write_text(content, encoding="utf-8")
+    print(f"✓ assets/btn/{lang}.svg")
+
 if __name__ == "__main__":
     for lang in ("zh", "en"):
         hero(lang)
@@ -380,3 +446,5 @@ if __name__ == "__main__":
         skills(lang)
         overnight(lang)
         social(lang)
+    for lang in BUTTONS:
+        button(lang)
