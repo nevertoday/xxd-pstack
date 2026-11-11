@@ -2,12 +2,14 @@
 layout: ../../../layouts/Lesson.astro
 tldr: "اكتب سطرين في Claude Code، واختر «Install for you»، وينتهي التثبيت في 5 دقائق."
 lesson: 2
+cmds: literal
 description: اكتب سطرين في Claude Code، واختر «Install for you»، وعندما ترى /pstack:poteto-mode يكون التثبيت قد تم. ما الذي يجب أن تراه في كل خطوة، وماذا تفعل إن رأيت شيئًا آخر.
 ---
 import Callout from "../../../components/Callout.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Q from "../../../components/Q.astro";
 import Fig from "../../../components/Fig.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 افتح Claude Code كما تفعل عادة، واعمل في الخانة التي تحادث فيها الذكاء الاصطناعي. هناك ثلاث خطوات.
 
@@ -49,7 +51,11 @@ import Fig from "../../../components/Fig.astro";
 
 ## من الآن تبدأ الأوامر بـ pstack:
 
-بعد التثبيت، يبدأ كل أمر من أوامر pstack بـ `pstack:`. الصفحات الأخرى في هذا الموقع تكتب `/poteto-mode` لأنه أسهل في القراءة. أما في Claude Code فتكتب `/pstack:poteto-mode`.
+عند التثبيت كإضافة، تصبح كل أوامر pstack تحت `pstack:`. تكتب `/pstack:poteto-mode`؛ أما `/poteto-mode` وحده فلا يتعرّف عليه. هذه قاعدة يضعها Claude Code لكل الإضافات، حتى لا تتصادم أسماء أوامر إضافتين.
+
+لا داعي لحفظ ذلك. أوامر هذا الموقع مكتوبة بهذه الطريقة أصلًا، فتنسخها كما هي. لا تستخدم Claude Code؟ اختر أداتك هنا، فتتغيّر كل أوامر الموقع إلى طريقة كتابتها فيها:
+
+<ToolPick />
 
 لا شيء آخر يحتاج إلى إعداد. يعمل فور تثبيته.
 
@@ -77,5 +83,13 @@ import Fig from "../../../components/Fig.astro";
 
 </Q>
 <Q q="أستخدم Cursor، لا Claude Code.">
-<p>اكتب `/add-plugin pstack` في خانة المحادثة في Cursor، فيُثبَّت. ولا تحتاج الأوامر إلى البادئة `pstack:` أيضًا. حيث يقول الدرس التالي `/pstack:poteto-mode`، اكتب أنت `/poteto-mode`.</p>
+<p>اكتب `/add-plugin pstack` في خانة المحادثة في Cursor، فيُثبَّت. أوامر Cursor لا تبدأ بـ `pstack:`: اختر Cursor في «أستخدم» في الأعلى، فتظهر أوامر الدرس التالي بطريقة كتابتها في Cursor.</p>
 </Q>
+
+## إذا توقفت عن استخدامه
+
+اكتب هذا السطر في الخانة واضغط Enter لإزالة pstack:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+ثم اكتب `/reload-plugins` واضغط Enter (أو أعد فتح Claude Code)، فتختفي الأوامر التي تبدأ بـ `/pstack:`. لتثبيته من جديد لاحقًا، ابدأ من الخطوة الثانية. وإن أردت إيقافه مؤقتًا فقط، فاستخدم `disable` بدل `uninstall`، و`enable` لإعادة تشغيله.

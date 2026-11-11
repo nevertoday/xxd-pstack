@@ -4,6 +4,8 @@ slug: cursor
 time: 装好 2 分钟，读完 6 分钟
 for: 平时用 Cursor，想把 pstack 用顺手
 step: 1
+# 这一篇的命令都是 Cursor 的写法，不跟着「我用的工具」换
+cmds: literal
 tldr: 装好后按 Option+Enter 发送，/poteto-mode 每轮都生效。
 description: pstack 本来就是为 Cursor 写的。一条命令安装、让 /poteto-mode 每轮都生效、用 /loop 长时间跑、几个 AI 同时干活，以及哪些要另外装。
 ---
@@ -12,6 +14,7 @@ import Term from "../../components/Term.astro";
 import Q from "../../components/Q.astro";
 import Copy from "../../components/Copy.astro";
 import Cmd from "../../components/Cmd.astro";
+import ToolPick from "../../components/ToolPick.astro";
 
 ## 一条命令装好
 
@@ -28,6 +31,10 @@ import Cmd from "../../components/Cmd.astro";
 <Callout type="tip" title="跑完 setup，开一个新对话">
 <u>这个设置只对新对话生效</u>。在旧对话里接着干，用的还是默认模型。
 </Callout>
+
+网站上的命令默认按 Claude Code 插件版写，前面带 `pstack:`，Cursor 里不用。在这里选 Cursor，全站的命令就会换成 Cursor 的写法，复制就能用：
+
+<ToolPick />
 
 ## 从 / 菜单选 /poteto-mode
 

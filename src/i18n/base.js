@@ -13,7 +13,7 @@ export default {
     search: "Search the guide",
     searchPh: "Search lessons, steps, skills, terms…",
     searchEmpty: "Nothing found. Try another word",
-    look: "Appearance: theme, corners, accent",
+    look: "Appearance and commands",
     lang: "Language",
     repo: "This guide on GitHub",
     repoMore: "Other repos: the pstack mirror, the official original",
@@ -125,6 +125,8 @@ export default {
     copy: "Copy",
     cmdDone: "Command copied",
     cmdLabel: "Copy command: {c}",
+    // 「我用的工具」：外观面板里的一组和正文里的选择器（src/components/ToolPick.astro）
+    tool: {"group": "Commands", "label": "I use", "desc": "Commands on this site are shown for this tool, so copying just works", "bare": "Installed with npx", "now": "Shown as: "},
     reply: "Illustration: roughly what its reply looks like",
     // 每页末尾一行：{lead} {gh 链接}{faq[0]}{faq[1] 链接}{faq[2]}
     feedback: {

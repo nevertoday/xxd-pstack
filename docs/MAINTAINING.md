@@ -124,6 +124,18 @@ npm run build      # 输出到 dist/
 - **图里的字**：一格一件事，短；`/命令` 会自动排成等宽、不在连字符处断开。不抄正文整句，也不喊卖点。终端里的命令和输出照真实界面写（英文），说明文字才翻译。
 - **新加一张**：先在 `figs.js` 写数据，再在中文页、`/en/` 页（新手三课还有 8 种语言）同一位置放 `<Fig id="…" />` 并 `import Fig`；`npm run build` 后亮色、暗色、手机宽度各看一眼。
 
+## 命令写法：跟着「我用的工具」
+
+同一个技能，各工具打法不一样：Claude Code 插件版 `/pstack:poteto-mode`（插件里的东西都挂在插件名下，不带前缀不认），Cursor 和用 npx 装的 `/poteto-mode`，Codex `$poteto-mode`。网站不再写「本站省略前缀、你自己补」这种约定：读者在「我用的工具」里选一次（顶栏「外观」面板，和正文里的 `<ToolPick />`），全站的命令和复制按钮都换成那个写法，默认 Claude Code。
+
+- **怎么写**：正文里技能命令照常写 `/poteto-mode` 或 `/pstack:poteto-mode` 都行，构建后 `scripts/skill-cmds.mjs` 把它们统一成 Claude Code 的写法，包成 `<span class="sk">`；页面脚本（`Site.astro`）按读者的选择换掉。技能名单来自 `src/data/skills.js`，写法规则在 `src/data/tools.js`。
+- **不要换的地方**：
+  - 整页专讲某个工具（第 2 课、Cursor 篇、Codex 篇）：frontmatter 写 `cmds: literal`。
+  - 一段对照各工具写法的内容：用 `<div data-sk-keep>` 包起来。
+  - 句子里单个要写死的命令：前面加 `!`，比如 `` `!/pstack:how` ``、`` `!$how` ``。构建时会去掉 `!`。
+- **讲「为什么要加 pstack:」时**，不要写成用 `/poteto-mode` 跟 `/pstack:poteto-mode` 对比的句子，除非用上面的办法写死。不然换了工具以后，两边会显示成同一个写法。
+- **卸载**：第 2 课末尾「以后不想用了」、Claude Code 篇「卸载或者暂停」、常见问题和「更新、查看、卸载」页。改卸载命令时，这四处一起改。
+
 ## 反馈入口
 
 每页末尾一行（`Feedback.astro`）：没看懂、照做不成，就到 GitHub 提（带好页面信息的 issue 模板），或者先翻常见问题。首页和常见问题页末尾是「提问和讨论」卡片（`Contact.astro`）：GitHub 提问、讨论、分享做出来的东西，作者的 X 只是一个安静的文字链接。不放个人二维码，不催读者「整理好一起发」。

@@ -13,6 +13,7 @@ import Q from "../../components/Q.astro";
 import Copy from "../../components/Copy.astro";
 import Tabs from "../../components/Tabs.astro";
 import Cmd from "../../components/Cmd.astro";
+import ToolPick from "../../components/ToolPick.astro";
 
 ## 先装上
 
@@ -31,11 +32,15 @@ import Cmd from "../../components/Cmd.astro";
 
 ## 命令前面加 pstack:
 
-用插件市场装的，命令前要加插件名。教程里的 `/poteto-mode`，你要打成：
+用插件市场装的，命令都挂在插件名下面。`!/poteto-mode` 它不认，要打成：
 
-<Cmd c="/pstack:poteto-mode" />
+<Cmd c="!/pstack:poteto-mode" />
 
-其他命令也一样，比如 `/pstack:how`。本站其他页面都不写前缀，你自己补上。用 `npx skills` 装的不用加。
+其他命令也一样，比如 `!/pstack:how`。这是 Claude Code 给插件定的规矩，免得两个插件的命令撞名。用 `npx skills` 装的没有这个前缀。
+
+网站上的命令默认就按插件版写，复制就能用。用 `npx skills` 装的，在这里选「npx 装的」：
+
+<ToolPick />
 
 <Callout type="warn" title="技能不会自己跳出来">
 除了 `setup-pstack`，每个技能都要你亲手打出来才运行。你说「帮我修个 bug」，它不会自己启用 `/pstack:poteto-mode`。
@@ -189,16 +194,24 @@ Claude Code 默认不更新第三方插件。打开自动更新：
 3. 选中 `cursor-plugins`。
 4. 选 **enable auto-update**。
 
-想手动更新，就跑：
+想手动更新，在终端里运行：
 
 <Cmd c="claude plugin update pstack@cursor-plugins" />
 
 更新后默认模型变了，旧的设置文件还会用旧模型。处理办法看[更新、查看、卸载](/howto/update-remove/)。
 
+## 卸载或者暂停
+
+在对话框里输入：
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+再输入 `/reload-plugins`，或者重开 Claude Code。只想暂停一阵，把 `uninstall` 换成 `disable`，要用时换成 `enable`。跑过 setup 的，卸完把 `~/.claude/rules/pstack-models.md` 也删掉，不然每个新会话还会读它。
+
 ## 卡住了？
 
-<Q q="打 /poteto-mode 没反应，菜单里也找不到。">
-插件市场装的，要打 `/pstack:poteto-mode`。先输入 `/pstack:`，菜单会只列出 pstack 的命令。
+<Q q="打了命令没反应，菜单里也找不到。">
+插件市场装的，要打 `!/pstack:poteto-mode`，不带 `pstack:` 它不认。先输入 `/pstack:`，菜单会只列出 pstack 的命令。
 </Q>
 <Q q="跑完 setup，换的模型没生效。">
 设置文件只在新会话开始时读。退出重开一个会话。还不行，就打开 `~/.claude/rules/pstack-models.md`，看那一行是不是你选的模型。

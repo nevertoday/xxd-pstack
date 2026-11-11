@@ -2,12 +2,14 @@
 layout: ../../../layouts/Lesson.astro
 tldr: "Claude Code に 2 行入力して「Install for you」を選ぶだけ。5 分で入ります。"
 lesson: 2
+cmds: literal
 description: Claude Code に 2 行入力して「Install for you」を選び、/pstack:poteto-mode が出てくれば完了です。それぞれの手順で何が表示されるか、違ったときはどうするか。
 ---
 import Callout from "../../../components/Callout.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Q from "../../../components/Q.astro";
 import Fig from "../../../components/Fig.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 いつものように Claude Code を開いて、AI とチャットする入力欄で操作します。手順は 3 つです。
 
@@ -49,7 +51,11 @@ import Fig from "../../../components/Fig.astro";
 
 ## これからは、コマンドの頭に pstack: をつけます
 
-入れたあとは、pstack のコマンドはすべて `pstack:` で始まります。このサイトのほかのページでは、読みやすさのために `/poteto-mode` と書いています。Claude Code では `/pstack:poteto-mode` と打ってください。
+プラグインとして入れると、pstack のコマンドはすべて `pstack:` の下に入ります。`/pstack:poteto-mode` と打ちます。`/poteto-mode` だけでは通じません。これは Claude Code がすべてのプラグインに決めているルールで、2 つのプラグインのコマンド名がぶつからないようにするためです。
+
+覚えておく必要はありません。このサイトのコマンドは最初からこの書き方で表示されるので、そのままコピーして使えます。Claude Code 以外を使っているなら、ここで切り替えると、サイト中のコマンドがそのツールの書き方に変わります。
+
+<ToolPick />
 
 ほかに設定することはありません。入れたらすぐ使えます。
 
@@ -77,5 +83,13 @@ Claude Code のバージョンが古いです。先にアップデートしま�
 
 </Q>
 <Q q="Claude Code ではなく Cursor を使っている。">
-<p>Cursor のチャット欄に `/add-plugin pstack` と入力すれば入ります。コマンドの頭に `pstack:` をつける必要もありません。次のレッスンで `/pstack:poteto-mode` と書いてあるところは、`/poteto-mode` と打ってください。</p>
+<p>Cursor のチャット欄に `/add-plugin pstack` と入力すれば入ります。Cursor のコマンドには `pstack:` がつきません。上の「使っているツール」で Cursor を選ぶと、次のレッスンのコマンドが Cursor の書き方に変わります。</p>
 </Q>
+
+## 使わなくなったら
+
+入力欄にこの 1 行を打って Enter を押すと、pstack が外れます。
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+続けて `/reload-plugins` と打って Enter を押すか、Claude Code を開き直すと、`/pstack:` で始まるコマンドは消えます。また使いたくなったら、手順 2 からやり直してください。しばらく止めておきたいだけなら、`uninstall` を `disable` に変えます。戻すときは `enable` です。

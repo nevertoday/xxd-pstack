@@ -18,7 +18,7 @@ const T = x
   ? { eyebrow: `Beginner track · lesson ${s.n} of ${total}`, prog: `Progress: lesson ${s.n} of ${total}`, nav: "Previous and next lesson", prev: "Previous", next: "Next" }
   : { eyebrow: `新手入门 · 第 ${s.n} 课，共 ${total} 课`, prog: `进度：第 ${s.n} 课，共 ${total} 课`, nav: "上一课和下一课", prev: "上一课", next: "下一课" };
 ---
-<Site title={x ? T.title : en ? `Lesson ${s.n}: ${title}` : `第 ${s.n} 课：${title}`} description={frontmatter.description ?? t(s, "sum", lang)} headings={headings}>
+<Site title={x ? T.title : en ? `Lesson ${s.n}: ${title}` : `第 ${s.n} 课：${title}`} description={frontmatter.description ?? t(s, "sum", lang)} headings={headings} literal={frontmatter.cmds === "literal"}>
   <header class="step-head">
     <div class="step-head__eyebrow"><span>{T.eyebrow}</span><span>{t(s, "minutes", lang)}</span></div>
     <progress class="xxd-progress" value={s.n} max={total} aria-label={T.prog}></progress>

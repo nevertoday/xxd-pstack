@@ -2,12 +2,14 @@
 layout: ../../../layouts/Lesson.astro
 tldr: "Zwei Zeilen in Claude Code tippen, „Install for you“ wählen, in 5 Minuten fertig."
 lesson: 2
+cmds: literal
 description: "Zwei Zeilen in Claude Code tippen, „Install for you“ wählen, und sobald du /pstack:poteto-mode siehst, ist es installiert. Was du bei jedem Schritt sehen solltest und was du tust, wenn nicht."
 ---
 import Callout from "../../../components/Callout.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Q from "../../../components/Q.astro";
 import Fig from "../../../components/Fig.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 Öffne Claude Code wie gewohnt und arbeite in dem Feld, in dem du mit der KI chattest. Es sind drei Schritte.
 
@@ -49,7 +51,11 @@ Eine Liste mit Befehlen, die mit `pstack:` anfangen, klappt auf, und `/pstack:po
 
 ## Ab jetzt beginnen die Befehle mit pstack:
 
-Nach der Installation beginnt jeder pstack-Befehl mit `pstack:`. Andere Seiten dieser Website schreiben `/poteto-mode`, weil es sich leichter liest. In Claude Code tippst du `/pstack:poteto-mode`.
+Als Plugin installiert, liegt jeder pstack-Befehl unter `pstack:`. Du tippst `/pstack:poteto-mode`; nur `/poteto-mode` wird nicht erkannt. Das ist eine Regel von Claude Code für alle Plugins, damit zwei Plugins nicht um denselben Namen streiten.
+
+Merken musst du dir das nicht. Die Befehle auf dieser Website stehen schon so da, du kannst sie einfach kopieren. Du nutzt nicht Claude Code? Wähle hier dein Tool, dann erscheinen alle Befehle der Website in seiner Schreibweise:
+
+<ToolPick />
 
 Sonst musst du nichts einrichten. Es funktioniert, sobald es installiert ist.
 
@@ -77,5 +83,13 @@ Immer noch nichts? Tippe `/plugin` und drück Tab, bis du auf der Seite Installe
 
 </Q>
 <Q q="Ich nutze Cursor, nicht Claude Code.">
-<p>Tippe `/add-plugin pstack` in das Chatfeld von Cursor, dann ist es installiert. Dort brauchen die Befehle auch kein `pstack:` davor. Wo in der nächsten Lektion `/pstack:poteto-mode` steht, tippst du `/poteto-mode`.</p>
+<p>Tippe `/add-plugin pstack` in das Chatfeld von Cursor, dann ist es installiert. In Cursor haben die Befehle kein `pstack:` davor: Wähle oben bei „Ich nutze“ Cursor, dann stehen die Befehle der nächsten Lektion in der Cursor-Schreibweise da.</p>
 </Q>
+
+## Wenn du es nicht mehr nutzt
+
+Tippe diese Zeile in das Feld und drücke Enter, um pstack zu deinstallieren:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+Tippe danach `/reload-plugins` und drücke Enter (oder öffne Claude Code neu), dann sind die `/pstack:`-Befehle weg. Willst du es später wieder, fang bei Schritt zwei neu an. Willst du es nur eine Weile pausieren, nimm `disable` statt `uninstall`, und `enable`, um es wieder einzuschalten.

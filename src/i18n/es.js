@@ -10,7 +10,7 @@ export default {
     search: "Buscar en la guía",
     searchPh: "Busca lecciones, pasos, skills, términos…",
     searchEmpty: "No hay resultados. Prueba con otra palabra",
-    look: "Apariencia: tema, esquinas, color de acento",
+    look: "Apariencia y comandos",
     lang: "Idioma",
     repo: "Esta guía en GitHub",
     repoMore: "Otros repositorios: la copia de pstack, el original oficial",
@@ -113,6 +113,7 @@ export default {
     copy: "Copiar",
     cmdDone: "Comando copiado",
     cmdLabel: "Copiar comando: {c}",
+    tool: {"group": "Comandos", "label": "Uso", "desc": "Los comandos del sitio se muestran como se escriben en esta herramienta: copiar y listo", "bare": "Instalado con npx", "now": "Se escribe así: "},
     reply: "Ilustración: más o menos así se ve su respuesta",
     feedback: {
       lead: "¿Algo de esta página no se entendió, o no funcionó como dice?",

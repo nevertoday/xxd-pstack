@@ -112,6 +112,8 @@ poteto は pstack を自分のために作りました。公式ドキュメン�
 npx skills add backnotprop/pstack
 ```
 
+以下のコマンドは Cursor の書き方です。プラグインとして Claude Code に入れた場合は、頭に `pstack:` が必要です（`/pstack:setup-pstack`、`/pstack:poteto-mode`）。つけないと通じません。Codex では `$poteto-mode` です。サイトでは使っているツールを選べて、コマンドがその書き方に変わります。
+
 **2. モデルを選ぶ**：新しい会話で `/setup-pstack` を一度実行します。「検証スキル」を作るか聞かれたら**作る**を選んでください。 Claude Code では、セッションのモデルと各役割の組み合わせを [おすすめ設定 3 種](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) で確認できます。
 
 **3. 最初のタスク**：本物だけれど大きくない仕事を一つ選び、同僚に仕事を頼むように伝えます：

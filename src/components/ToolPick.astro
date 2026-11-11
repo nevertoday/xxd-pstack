@@ -1,0 +1,21 @@
+---
+// 「我用的工具」：选了以后，全站的技能命令（正文、复制按钮）都换成这个工具的写法，存在这个浏览器里。
+// 放在正文里要读者做选择的地方（第 2 课末尾、完整教程第 1 步、常见问题）；顶栏「外观」面板里也有同一个。
+// 逻辑在 Site.astro 的脚本里：找 [data-tool-pick] 里的 xxd-segmented。数据见 src/data/tools.js。
+import { TOOLS, TOOL_UI, TOOL_DEFAULT } from "../data/tools.js";
+import { langOf } from "../data/nav.js";
+import { X as dict } from "../i18n/index.js";
+const lang = langOf(Astro.url.pathname);
+const x = dict(lang);
+const U = x?.comp?.tool ?? TOOL_UI[lang] ?? TOOL_UI.en;
+---
+<div class="tool-pick" data-tool-pick data-sk-keep>
+  <div class="tool-pick__text">
+    <p class="tool-pick__label">{U.label}</p>
+    <p class="tool-pick__desc">{U.desc}</p>
+  </div>
+  <div class="xxd-segmented tool-pick__seg" data-xxd-segmented role="radiogroup" aria-label={U.label}>
+    {TOOLS.map(([v, name]) => <button type="button" role="radio" data-value={v} aria-checked={String(v === TOOL_DEFAULT)}>{name ?? U.bare}</button>)}
+  </div>
+  <p class="tool-pick__ex">{U.now}<code dir="ltr" data-tool-ex>{TOOLS[0][2]}</code></p>
+</div>

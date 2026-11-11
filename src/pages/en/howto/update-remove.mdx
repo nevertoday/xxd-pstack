@@ -4,7 +4,7 @@ slug: update-remove
 time: 4 minutes to read
 for: You want to update pstack, see what's installed, or remove it
 step: 1
-tldr: Find the update and uninstall commands for how you installed. After updating, clear old defaults from your settings file.
+tldr: Find the update and uninstall commands for how you installed. After updating, clear old defaults from your settings file; after uninstalling, delete it.
 description: "Find the commands to list, update, and uninstall, by how you installed. The trap to watch: after an update changes the default models, your old settings file still names the old ones."
 ---
 import Callout from "../../../components/Callout.astro";
@@ -33,9 +33,14 @@ Can't remember? If commands need the `pstack:` prefix, it's the Claude Code plug
 <p>Skills installed without <code>-g</code> live only in the project you were in at the time.</p>
 </div>
 <div slot="cc">
-<p>Third-party plugins don't auto-update by default. To update once by hand:</p>
+<p>Third-party plugins don't auto-update by default. To update once by hand (run it in your terminal):</p>
 <p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
-<p>To update automatically: type <code>/plugin</code>, open the <strong>marketplaces</strong> tab, select <code>cursor-plugins</code>, then choose <strong>enable auto-update</strong>. Listing and uninstalling are in <code>/plugin</code> too.</p>
+<p>To update automatically: type <code>/plugin</code>, open the <strong>marketplaces</strong> tab, select <code>cursor-plugins</code>, then choose <strong>enable auto-update</strong>.</p>
+<p>Type these in the Claude Code chat box:</p>
+<p><Cmd c="/plugin list" /> See which plugins are installed and whether they're on.</p>
+<p><Cmd c="/plugin uninstall pstack@cursor-plugins" /> Uninstall.</p>
+<p><Cmd c="/plugin disable pstack@cursor-plugins" /> Pause it. Turn it back on later with <code>/plugin enable pstack@cursor-plugins</code>.</p>
+<p>After uninstalling or pausing, type <code>/reload-plugins</code> or restart Claude Code. To also remove the plugin store you added at install: <code>/plugin marketplace remove cursor-plugins</code>. Note that this also uninstalls every other plugin you installed from that store.</p>
 </div>
 <div slot="cursor">
 <p>Manage it from Customize in the sidebar. pstack doesn't document update steps for the Cursor plugin, so follow Cursor's own interface.</p>

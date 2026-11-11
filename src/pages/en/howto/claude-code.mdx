@@ -13,6 +13,7 @@ import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 import Tabs from "../../../components/Tabs.astro";
 import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 ## Install it
 
@@ -31,11 +32,15 @@ Check the skills you want and choose Claude Code as the tool. The skills go into
 
 ## Add pstack: before commands
 
-If you installed from the marketplace, commands start with the plugin name. Where this tutorial says `/poteto-mode`, you type:
+If you installed from the marketplace, every command lives under the plugin name. Plain `!/poteto-mode` isn't recognized; you type:
 
-<Cmd c="/pstack:poteto-mode" />
+<Cmd c="!/pstack:poteto-mode" />
 
-The same goes for other commands, like `/pstack:how`. Other pages on this site leave the prefix out, so add it yourself. If you used `npx skills`, no prefix is needed.
+The same goes for other commands, like `!/pstack:how`. That's Claude Code's rule for plugins, so two plugins can't clash over a name. If you used `npx skills`, there's no prefix.
+
+Commands on this site are written for the plugin by default, so copying works. If you installed with `npx skills`, pick "Installed with npx" here:
+
+<ToolPick />
 
 <Callout type="warn" title="Skills don't start on their own">
 Except for `setup-pstack`, every skill runs only when you type it yourself. Saying "help me fix a bug" won't switch on `/pstack:poteto-mode`.
@@ -189,16 +194,24 @@ Claude Code doesn't update third-party plugins by default. To turn on auto-updat
 3. Select `cursor-plugins`.
 4. Choose **enable auto-update**.
 
-To update by hand, run:
+To update by hand, run this in your terminal:
 
 <Cmd c="claude plugin update pstack@cursor-plugins" />
 
-If an update changes the default models, your old settings file keeps the old ones. For the fix, see [Update, check, uninstall](/en/howto/update-remove/).
+If an update changes the default models, your old settings file keeps the old ones. For the fix, see [Update, inspect, uninstall](/en/howto/update-remove/).
+
+## Uninstall or pause
+
+Type this in the chat box:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+Then type `/reload-plugins`, or restart Claude Code. To pause it for a while, use `disable` in place of `uninstall`, and `enable` to turn it back on. If you ran setup, also delete `~/.claude/rules/pstack-models.md` after uninstalling, or every new session keeps reading it.
 
 ## Stuck?
 
-<Q q="I typed /poteto-mode and nothing happened. It's not in the menu either.">
-If you installed from the marketplace, type `/pstack:poteto-mode`. Type `/pstack:` first, and the menu lists only pstack's commands.
+<Q q="I typed a command and nothing happened. It's not in the menu either.">
+If you installed from the marketplace, type `!/pstack:poteto-mode`; without `pstack:` it isn't recognized. Type `/pstack:` first, and the menu lists only pstack's commands.
 </Q>
 <Q q="I ran setup, but the models I chose didn't take effect.">
 The settings file is only read when a new session starts. Quit and open a new one. If that doesn't help, open `~/.claude/rules/pstack-models.md` and check the line shows the model you chose.

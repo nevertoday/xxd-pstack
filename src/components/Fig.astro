@@ -38,7 +38,7 @@ const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 const rich = (t: string) => esc(t).replace(/(^|[\s、，,（(「“])(\/[a-z][a-z-]*)/g, '$1<span class="fig-cmd">$2</span>');
 const arr = "ArrowRight";
 ---
-<figure class={`fig fig--${type}`} data-n={n} data-fig={id}>
+<figure class={`fig fig--${type}`} data-n={n} data-fig={id} data-sk-keep={type === "term" ? "" : undefined}>
   <div class={stage ? "fig__stage" : "fig__bare"}>
     {type === "compare" && (
       <div class="fig-cmp">

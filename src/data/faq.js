@@ -15,9 +15,10 @@ export const FAQ = [
     ["它会不会乱改我的代码？", "不会乱改，你也管得住它。只想让它查问题，就说「先别改代码」。要改的活，它默认在一份单独的副本（worktree）里做，改完交一个 PR 等你审。删东西、强推这类撤不回的事，它会先停下来问你。"],
     ["它为什么不问我就往下做了？", "这是故意的：能撤回的事它先做，做完给你看，你再纠正。它第一条回复会复述你要什么、打算改哪里。理解错了，直接打断就行。跑一下就能知道答案的问题，它会自己试，不来问你。"],
     ["回复太长太专业，看不懂怎么办？", "打 `/bro`。它会把上一条回复用大白话重说一遍，更短，没有行话。离开一会儿回来想看进展，打 `/ketchup`。"],
-    ["Claude Code 里打 /poteto-mode 没反应？", "试试 `/pstack:poteto-mode`。用插件方式装的，命令都要加 `pstack:` 前缀；用 `npx skills add` 装的才不用。另外，跑完 `/setup-pstack` 要开一个新会话，选的模型才生效。见 [在 Claude Code 里用](/howto/claude-code/)。"],
+    ["在 Claude Code 里打了命令没反应？", "用插件装的，命令都挂在 `pstack:` 下面：要打 `!/pstack:poteto-mode`，只打 `!/poteto-mode` 它不认。这是 Claude Code 给插件定的规矩，免得两个插件的命令撞名。本站的命令默认就按这个写，复制就能用；用 `npx skills` 装的没有这个前缀，到右上角「外观」里把「我用的工具」换成「npx 装的」。另外，跑完 `/setup-pstack` 要开一个新会话，选的模型才生效。见 [在 Claude Code 里用](/howto/claude-code/)。"],
     ["我没有 grok 模型，会不会用不了？", "能用。默认让 grok 写代码，没有的话会自动换。Claude Code 里换成当前会话的模型，别的工具换成最接近的那个。想自己选，跑一次 `/setup-pstack`，它会查出你能用的模型让你挑。"],
     ["项目不在 Git 里能用吗？", "读代码、查问题可以；要它改代码，先用上 Git。改代码的剧本大多要建 worktree、提交、开 PR，都离不开 Git。在项目里跑 `git init`，提交一次，就能用了。"],
+    ["不想用了，怎么卸掉？", "看当初怎么装的。Claude Code 插件：在对话框里输入 `/plugin uninstall pstack@cursor-plugins`，再输入 `/reload-plugins`；只想暂停，把 `uninstall` 换成 `disable`。用 `npx skills` 装的：在终端运行 `npx skills remove`。跑过 `/setup-pstack` 的，再把它写的设置文件删掉。见 [更新、查看、卸载](/howto/update-remove/)。"],
   ]},
   { id: "trust", title: "信得过吗", items: [
     ["它说做完了，我怎么知道是真的？", "看它贴出来的真实结果：命令输出、截图、前后数字。想让它一定贴，就在提示词里写上「做完给我看什么」。查不了的，好的回复会写「说不准」。**只说「没问题了」、什么都没贴的，别信**：回它 `apply prove it works`。"],

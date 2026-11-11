@@ -57,6 +57,13 @@
   .site-look-pop { width: 320px; padding: var(--space-3) var(--space-4) var(--space-2); }
   .site-look-pop .xxd-group__body { border: 0; border-radius: 0; background: none; }
   .site-look-pop .xxd-row { --row-pad-x: 0; }
+  /* 外观下面的「命令」一组：说明一行，下面四个选项占满一行，再下面是现在的写法 */
+  .site-tool-group { margin-top: var(--space-3); }
+  .site-tool-row { padding-bottom: var(--space-2); }
+  .site-tool-seg { display: flex; width: 100%; }
+  .site-tool-seg > button { flex: 1 1 auto; padding-inline: var(--space-2); white-space: nowrap; }
+  .site-tool-ex { margin: var(--space-2) 0 var(--space-1); color: var(--muted); font-size: var(--text-xs); }
+  .site-tool-ex code, .tool-pick__ex code { color: var(--ink); }
 
   /* ---------- 三栏 ---------- */
   /* 阅读页：正文栏限宽，目录紧跟在正文后面，不贴到屏幕最右边 */
@@ -340,6 +347,18 @@
     .contact__body { padding: var(--space-4); }
     .contact__note { padding-inline: var(--space-4); }
   }
+
+  /* ---------- 我用的工具（components/ToolPick.astro） ---------- */
+  /* 洗色底的一小块，不画边：左边说明，右边四个选项；窄了就上下排。下面一行是现在的写法 */
+  .xxd-prose .tool-pick { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin-block: var(--space-5); padding: var(--space-3) var(--space-4); background: var(--wash); border-radius: var(--r-md); }
+  .xxd-prose .tool-pick__text { flex: 1 1 14em; min-width: 0; }
+  .xxd-prose .tool-pick p { margin: 0; }
+  .xxd-prose .tool-pick__label { font-weight: var(--weight-strong); }
+  .xxd-prose .tool-pick__desc { color: var(--muted); font-size: var(--text-sm); }
+  .tool-pick__seg { flex: none; max-width: 100%; overflow-x: auto; }
+  .tool-pick__seg > button { white-space: nowrap; }
+  .xxd-prose .tool-pick__ex { flex-basis: 100%; color: var(--muted); font-size: var(--text-sm); text-align: start; }
+  .sk { white-space: nowrap; }
 
   /* ---------- 图示（components/Fig.astro） ---------- */
   /* 一张图 = 洗色的底（不画边）+ 上面的白卡片（细线），一个框只有一个框；颜色、圆角只用令牌。

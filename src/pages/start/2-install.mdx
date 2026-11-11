@@ -2,12 +2,15 @@
 layout: ../../layouts/Lesson.astro
 tldr: "在 Claude Code 里输入两行，选「给你自己装」，5 分钟装好。"
 lesson: 2
+# 这一课专讲 Claude Code 插件版，命令就照这个写法显示，不跟着「我用的工具」换
+cmds: literal
 description: 在 Claude Code 里输入两行，选「给你自己装」，看到 /pstack:poteto-mode 就装好了。每一步你应该看到什么，不对怎么办。
 ---
 import Callout from "../../components/Callout.astro";
 import Cmd from "../../components/Cmd.astro";
 import Q from "../../components/Q.astro";
 import Fig from "../../components/Fig.astro";
+import ToolPick from "../../components/ToolPick.astro";
 
 像平时一样打开 Claude Code，在你和 AI 聊天的那个输入框里操作。下面一共三步。
 
@@ -49,7 +52,11 @@ import Fig from "../../components/Fig.astro";
 
 ## 以后命令前面都加 pstack:
 
-装好以后，pstack 的命令都以 `pstack:` 开头。网站别的页面为了好读，写的是 `/poteto-mode`。你在 Claude Code 里要打 `/pstack:poteto-mode`。
+用插件装的，pstack 的命令都挂在 `pstack:` 下面：要打 `/pstack:poteto-mode`，只打 `/poteto-mode` 它不认。这是 Claude Code 给所有插件定的规矩，免得两个插件的命令撞名。
+
+不用特意记。网站上的命令默认就是这个写法，复制过去就能用。用的不是 Claude Code，在这里换一下，全站的命令会跟着变：
+
+<ToolPick />
 
 别的都不用设置，装好就能用。
 
@@ -77,5 +84,13 @@ import Fig from "../../components/Fig.astro";
 
 </Q>
 <Q q="我用的是 Cursor，不是 Claude Code。">
-<p>在 Cursor 的对话框里输入 `/add-plugin pstack` 就装好了，命令也不用加 `pstack:` 前缀。下一课里的 `/pstack:poteto-mode`，你打成 `/poteto-mode`。</p>
+<p>在 Cursor 的对话框里输入 `/add-plugin pstack` 就装好了。Cursor 里的命令前面不加 `pstack:`：在上面「我用的工具」里选 Cursor，下一课的命令就会换成 Cursor 的写法。</p>
 </Q>
+
+## 以后不想用了
+
+在输入框里输入这一行，回车，pstack 就卸掉了：
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+再输入 `/reload-plugins` 回车（或者重新打开 Claude Code），`/pstack:` 开头的命令就没了。想以后再装，从第二步重新来。只想暂停一阵，把上面的 `uninstall` 换成 `disable`；要用时换成 `enable`。

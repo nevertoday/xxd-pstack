@@ -62,7 +62,7 @@ export const WIKI = [
     ],
     list: [
       ["Cursor", "原生支持，`/add-plugin pstack` 安装"],
-      ["Claude Code", "命令加 `pstack:`，如 `/pstack:poteto-mode`"],
+      ["Claude Code", "命令加 `pstack:`，如 `!/pstack:poteto-mode`"],
       ["Codex、OpenCode、Pi 等", "用 `npx skills add backnotprop/pstack` 安装"],
     ],
     listTitle: "常见宿主", listHead: ["宿主", "要注意的"],
@@ -78,7 +78,7 @@ export const WIKI = [
     like: "像在餐厅直接报菜名。比跟服务员描述口味更快，也更准。",
     here: [
       "平时只打 `/poteto-mode`，后面接你的任务，一起发出去。其他技能 AI 不会自己拿来用（`/setup-pstack` 除外）。要么你点名，要么 `/poteto-mode` 在需要时去读。",
-      "前缀因工具而不同。Claude Code 插件版要加 `pstack:`，比如 `/pstack:how`。Codex 里用 `$`，比如 `$how`。",
+      "写法因工具而不同。Claude Code 插件版要加 `pstack:`，比如 `!/pstack:how`；Cursor 和用 npx 装的就是 `!/how`；Codex 里用 `$`，比如 `!$how`。本站的命令按你在右上角「外观」里选的工具显示。",
     ],
     myths: [
       "「一句话里点名的技能越多越好」：这是 pstack 文档专门提醒的坑。「先 /how 再 /architect」这种写法，常常打乱它排好的顺序。==说清楚你要什么、哪里不能碰，就够了。==只有想换掉某个默认做法时，才点名技能。",

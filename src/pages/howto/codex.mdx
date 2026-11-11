@@ -4,6 +4,8 @@ slug: codex
 time: 装好 5 分钟，读完 6 分钟
 for: 用 Codex、OpenCode、Pi 或其他支持 Agent Skills 的工具
 step: 1
+# 这一篇的命令都是 Codex 的写法，不跟着「我用的工具」换
+cmds: literal
 tldr: 一条命令装好，跑一次 setup 选模型，用 $poteto-mode 开工。
 description: 用 npx skills 把 pstack 装进 Codex 和其他工具：要什么 Node.js、装到项目还是全局、技能和模型设置放在哪，以及工具缺功能时会怎样。
 ---
@@ -12,6 +14,7 @@ import Term from "../../components/Term.astro";
 import Q from "../../components/Q.astro";
 import Copy from "../../components/Copy.astro";
 import Cmd from "../../components/Cmd.astro";
+import ToolPick from "../../components/ToolPick.astro";
 
 ## 一条命令装
 
@@ -57,7 +60,11 @@ pstack 的默认模型名是按 Cursor 写的。你的工具里没有这个名�
 
 ## 第一个任务
 
-Codex 里用 `$` 加技能名来点名。本站写的 `/poteto-mode`，在 Codex 里就是 `$poteto-mode`：
+Codex 里用 `$` 加技能名来点名，比如 `$poteto-mode`。网站上的命令默认按 Claude Code 写（`/pstack:poteto-mode`），在这里选 Codex，全站的命令都会换成 `$` 的写法：
+
+<ToolPick />
+
+第一个任务这样发：
 
 <Copy id="codex-first" title="Codex 里用 $ 点名技能" code="$poteto-mode 给这个命令加一个 --json 参数。原来的文字输出要和现在逐字一样。两种输出都验证一下。" />
 

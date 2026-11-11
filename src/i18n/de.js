@@ -10,7 +10,7 @@ export default {
     search: "Anleitung durchsuchen",
     searchPh: "Lektionen, Schritte, Skills, Begriffe…",
     searchEmpty: "Nichts gefunden. Probier ein anderes Wort",
-    look: "Darstellung: Farbschema, Ecken, Akzentfarbe",
+    look: "Darstellung und Befehle",
     lang: "Sprache",
     repo: "Diese Anleitung auf GitHub",
     repoMore: "Weitere Repos: der pstack-Spiegel, das offizielle Original",
@@ -113,6 +113,7 @@ export default {
     copy: "Kopieren",
     cmdDone: "Befehl kopiert",
     cmdLabel: "Befehl kopieren: {c}",
+    tool: {"group": "Befehle", "label": "Ich nutze", "desc": "Die Befehle auf dieser Seite erscheinen so, wie dieses Tool sie erwartet. Einfach kopieren", "bare": "Mit npx installiert", "now": "So steht es da: "},
     reply: "Illustration: So ungefähr sieht die Antwort aus",
     feedback: {
       lead: "Ist auf dieser Seite etwas unklar, oder hat etwas nicht wie beschrieben geklappt?",

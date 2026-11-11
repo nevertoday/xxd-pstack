@@ -10,9 +10,11 @@ import Checkpoint from "../../components/Checkpoint.astro";
 import Tabs from "../../components/Tabs.astro";
 import Copy from "../../components/Copy.astro";
 import Q from "../../components/Q.astro";
+import ToolPick from "../../components/ToolPick.astro";
 
 ## 按你的工具装
 
+<div data-sk-keep>
 <Tabs id="install" label="选择你的工具" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex 和其他"]]}>
 <div slot="cc">
 
@@ -21,7 +23,7 @@ import Q from "../../components/Q.astro";
 <Copy id="cc-1" title="第一条：添加插件市场" code="/plugin marketplace add cursor/plugins" />
 <Copy id="cc-2" title="第二条：安装 pstack" code="/plugin install pstack@cursor-plugins" />
 
-装好以后，<mark><strong>所有命令前面都要加 `pstack:`</strong></mark>。`/poteto-mode` 要打成 `/pstack:poteto-mode`。本站其他页面都省略了它，你用时记得加。
+装好以后，<mark><strong>命令都挂在 `pstack:` 下面</strong></mark>：要打 `/pstack:poteto-mode`，只打 `/poteto-mode` 不认。这是 Claude Code 给插件定的规矩，免得两个插件的命令撞名。
 
 它默认**不自动更新**。想打开：输入 `/plugin`，打开「marketplaces」标签，选 `cursor-plugins`，再选「enable auto-update」。
 
@@ -55,14 +57,19 @@ import Q from "../../components/Q.astro";
 
 </div>
 </Tabs>
+</div>
+
+装好以后，在这里选你用的工具。全站的命令，包括复制按钮复制出来的，都会换成那个工具的写法：
+
+<ToolPick />
 
 ## 装完测一下
 
 开一个**新的**对话，发：
 
-<Copy id="test" title="测试一下（Claude Code 插件版写成 /pstack:poteto-help）" code="/poteto-help pstack 里新手最该先学哪个技能？用一两句话回答。" />
+<Copy id="test" title="测试一下" code="/poteto-help pstack 里新手最该先学哪个技能？用一两句话回答。" />
 
-回答里提到 `/poteto-mode`，就是装好了。`/poteto-help` 只回答问题，不会开始干活。
+回答里提到 poteto-mode，就是装好了。`/poteto-help` 只回答问题，不会开始干活。
 
 <Callout type="ok">
 在对话框里输入 `/`，弹出的菜单里能找到 `poteto-mode`（Claude Code 插件版是 `pstack:poteto-mode`）。
@@ -79,5 +86,7 @@ import Q from "../../components/Q.astro";
 <Q q="插件版和 npx 版能一起装吗？">
 <p>不要。同一个技能有两份容易混，选一种就好。</p>
 </Q>
+
+以后要更新或者卸掉，看[更新、查看、卸载](/howto/update-remove/)。
 
 <Checkpoint id="s1" items={["pstack 已经装进我的工具里", "新对话里输入 / 能看到 poteto-mode（或 pstack:poteto-mode）", "/poteto-help 回答了我的问题"]} />

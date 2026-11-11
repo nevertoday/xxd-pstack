@@ -2,12 +2,14 @@
 layout: ../../../layouts/Lesson.astro
 tldr: "Escribe dos líneas en Claude Code, elige \"Install for you\" y en 5 minutos está instalado."
 lesson: 2
+cmds: literal
 description: Escribe dos líneas en Claude Code, elige "Install for you" y, cuando veas /pstack:poteto-mode, ya está instalado. Qué deberías ver en cada paso y qué hacer si no lo ves.
 ---
 import Callout from "../../../components/Callout.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Q from "../../../components/Q.astro";
 import Fig from "../../../components/Fig.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 Abre Claude Code como siempre y trabaja en el cuadro donde chateas con la IA. Son tres pasos.
 
@@ -49,7 +51,11 @@ Se abre una lista de comandos que empiezan por `pstack:`, y uno de ellos es `/ps
 
 ## A partir de ahora, los comandos empiezan por pstack:
 
-Una vez instalado, todos los comandos de pstack empiezan por `pstack:`. Otras páginas de este sitio escriben `/poteto-mode` porque se lee mejor. En Claude Code, tú escribes `/pstack:poteto-mode`.
+Al instalarlo como plugin, todos los comandos de pstack quedan bajo `pstack:`. Escribes `/pstack:poteto-mode`; solo `/poteto-mode` no lo reconoce. Es una regla de Claude Code para todos los plugins, para que dos plugins no choquen por un mismo nombre.
+
+No hace falta memorizarlo. Los comandos de este sitio ya aparecen escritos así, así que puedes copiarlos tal cual. ¿No usas Claude Code? Elige tu herramienta aquí y todos los comandos del sitio cambian a su forma:
+
+<ToolPick />
 
 No hay que configurar nada más. Funciona en cuanto se instala.
 
@@ -77,5 +83,13 @@ Primero, vuelve a abrirlo: escribe `/exit` para salir, escribe `claude` y prueba
 
 </Q>
 <Q q="Uso Cursor, no Claude Code.">
-<p>Escribe `/add-plugin pstack` en el chat de Cursor y queda instalado. Los comandos tampoco necesitan el prefijo `pstack:`. Donde la siguiente lección diga `/pstack:poteto-mode`, escribe `/poteto-mode`.</p>
+<p>Escribe `/add-plugin pstack` en el chat de Cursor y queda instalado. En Cursor los comandos no llevan `pstack:`: elige Cursor en «Uso», arriba, y los comandos de la siguiente lección se escribirán como en Cursor.</p>
 </Q>
+
+## Si dejas de usarlo
+
+Escribe esta línea en el cuadro y pulsa Enter para desinstalar pstack:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+Luego escribe `/reload-plugins` y pulsa Enter (o vuelve a abrir Claude Code), y los comandos `/pstack:` desaparecen. Para volver a instalarlo, empieza de nuevo desde el paso dos. Si solo quieres pausarlo un tiempo, usa `disable` en lugar de `uninstall`, y `enable` para volver a activarlo.

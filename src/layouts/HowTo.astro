@@ -13,7 +13,7 @@ const step = frontmatter.step !== undefined ? STEPS.find((s) => s.n === frontmat
 const title = t(me, "title", lang);
 const group = en ? me.groupEn : me.group;
 ---
-<Site title={title} description={frontmatter.description} headings={headings}>
+<Site title={title} description={frontmatter.description} headings={headings} literal={frontmatter.cmds === "literal"}>
   <header class="step-head">
     <ol class="xxd-breadcrumbs" data-size="sm"><li><a href={link("/howto/", lang)}>How-to</a></li><li>{group}</li><li aria-current="page">{title}</li></ol>
     <h1>{title}</h1>

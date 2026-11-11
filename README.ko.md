@@ -112,6 +112,8 @@ poteto는 pstack을 자기가 쓰려고 만들었습니다. 공식 문서는 읽
 npx skills add backnotprop/pstack
 ```
 
+아래 명령어는 Cursor 표기예요. 플러그인으로 Claude Code에 설치했다면 앞에 `pstack:`을 붙여야 해요(`/pstack:setup-pstack`, `/pstack:poteto-mode`). 붙이지 않으면 알아듣지 못해요. Codex에서는 `$poteto-mode`예요. 사이트에서 쓰는 도구를 고르면 명령어가 그 표기로 바뀌어요.
+
 **2. 모델 고르기**: 새 대화에서 `/setup-pstack`을 한 번 실행하세요. "검증 스킬"을 만들지 물으면 **예**를 고르세요. Claude Code에서는 세션 모델과 역할별 모델 조합을 [추천 설정 세 가지](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well)에서 확인하세요.
 
 **3. 첫 번째 작업**: 실제 일이지만 크지 않은 것을 골라, 동료에게 일을 맡기듯 말하세요:

@@ -58,7 +58,7 @@ export const WIKI_EN = {
     ],
     list: [
       ["Cursor", "Native. Install with `/add-plugin pstack`"],
-      ["Claude Code", "Add `pstack:`, like `/pstack:poteto-mode`"],
+      ["Claude Code", "Add `pstack:`, like `!/pstack:poteto-mode`"],
       ["Codex, OpenCode, Pi, etc.", "Install with `npx skills add backnotprop/pstack`"],
     ],
     listTitle: "Common hosts", listHead: ["Host", "What to watch for"],
@@ -72,7 +72,7 @@ export const WIKI_EN = {
     like: "Like ordering a dish by name. It's faster and more precise than describing what you feel like.",
     here: [
       "Day to day, you type `/poteto-mode` followed by your task and send them together. The AI never picks up the other skills by itself (except `/setup-pstack`). Either you name one, or `/poteto-mode` reads it when it's needed.",
-      "The prefix depends on the tool. With the Claude Code plugin, add `pstack:`, like `/pstack:how`. In Codex, use `$`, like `$how`.",
+      "How you write it depends on the tool. With the Claude Code plugin, add `pstack:`, like `!/pstack:how`; in Cursor or after an npx install it's just `!/how`; in Codex, use `$`, like `!$how`. Commands on this site follow the tool you pick under Appearance at the top right.",
     ],
     myths: [
       "\"Naming more skills in one message is better\": the pstack docs warn about this. Writing \"first /how, then /architect\" often breaks the order it already planned. ==Just say what you want and what it must not touch.== Only name a skill to replace a default choice.",

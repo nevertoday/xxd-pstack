@@ -116,6 +116,8 @@
 npx skills add backnotprop/pstack
 ```
 
+الأوامر أدناه مكتوبة بطريقة Cursor. مع إضافة Claude Code يحتاج كل أمر إلى `pstack:` في أوله (`/pstack:setup-pstack`، `/pstack:poteto-mode`)، وبدونها لا يتعرّف عليه Claude Code. وفي Codex تكتب `$poteto-mode`. في الموقع تختار أداتك فتتغيّر الأوامر تلقائيًا.
+
 <div dir="rtl">
 
 **2. اختيار النماذج**: في محادثة جديدة، شغّل `/setup-pstack` مرة واحدة. وعندما يسألك هل يُنشئ "مهارة تحقق" (verification skill)، أجب **نعم**. في Claude Code، راجع [ثلاثة إعدادات مقترحة](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) لتوزيع النماذج على الأدوار.

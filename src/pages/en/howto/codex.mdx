@@ -4,6 +4,8 @@ slug: codex
 time: 5 minutes to install, 6 to read
 for: You use Codex, OpenCode, Pi, or another tool that supports Agent Skills
 step: 1
+# Every command on this page is written for Codex, so it stays as written
+cmds: literal
 tldr: Install with one command, run setup once to pick models, then start with $poteto-mode.
 description: "Installing pstack into Codex and other tools with npx skills: the Node.js version, project or global install, where skills and model settings live, and what happens when your tool lacks a feature."
 ---
@@ -12,6 +14,7 @@ import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 ## One command to install
 
@@ -57,7 +60,11 @@ pstack's default model names are written for Cursor. If your tool lacks a name, 
 
 ## Your first task
 
-In Codex, you name a skill with `$` plus its name. Where this site writes `/poteto-mode`, Codex uses `$poteto-mode`:
+In Codex, you name a skill with `$` plus its name, like `$poteto-mode`. Commands on this site are written for Claude Code by default (`/pstack:poteto-mode`). Pick Codex here, and every command on the site switches to the `$` form:
+
+<ToolPick />
+
+Send your first task like this:
 
 <Copy id="codex-first" title="In Codex, name a skill with $" code="$poteto-mode add a --json flag to this command. The existing text output must stay byte-for-byte identical. Verify both outputs." />
 

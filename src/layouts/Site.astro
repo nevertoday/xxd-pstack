@@ -9,6 +9,7 @@ import { WIKI_EN } from "../data/wiki.en.js";
 import { FAQ } from "../data/faq.js";
 import { FAQ_EN } from "../data/faq.en.js";
 import { skillsFor } from "../data/skills.i18n.js";
+import { TOOLS, TOOL_UI, TOOL_DEFAULT, TOOL_KEY, SKILL_NAMES } from "../data/tools.js";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
@@ -18,16 +19,18 @@ interface Props {
   description?: string;
   headings?: { slug: string; text: string; depth: number }[];
   wide?: boolean;
+  /** 这一页专讲某个工具（frontmatter 写 cmds: literal）：命令照原样显示，不跟着「我用的工具」换 */
+  literal?: boolean;
 }
 const UI = {
   zh: { html: "zh-CN", brand: "pstack 新手教程", desc: "不会写代码也能学会 pstack：三课、20 分钟，说人话。", skip: "跳到正文", menu: "打开目录", search: "搜索教程",
-  searchPh: "搜步骤、How-to、技能、名词、问题……", searchEmpty: "没找到，换个词试试", look: "外观：主题、圆角、主色", repo: "本教程的 GitHub 仓库", repoMore: "其他仓库：pstack 镜像、官方原版", repoDefault: "默认",
+  searchPh: "搜步骤、How-to、技能、名词、问题……", searchEmpty: "没找到，换个词试试", look: "外观和命令写法", repo: "本教程的 GitHub 仓库", repoMore: "其他仓库：pstack 镜像、官方原版", repoDefault: "默认",
   repos: [[REPO, "本教程", "nevertoday/xxd-pstack", "教程的源码，有问题在这里提"], [PSTACK, "pstack 镜像", "backnotprop/pstack", "本站依据的版本，任何工具都能装"], [PSTACK_UPSTREAM, "pstack 官方原版", "cursor/plugins", "poteto 维护，给 Cursor 用"]],
   navLabel: "网站目录", start: "开始", home: "首页", lessons: "新手入门：先看这三课", main: "完整教程：会写代码的人看", pending: "编写中", ref: "查资料", howto: "How-to：具体怎么做",
   skills: "技能速查：34 个技能", wiki: "Wiki：这是什么", faq: "常见问题", toc: "本页", tocLabel: "本页目录", hintMain: "完整教程", hintLesson: "新手入门", hintFaq: "常见问题", hintSkill: "技能", switchTo: "English", switchLabel: "Switch to English",
   foot: `本站是 <a href="${PSTACK}">pstack</a> 的非官方入门教程，不是官方文档；pstack 由 poteto 开发（MIT），命令和行为以官方仓库为准。教程源码和问题反馈在 <a href="${REPO}">GitHub</a>。` },
   en: { html: "en", brand: "pstack for beginners", desc: "Learn pstack even if you don't code: three lessons, 20 minutes, plain words.", skip: "Skip to content", menu: "Open menu", search: "Search the guide",
-    searchPh: "Search steps, how-tos, skills, terms, questions…", searchEmpty: "Nothing found. Try another word", look: "Appearance: theme, corners, accent", repo: "This guide on GitHub", repoMore: "Other repos: the pstack mirror, the official original", repoDefault: "Default",
+    searchPh: "Search steps, how-tos, skills, terms, questions…", searchEmpty: "Nothing found. Try another word", look: "Appearance and commands", repo: "This guide on GitHub", repoMore: "Other repos: the pstack mirror, the official original", repoDefault: "Default",
     repos: [[REPO, "This guide", "nevertoday/xxd-pstack", "Source for this guide; file issues here"], [PSTACK, "pstack mirror", "backnotprop/pstack", "The version this site follows"], [PSTACK_UPSTREAM, "Official pstack", "cursor/plugins", "Maintained by poteto, for Cursor"]],
     navLabel: "Site navigation", start: "Start", home: "Home", lessons: "Beginner track: start here", main: "Full guide: for people who code", pending: "In progress", ref: "Reference", howto: "How-to: how exactly",
     skills: "Skills at a glance: all 34", wiki: "Wiki: what is it", faq: "FAQ", toc: "On this page", tocLabel: "On this page", hintMain: "Full guide", hintLesson: "Beginner track", hintFaq: "FAQ", hintSkill: "Skill", switchTo: "中文", switchLabel: "切换到中文",
@@ -50,9 +53,13 @@ const rel = (Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, 
 const alternates = langLinks.filter((l) => l.code !== lang && (isFull(l.code) || /^\/([a-z]{2}\/)?(start\/|$)/.test(rel)));
 // 外观面板的文字：中文、英文用 UI Kit 自带的，其他语言传进去
 const lookOpts = JSON.stringify(x ? { locale: "en", labels: x.ui.appearance } : { locale: lang === "zh" ? "zh-CN" : "en", labels: { cornersDesc: lang === "zh" ? "关掉就是直角" : "Off keeps every corner square" } });
+// 「我用的工具」：外观面板里那一组的文字；命令怎么换写法见 src/data/tools.js
+const TU = x?.comp?.tool ?? TOOL_UI[lang] ?? TOOL_UI.en;
+const toolOpts = JSON.stringify({ key: TOOL_KEY, def: TOOL_DEFAULT, tools: TOOLS.map((t) => t[0]), names: SKILL_NAMES });
 const wikiItems = WIKI.map((w) => (en ? { ...w, ...WIKI_EN[w.slug] } : w));
 const faqGroups = en ? FAQ_EN : FAQ;
-const { title, description = L.desc, headings = [], wide = false } = Astro.props;
+const { title, description = L.desc, headings = [], wide = false, literal = false } = Astro.props;
+const keep = literal ? "" : undefined;
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const cur = (href) => (href.replace(/\/$/, "") || "/") === path;
 // 搜索关键词去掉行内标记（**粗体**、==荧光笔==、++粗墨线++）
@@ -115,7 +122,21 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
           <i data-xxd-icon="Palette" data-size="16"></i>
           <span class="site-look__dot" id="site-look-dot" hidden></span>
         </button>
-        <div class="xxd-popover site-look-pop" id="site-look-pop" popover data-opts={lookOpts}></div>
+        <div class="xxd-popover site-look-pop" id="site-look-pop" popover data-opts={lookOpts}>
+          <!-- 外观设置组由 UI Kit 挂进来；这一组「命令」挂完以后移到它后面 -->
+          <section class="xxd-group site-tool-group" id="site-tool-group" data-tool-pick data-sk-keep>
+            <h3 class="xxd-group__title">{TU.group}</h3>
+            <div class="xxd-group__body">
+              <div class="xxd-row site-tool-row">
+                <div class="xxd-row__text"><div class="xxd-row__title">{TU.label}</div><div class="xxd-row__desc">{TU.desc}</div></div>
+              </div>
+              <div class="xxd-segmented site-tool-seg" data-xxd-segmented role="radiogroup" aria-label={TU.label}>
+                {TOOLS.map(([v, name]) => <button type="button" role="radio" data-value={v} aria-checked={String(v === TOOL_DEFAULT)}>{name ?? TU.bare}</button>)}
+              </div>
+              <p class="site-tool-ex">{TU.now}<code dir="ltr" data-tool-ex>{TOOLS[0][2]}</code></p>
+            </div>
+          </section>
+        </div>
         <!-- 语言：菜单里列出全部语言，当前的那个打勾；中文、英文是全站，其他语言有首页和新手入门 -->
         <button class="xxd-btn site-lang" data-size="sm" data-variant="ghost" type="button" data-xxd-menu="site-lang-menu" aria-label={L.lang ?? (lang === "zh" ? "语言" : "Language")} data-tooltip={L.lang ?? (lang === "zh" ? "语言" : "Language")} data-tooltip-placement="bottom"><i data-xxd-icon="Languages" data-size="16"></i><span class="site-lang__name">{info.name}</span></button>
         <div class="xxd-menu site-lang-menu" id="site-lang-menu" role="menu" popover data-placement="bottom-end">
@@ -198,13 +219,13 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
         </div>
       </nav>
 
-      <main id="main" class:list={["site-main", { "site-main--wide": wide }]}>
+      <main id="main" class:list={["site-main", { "site-main--wide": wide }]} data-sk-keep={keep}>
         <slot />
         <footer class="site-foot"><p set:html={L.foot} /></footer>
       </main>
 
       {toc.length > 1 && (
-        <nav class="site-toc" aria-label={L.tocLabel}>
+        <nav class="site-toc" aria-label={L.tocLabel} data-sk-keep={keep}>
           <p class="xxd-toc__title">{L.toc}</p>
           <ul class="xxd-toc" data-spy>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ul>
         </nav>
@@ -213,6 +234,41 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
     <div class="site-nav-scrim" id="site-nav-scrim"></div>
 
     <script type="application/json" id="site-search-index" data-opts={JSON.stringify({ placeholder: L.searchPh, empty: L.searchEmpty })} data-base={import.meta.env.BASE_URL} data-sections={`${import.meta.env.BASE_URL}${lang === "zh" ? "" : lang + "/"}search-sections.json`} set:html={searchIndex} />
+    <script is:inline id="site-tool" type="application/json" set:html={toolOpts} />
+    <script is:inline>
+      // 我用的工具：正文里每个技能命令（构建时包成 .sk）、复制按钮（data-sk-a 记着改哪几个属性）换成这个工具的写法。
+      // 选择存在这个浏览器里；存不了就每次按默认（Claude Code）显示
+      (() => {
+        const o = JSON.parse(document.getElementById("site-tool").textContent);
+        const re = new RegExp(`(^|[^\\w./:$!-])([/$])(?:pstack:)?(${o.names.join("|")})(?![\\w-])`, "g");
+        const fmt = (n, t) => (t === "codex" ? "$" : t === "cc" ? "/pstack:" : "/") + n;
+        const apply = (t) => {
+          document.documentElement.dataset.tool = t;
+          for (const el of document.querySelectorAll(".sk")) el.textContent = fmt(el.dataset.sk, t);
+          for (const el of document.querySelectorAll("[data-sk-a]")) {
+            for (const a of el.dataset.skA.split(" ")) {
+              const v = el.getAttribute(a);
+              if (v) el.setAttribute(a, v.replace(re, (_, p, _s, n) => p + fmt(n, t)));
+            }
+          }
+          for (const b of document.querySelectorAll("[data-tool-pick] [role=radio]")) {
+            const on = b.dataset.value === t;
+            b.setAttribute("aria-checked", String(on));
+            b.tabIndex = on ? 0 : -1;
+          }
+          for (const c of document.querySelectorAll("[data-tool-ex]")) c.textContent = fmt("poteto-mode", t);
+        };
+        const read = () => { try { const v = localStorage.getItem(o.key); return o.tools.includes(v) ? v : o.def; } catch { return o.def; } };
+        apply(read());
+        document.addEventListener("xxd:change", (e) => {
+          const v = e.detail?.value;
+          if (!e.target.closest?.("[data-tool-pick]") || !o.tools.includes(v)) return;
+          try { localStorage.setItem(o.key, v); } catch {}
+          apply(v);
+        });
+        addEventListener("storage", (e) => { if (e.key === o.key) apply(read()); });
+      })();
+    </script>
     <script is:inline>
       (() => {
         const T = window.XxdTheme, X = window.Xxd;
@@ -220,6 +276,7 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
         // 外观面板：直接挂 UI Kit 的外观设置组。改了就写进同一份设置，下次打开首帧就是这个样子
         const pop = document.getElementById("site-look-pop");
         X.mountAppearance(pop, JSON.parse(pop.dataset.opts || "{}"));
+        pop.append(document.getElementById("site-tool-group"));
         // 外观按钮右下角的小圆点：选了主色才出现，就是那个颜色
         const dot = document.getElementById("site-look-dot");
         const syncDot = () => {

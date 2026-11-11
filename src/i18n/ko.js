@@ -10,7 +10,7 @@ export default {
     search: "가이드 검색",
     searchPh: "레슨, 단계, 스킬, 용어 검색…",
     searchEmpty: "찾지 못했어요. 다른 단어로 검색해 보세요",
-    look: "화면 설정: 테마, 모서리, 강조 색",
+    look: "화면 설정과 명령어 표기",
     lang: "언어",
     repo: "이 가이드의 GitHub",
     repoMore: "다른 저장소: pstack 미러, 공식 원본",
@@ -113,6 +113,7 @@ export default {
     copy: "복사",
     cmdDone: "명령어를 복사했어요",
     cmdLabel: "명령어 복사: {c}",
+    tool: {"group": "명령어", "label": "쓰는 도구", "desc": "이 사이트의 명령어가 이 도구에 맞게 표시돼요. 복사해서 바로 쓰면 돼요", "bare": "npx로 설치", "now": "지금 표기: "},
     reply: "예시 그림: 답장은 대략 이런 모습이에요",
     feedback: {
       lead: "이 페이지에서 이해가 안 되거나, 쓰인 대로 했는데 안 된 곳이 있었나요?",

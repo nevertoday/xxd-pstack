@@ -14,7 +14,7 @@ const T = en
   ? { head: `Step ${s.n}: ${title}`, eyebrow: `Full guide · step ${s.n} of ${last}`, prog: `Progress: step ${s.n} of ${last}`, need: "You need: ", nav: "Previous and next step", prev: "Previous", next: "Next", pending: "Next (in progress)" }
   : { head: `第 ${s.n} 步：${title}`, eyebrow: `完整教程 · 第 ${s.n} 步，共 ${last} 步`, prog: `进度：第 ${s.n} 步，共 ${last} 步`, need: "要准备：", nav: "上一步和下一步", prev: "上一步", next: "下一步", pending: "下一步（编写中）" };
 ---
-<Site title={T.head} description={frontmatter.description ?? t(s, "sum", lang)} headings={headings}>
+<Site title={T.head} description={frontmatter.description ?? t(s, "sum", lang)} headings={headings} literal={frontmatter.cmds === "literal"}>
   <header class="step-head">
     <div class="step-head__eyebrow"><span>{T.eyebrow}</span><span>{t(s, "minutes", lang)}</span></div>
     <progress class="xxd-progress" value={s.n} max={last} aria-label={T.prog}></progress>

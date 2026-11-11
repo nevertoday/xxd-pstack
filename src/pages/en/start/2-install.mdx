@@ -2,12 +2,15 @@
 layout: ../../../layouts/Lesson.astro
 tldr: "Type two lines in Claude Code, pick \"Install for you,\" done in 5 minutes."
 lesson: 2
+# This lesson is about the Claude Code plugin only, so its commands stay as written
+cmds: literal
 description: Type two lines in Claude Code, pick "Install for you," and once you see /pstack:poteto-mode it's installed. What you should see at each step, and what to do if you don't.
 ---
 import Callout from "../../../components/Callout.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Q from "../../../components/Q.astro";
 import Fig from "../../../components/Fig.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 Open Claude Code the way you usually do, and work in the box where you chat with the AI. There are three steps.
 
@@ -49,7 +52,11 @@ A list of commands that start with `pstack:` pops up, and `/pstack:poteto-mode` 
 
 ## From now on, commands start with pstack:
 
-Once installed, every pstack command starts with `pstack:`. Other pages on this site write `/poteto-mode` because it's easier to read. In Claude Code, you type `/pstack:poteto-mode`.
+A plugin install puts every pstack command under `pstack:`. You type `/pstack:poteto-mode`; plain `/poteto-mode` isn't recognized. That's Claude Code's rule for all plugins, so two plugins can't clash over a name.
+
+No need to memorize it. Commands on this site are written that way by default, so you can copy them as they are. Not using Claude Code? Pick your tool here and every command on the site changes to match:
+
+<ToolPick />
 
 Nothing else needs setting up. It works as soon as it's installed.
 
@@ -77,5 +84,13 @@ Still missing? Type `/plugin` and press Tab to get to the Installed page. Check 
 
 </Q>
 <Q q="I use Cursor, not Claude Code.">
-<p>Type `/add-plugin pstack` in Cursor's chat box and it's installed. Commands don't need the `pstack:` prefix either. Where the next lesson says `/pstack:poteto-mode`, type `/poteto-mode`.</p>
+<p>Type `/add-plugin pstack` in Cursor's chat box and it's installed. Commands in Cursor have no `pstack:` prefix: pick Cursor under "I use" above, and the next lesson's commands switch to how Cursor writes them.</p>
 </Q>
+
+## If you stop using it
+
+Type this line in the box and press Enter to uninstall pstack:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+Then type `/reload-plugins` and press Enter (or reopen Claude Code), and the `/pstack:` commands are gone. To install it again later, start over from step two. To pause it for a while instead, use `disable` in place of `uninstall`, and `enable` when you want it back.

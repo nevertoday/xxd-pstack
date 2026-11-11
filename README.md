@@ -112,6 +112,8 @@ pstack 是 poteto 写给自己用的。官方文档默认你已经是资深工�
 npx skills add backnotprop/pstack
 ```
 
+下面的命令按 Cursor 的写法写。用插件装进 Claude Code 的，前面都要加 `pstack:`：`/pstack:setup-pstack`、`/pstack:poteto-mode`，不加它不认。Codex 用 `$poteto-mode`。网站上能选「我用的工具」，命令会自动换成你的写法。
+
 **2. 选模型**：新开对话跑一次 `/setup-pstack`，问到要不要生成「验证技能」时选**要**。 用 Claude Code 的，会话模型和各角色怎么搭见 [三套推荐配置](https://pstack.xiaoxiaodong.ai/howto/claude-code/#怎么配最好)。
 
 **3. 第一个任务**：挑一件真实但不大的事，像跟同事交代工作一样说：

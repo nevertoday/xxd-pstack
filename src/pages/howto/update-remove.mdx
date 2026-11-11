@@ -4,7 +4,7 @@ slug: update-remove
 time: 读 4 分钟
 for: 想更新 pstack、看看装了什么，或者把它卸掉
 step: 1
-tldr: 按当初的装法找到更新和卸载命令；更新后清掉设置文件里的旧默认，再开新对话。
+tldr: 按当初的装法找到更新和卸载命令；更新后清掉设置文件里的旧默认，卸载后把设置文件也删掉。
 description: 按你当初的装法，找到查看、更新、卸载的命令。重点是一个坑：更新后默认模型变了，旧的设置文件还写着旧模型。
 ---
 import Callout from "../../components/Callout.astro";
@@ -33,9 +33,14 @@ import Tabs from "../../components/Tabs.astro";
 <p>不加 <code>-g</code> 装的，只在当时那个项目里。</p>
 </div>
 <div slot="cc">
-<p>第三方插件默认不自动更新。手动更新一次：</p>
+<p>第三方插件默认不自动更新。手动更新一次（在终端里运行）：</p>
 <p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
-<p>想自动更新：输入 <code>/plugin</code>，打开 <strong>marketplaces</strong> 标签页，选中 <code>cursor-plugins</code>，再选 <strong>enable auto-update</strong>。查看和卸载也在 <code>/plugin</code> 里。</p>
+<p>想自动更新：输入 <code>/plugin</code>，打开 <strong>marketplaces</strong> 标签页，选中 <code>cursor-plugins</code>，再选 <strong>enable auto-update</strong>。</p>
+<p>下面几条在 Claude Code 的对话框里输入：</p>
+<p><Cmd c="/plugin list" /> 看装了哪些插件、开着没有。</p>
+<p><Cmd c="/plugin uninstall pstack@cursor-plugins" /> 卸载。</p>
+<p><Cmd c="/plugin disable pstack@cursor-plugins" /> 只是暂停，以后用 <code>/plugin enable pstack@cursor-plugins</code> 再打开。</p>
+<p>卸载、暂停以后输入 <code>/reload-plugins</code>，或者重开 Claude Code。装的时候加的插件商店也想删：<code>/plugin marketplace remove cursor-plugins</code>。注意，它会把从这个商店装的其他插件一起卸掉。</p>
 </div>
 <div slot="cursor">
 <p>在侧边栏的 Customize 里管理。pstack 没写 Cursor 插件的更新步骤，以 Cursor 的界面为准。</p>

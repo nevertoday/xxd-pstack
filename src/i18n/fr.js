@@ -10,7 +10,7 @@ export default {
     search: "Rechercher dans le guide",
     searchPh: "Une leçon, une étape, un skill, un mot…",
     searchEmpty: "Aucun résultat. Essayez un autre mot",
-    look: "Apparence : thème, coins, couleur",
+    look: "Apparence et commandes",
     lang: "Langue",
     repo: "Ce guide sur GitHub",
     repoMore: "Autres dépôts : le miroir de pstack, l'original officiel",
@@ -113,6 +113,7 @@ export default {
     copy: "Copier",
     cmdDone: "Commande copiée",
     cmdLabel: "Copier la commande : {c}",
+    tool: {"group": "Commandes", "label": "J'utilise", "desc": "Les commandes du site s'affichent comme dans cet outil : il suffit de copier", "bare": "Installé avec npx", "now": "Forme actuelle : "},
     reply: "Illustration : à quoi ressemble à peu près sa réponse",
     feedback: {
       lead: "Quelque chose n'est pas clair sur cette page, ou ne marche pas comme indiqué ?",

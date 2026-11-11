@@ -4,6 +4,8 @@ slug: cursor
 time: 2 minutes to install, 6 to read
 for: You use Cursor and want pstack to feel natural in it
 step: 1
+# Every command on this page is written for Cursor, so it stays as written
+cmds: literal
 tldr: After installing, send /poteto-mode with Option+Enter and it stays on every turn.
 description: pstack was written for Cursor. One-command install, keeping /poteto-mode on every turn, long runs with /loop, several AIs at once, and what to install separately.
 ---
@@ -12,6 +14,7 @@ import Term from "../../../components/Term.astro";
 import Q from "../../../components/Q.astro";
 import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
 
 ## One command to install
 
@@ -28,6 +31,10 @@ It asks about your <Term k="推理预算" /> (how long models think), assigns a 
 <Callout type="tip" title="After setup, start a new conversation">
 <u>These settings only apply to new conversations</u>. If you keep going in an old one, it still uses the default models.
 </Callout>
+
+Commands on this site are written for the Claude Code plugin by default, with a `pstack:` prefix that Cursor doesn't use. Pick Cursor here, and every command on the site switches to how Cursor writes it, ready to copy:
+
+<ToolPick />
 
 ## Pick /poteto-mode from the / menu
 

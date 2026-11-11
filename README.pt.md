@@ -112,6 +112,8 @@ Você só precisa lembrar de um comando, `/poteto-mode`, e dizer com clareza **o
 npx skills add backnotprop/pstack
 ```
 
+Os comandos abaixo estão escritos para o Cursor. Com o plugin do Claude Code, todos levam `pstack:` na frente (`/pstack:setup-pstack`, `/pstack:poteto-mode`); sem isso, o Claude Code não os reconhece. No Codex é `$poteto-mode`. No site você escolhe sua ferramenta e os comandos mudam sozinhos.
+
 **2. Escolha os modelos**: numa conversa nova, rode `/setup-pstack` uma vez. Quando ele perguntar se deve gerar uma "skill de verificação", responda **sim**. No Claude Code, veja [três configurações recomendadas](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) para combinar o modelo da sessão com cada papel.
 
 **3. Sua primeira tarefa**: escolha algo real, mas não muito grande, e explique como se estivesse passando o trabalho para um colega:
