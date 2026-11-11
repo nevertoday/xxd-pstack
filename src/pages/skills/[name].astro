@@ -1,0 +1,7 @@
+---
+import V from "../../views/SkillDoc.astro";
+export function getStaticPaths() {
+  return Object.keys(import.meta.glob("../../data/skill-docs/*.json")).map((k) => ({ params: { name: k.match(/([^/]+)\.json$/)[1] } }));
+}
+---
+<V name={Astro.params.name} />

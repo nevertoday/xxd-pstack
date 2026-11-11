@@ -1,0 +1,124 @@
+{
+  "name": "interrogate",
+  "commit": "0854796",
+  "description": {
+    "en": "Use for \"interrogate\", \"adversarial review\", \"multi-model review\", \"challenge this\", \"stress test this code\", \"find blind spots\", or \"tear this apart\". Adversaries try to break a change or design, and only findings proven by a run survive.",
+    "zh": "用于「interrogate」「对抗式审查」「多模型审查」「挑战一下这个」「压力测试这段代码」「找盲点」或「把它拆个稀烂」。对手们想办法弄坏一个改动或设计，只有被一次运行证明了的发现才能留下。"
+  },
+  "blocks": [
+    {
+      "en": "# Interrogate",
+      "zh": "# Interrogate（审问）"
+    },
+    {
+      "en": "Adversaries try to break a change or a design. A finding survives only when a run proves it. Report the findings. Do not apply fixes.",
+      "zh": "对手们想办法弄坏一个改动或一个设计。一个发现，只有被一次运行证明了，才能留下。报告这些发现。不要动手修。"
+    },
+    {
+      "en": "## Frame",
+      "zh": "## 定好范围和意图"
+    },
+    {
+      "en": "The scope is what the user names. Otherwise it is the branch diff from its merge base with the base branch, through the working tree. State the intent with the **in-your-own-words** skill, from the user's message, the commits, and the PR description. Ask the user when the intent is unclear.",
+      "zh": "范围是用户点名的东西。否则，就是当前分支从它和基础分支的合并基点开始、一直到工作区的 diff。用 **in-your-own-words** 技能，根据用户的消息、提交和 PR 说明，复述出意图（这个改动想做到什么）。意图不清楚时，问用户。"
+    },
+    {
+      "en": "## Fan out",
+      "zh": "## 分头出击"
+    },
+    {
+      "en": "Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with four changes. Read the `interrogate reviewers` line in place of `arena runners`. Copy the scope's uncommitted changes into each worktree. Spawn each adversary as a general-purpose subagent (`generalPurpose` in Cursor). In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:",
+      "zh": "运行 **arena** 技能 Phase A 的第 3、4 步和 Phase B，但做四处改动。读 `interrogate reviewers` 这一行，代替 `arena runners`。把范围里还没提交的改动复制到每个 worktree。把每个对手都派成一个通用帮手 AI（Cursor 里是 `generalPurpose`）。不给 arena 的任务和理由，改为给每个对手：范围、意图，以及这份简报："
+    },
+    {
+      "en": "> Break this change. Prove each finding with a run against the real code, such as a failing test, a repro script, or command output that shows the wrong behavior. For a design or plan, run a prototype or probe the current tree. Keep repros in your own worktree. Report each finding with a title, the exact command, the output it printed, and the output the intent requires. Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter. No findings is a valid result.",
+      "zh": "> 弄坏这个改动。每个发现都要用一次针对真实代码的运行来证明，比如一个失败的测试、一个复现脚本，或者显示出错误行为的命令输出。如果是设计或计划，就跑一个原型，或者去探查当前的代码树。复现都放在你自己的 worktree 里。每个发现都要报告：标题、确切的命令、它打印出的输出，以及意图要求的输出。没跑过的，都不要写。这包括风格、命名、结构，以及要等将来某次改动才会成问题的风险。没有发现，也是一个有效的结果。"
+    },
+    {
+      "en": "## Verify",
+      "zh": "## 核实"
+    },
+    {
+      "en": "Verify each finding per arena Phase F by rerunning its command. Keep a finding when the output shows the failure and the failure breaks the intent. Drop the rest. Merge findings that share a root cause.",
+      "zh": "按 arena 的 Phase F，重跑每个发现的命令来核实它。输出显示了失败，而且这个失败违背了意图，就留下这个发现。其余的丢掉。真正原因相同的发现，合并成一个。"
+    },
+    {
+      "en": "Skip arena Phases C, D, and E. Adversaries find different failures, so the verdict keeps every verified finding, not one adversary's list.",
+      "zh": "跳过 arena 的 Phase C、D 和 E。不同的对手会找到不同的失败，所以结论保留每一个核实过的发现，而不是只用某一个对手的清单。"
+    },
+    {
+      "en": "## Output",
+      "zh": "## 输出"
+    },
+    {
+      "en": "- **Intent**: the restatement.\n- **Findings**: for each verified finding, the command, its output, how it breaks the intent, and the adversaries that found it. Say \"no verified findings\" when none survive.\n- **Dropped**: for each adversary, the count of dropped findings and why.",
+      "zh": "- **意图**：复述出来的意图。\n- **发现**：每个核实过的发现，写出命令、它的输出、它怎样违背了意图，以及是哪些对手找到的。一个都没留下时，写「没有核实过的发现」。\n- **丢掉的**：每个对手丢掉了几个发现，以及为什么。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Adversaries try to break a change or a design.",
+      "quoteZh": "对手们想办法弄坏一个改动或一个设计。",
+      "zh": {
+        "title": "给 AI 一个对立的身份",
+        "does": "派出去的帮手 AI 不是来帮代码说好话的，而是专门想办法把它弄坏。",
+        "why": "「对手」「弄坏」把任务从「检查一下」变成「攻破它」，AI 会更卖力地找问题。",
+        "try": "让 AI 审方案时说：「你是最挑剔的竞争对手，想办法证明这份方案行不通。」"
+      },
+      "en": {
+        "title": "Cast the AI as an opponent",
+        "does": "The helpers aren't there to vouch for the code. Their job is to break it.",
+        "why": "\"Adversary\" and \"break\" turn \"take a look\" into \"defeat it\", so the AI hunts harder.",
+        "try": "When the AI reviews a plan, say: \"You're the toughest competitor. Prove this plan won't work.\""
+      }
+    },
+    {
+      "quote": "Report each finding with a title, the exact command, the output it printed, and the output the intent requires.",
+      "quoteZh": "每个发现都要报告：标题、确切的命令、它打印出的输出，以及意图要求的输出。",
+      "zh": {
+        "title": "要实际和应该并排写",
+        "does": "每个问题都附上命令、实际输出和本该有的输出，你自己就能重跑核对。",
+        "why": "把「实际是什么」和「应该是什么」并排写出来，问题在哪一目了然，也没法空口说。",
+        "try": "让 AI 报 bug 时写：「每条都写清：怎么操作、看到了什么、本来应该看到什么。」"
+      },
+      "en": {
+        "title": "Put actual next to expected",
+        "does": "Each problem comes with the command, what it printed, and what it should print, so you can rerun it.",
+        "why": "Writing \"what happened\" next to \"what should happen\" shows the gap at once and leaves no room for hand-waving.",
+        "try": "When the AI reports bugs, write: \"For each: what you did, what you saw, what you expected to see.\""
+      }
+    },
+    {
+      "quote": "Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter.",
+      "quoteZh": "没跑过的，都不要写。这包括风格、命名、结构，以及要等将来某次改动才会成问题的风险。",
+      "zh": {
+        "title": "点明规则管到哪些",
+        "does": "它不会拿命名、风格或「以后可能出事」来凑数，报上来的都是跑出来的问题。",
+        "why": "光说「没跑过的不写」，AI 会觉得风格意见不算；把最容易混进来的几类点名，就没有空子可钻。",
+        "try": "让 AI 挑错时写：「只报会让顾客付不了钱的问题。配色、措辞、以后可能出的问题都不算。」"
+      },
+      "en": {
+        "title": "Name what the rule covers",
+        "does": "It won't pad the list with naming, style, or \"might break later\". Every finding was actually run.",
+        "why": "\"Leave out what you didn't run\" leaves gaps. Naming the kinds most likely to sneak in closes them.",
+        "try": "When the AI hunts for problems, write: \"Only report what stops a customer paying. Colors, wording, and future risks don't count.\""
+      }
+    },
+    {
+      "quote": "No findings is a valid result.",
+      "quoteZh": "没有发现，也是一个有效的结果。",
+      "zh": {
+        "title": "明说「没有」也算交差",
+        "does": "代码没问题时，它就说没问题，不会硬凑几个问题显得卖力。",
+        "why": "AI 默认觉得「找问题」就得找出点什么，明说空结果也有效，就卸掉了这份压力。",
+        "try": "让 AI 检查时加一句：「如果没找到错别字，直接回复『没找到』就行。」"
+      },
+      "en": {
+        "title": "Say \"nothing\" is a fine answer",
+        "does": "When the code is fine, it says so instead of inventing problems to look busy.",
+        "why": "An AI asked to find problems feels it must find some. Saying an empty result counts removes that pressure.",
+        "try": "When the AI checks your work, add: \"If you find no typos, just reply 'none found'.\""
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "name": "typescript-best-practices",
+  "commit": "0854796",
+  "description": {
+    "en": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
+    "zh": "TypeScript 的最佳写法。读或改任何 .ts 或 .tsx 文件时使用。"
+  },
+  "blocks": [
+    {
+      "en": "# TypeScript best practices",
+      "zh": "# TypeScript best practices（TypeScript 最佳写法）"
+    },
+    {
+      "en": "Apply the **type-system-discipline** principle skill first.",
+      "zh": "先套用 **type-system-discipline** 这个原则技能。"
+    },
+    {
+      "en": "| Rule | Summary |\n|------|---------|\n| Discriminated unions | Model variants with a `kind` literal discriminant so impossible states can't be represented. No optional-field bags. |\n| Branded types | Brand primitives with `& { readonly __brand: \"X\" }` so they can't be mixed up. Validate once at the boundary. A brand comes from a verifying type guard (`input is AgentId`), never from `as`. |\n| Constructive modeling | Build the shape so the illegal value can't be constructed. `[T, ...T[]]` for non-empty, `[T, T][]` for even length, `start` plus `duration` for a range. Not a runtime guard, not a wish for refinement types. |\n| Simplest total type | Keep `T[]` while every operation on it stays total. Strengthen to `NonEmpty<T>` only where the loose type forces `!`, a cast, or a \"should never happen\" throw. |\n| `unknown` over `any` | External data is `unknown`. |\n| Schemas before guards | Before hand-writing a property-by-property type guard, use the repository's runtime schema library and infer the type from the schema, such as `z.infer`. |\n| No `as` casts | Every `as` is a runtime crash waiting. Cast only after validation. |\n| Narrowing hierarchy | Discriminant switch > `in` operator > `typeof`/`instanceof` > user-defined type guard > `as`. |\n| Type guards | Must verify the claim. A lying guard is worse than `as` because the bug hides behind a name that says it's safe. Name them `isX` or `hasX`. |\n| Exhaustiveness | Inline `const _exhaustive: never = x;` in default arms so the compiler errors when a new variant is added. |\n| `satisfies` over `as` | Validates the value without widening literal types. |\n| Boundary validation | Parse where data crosses in, into a named domain type. `Record<string, unknown>` (however spelled) stops at that parse. Trust types inside. See the **boundary-discipline** principle skill. |\n| Schema-derived types | Reach for `Pick`/`Omit`/`Parameters`/`ReturnType`/`Awaited`/`typeof` before declaring a new interface. |\n| Object args | Pass objects, not positional, so argument order is self-documenting. Skip on hot paths (per-frame render, tokenizers, parsers). |\n| Real tests | Don't mock what you can run. Prefer the framework's real test primitives with leak/disposable checks, and verify UI in a running build. Mock only what you can't run locally. |\n| Structured telemetry | Prefer structured logger diagnostics with enough context to debug from an id. No `console.log` in shipped code. |",
+      "zh": "| 规则 | 要点 |\n|------|---------|\n| 可辨识联合 | 用一个 `kind` 字面量做标记来表示几种变体，让不可能的状态根本写不出来。不要用一袋可选字段。 |\n| 品牌类型 | 用 `& { readonly __brand: \"X\" }` 给基本类型打上品牌，让它们没法被混用。在边界上校验一次。品牌只能来自一个真正做了校验的类型守卫（`input is AgentId`），绝不能来自 `as`。 |\n| 用结构来建模 | 把类型的形状搭成非法的值根本造不出来。非空用 `[T, ...T[]]`，偶数长度用 `[T, T][]`，范围用 `start` 加 `duration`。不是靠运行时检查，也不是指望精化类型。 |\n| 最简单的完备类型 | 只要对它的每个操作都能处理所有情况，就保持 `T[]`。只有在宽松的类型逼你用 `!`、类型断言，或者抛一个「不应该发生」的错误时，才收紧成 `NonEmpty<T>`。 |\n| 用 `unknown` 不用 `any` | 外来数据一律是 `unknown`。 |\n| 先用 schema 再写守卫 | 手写逐个属性检查的类型守卫之前，先用仓库里的运行时 schema 库，从 schema 推出类型，比如 `z.infer`。 |\n| 不用 `as` 断言 | 每个 `as` 都是一个等着发生的运行时崩溃。只在校验之后才断言。 |\n| 收窄类型的优先顺序 | 按标记 switch > `in` 运算符 > `typeof`/`instanceof` > 自定义类型守卫 > `as`。 |\n| 类型守卫 | 必须真的校验它声称的事。一个撒谎的守卫比 `as` 更糟，因为 bug 藏在一个说它很安全的名字后面。命名为 `isX` 或 `hasX`。 |\n| 穷尽检查 | 在 default 分支里直接写 `const _exhaustive: never = x;`，这样新加一种变体时编译器会报错。 |\n| 用 `satisfies` 不用 `as` | 校验值，同时不把字面量类型放宽。 |\n| 在边界上校验 | 在数据进来的地方解析，转成一个有名字的领域类型。`Record<string, unknown>`（不管怎么写）到这次解析就为止。进来之后就信任类型。见 **boundary-discipline** 原则技能。 |\n| 从已有定义推导类型 | 声明新 interface 之前，先用 `Pick`/`Omit`/`Parameters`/`ReturnType`/`Awaited`/`typeof`。 |\n| 用对象传参 | 传一个对象，不按位置传参，这样参数顺序一看就懂。热点路径上不用（每帧渲染、分词器、解析器）。 |\n| 真实的测试 | 能跑的就别模拟。优先用框架真实的测试基础设施，并带上泄漏 / 资源释放检查；界面要在跑起来的构建里验证。只模拟本地跑不起来的东西。 |\n| 结构化的运行记录 | 优先用结构化日志记录诊断信息，上下文要足够，光凭一个 id 就能排查。上线的代码里不留 `console.log`。 |"
+    },
+    {
+      "en": "Examples: `references/patterns.md`.",
+      "zh": "示例：`references/patterns.md`。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Apply the **type-system-discipline** principle skill first.",
+      "quoteZh": "先套用 **type-system-discipline** 这个原则技能。",
+      "zh": {
+        "title": "先指向总原则再给细则",
+        "does": "它先按通用的类型原则想清楚，再用下面的 TypeScript 写法落到代码里，表里没写到的情况也有章可循。",
+        "why": "细则总有列不全的时候；开头一句指向背后的总原则，AI 遇到表外的情况就知道该往哪个方向判断。",
+        "try": "给一串具体要求前先说总目标：「总原则是让老人一眼看懂；下面几条只是例子：字大、少按钮、不用英文。」"
+      },
+      "en": {
+        "title": "Point to the principle first",
+        "does": "It thinks with the general type principles first, then applies the TypeScript rules, so cases the table misses still have a guide.",
+        "why": "A rule list is never complete; one opening line naming the principle behind it tells the AI which way to lean off the list.",
+        "try": "Before a list of specifics, give the aim: 'The goal is that older users get it at a glance; for example big text, few buttons, no English.'"
+      }
+    },
+    {
+      "quote": "Discriminant switch > `in` operator > `typeof`/`instanceof` > user-defined type guard > `as`.",
+      "quoteZh": "按标记 switch > `in` 运算符 > `typeof`/`instanceof` > 自定义类型守卫 > `as`。",
+      "zh": {
+        "title": "用一行排好先后",
+        "does": "要判断数据是哪种类型时，它从最可靠的写法开始用，`as` 只当最后一招。",
+        "why": "一串「>」把好几种做法排成一条队，AI 一眼就知道先试哪个、哪个是下策，不用逐个解释。",
+        "try": "有几种做法时直接排个序：「先查官方文档 > 再看 GitHub issue > 最后才看博客。」"
+      },
+      "en": {
+        "title": "Rank the options in one line",
+        "does": "When it must tell types apart it starts from the safest method and keeps `as` as a last resort.",
+        "why": "A chain of \">\" lines the choices up, so the AI sees which to try first and which is worst, without a paragraph each.",
+        "try": "With several ways to do something, rank them: \"Official docs > GitHub issues > blog posts.\""
+      }
+    },
+    {
+      "quote": "A lying guard is worse than `as` because the bug hides behind a name that says it's safe.",
+      "quoteZh": "一个撒谎的守卫比 `as` 更糟，因为 bug 藏在一个说它很安全的名字后面。",
+      "zh": {
+        "title": "点破看似更好的做法",
+        "does": "它写的 `isX` 函数会真的检查每个字段，不会写一个名字好听、其实什么都不查的空壳。",
+        "why": "AI 以为「换个正式的写法」就算改进；直接说明这种写法为什么更危险，就挡住了表面合规。",
+        "try": "遇到容易走形式的地方先点破：「加了 try/catch 却什么都不处理，比不加更糟，因为错误被藏起来了。」"
+      },
+      "en": {
+        "title": "Expose the fake improvement",
+        "does": "Its `isX` functions really check each field, instead of a nicely named shell that checks nothing.",
+        "why": "AIs take a more formal form as progress; saying why it's more dangerous blocks compliance in name only.",
+        "try": "Where form can replace substance, call it out: \"An empty try/catch is worse than none, because it hides the error.\""
+      }
+    },
+    {
+      "quote": "Skip on hot paths (per-frame render, tokenizers, parsers).",
+      "quoteZh": "热点路径上不用（每帧渲染、分词器、解析器）。",
+      "zh": {
+        "title": "规则后面紧跟例外",
+        "does": "它平时用对象传参，但在每帧都要跑的代码里不会为了守规矩把性能拖慢。",
+        "why": "例外和规则写在同一格，还给了具体场景，AI 就不会死守规则，也不会把例外扩大到别处。",
+        "try": "立规矩时顺手写上例外：「回复都用中文；但报错信息和命令原样保留英文。」"
+      },
+      "en": {
+        "title": "Put the exception beside the rule",
+        "does": "It passes objects by default, but won't slow down code that runs every frame just to follow the rule.",
+        "why": "With the exception in the same cell and concrete cases named, the AI neither over-applies the rule nor stretches the exception.",
+        "try": "When you set a rule, add the exception: \"Reply in Chinese, but keep error messages and commands in English.\""
+      }
+    }
+  ]
+}

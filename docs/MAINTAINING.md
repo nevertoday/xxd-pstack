@@ -23,6 +23,13 @@ npm run build      # 输出到 dist/
 - **主线教程**每一步是 `src/pages/guide/<n>-<slug>.mdx`，开头写 `layout: ../../layouts/Guide.astro` 和 `step: n`。
 - **How-to** 是 `src/pages/howto/<slug>.mdx`（`layout: ../../layouts/HowTo.astro`，`slug` 要和 `HOWTO` 里一致，`step` 是相关的主线步骤）。
 - **技能速查**只改数据：`src/data/skills.js`（每个技能：一句话、什么时候用、例句、要一起装的技能、谁来调用）。
+- **技能详情页**（`/skills/<名>/`）：人话简介来自 `skills.js`；原文、中文译文和「从它的写法里学」来自 `src/data/skill-docs/<名>.json`。
+  - 原文按空行切成一块块，每块一对 `{ en, zh }`，页面上可切换中文 / 原文 / 对照。
+  - pstack 更新后：`node scripts/skill-docs.mjs sync <pstack 仓库目录>`。英文没变的块保留译文，变了的块译文清空。
+  - 然后 `node scripts/skill-docs.mjs check`，把它列出的缺译文、写法原句找不到的补上。
+  - 译文要完整忠实（不缩写、不增删），代码块、命令、技能名、原则名、路径保持英文；用户写「用户 / 对方」，不用他 / 她。
+  - 写法每个技能 3–5 条：`quote` 必须是原文里的原句；`does` 这句让 AI 做什么、`why` 为什么这样写、`try` 读者怎么借用，各一句。
+  - 原文是 MIT 许可（Lauren Tan），页脚保留署名和核对到的版本。
 - **Wiki** 和 **常见问题** 只改数据：`src/data/wiki.js`、`src/data/faq.js`。Wiki 条目可以带一张 `list` 表。
 - **教程组件**（在 MDX 里 import）：`Callout`（`ok` / `warn` / `no` / `tip`）、`Term`（术语，`k` 对应 `GLOSSARY`）、`Checkpoint`（可打勾的检查点）、`Q`（「卡住了？」里的一条）、`Tabs`（按工具切换）、`Copy`（带复制按钮的提示词或命令）、`Cmd`（正文里一点就复制的命令）、`Shot`（配图）。
 - **搜索**（⌘K）自动收录主线每一步、每篇 How-to、每个技能、每个 Wiki 条目和每条常见问题，正文按小节做全文搜索。

@@ -380,3 +380,44 @@
   @keyframes skill-flash { 0%, 30% { background: var(--wash); } 100% { background: transparent; } }
   @media (prefers-reduced-motion: reduce) { :target.skill { animation: none; } }
 }
+
+/* ---------- 技能详情页：简介 → 写法 → 全文（中文 / 原文 / 对照） ---------- */
+@layer site {
+  .skills .skill__head h3 a { color: inherit; text-decoration: none; }
+  .skills .skill__head h3 a:hover code { text-decoration: underline; text-underline-offset: 3px; }
+  .skilldoc__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .skilldoc__head h1 { margin: 0 !important; }
+  .skilldoc__head h1 code { font: inherit; font-family: var(--font-mono); background: none; padding: 0; }
+  .skilldoc .skill__use + .skill__ex { margin-top: 6px !important; }
+  .skilldoc__lead { color: var(--muted); font-size: var(--text-sm); }
+
+  .lessons { padding: 0 !important; list-style: none; counter-reset: lesson; }
+  .lesson { margin: 0 !important; padding: var(--space-4) 0; border-top: 1px solid var(--line); counter-increment: lesson; }
+  .lesson:first-child { border-top: 0; padding-top: var(--space-2); }
+  .lesson__title { margin: 0 !important; font-weight: var(--weight-strong); }
+  .lesson__title::before { content: counter(lesson) "  "; color: var(--muted); font: var(--weight-regular) var(--text-sm) var(--font-mono); white-space: pre; }
+  .lesson__quote { margin: var(--space-2) 0 0 !important; }
+  .lesson__quote p { margin: 0 !important; }
+  .lesson__quote-zh { margin-top: 4px !important; color: var(--muted); font-size: var(--text-sm); }
+  .lesson__notes { display: grid; gap: 6px; margin: var(--space-3) 0 0; }
+  .lesson__notes > div { display: grid; grid-template-columns: 5em 1fr; gap: var(--space-3); }
+  .lesson__notes dt { color: var(--muted); font-size: var(--text-sm); line-height: var(--leading-md); }
+  .lesson__notes dd { margin: 0; }
+
+  .skilldoc__modes { margin: var(--space-2) 0 var(--space-4); }
+  .doc { font-size: var(--text-sm); }
+  .doc__row > * > :first-child { margin-top: 0 !important; }
+  .doc__row > * > :last-child { margin-bottom: 0 !important; }
+  .doc__row { margin: 0 0 var(--space-4); }
+  .doc__row h3, .doc__row h4, .doc__row h5, .doc__row h6 { margin-top: var(--space-6) !important; }
+  .doc pre { white-space: pre-wrap; word-break: break-word; }
+  .doc__tag { display: inline-block; margin-right: 8px; color: var(--muted); font: var(--text-xs) var(--font-mono); }
+  .doc[data-mode="zh"] .doc__en, .doc[data-mode="en"] .doc__zh { display: none; }
+  .doc[data-mode="both"] .doc__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+  .doc[data-mode="both"] .doc__en { color: var(--muted); }
+  @media (max-width: 720px) {
+    .doc[data-mode="both"] .doc__row { grid-template-columns: 1fr; gap: var(--space-2); }
+    .lesson__notes > div { grid-template-columns: 1fr; gap: 0; }
+  }
+  .skilldoc__credit { margin-top: var(--space-8) !important; color: var(--muted); font-size: var(--text-xs); }
+}

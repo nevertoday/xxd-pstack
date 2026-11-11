@@ -1,0 +1,196 @@
+{
+  "name": "reflect",
+  "commit": "0854796",
+  "description": {
+    "en": "Spawn three parallel review subagents over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.",
+    "zh": "派出三个并行的审阅帮手 AI，去读当前的对话记录，找出值得记下的经验，再把每条经验对应到某个现有技能上的一处具体修改。用户说 reflect 时使用。"
+  },
+  "blocks": [
+    {
+      "en": "# Reflect",
+      "zh": "# Reflect（复盘）"
+    },
+    {
+      "en": "Mine the current conversation for durable learnings, then route them into skill edits.",
+      "zh": "从当前对话里挖出能长期用的经验，然后把它们变成对技能的修改。"
+    },
+    {
+      "en": "Invoke when the user says \"reflect\" or \"/reflect\". Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.",
+      "zh": "用户说「reflect」或「/reflect」时调用。对话很琐碎、跑题，或者已经有现有技能覆盖、而主 AI 也正确照做了，就跳过。一次性的事不算经验。"
+    },
+    {
+      "en": "## 1. Locate the active transcript",
+      "zh": "## 1. 找到当前的对话记录"
+    },
+    {
+      "en": "Before fanning out, find this conversation's transcript in the active workspace's session directory. Do not glob across every project's directory. That crosses workspace boundaries and reads private chats from unrelated projects.",
+      "zh": "分头派出帮手 AI 之前，先在当前工作区的会话目录里，找到这段对话的记录。不要在所有项目的目录里一起通配查找。那样会越过工作区的边界，读到无关项目里的私人对话。"
+    },
+    {
+      "en": "Where the transcript lives depends on your harness:",
+      "zh": "对话记录放在哪，取决于你所用的工具："
+    },
+    {
+      "en": "- **Cursor:** the `agent-transcripts/` directory the system prompt names.",
+      "zh": "- **Cursor：** 系统提示词里写明的那个 `agent-transcripts/` 目录。"
+    },
+    {
+      "en": "  ```bash\n  ls -t <agent-transcripts>/*.jsonl <agent-transcripts>/*/*.jsonl <agent-transcripts>/*/subagents/*.jsonl 2>/dev/null | head -10\n  ```",
+      "zh": "  ```bash\n  ls -t <agent-transcripts>/*.jsonl <agent-transcripts>/*/*.jsonl <agent-transcripts>/*/subagents/*.jsonl 2>/dev/null | head -10\n  ```"
+    },
+    {
+      "en": "  That covers the legacy flat (`<id>.jsonl`), current nested (`<id>/<id>.jsonl`), and subagent (`<parent>/subagents/<child>.jsonl`) layouts. For each candidate, read the first JSONL line. Take the file whose `message.content[0].text` contains the conversation's opening user prompt.\n- **Claude Code:** `~/.claude/projects/<slug>/<session-id>.jsonl`, where `<slug>` is the workspace path with every character that isn't a letter or digit turned into \"-\".\n- **Pi:** `~/.pi/agent/sessions/--<slug>--/*.jsonl`, where `<slug>` is the workspace path with the leading slash dropped and each \"/\" turned into \"-\".\n- **Codex:** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`. Keep only files whose first line has `payload.cwd` equal to the workspace path.\n- **Other harnesses:** check the harness's session directory for this workspace.",
+      "zh": "  这覆盖了旧的平铺结构（`<id>.jsonl`）、现在的嵌套结构（`<id>/<id>.jsonl`）和帮手 AI 的结构（`<parent>/subagents/<child>.jsonl`）。对每个候选文件，读它的第一行 JSONL。选 `message.content[0].text` 里包含这段对话开头那条用户提示词的那个文件。\n- **Claude Code：** `~/.claude/projects/<slug>/<session-id>.jsonl`，其中 `<slug>` 是工作区路径，把每个不是字母或数字的字符都换成「-」。\n- **Pi：** `~/.pi/agent/sessions/--<slug>--/*.jsonl`，其中 `<slug>` 是工作区路径，去掉开头的斜杠，再把每个「/」换成「-」。\n- **Codex：** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`。只保留第一行的 `payload.cwd` 等于工作区路径的文件。\n- **其他工具：** 查看该工具为这个工作区准备的会话目录。"
+    },
+    {
+      "en": "Outside Cursor, take the newest candidates first and confirm one by finding the conversation's opening user prompt in its first user message. If none matches, pass a tight digest of the session instead.",
+      "zh": "在 Cursor 以外，先看最新的候选文件，在它的第一条用户消息里找到这段对话开头的用户提示词，以此确认是哪一个。如果一个都对不上，就改为传一份精简的会话摘要。"
+    },
+    {
+      "en": "## 2. Spawn three reviewers in parallel",
+      "zh": "## 2. 同时派出三个审阅者"
+    },
+    {
+      "en": "One message, three `Task` calls, `subagent_type: generalPurpose`, agent mode (`readonly: false`). Reviewers need MCP access to look up the tickets, chat threads, and observability traces the transcript references, and readonly strips MCPs.",
+      "zh": "一条消息，三个 `Task` 调用，`subagent_type: generalPurpose`，agent 模式（`readonly: false`）。审阅者需要 MCP 权限，去查对话记录里提到的工单、聊天线程和可观测性追踪记录，而只看不改模式会拿掉 MCP。"
+    },
+    {
+      "en": "**Other harnesses.** The spawns in this skill use Cursor's `Task` tool. In another harness, use its subagent tool: `Agent` in Claude Code (`subagent_type: general-purpose`), `task` in OpenCode (`subagent_type: general`), `spawn_agent` in Codex. Keep the prompt and the model. Drop parameters your tool doesn't have. If your harness has no subagent tool, as in Pi without an extension, run each role yourself, one after another.",
+      "zh": "**其他工具。** 这个技能里派帮手 AI 用的是 Cursor 的 `Task` 工具。在别的工具里，用它自己派帮手 AI 的工具：Claude Code 里是 `Agent`（`subagent_type: general-purpose`），OpenCode 里是 `task`（`subagent_type: general`），Codex 里是 `spawn_agent`。提示词和模型保持不变。你的工具没有的参数，就去掉。如果你所用的工具没有派帮手 AI 的功能，比如没装扩展的 Pi，就自己一个接一个地扮演每个角色。"
+    },
+    {
+      "en": "Each reviewer and the synthesizer name a role line in the pstack settings file (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in other harnesses) and a default. Set `model` to that line's value, or to the default if the file or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If your subagent tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message or your harness's model list. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
+      "zh": "每个审阅者和综合者，都对应 pstack 设置文件里的一行角色配置（Cursor 里是 `~/.cursor/rules/pstack-models.mdc`，Claude Code 里是 `~/.claude/rules/pstack-models.md`，其他工具里是 `~/.agents/pstack-models.md`），外加一个默认值。把 `model` 设成那一行的值；文件或那一行不存在时，设成默认值。值是 `auto` 或 `inherit-parent` 时，不设 `model`。如果你派帮手 AI 的工具不接受某个模型名，就用默认值，并说出来。如果它连默认值也不接受，就从它的报错信息或你所用工具的模型列表里，选同一系列里最接近的有效模型名。每个帮手 AI 的推理强度，以及用快速还是标准速度，按 **poteto-mode** 技能里 Subagents 那一节，根据任务来选。"
+    },
+    {
+      "en": "| Lens | Role line | Default `model` | Prompt template |\n|---|---|---|---|\n| Judgment | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/judgment-reviewer.md` |\n| Tooling | `reflect tooling` | `grok-4.7-xhigh-fast` | `references/tooling-reviewer.md` |\n| Divergent | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/divergent-reviewer.md` |",
+      "zh": "| 视角 | 角色配置行 | 默认 `model` | 提示词模板 |\n|---|---|---|---|\n| 判断 | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/judgment-reviewer.md` |\n| 工具 | `reflect tooling` | `grok-4.7-xhigh-fast` | `references/tooling-reviewer.md` |\n| 发散 | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/divergent-reviewer.md` |"
+    },
+    {
+      "en": "Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in the `Task` response body.",
+      "zh": "每个模板都原样传过去，只在标记的地方换上对话记录的路径或摘要。审阅者在 `Task` 的返回内容里交回发现。"
+    },
+    {
+      "en": "## 3. Synthesize",
+      "zh": "## 3. 综合"
+    },
+    {
+      "en": "One `Task` call, `subagent_type: generalPurpose`, `model` from the `reflect judgment, divergent, synthesizer` line (default `claude-opus-5-5-xhigh`), agent mode (`readonly: false`). It spot-verifies citations through MCP, and readonly strips MCPs. Pass `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.",
+      "zh": "一个 `Task` 调用，`subagent_type: generalPurpose`，`model` 取自 `reflect judgment, divergent, synthesizer` 那一行（默认 `claude-opus-5-5-xhigh`），agent 模式（`readonly: false`）。它会通过 MCP 抽查引用，而只看不改模式会拿掉 MCP。把 `references/synthesizer.md` 原样传过去，在标记的地方嵌入每个审阅者的完整输出。它返回一份 Accepted / Rejected / Backlog（采纳 / 驳回 / 待办池）清单。"
+    },
+    {
+      "en": "## 4. Structural enforcement check",
+      "zh": "## 4. 检查能不能用结构来保证"
+    },
+    {
+      "en": "Move any Accepted item that a lint rule, script, metadata flag, or runtime check would enforce more reliably to Backlog. See the **encode-lessons-in-structure** principle skill.",
+      "zh": "如果某条 Accepted 的条目，用 lint 规则、脚本、元数据标记或运行时检查来强制执行会更可靠，就把它挪到 Backlog。参见 **encode-lessons-in-structure** 原则技能。"
+    },
+    {
+      "en": "## 5. Apply",
+      "zh": "## 5. 应用"
+    },
+    {
+      "en": "Present the synthesizer's full Accepted / Rejected / Backlog output and wait for explicit approval before applying any Accepted edit. The user picks the subset and may redirect routings. Skill changes affect every future agent in the org. Do not auto-apply.",
+      "zh": "把综合者完整的 Accepted / Rejected / Backlog 输出展示出来，等到用户明确批准，才应用任何一条 Accepted 的修改。用户会挑其中一部分，也可能改掉某些条目的去向。技能的改动会影响组织里以后的每一个 AI。不要自动应用。"
+    },
+    {
+      "en": "File each Backlog item to your team's devex or backlog tracker without waiting. Only the Accepted list waits for approval.",
+      "zh": "每条 Backlog 条目，不用等，直接提交到你们团队的 devex 或待办跟踪系统。只有 Accepted 清单要等批准。"
+    },
+    {
+      "en": "Never edit a skill under `plugins/cache/`. Before approval, show its destination: `.cursor/skills/<skill>/` or `~/.cursor/skills/<skill>/` in Cursor, or your harness's project or user skill folder, such as `.claude/skills/<skill>/` or `~/.agents/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.",
+      "zh": "绝不修改 `plugins/cache/` 下的技能。批准之前，先给出它要放到哪里：Cursor 里是 `.cursor/skills/<skill>/` 或 `~/.cursor/skills/<skill>/`，或者你所用工具的项目或用户技能文件夹，比如 `.claude/skills/<skill>/` 或 `~/.agents/skills/<skill>/`。批准之后，把技能文件夹复制过去，改那份副本。绝不开 PR，也不 push。"
+    },
+    {
+      "en": "Follow each approved row's Routing exactly:",
+      "zh": "每条已批准的条目，都严格按它的 Routing（去向）执行："
+    },
+    {
+      "en": "- Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.\n- Substantive existing-skill edit (a new section, a new pattern table, more than ~10 lines): hand to your harness's skill-authoring skill and run its draft / test / iterate loop. That is `create-skill` in Cursor (built in) or Anthropic's `skill-creator`. If you have neither, follow the Agent Skills format at agentskills.io. \"`create-skill`\" below means whichever of these you use.\n- `tune description: <skill path>` (the skill exists but didn't trigger when it should have): hand to `create-skill` and run its description-optimization loop.\n- `new skill via create-skill: <kebab-name>`: hand creation to `create-skill`. Do not invent the shape ad hoc.",
+      "zh": "- 对现有技能的小改动（加一条要点、收紧一句话、更正一个过时的事实）：主 AI 直接改。\n- 对现有技能的大改动（新加一节、新加一张模式表、超过大约 10 行）：交给你所用工具的技能编写技能，走它的起草 / 测试 / 迭代流程。在 Cursor 里是 `create-skill`（内置），或者 Anthropic 的 `skill-creator`。两个都没有，就按 agentskills.io 上的 Agent Skills 格式来。下面说的「`create-skill`」，指你用的那一个。\n- `tune description: <skill path>`（技能存在，但该触发的时候没有触发）：交给 `create-skill`，走它的描述优化流程。\n- `new skill via create-skill: <kebab-name>`：把新建交给 `create-skill`。不要临时自己发明它的样子。"
+    },
+    {
+      "en": "If your environment ships a SKILL.md validator, run it on every touched skill before declaring done.",
+      "zh": "如果你的环境带有 SKILL.md 校验器，在宣布完成之前，对每个改过的技能都跑一遍。"
+    },
+    {
+      "en": "## 6. Summarize for the user",
+      "zh": "## 6. 给用户总结"
+    },
+    {
+      "en": "Short list, no preamble:",
+      "zh": "简短列表，不要开场白："
+    },
+    {
+      "en": "- Edits applied: `<skill path>`. What changed, one line each.\n- New skills created: `<skill path>`. One line each (rare).\n- Backlog filed to the devex tracker: `<issue title>` (`<tags>`). One line each.\n- Dropped: one line per rejected finding + reason from the synthesizer.",
+      "zh": "- 已应用的修改：`<skill path>`。改了什么，每条一行。\n- 新建的技能：`<skill path>`。每条一行（很少见）。\n- 已提交到 devex 跟踪系统的 Backlog：`<issue title>`（`<tags>`）。每条一行。\n- 丢掉的：每条被驳回的发现一行，附上综合者给的理由。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "One-offs are not learnings.",
+      "quoteZh": "一次性的事不算经验。",
+      "zh": {
+        "title": "用一句短话划掉一类",
+        "does": "它只记以后还会用上的经验，一次碰巧的意外不会写进技能。",
+        "why": "这么短的一句排除，挡住了最常见的误判：把偶然当成规律。",
+        "try": "让 AI 总结项目时加一句：「只写以后还会遇到的问题，这次碰巧的不算。」"
+      },
+      "en": {
+        "title": "Exclude a category in one line",
+        "does": "It keeps only lessons that will come up again. A one-time accident doesn't go into a skill.",
+        "why": "One short exclusion blocks the most common mistake: treating chance as a pattern.",
+        "try": "When the AI sums up a project, add: \"Only list problems we'll hit again. One-time flukes don't count.\""
+      }
+    },
+    {
+      "quote": "wait for explicit approval before applying any Accepted edit",
+      "quoteZh": "等到用户明确批准，才应用任何一条 Accepted 的修改",
+      "zh": {
+        "title": "把批准设成硬关卡",
+        "does": "它先把所有建议摆给你看，只改你点了头的那些。",
+        "why": "「明确批准」「任何一条」两处把话说死，AI 就不会觉得小改动可以先改了再说。",
+        "try": "让 AI 改文件前说：「先把要改的地方列给我，我回复『可以』之前，一个字都别动。」"
+      },
+      "en": {
+        "title": "Make approval a hard gate",
+        "does": "It shows you every proposal first and changes only the ones you approve.",
+        "why": "\"Explicit\" and \"any\" leave no gap, so the AI can't decide a small edit is fine to make first.",
+        "try": "Before the AI edits a file, say: \"List the changes first. Don't touch anything until I reply 'go'.\""
+      }
+    },
+    {
+      "quote": "Move any Accepted item that a lint rule, script, metadata flag, or runtime check would enforce more reliably to Backlog.",
+      "quoteZh": "如果某条 Accepted 的条目，用 lint 规则、脚本、元数据标记或运行时检查来强制执行会更可靠，就把它挪到 Backlog。",
+      "zh": {
+        "title": "先问能不能自动挡住",
+        "does": "能用脚本或检查自动拦住的问题，它不写成一句提醒，而是放进待办，留着做成自动检查。",
+        "why": "这句话让 AI 先问「这条靠人记住可靠吗」，把规则引向更可靠的形式。",
+        "try": "整理注意事项时说：「哪条能用表格公式自动检查，就别写成提醒，告诉我该加什么公式。」"
+      },
+      "en": {
+        "title": "Let a check enforce it",
+        "does": "Problems a script or check could catch go to the backlog to be automated, not into another reminder.",
+        "why": "It makes the AI ask \"will people reliably remember this?\" and steers the rule to a sturdier form.",
+        "try": "When listing team rules, say: \"If a spreadsheet formula could check it, don't write a reminder. Tell me the formula.\""
+      }
+    },
+    {
+      "quote": "Short list, no preamble:",
+      "quoteZh": "简短列表，不要开场白：",
+      "zh": {
+        "title": "给输出一个现成模板",
+        "does": "最后的总结按固定的四类列出，你一眼就看到改了什么、丢了什么。",
+        "why": "直接给出每一行的格式和占位符，AI 照着填，不会自由发挥成一篇长汇报。",
+        "try": "要进度时给个格式：「按这个回我：『已完成：…… 没做的：……（原因）』。」"
+      },
+      "en": {
+        "title": "Hand over a fill-in template",
+        "does": "The final summary comes in four fixed groups, so you see at once what changed and what was dropped.",
+        "why": "Giving the format of each line, with placeholders, lets the AI fill it in instead of writing a long report.",
+        "try": "When you ask for status, give a shape: \"Reply as 'Done: … Not done: … (why)'.\""
+      }
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "name": "why",
+  "commit": "0854796",
+  "description": {
+    "en": "Use for 'why does X work this way', 'why we picked Y', design rationale, regressions, postmortems, or data-backed thresholds. Discovers available MCPs and queries each evidence category (source control, issue tracker, long-form docs, real-time chat, infrastructure observability, error tracking, product analytics warehouse) in parallel, then returns a cited read on decisions and tradeoffs. Use how for runtime behavior.",
+    "zh": "用于「X 为什么是这样运作的」「我们当初为什么选了 Y」、设计理由、回归问题、事后复盘，或者有数据撑着的阈值。它会找出能用的 MCP，并行查询每一类证据（代码版本记录、issue 跟踪、长篇文档、即时聊天、基础设施监控、错误追踪、产品分析数据仓库），然后交回一份带出处的解读，讲清当初的决定和取舍。代码运行时怎么表现，用 how。"
+  },
+  "blocks": [
+    {
+      "en": "# Why",
+      "zh": "# Why（为什么）"
+    },
+    {
+      "en": "Investigate the motivation and intent behind code. The companion `how` skill answers what the code does and how it works. `why` answers what forces led to its shape.",
+      "zh": "查清代码背后的动机和用意。搭档技能 `how` 回答代码做了什么、怎么运作。`why` 回答是哪些因素把它塑造成了现在的样子。"
+    },
+    {
+      "en": "Each spawn below names a role line in the pstack settings file (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in other harnesses) and a default. Set `model` to that line's value, or to the default if the file or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If your subagent tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message or your harness's model list. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
+      "zh": "下面每次派出帮手 AI，都会点名 pstack 设置文件里的一行角色配置（Cursor 里是 `~/.cursor/rules/pstack-models.mdc`，Claude Code 里是 `~/.claude/rules/pstack-models.md`，其他工具里是 `~/.agents/pstack-models.md`），并给一个默认值。把 `model` 设成那一行的值；如果文件或那一行不存在，就用默认值。值是 `auto` 或 `inherit-parent` 时，不设 `model`。如果你派帮手 AI 的工具不认某个模型名，就用默认值，并说出来。如果连默认值也不认，就从它的报错信息或你所用工具的模型列表里，挑同一系列里最接近的有效模型名。每个帮手 AI 的思考深度、用快速还是标准速度，按 **poteto-mode** 技能里 Subagents 一节，看活来定。"
+    },
+    {
+      "en": "Every spawn is `generalPurpose` with `readonly: false` (agent mode). **Do not use readonly/Ask mode.** It strips MCP access, which disables the MCP-backed investigators and the synthesizer's citation spot-checks. Investigators still shouldn't write anything.",
+      "zh": "每次派出的都是 `generalPurpose`，并设 `readonly: false`（agent 模式）。**不要用 readonly / Ask 模式。** 那个模式会去掉 MCP 权限，于是靠 MCP 查证据的调查员用不了，汇总员也没法抽查出处。调查员仍然不应该写任何东西。"
+    },
+    {
+      "en": "## Operating Posture",
+      "zh": "## 摆好办案姿态"
+    },
+    {
+      "en": "Operate as a **careful, cautious, and precise investigator**. Be honest about what you know vs what you're inferring. Read `references/epistemics.md` for the full confidence framework and phrasing guide. The synthesizer must follow it.",
+      "zh": "把自己当成一个**细心、谨慎、精确的调查员**。老实分清哪些是你知道的，哪些是你推测的。完整的把握程度框架和措辞指南，读 `references/epistemics.md`。汇总员必须照它来。"
+    },
+    {
+      "en": "## Step 1. Understand the Target and the Question",
+      "zh": "## 第 1 步：弄懂对象和问题"
+    },
+    {
+      "en": "The **target** is usually a chunk of code, a pattern, a feature, or a named design decision. The **question** is usually a design rationale, a tradeoff, a motivating edge case, an external constraint, dead code, or a broad history sweep.",
+      "zh": "**对象**通常是一段代码、一种写法、一个功能，或一个有名字的设计决定。**问题**通常是设计理由、一个取舍、促成它的某个边缘情况、一个外部限制、没人用的死代码，或者一次大范围的历史梳理。"
+    },
+    {
+      "en": "If the target is vague (\"why do we do it this way?\" with no clear referent), make your best guess from conversation context (open files, recent edits, cursor location, what was just discussed). State your interpretation briefly so the user can redirect if you're off, then proceed.",
+      "zh": "如果对象说得很模糊（「我们为什么这么做？」却没说清指什么），就根据前面聊过的内容（打开的文件、最近的改动、光标位置、刚才在讨论什么）做出最可能的猜测。简短说出你的理解，好让用户在你理解错时纠正，然后接着做。"
+    },
+    {
+      "en": "## Step 2. Establish the Code Anchor",
+      "zh": "## 第 2 步：找好代码上的落脚点"
+    },
+    {
+      "en": "Before spawning investigators, build the seed context inline: file paths and line ranges, key symbols (functions, classes, constants), the last few commits touching the target, PR numbers from merge commits (pattern `(#1234)` in the subject line), and any linked ticket IDs. Run `git blame -L <start>,<end> <file>` for last-touch commits, `git log --follow -p -- <file>` for full history with patches through renames, `git log --oneline -20 -- <file>` for recent commits with PR numbers visible, and `git log -1 --format=%B <commit>` to extract PR numbers. Then pull the PR bodies and discussion for any substantive commit: `gh pr view <number> --json title,body,author,createdAt,mergedAt,labels,closingIssuesReferences,comments,reviews`. This anchor goes to every investigator and to the synthesizer.",
+      "zh": "派出调查员之前，先自己把起始资料备好：文件路径和行号范围，关键符号（函数、类、常量），最近几次碰过这个对象的提交，合并提交里的 PR 编号（标题行里 `(#1234)` 这种格式），以及所有关联的工单号。运行 `git blame -L <start>,<end> <file>` 查最后一次改动的提交，`git log --follow -p -- <file>` 查跨重命名的完整历史和补丁，`git log --oneline -20 -- <file>` 查能看到 PR 编号的近期提交，`git log -1 --format=%B <commit>` 提取 PR 编号。然后对每个有分量的提交，拉出 PR 正文和讨论：`gh pr view <number> --json title,body,author,createdAt,mergedAt,labels,closingIssuesReferences,comments,reviews`。这份落脚点资料要发给每个调查员，也要发给汇总员。"
+    },
+    {
+      "en": "## Step 3. Spawn Parallel Investigators",
+      "zh": "## 第 3 步：并行派出调查员"
+    },
+    {
+      "en": "**Default to the full parallel investigation.** The goal is a complete coverage map, not a minimal one. Document the null, don't skip the search.",
+      "zh": "**默认做完整的并行调查。** 目标是一张完整的覆盖图，而不是最小的那张。查了没找到，也要记下来，不要跳过不查。"
+    },
+    {
+      "en": "### Discovery",
+      "zh": "### 先摸清有哪些 MCP"
+    },
+    {
+      "en": "Before spawning investigators, list the MCP servers connected to your harness. Use the available-tools map when present. In Cursor, you can also inspect the `mcps/` directory it exposes for enabled MCP servers. In other harnesses, MCP tools usually appear in your tool list with the server name in the tool name (for example `mcp__<server>__<tool>` in Claude Code).",
+      "zh": "派出调查员之前，列出你所用的工具连上了哪些 MCP 服务器。有可用工具清单时就用它。在 Cursor 里，还可以看它提供的 `mcps/` 目录，里面是已启用的 MCP 服务器。在其他工具里，MCP 工具通常出现在你的工具列表里，工具名里带着服务器名（比如 Claude Code 里的 `mcp__<server>__<tool>`）。"
+    },
+    {
+      "en": "Map each available MCP to one evidence category:",
+      "zh": "把每个能用的 MCP 归到一类证据里："
+    },
+    {
+      "en": "1. Source control history\n2. Issue / ticket tracker\n3. Long-form documents\n4. Real-time team chat\n5. Infrastructure observability\n6. Error / exception tracking\n7. Product analytics warehouse",
+      "zh": "1. 代码版本记录\n2. Issue / 工单跟踪\n3. 长篇文档\n4. 即时团队聊天\n5. 基础设施监控\n6. 错误 / 异常追踪\n7. 产品分析数据仓库"
+    },
+    {
+      "en": "Source control is always available through git and `gh`. For the other six, classify using the MCP name, server instructions, tool names, and resource descriptors. If an MCP could fit more than one category, choose the one matching its primary evidence. Record ambiguous cases in the coverage map.",
+      "zh": "代码版本记录永远能查，靠 git 和 `gh`。另外六类，根据 MCP 的名字、服务器说明、工具名和资源描述来归类。一个 MCP 如果能归进不止一类，就选和它主要证据对得上的那一类。拿不准的情况，记进覆盖图。"
+    },
+    {
+      "en": "Spawn one investigator per category that has a matching MCP, all in a single message so they run concurrently, each owning exactly one tool or MCP. Don't ask one agent to cover multiple MCPs. `model`: the `why investigators` line, default `grok-4.7-xhigh-fast`.",
+      "zh": "每个有对应 MCP 的类别派一个调查员。全部在同一条消息里派出，让它们同时跑。每个调查员只负责一个工具或一个 MCP。不要让一个帮手 AI 管好几个 MCP。`model`：用 `why investigators` 那一行，默认 `grok-4.7-xhigh-fast`。"
+    },
+    {
+      "en": "Each investigator's prompt is `references/investigator-prompt.md` filled in, plus:\n- the category playbook `references/sources/<source>.md` for the selected MCP, adapted from the examples in `references/source-playbook.md`\n- `references/sources/incident-postmortem.md` **if the target code looks defensive** (null checks, retry logic, timeout handling, rate limiting, feature flags, egress guards, OOM handlers)\n- the code anchor and the user's original question",
+      "zh": "每个调查员的提示词，是填好的 `references/investigator-prompt.md`，再加上：\n- 所选 MCP 对应类别的剧本 `references/sources/<source>.md`，参照 `references/source-playbook.md` 里的例子改写而来\n- `references/sources/incident-postmortem.md`，**如果目标代码看起来是防御性的**（空值检查、重试逻辑、超时处理、限流、功能开关、出站拦截、内存溢出处理）\n- 代码落脚点资料，以及用户最初的问题"
+    },
+    {
+      "en": "**Other harnesses.** The spawns in this skill use Cursor's `Task` tool. In another harness, use its subagent tool: `Agent` in Claude Code (`subagent_type: general-purpose`), `task` in OpenCode (`subagent_type: general`), `spawn_agent` in Codex. Keep the prompt and the model. Drop parameters your tool doesn't have. If your harness has no subagent tool, as in Pi without an extension, run each investigator yourself, one after another.",
+      "zh": "**其他工具。** 这个技能里的派活用的是 Cursor 的 `Task` 工具。在别的工具里，用它自己派帮手 AI 的工具：Claude Code 里是 `Agent`（`subagent_type: general-purpose`），OpenCode 里是 `task`（`subagent_type: general`），Codex 里是 `spawn_agent`。提示词和模型保持不变。你的工具没有的参数就去掉。如果你所用的工具没有派帮手 AI 的功能，比如没装扩展的 Pi，就由你自己一个接一个地扮演每个调查员。"
+    },
+    {
+      "en": "### Investigator roster, one per available evidence category",
+      "zh": "### 调查员名单：每类能用的证据各一个"
+    },
+    {
+      "en": "Each category below is uniquely positioned to surface one shape of \"why\", shown after \"Best at\". Use it to know what to expect back, to name a gap when a category returns empty, and, only in the rare provably-irrelevant case, to justify a skip.",
+      "zh": "下面每一类，都最擅长挖出某一种「为什么」，写在「最擅长」后面。用它来预判会拿回什么；某一类空手而归时，用它来说清缺了什么；只有在少见的、能证明无关的情况下，才用它来说明为什么跳过。"
+    },
+    {
+      "en": "1. **Source control** (git history, `gh` for PRs, code comments, tests). Always spawn, the only guaranteed source. Best at *implementation-time rationale captured during review*.\n2. **Issue / ticket tracker** (e.g. Linear, Jira, GitHub Issues, Plane, Shortcut MCP). Best at *the product or business forcing function*. Strongest when the why is external to engineering.\n3. **Long-form documents** (e.g. Notion, Confluence, Google Docs, Coda MCP). Best at *long-form design rationale*, written out before it becomes code.\n4. **Real-time team chat** (e.g. Slack, Discord, Microsoft Teams, Mattermost MCP). Best at *real-time deliberation that never reached a doc*. Especially important when the source control, ticket, and doc paper trail is thin.\n5. **Infrastructure observability** (e.g. Datadog, New Relic, Honeycomb, Grafana, Splunk MCP). Best at *infrastructure and runtime reality that motivated the code*. Strongest when the target reacts to an infra signal (timeouts, retries, rate limits, circuit breakers).\n6. **Error / exception tracking** (e.g. Sentry, Rollbar, Bugsnag, Airbrake MCP). Best at *the specific exceptions and error trajectories that motivated defensive or corrective code*. Strongest for catch blocks, null guards, type checks, retries, and other defenses.\n7. **Product analytics warehouse** (e.g. Databricks, Snowflake, BigQuery, ClickHouse, dbt, Redshift MCP). Best at *product and data reality that shaped the code*. Strongest for flag-gated code, experiment-driven ships, data migrations, and \"where did this number come from\" questions.",
+      "zh": "1. **代码版本记录**（git 历史、查 PR 用的 `gh`、代码注释、测试）。一定要派，这是唯一保证有的来源。最擅长*写代码时在评审里留下的理由*。\n2. **Issue / 工单跟踪**（比如 Linear、Jira、GitHub Issues、Plane、Shortcut 的 MCP）。最擅长*来自产品或业务的推动力*。当原因来自工程之外时最有用。\n3. **长篇文档**（比如 Notion、Confluence、Google Docs、Coda 的 MCP）。最擅长*长篇的设计理由*，也就是变成代码之前就写下来的那些。\n4. **即时团队聊天**（比如 Slack、Discord、Microsoft Teams、Mattermost 的 MCP）。最擅长*从没写进文档的当场讨论*。当代码记录、工单和文档留下的线索都很少时，尤其重要。\n5. **基础设施监控**（比如 Datadog、New Relic、Honeycomb、Grafana、Splunk 的 MCP）。最擅长*促成这段代码的基础设施和运行时的真实情况*。当目标代码是在应对某种基础设施信号时最有用（超时、重试、限流、熔断）。\n6. **错误 / 异常追踪**（比如 Sentry、Rollbar、Bugsnag、Airbrake 的 MCP）。最擅长*促成防御性或修正性代码的那些具体异常和出错经过*。对 catch 块、空值保护、类型检查、重试等防御代码最有用。\n7. **产品分析数据仓库**（比如 Databricks、Snowflake、BigQuery、ClickHouse、dbt、Redshift 的 MCP）。最擅长*塑造这段代码的产品和数据的真实情况*。对功能开关控制的代码、靠实验决定上线的功能、数据迁移，以及「这个数字是从哪来的」这类问题最有用。"
+    },
+    {
+      "en": "### When to skip an investigator",
+      "zh": "### 什么时候可以跳过某个调查员"
+    },
+    {
+      "en": "Only with an **explicit, written justification** that goes in the final Sources Consulted. Two valid reasons:",
+      "zh": "只有在**明确写出理由**时才行，理由要放进最后的「查过的来源」里。合理的理由只有两种："
+    },
+    {
+      "en": "- **No MCP is available for that category** in this environment. Flag it as a gap, not a choice: \"Real-time team chat skipped. No matching MCP available, so the conversational record was not searchable.\"\n- **The source is provably irrelevant**, not just \"probably irrelevant.\" A high bar: \"Error / exception tracking skipped. Target is a build-time script with no runtime code path.\"",
+      "zh": "- **当前环境里没有这一类的 MCP。** 把它标成缺口，而不是一个选择：「跳过了即时团队聊天。没有对应的 MCP，所以聊天记录没法搜。」\n- **这个来源能证明无关**，而不只是「大概无关」。门槛很高：「跳过了错误 / 异常追踪。目标是构建时运行的脚本，没有运行时的代码路径。」"
+    },
+    {
+      "en": "If your scope assessment suggests a single-commit trivial target where the PR description already contains the complete answer, you may answer inline **only after** confirming all seven available category searches would be redundant. Say so explicitly. This should be rare.",
+      "zh": "如果你判断范围后觉得，这是一个只涉及一次提交的简单对象，PR 描述里已经有完整答案，那么**只有在**确认七类能用的来源全查一遍都是多余的**之后**，你才可以直接回答。要明确说出来。这种情况应该很少。"
+    },
+    {
+      "en": "## Step 4. Synthesize",
+      "zh": "## 第 4 步：汇总"
+    },
+    {
+      "en": "Spawn one synthesizer. `model`: the `why synthesizer` line, default `claude-opus-5-5-xhigh`. It gets:\n1. The investigator findings, including any null results and any categories skipped with justification\n2. The code anchor\n3. The user's original question\n4. The epistemics framework from `references/epistemics.md`\n5. The synthesizer prompt template from `references/synthesizer-prompt.md`",
+      "zh": "派出一个汇总员。`model`：用 `why synthesizer` 那一行，默认 `claude-opus-5-5-xhigh`。它拿到：\n1. 调查员的发现，包括所有没找到东西的结果，以及所有带理由跳过的类别\n2. 代码落脚点资料\n3. 用户最初的问题\n4. `references/epistemics.md` 里的把握程度框架\n5. `references/synthesizer-prompt.md` 里的汇总员提示词模板"
+    },
+    {
+      "en": "## Step 5. Present",
+      "zh": "## 第 5 步：交给用户"
+    },
+    {
+      "en": "Present the synthesizer's output to the user. You may lightly edit for clarity or add context from the conversation, but **do not rewrite the confidence language**.",
+      "zh": "把汇总员的产出交给用户。你可以为了好读稍作修改，或者补上前面聊过的背景，但**不要改写表示把握程度的措辞**。"
+    },
+    {
+      "en": "## Output Format",
+      "zh": "## 输出格式"
+    },
+    {
+      "en": "The structure is the one in `references/synthesizer-prompt.md`: The Question, The Code in Question, What We Found, What We Can Reasonably Infer, Competing Hypotheses, What We Don't Know, Sources Consulted, Confidence Summary. Adapt as needed, but keep the confidence separation intact, and keep Sources Consulted as one line per investigator, including the ones that returned nothing or were skipped, with the reason.",
+      "zh": "结构用 `references/synthesizer-prompt.md` 里那套：The Question、The Code in Question、What We Found、What We Can Reasonably Infer、Competing Hypotheses、What We Don't Know、Sources Consulted、Confidence Summary。可以按需调整，但要保持「有把握的」和「推测的」分开，并且 Sources Consulted 里每个调查员各占一行，包括什么都没找到的和被跳过的，并写上原因。"
+    },
+    {
+      "en": "After Sources Consulted, if the user's `why` question is a precursor to changing this code, convert the lineage findings into a Preserve / Change / Avoid / Risk constraint set for planning the change.",
+      "zh": "在 Sources Consulted 之后，如果用户问 `why` 是为了接下来改这段代码，就把查到的来龙去脉，整理成一组 Preserve / Change / Avoid / Risk（保留 / 修改 / 避开 / 风险）的要求，用来规划这次改动。"
+    },
+    {
+      "en": "## Common Failure Modes to Avoid",
+      "zh": "## 要避开的常见错误"
+    },
+    {
+      "en": "- **Recency bias**. Assuming the most recent commit is authoritative. The current shape is often the accretion of many earlier decisions. Trace back.",
+      "zh": "- **只信最近的。** 以为最近一次提交说了算。现在的样子，往往是之前很多次决定一层层叠出来的。要往回追。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Document the null, don't skip the search.",
+      "quoteZh": "查了没找到，也要记下来，不要跳过不查。",
+      "zh": {
+        "title": "把「没找到」也算成结果",
+        "does": "每类来源都真查一遍，没查到东西也会在报告里写明，你能看出哪里查过、哪里是空白。",
+        "why": "AI 爱省事，觉得「大概没有」就不查；把空结果算作要交的东西，它就没理由跳过。",
+        "try": "让 AI 排查时加一句：「每个日志都要看，没发现问题的也写一行『看过，没问题』。」"
+      },
+      "en": {
+        "title": "Count \"found nothing\" as a result",
+        "does": "Every source really gets searched, and empty ones are listed, so you can see what was checked and what is blank.",
+        "why": "AIs skip searches they guess are empty; making the empty result something to hand in leaves no reason to skip.",
+        "try": "When you ask for a search, add: \"Check every log, and give a line 'checked, nothing found' for the clean ones.\""
+      }
+    },
+    {
+      "quote": "Be honest about what you know vs what you're inferring.",
+      "quoteZh": "老实分清哪些是你知道的，哪些是你推测的。",
+      "zh": {
+        "title": "要求分开说事实和猜测",
+        "does": "答案里有出处的结论和推出来的猜想分开写，你知道哪句能直接信。",
+        "why": "「为什么」很容易被编圆；逼它给每句话标上把握程度，猜测就藏不进事实里。",
+        "try": "问原因时加一句：「有出处的写在前面，自己推测的单独列出来，标上『推测』。」"
+      },
+      "en": {
+        "title": "Ask for facts and guesses apart",
+        "does": "Cited findings and inferences come in separate parts, so you know which lines you can trust outright.",
+        "why": "A \"why\" story is easy to smooth over; labeling how sure each line is keeps guesses out of the facts.",
+        "try": "When you ask why, add: \"Put what has a source first, and list your own guesses separately, marked 'guess'.\""
+      }
+    },
+    {
+      "quote": "Each category below is uniquely positioned to surface one shape of \"why\"",
+      "quoteZh": "下面每一类，都最擅长挖出某一种「为什么」",
+      "zh": {
+        "title": "说清每个来源擅长什么",
+        "does": "它知道去聊天记录找当场讨论、去报错记录找出错经过，不会一处查不到就收手。",
+        "why": "给每个来源配上「最擅长」，AI 既知道该期待什么，也能在某处落空时说清缺的是哪一块。",
+        "try": "让 AI 查资料时写明分工：「官方文档看用法，GitHub issue 看已知的坑，更新日志看什么时候改的。」"
+      },
+      "en": {
+        "title": "Say what each source is best at",
+        "does": "It looks in chat for live debate and in error logs for failures, instead of giving up after one dry source.",
+        "why": "Pairing each source with what it's best at tells the AI what to expect, and names the gap when one comes back empty.",
+        "try": "When you ask for research, assign roles: \"Docs for usage, GitHub issues for known bugs, the changelog for when it changed.\""
+      }
+    },
+    {
+      "quote": "Only with an **explicit, written justification** that goes in the final Sources Consulted.",
+      "quoteZh": "只有在**明确写出理由**时才行，理由要放进最后的「查过的来源」里。",
+      "zh": {
+        "title": "想跳过步骤就得写理由",
+        "does": "它不会悄悄少查一类来源；真跳过了，你会在报告末尾看到为什么。",
+        "why": "跳过要付出「写下来给人看」的代价，偷懒就变得显眼，AI 只会在真站得住时才跳。",
+        "try": "给 AI 一份检查清单时加一句：「哪项没做，就在结尾写一行为什么没做。」"
+      },
+      "en": {
+        "title": "Make skipping cost a written reason",
+        "does": "It won't quietly drop a source; if it skips one, the end of the report says why.",
+        "why": "Having to write the reason down makes shortcuts visible, so the AI only skips when it can defend it.",
+        "try": "With a checklist, add: \"For any item you didn't do, add a line at the end saying why.\""
+      }
+    }
+  ]
+}

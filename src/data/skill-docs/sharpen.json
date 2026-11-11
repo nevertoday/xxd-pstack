@@ -1,0 +1,92 @@
+{
+  "name": "sharpen",
+  "commit": "0854796",
+  "description": {
+    "en": "Make a task deeper, not bigger, then rewrite the prompt. Use for /sharpen.",
+    "zh": "把一件任务做深，而不是做大，然后改写提示词。用于 /sharpen。"
+  },
+  "blocks": [
+    {
+      "en": "I want a deeper version of this task, not a bigger one. Before rewriting it, do four things:",
+      "zh": "我想要这件任务更深的版本，不是更大的版本。改写之前，先做四件事："
+    },
+    {
+      "en": "1. Say what a top professional in this field would do here that I'm not asking for.\n2. Name the rawest material they would start from instead of what has already been digested for me.\n3. Name the specific methods and tools they would use.\n4. Say what, other than you or me, would show the result is right.",
+      "zh": "1. 说出这个领域的顶尖行家在这里会做、而我没要求的事。\n2. 说出行家会从哪种最原始的材料入手，而不是从已经替我消化好的东西入手。\n3. 说出行家会用的具体方法和工具。\n4. 说出除了你和我之外，还有什么能证明结果是对的。"
+    },
+    {
+      "en": "Then rewrite my prompt to ask for exactly that.",
+      "zh": "然后改写我的提示词，让它正好要求这些。"
+    },
+    {
+      "en": "Leave choices that are mine to make open instead of deciding them.",
+      "zh": "该由我做的选择，留着别定，不要替我决定。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "I want a deeper version of this task, not a bigger one.",
+      "quoteZh": "我想要这件任务更深的版本，不是更大的版本。",
+      "zh": {
+        "title": "点名不要的那个方向",
+        "does": "它把你的提示词往深处改，而不是往里塞更多的活。",
+        "why": "「更深」和「更大」都是「更多」，两个并排一摆，AI 就知道该往哪边加。",
+        "try": "想让 AI 改进什么，就点明方向：「我要这篇文章更准，不要更长。」"
+      },
+      "en": {
+        "title": "Name the direction you don't want",
+        "does": "It rewrites your prompt to go deeper, instead of piling more work into it.",
+        "why": "\"Deeper\" and \"bigger\" both mean \"more\"; putting them side by side tells the AI which way to add.",
+        "try": "When you ask for an improvement, name the direction: \"I want this article sharper, not longer.\""
+      }
+    },
+    {
+      "quote": "Say what a top professional in this field would do here that I'm not asking for.",
+      "quoteZh": "说出这个领域的顶尖行家在这里会做、而我没要求的事。",
+      "zh": {
+        "title": "借行家的眼光看任务",
+        "does": "它会补上你没想到、但内行一定会做的步骤。",
+        "why": "「做得更好」没有方向；「行家会怎么做」给了 AI 一个具体的人去模仿。",
+        "try": "改稿之前先问：「一位资深编辑会在这篇稿子里多做哪件我没要求的事？」"
+      },
+      "en": {
+        "title": "Borrow an expert's eyes",
+        "does": "It adds the steps you didn't think of but an expert would never skip.",
+        "why": "\"Do better\" has no direction; \"what would a top professional do\" gives the AI someone concrete to copy.",
+        "try": "Before an edit, ask: \"What would a senior editor do to this draft that I haven't asked for?\""
+      }
+    },
+    {
+      "quote": "Say what, other than you or me, would show the result is right.",
+      "quoteZh": "说出除了你和我之外，还有什么能证明结果是对的。",
+      "zh": {
+        "title": "找一个你我之外的裁判",
+        "does": "改写后的提示词会带上一个外部检查，比如真实数据、测试，或者照着做一遍。",
+        "why": "写的人和提要求的人都容易觉得结果不错，指定一样外面的东西来判，才有说服力。",
+        "try": "加一句：「除了你我觉得好，还有什么能证明这份迁移指南是对的？」"
+      },
+      "en": {
+        "title": "Ask for an outside judge",
+        "does": "The rewritten prompt includes an outside check, such as real data, a test, or actually following it.",
+        "why": "The writer and the asker both tend to like the result; naming something outside them is what makes it convincing.",
+        "try": "Add: \"Besides you and me liking it, what would prove this migration guide is right?\""
+      }
+    },
+    {
+      "quote": "Leave choices that are mine to make open instead of deciding them.",
+      "quoteZh": "该由我做的选择，留着别定，不要替我决定。",
+      "zh": {
+        "title": "划出该你拍板的事",
+        "does": "该你决定的事，比如预算或风格，它会留给你，不会替你定。",
+        "why": "先说清哪些决定归你，AI 就不会为了显得周全而替你拍板。",
+        "try": "在提示词里写：「配色由我定，你只列两三个选项，不要直接选。」"
+      },
+      "en": {
+        "title": "Mark which calls are yours",
+        "does": "It leaves your decisions, like budget or style, to you instead of making them.",
+        "why": "Saying which decisions are yours stops the AI from making them just to look thorough.",
+        "try": "Write: \"I'll pick the colors; list two or three options and don't choose one.\""
+      }
+    }
+  ]
+}

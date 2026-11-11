@@ -1,0 +1,120 @@
+{
+  "name": "benchmark-checklist",
+  "commit": "0854796",
+  "description": {
+    "en": "Vet a perf measurement (limiter, tuning, limits, errors, repeatability, relevance, and whether the work happened) before you report or act on it. Use when you run a benchmark or report a speedup or regression you measured.",
+    "zh": "在报告一个性能测量结果或据此行动之前，先核查它（瓶颈、调优、极限、错误、可重复性、相关性，以及工作到底有没有发生）。在你跑基准测试，或者报告你测到的提速或退步时使用。"
+  },
+  "blocks": [
+    {
+      "en": "# Benchmark checklist",
+      "zh": "# Benchmark checklist（性能测试核对清单）"
+    },
+    {
+      "en": "Use this when you produce a performance number: a PR's before and after, a regression claim, a hillclimb harness, or a library or config choice. Answer each question with evidence from a run, not a guess about the code.",
+      "zh": "当你产出一个性能数字时用它：一个 PR 的改前改后、一个「变慢了」的说法、一个 hillclimb 的测量框架，或者在几个库或配置之间做选择。每个问题都用一次实际运行的证据来回答，不要靠对代码的猜测。"
+    },
+    {
+      "en": "For a quick ballpark the user asked for, one run is enough. Still check questions 4 and 7, and say that it is one run. Skip the rest unless that run looks wrong. A choice between options is never a ballpark.",
+      "zh": "如果用户要的只是一个大概的估计，跑一次就够了。但仍然要检查第 4 和第 7 个问题，并说明这只跑了一次。除非那次运行看起来不对劲，其余的问题都可以跳过。在几个选项之间做选择，从来都不算大概估计。"
+    },
+    {
+      "en": "## Before you run anything",
+      "zh": "## 跑任何东西之前"
+    },
+    {
+      "en": "- Write down the claim you expect to make, in the words you would ship (\"export is 30% faster at p50 on the 60k-row dataset\"). The questions test that sentence.\n- Read the measurement script. Note what it times, counts, and ignores.\n- Check the load average with `uptime` and the core count with `nproc`. If the machine is busy, find out what is running. If you cannot stop it, interleave the sides so both see the same noise, and say so in the report.",
+      "zh": "- 用你会交付出去的措辞，写下你预期要下的结论（「在 6 万行的数据集上，导出的 p50 快了 30%」）。这些问题检验的就是这句话。\n- 读测量脚本。记下它计时了什么、计数了什么、忽略了什么。\n- 用 `uptime` 看负载，用 `nproc` 看核心数。如果机器很忙，查清楚在跑什么。如果停不掉它，就让两边交替运行，让两边受到同样的干扰，并在报告里说明。"
+    },
+    {
+      "en": "## The questions",
+      "zh": "## 这些问题"
+    },
+    {
+      "en": "1. **Why not double?** Name the limiter. Profile in a run you do not report, because profilers and tracers slow the work down. Use CPU per process (`top`, `pidstat`), a runtime profiler (`node --cpu-prof`, `py-spy`, `perf`), I/O wait, and syscall counts (`strace -c` on Linux), then map the hot spot to source. Watch the load generator too: if it saturates first, you measured the load generator. If a change did not move the number, the limiter explains why, so find it before you call the change useless.\n2. **Was it tuned?** Run every side the way production runs it: release builds, production flags and env, batching and transaction settings, connection pools, caches as warm or cold as production sees them, and the same versions and data. If one side runs on defaults, you compared configurations, not implementations. A limiter that is a setting (a commit per row, a debug build, a missing index) means that side is untuned. Tune it and measure again before you pick a winner. If you cannot tune it, do not pick a winner from that run. When the user is choosing what to adopt, narrowing the claim to the code as it ships today does not fix this, because they adopt the option, not today's settings.\n3. **Did it break limits?** Do the arithmetic. Compare bytes per second with disk and network bandwidth, operations per second times cost per operation with your cores, and the time saved with the time the changed piece took. Removing a piece that takes 10% of the run can make the run at most about 11% faster. A result past a limit measured something other than the work, such as a cache, a no-op, or a bug.\n4. **Did it error?** Count failures and non-success responses, and check that outputs are correct, not just present. Rejections are often fast, and timeouts and retries are slow. If the script does not count errors, add the count.\n5. **Does it reproduce?** Run each side at least 5 times, alternating (A, B, A, B, and so on) so warmup, lazy initialization, caches, and drift favor neither. Report the median and range. A gap smaller than the run-to-run variation is no measurable difference. When the call is close, use a rank-sum test or the harness's own statistics.\n6. **Does it matter?** Next to any micro result, measure the end-to-end path a user waits on, with realistic data sizes and concurrency, and report the micro result as a share of the whole. A helper that takes 1% of a request can make the request at most 1% faster, however fast the helper gets.\n7. **Did it even happen?** Confirm the work ran inside the timed region: the request reached the server, the rows were written, the bytes were read, and the code used the result. Lazy code (generators nobody iterates, promises nobody awaits, results the JIT can discard) and timeouts produce numbers for work that never happened.",
+      "zh": "1. **为什么不能快一倍？** 说出瓶颈。在一次不拿来报告的运行里做性能分析，因为性能分析器和追踪工具会拖慢工作。用每个进程的 CPU（`top`、`pidstat`）、运行时性能分析器（`node --cpu-prof`、`py-spy`、`perf`）、I/O 等待和系统调用次数（Linux 上用 `strace -c`），再把热点对应到源码。也要盯着负载生成器：如果它先跑满，你测的就是负载生成器。如果一个改动没让数字动起来，瓶颈能解释为什么，所以先找到它，再说这个改动没用。\n2. **调优了吗？** 每一边都按生产环境的方式运行：发布版构建、生产环境的参数和环境变量、批处理和事务设置、连接池、和生产环境一样冷或一样热的缓存，还有相同的版本和数据。如果一边用的是默认设置，你比较的就是配置，而不是实现。如果瓶颈是一个设置（每行一次提交、调试版构建、少了一个索引），说明那一边没调优。先调好，再测一次，然后才挑赢家。如果调不了，就不要从那次运行里挑赢家。当用户在选择要采用哪个方案时，把结论收窄到「代码按今天发布的样子」并不能解决这个问题，因为用户采用的是这个方案，而不是今天的设置。\n3. **突破极限了吗？** 算一算。把每秒字节数和磁盘、网络带宽比，把每秒操作数乘以每次操作的开销和你的核心数比，把省下的时间和被改动部分原本花的时间比。去掉一个占整次运行 10% 的部分，整次运行最多只能快大约 11%。超过极限的结果，测到的是工作以外的东西，比如缓存、空操作或者 bug。\n4. **出错了吗？** 数一数失败和非成功的响应，并检查输出是对的，而不只是有输出。拒绝往往很快，超时和重试则很慢。如果脚本不统计错误，就把计数加上。\n5. **能重复出来吗？** 每一边至少跑 5 次，交替进行（A、B、A、B，依此类推），让预热、懒初始化、缓存和漂移都不偏向任何一边。报告中位数和范围。比两次运行之间的波动还小的差距，就是没有可测量的差别。结果很接近时，用秩和检验，或者测量框架自带的统计。\n6. **它重要吗？** 在任何微观结果旁边，测一下用户实际在等的端到端路径，用真实的数据量和并发，并把微观结果报告成占整体的比例。一个只占请求 1% 时间的辅助函数，不管变得多快，最多只能让请求快 1%。\n7. **工作真的发生了吗？** 确认工作在计时的区间里跑了：请求到了服务器，行写进去了，字节读到了，代码用上了结果。惰性代码（没人迭代的生成器、没人 await 的 promise、JIT 可以丢掉的结果）和超时，会为根本没发生的工作产出数字。"
+    },
+    {
+      "en": "## Report",
+      "zh": "## 报告"
+    },
+    {
+      "en": "- Lead with the verdict: faster, slower, no measurable difference, or inconclusive.\n- Give the number with its unit, the run count, the range, and the limiter. For example, \"p50 41 ms → 33 ms, median of 7 runs per side, range 32 to 35 ms after, bound by JSON parsing on one core.\"\n- Call the verdict inconclusive when you claim a difference but cannot name the limiter, when a side ran untuned, or when you could not check questions 4 and 7. Name the gap.\n- Keep a PR body to one primary number, per the **Opening a PR** playbook. Put the runs, range, and limiter evidence in a linked artifact or notes file.",
+      "zh": "- 先给结论：更快、更慢、没有可测量的差别，或者说不准。\n- 给出带单位的数字、运行次数、范围和瓶颈。例如：「p50 41 ms → 33 ms，每边 7 次运行取中位数，改后范围 32 到 35 ms，瓶颈是单核上的 JSON 解析。」\n- 以下情况，结论定为说不准：你声称有差别，但说不出瓶颈；有一边没调优；或者你没能检查第 4 和第 7 个问题。说出缺了什么。\n- 按 **Opening a PR** 剧本，PR 正文里只放一个主要数字。运行记录、范围和瓶颈的证据，放在一个链接过去的附件或笔记文件里。"
+    },
+    {
+      "en": "## Other perf material",
+      "zh": "## 其他性能相关的内容"
+    },
+    {
+      "en": "- Vet the **Perf issue** playbook's baseline before the playbook plans from it, and every number after that.\n- Vet the **Hillclimb** playbook's harness before it is frozen. The frozen harness then prints error and work counts, so each keep-or-revert checks questions 4 and 7 for free.",
+      "zh": "- 在 **Perf issue** 剧本根据它的基线做计划之前，先核查这个基线，之后的每个数字也要核查。\n- 在 **Hillclimb** 剧本的测量框架固定下来之前，先核查它。固定后的测量框架会打印错误数和工作量，所以每次决定保留还是撤回时，都顺带免费检查了第 4 和第 7 个问题。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Write down the claim you expect to make, in the words you would ship",
+      "quoteZh": "用你会交付出去的措辞，写下你预期要下的结论",
+      "zh": {
+        "title": "先写下要交的结论",
+        "does": "它测之前先写出准备交给你的那句话，后面每个问题都拿这句话来检验。",
+        "why": "先把结论落成一句具体的话，核查就有了靶子，不会测完再凑说法。",
+        "try": "让 AI 做调研前加一句：「先写一句你打算告诉我的结论，比如『首页加载快了一半』，做完再看它站不站得住。」"
+      },
+      "en": {
+        "title": "Write the claim before testing",
+        "does": "Before measuring, it writes the sentence it plans to report, and every question then tests that sentence.",
+        "why": "One concrete claim gives the checks a target, so it can't measure first and invent the story after.",
+        "try": "Before research, add: \"First write the one-line conclusion you expect to give me, like 'the home page loads twice as fast', then check if it holds.\""
+      }
+    },
+    {
+      "quote": "Removing a piece that takes 10% of the run can make the run at most about 11% faster.",
+      "quoteZh": "去掉一个占整次运行 10% 的部分，整次运行最多只能快大约 11%。",
+      "zh": {
+        "title": "给一道算术当护栏",
+        "does": "遇到好得离谱的提速，它先算算可不可能；不可能，就承认测错了。",
+        "why": "一道算好的例子，比「注意别夸大」好用，AI 可以照着它自己算。",
+        "try": "给 AI 一个能自己算的上限：「这段只占全文一成，删掉它，读完最多省一成时间，超过就是算错了。」"
+      },
+      "en": {
+        "title": "Use arithmetic as a guardrail",
+        "does": "When a speedup looks too good, it checks whether it's even possible, and admits a bad measurement if not.",
+        "why": "A worked example beats \"don't exaggerate\", because the AI can redo the math itself.",
+        "try": "Give a limit it can compute: \"This section is a tenth of the text, so cutting it saves at most a tenth of the reading time.\""
+      }
+    },
+    {
+      "quote": "Lead with the verdict: faster, slower, no measurable difference, or inconclusive.",
+      "quoteZh": "先给结论：更快、更慢、没有可测量的差别，或者说不准。",
+      "zh": {
+        "title": "把结论限定成几个选项",
+        "does": "报告一开头就是四个结论之一，「说不准」也算正经答案。",
+        "why": "只给几个固定选项、又把「说不准」列进去，AI 就不会硬凑一个好看的结论。",
+        "try": "要结论时给出选项：「开头先说：能上线、不能上线、还说不准，三选一。」"
+      },
+      "en": {
+        "title": "Limit the verdict to a few options",
+        "does": "The report opens with one of four verdicts, and \"inconclusive\" is a real answer.",
+        "why": "A short fixed list that includes \"inconclusive\" stops the AI from forcing a flattering result.",
+        "try": "When you want a verdict, list the options: \"Start with one of: ready to ship, not ready, can't tell yet.\""
+      }
+    },
+    {
+      "quote": "Why not double?",
+      "quoteZh": "为什么不能快一倍？",
+      "zh": {
+        "title": "把检查写成短问句",
+        "does": "每个性能数字它都要回答七个问题，比如「为什么不能快一倍」，逼它找出卡住速度的地方。",
+        "why": "短问句好记，而且非答不可，比一条规定更难糊弄过去。",
+        "try": "交稿前让 AI 回答几个短问题：「谁会读？读完要做什么？哪句可以删？」"
+      },
+      "en": {
+        "title": "Turn checks into short questions",
+        "does": "Every number has to answer seven questions, like \"why not double?\", which makes it find what limits the speed.",
+        "why": "A short question is easy to remember and demands an answer, so it's harder to brush past than a rule.",
+        "try": "Before a draft is done, have the AI answer: \"Who reads this? What do they do next? Which line can go?\""
+      }
+    }
+  ]
+}

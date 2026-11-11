@@ -1,0 +1,64 @@
+{
+  "name": "in-your-own-words",
+  "commit": "0854796",
+  "description": {
+    "en": "Restate in your own words what you think the user's goals are and what problem they're trying to solve. Use for /in-your-own-words.",
+    "zh": "用你自己的话，说说你认为用户的目标是什么，用户想解决的是什么问题。用于 /in-your-own-words。"
+  },
+  "blocks": [
+    {
+      "en": "Restate in your own words what you think the user's goals are and what problem they're trying to solve.",
+      "zh": "用你自己的话，说说你认为用户的目标是什么，用户想解决的是什么问题。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Restate in your own words",
+      "quoteZh": "用你自己的话",
+      "zh": {
+        "title": "要它换成自己的话说",
+        "does": "AI 不照抄你的原话，而是按它的理解重说一遍，理解偏了你一眼就能看出来。",
+        "why": "照抄看不出懂没懂，换成自己的话，理解里的偏差才会露出来。",
+        "try": "交代任务后先让它复述：「先别动手，用你自己的话说说你打算改什么。」"
+      },
+      "en": {
+        "title": "Ask for its own words",
+        "does": "The AI doesn't echo your wording; it retells it as it understands it, so a misunderstanding shows at once.",
+        "why": "An echo hides whether it understood; its own words expose any gap.",
+        "try": "After you give a task, ask first: \"Before you start, tell me in your own words what you plan to change.\""
+      }
+    },
+    {
+      "quote": "what you think the user's goals are",
+      "quoteZh": "你认为用户的目标是什么",
+      "zh": {
+        "title": "把理解当成猜测来问",
+        "does": "它把自己的理解摆出来等你纠正，而不是当成事实直接开干。",
+        "why": "「你认为」三个字把理解变成一个可以被推翻的猜测，AI 说起来不怕错，你改起来也顺手。",
+        "try": "问理解时加上「你认为」：「说说你认为我最在意的是速度还是稳定。」"
+      },
+      "en": {
+        "title": "Ask for its guess",
+        "does": "It lays out its understanding for you to correct, instead of treating it as fact and starting work.",
+        "why": "\"What you think\" turns understanding into a guess that can be overturned, easy for it to say and for you to fix.",
+        "try": "Frame it as a guess: \"Tell me what you think I care about most, speed or stability.\""
+      }
+    },
+    {
+      "quote": "what problem they're trying to solve",
+      "quoteZh": "用户想解决的是什么问题",
+      "zh": {
+        "title": "把目标和问题分开问",
+        "does": "它分别说出你想做成什么、你卡在什么地方，哪一半理解错了一看就知道。",
+        "why": "目标是想去哪，问题是卡在哪，分开问，就能看出偏差出在哪一半。",
+        "try": "复述时要两样都说：「说说我想做成什么，以及我现在被什么挡住了。」"
+      },
+      "en": {
+        "title": "Ask for goal and problem separately",
+        "does": "It says what you want to achieve and what's blocking you, so you see which half it got wrong.",
+        "why": "The goal is where you want to go and the problem is what's in the way; asking both shows where the gap is.",
+        "try": "Ask for both: \"Tell me what I'm trying to get done, and what's stopping me right now.\""
+      }
+    }
+  ]
+}

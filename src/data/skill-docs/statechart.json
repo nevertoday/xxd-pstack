@@ -1,0 +1,196 @@
+{
+  "name": "statechart",
+  "commit": "0854796",
+  "description": {
+    "en": "Check a TLA+ model of a system that moves between states, such as a product flow, a protocol, or a service, and draw it as a Mermaid statechart. The report gives the shortest path to each state that breaks a rule. Use for /statechart, or to show a bug as a path through states.",
+    "zh": "检查一个会在不同状态之间切换的系统的 TLA+ 模型，比如一段产品流程、一个协议或一个服务，并把它画成 Mermaid 状态图。报告会给出走到每个违反规则的状态的最短路径。用于 /statechart，或者想把一个 bug 展示成一条穿过各个状态的路径时。"
+  },
+  "blocks": [
+    {
+      "en": "# Statechart",
+      "zh": "# Statechart（状态图）"
+    },
+    {
+      "en": "The chart shows how a system moves between states, in the words of the person who reads it. That person, the reader, decides whether the behavior is right.",
+      "zh": "这张图讲一个系统怎么在不同状态之间切换，用的是读图那个人的话。这个人，也就是读者，来判断这些行为对不对。"
+    },
+    {
+      "en": "## Run",
+      "zh": "## 运行"
+    },
+    {
+      "en": "Work in a scratch folder outside the repo. Write a TLA+ spec and its config. Then run:",
+      "zh": "在仓库外面的一个临时文件夹里干活。写一份 TLA+ 规格和它的配置。然后运行："
+    },
+    {
+      "en": "```sh\n<skill dir>/scripts/statechart SPEC.tla [--config FILE] [--view FILE] [--out DIR]\n```",
+      "zh": "```sh\n<skill dir>/scripts/statechart SPEC.tla [--config FILE] [--view FILE] [--out DIR]\n```"
+    },
+    {
+      "en": "`scripts/statechart.ts` is TypeScript, so run it with a runtime that can execute TypeScript.",
+      "zh": "`scripts/statechart.ts` 是 TypeScript，所以要用能执行 TypeScript 的运行时来跑。"
+    },
+    {
+      "en": "The first run installs TLC and Java with mise and needs the network.",
+      "zh": "第一次运行会用 mise 安装 TLC 和 Java，需要联网。"
+    },
+    {
+      "en": "## Write the spec",
+      "zh": "## 写规格"
+    },
+    {
+      "en": "- Write each rule that the reader agrees to as an INVARIANT. A rule can be about a screen, a result, a stored value, or a message. If the model has no variable for a rule, add the variable. Never weaken a rule to make it hold.\n- Write `Next` as a disjunction of the actions, such as `YouPressPlay \\/ YouPressStop`. If you do not, TLC names every step `Next`.\n- A state with no step out breaks `NoDeadlock`, also when it is a correct end state. When an INVARIANT or a PROPERTY already has that name, the rule is `CHECK_DEADLOCK`. Add to `Next` an action that is true only in the end states and changes nothing, such as `Done == phase \\in {\"paid\", \"failed\"} /\\ UNCHANGED vars`, and give it a label in `step()`.",
+      "zh": "- 读者认可的每条规则，都写成一个 INVARIANT。一条规则可以是关于一个界面、一个结果、一个存下来的值，或一条消息。如果模型里没有对应某条规则的变量，就加上这个变量。绝不为了让规则成立而放宽规则。\n- 把 `Next` 写成各个动作用「或」连起来的形式，比如 `YouPressPlay \\/ YouPressStop`。不这样写的话，TLC 会把每一步都叫做 `Next`。\n- 一个没有下一步可走的状态会违反 `NoDeadlock`，哪怕它是一个正确的结束状态。如果某个 INVARIANT 或 PROPERTY 已经用了这个名字，这条规则就叫 `CHECK_DEADLOCK`。在 `Next` 里加一个只在结束状态成立、什么都不改的动作，比如 `Done == phase \\in {\"paid\", \"failed\"} /\\ UNCHANGED vars`，并在 `step()` 里给它一个标签。"
+    },
+    {
+      "en": "## Pick the chart",
+      "zh": "## 定下图怎么画"
+    },
+    {
+      "en": "You do the work that needs judgment: the words on each state and arrow, the phases and their colors, the title, and the report to the reader. Put your work in a view module, and give it with `--view`.",
+      "zh": "需要判断力的活由你来做：每个状态和每个箭头上写什么字，分哪些阶段、各用什么颜色，标题，以及给读者的报告。把你做的这些放进一个视图模块，用 `--view` 传进去。"
+    },
+    {
+      "en": "To show the reader's words, the view exports `state(vars)`. The value that `state()` returns picks the form:",
+      "zh": "为了显示读者的说法，视图要导出 `state(vars)`。`state()` 返回的值决定图的形式："
+    },
+    {
+      "en": "- A string gives a flat chart: `export const state = (v) => (v.paid ? \"Paid\" : \"Paying\");`\n- An array gives parent states: `export const state = (v) => v.main.split(\".\");`\n- An object gives one parallel region for each key: `export const state = (v) => ({ Playback: v.playback, Volume: v.volume });`",
+      "zh": "- 返回字符串，得到一张平铺的图：`export const state = (v) => (v.paid ? \"Paid\" : \"Paying\");`\n- 返回数组，得到父状态：`export const state = (v) => v.main.split(\".\");`\n- 返回对象，每个键得到一个并行区域：`export const state = (v) => ({ Playback: v.playback, Volume: v.volume });`"
+    },
+    {
+      "en": "Label each state with what the reader can see or cares about, such as \"Paying\" or \"Lease held, write pending\". Keep variable names out of labels. In `vars`, a TLA+ sequence is an object with keys from 1, so `v.pc[1]` is `pc[1]`. A set is an array.",
+      "zh": "每个状态的标签，写读者能看到或在意的东西，比如「付款中」或「租约已拿到，写入还没完成」。标签里不要出现变量名。在 `vars` 里，TLA+ 的序列是一个键从 1 开始的对象，所以 `v.pc[1]` 就是 `pc[1]`。集合是一个数组。"
+    },
+    {
+      "en": "The view can also export `step(action, from, to)`. It gets the TLC action name and the values before and after the step, and it returns the label of the arrow. Write each step label as the user sees it happen, such as \"you press play\" or \"the connect fails\". Do not name the code or the TLA+ action. Two actions that end the same in the chart get the same label, so that they share one arrow.",
+      "zh": "视图还可以导出 `step(action, from, to)`。它拿到 TLC 的动作名，以及这一步之前和之后的值，返回箭头上的标签。每个步骤的标签，都按用户看到它发生的样子来写，比如「你按下播放」或「连接失败」。不要写代码或 TLA+ 动作的名字。两个动作如果在图里结果一样，就给同一个标签，这样它们共用一个箭头。"
+    },
+    {
+      "en": "When a step can occur only in some conditions, end its label with the condition in brackets, in the reader's words, such as `you press play [while the file loads]`. In a regions chart, the command writes the condition on the other regions on the arrow, in the words of their labels, such as `[when Offline]`. Your brackets replace it, and two arrows from one state can then look the same. So in a regions chart, do not write brackets for a condition on another region. When a value that no label shows decides where a step goes, name the result in the label, such as \"the roster read fails\".",
+      "zh": "如果一个步骤只在某些条件下才会发生，就在它的标签末尾用方括号写上条件，用读者的话，比如 `you press play [while the file loads]`。在分区域的图里，命令会把其他区域上的条件写在箭头上，用的是那些区域标签里的词，比如 `[when Offline]`。你写的方括号会替换掉它，这时从同一个状态出发的两个箭头可能看起来一模一样。所以在分区域的图里，关于另一个区域的条件，不要写方括号。如果一个没有任何标签显示的值决定了这一步走向哪里，就在标签里写出结果，比如「读取名单失败」。"
+    },
+    {
+      "en": "The view can also export these:",
+      "zh": "视图还可以导出这些："
+    },
+    {
+      "en": "- `group(vars)` returns the name of a phase. Each chart state gets the color of its group. When the model states behind one chart state are in different groups, that state gets no color.\n- `colors` gives each group name a color class.\n- `title` is a string that the chart shows at the top.",
+      "zh": "- `group(vars)` 返回一个阶段的名字。图里每个状态都用它所在组的颜色。如果一个图中状态背后的几个模型状态分属不同的组，这个状态就没有颜色。\n- `colors` 给每个组名指定一个颜色类。\n- `title` 是一个字符串，显示在图的顶部。"
+    },
+    {
+      "en": "The command calls `state()` and `group()` at most once for each model state, and `step()` at most once for each step. The chart and the report both use those answers. So make each function depend only on its arguments.",
+      "zh": "对每个模型状态，命令最多调用一次 `state()` 和 `group()`；对每一步，最多调用一次 `step()`。图和报告用的都是这些返回值。所以每个函数都只能依赖它的参数。"
+    },
+    {
+      "en": "The chart does not draw a step that stays in one label. Split a label when the reader must see such a step.",
+      "zh": "如果一步走完还停在同一个标签里，图就不画它。读者必须看到这样的一步时，就把这个标签拆开。"
+    },
+    {
+      "en": "Aim for about 20 arrows or fewer, because a busier chart is hard to read. First return coarser labels from `state()`. Give one label to values that act the same, and leave out a detail that the reader does not need, such as a call in flight whose return changes nothing. Keep each state of a bug path, and keep each mark. When a merge changes a `breaks` state to `mayBreak`, it hides where a rule breaks. Do not merge two states that break different rules, because the reader then cannot see which rule breaks where. If the chart is still too busy, return `null` from `step()` for the steps that the reader does not need, such as a reset that every state has, or a step whose arrow repeats what other arrows show. Obey these rules when you hide steps:",
+      "zh": "箭头控制在 20 个左右或更少，因为更挤的图很难读。先让 `state()` 返回更粗的标签。表现一样的值给同一个标签，读者不需要的细节就省掉，比如一个正在进行、返回后什么都不改变的调用。bug 路径上的每个状态都要留着，每个标记也要留着。合并如果把一个 `breaks` 状态变成了 `mayBreak`，就会把规则在哪里被违反藏起来。违反不同规则的两个状态不要合并，否则读者就看不出哪条规则在哪里被违反。如果图还是太挤，就对读者不需要的步骤让 `step()` 返回 `null`，比如每个状态都有的重置，或者箭头和别的箭头重复的步骤。隐藏步骤时遵守这些规则："
+    },
+    {
+      "en": "- Keep each chart state reachable by arrows from a start state.\n- Keep at least one arrow out of each chart state that has a step out in the model.\n- Hide all the steps of an arrow, or none of them. When you hide only some, its condition gets narrower.\n- In the hand-off, say which steps the chart hides.",
+      "zh": "- 图里每个状态都要能从某个起始状态顺着箭头走到。\n- 在模型里有下一步的每个图中状态，至少留一个往外走的箭头。\n- 一个箭头背后的所有步骤，要么全藏，要么都不藏。只藏一部分的话，它的条件会变窄。\n- 交接时，说明图里藏了哪些步骤。"
+    },
+    {
+      "en": "## Read the report",
+      "zh": "## 读报告"
+    },
+    {
+      "en": "- In the chart, a state that breaks a rule has the class `breaks`. When only some model states behind it break the rule, it has the class `mayBreak`. The Legend names the rules of each mark. When two rules break, it names both on one mark, so say in the hand-off which state breaks which rule. In a regions chart, a state gets a mark when each combination of region states that includes it can break a rule. When a combination can break a rule and none of its states has a mark, each state in that combination gets a mark.\n- TLC goes past a state that breaks a rule, so the chart shows the states after a bug.\n- Because TLC goes past bugs, a model with no limit on its states can run without end. Keep the constants small, or add a CONSTRAINT.\n- With a VIEW or a SYMMETRY, TLC counts states that it treats as the same as one state, and the chart draws that one state. An arrow can lead to it rather than to the state that the step reaches, and the report says so.\n- TLC checks the rules in each state past a CONSTRAINT or an ACTION_CONSTRAINT, but it does not explore that state or check it for deadlock. When TLC's shortest path for a rule ends in such a state, the chart draws that state, and the report gives that path. The chart does not draw the other states past the bound. A deadlock in such a state does not show. TLC also checks the rules after each step that an ACTION_CONSTRAINT excludes, also when it reaches the next state another way. When TLC's shortest path for a rule ends with such a step, the chart draws that step.\n- The command checks the rules with TLC on the config as written, with one worker. When a rule breaks, the command removes that rule and runs TLC again, until no rule breaks. After the first break, each run stops at 100,000 distinct states, so that a large model does not run without end. When a run reaches that bound or stops on an error, the report lists the rules that it did not check under \"Rules not checked\", and the chart does not mark them. A rule that is not checked can hold or break. To check it, remove the rules that break from the config, or make the model smaller. The bound adds a module that changes TLC's order of the variables, so for a property TLC can find a different counterexample than a run without the bound.\n- `tlc.out` is what TLC printed on the config as written. When the chart does not show the bug path of a rule that breaks, `tlc-RULE.out` is what TLC printed for the run that found it. When TLC repeats its first warning, plain TLC prints it twice, but `tlc.out` shows it once, because TLC leaves the second copy out of the output that this command reads. That happens only when Java runs with `-XX:+UseParallelGC`, since otherwise TLC's first warning is its advice to pass that flag, which it prints once.",
+      "zh": "- 在图里，违反某条规则的状态带有 `breaks` 这个类。如果它背后只有部分模型状态违反规则，它带的是 `mayBreak` 类。图例（Legend）写出每个标记对应哪些规则。两条规则都被违反时，图例会把两条写在同一个标记上，所以交接时要说清哪个状态违反了哪条规则。在分区域的图里，如果包含某个状态的每一种区域状态组合都可能违反规则，这个状态就会带标记。如果某个组合可能违反规则，而组合里没有一个状态带标记，这个组合里的每个状态都会带标记。\n- TLC 遇到违反规则的状态不会停，会继续往下走，所以图里会画出 bug 之后的状态。\n- 因为 TLC 会越过 bug 继续走，一个状态数量没有上限的模型可能永远跑不完。把常量设小，或者加一个 CONSTRAINT。\n- 用了 VIEW 或 SYMMETRY 时，TLC 会把它当作相同的几个状态算成一个，图里也只画这一个。一个箭头可能指向这个状态，而不是这一步实际到达的状态，报告会说明这一点。\n- 对越过 CONSTRAINT 或 ACTION_CONSTRAINT 的每个状态，TLC 会检查规则，但不会从它继续探索，也不检查它是否死锁。如果 TLC 给某条规则找到的最短路径终点是这样一个状态，图会画出这个状态，报告会给出这条路径。越过界限的其他状态，图不画。这样的状态里的死锁不会显示出来。对被 ACTION_CONSTRAINT 排除的每一步，TLC 也会在这一步之后检查规则，即使通过别的方式也能到达下一个状态。如果 TLC 给某条规则找到的最短路径以这样一步结尾，图会画出这一步。\n- 命令用 TLC 按原样的配置检查规则，只用一个工作线程。一条规则被违反后，命令会去掉这条规则，再跑一遍 TLC，直到没有规则被违反。第一次违反之后，每次运行跑到 100,000 个不同的状态就停，免得大模型永远跑不完。如果某次运行碰到这个上限，或者因为出错而停下，报告会把它没检查的规则列在「Rules not checked」下面，图里也不标记它们。没检查的规则可能成立，也可能被违反。要检查它，就从配置里去掉那些被违反的规则，或者把模型改小。这个上限会加进一个模块，它改变了 TLC 排列变量的顺序，所以对一条 property，TLC 找到的反例可能和不加上限时不一样。\n- `tlc.out` 是 TLC 在原样的配置上打印的内容。如果图里没显示某条被违反规则的 bug 路径，`tlc-RULE.out` 就是找到它的那次运行里 TLC 打印的内容。TLC 重复它的第一条警告时，直接跑 TLC 会打印两次，但 `tlc.out` 里只出现一次，因为 TLC 把第二份留在了这个命令读取的输出之外。这只在 Java 带着 `-XX:+UseParallelGC` 运行时才会发生，因为不带的话，TLC 的第一条警告就是建议你加上这个参数，而这条它只打印一次。"
+    },
+    {
+      "en": "## Show the chart",
+      "zh": "## 展示图"
+    },
+    {
+      "en": "Show `chart.mmd` to the user as a `mermaid` code block. The chart has a budget of 500 states, counted by TLC on the config as written. Above that, the chart draws only the paths to the rules that break, and when no rule breaks, the command writes no `chart.mmd`. It still checks each rule, and the report gives the state count and each bug path. To see the whole graph, make the model smaller.",
+      "zh": "把 `chart.mmd` 作为 `mermaid` 代码块展示给用户。这张图的预算是 500 个状态，按 TLC 在原样的配置上的计数算。超过的话，图只画通往被违反规则的路径；如果没有规则被违反，命令就不写 `chart.mmd`。它照样检查每条规则，报告里会给出状态数和每条 bug 路径。想看完整的图，就把模型改小。"
+    },
+    {
+      "en": "Render charts with Pele. When the user asks for an image, or a chart is too large to read as text, follow `references/render.md`. Do not use a different renderer unless the user asks for it.",
+      "zh": "用 Pele 渲染图。用户要图片，或者图太大、当文字读不了时，按 `references/render.md` 来做。除非用户要求，不要换别的渲染工具。"
+    },
+    {
+      "en": "## Hand off",
+      "zh": "## 交接"
+    },
+    {
+      "en": "Give each chart and its Mermaid text to the person who must decide. Add one line for each bug: the rule, the reader's sentence for that rule, and the path as the report numbers it. Say what the model leaves out. Give the command that makes the files again, with a new `--out` folder.",
+      "zh": "把每张图和它的 Mermaid 文本交给必须做决定的那个人。每个 bug 加一行：违反的规则、读者对这条规则说的那句话，以及报告里编了号的路径。说明模型没有包含什么。给出重新生成这些文件的命令，用一个新的 `--out` 文件夹。"
+    },
+    {
+      "en": "When the model describes code, replay each bug path against the real code, as a test or a live repro, one step for each action. If a bug does not occur, think that the model is wrong until you show that it is not.",
+      "zh": "当模型描述的是代码时，拿每条 bug 路径去对真实代码重放一遍，写成测试，或者现场让问题再出现一次，每个动作对应一步。如果某个 bug 没有出现，先认定是模型错了，直到你证明不是为止。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Label each state with what the reader can see or cares about",
+      "quoteZh": "每个状态的标签，写读者能看到或在意的东西",
+      "zh": {
+        "title": "按读者看到的样子起名",
+        "does": "图上每个状态写的是「付款中」这种你看得懂的话，不是代码里的变量名。",
+        "why": "规定名字从读者的眼睛出发，AI 就不会顺手把内部的叫法搬出来。",
+        "try": "让 AI 画流程图时加一句：「每个框写顾客在屏幕上看到的样子，比如『等待付款』。」"
+      },
+      "en": {
+        "title": "Name states as readers see them",
+        "does": "Each state on the chart reads like \"Paying\", words you understand, not a variable name.",
+        "why": "Naming starts from the reader's eyes, so the AI doesn't carry over the code's own names.",
+        "try": "When you ask for a flowchart, add: \"Label each box with what the customer sees on screen, such as 'Waiting for payment'.\""
+      }
+    },
+    {
+      "quote": "Never weaken a rule to make it hold.",
+      "quoteZh": "绝不为了让规则成立而放宽规则。",
+      "zh": {
+        "title": "堵住最省事的作弊路",
+        "does": "检查发现规则被违反时，它去找问题，而不是改松规则让检查通过。",
+        "why": "提前点名 AI 最容易走的捷径并直接禁止，比笼统说「要认真」管用。",
+        "try": "让 AI 修 bug 时写明：「测试不过就改代码，绝不改测试里的期望值。」"
+      },
+      "en": {
+        "title": "Block the easiest cheat",
+        "does": "When a rule breaks, it looks for the problem instead of loosening the rule until the check passes.",
+        "why": "Naming the shortcut the AI is most tempted by, and forbidding it, works better than a vague \"be careful\".",
+        "try": "When you ask for a bug fix, write: \"If a test fails, change the code, never the test's expected value.\""
+      }
+    },
+    {
+      "quote": "Aim for about 20 arrows or fewer, because a busier chart is hard to read.",
+      "quoteZh": "箭头控制在 20 个左右或更少，因为更挤的图很难读。",
+      "zh": {
+        "title": "给数字，也给理由",
+        "does": "图保持在一眼能读完的大小，太挤时它会主动合并或省掉不要紧的步骤。",
+        "why": "数字让目标清楚，理由让 AI 在数字管不到的情况下也能自己拿主意。",
+        "try": "给上限时带上原因：「每段不超过三句，因为读者是在手机上看。」"
+      },
+      "en": {
+        "title": "Give the number and the reason",
+        "does": "The chart stays small enough to read at a glance; when it gets busy, it merges or drops steps that don't matter.",
+        "why": "The number makes the goal clear, and the reason lets the AI decide well where the number doesn't reach.",
+        "try": "Give a limit with its cause: \"At most three sentences per paragraph, because people read this on a phone.\""
+      }
+    },
+    {
+      "quote": "If a bug does not occur, think that the model is wrong until you show that it is not.",
+      "quoteZh": "如果某个 bug 没有出现，先认定是模型错了，直到你证明不是为止。",
+      "zh": {
+        "title": "说好对不上时先怀疑谁",
+        "does": "图上的 bug 在真代码里没出现时，它不会急着说「没问题」，而是先去查模型。",
+        "why": "两样东西说法不一样时，先指定默认信哪个，AI 就不会挑对自己方便的那个。",
+        "try": "让 AI 核对时写明：「文档和代码对不上时，以代码为准，并告诉我哪里对不上。」"
+      },
+      "en": {
+        "title": "Say which side to doubt first",
+        "does": "When a bug on the chart doesn't show up in the real code, it checks the model before saying \"all fine\".",
+        "why": "When two sources disagree, naming the default stops the AI from picking whichever suits it.",
+        "try": "When you ask for a check, write: \"If the docs and the code disagree, trust the code and tell me where they differ.\""
+      }
+    }
+  ]
+}

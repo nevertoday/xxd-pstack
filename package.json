@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@astrojs/mdx": "7.0.3",
-    "astro": "7.2.8"
+    "astro": "7.2.8",
+    "micromark": "4.0.3",
+    "micromark-extension-gfm": "3.0.0"
   },
   "devDependencies": {
     "wrangler": "4.127.1"

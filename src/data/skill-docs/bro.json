@@ -1,0 +1,64 @@
+{
+  "name": "bro",
+  "commit": "0854796",
+  "description": {
+    "en": "Restate the last message in plain human language, with no jargon.",
+    "zh": "用大白话把上一条消息重新说一遍，不用行话。"
+  },
+  "blocks": [
+    {
+      "en": "Restate your last message. Stop using jargon and speak coherently. State it more simply and concisely, like one human talking to another.",
+      "zh": "把你的上一条消息重新说一遍。别再用行话，说得连贯一点。说得更简单、更简洁，就像一个人在跟另一个人说话。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Restate your last message.",
+      "quoteZh": "把你的上一条消息重新说一遍。",
+      "zh": {
+        "title": "直接指着要改的那段",
+        "does": "它只把刚才那条回复换个说法讲一遍，不去干别的活。",
+        "why": "开头就点明对象是「上一条消息」，AI 不用猜要处理哪一段。",
+        "try": "想改哪段就指哪段：「把你刚才回复的第二段重新说一遍。」"
+      },
+      "en": {
+        "title": "Point at the text to redo",
+        "does": "It just says its last reply again in other words and doesn't start new work.",
+        "why": "Naming the target, \"your last message\", up front means the AI doesn't guess which part you mean.",
+        "try": "Point at what to redo: \"Say the second paragraph of your last reply again.\""
+      }
+    },
+    {
+      "quote": "State it more simply and concisely",
+      "quoteZh": "说得更简单、更简洁",
+      "zh": {
+        "title": "拿原文当参照说「更」",
+        "does": "新版本一定比原来那条更短、更好懂，而不是换几个词。",
+        "why": "有了原来那条做参照，「更简单」就有了能比的标准。",
+        "try": "提修改要求时拿原文比：「比刚才那版短一半，意思不变。」"
+      },
+      "en": {
+        "title": "Use the original as the yardstick",
+        "does": "The new version is shorter and easier than the old one, not just reworded.",
+        "why": "With the last message as the reference, \"simpler\" has something to measure against.",
+        "try": "Compare against the original: \"Half as long as the last version, same meaning.\""
+      }
+    },
+    {
+      "quote": "like one human talking to another",
+      "quoteZh": "就像一个人在跟另一个人说话",
+      "zh": {
+        "title": "给口吻找一个真实场景",
+        "does": "它不再像写报告，而是像同事站在你旁边跟你解释。",
+        "why": "一个人人都熟悉的说话场景，比「通俗一点」这种形容词更容易照着做。",
+        "try": "要口吻时给一个场景：「像给不懂技术的家人解释那样，讲一遍这个报错。」"
+      },
+      "en": {
+        "title": "Pick a scene for the voice",
+        "does": "It stops sounding like a report and sounds like a colleague explaining next to you.",
+        "why": "A conversation everyone knows is easier to imitate than an adjective like \"plainer\".",
+        "try": "Give a scene for tone: \"Explain this error the way you'd explain it to a non-technical relative.\""
+      }
+    }
+  ]
+}

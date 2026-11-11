@@ -1,0 +1,176 @@
+{
+  "name": "setup-pstack",
+  "commit": "0854796",
+  "description": {
+    "en": "Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes an always-applied rule that overrides the skill defaults. Use for /setup-pstack, \"configure pstack models\", \"pstack budget\", or changing pstack's model choices.",
+    "zh": "设置 pstack 每个角色用哪个模型、用多大的推理预算。它会查出你能用的模型，写一条始终生效的规则，覆盖技能的默认设置。用于 /setup-pstack、「configure pstack models」、「pstack budget」，或者想改 pstack 的模型选择时。"
+  },
+  "blocks": [
+    {
+      "en": "# Setup pstack",
+      "zh": "# Setup pstack（设置 pstack）"
+    },
+    {
+      "en": "Write pstack's model settings, one model per role:",
+      "zh": "写入 pstack 的模型设置，每个角色一个模型："
+    },
+    {
+      "en": "- **Cursor:** `~/.cursor/rules/pstack-models.mdc`, an always-applied rule.\n- **Claude Code:** `~/.claude/rules/pstack-models.md`. Claude Code loads every file in `~/.claude/rules/` into each new session.\n- **Every other harness** (Codex, Pi, OpenCode, and others): `~/.agents/pstack-models.md`. These harnesses don't load it on their own, so pstack skills read this file when they pick a model.",
+      "zh": "- **Cursor：** `~/.cursor/rules/pstack-models.mdc`，一条始终生效的规则。\n- **Claude Code：** `~/.claude/rules/pstack-models.md`。Claude Code 会把 `~/.claude/rules/` 里的每个文件都载入每个新会话。\n- **其他所有工具**（Codex、Pi、OpenCode 等）：`~/.agents/pstack-models.md`。这些工具不会自己载入它，所以 pstack 的技能在挑模型时会读这个文件。"
+    },
+    {
+      "en": "\"The settings file\" below means the file for your harness. In Claude Code, if that file is missing, read `~/.agents/pstack-models.md` instead, where older versions of this skill wrote it.",
+      "zh": "下文说的「设置文件」，指的是你所用工具对应的那个文件。在 Claude Code 里，如果那个文件不存在，就改读 `~/.agents/pstack-models.md`，这个技能的旧版本把设置写在那里。"
+    },
+    {
+      "en": "## Steps",
+      "zh": "## 步骤"
+    },
+    {
+      "en": "### 1. Detect available models",
+      "zh": "### 1. 查出能用的模型"
+    },
+    {
+      "en": "Enumerate the model slugs you can pass to a subagent in this session (Cursor `Task`, Claude Code `Agent`, OpenCode `task`, Codex `spawn_agent`). That is the dependable source. If your harness also has a command that lists the user's models, prefer it for completeness (for example `opencode models` or `pi --list-models`). If you cannot detect any, ask the user to paste the slugs they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.",
+      "zh": "列出这次会话里你能传给帮手 AI 的模型名（slug），也就是 Cursor 的 `Task`、Claude Code 的 `Agent`、OpenCode 的 `task`、Codex 的 `spawn_agent` 能接受的那些。这是靠得住的来源。如果你所用的工具还有一条能列出用户模型的命令，为了列全，优先用它（比如 `opencode models` 或 `pi --list-models`）。如果一个都查不到，就请用户把自己能用的模型名贴过来。没确认能用的真实模型名，绝不写进去。别名 `inherit-parent` 和 `auto` 永远有效，尽管它们不是查出来的模型名。"
+    },
+    {
+      "en": "### 2. Load current state",
+      "zh": "### 2. 读取当前状态"
+    },
+    {
+      "en": "The default role-to-model mapping is the rule shape shown in step 5 below. If the settings file already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.",
+      "zh": "默认的角色和模型对应关系，就是下面第 5 步给出的规则格式。如果设置文件已经存在，就读它，把它的 `# budget` 那一行和各角色的值当作当前的选择。否则就从这些默认值开始。如果某一行的角色不在第 5 步里，比如 `how critics`，那是已经撤掉的角色，删掉这一行。"
+    },
+    {
+      "en": "### 3. Budget, map, and confirm",
+      "zh": "### 3. 定预算、对应模型、确认"
+    },
+    {
+      "en": "**(a) Ask for a budget.** Prefer your structured-question tool (`AskQuestion` in Cursor, `AskUserQuestion` in Claude Code, `question` in OpenCode) over free text. Offer these four options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.",
+      "zh": "**(a) 问预算。** 优先用你的结构化提问工具（Cursor 里的 `AskQuestion`、Claude Code 里的 `AskUserQuestion`、OpenCode 里的 `question`），不要用自由文本。给出下面这四个选项，标签要和这里逐字一样；如果规则里记着当前预算，就说出来。如果没有规则，就说明 `large` 和技能的默认设置一致。"
+    },
+    {
+      "en": "- `unlimited — max reasoning`\n- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`",
+      "zh": "- `unlimited — max reasoning`\n- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`"
+    },
+    {
+      "en": "**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). `unlimited`, `large`, `medium`, and `small` set the effort token of every real slug, panel entries included, to `max`, `xhigh`, `high`, or `medium`. The effort token is the last token, or the one before a trailing `fast`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`. Grok slugs top out at `xhigh`, so under `unlimited` the fallback puts Grok at `xhigh` and keeps `grok-4.7-xhigh-fast` as it is. `large` keeps both defaults. `small` turns them into `claude-opus-5-5-medium` and `grok-4.7-medium-fast`.",
+      "zh": "**(b) 套用预算。** 从技能的默认设置建一张工作表；如果是重跑，保留你按系列、列表或别名（`inherit-parent`、`auto`）改过的角色。`unlimited`、`large`、`medium`、`small` 会把每个真实模型名（包括小组列表里的条目）的强度标记分别设为 `max`、`xhigh`、`high`、`medium`。强度标记是模型名的最后一段；如果最后一段是 `fast`，就是它前面那一段。强度从高到低是 `max` > `xhigh` > `high` > `medium` > `low`。如果结果不是查出来的模型名，就用同一系列里、强度不超过目标的最高那个已查出的模型名；没有的话，就把这个角色标成需要选择。`inherit-parent` 和 `auto` 不变。所以 `unlimited` 会把 `claude-opus-5-5-xhigh` 变成 `claude-opus-5-5-max`。Grok 的模型名最高只到 `xhigh`，所以在 `unlimited` 下，这条退而求其次的规则让 Grok 停在 `xhigh`，`grok-4.7-xhigh-fast` 保持原样。`large` 两个默认值都不变。`small` 会把它们变成 `claude-opus-5-5-medium` 和 `grok-4.7-medium-fast`。"
+    },
+    {
+      "en": "**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer your structured-question tool over free text. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a family other than the parent's, in list order, so order it by preference. An `inherit-parent` or `auto` value never judges. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.",
+      "zh": "**(c) 列出角色并确认。** 列出每个角色和它的模型，凡是不在已查出集合里的真实模型名，都标成需要选择。第 2 步删掉的每一行也列出来。问用户是照单全收，还是改某几个角色；选项是查出来的模型，再加上 `inherit-parent` 和 `auto`（两者都表示：这个角色用主对话的模型跑，用 Auto 的用户就是靠这个一直留在 Auto 上）。优先用你的结构化提问工具，不要用自由文本。小组角色（arena runners、architect runners、interrogate reviewers）的值是一个列表，每个条目跑一个帮手 AI，别名条目也算，所以列表有多长，就跑几个。`arena cross-judge pool` 也是一个列表，但 Arena 只跑一个评委。它只试和主对话模型不同系列的值，按列表顺序试，所以要按你的偏好排序。值为 `inherit-parent` 或 `auto` 的条目永远不当评委。`swarm workers` 是每个干活帮手的默认模型，除非竞速或比较时给每一路另外指定了模型。"
+    },
+    {
+      "en": "### 4. Validate",
+      "zh": "### 4. 校验"
+    },
+    {
+      "en": "Every real slug written must be in the detected set. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.",
+      "zh": "写进去的每个真实模型名都必须在已查出的集合里。`inherit-parent` 和 `auto` 永远通过。如果选中的某个真实模型名用不了，就停下来重新问。"
+    },
+    {
+      "en": "### 5. Write the rule",
+      "zh": "### 5. 写规则"
+    },
+    {
+      "en": "Write the settings file with a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses. In Cursor, include the frontmatter below with `alwaysApply: true`. In other harnesses, write the settings file without the frontmatter (start at the first `#` line). Overwrite the whole file so re-runs stay idempotent. Shape:",
+      "zh": "写设置文件：一行 `# budget`，写上选定的标签和它对应的目标强度；每个角色一行，用和 poteto-mode 相同的标签。在 Cursor 里，带上下面的 frontmatter，其中写 `alwaysApply: true`。在其他工具里，写设置文件时不带 frontmatter（从第一个 `#` 行开始）。整个文件覆盖重写，这样重跑多少次结果都一样。格式："
+    },
+    {
+      "en": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```",
+      "zh": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```"
+    },
+    {
+      "en": "### 6. Confirm",
+      "zh": "### 6. 确认"
+    },
+    {
+      "en": "Tell the user which file was written. In Cursor and Claude Code, it applies to new sessions. In other harnesses, pstack skills read `~/.agents/pstack-models.md` when they pick a model. Re-running this skill updates it.",
+      "zh": "告诉用户写的是哪个文件。在 Cursor 和 Claude Code 里，它对新会话生效。在其他工具里，pstack 的技能挑模型时会读 `~/.agents/pstack-models.md`。重跑这个技能就会更新它。"
+    },
+    {
+      "en": "### 7. Offer a verification skill (optional)",
+      "zh": "### 7. 提议生成一个验证技能（可选）"
+    },
+    {
+      "en": "Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: \"want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with /create-verification-skill.\" On yes, invoke `/create-verification-skill` (resolves wherever pstack is installed: workspace, user, or plugin). On no, move on without pushing.",
+      "zh": "看看项目里有没有办法驱动真实应用来拿证据（一个 `verify-*` 技能，或者现成的驱动工具）。如果没有，就提议一次：「要不要一个放在项目里的验证技能？这样 AI 就能像用户那样操作应用，证明改动有效。我可以用 /create-verification-skill 生成一个。」对方答应，就调用 `/create-verification-skill`（不管 pstack 装在哪里都能找到：工作区、用户目录或插件）。对方拒绝，就接着往下走，不要硬推。"
+    },
+    {
+      "en": "### 8. Offer a formal verification skill (optional)",
+      "zh": "### 8. 提议生成一个形式化验证技能（可选）"
+    },
+    {
+      "en": "Check whether the project already has a formal verification skill (a project skill that runs a model checker, a proof, or another verifier against the code). If not, offer once: \"want a formal verification skill, so agents can prove a key property of your code holds in every case in scope, not only the cases tests reach? I can generate one with /create-formal-verification-skill.\" On yes, invoke `/create-formal-verification-skill` (resolves wherever pstack is installed: workspace, user, or plugin). On no, move on without pushing.",
+      "zh": "看看项目里是不是已经有形式化验证技能（一个对代码运行模型检查器、证明或其他验证器的项目技能）。如果没有，就提议一次：「要不要一个形式化验证技能？这样 AI 就能证明你代码里的一条关键性质在范围内的每种情况下都成立，而不只是测试碰得到的那些情况。我可以用 /create-formal-verification-skill 生成一个。」对方答应，就调用 `/create-formal-verification-skill`（不管 pstack 装在哪里都能找到：工作区、用户目录或插件）。对方拒绝，就接着往下走，不要硬推。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Never write a real slug you have not confirmed is available.",
+      "quoteZh": "没确认能用的真实模型名，绝不写进去。",
+      "zh": {
+        "title": "没确认过的不许写",
+        "does": "配置里只会出现你真能用的模型，不会冒出一个编出来的名字让运行失败。",
+        "why": "「绝不」加上「确认」这个具体动作，比一句「要准确」难绕过得多。",
+        "try": "让 AI 整理报价时写：「只列你在官网上确认过的价格，查不到的写『未确认』。」"
+      },
+      "en": {
+        "title": "Write only what's confirmed",
+        "does": "Only models you can actually use end up in the settings, never a made-up name that breaks a run.",
+        "why": "\"Never\" tied to a concrete step, confirming, is much harder to slip past than \"be accurate\".",
+        "try": "When you ask for a price list: \"List only prices you confirmed on the official site; mark the rest 'unconfirmed'.\""
+      }
+    },
+    {
+      "quote": "Offer these four options with these exact labels",
+      "quoteZh": "给出下面这四个选项，标签要和这里逐字一样",
+      "zh": {
+        "title": "把选项一字不差写出来",
+        "does": "它问预算时，每次都给你同样的四个选项，说法也一样。",
+        "why": "把选项原样写进提示词并要求照抄，AI 就不会自己改写、多加一个或漏掉一个。",
+        "try": "让 AI 做问卷时写：「问满意度只给三个选项：『满意』『一般』『不满意』，原样照抄。」"
+      },
+      "en": {
+        "title": "Spell out the exact options",
+        "does": "It asks about budget with the same four options every time, worded the same way.",
+        "why": "Writing the options into the prompt and asking for them verbatim stops the AI from rewording, adding or dropping one.",
+        "try": "For a survey: \"Ask about satisfaction with exactly these options: 'Satisfied', 'OK', 'Not satisfied'.\""
+      }
+    },
+    {
+      "quote": "So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`.",
+      "quoteZh": "所以 `unlimited` 会把 `claude-opus-5-5-xhigh` 变成 `claude-opus-5-5-max`。",
+      "zh": {
+        "title": "规则后面跟个算好的例子",
+        "does": "它按预算换模型时不容易算错，比如选最大预算，就把 xhigh 换成 max。",
+        "why": "抽象的换算规则容易读偏，紧跟一个算好的例子，AI 能拿自己的结果对一对。",
+        "try": "给换算规则时顺手举例：「金额四舍五入到百位，比如 1,260 写成 1,300。」"
+      },
+      "en": {
+        "title": "Follow a rule with an example",
+        "does": "It swaps models for your budget correctly, such as turning xhigh into max for the biggest budget.",
+        "why": "An abstract conversion rule is easy to misread; a worked example right after lets the AI check its own answer.",
+        "try": "Give an example with the rule: \"Round amounts to the nearest hundred, so 1,260 becomes 1,300.\""
+      }
+    },
+    {
+      "quote": "On no, move on without pushing.",
+      "quoteZh": "对方拒绝，就接着往下走，不要硬推。",
+      "zh": {
+        "title": "只问一次，被拒就停",
+        "does": "它只提一次要不要生成验证技能，你说不要，它就不再提。",
+        "why": "写明问几次、被拒后怎么办，AI 就不会一遍遍推销附加功能。",
+        "try": "让 AI 写文章时加一句：「结尾可以问一次要不要配图；我说不用，就别再提。」"
+      },
+      "en": {
+        "title": "Ask once, drop it on no",
+        "does": "It offers a verification skill once, and drops it if you say no.",
+        "why": "Saying how many times to ask and what to do on a no keeps the AI from pitching extras again and again.",
+        "try": "When the AI writes for you: \"You may ask once at the end whether I want images; if I say no, drop it.\""
+      }
+    }
+  ]
+}

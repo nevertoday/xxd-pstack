@@ -100,7 +100,7 @@ npx skills add backnotprop/pstack
   <img src="assets/skills.svg" width="100%" alt="pstack 技能地图：34 个技能分七类，外加 24 条原则">
 </p>
 
-平时只打 `/poteto-mode`，其他的它在需要时自己叫上。想点名用某一个、或者看到 AI 提到一个名字想查查，去 [技能速查](https://pstack.xiaoxiaodong.ai/skills/)：每个技能都有一句人话、什么时候用、能照抄的例句、要和谁一起装。
+平时只打 `/poteto-mode`，其他的它在需要时自己叫上。想点名用某一个、或者看到 AI 提到一个名字想查查，去 [技能速查](https://pstack.xiaoxiaodong.ai/skills/)：每个技能都有一句人话、什么时候用、能照抄的例句、要和谁一起装。点进去还能读它的 SKILL.md 原文和中文译文（可以对照着看），以及「从它的写法里学」：挑几句原文，讲这句让 AI 做什么、为什么这样写、你写提示词时怎么借用。
 
 ## 🛠 在真实项目里
 
@@ -133,7 +133,7 @@ npx skills add backnotprop/pstack
 |---|---|
 | [新手入门](https://pstack.xiaoxiaodong.ai/start/1-why/) | 3 课 20 分钟，不会写代码也能看懂：它能帮你什么 → 装上它 → 第一次用 |
 | [完整教程](https://pstack.xiaoxiaodong.ai/guide/0-what/) | 9 步，给会写代码的人：是什么 → 安装 → 选模型 → 第一个任务 → 先看懂 → 设计动手收拾 → 验证交付 → 跑一夜 → 用熟以后 |
-| [技能速查](https://pstack.xiaoxiaodong.ai/skills/) | 34 个技能，一个一块 |
+| [技能速查](https://pstack.xiaoxiaodong.ai/skills/) | 34 个技能，每个有原文、中文译文和写法拆解 |
 | [How-to](https://pstack.xiaoxiaodong.ai/howto/) | 17 篇，一篇只讲一件事 |
 | [Wiki](https://pstack.xiaoxiaodong.ai/wiki/) | 20 个概念：一句话 → 打个比方 → 在 pstack 里 → 常见误区；含 24 条原则和 23 套剧本对照表 |
 | [常见问题](https://pstack.xiaoxiaodong.ai/faq/) | 要钱吗？必须用 Cursor 吗？会不会乱改我的代码？ |

@@ -1,0 +1,124 @@
+{
+  "name": "correct",
+  "commit": "0854796",
+  "description": {
+    "en": "Find the mistakes agents keep repeating in this repo and make each one impossible. Try architecture first, then types, then a lint whose error names the fix, then a test, and write docs last. Prove each check fails on a real past mistake. Repeat this each time the operator corrects you. Use for /correct.",
+    "zh": "找出 AI 在这个仓库里反复犯的错，让每一种都不可能再犯。先试架构，再试类型，然后是一条报错里写明怎么改的 lint，再是测试，最后才写文档。证明每项检查都会在一次真实的过往错误上失败。每次操作者纠正你时，都重复一遍。用于 /correct。"
+  },
+  "blocks": [
+    {
+      "en": "# Correct",
+      "zh": "# Correct（纠正）"
+    },
+    {
+      "en": "The operator keeps correcting agents in this repo for the same mistakes. Change the repo so the next agent can't make them.",
+      "zh": "操作者在这个仓库里一次又一次地纠正 AI 犯的同样的错。改造这个仓库，让下一个 AI 犯不了这些错。"
+    },
+    {
+      "en": "Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Design the repo so a change that looks right from one file is right for the whole repo.",
+      "zh": "假设每个贡献者都是这样的 AI：只看得到自己打开过的文件，照抄离得最近的例子，走能编译通过的最短路径。把仓库设计成这样：一个从单个文件看起来对的改动，对整个仓库也是对的。"
+    },
+    {
+      "en": "## Find the mistake classes",
+      "zh": "## 找出错误的类别"
+    },
+    {
+      "en": "First, read recent commits, reverts, review comments, agent instruction files, and comments that explain workarounds. Group the mistakes into classes. A class counts once it has happened twice.",
+      "zh": "先读最近的提交、回滚、审查评论、给 AI 的说明文件，以及解释绕过办法的注释。把错误归成类别。一个类别发生过两次，才算数。"
+    },
+    {
+      "en": "## Fix each class at the highest level that works",
+      "zh": "## 在行得通的最高层级上修好每一类"
+    },
+    {
+      "en": "1. **Eliminate it with architecture.** Give each piece of state one owner and each task one supported way. Hide internals so the wrong import fails. Replace hand-synced lists with one source of truth. Delete old ways and dead code an agent would copy.\n2. **Enforce it with types so the bad state can't be written.** If bad code still compiles, add a lint or CI check whose error names the file, type, or function to use instead. If the pattern is already common, fail only when a change adds more.\n3. **Test the behavior.** Fix or delete any test that still passes when the behavior it checks breaks, or that fails when only the internals change.\n4. **Write docs or agent rules last, only for judgment calls.** Nothing fails when an agent skips them.",
+      "zh": "1. **用架构消灭它。** 每一份状态只给一个负责方，每件任务只留一种受支持的做法。把内部实现藏起来，让错误的 import 直接失败。用唯一的数据来源，替换掉需要手动同步的多份清单。删掉 AI 会照抄的旧做法和死代码。\n2. **用类型强制它，让坏状态根本写不出来。** 如果坏代码还是能编译通过，就加一条 lint 或 CI 检查，让它的报错写明该改用哪个文件、类型或函数。如果这种写法已经很普遍，只在改动又新增了更多时才让检查失败。\n3. **测试行为。** 有的测试，在它检查的行为坏掉时仍然通过，或者只改内部实现时却失败。这样的测试，要么修好，要么删掉。\n4. **最后才写文档或给 AI 的规则，而且只用于需要判断的事。** AI 跳过它们时，什么都不会失败。"
+    },
+    {
+      "en": "## Fix and prove",
+      "zh": "## 修好并证明"
+    },
+    {
+      "en": "Then fix the most frequent classes now, one commit each. Prove each new check fails on a real past mistake. Run the same command locally and in CI. Exceptions go on the offending line with a reason, an expiry date, and a human's approval.",
+      "zh": "接着，现在就修好最常见的几类，每类一个提交。证明每项新检查都会在一次真实的过往错误上失败。在本地和 CI 里跑同一条命令。例外写在出问题的那一行上，附上理由、到期日期和一个人的批准。"
+    },
+    {
+      "en": "## Keep the rule table",
+      "zh": "## 维护规则表"
+    },
+    {
+      "en": "Last, keep a table in the agent instruction file that pairs each rule with what enforces it. When the operator corrects you, fix the mistake and add the rule. If the rule was already there and nothing enforces it, that's a repeat, so fix it at the highest level in the same change. Drop a rule once its mistake can't happen.",
+      "zh": "最后，在给 AI 的说明文件里维护一张表，把每条规则和执行它的东西配成对。操作者纠正你时，修好这个错，并加上这条规则。如果这条规则早就在了、却没有任何东西去执行它，那就是一次重犯，所以在同一个改动里，把它在最高层级上修好。一条规则对应的错不可能再发生时，就把这条规则删掉。"
+    },
+    {
+      "en": "**Reply:** each class with its evidence, the level you picked, and why a higher level didn't work.",
+      "zh": "**回复：** 每个类别和它的证据、你选的层级，以及为什么更高的层级行不通。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles.",
+      "quoteZh": "假设每个贡献者都是这样的 AI：只看得到自己打开过的文件，照抄离得最近的例子，走能编译通过的最短路径。",
+      "zh": {
+        "title": "设想最偷懒的使用者",
+        "does": "它按「下一个 AI 只看一个文件、照抄最近的例子」来改仓库，让偷懒的人也不会出错。",
+        "why": "把使用者的坏习惯一条条写具体，AI 就能针对每一条去堵漏洞。",
+        "try": "让 AI 写说明时加一句：「假设读的人只看第一段、只照抄第一个例子，再来写。」"
+      },
+      "en": {
+        "title": "Picture the laziest user",
+        "does": "It shapes the repo for an AI that reads one file and copies the nearest example, so even shortcuts come out right.",
+        "why": "Spelling out the user's bad habits one by one lets the AI close each gap.",
+        "try": "When the AI writes instructions, add: \"Assume the reader only reads the first paragraph and copies the first example.\""
+      }
+    },
+    {
+      "quote": "Fix each class at the highest level that works",
+      "quoteZh": "在行得通的最高层级上修好每一类",
+      "zh": {
+        "title": "把办法从强到弱排好",
+        "does": "它先想办法让错误根本犯不了，实在不行，才写一条提醒文档。",
+        "why": "把办法按强弱排好先后，AI 就不会一上来就挑最省事、最没用的那个。",
+        "try": "给办法排个序：「先看能不能用必填项挡住填错，不行再加提示文字，最后才写说明。」"
+      },
+      "en": {
+        "title": "Rank the fixes strongest first",
+        "does": "It first tries to make the mistake impossible, and only writes a reminder doc when nothing stronger works.",
+        "why": "Ordering the options by strength stops the AI from grabbing the easiest, weakest one first.",
+        "try": "Rank the options: \"First try a required field to block bad input, then a hint, and only then a written note.\""
+      }
+    },
+    {
+      "quote": "Nothing fails when an agent skips them.",
+      "quoteZh": "AI 跳过它们时，什么都不会失败。",
+      "zh": {
+        "title": "点出弱办法弱在哪",
+        "does": "它明白写文档挡不住错，所以只把文档留给需要判断的事。",
+        "why": "一句话点出这个办法的软肋，比只说「少写文档」更有说服力，AI 会自己避开。",
+        "try": "说清理由再提要求：「提醒邮件没人看也不会报错，所以关键步骤要做成必填项。」"
+      },
+      "en": {
+        "title": "Say why the weak fix fails",
+        "does": "It knows docs can't stop a mistake, so it saves them for judgment calls.",
+        "why": "Naming the fix's weak spot in one line persuades better than \"write fewer docs\", so the AI steers clear on its own.",
+        "try": "Give the reason with the rule: \"Nobody gets an error for skipping a reminder email, so make the key step a required field.\""
+      }
+    },
+    {
+      "quote": "A class counts once it has happened twice.",
+      "quoteZh": "一个类别发生过两次，才算数。",
+      "zh": {
+        "title": "用次数划一道门槛",
+        "does": "只出现过一次的错，它不去大改；重复了两次的，才动手堵。",
+        "why": "一个具体的次数，让「反复犯」变成能数的东西，AI 不用自己判断算不算。",
+        "try": "用次数定规矩：「同一个问题被问到第二次，就把答案写进常见问题。」"
+      },
+      "en": {
+        "title": "Set a count as the bar",
+        "does": "A mistake seen once doesn't trigger a big change; one seen twice does.",
+        "why": "A concrete count turns \"keeps happening\" into something the AI can count instead of judge.",
+        "try": "Set a number: \"When the same question comes up a second time, add the answer to the FAQ.\""
+      }
+    }
+  ]
+}

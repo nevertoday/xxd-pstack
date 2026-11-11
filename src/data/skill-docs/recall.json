@@ -1,0 +1,124 @@
+{
+  "name": "recall",
+  "commit": "0854796",
+  "description": {
+    "en": "Reconstruct your recent working context from your own chat history, live state, and the shared record (user reports, prior fixes, incidents), then hand back a tight current-state brief. Use for 'recall my work on X', 'catch me up', 'what have I been working on', 'where did I leave off', before starting or resuming work.",
+    "zh": "从你自己的聊天记录、当前的实际状态和共享记录（用户的反馈、以前的修复、事故）里，重建你最近的工作情况，然后交回一份紧凑的现状简报。用于「回忆一下我在 X 上的工作」「帮我跟上进度」「我最近在忙什么」「我上次做到哪了」，以及开始或继续工作之前。"
+  },
+  "blocks": [
+    {
+      "en": "# Recall",
+      "zh": "# Recall（找回进度）"
+    },
+    {
+      "en": "**Before you start or resume work, you rebuild the user's recent working context and hand back a tight capsule of where things stand now and what to do next.**",
+      "zh": "**在你开始或继续工作之前，你要重建用户最近的工作情况，交回一份精简小结：现在进展到哪了，下一步做什么。**"
+    },
+    {
+      "en": "Keep it tight and on-topic. Read only what the in-scope threads need, then stop.",
+      "zh": "保持紧凑，不跑题。只读范围内那几件事需要的东西，然后停下。"
+    },
+    {
+      "en": "Your context lives in two records. Your own chat history holds what you did and decided. The shared record holds everything that happened around the same code under other names: the symptoms users keep reporting, the fixes that shipped and got reverted, the errors still firing in prod. That second record is what the **why** skill searches, across source control, the issue tracker, chat and issue channels, long-form docs, and error tracking. A feature with a long bug tail keeps most of its story there, so don't reconstruct it from your transcripts alone.",
+      "zh": "你的工作情况存在两份记录里。你自己的聊天记录，存着你做了什么、定了什么。共享记录，存着同一块代码周围、以别的名字发生过的一切：用户反复报告的症状，上线后又被回退的修复，生产环境里还在报的错误。这第二份记录，正是 **why** 技能要搜的东西，范围包括版本控制、issue 跟踪系统、聊天和 issue 频道、长篇文档，以及错误跟踪。一个拖着一长串 bug 的功能，大部分故事都在那里，所以不要只靠你的对话记录来重建它。"
+    },
+    {
+      "en": "Transcripts live where your harness keeps them. Each file is JSONL. Find the active workspace's directory for your harness. If you can't tell which harness you are, check which of these exist for this workspace:",
+      "zh": "对话记录存在你所用的工具存放它们的地方。每个文件都是 JSONL。找到你所用的工具里，当前工作区对应的目录。如果你分不清自己是哪个工具，就看看下面这些里，哪些对这个工作区存在："
+    },
+    {
+      "en": "- **Cursor:** `~/.cursor/projects/<slug>/agent-transcripts/<uuid>/<uuid>.jsonl`. `<slug>` is the workspace path with the leading slash dropped and each \"/\" turned into \"-\" (`/Users/you/proj` becomes `Users-you-proj`).\n- **Claude Code:** `~/.claude/projects/<slug>/<session-id>.jsonl`. `<slug>` is the workspace path with every character that isn't a letter or digit turned into \"-\" (`/Users/you/proj` becomes `-Users-you-proj`).\n- **Pi:** `~/.pi/agent/sessions/--<slug>--/<timestamp>_<id>.jsonl`. `<slug>` is the workspace path with the leading slash dropped and each \"/\" turned into \"-\" (`--Users-you-proj--`).\n- **Codex:** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`, not grouped by workspace. Keep only files whose first line has `payload.cwd` equal to the workspace path.\n- **OpenCode:** `~/.local/share/opencode/storage/`. Sessions are JSON files under `session/<project-id>/`, with their messages under `message/` and `part/`.",
+      "zh": "- **Cursor:** `~/.cursor/projects/<slug>/agent-transcripts/<uuid>/<uuid>.jsonl`。`<slug>` 是工作区路径去掉开头的斜杠，再把每个「/」换成「-」（`/Users/you/proj` 变成 `Users-you-proj`）。\n- **Claude Code:** `~/.claude/projects/<slug>/<session-id>.jsonl`。`<slug>` 是工作区路径里每个不是字母或数字的字符都换成「-」（`/Users/you/proj` 变成 `-Users-you-proj`）。\n- **Pi:** `~/.pi/agent/sessions/--<slug>--/<timestamp>_<id>.jsonl`。`<slug>` 是工作区路径去掉开头的斜杠，再把每个「/」换成「-」（`--Users-you-proj--`）。\n- **Codex:** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`，不按工作区分组。只保留第一行的 `payload.cwd` 等于工作区路径的文件。\n- **OpenCode:** `~/.local/share/opencode/storage/`。会话是 `session/<project-id>/` 下的 JSON 文件，它们的消息在 `message/` 和 `part/` 下。"
+    },
+    {
+      "en": "1. Classify, then route. One specific prior chat to resume is the `session-pickup` playbook, not this. Turning habits into a durable skill is `automate-me`. A human-readable summary of your work is a different task. Recall loads working context across recent chats before you act. If the user already gave you a full state capsule (paths, branch, the change), use it and skip the mining.\n2. Lock the scope before searching. Pin the window (\"recent\" is a real range, default the last 7 days), the topic if named, and the workspace (default the active one. Never read another project's transcripts without being asked). State the scope back. Never quietly turn \"all\" into \"recent N\".\n3. Fan out across your chat history. Spawn parallel subagents on a fast, cheap model, each taking a slice of the corpus. Tell every subagent to order candidates by real modification time (`ls -t`) and never by UUID name, grep the topic first and then read only the matching chats and only their relevant regions, and skip the current chat plus obvious noise (subagent, eval, and test chats). Each returns the same schema, one block per chat: topic, the user's goal, decisions, open threads, struggles and corrections, and artifacts (PRs, tickets, branches), each citing the chat UUID. For one or two chats, skip the fan-out and search directly. The raw transcripts stay in the subagents. The main thread gets only their findings. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.\n4. Sweep the shared record whenever the topic names a feature, file, subsystem, area, or bug. This is the default, not a judgment call, and \"my work on X\" does not exempt it. Hand it to the **why** skill's source investigators, but steer their question from \"why was this built this way\" to \"what's the current state, what's been tried and didn't hold, and what are users still reporting\". Reuse its per-source playbooks, run the investigators in parallel with the chat-history mining, and inherit its posture: one investigator per source, null results are findings, skip an unavailable MCP and say so. Fold what comes back into the brief. Skip this step only for pure activity recall with no named target (\"what did I do this week\"), where your own history and live state are the entire answer.\n5. Verify against live state. Take the PRs, branches, and tickets that the mining and the sweep surfaced and check them with `git` and `gh`. When the answer hinges on what an agent actually did (the tools it ran, files it read, errors it hit), read the full transcript, not just a trimmed local copy.\n6. Write the brief to the contract below. Group by thread. Stay on the named topic.",
+      "zh": "1. 先分类，再分流。要接着某一个具体的旧对话做，用的是 `session-pickup` 剧本，不是这个。把习惯变成一个长期可用的技能，是 `automate-me`。给人看的工作总结，是另一件事。Recall 是在你动手之前，把最近几个对话里的工作情况装进来。如果用户已经给了你一份完整的现状小结（路径、分支、改动），就直接用，跳过挖掘。\n2. 搜索之前先锁定范围。定下时间窗口（「最近」是一个真实的范围，默认最近 7 天）、话题（如果点了名），以及工作区（默认是当前这个。没被要求时，绝不读别的项目的对话记录）。把范围说回给用户。绝不悄悄把「全部」变成「最近 N 个」。\n3. 在你的聊天记录里分头去找。并行派出几个帮手 AI，用快而便宜的模型，每个负责一部分资料。告诉每个帮手 AI：按真实的修改时间（`ls -t`）给候选排序，绝不按 UUID 名字排；先 grep 话题，然后只读匹配上的对话，而且只读相关的部分；跳过当前这个对话，以及明显的噪音（帮手 AI、评测和测试用的对话）。每个帮手 AI 都按同样的格式交回，每个对话一块：话题、用户的目标、做出的决定、没收尾的事、卡住和被纠正的地方，以及产出（PR、工单、分支），每一项都注明对话的 UUID。只有一两个对话时，就不用分头，直接搜。原始对话记录留在帮手 AI 那里，主对话只拿到它们的发现。每个帮手 AI 的推理强度、用快速还是标准速度，按任务来选，参照 **poteto-mode** 技能的 Subagents 一节。\n4. 只要话题点了一个功能、文件、子系统、领域或 bug 的名字，就去翻一遍共享记录。这是默认动作，不靠判断决定，「我在 X 上的工作」也不能免掉这一步。把它交给 **why** 技能里各种来源的调查员，但把它们的问题从「为什么当初这样做」改成「现在是什么状态，试过什么、没能撑住，用户还在报告什么」。复用它为每种来源准备的剧本，让调查员和聊天记录的挖掘并行跑，并沿用它的做法：每种来源一个调查员，没找到也是一种发现，某个 MCP 用不了就跳过，并说出来。把收回来的东西并进简报。只有纯粹回忆做过哪些事、没有点名对象时（「我这周做了什么」），才跳过这一步，因为这时你自己的记录和实际状态就是全部答案。\n5. 拿实际状态核对。把挖掘和翻查中冒出来的 PR、分支和工单，用 `git` 和 `gh` 查一遍。当答案取决于某个 AI 实际做了什么（它跑了哪些工具、读了哪些文件、碰到了哪些错误）时，读完整的对话记录，不要只看一份删减过的本地副本。\n6. 按下面的约定写简报。按事情分组。不离开点了名的话题。"
+    },
+    {
+      "en": "## Output contract",
+      "zh": "## 输出约定"
+    },
+    {
+      "en": "Lead with the capsule, then the thread status, then the problems, then the next move. Deeper detail goes below or gets cut.",
+      "zh": "先写小结，然后是每件事的状态，然后是问题，然后是下一步。更深的细节放到下面，或者删掉。"
+    },
+    {
+      "en": "- **Capsule.** At most 5 bullets. What this work is and where it stands overall.\n- **Threads.** One line each, prefixed with exactly one status tag: `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]`, or `[planned, not started]`. A thread with no tag is not done yet, so tag it.\n- **Problems.** At most 5, the recurring ones. Include the symptoms users keep reporting and any fix that shipped and was reverted, so the next attempt starts where the last one failed.\n- **Next move.** The single most useful next action, concrete.",
+      "zh": "- **小结。** 最多 5 条要点。这份工作是什么，整体进展到哪了。\n- **各件事。** 每件一行，前面加一个、且只加一个状态标签：`[merged #N]`、`[open PR #N]`、`[in flight <branch>]`、`[verified, uncommitted]`、`[reverted #N]` 或 `[planned, not started]`。没有标签的一行还没写完，所以给它打上标签。\n- **问题。** 最多 5 个，挑反复出现的。写上用户一直在报告的症状，以及上线后又被回退的修复，好让下一次尝试从上一次失败的地方接着来。\n- **下一步。** 最有用的那一个下一步动作，要具体。"
+    },
+    {
+      "en": "An adjacent feature or ticket stays out unless it blocks this one. When the capsule and thread lines outgrow a screen, cut detail before you cut threads. Write the brief through the **unslop** skill, cite chat findings by UUID and shared-record findings by their source (PR #, ticket ID, chat permalink, error-tracker issue), and sanitize private context before any public output.",
+      "zh": "相邻的功能或工单不写进来，除非它挡住了这一件。小结和各件事的行超出一屏时，先删细节，再删事情。简报要过一遍 **unslop** 技能；聊天里的发现注明 UUID，共享记录里的发现注明来源（PR 编号、工单 ID、聊天的固定链接、错误跟踪里的 issue）；任何公开输出之前，先清理掉私人内容。"
+    },
+    {
+      "en": "**Reply:** the brief, to the contract above.",
+      "zh": "**回复：** 按上面的约定写的简报。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "\"recent\" is a real range, default the last 7 days",
+      "quoteZh": "「最近」是一个真实的范围，默认最近 7 天",
+      "zh": {
+        "title": "给模糊的词一个默认值",
+        "does": "你只说「最近」，它就查最近 7 天，不会自己随意理解成昨天或上个月。",
+        "why": "「最近」可长可短，配一个默认的数字，AI 就不用猜，你也知道它查了多少。",
+        "try": "用到模糊的词时配上默认值：「『尽快』指今天下班前，除非我另说。」"
+      },
+      "en": {
+        "title": "Give a vague word a default",
+        "does": "Say \"recent\" and it searches the last 7 days, not whatever it guesses, like yesterday or last month.",
+        "why": "\"Recent\" can mean anything; a default number means the AI doesn't guess and you know how far it looked.",
+        "try": "When you use a vague word, add a default: \"'Soon' means by end of today, unless I say otherwise.\""
+      }
+    },
+    {
+      "quote": "Never quietly turn \"all\" into \"recent N\".",
+      "quoteZh": "绝不悄悄把「全部」变成「最近 N 个」。",
+      "zh": {
+        "title": "点破它会悄悄打的折扣",
+        "does": "你说查「全部」，它就真查全部，不会悄悄只看最近几个就交差。",
+        "why": "写出 AI 最容易偷偷缩水的那一步，比泛泛地说「要仔细」管用得多。",
+        "try": "要 AI 全面检查时写明：「要看全部 37 个文件，不能抽几个看完就说都没问题。」"
+      },
+      "en": {
+        "title": "Name the corner it would cut",
+        "does": "Ask for \"all\" and it really checks all, not just the latest few before calling it done.",
+        "why": "Naming the exact step the AI tends to quietly shrink works far better than a general \"be thorough\".",
+        "try": "When you want a full check, write: \"Look at all 37 files; don't sample a few and say they're all fine.\""
+      }
+    },
+    {
+      "quote": "A thread with no tag is not done yet, so tag it.",
+      "quoteZh": "没有标签的一行还没写完，所以给它打上标签。",
+      "zh": {
+        "title": "只给几个固定状态选",
+        "does": "每件事都标明是已合并、还开着、还在做还是没开始，没有「差不多了」这种说法。",
+        "why": "只能从几个固定标签里挑，AI 就没法用含糊的话把真实状态带过去。",
+        "try": "要进度时给出可选的状态：「每项任务后面标上『做完』『进行中』『没开始』中的一个。」"
+      },
+      "en": {
+        "title": "Offer a fixed set of states",
+        "does": "Every thread is marked merged, open, in flight or not started; no \"almost there\".",
+        "why": "With only a few fixed tags to pick from, the AI can't blur the real state with vague words.",
+        "try": "When you ask for status, list the options: \"Tag each task 'done', 'in progress' or 'not started'.\""
+      }
+    },
+    {
+      "quote": "Lead with the capsule, then the thread status, then the problems, then the next move.",
+      "quoteZh": "先写小结，然后是每件事的状态，然后是问题，然后是下一步。",
+      "zh": {
+        "title": "规定先说什么后说什么",
+        "does": "简报一打开就是结论和现状，细节在后面，你读两行就知道进展到哪了。",
+        "why": "给出固定的顺序，最要紧的话就不会被埋在一堆细节中间。",
+        "try": "要汇报时规定顺序：「先说结论，再说原因，最后说下一步做什么。」"
+      },
+      "en": {
+        "title": "Fix what comes first",
+        "does": "The brief opens with where things stand, details later, so two lines tell you the state.",
+        "why": "A fixed order keeps the most important part from getting buried in detail.",
+        "try": "When you ask for a report, set the order: \"Conclusion first, then the reasons, then the next step.\""
+      }
+    }
+  ]
+}

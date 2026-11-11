@@ -1,0 +1,124 @@
+{
+  "name": "how",
+  "commit": "0854796",
+  "description": {
+    "en": "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Use why for motivation.",
+    "zh": "用于「X 是怎么运作的」、改动之前的代码讲解，以及放在哪、归谁管、分在哪一层的问题（「这个该放在哪」「哪个包负责这个」「这是不是对的那一层」）。讲解子系统的架构、运行时的流程，以及帮新人上手时要搭起的整体理解。问动机用 why。"
+  },
+  "blocks": [
+    {
+      "en": "# How",
+      "zh": "# How（怎么运作）"
+    },
+    {
+      "en": "Explore the codebase to answer \"how does X work?\" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.",
+      "zh": "探索代码库，回答「X 是怎么运作的？」这类问题。讲解架构的深度，要像一位资深工程师刚接手一个子系统时需要的那样：足够在脑子里搭起一个能用的模型，又不至于读起来像带注释的源码。"
+    },
+    {
+      "en": "Every spawn is a Task subagent with `subagent_type: generalPurpose` and `readonly: true`. Explorers use the `how explorer` line in the pstack settings file (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in other harnesses) (default `grok-4.7-xhigh-fast`), and every explainer uses the `how explainer` line (default `claude-opus-5-5-xhigh`). Set `model` to that line's value, or to the default if the file or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If your subagent tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message or your harness's model list. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
+      "zh": "每次派出的都是一个 Task 帮手 AI，设 `subagent_type: generalPurpose` 和 `readonly: true`。探索者用 pstack 设置文件里的 `how explorer` 那一行（Cursor 里是 `~/.cursor/rules/pstack-models.mdc`，Claude Code 里是 `~/.claude/rules/pstack-models.md`，其他工具里是 `~/.agents/pstack-models.md`）（默认 `grok-4.7-xhigh-fast`），每个讲解者用 `how explainer` 那一行（默认 `claude-opus-5-5-xhigh`）。把 `model` 设成那一行的值；文件或那一行不存在的话，就设成默认值。值是 `auto` 或 `inherit-parent` 时，不设 `model`。如果你的帮手 AI 工具拒绝了某个 slug，就用默认值，并说出来。如果它连默认值也拒绝，就从它的报错信息或你所用工具的模型列表里，用同一家族中最接近的有效 slug。按照 **poteto-mode** 技能的「帮手 AI」一节，为每个帮手 AI 按工作需要挑推理等级，以及用 fast 还是标准速度。"
+    },
+    {
+      "en": "## 1. Assess complexity",
+      "zh": "## 1. 判断复杂度"
+    },
+    {
+      "en": "If the scope is ambiguous, state your interpretation and explore. The user can redirect.",
+      "zh": "如果范围不明确，说出你的理解，然后开始探索。用户可以纠正方向。"
+    },
+    {
+      "en": "- **Simple** (a single module, a small utility, a narrow question such as \"how does function X work\"): no explorers. Spawn one explainer that explores and explains in one pass, built from `references/explainer-prompt.md` without the explorer-findings section. Go to step 4.\n- **Complex** (a subsystem spanning multiple files or services, a cross-cutting feature, a full architectural overview): go to step 2.",
+      "zh": "- **简单**（单个模块、一个小工具函数、一个窄问题，比如「函数 X 是怎么运作的」）：不用探索者。派一个讲解者，一次完成探索和讲解，提示词用 `references/explainer-prompt.md` 来写，去掉「探索者的发现」那一节。转到第 4 步。\n- **复杂**（跨多个文件或服务的子系统、一个牵涉全局的功能、一份完整的架构概览）：转到第 2 步。"
+    },
+    {
+      "en": "When in doubt, take the simple path.",
+      "zh": "拿不准时，走简单的路。"
+    },
+    {
+      "en": "**Other harnesses.** The spawns in this skill use Cursor's `Task` tool. In another harness, use its subagent tool: `Agent` in Claude Code (`subagent_type: general-purpose`), `task` in OpenCode (`subagent_type: general`), `spawn_agent` in Codex. Keep the prompt and the model. Drop parameters your tool doesn't have. If your harness has no subagent tool, as in Pi without an extension, run each role yourself, one after another.",
+      "zh": "**其他工具。** 这个技能里的派出用的是 Cursor 的 `Task` 工具。在别的工具里，用它的帮手 AI 工具：Claude Code 里是 `Agent`（`subagent_type: general-purpose`），OpenCode 里是 `task`（`subagent_type: general`），Codex 里是 `spawn_agent`。提示词和模型保持不变。你的工具没有的参数就去掉。如果你所用的工具没有帮手 AI 工具，比如没装扩展的 Pi，就自己一个接一个地担任每个角色。"
+    },
+    {
+      "en": "## 2. Explore (complex only)",
+      "zh": "## 2. 探索（只在复杂时）"
+    },
+    {
+      "en": "Decompose the question into 2 to 4 angles, each a distinct slice of the subsystem. Spawn all explorers in a single message, each with `references/explorer-prompt.md` and its angle filled in.",
+      "zh": "把问题拆成 2 到 4 个角度，每个角度是子系统里不重叠的一块。在同一条消息里派出所有探索者，每个都用 `references/explorer-prompt.md`，并填上它的角度。"
+    },
+    {
+      "en": "## 3. Synthesize (complex only)",
+      "zh": "## 3. 综合（只在复杂时）"
+    },
+    {
+      "en": "Once all explorers have returned, spawn one explainer with `references/explainer-prompt.md` and every explorer's findings filled in.",
+      "zh": "所有探索者都交回结果后，派一个讲解者，用 `references/explainer-prompt.md`，并填上每个探索者的发现。"
+    },
+    {
+      "en": "## 4. Present",
+      "zh": "## 4. 呈现"
+    },
+    {
+      "en": "Present the explainer's output. Light edits for clarity or context from the conversation are fine. Do not substantially rewrite it.",
+      "zh": "把讲解者的输出呈现出来。为了更清楚，或者补上对话里的背景，做些小改动没问题。不要大幅重写。"
+    },
+    {
+      "en": "## Output format",
+      "zh": "## 输出格式"
+    },
+    {
+      "en": "The explanation uses the sections defined in `references/explainer-prompt.md`, dropping any that do not apply: Overview, Key Concepts, How It Works, Where Things Live, Gotchas.",
+      "zh": "讲解按 `references/explainer-prompt.md` 里定义的小节来写，不适用的就去掉：Overview（概览）、Key Concepts（关键概念）、How It Works（怎么运作）、Where Things Live（东西在哪）、Gotchas（容易踩的坑）。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "enough to build a working mental model, not so much that it reads like annotated source code",
+      "quoteZh": "足够在脑子里搭起一个能用的模型，又不至于读起来像带注释的源码",
+      "zh": {
+        "title": "给深浅定上下限",
+        "does": "讲解够你弄懂它怎么运作，又不会逐行念代码。",
+        "why": "同时说出「至少讲到哪」和「最多讲到哪」，AI 就知道讲多细刚好。",
+        "try": "让 AI 讲解时给两头：「讲到我能自己改配置就行，不用讲每个参数。」"
+      },
+      "en": {
+        "title": "Set a floor and a ceiling",
+        "does": "The explanation is enough to understand how it works, without reading the code line by line.",
+        "why": "Saying both \"at least this deep\" and \"no deeper than this\" tells the AI exactly how much detail to give.",
+        "try": "Give both ends: \"Explain enough that I can change the settings myself, but don't walk through every option.\""
+      }
+    },
+    {
+      "quote": "When in doubt, take the simple path.",
+      "quoteZh": "拿不准时，走简单的路。",
+      "zh": {
+        "title": "给拿不准时定个默认",
+        "does": "问题大小说不清时，它走简单的路，派一个帮手就讲，不兴师动众。",
+        "why": "提前定好拿不准时往哪边倒，AI 就不会犹豫，也不会把小事做大。",
+        "try": "给 AI 一个默认方向：「拿不准要不要加功能时，就不加。」"
+      },
+      "en": {
+        "title": "Give a default for doubt",
+        "does": "When it can't tell how big the question is, it takes the simple path with one helper instead of a big operation.",
+        "why": "Deciding ahead which way to lean when unsure stops the AI from stalling or blowing up a small task.",
+        "try": "Give it a default: \"If you're not sure whether to add a feature, don't.\""
+      }
+    },
+    {
+      "quote": "If the scope is ambiguous, state your interpretation and explore.",
+      "quoteZh": "如果范围不明确，说出你的理解，然后开始探索。",
+      "zh": {
+        "title": "先说理解再动手",
+        "does": "问题含糊时，它先说出自己怎么理解，然后直接去查，你随时可以纠正。",
+        "why": "让 AI 把理解说出来再继续，既不卡住等你，又让你看得见它有没有理解偏。",
+        "try": "加一句：「我说得不清楚的地方，先写一句你的理解，然后接着做，不用等我回复。」"
+      },
+      "en": {
+        "title": "State your reading, then start",
+        "does": "When the question is vague, it says how it reads it and gets going; you can redirect any time.",
+        "why": "Saying its reading out loud means it doesn't stall waiting for you, and you can see if it misread.",
+        "try": "Add: \"Where I'm unclear, write one line on how you read it, then keep going without waiting for me.\""
+      }
+    }
+  ]
+}

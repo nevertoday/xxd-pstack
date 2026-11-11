@@ -1,0 +1,140 @@
+{
+  "name": "blast-radius",
+  "commit": "0854796",
+  "description": {
+    "en": "Find what a change could break somewhere else before it ships, beyond the diff, and prove the one fact it's safe because of by running real code instead of writing it up. Use for 'blast radius of X', 'what could this break', or reviewing a small diff you don't trust.",
+    "zh": "在改动上线之前，找出它可能在别处弄坏什么，不只看 diff 本身；并通过运行真实代码、而不是写一篇说明，来证明它之所以安全所依赖的那一个事实。用于「X 的影响范围」「这可能弄坏什么」，或者审查一个你不放心的小 diff。"
+  },
+  "blocks": [
+    {
+      "en": "# Blast radius",
+      "zh": "# Blast radius（影响范围）"
+    },
+    {
+      "en": "Find what a change breaks somewhere else, before it ships. Use for \"blast radius of X\", \"what could this break\", or reviewing a small diff you don't trust yet.",
+      "zh": "在改动上线之前，找出它会在别处弄坏什么。用于「X 的影响范围」「这可能弄坏什么」，或者审查一个你还不放心的小 diff。"
+    },
+    {
+      "en": "Companion to `how` and `why`. `how` tells you what the code does. `why` tells you why it's shaped that way. Blast radius tells you what it breaks somewhere else.",
+      "zh": "和 `how`、`why` 是一组。`how` 告诉你代码做了什么。`why` 告诉你它为什么长这样。Blast radius 告诉你它会在别处弄坏什么。"
+    },
+    {
+      "en": "Listing the callers is not the job. The agent can grep those in a second. The job is the breakage grep won't show you.",
+      "zh": "列出调用方不是这份工作。AI 一秒钟就能用 grep 搜出来。这份工作要找的，是 grep 显示不出来的破坏。"
+    },
+    {
+      "en": "## Don't trust your own writeup",
+      "zh": "## 别相信你自己写的说明"
+    },
+    {
+      "en": "A blast-radius writeup that sounds right is worthless. It reads as convincing whether or not it's true. So don't hand back the writeup. Find the one or two facts the whole thing depends on and prove them by running code.",
+      "zh": "一份听起来很对的影响范围说明，毫无价值。不管它是不是真的，读起来都一样有说服力。所以不要交回这份说明。找出整件事所依赖的那一两个事实，通过运行代码来证明它们。"
+    },
+    {
+      "en": "### How sure are you",
+      "zh": "### 你有多确定"
+    },
+    {
+      "en": "For each fact the change's safety depends on, get it as far down this list as is cheap, and say where it stopped.",
+      "zh": "对于改动的安全性所依赖的每个事实，在成本不高的前提下，把它推到下面这张清单尽量靠后的一级，并说出它停在了哪一级。"
+    },
+    {
+      "en": "1. You said so. Worthless on its own.\n2. You pointed at the line. A real `file:line`, or the library's own source.\n3. You showed the bad case can't happen. You walked the failure step by step and it doesn't reach.\n4. You ran it. A script or test that calls the real code and fails loud if you're wrong.\n5. You reproduced it in the running app.",
+      "zh": "1. 你说是这样。单凭这一点毫无价值。\n2. 你指出了那一行。一个真实的 `file:line`，或者那个库自己的源码。\n3. 你证明了坏情况不会发生。你一步步走了一遍出错的过程，它走不到那里。\n4. 你跑过了。一个调用真实代码的脚本或测试，如果你错了，它会明明白白地失败。\n5. 你在运行中的应用里让它重现了。"
+    },
+    {
+      "en": "Step 4 is usually one small script that imports the same library the app ships and calls the exact function you're worried about.",
+      "zh": "第 4 级通常就是一个小脚本：导入应用实际发布时用的同一个库，调用你担心的那个函数本身。"
+    },
+    {
+      "en": "## Steps",
+      "zh": "## 步骤"
+    },
+    {
+      "en": "1. Read the change. The diff, the symbols it adds, changes, and deletes, and what it now does differently, including the part the diff doesn't spell out. Use `why` step 2 to pull the PR and commits.\n2. Find the one fact it's safe because of. Most changes that look risky are safe because of a single fact, like \"this call only drops already-dead cache entries and does nothing else\". Find that fact. If it holds, most risky cases are cleared at once. Spend your time here, not on a long list of maybes.\n3. Look where grep stops. Read the source of the library you call, and check its pinned version and any local patch. Work out when things run: microtasks, unmount and teardown, Solid versus React. Follow what a symbol search misses: the JSON an API returns, a DB column, a wire format, another language reading the same bytes, a feature flag, code three hops downstream.\n4. Be honest about each risk. Give it a real chance of happening and a real cost if it does. Keep the risks you confirmed. List the ones you checked and cleared separately. Same rules as `why`. Cite a real `file:line`, a search that finds nothing is still an answer, and never make up a caller or an API.\n5. Prove the one fact. Write a script or test that runs the real code, run it, and paste what happened.\n6. For a big or wide change, run it as an `arena`. Ask more than one model the same question and merge the answers. Different models catch different real bugs.",
+      "zh": "1. 读改动。读 diff，读它新增、修改和删除的符号，以及它现在有什么不同的行为，包括 diff 没明说的部分。用 `why` 的第 2 步拉取 PR 和提交。\n2. 找出它之所以安全所依赖的那一个事实。大多数看起来有风险的改动，都是因为一个事实而安全，比如「这个调用只删除已经失效的缓存条目，别的什么都不做」。找到这个事实。如果它成立，大多数有风险的情况一下子就排除了。把时间花在这里，不要花在一长串「也许」上。\n3. 去 grep 管不到的地方看。读你调用的那个库的源码，检查它锁定的版本和本地补丁。弄清楚东西在什么时候运行：微任务、卸载和清理阶段、Solid 和 React 的区别。跟踪符号搜索漏掉的东西：API 返回的 JSON、数据库的一列、一种传输格式、另一种语言读取同样的字节、一个功能开关、往下游隔了三层的代码。\n4. 对每个风险都诚实。给它一个真实的发生概率，和一个发生后的真实代价。确认过的风险保留下来。检查过并排除了的，单独列出来。规则和 `why` 一样。引用真实的 `file:line`；一次什么都没搜到的搜索，也是一个答案；绝不编造调用方或 API。\n5. 证明那一个事实。写一个运行真实代码的脚本或测试，跑它，把结果贴出来。\n6. 对于很大或牵涉很广的改动，用 `arena` 来跑。把同一个问题问不止一个模型，再把答案合并起来。不同的模型会抓到不同的真 bug。"
+    },
+    {
+      "en": "## What to hand back",
+      "zh": "## 交回什么"
+    },
+    {
+      "en": "- **What it does.** What changed, including the part that isn't obvious.\n- **The one fact it's safe because of.** State it, say which step you got it to, and show the proof. If you couldn't prove it, write unproven.\n- **Risks.** Each names how it breaks, the `file:line`, how likely and how bad, and how to check. Paste the proof for the ones that matter.\n- **Cleared.** What you checked and why it's fine.\n- **Before you merge.** The cheapest test or repro that catches the real bug, including the script you wrote.",
+      "zh": "- **它做了什么。** 改了什么，包括不明显的那部分。\n- **它之所以安全所依赖的那一个事实。** 说出这个事实，说你把它推到了第几级，并展示证明。如果没能证明，就写「未证明」。\n- **风险。** 每条都写出：它怎么坏、`file:line`、可能性多大、后果多严重、怎么检查。要紧的那几条，贴上证明。\n- **已排除。** 你检查过什么，以及为什么没问题。\n- **合并之前。** 能抓到真正 bug 的最便宜的测试或重现方法，包括你写的那个脚本。"
+    },
+    {
+      "en": "Write it through `unslop`, cite real code, and strip anything private before it goes anywhere public.",
+      "zh": "用 `unslop` 来写，引用真实的代码，发到任何公开的地方之前，删掉所有私密的内容。"
+    },
+    {
+      "en": "**Reply:** the writeup above, with the one safety fact either proven or marked unproven.",
+      "zh": "**回复：** 上面这份说明，其中那个安全事实要么已证明，要么标成未证明。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "A blast-radius writeup that sounds right is worthless.",
+      "quoteZh": "一份听起来很对的影响范围说明，毫无价值。",
+      "zh": {
+        "title": "直说说得好听没用",
+        "does": "它不会只交一篇头头是道的分析，而是去跑代码，证明最关键的那一点。",
+        "why": "先点破「听起来对」和「真的对」是两回事，AI 就不会拿流畅的文字当成果。",
+        "try": "让 AI 做检查时加一句：「写得再有道理也不算数，给我能打开看的结果。」"
+      },
+      "en": {
+        "title": "Say sounding right counts for nothing",
+        "does": "It doesn't hand back a convincing essay; it runs code to prove the point that matters.",
+        "why": "Saying \"sounds right\" and \"is right\" are different stops the AI from treating smooth prose as the result.",
+        "try": "When you ask for a check, add: \"However convincing it reads, it doesn't count. Show me a result I can open.\""
+      }
+    },
+    {
+      "quote": "For each fact the change's safety depends on, get it as far down this list as is cheap, and say where it stopped.",
+      "quoteZh": "对于改动的安全性所依赖的每个事实，在成本不高的前提下，把它推到下面这张清单尽量靠后的一级，并说出它停在了哪一级。",
+      "zh": {
+        "title": "把把握分成几级",
+        "does": "每个关键事实，它都告诉你确定到了哪一级：只是说说、指出了代码，还是真跑过。",
+        "why": "把「多确定」排成从低到高的台阶，AI 就能如实说停在哪一级，而不是笼统一句「没问题」。",
+        "try": "让 AI 给结论标级：「每条结论标上 1 听说、2 看过原文、3 亲自试过。」"
+      },
+      "en": {
+        "title": "Grade certainty in levels",
+        "does": "For each key fact, it tells you how sure it got: just said so, pointed at the code, or actually ran it.",
+        "why": "A ladder from weak to strong lets the AI report where it stopped instead of a vague \"looks fine\".",
+        "try": "Ask for a level on each claim: \"Mark each one 1 heard it, 2 read the source, 3 tried it myself.\""
+      }
+    },
+    {
+      "quote": "Find the one fact it's safe because of.",
+      "quoteZh": "找出它之所以安全所依赖的那一个事实。",
+      "zh": {
+        "title": "先找那一个关键事实",
+        "does": "它不列一长串「可能会出问题」，而是先找出让整个改动安全的那一条。",
+        "why": "把力气集中在一个事实上，比让 AI 罗列所有可能更省事，也查得更深。",
+        "try": "问 AI：「这个方案能成，最依赖哪一个前提？先把它查实。」"
+      },
+      "en": {
+        "title": "Find the one fact first",
+        "does": "Instead of a long list of maybes, it first finds the single fact that makes the change safe.",
+        "why": "Focusing on one fact costs less than listing every possibility, and the check goes deeper.",
+        "try": "Ask: \"Which one assumption does this plan rely on most? Check that first.\""
+      }
+    },
+    {
+      "quote": "Listing the callers is not the job.",
+      "quoteZh": "列出调用方不是这份工作。",
+      "zh": {
+        "title": "先堵住最省事的交差",
+        "does": "它不会交一张调用清单了事，而是去找搜索搜不出来的问题。",
+        "why": "先点名 AI 最容易拿来交差的轻松做法，再说真正要什么，它就没法偷懒。",
+        "try": "提要求时先排除偷懒做法：「别只把搜索结果列给我，我要的是搜不到、得读懂才能发现的问题。」"
+      },
+      "en": {
+        "title": "Rule out the easy way out",
+        "does": "It doesn't hand back a list of callers; it looks for problems a search can't show.",
+        "why": "Naming the lazy answer the AI would reach for, then the real ask, leaves it no shortcut.",
+        "try": "Rule out the shortcut first: \"Don't just list search results. I want the problems you only find by reading.\""
+      }
+    }
+  ]
+}

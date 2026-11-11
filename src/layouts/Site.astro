@@ -50,7 +50,7 @@ const searchIndex = JSON.stringify([
   ...LESSONS.map((x) => ({ label: `${x.n}. ${t(x, "title", lang)}`, hint: L.hintLesson, keywords: t(x, "sum", lang), href: lessonHref(x, lang) })),
   ...STEPS.map((x) => ({ label: `${x.n}. ${t(x, "title", lang)}`, hint: L.hintMain, keywords: t(x, "sum", lang), href: stepHref(x, lang) })),
   ...HOWTO_FLAT.map((x) => ({ label: t(x, "title", lang), hint: `How-to · ${en ? x.groupEn : x.group}`, keywords: en ? x.groupEn : x.group, href: howtoHref(x.slug, lang) })),
-  ...skillsFor(lang).flatMap((g) => g.items.map((x) => ({ label: `/${x.name}`, hint: `${L.hintSkill} · ${g.title}`, keywords: plain(`${x.zh} ${x.use}`), href: link(`/skills/#${x.name}`, lang) }))),
+  ...skillsFor(lang).flatMap((g) => g.items.map((x) => ({ label: `/${x.name}`, hint: `${L.hintSkill} · ${g.title}`, keywords: plain(`${x.zh} ${x.use}`), href: link(`/skills/${x.name}/`, lang) }))),
   ...wikiItems.map((x) => ({ label: x.title, hint: "Wiki", keywords: plain(x.one), href: wikiHref(x.slug, lang) })),
   ...faqGroups.flatMap((g) => g.items.map(([q, a], i) => ({ label: q, hint: `${L.hintFaq} · ${g.title}`, keywords: plain(a), href: link(`/faq/#${g.id}-${i + 1}`, lang) }))),
 ]);

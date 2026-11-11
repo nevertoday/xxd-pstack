@@ -1,0 +1,228 @@
+{
+  "name": "automate-me",
+  "commit": "0854796",
+  "description": {
+    "en": "Use for \"automate me\", \"create/update/refresh my -mode skill\", \"turn/capture my preferences or working style into a skill\", or wanting agents to follow how the user works. Drafts or revises a personal -mode skill via create-skill + unslop, optionally pulling fresh evidence from recent transcripts.",
+    "zh": "用于「automate me」「创建 / 更新 / 刷新我的 -mode 技能」「把我的偏好或工作习惯变成 / 记成一个技能」，或者想让 AI 照用户的方式干活。借助 create-skill 和 unslop，起草或修改一个个人的 -mode 技能，也可以从最近的聊天记录里拉取新的证据。"
+  },
+  "blocks": [
+    {
+      "en": "# Automate me",
+      "zh": "# Automate me（把我自动化）"
+    },
+    {
+      "en": "A guided flow for turning the user's working conventions into a skill agents will follow. The output is one `-mode` skill tailored to them (e.g. `jay-mode`, `priya-mode`).",
+      "zh": "一套带着走的流程，把用户的工作习惯变成一个 AI 会照着做的技能。产出是一个为用户量身定做的 `-mode` 技能（比如 `jay-mode`、`priya-mode`）。"
+    },
+    {
+      "en": "This skill orchestrates three others: an inline mining pass (see step 1), your harness's skill-authoring skill (authoring), and the **unslop** skill (prose discipline). It sequences them. It doesn't replace them.",
+      "zh": "这个技能统筹另外三件事：一轮由你自己做的记录挖掘（见第 1 步）、你所用工具里写技能的技能（负责写），以及 **unslop** 技能（负责文字纪律）。它负责排先后顺序，不取代它们。"
+    },
+    {
+      "en": "The skill-authoring skill is `create-skill` in Cursor (built in) or Anthropic's `skill-creator`. If you have neither, follow the Agent Skills format at agentskills.io. \"`create-skill`\" below means whichever of these you use.",
+      "zh": "写技能的技能，在 Cursor 里是 `create-skill`（自带），或者是 Anthropic 的 `skill-creator`。两个都没有的话，按 agentskills.io 上的 Agent Skills 格式来。下文说的「`create-skill`」，指你用的那一个。"
+    },
+    {
+      "en": "## Flow",
+      "zh": "## 流程"
+    },
+    {
+      "en": "### 0. Check for an existing skill",
+      "zh": "### 0. 看看是不是已经有一个"
+    },
+    {
+      "en": "Look recursively for `*-mode/SKILL.md` matching the user's handle in your harness's skill folders. In the project: `.cursor/skills/` (Cursor), `.claude/skills/` (Claude Code), `.pi/skills/` (Pi), or `.agents/skills/` (Codex, OpenCode, and others). For the user: `~/.cursor/skills/`, `~/.claude/skills/`, `~/.pi/agent/skills/`, `~/.codex/skills/`, `~/.config/opencode/skills/`, or `~/.agents/skills/`. Mode skills can live in a personal category directory (`<skills>/<handle>/`), not only at the top level. If one exists, confirm intent with your structured-question tool (`AskQuestion` in Cursor, `AskUserQuestion` in Claude Code, `question` in OpenCode) unless they already said \"update my skill\" or similar:",
+      "zh": "在你所用工具的技能文件夹里，递归查找和用户名号对得上的 `*-mode/SKILL.md`。项目里：`.cursor/skills/`（Cursor）、`.claude/skills/`（Claude Code）、`.pi/skills/`（Pi），或 `.agents/skills/`（Codex、OpenCode 等）。用户级别：`~/.cursor/skills/`、`~/.claude/skills/`、`~/.pi/agent/skills/`、`~/.codex/skills/`、`~/.config/opencode/skills/`，或 `~/.agents/skills/`。mode 技能可能放在个人分类目录里（`<skills>/<handle>/`），不一定在最外层。如果已经有一个，用你的结构化提问工具（Cursor 里是 `AskQuestion`，Claude Code 里是 `AskUserQuestion`，OpenCode 里是 `question`）确认用户想怎么做，除非用户已经说了「更新我的技能」之类的话："
+    },
+    {
+      "en": "- Update the existing skill (default for repeat runs)\n- Start fresh (rare, ask why before doing it)",
+      "zh": "- 更新已有的技能（再次运行时默认选这个）\n- 从头开始（很少用，动手前先问为什么）"
+    },
+    {
+      "en": "Update mode changes the rest of the flow:\n- Step 1 mines only history since the skill was last edited (`git log -1 --format=%cI <path>`).\n- Step 2 asks what's changed or missing, not what to capture from zero.\n- Step 4 edits the existing file in place. Preserve sections the user hasn't contradicted. Revise ones with new evidence. Add new sections only for genuinely new rules.",
+      "zh": "更新模式会改变后面的流程：\n- 第 1 步只挖技能上次修改之后的记录（`git log -1 --format=%cI <path>`）。\n- 第 2 步问的是哪里变了、缺了什么，而不是从零问要记下什么。\n- 第 4 步直接在原文件上改。用户没有推翻的小节保留。有新证据的小节修改。只有真正新的规则才加新小节。"
+    },
+    {
+      "en": "### 1. Mine their history",
+      "zh": "### 1. 挖用户的聊天记录"
+    },
+    {
+      "en": "Locate the active workspace's transcripts before fanning out. Use only that workspace's directory. Don't glob across every project's directory. That crosses workspace boundaries and reads private chats from unrelated projects. Where they live depends on your harness:",
+      "zh": "分头去挖之前，先找到当前工作区的聊天记录。只用这个工作区的目录。不要用通配符扫遍所有项目的目录。那会越过工作区的边界，读到不相干项目里的私人对话。记录放在哪，取决于你所用的工具："
+    },
+    {
+      "en": "- **Cursor:** the system prompt names the workspace's `agent-transcripts/` directory under `~/.cursor/projects/`.\n- **Claude Code:** `~/.claude/projects/<slug>/*.jsonl`, where `<slug>` is the workspace path with every character that isn't a letter or digit turned into \"-\".\n- **Pi:** `~/.pi/agent/sessions/--<slug>--/*.jsonl`, where `<slug>` is the workspace path with the leading slash dropped and each \"/\" turned into \"-\".\n- **Codex:** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`. Keep only files whose first line has `payload.cwd` equal to the workspace path.\n- **Other harnesses:** the harness's session directory for this workspace.",
+      "zh": "- **Cursor：** 系统提示词里写明了这个工作区在 `~/.cursor/projects/` 下的 `agent-transcripts/` 目录。\n- **Claude Code：** `~/.claude/projects/<slug>/*.jsonl`，其中 `<slug>` 是工作区路径，里面每个不是字母或数字的字符都换成「-」。\n- **Pi：** `~/.pi/agent/sessions/--<slug>--/*.jsonl`，其中 `<slug>` 是工作区路径去掉开头的斜杠，每个「/」换成「-」。\n- **Codex：** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`。只保留第一行里 `payload.cwd` 等于工作区路径的文件。\n- **其他工具：** 这个工具为这个工作区存会话的目录。"
+    },
+    {
+      "en": "Survey recent agent conversations within that scope for recurring patterns. Run multiple parallel subagents across slices of history (e.g. last 2-4 weeks, split into 3 slices so each has enough material). Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill. Each slice mining subagent reads transcripts from the workspace-scoped path the parent provides, looks for the signals below, and returns a short structured list of patterns it saw with evidence pointers. Default signals worth hunting:",
+      "zh": "在这个范围内，翻看最近和 AI 的对话，找反复出现的规律。按时间切成几段，并行派出多个帮手 AI（比如最近 2-4 周，切成 3 段，让每段都有足够的材料）。每个帮手 AI 的思考深度、用快速还是标准速度，按 **poteto-mode** 技能里 Subagents 一节，看活来定。每个挖一段记录的帮手 AI，从你给它的、限定在这个工作区的路径里读聊天记录，找下面这些信号，交回一份简短的结构化清单，列出它看到的规律和证据所在的位置。默认值得找的信号："
+    },
+    {
+      "en": "- Response preferences (length, tone, format, \"dumb it down\" corrections)\n- Delegation habits (subagents, models, specialized workflows, parallelism)\n- Verification posture (what \"done\" means, unit tests vs live repro, reviewers)\n- Code and prose discipline (style, principles cited, lint/format tools)\n- Process conventions (worktrees, commits, PRs, review/merge tooling)\n- Meta preferences (fixing skills mid-task, proposing new ones)",
+      "zh": "- 回复偏好（长度、口吻、格式、「说简单点」这类纠正）\n- 派活习惯（帮手 AI、模型、专门的工作流程、并行）\n- 验证态度（怎样才算「做完」、单元测试还是亲手复现、谁来评审）\n- 代码和文字纪律（风格、常引用的原则、lint / 格式化工具）\n- 流程习惯（worktree、提交、PR、评审 / 合并工具）\n- 关于做事方式本身的偏好（做到一半先修技能、提议新技能）"
+    },
+    {
+      "en": "Cross-check across slices before elevating a signal. Patterns seen in 2+ slices are high-confidence. Lone signals are weak and usually get dropped.",
+      "zh": "把一个信号升格之前，先在几段之间交叉核对。在 2 段以上都出现的规律，可信度高。只出现一次的信号很弱，通常丢掉。"
+    },
+    {
+      "en": "### 2. Ask the user directly",
+      "zh": "### 2. 直接问用户"
+    },
+    {
+      "en": "Mining misses intent that hasn't come up yet. Use your structured-question tool (structured multi-choice: `AskQuestion` in Cursor, `AskUserQuestion` in Claude Code, `question` in OpenCode) rather than asking the user to type from scratch. If your harness has none, ask in chat with numbered options.",
+      "zh": "挖记录挖不到还没提过的想法。用你的结构化提问工具（结构化多选：Cursor 里是 `AskQuestion`，Claude Code 里是 `AskUserQuestion`，OpenCode 里是 `question`），不要让用户从零开始打字。你所用的工具没有这种功能的话，就在聊天里给带编号的选项来问。"
+    },
+    {
+      "en": "Shape: one or two questions with 4-6 options each, multi-select (`allow_multiple: true` in Cursor) for category questions. Start broad (\"Which areas matter most?\"), then follow up on selected areas with specific options. After the structured rounds, one free-form chat question catches anything the options missed.",
+      "zh": "形式：一到两个问题，每个 4-6 个选项，问类别时用多选（Cursor 里是 `allow_multiple: true`）。先问大方向（「哪些方面对你最重要？」），再针对选中的方面，用更具体的选项追问。结构化的几轮问完后，再用一个开放的聊天问题，兜住选项没覆盖到的东西。"
+    },
+    {
+      "en": "Don't dump 20 questions.",
+      "zh": "别一口气甩出 20 个问题。"
+    },
+    {
+      "en": "### 3. Cluster findings",
+      "zh": "### 3. 把发现归类"
+    },
+    {
+      "en": "Group the combined signals into sections. Common ones (use only what applies):",
+      "zh": "把合起来的信号分成几个小节。常见的有这些（只用用得上的）："
+    },
+    {
+      "en": "- **Response style**: length, tone, format.\n- **Autonomy**: how much to do without asking, MCP tool use.\n- **Understand first**: which skills to reach for when scoping or investigating a change.\n- **Subagents**: default, parallelism, model-to-task, specialized workflows.\n- **Prose / code discipline**: principles, lint tools, style guides.\n- **Review and verify**: repro posture, verification skills, live-testing tools.\n- **Process**: git worktrees, commits, PRs, review/merge tooling.\n- **Skills**: skill-authoring habits, fix-the-skill-first, proposing new skills.",
+      "zh": "- **回复风格**：长度、口吻、格式。\n- **自主程度**：不问就能做多少，MCP 工具的使用。\n- **先弄懂再动手**：划定或调查一个改动时，该用哪些技能。\n- **帮手 AI**：默认做法、并行、什么活配什么模型、专门的工作流程。\n- **文字 / 代码纪律**：原则、lint 工具、风格指南。\n- **评审和验证**：复现的态度、验证技能、实际测试用的工具。\n- **流程**：git worktree、提交、PR、评审 / 合并工具。\n- **技能**：写技能的习惯、先修技能、提议新技能。"
+    },
+    {
+      "en": "The **poteto-mode** skill shows the shape. Read it for granularity. Don't copy its content. The user's rules are not the same as poteto-mode's.",
+      "zh": "**poteto-mode** 技能展示了大致的样子。读它，是为了把握写到多细。别照抄它的内容。用户的规则和 poteto-mode 的不一样。"
+    },
+    {
+      "en": "### 4. Draft the skill",
+      "zh": "### 4. 起草技能"
+    },
+    {
+      "en": "Use your skill-authoring skill (`create-skill`) to author the skill. Placement:",
+      "zh": "用你写技能的技能（`create-skill`）来写这个技能。放在哪："
+    },
+    {
+      "en": "- Path: preserve an existing mode skill's category. For a new mode, use `<skills>/<handle>/<handle>-mode/SKILL.md` when the repo has an established personal category for that handle. Otherwise default to `<skills>/<handle>-mode/SKILL.md` in the project, or the user-level skill folder if the user prefers a personal skill. `<skills>` is your harness's skill folder from step 0.\n- Handle: the user's first name or chosen identifier.\n- Frontmatter `description`: trigger on their name + `/<handle>-mode` + \"work in their style\", not on generic keywords like \"write code\" or \"review PR\".\n- Frontmatter formatting: follow `create-skill`'s YAML rules. Keep `description` as one YAML scalar. Quote it or use `description: >-` with indented continuation lines when punctuation or wrapping requires it.\n- Frontmatter `disable-model-invocation: true` by default. Opt out only if the user explicitly wants their mode to apply on every turn.",
+      "zh": "- 路径：已有的 mode 技能，保留它原来的分类。新建的 mode，如果仓库里已经有这个名号的个人分类，就用 `<skills>/<handle>/<handle>-mode/SKILL.md`。否则默认放在项目里的 `<skills>/<handle>-mode/SKILL.md`；如果用户更想要个人技能，就放进用户级别的技能文件夹。`<skills>` 指第 0 步里你所用工具的技能文件夹。\n- 名号：用户的名字，或用户自己选的称呼。\n- frontmatter 里的 `description`：靠用户的名字、`/<handle>-mode` 和「照用户的风格干活」来触发，不要靠「写代码」「评审 PR」这类通用关键词。\n- frontmatter 的格式：遵守 `create-skill` 的 YAML 规则。`description` 保持为一个 YAML 标量。标点或换行需要时，就给它加引号，或用 `description: >-` 加缩进的续行。\n- frontmatter 默认写 `disable-model-invocation: true`。只有用户明确希望自己的 mode 每一轮都生效时，才去掉。"
+    },
+    {
+      "en": "### 5. Iterate on prose",
+      "zh": "### 5. 反复打磨文字"
+    },
+    {
+      "en": "Apply the **unslop** skill and `create-skill`'s writing guidelines to every line.",
+      "zh": "每一行都用 **unslop** 技能和 `create-skill` 的写作要求过一遍。"
+    },
+    {
+      "en": "Show the draft to the user and take feedback. Expect multiple iterations. Cut ruthlessly. A mode skill is not a manual.",
+      "zh": "把草稿给用户看，听取意见。预计要改好几轮。狠狠地删。mode 技能不是说明书。"
+    },
+    {
+      "en": "### 6. Land it",
+      "zh": "### 6. 交上去"
+    },
+    {
+      "en": "Work in a worktree off main. Commit and open a PR. Don't push to main directly.",
+      "zh": "在从 main 拉出的 worktree 里干活。提交，然后开一个 PR。不要直接推到 main。"
+    },
+    {
+      "en": "## Guardrails",
+      "zh": "## 护栏"
+    },
+    {
+      "en": "- **Don't overfit to one conversation.** A preference stated once and contradicted another time is noise. Require multiple instances before codifying it.\n- **Don't be clever.** Restating other skills' contents, inventing metaphors, or writing \"poetic\" prose for an agent reader is cost without benefit. Keep it operational.\n- **Reference, don't inline.** Other skills the user relies on should appear as path references, not pasted excerpts. Same for any principle docs they maintain elsewhere.\n- **Keep sections minimal.** Only add a section if the user has a specific, non-default rule there. \"Communicate clearly\" is not a section. \"Short paragraphs. Tables when comparing options. Bullets only when items are genuinely parallel.\" is.\n- **Name conventions generic.** Use \"the user\" or \"the human\" in imperatives, not the author's first name.\n- **Don't force symmetry.** If a user has no process rules worth writing down, skip the Process section entirely.",
+      "zh": "- **别只凭一次对话下结论。** 一个偏好说过一次、另一次又反过来，那就是噪音。要出现多次才写进去。\n- **别耍聪明。** 复述其他技能的内容、编比喻、给 AI 读者写「有诗意」的文字，只有成本没有好处。保持能照着做。\n- **引用，别粘贴。** 用户依赖的其他技能，写成路径引用，不要贴摘录。用户在别处维护的原则文档也一样。\n- **小节越少越好。** 只有用户在某方面有具体的、和默认不同的规则，才加这个小节。「沟通要清楚」不算一个小节。「段落要短。比较方案时用表格。只有各项真的并列时才用列表。」才算。\n- **称呼要通用。** 祈使句里写「用户」或「对方」，不写作者的名字。\n- **别硬凑对称。** 如果用户没有值得写下来的流程规则，就整个跳过「流程」这一节。"
+    },
+    {
+      "en": "## Evaluation",
+      "zh": "## 怎么评估"
+    },
+    {
+      "en": "A `-mode` skill is subjective output. A `create-skill`-style test/iterate benchmark loop isn't useful here. Vibe-check with the user: does it read like them? Did it miss anything? Then ship.",
+      "zh": "`-mode` 技能的产出是主观的。`create-skill` 那种测试 / 迭代的跑分循环，在这里没用。和用户一起凭感觉检查：读起来像不像用户本人？有没有漏掉什么？然后就交付。"
+    },
+    {
+      "en": "Run a description-optimization loop only if the skill's trigger accuracy turns out to be a problem in practice.",
+      "zh": "只有当技能在实际使用中触发得不准时，才跑一轮优化 description 的循环。"
+    },
+    {
+      "en": "## When not to use",
+      "zh": "## 什么时候不该用"
+    },
+    {
+      "en": "- User wants a task-specific skill (not working conventions): `create-skill` alone, no mining required.\n- User wants to capture one narrow workflow (e.g. \"how I write commit messages\"). That's a regular skill, not a mode skill.",
+      "zh": "- 用户要的是做某件具体任务的技能（不是工作习惯）：只用 `create-skill`，不用挖记录。\n- 用户想记下一个很窄的流程（比如「我怎么写提交信息」）。那是普通技能，不是 mode 技能。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Patterns seen in 2+ slices are high-confidence. Lone signals are weak and usually get dropped.",
+      "quoteZh": "在 2 段以上都出现的规律，可信度高。只出现一次的信号很弱，通常丢掉。",
+      "zh": {
+        "title": "给「算数」设一个门槛",
+        "does": "只有你反复表现出来的习惯才会写进技能，偶尔说过一次的话不会被当成规矩。",
+        "why": "「出现两次以上才算」是个能数的标准，AI 不用凭感觉判断哪个偏好是真的。",
+        "try": "让 AI 总结用户反馈时加一句：「至少三个人提到的问题才列出来，只有一个人说的放到最后。」"
+      },
+      "en": {
+        "title": "Set a bar for what counts",
+        "does": "Only habits you show again and again go into the skill; a one-off remark doesn't become a rule.",
+        "why": "\"Seen two or more times\" is a count, so the AI doesn't have to judge by feel which preference is real.",
+        "try": "When you ask for a feedback summary, add: \"List only issues at least three people raised; put single mentions at the end.\""
+      }
+    },
+    {
+      "quote": "\"Communicate clearly\" is not a section.",
+      "quoteZh": "「沟通要清楚」不算一个小节。",
+      "zh": {
+        "title": "用反例划掉空话",
+        "does": "写出来的技能里只有能照着做的具体规则，没有「要专业」「要清楚」这种正确的废话。",
+        "why": "先举一句人人都会写的空话，再给一句具体的对照，AI 就知道哪种算数、哪种该删。",
+        "try": "让 AI 写规范时给一对：「『代码要整洁』不算一条；『函数超过 50 行就拆开』才算。」"
+      },
+      "en": {
+        "title": "Strike filler with a counterexample",
+        "does": "The skill holds only rules you can act on, not empty lines like \"be professional\" or \"be clear\".",
+        "why": "Showing a line everyone writes next to a concrete one tells the AI which kind counts and which to cut.",
+        "try": "When you ask for guidelines, give a pair: \"'Keep code clean' doesn't count; 'split functions over 50 lines' does.\""
+      }
+    },
+    {
+      "quote": "Don't glob across every project's directory. That crosses workspace boundaries and reads private chats from unrelated projects.",
+      "quoteZh": "不要用通配符扫遍所有项目的目录。那会越过工作区的边界，读到不相干项目里的私人对话。",
+      "zh": {
+        "title": "禁令后面跟上后果",
+        "does": "它只读当前项目的聊天记录，不会翻到你别的项目里的私人对话。",
+        "why": "光说「不要」，AI 可能觉得无所谓；说出会伤到什么，它就明白这条线为什么不能碰。",
+        "try": "立规矩时补上后果：「别动 .env 文件，里面是线上密码，改错了网站会挂。」"
+      },
+      "en": {
+        "title": "Follow a ban with its cost",
+        "does": "It reads only this project's chats and never opens private conversations from your other projects.",
+        "why": "A bare \"don't\" can seem optional; naming what it would harm shows why the line matters.",
+        "try": "When you set a rule, add the cost: \"Don't touch .env; it holds live passwords and a bad edit takes the site down.\""
+      }
+    },
+    {
+      "quote": "Mining misses intent that hasn't come up yet.",
+      "quoteZh": "挖记录挖不到还没提过的想法。",
+      "zh": {
+        "title": "先说方法的盲区",
+        "does": "它挖完记录还会再问你几个选择题，把你没在聊天里说过的偏好也收进来。",
+        "why": "点明上一步天生漏什么，下一步为什么要做就不言自明，AI 不会觉得是多此一举。",
+        "try": "安排两步时说清第一步漏什么：「先看日志；日志里看不到用户怎么点的，所以再去录一遍操作。」"
+      },
+      "en": {
+        "title": "Name the method's blind spot",
+        "does": "After mining your history it also asks you a few multiple-choice questions, catching preferences you never said in chat.",
+        "why": "Naming what the first step can't see explains why the next step exists, so the AI won't skip it as redundant.",
+        "try": "With two steps, say what the first misses: \"Read the logs; they don't show what the user clicked, so record a run too.\""
+      }
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "name": "arena",
+  "commit": "0854796",
+  "description": {
+    "en": "Spawn N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it. Use for /arena, 'arena this', 'throw it in the arena', or when one attempt at a non-trivial artifact would lock in the wrong shape.",
+    "zh": "同一个任务，并行派出 N 个候选去做，挑一个当底子，再把落选者最强的部分嫁接进去。用于 /arena、「arena this」「扔进擂台」，或者当只做一次、一个不简单的东西就会被定成错误的样子时。"
+  },
+  "blocks": [
+    {
+      "en": "# Arena",
+      "zh": "# Arena（擂台）"
+    },
+    {
+      "en": "Open a todolist with one entry per phase (Frame, Fan out, Cross-judge, Pick, Graft, Verify) before launching anything.",
+      "zh": "启动任何东西之前，先开一个待办清单，每个阶段一条（Frame、Fan out、Cross-judge、Pick、Graft、Verify）。"
+    },
+    {
+      "en": "## Phase A: Frame",
+      "zh": "## 阶段 A：定题"
+    },
+    {
+      "en": "Every candidate gets the same prompt, so the prompt is the contract.",
+      "zh": "每个候选拿到的是同一份提示词，所以提示词就是合同。"
+    },
+    {
+      "en": "1. State the artifact each candidate is producing.\n2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.\n3. Pick the runners. Use the `arena runners` line in the pstack settings file (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in other harnesses). If the file or that line is missing, default to one each on `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. An `auto` or `inherit-parent` entry in this line means the parent model, so omit `model` for it. If your subagent tool rejects a configured entry, run that seat on its family's default and say so. Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on `grok-4.7-xhigh-fast`. If the family has no default, or your subagent tool rejects that default, use the closest valid slug of the same family from its error message or your harness's model list, or drop the seat and say so when there is none. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model, or omit `model` so it runs on the parent model when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.\n4. Give each candidate its own output location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.",
+      "zh": "1. 说清每个候选要做出的东西是什么。\n2. 定出评分标准：3-6 条具体的、能打分的标准，说明在*这个*任务上怎样算成功。它是阶段 D 里挑选的人用的工具。候选只看得到任务。\n3. 挑选参赛者。用 pstack 设置文件里的 `arena runners` 那一行（Cursor 里是 `~/.cursor/rules/pstack-models.mdc`，Claude Code 里是 `~/.claude/rules/pstack-models.md`，其他工具里是 `~/.agents/pstack-models.md`）。如果文件或那一行不存在，默认在 `claude-opus-5-5-xhigh` 和 `grok-4.7-xhigh-fast` 上各跑一个。这一行里的 `auto` 或 `inherit-parent` 指的是你自己用的模型，所以这一项不设 `model`。如果你派帮手 AI 的工具不认某个配置项，就让这个席位用它所属系列的默认模型跑，并说出来。系列按前缀分：`claude-*` 一个系列；`grok-*`、`cursor-grok-*` 和 `composer-*` 一个系列。被拒的 `composer-*` 项改用 `grok-4.7-xhigh-fast` 跑。如果这个系列没有默认模型，或者你的工具连默认值也不认，就从它的报错信息或你所用工具的模型列表里，挑同一系列里最接近的有效模型名；一个都没有的话，就撤掉这个席位，并说出来。如果撤掉席位后参赛者不到两个，就加到两个；如果那一行本来只有一项，就加到一个。每个加上的参赛者，用剩下的某个参赛者的模型跑；一个都不剩时，就不设 `model`，让它用你自己的模型跑，并说出来。擂台要覆盖好几个设计方向时，多派几个参赛者。如果这活主要拼产出、不太考验判断，就把同一个模型用 N 次。每个帮手 AI 的思考深度、用快速还是标准速度，按 **poteto-mode** 技能里 Subagents 一节，看活来定。\n4. 给每个候选一个自己的输出位置（能用 git worktree 就用，否则用 `/tmp/arena-<slug>/candidate-<n>/`），依据是 **separate-before-serializing-shared-state** 这个原则技能。"
+    },
+    {
+      "en": "## Phase B: Fan out",
+      "zh": "## 阶段 B：分头去做"
+    },
+    {
+      "en": "Spawn all N subagents in one message with `run_in_background: true`, each with the task, the path to the shared grounding, its own output path, and instructions to produce the artifact and a short rationale naming the alternatives it considered and what it rejected.",
+      "zh": "在一条消息里派出全部 N 个帮手 AI，带上 `run_in_background: true`。每个都拿到：任务、共用背景资料的路径、它自己的输出路径，以及一条指示：做出成品，再附一段简短的理由，说出它考虑过哪些别的做法、否掉了什么。"
+    },
+    {
+      "en": "If a candidate produces no output, proceed with N-1 and note the dropout.",
+      "zh": "如果某个候选什么都没交出来，就用剩下的 N-1 个继续，并记下有人掉队。"
+    },
+    {
+      "en": "## Phase C: Cross-judge",
+      "zh": "## 阶段 C：交叉评审"
+    },
+    {
+      "en": "After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in the pstack settings file. If the file or that line is missing, choose from `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Spawn one readonly judge subagent. The judge is never from the parent's family, as Phase A step 3 defines families. Try only the entries from another family, in pool order. An `auto` or `inherit-parent` entry is the parent model, so it never judges. With the default pool, a Claude parent gets `grok-4.7-xhigh-fast`. A parent from any other family gets `claude-opus-5-5-xhigh` first. If your subagent tool rejects an entry, use a valid slug of the same model at the closest level or speed from the error message or your harness's model list, or move to the next entry when there is none. If no entry from another family runs, try the default pool's entries from another family the same way. If none of those runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's model, try the pool's real slugs in pool order and say that the family check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
+      "zh": "阶段 B 的候选全部完成后，从 pstack 设置文件里的 `arena cross-judge pool` 那一行选一个模型。如果文件或那一行不存在，就从 `claude-opus-5-5-xhigh` 和 `grok-4.7-xhigh-fast` 里选。派出一个只看不改的评审帮手 AI。评审绝不能和你自己属于同一个系列，系列按阶段 A 第 3 步的分法。只按评审池里的顺序，试别的系列的项。`auto` 或 `inherit-parent` 项就是你自己的模型，所以它永远不当评审。用默认评审池时，你是 Claude 就用 `grok-4.7-xhigh-fast`。你是其他任何系列，就先试 `claude-opus-5-5-xhigh`。如果你的工具不认某一项，就从报错信息或你所用工具的模型列表里，挑同一个模型最接近的档位或速度的有效名字；一个都没有的话，就换下一项。如果别的系列的项一个都跑不起来，就用同样的办法，试默认评审池里别的系列的项。如果这些也都跑不起来，就不要评审，在阶段 D 自己挑底子，并说出来。如果你不知道自己用的是什么模型，就按顺序试评审池里的真实模型名，并说明系列检查没有做。评审看得到评分标准，候选按路径标签给它看。它给每条标准打分，推荐一个底子并说明理由。它和你在阶段 D 的阅读同时进行。候选还在写的时候，不要派出评审。"
+    },
+    {
+      "en": "## Phase D: Pick a base",
+      "zh": "## 阶段 D：挑底子"
+    },
+    {
+      "en": "Read every candidate end to end before picking. Score each against the rubric criterion by criterion, not on holistic feel, and compare with the cross-judge when Phase C ran one. Agreement on the base confirms the pick. Disagreement means one of you is biased or the rubric was ambiguous. Read both rationales before deciding.",
+      "zh": "挑之前，把每个候选从头到尾读完。按评分标准一条一条给每个候选打分，不要凭整体感觉；如果阶段 C 派了评审，就和它的结果对照。在底子上意见一致，就说明挑对了。意见不一致，说明你们当中有一个有偏见，或者评分标准有歧义。两边的理由都读完再决定。"
+    },
+    {
+      "en": "Pick the base a future maintainer can extend most easily without breaking invariants. When two feel tied, prefer the cleaner boundary or smaller API, per the Laziness Protocol.",
+      "zh": "挑那个以后维护的人最容易扩展、又不会破坏不变条件的底子。两个感觉不相上下时，依据 Laziness Protocol，选边界更干净或 API 更小的那个。"
+    },
+    {
+      "en": "## Phase E: Graft",
+      "zh": "## 阶段 E：嫁接"
+    },
+    {
+      "en": "Walk each losing candidate once more for what is worth porting into the base, usually one or two things per candidate, not most of it. Fold each graft in by hand, per the **redesign-from-first-principles** principle skill, so the result stays coherent under one mental model. Don't paste mechanically.",
+      "zh": "把每个落选的候选再过一遍，找出值得移进底子的东西，通常每个候选一两处，而不是大半。依据 **redesign-from-first-principles** 这个原则技能，每一处都亲手揉进去，让结果在同一套思路下保持一致。不要机械地粘贴。"
+    },
+    {
+      "en": "If the candidates converge on one shape, that is strong agreement. Note it and ship the consensus shape. No graft is needed. If they wildly diverge, Phase A was under-specified. Reframe and re-run rather than averaging the divergence.",
+      "zh": "如果候选们都做成了同一个样子，那就是很强的一致意见。记下来，按大家一致的样子交付。不需要嫁接。如果它们相差极大，说明阶段 A 没说清楚。重新定题再跑一遍，不要把分歧取个平均。"
+    },
+    {
+      "en": "## Phase F: Verify",
+      "zh": "## 阶段 F：验证"
+    },
+    {
+      "en": "Verify the synthesized artifact like any other output, per the **prove-it-works** principle skill. If verification finds a problem the arena missed, either Phase A was wrong (re-frame and re-run) or a candidate caught it and you missed the graft (go back to Phase E). Don't paper over it.",
+      "zh": "依据 **prove-it-works** 这个原则技能，像验证其他任何产出一样，验证合成出来的成品。如果验证发现了擂台没发现的问题，那么要么是阶段 A 错了（重新定题再跑），要么是某个候选发现了、但你漏了嫁接（回到阶段 E）。不要糊过去。"
+    },
+    {
+      "en": "## Outputs",
+      "zh": "## 交出什么"
+    },
+    {
+      "en": "One synthesized artifact, with a short synthesis note alongside naming the base and why, the cross-judge's verdict or that Phase C skipped the judge, each graft with its source candidate, what was rejected and why, any convergence or dropouts, and the verification result.",
+      "zh": "一份合成的成品，旁边附一段简短的合成说明，写明：选了哪个底子、为什么；交叉评审的结论，或者阶段 C 没有派评审；每一处嫁接以及它来自哪个候选；否掉了什么、为什么；有没有一致或掉队的情况；验证结果。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Every candidate gets the same prompt, so the prompt is the contract.",
+      "quoteZh": "每个候选拿到的是同一份提示词，所以提示词就是合同。",
+      "zh": {
+        "title": "把提示词当合同写",
+        "does": "它在派人之前先把任务和评分标准写清楚，几个版本之间才比得出真正的高下。",
+        "why": "「合同」这个说法提醒 AI：没写进去的要求，事后就没资格拿来挑刺，所以它会先写全。",
+        "try": "同时让几个 AI 或几个人做同一件事时，先写一份大家都拿到的说明：「交一页，800 字以内，必须有三个真实案例。」"
+      },
+      "en": {
+        "title": "Write the prompt as a contract",
+        "does": "It writes the task and scoring rules before sending anyone, so the versions can be fairly compared.",
+        "why": "Calling it a contract reminds the AI that anything left out can't be held against a candidate later, so it writes it all down.",
+        "try": "When several AIs or people do the same job, give one shared brief: \"One page, under 800 words, three real examples.\""
+      }
+    },
+    {
+      "quote": "Score each against the rubric criterion by criterion, not on holistic feel",
+      "quoteZh": "按评分标准一条一条给每个候选打分，不要凭整体感觉",
+      "zh": {
+        "title": "先定打分表再比较",
+        "does": "它挑底子时会说出每个版本在每一条上的得分，你能看到它为什么选这个。",
+        "why": "「整体感觉」容易被文笔或长度带偏；逐条打分把一次模糊的比较拆成几个能核对的小判断。",
+        "try": "让 AI 比几个方案时先给标准：「按速度、成本、好不好改三条，各打 1-5 分，再说选哪个。」"
+      },
+      "en": {
+        "title": "Score against a rubric",
+        "does": "When picking a base it shows each version's score on each point, so you can see why it chose one.",
+        "why": "Overall feel gets swayed by polish or length; scoring point by point splits one fuzzy call into small checkable ones.",
+        "try": "When comparing options, give the rubric: \"Score speed, cost and ease of change 1-5 each, then pick.\""
+      }
+    },
+    {
+      "quote": "The judge is never from the parent's family",
+      "quoteZh": "评审绝不能和你自己属于同一个系列",
+      "zh": {
+        "title": "让别家来当裁判",
+        "does": "给候选打分的是另一个系列的模型，不让「自家模型偏爱自家写法」左右结果。",
+        "why": "直接点出偏见从哪来，并用一条硬规则把它挡开，比叮嘱「要客观」管用得多。",
+        "try": "让 AI 检查自己的成果时换个审稿人：「这篇是 Claude 写的，请用 GPT 从读者角度挑毛病。」"
+      },
+      "en": {
+        "title": "Bring in an outside judge",
+        "does": "Candidates are scored by a model from another family, so no model gets to favor its own style.",
+        "why": "Naming where bias comes from and ruling it out with a hard rule works better than asking for objectivity.",
+        "try": "To review AI work, switch reviewers: \"Claude wrote this; have GPT critique it as a reader.\""
+      }
+    },
+    {
+      "quote": "Reframe and re-run rather than averaging the divergence.",
+      "quoteZh": "重新定题再跑一遍，不要把分歧取个平均。",
+      "zh": {
+        "title": "把结果反推回问题",
+        "does": "几个版本差得太远时，它会回头把任务说清楚重来，而不是拼出一个四不像交给你。",
+        "why": "这句把「结果很乱」解释成「题目没出好」，AI 就会去修源头，而不是在结果上和稀泥。",
+        "try": "AI 给的几个答案互相矛盾时，别让它折中，先问：「我的要求哪里没说清，才会得出这么不同的答案？」"
+      },
+      "en": {
+        "title": "Trace bad results to the question",
+        "does": "When versions differ wildly it restates the task and reruns, instead of stitching them into a mess.",
+        "why": "It reads messy results as a badly framed question, so the AI fixes the source instead of splitting the difference.",
+        "try": "When AI answers contradict, don't ask for a compromise; ask: \"What was unclear in my request that led to such different answers?\""
+      }
+    }
+  ]
+}

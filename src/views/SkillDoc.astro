@@ -1,0 +1,127 @@
+---
+// 一个技能的详情页：人话简介 → 从它的写法里学（几句原文：让 AI 做什么、为什么这样写、你怎么借用）→ 全文（中文 / 原文 / 对照）。
+// 数据：简介来自 skills.js（英文叠 skills.en.js），原文、译文和写法来自 data/skill-docs/<名>.json（scripts/skill-docs.mjs 生成）。
+import Site from "../layouts/Site.astro";
+import { skillsFor } from "../data/skills.i18n.js";
+import { link, PSTACK, langOf } from "../data/nav.js";
+import { inline } from "../lib/md.js";
+import { micromark } from "micromark";
+import { gfm, gfmHtml } from "micromark-extension-gfm";
+interface Props { name: string }
+const { name } = Astro.props;
+const lang = langOf(Astro.url.pathname);
+const en = lang === "en";
+const groups = skillsFor(lang);
+const all = groups.flatMap((g) => g.items.map((s) => ({ ...s, group: g })));
+const s = all.find((x) => x.name === name);
+const docs = import.meta.glob("../data/skill-docs/*.json", { eager: true, import: "default" });
+const d = docs[`../data/skill-docs/${name}.json`];
+const has = new Set(Object.keys(docs).map((k) => k.match(/([^/]+)\.json$/)[1]));
+const src = `${PSTACK}/blob/${d.commit}/skills/${name}/SKILL.md`;
+
+// 原文里的链接：../别的技能/SKILL.md → 站内技能页；其他相对路径 → GitHub 上同一个版本
+const fixLinks = (html) =>
+  html.replace(/href="([^"]+)"/g, (m, href) => {
+    const sk = href.match(/^\.\.\/([\w-]+)\/SKILL\.md(#.*)?$/);
+    if (sk && has.has(sk[1])) return `href="${link(`/skills/${sk[1]}/`, lang)}"`;
+    if (/^(https?:|mailto:|#)/.test(href)) return m;
+    return `href="${PSTACK}/blob/${d.commit}/skills/${name}/${href}" target="_blank" rel="noopener"`;
+  });
+// 原文的标题往下降两级（页面自己有 h1、h2）
+const md = (x) => fixLinks(micromark(x.replace(/^(#{1,4}) /gm, "$1## "), { extensions: [gfm()], htmlExtensions: [gfmHtml()] }));
+
+const T = en
+  ? { crumbs: "Skills at a glance", use: "When to use", ex: "Say it like this", needs: "Install with", sep: ", ",
+      learnH: "What its wording teaches", learnP: "A few sentences from the original: what each one makes the AI do, why it's written that way, and how you can borrow it.",
+      does: "Makes the AI", why: "Why it works", try: "Borrow it",
+      fullH: "Full text", fullP: "The SKILL.md the AI reads, as written.", modes: [["en", "Original"]],
+      credit: ["Original by Lauren Tan (poteto), MIT license. Checked against the pstack mirror at", "."], open: "View on GitHub" }
+  : { crumbs: "技能速查", use: "什么时候用", ex: "这样说", needs: "要一起装", sep: "、",
+      learnH: "从它的写法里学", learnP: "挑了几句原文：每句让 AI 做什么、为什么这样写、你写提示词时怎么借用。",
+      does: "让 AI", why: "写法", try: "借来用",
+      fullH: "全文", fullP: "AI 读到的就是这份 SKILL.md。可以看中文、看原文，或者一段一段对照着看。", modes: [["zh", "中文"], ["en", "原文"], ["both", "对照"]],
+      credit: ["原文作者 Lauren Tan（poteto），MIT 许可。译文由本站翻译，核对到 pstack 镜像", "。"], open: "在 GitHub 上看" };
+const lessons = (d.lessons || []).map((l) => ({ quote: l.quote, quoteZh: l.quoteZh, ...(en ? l.en : l.zh) }));
+const headings = [
+  ...(lessons.length ? [{ slug: "learn", text: T.learnH, depth: 2 }] : []),
+  { slug: "full", text: T.fullH, depth: 2 },
+];
+const badge = s.auto ? ["success", en ? "Auto" : "自动调用"] : s.manual ? ["warning", en ? "Type it yourself" : "要你亲手打"] : ["", en ? "Call when needed" : "按需点名"];
+const desc = en ? d.description.en : d.description.zh || d.description.en;
+---
+<Site title={`/${name} · ${T.crumbs}`} description={s.zh} headings={headings}>
+  <article class="xxd-prose skilldoc">
+    <ol class="xxd-breadcrumbs" data-size="sm"><li><a href={link("/skills/", lang)}>{T.crumbs}</a></li><li><a href={link(`/skills/#${s.group.id}`, lang)}>{s.group.title}</a></li><li aria-current="page">/{name}</li></ol>
+    <div class="skilldoc__head">
+      <h1><code>/{name}</code></h1>
+      <span class="xxd-badge" data-tone={badge[0] || undefined}>{badge[1]}</span>
+    </div>
+    <p class="page-tldr"><span class="page-tldr__label">{en ? "In one line" : "一句话"}</span>{s.zh}</p>
+    <p class="skill__use"><span>{T.use}</span>{s.use}</p>
+    <p class="skill__use"><span>{T.ex}</span></p>
+    <pre class="xxd-code skill__ex"><code>{s.ex}</code></pre>
+    {s.needs && <p class="skill__needs"><span>{T.needs}</span>{s.needs.join(T.sep)}</p>}
+
+    {lessons.length > 0 && (
+      <>
+        <h2 id="learn">{T.learnH}</h2>
+        <p class="skilldoc__lead">{T.learnP}</p>
+        <ol class="lessons">
+          {lessons.map((l) => (
+            <li class="lesson">
+              <p class="lesson__title">{l.title}</p>
+              <blockquote class="lesson__quote">
+                <p lang="en" set:html={inline(l.quote)} />
+                {!en && l.quoteZh && <p class="lesson__quote-zh" set:html={inline(l.quoteZh)} />}
+              </blockquote>
+              <dl class="lesson__notes">
+                <div><dt>{T.does}</dt><dd set:html={inline(l.does)} /></div>
+                <div><dt>{T.why}</dt><dd set:html={inline(l.why)} /></div>
+                <div><dt>{T.try}</dt><dd set:html={inline(l.try)} /></div>
+              </dl>
+            </li>
+          ))}
+        </ol>
+      </>
+    )}
+
+    <h2 id="full">{T.fullH}</h2>
+    <p class="skilldoc__lead">{T.fullP}</p>
+    {!en && (
+      <div class="xxd-segmented skilldoc__modes" data-xxd-segmented role="radiogroup" aria-label={T.fullH} id="skilldoc-modes">
+        {T.modes.map(([v, label], i) => <button type="button" role="radio" data-value={v} aria-checked={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{label}</button>)}
+      </div>
+    )}
+    <div class="doc" id="skilldoc-doc" data-mode={en ? "en" : "zh"}>
+      <div class="doc__row doc__desc">
+        <div class="doc__en" lang="en"><p><span class="doc__tag">description</span>{d.description.en}</p></div>
+        {!en && <div class="doc__zh"><p><span class="doc__tag">description</span>{desc}</p></div>}
+      </div>
+      {d.blocks.map((b) => (
+        <div class="doc__row">
+          <div class="doc__en" lang="en" set:html={md(b.en)} />
+          {!en && <div class="doc__zh" set:html={md(b.zh || b.en)} />}
+        </div>
+      ))}
+    </div>
+    <p class="skilldoc__credit">{T.credit[0]} <code class="xxd-code-inline">{d.commit}</code>{T.credit[1]} <a href={src} target="_blank" rel="noopener">{T.open}</a></p>
+  </article>
+  {!en && (
+    <script is:inline>
+      (() => {
+        // 中文 / 原文 / 对照：记住上次选的（只是个人偏好，存不了也没关系）
+        const seg = document.getElementById("skilldoc-modes");
+        const doc = document.getElementById("skilldoc-doc");
+        if (!seg || !doc) return;
+        const set = (v) => {
+          doc.dataset.mode = v;
+          for (const b of seg.children) { const on = b.dataset.value === v; b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; }
+        };
+        let saved = null;
+        try { saved = localStorage.getItem("pstack-skilldoc-mode"); } catch {}
+        if (saved && [...seg.children].some((b) => b.dataset.value === saved)) set(saved);
+        seg.addEventListener("xxd:change", (e) => { set(e.detail.value); try { localStorage.setItem("pstack-skilldoc-mode", e.detail.value); } catch {} });
+      })();
+    </script>
+  )}
+</Site>

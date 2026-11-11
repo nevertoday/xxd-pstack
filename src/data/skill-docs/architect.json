@@ -1,0 +1,216 @@
+{
+  "name": "architect",
+  "commit": "0854796",
+  "description": {
+    "en": "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+    "zh": "写代码之前，先画出类型、函数签名和模块结构的草图，然后在填充实现的过程中一直跟着。用于 /architect、「architect this」、「design this」，或者一上来就写代码会把错误的结构定死的、不简单的活。"
+  },
+  "blocks": [
+    {
+      "en": "# Architect",
+      "zh": "# Architect（先设计再动手）"
+    },
+    {
+      "en": "Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Synthesize across multiple model perspectives, then fill in code against the chosen sketch.",
+      "zh": "画出类型、函数签名、类的形状和模块边界的草图，函数体写成 `not implemented`，再配上伪代码。综合多个模型的视角，然后照着选定的草图把代码填进去。"
+    },
+    {
+      "en": "## Start",
+      "zh": "## 开始"
+    },
+    {
+      "en": "Open a todolist with one entry per phase before starting.",
+      "zh": "开始之前，先开一个待办清单，每个阶段一项。"
+    },
+    {
+      "en": "1. Ground\n2. Sketch\n3. Agree\n4. Implement\n5. Scrap",
+      "zh": "1. 摸清现状\n2. 画草图\n3. 达成一致\n4. 实现\n5. 推倒重来"
+    },
+    {
+      "en": "## Phase A: Ground the problem",
+      "zh": "## 阶段 A：摸清问题"
+    },
+    {
+      "en": "Build a real mental model of every system the new code touches. Run the **how** skill over the relevant subsystems. Naming a file isn't grounding. Produce the architectural explanation `how` prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess.",
+      "zh": "对新代码会碰到的每个系统，都在脑子里建起真实的模型。对相关的子系统运行 **how** 技能。说出一个文件名不算摸清。产出 `how` 规定的那种架构说明。如果设计会重新划定归属或分层，还要对现有的结构运行 **why** 技能，让当初的理由成为一条要求，而不是一个猜测。"
+    },
+    {
+      "en": "Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.",
+      "zh": "只有当这件活真的是从零开始、周围没有要对接的系统时，才跳过阶段 A。"
+    },
+    {
+      "en": "## Phase B: Sketch",
+      "zh": "## 阶段 B：画草图"
+    },
+    {
+      "en": "Run the **arena** skill with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's prompt.",
+      "zh": "用设计草图这个任务，加上阶段 A 摸清现状时得到的材料，运行 **arena** 技能。把 `references/runner-prompt.md` 作为每个参赛者的提示词传进去。"
+    },
+    {
+      "en": "Take the runners from the `architect runners` line in the pstack settings file (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in other harnesses), in place of the `arena runners` line. If the file or that line is missing, use `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Alias and rejected entries follow the runner rules in the **arena** skill's Phase A.",
+      "zh": "参赛者从 pstack 设置文件里的 `architect runners` 那一行取（Cursor 里是 `~/.cursor/rules/pstack-models.mdc`，Claude Code 里是 `~/.claude/rules/pstack-models.md`，其他工具里是 `~/.agents/pstack-models.md`），代替 `arena runners` 那一行。如果文件或那一行不存在，就用 `claude-opus-5-5-xhigh` 和 `grok-4.7-xhigh-fast`。别名条目和不被接受的条目，按 **arena** 技能阶段 A 里的参赛者规则处理。"
+    },
+    {
+      "en": "Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is the **exhaust-the-design-space** principle skill made concrete. Whole-shape alternatives, not point fixes inside one shape.",
+      "zh": "设计两遍。综合之前，至少要有两个结构上明显不同的候选方案，哪怕第一个看起来已经够用。这就是 **exhaust-the-design-space** 原则技能的具体做法。要的是整体结构不同的方案，不是在同一个结构里修修补补。"
+    },
+    {
+      "en": "Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.",
+      "zh": "综合之前，拿 [`references/design-red-flags.md`](references/design-red-flags.md) 把每个候选方案都筛一遍。假设下一个来改代码的是一个 AI：它只看得到自己打开的文件，会照抄离得最近的例子，会走能编译通过的最短路径。优先选这样的设计：在一个文件里看起来对的改动，对整个仓库也是对的。"
+    },
+    {
+      "en": "Compare viable candidates on interface depth. Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.",
+      "zh": "按接口的深度比较可行的候选方案。优先选能把更多复杂度藏在更小、更简单的公开接口后面的设计。功能丰富的接口，可以把能力集中在一处，而不是分散到好几层，从而让调用链保持很短。"
+    },
+    {
+      "en": "Arena returns one synthesized design package. Its synthesis decision fills the rationale's \"Synthesis decision\" section.",
+      "zh": "Arena 交回一份综合好的设计方案。它做出的综合决定，填进设计理由里的「Synthesis decision」一节。"
+    },
+    {
+      "en": "## Phase C: Agree (opt-in)",
+      "zh": "## 阶段 C：达成一致（可选）"
+    },
+    {
+      "en": "Default: proceed directly to implementation with the synthesized design. No human checkpoint.",
+      "zh": "默认：直接拿综合好的设计去实现。中间不停下来等人确认。"
+    },
+    {
+      "en": "Opt in to a checkpoint when the invoker explicitly asks: \"/architect with checkpoint,\" \"stop and show me before implementing,\" or similar. Then surface the synthesized design and pause for sign-off.",
+      "zh": "只有调用的人明确要求时，才加一个确认点：「/architect with checkpoint」「实现之前先停下来给我看」，或者类似的话。这时就把综合好的设计拿出来，停下来等对方点头。"
+    },
+    {
+      "en": "The synthesis can ship as its own commit either way, as the \"scaffold first\" mode of the **foundational-thinking** principle skill. Planned and scoped breakage during fill-in is fine, per the **outcome-oriented-execution** principle skill. For adversarial pressure on the design before implementing, run the **interrogate** skill on the synthesized sketch.",
+      "zh": "不管有没有确认点，综合好的设计都可以单独作为一个提交发出去，这就是 **foundational-thinking** 原则技能里的「scaffold first」（先搭架子）做法。按 **outcome-oriented-execution** 原则技能，填充实现期间出现计划之内、范围明确的破坏是可以的。如果想在实现之前给设计施加对抗性的压力，就对综合好的草图运行 **interrogate** 技能。"
+    },
+    {
+      "en": "If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before writing more code.",
+      "zh": "如果有人对结构提出反对（在确认点上，或者事后），就把它当成阶段 A 的证据。先重新摸清现状、重跑阶段 B，再继续写代码。"
+    },
+    {
+      "en": "## Phase D: Implement against the sketch",
+      "zh": "## 阶段 D：照着草图实现"
+    },
+    {
+      "en": "Replace `not implemented` bodies with code, pseudocode with logic. The synthesized sketch is the contract. Deviations from it are signal to surface, not friction to absorb silently. If a function needs a parameter the sketch didn't anticipate, ask whether the sketch was wrong, the requirement was missed, or the implementation is overreaching.",
+      "zh": "把 `not implemented` 的函数体换成代码，把伪代码换成逻辑。综合好的草图就是约定。偏离它的地方是要说出来的信号，不是要默默消化的摩擦。如果某个函数需要一个草图没预料到的参数，就问一问：是草图错了，是漏了需求，还是实现做过头了。"
+    },
+    {
+      "en": "## Phase E: Scrap when the architecture is wrong",
+      "zh": "## 阶段 E：架构错了就推倒重来"
+    },
+    {
+      "en": "If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per the **redesign-from-first-principles** and **fix-root-causes** principle skills.",
+      "zh": "如果实现过程中不断冒出草图消化不了的摩擦，就把草图扔掉。按 **redesign-from-first-principles** 和 **fix-root-causes** 原则技能，不要在错误的设计上继续打补丁。"
+    },
+    {
+      "en": "The signal is a *pattern*, not single instances. Tells:",
+      "zh": "信号是一种*反复出现的模式*，不是个别的例子。迹象有："
+    },
+    {
+      "en": "- The same shape of workaround appearing repeatedly across unrelated code.\n- Multiple unrelated edge cases that all need special-case branches.\n- Types that need escape hatches (`any`, casts, optional fields always set in practice) to compile.\n- The \"we need a lock\" reflex when the sketch said the state wasn't shared.\n- Callers having to know the abstraction's internal rules to use it.\n- Two or more independent Phase D deviations of the same shape across the implementation.",
+      "zh": "- 同一种绕路的写法，在互不相关的代码里一再出现。\n- 好几个互不相关的边缘情况，全都要单独加分支处理。\n- 类型要靠逃生口（`any`、强制转换、实际上总会被赋值的可选字段）才能编译通过。\n- 草图说状态不共享，却冒出「我们得加把锁」的条件反射。\n- 调用方必须懂这个抽象的内部规则才能用它。\n- 整个实现里，出现两处或更多处彼此独立、但形状相同的阶段 D 偏离。"
+    },
+    {
+      "en": "Use judgment. A few edge cases don't condemn an architecture. Some problems are legitimately complex. Complexity in the data is not complexity in the design.",
+      "zh": "自己判断。几个边缘情况不足以判一个架构的死刑。有些问题本来就复杂。数据里的复杂不等于设计里的复杂。"
+    },
+    {
+      "en": "When you scrap:",
+      "zh": "推倒重来时："
+    },
+    {
+      "en": "1. Re-run the **how** skill over what's been built.\n2. Redesign as if the new constraints had been day-one assumptions, per redesign-from-first-principles.\n3. Subtract before adding, per the **subtract-before-you-add** principle skill. The new sketch should be smaller than the old one before it grows.\n4. Return to Phase B and re-run arena.",
+      "zh": "1. 对已经建好的部分重新运行 **how** 技能。\n2. 按 redesign-from-first-principles，重新设计，就当这些新的要求从第一天起就是前提。\n3. 按 **subtract-before-you-add** 原则技能，先减再加。新草图在变大之前，应该先比旧的小。\n4. 回到阶段 B，重跑 arena。"
+    },
+    {
+      "en": "## Outputs",
+      "zh": "## 产出"
+    },
+    {
+      "en": "The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes. Module map plus type definitions for larger work. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision.",
+      "zh": "先写调用方怎么用，再从用法推出类型草图。小改动：一个文件，放新的类型和签名。大一点的活：模块地图加上类型定义。设计理由跟着一起交，按 `references/rationale-template.md` 的格式写，里面包括用法草图和综合决定。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient.",
+      "quoteZh": "综合之前，至少要有两个结构上明显不同的候选方案，哪怕第一个看起来已经够用。",
+      "zh": {
+        "title": "硬要第二个方案",
+        "does": "它至少拿出两个结构完全不同的设计来比，不会抓住第一个想法就开写。",
+        "why": "「哪怕第一个看起来已经够用」提前堵住了 AI 最常用的借口。",
+        "try": "要标题时写：「给我两个思路完全不同的标题，哪怕第一个你已经很满意。」"
+      },
+      "en": {
+        "title": "Require a second design",
+        "does": "It compares at least two designs with different shapes instead of running with its first idea.",
+        "why": "\"Even when the first looks sufficient\" blocks the AI's favorite excuse in advance.",
+        "try": "When you ask for a headline: \"Give me two with different angles, even if you like the first.\""
+      }
+    },
+    {
+      "quote": "sees only the files it opened, copies the nearest example, and takes the shortest path that compiles",
+      "quoteZh": "只看得到自己打开的文件，会照抄离得最近的例子，会走能编译通过的最短路径",
+      "zh": {
+        "title": "照最偷懒的接手人设计",
+        "does": "它会挑那种别人照着旁边的例子抄也不会抄错的设计。",
+        "why": "把接手人会怎么偷懒写成三个具体动作，AI 就能拿每个方案去逐条对照。",
+        "try": "排版时写：「假设看这份表格的人只看第一行和加粗的字，照这个来排。」"
+      },
+      "en": {
+        "title": "Design for the laziest successor",
+        "does": "It picks designs that stay right even when someone just copies the nearest example.",
+        "why": "Spelling out the successor's shortcuts as three concrete moves gives the AI something to test each design against.",
+        "try": "For a layout, write: \"Assume the reader sees only the first row and the bold words, and lay it out for that.\""
+      }
+    },
+    {
+      "quote": "Deviations from it are signal to surface, not friction to absorb silently.",
+      "quoteZh": "偏离它的地方是要说出来的信号，不是要默默消化的摩擦。",
+      "zh": {
+        "title": "把偏差说成信号",
+        "does": "写代码时发现和设计对不上，它会说出来，而不是悄悄绕过去。",
+        "why": "把「默默修掉」重新说成「藏起信号」，AI 就明白小偏差也值得报告。",
+        "try": "让 AI 照大纲写时加一句：「哪里觉得大纲不对，标出来告诉我，不要自己改。」"
+      },
+      "en": {
+        "title": "Call deviations signals",
+        "does": "When the code stops matching the design, it tells you instead of quietly working around it.",
+        "why": "Recasting \"quietly fixing it\" as \"hiding a signal\" tells the AI that small mismatches are worth reporting.",
+        "try": "When the AI writes from your outline, add: \"Where the outline seems wrong, flag it instead of changing it.\""
+      }
+    },
+    {
+      "quote": "The signal is a *pattern*, not single instances.",
+      "quoteZh": "信号是一种*反复出现的模式*，不是个别的例子。",
+      "zh": {
+        "title": "列出该放弃的迹象",
+        "does": "只有同类问题反复出现时它才推倒重来，碰到一两个特例不会大动干戈。",
+        "why": "「什么时候放弃」很难判断；给一串能对照的迹象，再说清单个例子不算，AI 就不会放弃得太早或太晚。",
+        "try": "定改流程的门槛：「同一类投诉一周出现三次以上才改流程，只出现一次的先记下来。」"
+      },
+      "en": {
+        "title": "List the signs to quit",
+        "does": "It throws out the design only when the same trouble keeps coming back, not over one or two odd cases.",
+        "why": "\"When to give up\" is hard to judge; a list of signs plus \"one case isn't enough\" keeps it from quitting too early or too late.",
+        "try": "Set a bar for changing a process: \"Change it only if the same complaint comes up three times in a week; log one-offs.\""
+      }
+    },
+    {
+      "quote": "Default: proceed directly to implementation with the synthesized design.",
+      "quoteZh": "默认：直接拿综合好的设计去实现。",
+      "zh": {
+        "title": "先说默认，再说例外",
+        "does": "默认它设计完就直接动手，只有你说「with checkpoint」它才停下来等你点头。",
+        "why": "先定死默认做法，再给出触发例外的原话，AI 就不用每次猜要不要停。",
+        "try": "交代写作时说：「默认写完直接发；我说『先给我看』时再停下来。」"
+      },
+      "en": {
+        "title": "State the default, then exceptions",
+        "does": "By default it builds right after designing, and stops for your sign-off only when you say \"with checkpoint\".",
+        "why": "A fixed default plus the exact words that trigger the exception means the AI never has to guess whether to pause.",
+        "try": "When you hand off writing: \"By default, send it when done; if I say 'show me first', stop and wait.\""
+      }
+    }
+  ]
+}
