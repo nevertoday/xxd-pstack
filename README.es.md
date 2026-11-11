@@ -54,8 +54,8 @@ Si has programado con IA, seguro que te ha pasado esto:
 
 El modelo no es tonto. Lo que pasa es que trabaja sin método: cambia código que no ha entendido y da las cosas por terminadas sin probarlas. pstack es el conjunto de Agent Skills que poteto (miembro del equipo central de React, trabaja en Cursor) usa a diario para escribir código. **El modelo es el mismo. Lo que cambia es el orden en que trabaja y el nivel que se exige:**
 
-| | La IA de siempre | Con pstack |
-|---|---|---|
+| Cuándo | La IA de siempre | Con pstack |
+|:---|:---|:---|
 | Antes de tocar código | Edita directamente | Reformula el objetivo con sus propias palabras y primero lee el código con `/how` |
 | Arreglar un bug | Añade una comprobación en la superficie | Primero hace que el bug vuelva a ocurrir, encuentra **el primer punto donde falla** y luego lo arregla |
 | Al decir «listo» | «Ya debería funcionar» | Pega la salida real de los comandos, los valores guardados y comparaciones de antes y después |
@@ -138,7 +138,7 @@ En el día a día solo escribes `/poteto-mode`; él llama a las demás cuando la
 Cada guía trae prompts que puedes copiar tal cual, con ejemplos de casos reales como una extensión de Chrome, un sitio con Astro o un sitio de miembros en Cloudflare.
 
 | Lo que tienes entre manos | Lee esto | La idea clave |
-|---|---|---|
+|:---|:---|:---|
 | Arreglar un bug | [Reproducir, arreglar, demostrar](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | Que el bug vuelva a ocurrir antes de arreglar nada |
 | Añadir una función | [Sin romper lo que ya hay](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Di qué comportamiento existente no puede cambiar en absoluto |
 | Refactorizar | [Nueva estructura, mismo comportamiento](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | Graba la salida actual primero y luego demuestra que no cambió |
@@ -160,15 +160,13 @@ Aquí es donde todos los pasos anteriores dan fruto: solo una IA que **puede ver
 
 ## 📚 Qué hay en el sitio
 
-| Sección | Contenido |
-|---|---|
-| [Para principiantes](https://pstack.xiaoxiaodong.ai/es/start/1-why/) | 3 lecciones, 20 minutos, sin programar: qué hace por ti → instalarlo → usarlo por primera vez |
-| [Guía completa](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 pasos para quien programa: qué es → instalar → elegir modelos → primera tarea → entender primero → diseñar, construir, limpiar → verificar y entregar → toda la noche → cuando ya tengas soltura |
-| [Referencia de skills](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 skills, cada una con su texto completo y un análisis de su redacción |
-| [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 guías, una tarea cada una |
-| [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 conceptos: una frase → una analogía → en pstack → errores comunes; incluye tablas de los 24 principios y los 23 playbooks |
-| [Preguntas frecuentes](https://pstack.xiaoxiaodong.ai/en/faq/) | ¿Cuesta dinero? ¿Tengo que usar Cursor? ¿Me va a estropear el código? |
-| Idiomas | Página de inicio y lecciones para principiantes: 10 idiomas. Guía completa, skills, how-tos, wiki y preguntas frecuentes: English y 中文 |
+- **[Para principiantes](https://pstack.xiaoxiaodong.ai/es/start/1-why/)**: 3 lecciones, 20 minutos, sin programar · qué hace por ti → instalarlo → usarlo por primera vez
+- **[Guía completa](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 pasos para quien programa · qué es → instalar → elegir modelos → primera tarea → entender primero → diseñar, construir, limpiar → verificar y entregar → toda la noche → cuando ya tengas soltura
+- **[Referencia de skills](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, cada una con su texto completo y un análisis de su redacción
+- **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guías, una tarea cada una
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 conceptos · una frase → una analogía → en pstack → errores comunes; incluye tablas de los 24 principios y los 23 playbooks
+- **[Preguntas frecuentes](https://pstack.xiaoxiaodong.ai/en/faq/)**: ¿Cuesta dinero? ¿Tengo que usar Cursor? ¿Me va a estropear el código?
+- **Idiomas**: Página de inicio y lecciones para principiantes · 10 idiomas. Guía completa, skills, how-tos, wiki y preguntas frecuentes · English y 中文
 
 Pulsa <kbd>⌘</kbd> <kbd>K</kbd> arriba a la derecha de cualquier página para buscar en todo el sitio. En el texto, el **marcador** y el **subrayado grueso** señalan lo importante, y los términos con subrayado punteado muestran una explicación de una línea al pasar el ratón.
 

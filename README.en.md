@@ -54,8 +54,8 @@ If you've coded with AI, you've probably lived through these:
 
 The model isn't too dumb. It just works without a method: it changes code it hasn't understood, and calls things done without trying them. pstack is the set of Agent Skills that poteto (a React core team member who works at Cursor) uses to write code every day. **The model stays the same. What changes is the order it works in and the bar it holds itself to:**
 
-| | Typical AI | With pstack |
-|---|---|---|
+| When | Typical AI | With pstack |
+|:---|:---|:---|
 | Before touching code | Edits right away | Restates the goal in its own words, reads the code with `/how` first |
 | Fixing a bug | Adds a check on the surface | Makes the bug happen again, finds **the first place it goes wrong**, then fixes |
 | Saying "done" | "Should be fine now" | Pastes real command output, stored values, before-and-after comparisons |
@@ -138,7 +138,7 @@ Day to day you only type `/poteto-mode`; it calls the others when it needs them.
 Every guide has prompts you can copy as is, with examples from real setups like a Chrome extension, an Astro site and a Cloudflare members' site.
 
 | The job in front of you | Read this | The gist |
-|---|---|---|
+|:---|:---|:---|
 | Fix a bug | [Reproduce, fix, prove it](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | Make the bug happen again before anything gets fixed |
 | Add a feature | [Without breaking old ones](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Say which existing behavior must not change at all |
 | Refactor | [New structure, same behavior](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | Record the current output first, then prove it didn't change |
@@ -160,15 +160,13 @@ This is where all the earlier steps pay off: only an AI that **can verify its ow
 
 ## 📚 What's on the site
 
-| Section | What's in it |
-|---|---|
-| [Beginner track](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3 lessons, 20 minutes, no coding needed: what it does for you → install it → use it for the first time |
-| [Full guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 steps for people who code: what it is → install → pick models → first task → understand first → design, build, clean up → verify and ship → run overnight → once you're comfortable |
-| [Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 skills, each with its full text and a breakdown of its wording |
-| [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 guides, one task each |
-| [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 concepts: one sentence → an analogy → in pstack → common mistakes; includes tables of the 24 principles and 23 playbooks |
-| [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | Does it cost money? Do I have to use Cursor? Will it mess up my code? |
-| Languages | Home page and beginner lessons: 10 languages. Full guide, skills, how-tos, wiki and FAQ: English and 中文 |
+- **[Beginner track](https://pstack.xiaoxiaodong.ai/en/start/1-why/)**: 3 lessons, 20 minutes, no coding needed · what it does for you → install it → use it for the first time
+- **[Full guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 steps for people who code · what it is → install → pick models → first task → understand first → design, build, clean up → verify and ship → run overnight → once you're comfortable
+- **[Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, each with its full text and a breakdown of its wording
+- **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guides, one task each
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 concepts · one sentence → an analogy → in pstack → common mistakes; includes tables of the 24 principles and 23 playbooks
+- **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: Does it cost money? Do I have to use Cursor? Will it mess up my code?
+- **Languages**: Home page and beginner lessons · 10 languages. Full guide, skills, how-tos, wiki and FAQ · English and 中文
 
 Press <kbd>⌘</kbd> <kbd>K</kbd> at the top right of any page to search the whole site. In the text, **highlighter** and **bold underline** mark the key points, and dotted-underlined terms show a one-line explanation on hover.
 

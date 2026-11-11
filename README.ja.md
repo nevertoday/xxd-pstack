@@ -54,8 +54,8 @@ AI でコードを書いたことがあれば、たぶんこんな目にあっ�
 
 モデルの頭が悪いわけではありません。やり方を持たずに動いているだけです。理解していないコードを変え、試してもいないのに「できました」と言う。pstack は、poteto（React コアチームのメンバーで、Cursor で働いている）が毎日自分でコードを書くときに使っている Agent Skills のセットです。**モデルは同じまま。変わるのは仕事の順番と基準です：**
 
-| | ふつうの AI | pstack を入れると |
-|---|---|---|
+| 場面 | ふつうの AI | pstack を入れると |
+|:---|:---|:---|
 | 手を動かす前 | すぐ書き換える | 目標を自分の言葉で言い直し、まず `/how` でコードを読む |
 | バグ修正 | 表面に条件分岐を足す | まずバグをもう一度起こし、**最初におかしくなる場所**を見つけてから直す |
 | 「できました」と言うとき | 「これで大丈夫なはずです」 | 実際のコマンド出力、保存された値、前後の比較を貼る |
@@ -138,7 +138,7 @@ npx skills add backnotprop/pstack
 どの記事にもそのままコピーできるプロンプトがあり、例は Chrome 拡張機能、Astro のサイト、Cloudflare の会員サイトといった実際の場面です。
 
 | 手元の仕事 | 読む記事 | 一言でいうと |
-|---|---|---|
+|:---|:---|:---|
 | バグを直す | [再現して、直して、証明する](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | 直す前に、まずバグをもう一度起こさせる |
 | 機能を足す | [既存のものを壊さずに](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | どの既存の動作がまったく変わってはいけないかを言う |
 | リファクタリング | [構造は変えて、動作は変えない](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | 今の出力を先に記録し、変更後に変わっていないと証明する |
@@ -160,15 +160,13 @@ npx skills add backnotprop/pstack
 
 ## 📚 サイトの内容
 
-| セクション | 内容 |
-|---|---|
-| [入門コース](https://pstack.xiaoxiaodong.ai/ja/start/1-why/) | 3 レッスン、20 分、コードは書かなくて大丈夫：何をしてくれるのか → インストール → 初めて使う |
-| [フルガイド](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | コードを書く人向けの 9 ステップ：何なのか → インストール → モデル選び → 最初のタスク → まず理解する → 設計・実装・片付け → 検証して届ける → 一晩任せる → 慣れてきたら |
-| [スキルリファレンス](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 個のスキル。どれも全文と言い回しの解説つき |
-| [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 本、一本につき一つのこと |
-| [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 の概念：一言で → たとえると → pstack では → よくある誤解。24 の原則と 23 のプレイブックの対照表つき |
-| [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | お金はかかる？ Cursor でないとだめ？ コードを勝手に書き換えない？ |
-| 言語 | トップページと入門レッスン：10 言語。フルガイド、スキル、How-to、Wiki、FAQ：English と 中文 |
+- **[入門コース](https://pstack.xiaoxiaodong.ai/ja/start/1-why/)**：3 レッスン、20 分、コードは書かなくて大丈夫 · 何をしてくれるのか → インストール → 初めて使う
+- **[フルガイド](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**：コードを書く人向けの 9 ステップ · 何なのか → インストール → モデル選び → 最初のタスク → まず理解する → 設計・実装・片付け → 検証して届ける → 一晩任せる → 慣れてきたら
+- **[スキルリファレンス](https://pstack.xiaoxiaodong.ai/en/skills/)**：34 個のスキル。どれも全文と言い回しの解説つき
+- **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**：17 本、一本につき一つのこと
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**：20 の概念 · 一言で → たとえると → pstack では → よくある誤解。24 の原則と 23 のプレイブックの対照表つき
+- **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**：お金はかかる？ Cursor でないとだめ？ コードを勝手に書き換えない？
+- **言語**：トップページと入門レッスン · 10 言語。フルガイド、スキル、How-to、Wiki、FAQ · English と 中文
 
 ページ右上の <kbd>⌘</kbd> <kbd>K</kbd> でサイト全体を検索できます。本文の**蛍光ペン**と**太い下線**は要点で、点線の付いた用語にカーソルを乗せると一行の説明が出ます。
 

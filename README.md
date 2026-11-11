@@ -54,8 +54,8 @@
 
 不是模型不够聪明，是它做事没章法：没看懂就改，没试过就说做完。pstack 是 poteto（React 核心团队成员，在 Cursor 工作）每天自己写代码用的一套 Agent Skills。**模型还是那个模型，变的是做事的顺序和标准：**
 
-| | 平常的 AI | 装了 pstack |
-|---|---|---|
+| 什么时候 | 平常的 AI | 装了 pstack |
+|:---|:---|:---|
 | 动手之前 | 直接改 | 先用自己的话复述目标，先用 `/how` 读懂代码 |
 | 修 bug | 在表面加个判断 | 先让问题再出现一次，找到**第一个出错的地方**再修 |
 | 说「做完了」 | 「应该没问题了」 | 贴出真实的命令输出、存下来的值、前后对比 |
@@ -138,7 +138,7 @@ npx skills add backnotprop/pstack
 每篇都有能直接复制的提示词，例子用的是 Chrome 插件、Astro 网站、Cloudflare 会员站这类真实场景。
 
 | 你手上的活 | 看这篇 | 一句话要点 |
-|---|---|---|
+|:---|:---|:---|
 | 修一个 bug | [先复现，再修，再证明](https://pstack.xiaoxiaodong.ai/howto/fix-bug/) | 先让问题再出现一次，再动手修 |
 | 加一个功能 | [不碰坏旧的](https://pstack.xiaoxiaodong.ai/howto/add-feature/) | 说清楚哪些旧行为一点都不能变 |
 | 重构 | [结构变，行为不变](https://pstack.xiaoxiaodong.ai/howto/refactor/) | 先录下现在的输出，改完证明没变 |
@@ -160,15 +160,13 @@ npx skills add backnotprop/pstack
 
 ## 📚 站里有什么
 
-| 栏目 | 内容 |
-|---|---|
-| [新手入门](https://pstack.xiaoxiaodong.ai/start/1-why/) | 3 课 20 分钟，不会写代码也能看懂：它能帮你什么 → 装上它 → 第一次用 |
-| [完整教程](https://pstack.xiaoxiaodong.ai/guide/0-what/) | 9 步，给会写代码的人：是什么 → 安装 → 选模型 → 第一个任务 → 先看懂 → 设计动手收拾 → 验证交付 → 跑一夜 → 用熟以后 |
-| [技能速查](https://pstack.xiaoxiaodong.ai/skills/) | 34 个技能，每个有原文、译文和写法拆解 |
-| [How-to](https://pstack.xiaoxiaodong.ai/howto/) | 17 篇，一篇只讲一件事 |
-| [Wiki](https://pstack.xiaoxiaodong.ai/wiki/) | 20 个概念：一句话 → 打个比方 → 在 pstack 里 → 常见误区；含 24 条原则和 23 套剧本对照表 |
-| [常见问题](https://pstack.xiaoxiaodong.ai/faq/) | 要钱吗？必须用 Cursor 吗？会不会乱改我的代码？ |
-| 语言 | 首页和新手入门有 10 种语言；完整教程、技能、How-to、Wiki、常见问题有中文和 English |
+- **[新手入门](https://pstack.xiaoxiaodong.ai/start/1-why/)**：3 课 20 分钟，不会写代码也能看懂 · 它能帮你什么 → 装上它 → 第一次用
+- **[完整教程](https://pstack.xiaoxiaodong.ai/guide/0-what/)**：9 步，给会写代码的人 · 是什么 → 安装 → 选模型 → 第一个任务 → 先看懂 → 设计动手收拾 → 验证交付 → 跑一夜 → 用熟以后
+- **[技能速查](https://pstack.xiaoxiaodong.ai/skills/)**：34 个技能，每个有原文、译文和写法拆解
+- **[How-to](https://pstack.xiaoxiaodong.ai/howto/)**：17 篇，一篇只讲一件事
+- **[Wiki](https://pstack.xiaoxiaodong.ai/wiki/)**：20 个概念 · 一句话 → 打个比方 → 在 pstack 里 → 常见误区；含 24 条原则和 23 套剧本对照表
+- **[常见问题](https://pstack.xiaoxiaodong.ai/faq/)**：要钱吗？必须用 Cursor 吗？会不会乱改我的代码？
+- **语言**：首页和新手入门有 10 种语言；完整教程、技能、How-to、Wiki、常见问题有中文和 English
 
 页面右上角 <kbd>⌘</kbd> <kbd>K</kbd> 全站搜索，正文里**荧光笔**和**粗下划线**标的是重点，带虚线的词悬停就有一句话解释。
 

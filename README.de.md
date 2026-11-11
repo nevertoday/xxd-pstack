@@ -54,8 +54,8 @@ Wer schon mit KI programmiert hat, kennt das wahrscheinlich:
 
 Das Modell ist nicht zu dumm. Es arbeitet nur ohne Methode: Es ändert Code, den es nicht verstanden hat, und meldet „fertig“, ohne es auszuprobieren. pstack ist das Paket an Agent Skills, das poteto (Mitglied des React-Kernteams, arbeitet bei Cursor) jeden Tag beim eigenen Programmieren nutzt. **Das Modell bleibt dasselbe. Was sich ändert, sind die Reihenfolge der Arbeit und der Anspruch daran:**
 
-| | Typische KI | Mit pstack |
-|---|---|---|
+| Wann | Typische KI | Mit pstack |
+|:---|:---|:---|
 | Bevor Code angefasst wird | Ändert direkt | Formuliert das Ziel in eigenen Worten und liest den Code zuerst mit `/how` |
 | Einen Bug beheben | Fügt an der Oberfläche eine Prüfung ein | Lässt den Bug erst noch einmal auftreten, findet **die erste Stelle, an der es schiefgeht**, und behebt dann |
 | „Fertig“ sagen | „Sollte jetzt passen“ | Fügt echte Befehlsausgaben, gespeicherte Werte und Vorher-nachher-Vergleiche ein |
@@ -138,7 +138,7 @@ Im Alltag tippst du nur `/poteto-mode`; die anderen ruft es selbst auf, wenn es 
 Jede Anleitung enthält Prompts, die du direkt kopieren kannst, mit Beispielen aus echten Szenarien wie einer Chrome-Erweiterung, einer Astro-Website oder einer Mitgliederseite auf Cloudflare.
 
 | Deine Aufgabe | Lies das | Der Kern in einem Satz |
-|---|---|---|
+|:---|:---|:---|
 | Einen Bug beheben | [Reproduzieren, beheben, beweisen](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | Den Bug erst wieder auslösen, bevor irgendetwas behoben wird |
 | Ein Feature hinzufügen | [Ohne Altes kaputt zu machen](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Sag, welches bestehende Verhalten sich überhaupt nicht ändern darf |
 | Refaktorieren | [Neue Struktur, gleiches Verhalten](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | Erst die aktuelle Ausgabe festhalten, danach beweisen, dass sie gleich blieb |
@@ -160,15 +160,13 @@ Hier zahlen sich alle vorherigen Schritte aus: Nur eine KI, die **ihre eigene Ar
 
 ## 📚 Was es auf der Website gibt
 
-| Bereich | Inhalt |
-|---|---|
-| [Einsteigerkurs](https://pstack.xiaoxiaodong.ai/de/start/1-why/) | 3 Lektionen, 20 Minuten, ohne Programmieren: was es dir bringt → installieren → zum ersten Mal benutzen |
-| [Ganzer Leitfaden](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 Schritte für alle, die programmieren: was es ist → Installation → Modelle wählen → erste Aufgabe → erst verstehen → entwerfen, bauen, aufräumen → verifizieren und ausliefern → über Nacht → sobald du dich auskennst |
-| [Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 Skills, jeweils mit vollem Text und einer Analyse der Formulierung |
-| [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 Anleitungen, je eine Aufgabe |
-| [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 Begriffe: ein Satz → ein Vergleich → in pstack → häufige Irrtümer; mit Tabellen der 24 Prinzipien und 23 Playbooks |
-| [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | Kostet das Geld? Muss ich Cursor nutzen? Pfuscht es mir im Code herum? |
-| Sprachen | Startseite und Einsteigerlektionen: 10 Sprachen. Ganzer Leitfaden, Skills, How-tos, Wiki und FAQ: English und 中文 |
+- **[Einsteigerkurs](https://pstack.xiaoxiaodong.ai/de/start/1-why/)**: 3 Lektionen, 20 Minuten, ohne Programmieren · was es dir bringt → installieren → zum ersten Mal benutzen
+- **[Ganzer Leitfaden](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 Schritte für alle, die programmieren · was es ist → Installation → Modelle wählen → erste Aufgabe → erst verstehen → entwerfen, bauen, aufräumen → verifizieren und ausliefern → über Nacht → sobald du dich auskennst
+- **[Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 Skills, jeweils mit vollem Text und einer Analyse der Formulierung
+- **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 Anleitungen, je eine Aufgabe
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 Begriffe · ein Satz → ein Vergleich → in pstack → häufige Irrtümer; mit Tabellen der 24 Prinzipien und 23 Playbooks
+- **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: Kostet das Geld? Muss ich Cursor nutzen? Pfuscht es mir im Code herum?
+- **Sprachen**: Startseite und Einsteigerlektionen · 10 Sprachen. Ganzer Leitfaden, Skills, How-tos, Wiki und FAQ · English und 中文
 
 Mit <kbd>⌘</kbd> <kbd>K</kbd> oben rechts auf jeder Seite durchsuchst du die ganze Website. Im Text markieren **Textmarker** und **dicke Unterstreichung** das Wichtigste, und gepunktet unterstrichene Begriffe zeigen beim Darüberfahren eine Erklärung in einem Satz.
 

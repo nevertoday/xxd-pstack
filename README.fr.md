@@ -54,8 +54,8 @@ Si vous avez déjà codé avec une IA, vous avez sûrement vécu ça :
 
 Le modèle n'est pas trop bête. Il travaille simplement sans méthode : il modifie du code qu'il n'a pas compris, et dit que c'est fini sans avoir essayé. pstack est le paquet d'Agent Skills que poteto (membre de l'équipe principale de React, qui travaille chez Cursor) utilise chaque jour pour écrire du code. **Le modèle reste le même. Ce qui change, c'est l'ordre dans lequel il travaille et l'exigence qu'il s'impose :**
 
-| | L'IA habituelle | Avec pstack |
-|---|---|---|
+| Quand | L'IA habituelle | Avec pstack |
+|:---|:---|:---|
 | Avant de toucher au code | Modifie directement | Reformule l'objectif avec ses propres mots, lit d'abord le code avec `/how` |
 | Corriger un bug | Ajoute une vérification en surface | Fait d'abord réapparaître le bug, trouve **le premier endroit où ça déraille**, puis corrige |
 | Dire « c'est fait » | « Ça devrait aller maintenant » | Colle la vraie sortie des commandes, les valeurs enregistrées, des comparaisons avant/après |
@@ -138,7 +138,7 @@ Au quotidien, vous ne tapez que `/poteto-mode` ; il appelle les autres quand il 
 Chaque fiche contient des prompts à copier tels quels, avec des exemples tirés de cas réels comme une extension Chrome, un site Astro ou un site de membres sur Cloudflare.
 
 | Le travail à faire | À lire | L'essentiel |
-|---|---|---|
+|:---|:---|:---|
 | Corriger un bug | [Reproduire, corriger, prouver](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | Faire réapparaître le bug avant de corriger quoi que ce soit |
 | Ajouter une fonctionnalité | [Sans casser l'existant](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Dites quel comportement existant ne doit pas changer du tout |
 | Refactoriser | [Nouvelle structure, même comportement](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | Enregistrez d'abord la sortie actuelle, puis prouvez qu'elle n'a pas changé |
@@ -160,15 +160,13 @@ C'est ici que toutes les étapes précédentes paient : seule une IA **capable d
 
 ## 📚 Ce qu'il y a sur le site
 
-| Rubrique | Contenu |
-|---|---|
-| [Parcours débutant](https://pstack.xiaoxiaodong.ai/fr/start/1-why/) | 3 leçons, 20 minutes, sans coder : ce qu'il fait pour vous → l'installer → l'utiliser pour la première fois |
-| [Guide complet](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 étapes pour ceux qui codent : ce que c'est → installation → choix des modèles → première tâche → comprendre d'abord → concevoir, construire, nettoyer → vérifier et livrer → toute la nuit → une fois à l'aise |
-| [Référence des skills](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 skills, chacune avec son texte intégral et une analyse de sa formulation |
-| [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 fiches, une tâche chacune |
-| [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 notions : une phrase → une analogie → dans pstack → idées reçues ; avec les tableaux des 24 principes et des 23 playbooks |
-| [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | C'est payant ? Faut-il utiliser Cursor ? Va-t-il abîmer mon code ? |
-| Langues | Page d'accueil et leçons pour débutants : 10 langues. Guide complet, skills, how-to, wiki et FAQ : English et 中文 |
+- **[Parcours débutant](https://pstack.xiaoxiaodong.ai/fr/start/1-why/)**: 3 leçons, 20 minutes, sans coder · ce qu'il fait pour vous → l'installer → l'utiliser pour la première fois
+- **[Guide complet](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 étapes pour ceux qui codent · ce que c'est → installation → choix des modèles → première tâche → comprendre d'abord → concevoir, construire, nettoyer → vérifier et livrer → toute la nuit → une fois à l'aise
+- **[Référence des skills](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, chacune avec son texte intégral et une analyse de sa formulation
+- **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 fiches, une tâche chacune
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 notions · une phrase → une analogie → dans pstack → idées reçues ; avec les tableaux des 24 principes et des 23 playbooks
+- **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: C'est payant ? Faut-il utiliser Cursor ? Va-t-il abîmer mon code ?
+- **Langues**: Page d'accueil et leçons pour débutants · 10 langues. Guide complet, skills, how-to, wiki et FAQ · English et 中文
 
 Appuyez sur <kbd>⌘</kbd> <kbd>K</kbd> en haut à droite de n'importe quelle page pour chercher dans tout le site. Dans le texte, le **surligneur** et le **soulignement épais** marquent l'essentiel, et les termes soulignés en pointillés affichent une explication d'une ligne au survol.
 

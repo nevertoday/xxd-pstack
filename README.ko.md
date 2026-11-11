@@ -54,8 +54,8 @@ AI로 코드를 써 봤다면 아마 이런 일을 겪어 봤을 겁니다.
 
 모델이 멍청해서가 아닙니다. 방법 없이 일하기 때문입니다. 이해하지 못한 코드를 고치고, 돌려 보지도 않고 다 됐다고 합니다. pstack은 poteto(React 코어 팀 멤버, Cursor 재직)가 매일 직접 코드를 쓸 때 사용하는 Agent Skills 묶음입니다. **모델은 그대로입니다. 바뀌는 것은 일하는 순서와 기준입니다:**
 
-| | 보통의 AI | pstack을 설치하면 |
-|---|---|---|
+| 언제 | 보통의 AI | pstack을 설치하면 |
+|:---|:---|:---|
 | 손대기 전 | 바로 고친다 | 목표를 자기 말로 다시 설명하고, `/how`로 먼저 코드를 읽는다 |
 | 버그 수정 | 겉에 조건문 하나 추가 | 먼저 버그를 다시 일으켜 보고, **처음 잘못되는 지점**을 찾은 뒤 고친다 |
 | "다 됐다"고 할 때 | "이제 괜찮을 거예요" | 실제 명령 출력, 저장된 값, 전후 비교를 붙인다 |
@@ -138,7 +138,7 @@ npx skills add backnotprop/pstack
 모든 가이드에 그대로 복사해 쓸 수 있는 프롬프트가 있고, 예시는 Chrome 확장 프로그램, Astro 웹사이트, Cloudflare 회원 사이트 같은 실제 상황입니다.
 
 | 지금 하려는 일 | 읽을 글 | 한 줄 요점 |
-|---|---|---|
+|:---|:---|:---|
 | 버그 수정 | [재현하고, 고치고, 증명하기](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | 고치기 전에 먼저 버그를 다시 일으킨다 |
 | 기능 추가 | [기존 것을 망가뜨리지 않고](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | 어떤 기존 동작이 조금도 바뀌면 안 되는지 말한다 |
 | 리팩터링 | [구조는 바꾸고 동작은 그대로](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | 지금의 출력을 먼저 기록하고, 바꾼 뒤 그대로임을 증명한다 |
@@ -160,15 +160,13 @@ npx skills add backnotprop/pstack
 
 ## 📚 사이트에 있는 것
 
-| 섹션 | 내용 |
-|---|---|
-| [입문 과정](https://pstack.xiaoxiaodong.ai/ko/start/1-why/) | 3강, 20분, 코딩 몰라도 됨: 무엇을 해 주나 → 설치하기 → 처음 써 보기 |
-| [전체 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 코드를 쓰는 사람을 위한 9단계: 무엇인가 → 설치 → 모델 고르기 → 첫 작업 → 먼저 이해하기 → 설계·구현·정리 → 검증과 전달 → 밤새 맡기기 → 익숙해지면 |
-| [스킬 레퍼런스](https://pstack.xiaoxiaodong.ai/en/skills/) | 스킬 34개, 각각 전문과 문장 해설 포함 |
-| [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17편, 한 편에 한 가지 일 |
-| [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 개념 20개: 한 문장 → 비유 → pstack에서는 → 흔한 오해. 원칙 24개와 플레이북 23개 대조표 포함 |
-| [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | 돈이 드나요? Cursor를 꼭 써야 하나요? 내 코드를 함부로 고치지 않나요? |
-| 언어 | 홈페이지와 입문 강의: 10개 언어. 전체 가이드, 스킬, How-to, Wiki, FAQ: English와 中文 |
+- **[입문 과정](https://pstack.xiaoxiaodong.ai/ko/start/1-why/)**: 3강, 20분, 코딩 몰라도 됨 · 무엇을 해 주나 → 설치하기 → 처음 써 보기
+- **[전체 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 코드를 쓰는 사람을 위한 9단계 · 무엇인가 → 설치 → 모델 고르기 → 첫 작업 → 먼저 이해하기 → 설계·구현·정리 → 검증과 전달 → 밤새 맡기기 → 익숙해지면
+- **[스킬 레퍼런스](https://pstack.xiaoxiaodong.ai/en/skills/)**: 스킬 34개, 각각 전문과 문장 해설 포함
+- **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17편, 한 편에 한 가지 일
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 개념 20개 · 한 문장 → 비유 → pstack에서는 → 흔한 오해. 원칙 24개와 플레이북 23개 대조표 포함
+- **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: 돈이 드나요? Cursor를 꼭 써야 하나요? 내 코드를 함부로 고치지 않나요?
+- **언어**: 홈페이지와 입문 강의 · 10개 언어. 전체 가이드, 스킬, How-to, Wiki, FAQ · English와 中文
 
 페이지 오른쪽 위에서 <kbd>⌘</kbd> <kbd>K</kbd>로 사이트 전체를 검색할 수 있습니다. 본문에서 **형광펜**과 **굵은 밑줄**은 핵심이고, 점선 밑줄이 있는 용어에 마우스를 올리면 한 줄 설명이 나옵니다.
 
