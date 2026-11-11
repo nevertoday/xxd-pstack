@@ -51,16 +51,12 @@
 
   /* 外观按钮：图标跟着当前是亮还是暗；选了主题色，右下角多一个那个颜色的小圆点 */
   .site-look { position: relative; }
-  .site-look__icon { display: inline-flex; }
-  .site-look__icon[data-for="dark"], :root[data-theme="dark"] .site-look__icon[data-for="light"] { display: none; }
-  :root[data-theme="dark"] .site-look__icon[data-for="dark"] { display: inline-flex; }
   .site-look__dot { position: absolute; right: 4px; bottom: 4px; width: 8px; height: 8px; border: 1.5px solid var(--bg); border-radius: var(--r-circle); }
   .site-look__dot[hidden] { display: none; }
-  .site-look-pop { width: 260px; padding: var(--space-3); }
-  .site-look__seg { display: flex; margin-top: var(--space-2); }
-  .site-look__seg > * { display: inline-flex; flex: 1; align-items: center; justify-content: center; gap: 6px; min-width: 0; padding-inline: 4px; }
-  .site-look__label { margin-top: var(--space-4); }
-  .site-look-pop .xxd-swatches { display: grid; grid-template-columns: repeat(6, 22px); justify-content: space-between; row-gap: var(--space-3); margin-top: var(--space-2); }
+  /* 外观设置组放进浮层：浮层本身就是框，组的框去掉（一个框只有一个框），行的左右留白也交给浮层 */
+  .site-look-pop { width: 320px; padding: var(--space-3) var(--space-4) var(--space-2); }
+  .site-look-pop .xxd-group__body { border: 0; border-radius: 0; background: none; }
+  .site-look-pop .xxd-row { --row-pad-x: 0; }
 
   /* ---------- 三栏 ---------- */
   /* 阅读页：正文栏限宽，目录紧跟在正文后面，不贴到屏幕最右边 */

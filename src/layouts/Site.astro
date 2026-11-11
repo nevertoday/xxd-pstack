@@ -20,13 +20,13 @@ interface Props {
 }
 const UI = {
   zh: { html: "zh-CN", brand: "pstack 新手教程", desc: "不会写代码也能学会 pstack：三课、20 分钟，说人话。", skip: "跳到正文", menu: "打开目录", search: "搜索教程",
-  searchPh: "搜步骤、How-to、技能、名词、问题……", searchEmpty: "没找到，换个词试试", theme: "主题", light: "亮色", dark: "暗色", system: "跟随系统", accent: "主题色", look: "外观", repo: "本教程的 GitHub 仓库", repoMore: "其他仓库：pstack 镜像、官方原版", repoDefault: "默认",
+  searchPh: "搜步骤、How-to、技能、名词、问题……", searchEmpty: "没找到，换个词试试", look: "外观：主题、圆角、主色", repo: "本教程的 GitHub 仓库", repoMore: "其他仓库：pstack 镜像、官方原版", repoDefault: "默认",
   repos: [[REPO, "本教程", "nevertoday/xxd-pstack", "教程的源码，有问题在这里提"], [PSTACK, "pstack 镜像", "backnotprop/pstack", "本站依据的版本，任何工具都能装"], [PSTACK_UPSTREAM, "pstack 官方原版", "cursor/plugins", "poteto 维护，给 Cursor 用"]],
   navLabel: "网站目录", start: "开始", home: "首页", lessons: "新手入门：先看这三课", main: "完整教程：会写代码的人看", pending: "编写中", ref: "查资料", howto: "How-to：具体怎么做",
   skills: "技能速查：34 个技能", wiki: "Wiki：这是什么", faq: "常见问题", toc: "本页", tocLabel: "本页目录", hintMain: "完整教程", hintLesson: "新手入门", hintFaq: "常见问题", hintSkill: "技能", switchTo: "English", switchLabel: "Switch to English",
   foot: `本站是 <a href="${PSTACK}">pstack</a> 的中文入门教程，不是官方文档；pstack 由 poteto 开发（MIT），命令和行为以官方仓库为准。教程源码和问题反馈在 <a href="${REPO}">GitHub</a>。` },
   en: { html: "en", brand: "pstack for beginners", desc: "Learn pstack even if you don't code: three lessons, 20 minutes, plain words.", skip: "Skip to content", menu: "Open menu", search: "Search the guide",
-    searchPh: "Search steps, how-tos, skills, terms, questions…", searchEmpty: "Nothing found. Try another word", theme: "Theme", light: "Light", dark: "Dark", system: "System", accent: "Theme color", look: "Appearance", repo: "This guide on GitHub", repoMore: "Other repos: the pstack mirror, the official original", repoDefault: "Default",
+    searchPh: "Search steps, how-tos, skills, terms, questions…", searchEmpty: "Nothing found. Try another word", look: "Appearance: theme, corners, accent", repo: "This guide on GitHub", repoMore: "Other repos: the pstack mirror, the official original", repoDefault: "Default",
     repos: [[REPO, "This guide", "nevertoday/xxd-pstack", "Source for this guide; file issues here"], [PSTACK, "pstack mirror", "backnotprop/pstack", "The version this site follows"], [PSTACK_UPSTREAM, "Official pstack", "cursor/plugins", "Maintained by poteto, for Cursor"]],
     navLabel: "Site navigation", start: "Start", home: "Home", lessons: "Beginner track: start here", main: "Full guide: for people who code", pending: "In progress", ref: "Reference", howto: "How-to: how exactly",
     skills: "Skills at a glance: all 34", wiki: "Wiki: what is it", faq: "FAQ", toc: "On this page", tocLabel: "On this page", hintMain: "Full guide", hintLesson: "Beginner track", hintFaq: "FAQ", hintSkill: "Skill", switchTo: "中文", switchLabel: "切换到中文",
@@ -97,21 +97,12 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
       <div class="site-top__end">
       <button class="site-search" id="site-search" type="button" aria-label={L.search}><i data-xxd-icon="Search" data-size="16"></i><span>{L.search}</span><kbd class="xxd-kbd">⌘K</kbd></button>
       <div class="site-tools">
+        <!-- 外观：用 UI Kit 的外观设置组（主题 · 圆角 · 主色），和小小东其他产品同一套、同一份存储；boot.js 在首帧前应用 -->
         <button class="xxd-btn site-look" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-popover="site-look-pop" aria-label={L.look} data-tooltip={L.look} data-tooltip-placement="bottom">
-          <span class="site-look__icon" data-for="light"><i data-xxd-icon="Sun" data-size="16"></i></span>
-          <span class="site-look__icon" data-for="dark"><i data-xxd-icon="Moon" data-size="16"></i></span>
+          <i data-xxd-icon="Palette" data-size="16"></i>
           <span class="site-look__dot" id="site-look-dot" hidden></span>
         </button>
-        <div class="xxd-popover site-look-pop" id="site-look-pop" popover>
-          <p class="xxd-popover__title">{L.theme}</p>
-          <div class="xxd-segmented site-look__seg" data-xxd-segmented data-name="theme" role="radiogroup" aria-label={L.theme}>
-            <button role="radio" data-value="light"><i data-xxd-icon="Sun" data-size="14"></i>{L.light}</button>
-            <button role="radio" data-value="dark"><i data-xxd-icon="Moon" data-size="14"></i>{L.dark}</button>
-            <button role="radio" data-value="system"><i data-xxd-icon="Contrast" data-size="14"></i>{L.system}</button>
-          </div>
-          <p class="xxd-popover__title site-look__label">{L.accent} · <span id="site-accent-name"></span></p>
-          <div class="xxd-swatches" role="radiogroup" data-xxd-segmented aria-label={L.accent} id="site-accent-swatches"></div>
-        </div>
+        <div class="xxd-popover site-look-pop" id="site-look-pop" popover></div>
         <a class="xxd-btn site-lang" data-size="sm" data-variant="ghost" href={other} hreflang={en ? "zh-CN" : "en"} lang={en ? "zh-CN" : "en"} aria-label={L.switchLabel} data-tooltip={L.switchLabel} data-tooltip-placement="bottom">{L.switchTo}</a>
         <!-- GitHub：点图标直接去本教程的仓库；旁边的小箭头展开，可以换去 pstack 的镜像或官方原版 -->
         <div class="xxd-btn-group site-gh">
@@ -196,49 +187,20 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
       (() => {
         const T = window.XxdTheme, X = window.Xxd;
         if (!T || !X) return;
-        // 外观面板：主题 + 主题色。读当前设置，改了写回（boot.js 已在首帧前应用，下次打开首帧就是这个样子）
-        const segs = document.querySelectorAll('[data-xxd-segmented][data-name="theme"]');
-        const sync = () => {
-          const s = { ...T.DEFAULT_SETTINGS, ...T.read() };
-          for (const b of document.querySelectorAll('[data-name="theme"] > [role="radio"]')) {
-            const on = b.dataset.value === String(s.theme);
-            b.setAttribute("aria-checked", String(on));
-            b.tabIndex = on ? 0 : -1;
-          }
-        };
-        for (const seg of segs) seg.addEventListener("xxd:change", (e) => { T.set({ theme: e.detail.value }); sync(); });
-        // 主题色：用 xxd 的色块（ACCENT_PRESETS）
-        const sw = document.getElementById("site-accent-swatches");
-        const swName = document.getElementById("site-accent-name");
+        // 外观面板：直接挂 UI Kit 的外观设置组。改了就写进同一份设置，下次打开首帧就是这个样子
+        const pop = document.getElementById("site-look-pop");
         const en = document.documentElement.lang === "en";
-        const presets = T.ACCENT_PRESETS || [];
-        const nameOf = (id) => { const p = presets.find((x) => x.id === (id || "")) || presets[0]; return p ? (en ? p.name : p.zh || p.name) : ""; };
-        for (const p of presets) {
-          const b = document.createElement("button");
-          b.type = "button";
-          b.className = "xxd-swatch";
-          b.setAttribute("role", "radio");
-          b.dataset.value = p.id;
-          b.setAttribute("aria-label", nameOf(p.id));
-          b.dataset.tooltip = nameOf(p.id);
-          if (p.id) b.style.setProperty("--swatch", p.id);
-          sw.append(b);
-        }
-        const syncAccent = () => {
+        X.mountAppearance(pop, { locale: en ? "en" : "zh-CN", labels: en ? { cornersDesc: "Off keeps every corner square" } : { cornersDesc: "关掉就是直角" } });
+        // 外观按钮右下角的小圆点：选了主色才出现，就是那个颜色
+        const dot = document.getElementById("site-look-dot");
+        const syncDot = () => {
           const a = ({ ...T.DEFAULT_SETTINGS, ...T.read() }).accent || "";
-          for (const b of sw.children) {
-            const on = b.dataset.value === a;
-            b.setAttribute("aria-checked", String(on));
-            b.tabIndex = on ? 0 : -1;
-          }
-          swName.textContent = nameOf(a);
-          // 外观按钮右下角的小圆点：选了主题色才出现，就是那个颜色
-          const dot = document.getElementById("site-look-dot");
           dot.hidden = !a;
           if (a) dot.style.background = a;
         };
-        sw.addEventListener("xxd:change", (e) => { T.set({ accent: e.detail.value }); syncAccent(); });
-        syncAccent();
+        pop.addEventListener("xxd:appearance", syncDot);
+        window.addEventListener("xxd:settings", syncDot);
+        syncDot();
         X.init(document);
         sync();
 
