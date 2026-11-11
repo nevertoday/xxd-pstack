@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack)은 AI가 "다 됐습니다"라고 말하기 전에 직접 돌려 보게 만듭니다.<br>이 가이드는 pstack을 쉬운 말로 설명합니다. 코드를 한 번도 안 써 봤어도 배울 수 있습니다.
 
-### 👉 [온라인으로 읽기](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [온라인으로 읽기](https://pstack.xiaoxiaodong.ai/ko/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-사이트는 영어와 중국어로, 이 README는 10개 언어로 볼 수 있습니다. 무료이고 오픈 소스입니다.
+홈페이지와 입문 3강은 한국어로 볼 수 있고, 전체 가이드는 영어와 중국어로 되어 있습니다. 이 README는 10개 언어로 있습니다. 무료이고 오픈 소스입니다.
 
 ![입문](https://img.shields.io/badge/%EC%9E%85%EB%AC%B8-3%EA%B0%95-8A9A8C?style=flat-square)
 ![가이드](https://img.shields.io/badge/%EA%B0%80%EC%9D%B4%EB%93%9C-9%EB%8B%A8%EA%B3%84-8A9A8C?style=flat-square)
@@ -27,7 +27,7 @@
 
 **어디서부터 볼까**
 
-- **코드를 써 본 적이 없다면**: [입문 3강](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20분. AI에게 작은 페이지와 도구를 만들게 하고, 제대로 만들었는지 알아보는 법을 배웁니다.
+- **코드를 써 본 적이 없다면**: [입문 3강](https://pstack.xiaoxiaodong.ai/ko/start/1-why/), 20분. AI에게 작은 페이지와 도구를 만들게 하고, 제대로 만들었는지 알아보는 법을 배웁니다.
 - **코드를 쓴다면**: [9단계 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)와 How-to 17편. 첫 작업부터 밤새 혼자 일하게 두는 것까지 다룹니다.
 - **AI에게 말하는 법을 늘리고 싶다면**: [스킬 34개](https://pstack.xiaoxiaodong.ai/en/skills/)마다 전문과 문장 해설이 붙어 있습니다. 고수가 프롬프트를 어떻게 쓰는지 볼 수 있습니다.
 
@@ -143,7 +143,7 @@ npx skills add backnotprop/pstack
 
 | 섹션 | 내용 |
 |---|---|
-| [입문 과정](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3강, 20분, 코딩 몰라도 됨: 무엇을 해 주나 → 설치하기 → 처음 써 보기 |
+| [입문 과정](https://pstack.xiaoxiaodong.ai/ko/start/1-why/) | 3강, 20분, 코딩 몰라도 됨: 무엇을 해 주나 → 설치하기 → 처음 써 보기 |
 | [전체 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 코드를 쓰는 사람을 위한 9단계: 무엇인가 → 설치 → 모델 고르기 → 첫 작업 → 먼저 이해하기 → 설계·구현·정리 → 검증과 전달 → 밤새 맡기기 → 익숙해지면 |
 | [스킬 레퍼런스](https://pstack.xiaoxiaodong.ai/en/skills/) | 스킬 34개, 각각 전문과 문장 해설 포함 |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17편, 한 편에 한 가지 일 |

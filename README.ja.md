@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) を入れると、AI は「できました」と言う前に、自分で動かして確かめるようになります。<br>このガイドは pstack をやさしい言葉で説明します。コードを書いたことがなくても学べます。
 
-### 👉 [オンラインで読む](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [オンラインで読む](https://pstack.xiaoxiaodong.ai/ja/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-サイトは英語と中国語、この README は 10 言語で読めます。無料で、オープンソースです。
+トップページと入門 3 レッスンは日本語で読めます。完全ガイドは英語と中国語です。この README は 10 言語あります。無料で、オープンソースです。
 
 ![入門](https://img.shields.io/badge/%E5%85%A5%E9%96%80-3%E3%83%AC%E3%83%83%E3%82%B9%E3%83%B3-8A9A8C?style=flat-square)
 ![ガイド](https://img.shields.io/badge/%E3%82%AC%E3%82%A4%E3%83%89-9%E3%82%B9%E3%83%86%E3%83%83%E3%83%97-8A9A8C?style=flat-square)
@@ -27,7 +27,7 @@
 
 **どこから始めるか**
 
-- **コードを書いたことがない**：[入門 3 レッスン](https://pstack.xiaoxiaodong.ai/en/start/1-why/)、20 分。AI に小さなページやツールを作ってもらう方法と、それがちゃんとできているかを見分ける方法を学びます。
+- **コードを書いたことがない**：[入門 3 レッスン](https://pstack.xiaoxiaodong.ai/ja/start/1-why/)、20 分。AI に小さなページやツールを作ってもらう方法と、それがちゃんとできているかを見分ける方法を学びます。
 - **コードを書く**：[9 ステップのガイド](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)と 17 本の How-to。最初のタスクから、一晩ひとりで任せるところまで。
 - **AI への頼み方がうまくなりたい**：[34 個のスキル](https://pstack.xiaoxiaodong.ai/en/skills/)には、どれも全文と言い回しの解説が付いています。プロがどうプロンプトを書くのかが見えます。
 
@@ -143,7 +143,7 @@ npx skills add backnotprop/pstack
 
 | セクション | 内容 |
 |---|---|
-| [入門コース](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3 レッスン、20 分、コードは書かなくて大丈夫：何をしてくれるのか → インストール → 初めて使う |
+| [入門コース](https://pstack.xiaoxiaodong.ai/ja/start/1-why/) | 3 レッスン、20 分、コードは書かなくて大丈夫：何をしてくれるのか → インストール → 初めて使う |
 | [フルガイド](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | コードを書く人向けの 9 ステップ：何なのか → インストール → モデル選び → 最初のタスク → まず理解する → 設計・実装・片付け → 検証して届ける → 一晩任せる → 慣れてきたら |
 | [スキルリファレンス](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 個のスキル。どれも全文と言い回しの解説つき |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 本、一本につき一つのこと |

@@ -1,9 +1,11 @@
 ---
 // 示意 AI 的回复长什么样：不是复制用的，标题写明「示意」。正文里用 ①②③ 标出要看的地方，下面再逐条解释。
 import { langOf } from "../data/nav.js";
+import { X as dict, fmt } from "../i18n/index.js";
 interface Props { title?: string; code: string }
-const en = langOf(Astro.url.pathname) === "en";
-const { title = en ? "Illustration: roughly what its reply looks like" : "示意：它的回复大概长这样", code } = Astro.props;
+const lang = langOf(Astro.url.pathname);
+const en = lang === "en";
+const { title = dict(lang) ? dict(lang).comp.reply : en ? "Illustration: roughly what its reply looks like" : "示意：它的回复大概长这样", code } = Astro.props;
 ---
 <figure class="xxd-code-block reply-demo">
   <figcaption class="xxd-code__head">{title}</figcaption>

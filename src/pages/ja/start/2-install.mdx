@@ -1,0 +1,78 @@
+---
+layout: ../../../layouts/Lesson.astro
+tldr: "Claude Code に 2 行入力して「Install for you」を選ぶだけ。5 分で入ります。"
+lesson: 2
+description: Claude Code に 2 行入力して「Install for you」を選び、/pstack:poteto-mode が出てくれば完了です。それぞれの手順で何が表示されるか、違ったときはどうするか。
+---
+import Callout from "../../../components/Callout.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Q from "../../../components/Q.astro";
+
+いつものように Claude Code を開いて、AI とチャットする入力欄で操作します。手順は 3 つです。
+
+## 手順 1：pstack の置き場所を教える
+
+この 1 行をコピーして入力欄に貼り付け、Enter を押します。
+
+<Cmd c="/plugin marketplace add cursor/plugins" />
+
+これで Cursor の「プラグインストア」が追加されます。pstack はこのストアにあり、Claude Code もここからインストールできます。
+
+<Callout type="ok">
+`Successfully added marketplace: cursor-plugins`（ストアを追加しました）と表示されます。
+</Callout>
+
+## 手順 2：pstack を入れる
+
+この 1 行をコピーして、Enter を押します。
+
+<Cmd c="/plugin install pstack@cursor-plugins" />
+
+画面に pstack の説明が出て、その下に「誰のために入れるか」を聞く選択肢が 3 つ並びます。
+
+↑ ↓ の矢印キーで 1 つ目の **Install for you**（自分用に入れる。どのフォルダでも使えます）を選び、Enter を押します。
+
+<Callout type="ok">
+最後の行に `Plugin is now active.`（プラグインが使えるようになりました）と表示されます。もし `Run /reload-plugins to apply`（反映するには /reload-plugins を実行してください）と出たら、そのとおりに `/reload-plugins` と入力して Enter を押します。
+</Callout>
+
+## 手順 3：入ったか確かめる
+
+入力欄に `/pstack:` と打ちます。**まだ Enter は押さないでください。**
+
+<Callout type="ok">
+`pstack:` で始まるコマンドの一覧が出てきて、その中に `/pstack:poteto-mode` があります。これが見えれば完了です。Esc を押すと一覧が閉じます。
+</Callout>
+
+## これからは、コマンドの頭に pstack: をつけます
+
+入れたあとは、pstack のコマンドはすべて `pstack:` で始まります。このサイトのほかのページでは、読みやすさのために `/poteto-mode` と書いています。Claude Code では `/pstack:poteto-mode` と打ってください。
+
+ほかに設定することはありません。入れたらすぐ使えます。
+
+## うまくいかないときは
+
+<Q q="/plugin と打つと、そんなコマンドはないと言われる。">
+
+Claude Code のバージョンが古いです。先にアップデートしましょう。
+
+1. `/exit` と入力して Enter を押し、Claude Code を終了します。
+2. 同じウィンドウで `claude update` と入力して Enter を押し、終わるまで待ちます。
+3. `claude` と入力して Enter を押し、もう一度開きます。手順 1 からやり直してください。
+
+
+</Q>
+<Q q="手順 2 で pstack が見つからないと言われる。">
+<p>手順 1 がうまくいかなかったのだと思います。手順 1 の行をもう一度入力し、`Successfully added marketplace` が出てから手順 2 をやってください。</p>
+</Q>
+<Q q="/pstack: と打っても何も出てこない。">
+
+まず開き直してみましょう。`/exit` で終了し、`claude` と入力してから、もう一度 `/pstack:` と打ちます。
+
+それでも出てこないときは、`/plugin` と入力して Tab を押し、Installed（インストール済み）のページに切り替えます。pstack がそこにあって、オンになっているか確かめてください。
+
+
+</Q>
+<Q q="Claude Code ではなく Cursor を使っている。">
+<p>Cursor のチャット欄に `/add-plugin pstack` と入力すれば入ります。コマンドの頭に `pstack:` をつける必要もありません。次のレッスンで `/pstack:poteto-mode` と書いてあるところは、`/poteto-mode` と打ってください。</p>
+</Q>

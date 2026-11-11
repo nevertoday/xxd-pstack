@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) l'oblige à tester son propre travail avant de vous dire que c'est fini.<br>Ce guide explique pstack avec des mots simples. Vous pouvez l'apprendre même si vous n'avez jamais écrit une ligne de code.
 
-### 👉 [Lire en ligne](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [Lire en ligne](https://pstack.xiaoxiaodong.ai/fr/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-Le site est en anglais et en chinois, ce README en 10 langues. Gratuit et open source.
+La page d'accueil et les 3 leçons pour débutants sont en français ; le guide complet est en anglais et en chinois. Ce README existe en 10 langues. Gratuit et open source.
 
 ![Parcours débutant](https://img.shields.io/badge/Parcours_d%C3%A9butant-3_le%C3%A7ons-8A9A8C?style=flat-square)
 ![Guide](https://img.shields.io/badge/Guide-9_%C3%A9tapes-8A9A8C?style=flat-square)
@@ -27,7 +27,7 @@ Le site est en anglais et en chinois, ce README en 10 langues. Gratuit et open s
 
 **Par où commencer**
 
-- **Vous n'avez jamais codé** : les [3 leçons pour débutants](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20 minutes. Apprenez à faire construire par l'IA de petites pages et de petits outils, et à voir si elle a bien fait le travail.
+- **Vous n'avez jamais codé** : les [3 leçons pour débutants](https://pstack.xiaoxiaodong.ai/fr/start/1-why/), 20 minutes. Apprenez à faire construire par l'IA de petites pages et de petits outils, et à voir si elle a bien fait le travail.
 - **Vous codez** : le [guide en 9 étapes](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) et 17 fiches pratiques, de votre première tâche jusqu'à le laisser travailler seul toute la nuit.
 - **Vous voulez mieux parler à l'IA** : chacune des [34 skills](https://pstack.xiaoxiaodong.ai/en/skills/) est donnée en texte intégral, avec une analyse de sa formulation. Voyez comment un expert écrit ses prompts.
 
@@ -143,7 +143,7 @@ C'est ici que toutes les étapes précédentes paient : seule une IA **capable d
 
 | Rubrique | Contenu |
 |---|---|
-| [Parcours débutant](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3 leçons, 20 minutes, sans coder : ce qu'il fait pour vous → l'installer → l'utiliser pour la première fois |
+| [Parcours débutant](https://pstack.xiaoxiaodong.ai/fr/start/1-why/) | 3 leçons, 20 minutes, sans coder : ce qu'il fait pour vous → l'installer → l'utiliser pour la première fois |
 | [Guide complet](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 étapes pour ceux qui codent : ce que c'est → installation → choix des modèles → première tâche → comprendre d'abord → concevoir, construire, nettoyer → vérifier et livrer → toute la nuit → une fois à l'aise |
 | [Référence des skills](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 skills, chacune avec son texte intégral et une analyse de sa formulation |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 fiches, une tâche chacune |

@@ -1,0 +1,134 @@
+---
+layout: ../../../layouts/Lesson.astro
+tldr: "Mande uma mensagem em três partes e ganhe uma pequena página que registra quanta água você bebe."
+lesson: 3
+description: Crie uma pasta vazia, mande uma mensagem em três partes e peça para a IA fazer uma pequena página que registra quanta água você bebe. Onde olhar na resposta, como saber se ela fez um bom trabalho e o que dizer quando não fez.
+---
+import Callout from "../../../components/Callout.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Reply from "../../../components/Reply.astro";
+import Q from "../../../components/Q.astro";
+
+Nesta lição você usa o pstack para fazer algo real e pequeno: uma página web que registra quantos copos de água você bebe por dia. No fim, você vai ver a diferença em relação à IA de sempre.
+
+## Primeiro, crie uma pasta vazia
+
+1. Crie uma pasta nova na sua área de trabalho chamada `water`.
+2. Se o Claude Code estiver aberto, digite `/exit` para sair.
+3. Na mesma janela, digite esta linha e aperte Enter. Ela quer dizer “entre na pasta water da área de trabalho”:
+
+<Cmd c="cd ~/Desktop/water" />
+
+4. Digite `claude` e aperte Enter. O Claude Code abre dentro dessa pasta.
+
+Por que uma pasta nova: a IA trabalha na pasta onde você abre o Claude Code. Numa pasta nova e vazia, ela não consegue mexer em mais nada do seu computador.
+
+## Mande esta mensagem
+
+<Copy id="first" title="Copie, cole na caixa, aperte Enter" code={`/pstack:poteto-mode Faça para mim uma pequena página web que registre quanta água eu bebo por dia. Esta pasta está vazia; prepare tudo o que for preciso.
+Como fica quando estiver pronto: eu abro a página e clico em "Bebi um copo", e o número de hoje aumenta em um; eu fecho e abro de novo, e o número continua lá; a página mostra quantos copos eu bebi em cada um dos últimos 7 dias.
+Ao terminar, me mostre: como você verificou, o que você fez e o que viu, com uma captura de tela se der. Depois me diga como abrir a página.`} />
+
+O `/pstack:poteto-mode` no começo é o interruptor. Com ele, a IA segue as regras do pstack. Sem ele, ela trabalha como sempre.
+
+O resto da mensagem tem só três partes, e esse é todo o segredo para usar o pstack:
+
+<mark><strong>O que eu quero · Como fica quando estiver pronto · O que me mostrar ao terminar</strong></mark>
+
+- **O que eu quero**: uma página que registra a água.
+- **Como fica quando estiver pronto**: clicar soma um, o número continua lá depois de fechar e abrir, e dá para ver 7 dias. Isso diz para ela “como saber que terminou”, e ela vai verificar cada um desses pontos.
+- **O que me mostrar ao terminar**: como ela verificou e o que encontrou. Você não sabe ler o código, então peça algo que você consiga entender.
+
+## Ela vai parar e perguntar coisas
+
+Ela vai trabalhar por alguns minutos. No meio do caminho, o Claude Code para e pergunta: posso criar este arquivo? Posso rodar este comando?
+
+É o Claude Code protegendo você: cada passo precisa da sua permissão. Esta pasta é nova e está vazia, então escolha **Yes** (sim).
+
+## Onde olhar na resposta
+
+A resposta vai ser mais longa do que o normal e pode estar cheia de palavras técnicas. Pule o que você não entender e **olhe só os quatro pontos marcados**:
+
+<Reply code={`① O que entendi do objetivo: uma página que registra a água.
+   Clicar em "Bebi um copo" soma um ao número de hoje; o número
+   continua lá depois de fechar e abrir; mostra os últimos 7 dias.
+
+② A fazer
+   ☐ Preparar esta pasta
+   ☐ Fazer a página
+   ☐ Verificar: somar um copo, fechar e abrir, ver 7 dias
+   ☐ Entregar os resultados para você
+
+   … (no meio, ela está trabalhando; pode pular) …
+
+③ O que eu verifiquei
+   ✓ Cliquei 3 vezes em "Bebi um copo"; hoje mostra 3
+   ✓ Fechei a página e abri de novo; continua 3
+   ✓ Tem uma barra para cada um dos últimos 7 dias; a de hoje é a mais alta
+   ? Não consegui verificar: como fica no celular (só verifiquei no computador)
+
+④ Como abrir: dê um duplo clique em index.html na pasta water`} />
+
+- **Olhe o ① primeiro.** Ela entendeu certo? Se não, é só digitar a correção, por exemplo: “não são 7 dias, são 30 dias”.
+- **O ② são os passos que ela pretende seguir.** Ela vai marcando conforme avança. Você não precisa acompanhar.
+- **O ③ é o mais importante.** Cada linha diz o que ela fez e o que viu. A linha “não consegui verificar” é ela sendo honesta, e isso é bom.
+- **Faça o que o ④ diz e confira você mesmo.**
+
+## Como saber se ela fez um bom trabalho
+
+Faça três perguntas para si mesmo:
+
+- O objetivo que ela repetiu é o mesmo que eu queria?
+- Quando disse que terminou, ela listou o que realmente verificou e o que viu?
+- Quando eu mesmo abro, bate com o que ela disse?
+
+Se as três respostas forem sim, o trabalho está feito.
+
+Se ela só disser “pronto”, sem nenhuma verificação, não está pronto. Responda:
+
+<Copy id="no-proof" code="Me mostre o que você realmente verificou: o que você fez e o que viu. Não me diga só que está pronto." />
+
+## O que dizer quando algo está errado
+
+<Q q="O resultado está errado, por exemplo o número não muda quando eu clico.">
+<p>Diga só o que você viu, por exemplo: “Cliquei três vezes e o número ficou em 0.” Não tente adivinhar a causa. Um palpite errado leva a IA para o caminho errado.</p>
+</Q>
+<Q q="A resposta é longa e cheia de palavras que eu não conheço.">
+<p>Digite `/pstack:bro`. Ele reconta a última resposta em palavras simples, bem mais curta.</p>
+</Q>
+<Q q="Ela me fez uma pergunta que eu não entendo.">
+<p>Responda: “Eu não programo. Me pergunte com palavras simples, ou escolha para mim a opção mais segura e me diga por quê.”</p>
+</Q>
+<Q q="Ela está fazendo coisas que eu não pedi, e eu quero que pare.">
+<p>Aperte Esc e ela para. Depois diga o que você quer, por exemplo: “só o registro de água, não adicione mais nada por enquanto”.</p>
+</Q>
+<Q q="No Windows, a linha do cd diz que não encontra a pasta.">
+<p>Em alguns computadores com Windows, a área de trabalho fica dentro do OneDrive. Tente `cd ~/OneDrive/Desktop/water`.</p>
+</Q>
+<Q q="Eu uso o app de desktop do Claude, e não tem onde digitar cd.">
+<p>Quando você começa uma sessão nova, ele pede para escolher uma pasta. Escolha a water, na sua área de trabalho. O resto é igual.</p>
+</Q>
+
+## Você já sabe
+
+Seja lá o que você for fazer daqui para frente, o formato é o mesmo: `/pstack:poteto-mode` mais as três partes. Mais dois exemplos:
+
+<Copy id="ex-fix" title="Consertar um problema que sempre volta" code={`/pstack:poteto-mode Minha extensão de favoritos às vezes salva o mesmo item duas vezes quando eu clico em salvar.
+Como fica quando estiver pronto: clico em salvar dez vezes seguidas, e a lista continua com um só.
+Ao terminar, me mostre: como você fez o problema acontecer de novo, e o que aconteceu quando testou de novo depois do conserto.`} />
+
+<Copy id="ex-how" title="Não mudar nada, só entender" code="/pstack:how Como funcionam as coisas desta pasta? Explique com palavras simples; eu não programo." />
+
+O segundo exemplo usa `/pstack:how`: ele só explica e não mexe nas suas coisas. Use quando quiser entender algo antes de decidir se vai mudar.
+
+<Callout type="tip" title="Por enquanto, isso basta">
+Essas três lições são tudo o que um iniciante precisa. O melhor treino daqui para frente: escolha uma coisa pequena que você realmente queira e descreva com as mesmas três partes.
+
+O resto do site, consulte quando precisar (em inglês):
+
+- Ela sai do rumo: veja [Pull it back on track](/en/howto/steer/) (como trazer de volta).
+- Ela gasta seu plano rápido demais: veja [Keep costs down](/en/howto/cost/) (como gastar menos).
+- Outras dúvidas: veja as [perguntas frequentes](/en/faq/).
+- Você programa e quer usar em projetos maiores: veja o [guia completo](/en/guide/0-what/).
+</Callout>

@@ -4,6 +4,8 @@
 // 在 base-links.mjs 之前运行：这里的 href 不带子路径前缀，由页面脚本按 BASE_URL 补。
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, sep } from "node:path";
+import { LANGS } from "../src/data/nav.js";
+import { X } from "../src/i18n/index.js";
 
 const walk = (dir) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? walk(join(dir, f)) : [join(dir, f)]));
 const ENT = { amp: "&", lt: "<", gt: ">", quot: '"', "#39": "'", nbsp: " " };
@@ -13,11 +15,14 @@ const text = (html) => html
   .replace(/&(#x?[0-9a-f]+|\w+);/gi, (m, e) => ENT[e] ?? (e[0] === "#" ? String.fromCodePoint(e[1] === "x" ? parseInt(e.slice(2), 16) : +e.slice(1)) : m))
   .replace(/\s+/g, " ").trim();
 const KIND = { zh: { start: "新手入门", guide: "完整教程", howto: "How-to", wiki: "Wiki", section: "小节" }, en: { start: "Beginner track", guide: "Full guide", howto: "How-to", wiki: "Wiki", section: "Section" } };
-const out = { zh: [], en: [] };
+// 其他语言（只有新手入门）：种类名用各自的文字
+for (const { code } of LANGS) if (!KIND[code]) { const u = X(code).ui; KIND[code] = { start: u.hintLesson, section: u.section }; }
+const out = Object.fromEntries(LANGS.map((l) => [l.code, []]));
+const PREFIX = new RegExp(`^/(${LANGS.filter((l) => l.code !== "zh").map((l) => l.code).join("|")})/`);
 for (const file of walk("dist").filter((f) => f.endsWith("index.html"))) {
   const path = "/" + file.slice("dist/".length).split(sep).join("/").replace(/index\.html$/, "");
-  const lang = path.startsWith("/en/") ? "en" : "zh";
-  const rel = lang === "en" ? path.slice(3) : path;
+  const lang = path.match(PREFIX)?.[1] ?? "zh";
+  const rel = lang === "zh" ? path : path.slice(lang.length + 1);
   const kind = rel.split("/")[1];
   if (!["start", "guide", "howto", "wiki"].includes(kind) || rel === `/${kind}/`) continue;
   const html = readFileSync(file, "utf8");
@@ -38,6 +43,5 @@ for (const file of walk("dist").filter((f) => f.endsWith("index.html"))) {
     out[lang].push({ label: `${title} › ${heading}`, hint: `${K[kind]} · ${K.section}`, keywords: body, href: path + (slug ? "#" + slug : "") });
   }
 }
-writeFileSync("dist/search-sections.json", JSON.stringify(out.zh));
-writeFileSync("dist/en/search-sections.json", JSON.stringify(out.en));
-console.log(`✓ 全文搜索：中文 ${out.zh.length} 个小节，英文 ${out.en.length} 个小节`);
+for (const [code, list] of Object.entries(out)) writeFileSync(code === "zh" ? "dist/search-sections.json" : `dist/${code}/search-sections.json`, JSON.stringify(list));
+console.log(`✓ 全文搜索：${Object.entries(out).map(([c, l]) => `${c} ${l.length}`).join("，")} 个小节`);

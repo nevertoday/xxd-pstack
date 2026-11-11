@@ -1,0 +1,134 @@
+---
+layout: ../../../layouts/Lesson.astro
+tldr: "Envoyez un seul message en trois parties, et obtenez une petite page qui compte l'eau que vous buvez."
+lesson: 3
+description: "Créez un dossier vide, envoyez un message en trois parties, et laissez l'IA créer une petite page qui compte l'eau que vous buvez. Où regarder dans sa réponse, comment savoir si elle a bien travaillé, et quoi dire sinon."
+---
+import Callout from "../../../components/Callout.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Reply from "../../../components/Reply.astro";
+import Q from "../../../components/Q.astro";
+
+Dans cette leçon, vous utilisez pstack pour créer quelque chose de vrai et de petit : une page web qui compte combien de verres d'eau vous buvez chaque jour. À la fin, vous verrez la différence avec l'IA habituelle.
+
+## D'abord, créez un dossier vide
+
+1. Créez un nouveau dossier sur votre bureau, nommé `water`.
+2. Si Claude Code est ouvert, tapez `/exit` pour le quitter.
+3. Dans la même fenêtre, tapez cette ligne et appuyez sur Entrée. Elle veut dire « va dans le dossier water, sur le bureau ». Dans la commande, le bureau s'écrit toujours `Desktop` :
+
+<Cmd c="cd ~/Desktop/water" />
+
+4. Tapez `claude` et appuyez sur Entrée. Claude Code s'ouvre dans ce dossier.
+
+Pourquoi un nouveau dossier : l'IA travaille dans le dossier où vous ouvrez Claude Code. Dans un dossier neuf et vide, elle ne peut toucher à rien d'autre sur votre ordinateur.
+
+## Envoyez-lui ce message
+
+<Copy id="first" title="Copiez, collez dans la zone de saisie, appuyez sur Entrée" code={`/pstack:poteto-mode Crée-moi une petite page web qui compte combien d'eau je bois chaque jour. Ce dossier est vide ; fais toute la préparation nécessaire.
+Le résultat attendu : j'ouvre la page, je clique sur « J'ai bu un verre », et le compteur du jour augmente de un ; je ferme la page, je la rouvre, et le nombre est toujours là ; la page montre combien de verres j'ai bus chacun des 7 derniers jours.
+À la fin, montre-moi : comment tu as vérifié, ce que tu as fait et ce que tu as vu, avec une capture d'écran si tu peux. Puis dis-moi comment ouvrir la page.`} />
+
+Le `/pstack:poteto-mode` du début, c'est l'interrupteur. Avec lui, l'IA suit les règles de pstack. Sans lui, elle travaille comme d'habitude.
+
+Le reste du message n'a que trois parties. C'est tout le secret pour utiliser pstack :
+
+<mark><strong>Ce que je veux · Le résultat attendu · Ce que tu me montres à la fin</strong></mark>
+
+- **Ce que je veux** : une page qui compte l'eau.
+- **Le résultat attendu** : un clic ajoute un, le nombre reste quand on ferme et qu'on rouvre, et on voit 7 jours. Ça lui dit « comment savoir que c'est fini », et elle vérifiera chacun de ces points.
+- **Ce que tu me montres à la fin** : comment elle a vérifié, et ce qu'elle a trouvé. Vous ne lisez pas le code, alors demandez quelque chose que vous pouvez comprendre.
+
+## Elle va s'arrêter pour vous demander votre accord
+
+Elle va travailler quelques minutes. En chemin, Claude Code s'arrête pour demander : je peux créer ce fichier ? Je peux lancer cette commande ?
+
+C'est Claude Code qui vous protège : chaque étape a besoin de votre accord. Ce dossier est neuf et vide, alors choisissez **Yes** (oui).
+
+## Où regarder dans sa réponse
+
+Sa réponse sera plus longue que d'habitude, et peut-être pleine de mots techniques. Sautez ce que vous ne comprenez pas, et **regardez seulement les quatre endroits numérotés** :
+
+<Reply code={`① Ce que j'ai compris de l'objectif : une page qui compte l'eau. Un clic
+   sur « J'ai bu un verre » ajoute un au compteur du jour ; le nombre
+   reste après fermeture et réouverture ; elle montre les 7 derniers jours.
+
+② À faire
+   ☐ Préparer ce dossier
+   ☐ Créer la page
+   ☐ Vérifier : ajouter un verre, fermer et rouvrir, voir les 7 jours
+   ☐ Vous donner les résultats
+
+   … (au milieu, elle fait le travail ; vous pouvez sauter cette partie) …
+
+③ Ce que j'ai vérifié
+   ✓ Cliqué 3 fois sur « J'ai bu un verre » ; aujourd'hui affiche 3
+   ✓ Fermé la page puis rouverte ; toujours 3
+   ✓ Une barre pour chacun des 7 derniers jours ; celle du jour est la plus haute
+   ? Pas pu vérifier : l'affichage sur téléphone (vérifié seulement sur ordinateur)
+
+④ Pour l'ouvrir : double-cliquez sur index.html dans le dossier water`} />
+
+- **Regardez d'abord ①.** A-t-elle bien compris ? Sinon, tapez simplement une correction, par exemple « 30 jours au lieu de 7 ».
+- **② liste les étapes qu'elle prévoit.** Elle les coche au fur et à mesure. Vous n'avez rien à gérer.
+- **③ est le plus important.** Chaque ligne dit ce qu'elle a fait et ce qu'elle a vu. La ligne « Pas pu vérifier », c'est elle qui est honnête, et c'est une bonne chose.
+- **Faites ce que dit ④, et regardez par vous-même.**
+
+## Comment savoir si elle a bien travaillé
+
+Posez-vous trois questions :
+
+- L'objectif qu'elle a redit, est-ce bien ce que je voulais ?
+- Quand elle a dit que c'était fini, a-t-elle listé ce qu'elle a vraiment vérifié, et ce qu'elle a vu ?
+- Quand j'ouvre moi-même, est-ce que ça correspond à ce qu'elle a dit ?
+
+Trois fois oui ? Alors le travail est fait.
+
+Si elle dit seulement « c'est fait », sans aucune vérification, ce n'est pas fini. Répondez :
+
+<Copy id="no-proof" code="Montre-moi ce que tu as vraiment vérifié : ce que tu as fait et ce que tu as vu. Ne te contente pas de me dire que c'est fait." />
+
+## Quoi dire quand ça ne va pas
+
+<Q q="Le résultat n'est pas bon, par exemple le nombre ne change pas quand je clique.">
+<p>Dites seulement ce que vous avez vu, par exemple : « J'ai cliqué trois fois et le nombre est resté à 0. » Laissez-la chercher la cause : une mauvaise supposition de votre part l'enverrait sur une fausse piste.</p>
+</Q>
+<Q q="La réponse est longue et pleine de mots que je ne connais pas.">
+<p>Tapez `/pstack:bro`. Elle redit la dernière réponse avec des mots simples, en beaucoup plus court.</p>
+</Q>
+<Q q="Elle m'a posé une question que je ne comprends pas.">
+<p>Répondez : « Je ne sais pas coder. Pose-moi la question avec des mots simples, ou choisis pour moi l'option la plus sûre et dis-moi pourquoi. »</p>
+</Q>
+<Q q="Elle fait des choses que je n'ai pas demandées, et je veux qu'elle arrête.">
+<p>Appuyez sur Échap (Esc) : elle s'arrête. Puis dites-lui ce que vous voulez, par exemple « seulement le compteur d'eau, rien d'autre pour l'instant ».</p>
+</Q>
+<Q q="Sous Windows, la ligne cd dit que le dossier est introuvable.">
+<p>Sur certains ordinateurs Windows, le bureau se trouve dans OneDrive. Essayez plutôt `cd ~/OneDrive/Desktop/water`, ou `cd ~/OneDrive/Bureau/water`.</p>
+</Q>
+<Q q="J'utilise l'application de bureau Claude, et il n'y a nulle part où taper cd.">
+<p>Quand vous lancez une nouvelle session, elle vous demande de choisir un dossier. Choisissez water, sur votre bureau. La suite est identique.</p>
+</Q>
+
+## Vous savez faire
+
+Quoi que vous fassiez ensuite, ça a toujours la même forme : `/pstack:poteto-mode` plus les trois parties. Deux autres exemples :
+
+<Copy id="ex-fix" title="Régler un problème qui revient sans cesse" code={`/pstack:poteto-mode Mon extension de favoris enregistre parfois deux fois le même élément quand je clique sur « Enregistrer ».
+Le résultat attendu : je clique dix fois de suite sur « Enregistrer », et la liste n'en contient toujours qu'un.
+À la fin, montre-moi : comment tu as fait réapparaître le problème, et ce qui s'est passé quand tu as réessayé après la correction.`} />
+
+<Copy id="ex-how" title="Ne rien changer, juste comprendre" code="/pstack:how Comment fonctionne ce qu'il y a dans ce dossier ? Explique avec des mots simples ; je ne sais pas coder." />
+
+Le deuxième exemple utilise `/pstack:how` : il explique seulement, sans toucher à vos fichiers. Utilisez-le quand vous voulez comprendre quelque chose avant de décider de le modifier.
+
+<Callout type="tip" title="Ça suffit pour l'instant">
+Ces trois leçons, c'est tout ce qu'il faut pour débuter. Le meilleur exercice maintenant : choisissez une petite chose que vous voulez vraiment, et décrivez-la avec les trois mêmes parties.
+
+Le reste du site (en anglais), consultez-le quand vous en avez besoin :
+
+- Elle part dans la mauvaise direction : voir [Remettre l'IA sur les rails](/en/howto/steer/).
+- Elle consomme vite votre forfait : voir [Limiter les coûts](/en/howto/cost/).
+- Autres questions : voir la [FAQ](/en/faq/).
+- Vous codez et voulez l'utiliser sur de plus gros projets : voir le [guide complet](/en/guide/0-what/).
+</Callout>

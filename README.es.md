@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) hace que pruebe su propio trabajo antes de decirte que ha terminado.<br>Esta guía explica pstack con palabras sencillas. Puedes aprenderlo aunque nunca hayas escrito código.
 
-### 👉 [Leer en línea](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [Leer en línea](https://pstack.xiaoxiaodong.ai/es/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-El sitio está en inglés y en chino, y este README, en 10 idiomas. Gratis y de código abierto.
+La página de inicio y las 3 lecciones para principiantes están en español; la guía completa, en inglés y en chino. Este README está en 10 idiomas. Gratis y de código abierto.
 
 ![Principiantes](https://img.shields.io/badge/Principiantes-3_lecciones-8A9A8C?style=flat-square)
 ![Guía](https://img.shields.io/badge/Gu%C3%ADa-9_pasos-8A9A8C?style=flat-square)
@@ -27,7 +27,7 @@ El sitio está en inglés y en chino, y este README, en 10 idiomas. Gratis y de 
 
 **Por dónde empezar**
 
-- **Nunca has programado**: las [3 lecciones para principiantes](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20 minutos. Aprende a pedirle a la IA páginas y herramientas pequeñas, y a saber si las ha hecho bien.
+- **Nunca has programado**: las [3 lecciones para principiantes](https://pstack.xiaoxiaodong.ai/es/start/1-why/), 20 minutos. Aprende a pedirle a la IA páginas y herramientas pequeñas, y a saber si las ha hecho bien.
 - **Programas**: la [guía de 9 pasos](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) y 17 how-tos, desde tu primera tarea hasta dejarla trabajar sola toda la noche.
 - **Quieres aprender a hablarle mejor a la IA**: cada una de las [34 skills](https://pstack.xiaoxiaodong.ai/en/skills/) trae su texto completo y un análisis de cómo está escrita. Mira cómo escribe prompts un experto.
 
@@ -143,7 +143,7 @@ Aquí es donde todos los pasos anteriores dan fruto: solo una IA que **puede ver
 
 | Sección | Contenido |
 |---|---|
-| [Para principiantes](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3 lecciones, 20 minutos, sin programar: qué hace por ti → instalarlo → usarlo por primera vez |
+| [Para principiantes](https://pstack.xiaoxiaodong.ai/es/start/1-why/) | 3 lecciones, 20 minutos, sin programar: qué hace por ti → instalarlo → usarlo por primera vez |
 | [Guía completa](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 pasos para quien programa: qué es → instalar → elegir modelos → primera tarea → entender primero → diseñar, construir, limpiar → verificar y entregar → toda la noche → cuando ya tengas soltura |
 | [Referencia de skills](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 skills, cada una con su texto completo y un análisis de su redacción |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 guías, una tarea cada una |

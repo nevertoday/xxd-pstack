@@ -1,9 +1,11 @@
 ---
 // 反馈与建议：首页、常见问题末尾的卡片（xxd 分层卡片 LayerCard）。主体：说明 + 请把问题汇总一次发，GitHub、X 私信两个按钮，小小东微信并列（二维码不加白底，跟随主题单色显示）；
 // 下面洗色的一条：发截图前先打码
-import { langOf, link, REPO } from "../data/nav.js";
+import { langOf, link, fullLang, REPO } from "../data/nav.js";
+import { X as dict } from "../i18n/index.js";
 const lang = langOf(Astro.url.pathname);
-const en = lang === "en";
+const en = lang !== "zh";
+const x = dict(lang);
 const onFaq = Astro.url.pathname.replace(/\/$/, "").endsWith("/faq");
 const QR = "https://vip.xiaoxiaodong.ai/site-assets/wechat-qr.png";
 const ISSUE = `${REPO}/issues/new`;
@@ -34,13 +36,14 @@ const T = en
       alt: "小小东的微信二维码",
       privacy: "发截图前，先把 API Key、公司代码和账号信息打码。",
     };
+if (x) Object.assign(T, x.comp.contact);
 ---
 <section class="xxd-layer contact" aria-labelledby="h-contact">
   <div class="xxd-layer__primary contact__body">
     <div class="contact__text">
       <h2 id="h-contact">{T.h}</h2>
       <p>{T.p}</p>
-      {!onFaq && <p class="contact__ask">{T.faq[0]}<a href={link("/faq/", lang)}>{T.faq[1]}</a>{T.faq[2]}</p>}
+      {!onFaq && <p class="contact__ask">{T.faq[0]}<a href={link("/faq/", fullLang(lang))}>{T.faq[1]}</a>{T.faq[2]}</p>}
       <p class="contact__ask">{T.ask}</p>
       <div class="contact__btns">
         <a class="xxd-btn" href={ISSUE} rel="noopener">{T.btn}<i data-xxd-icon="ArrowRight" data-size="16"></i></a>

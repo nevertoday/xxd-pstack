@@ -1,9 +1,11 @@
 ---
 // 页面末尾的反馈入口：在 GitHub 上新建一条带模板的反馈，也可以 X 私信或加小小东微信（二维码用 xxd 的说明浮层 Popover）
-import { link, langOf, REPO } from "../data/nav.js";
+import { link, langOf, fullLang, REPO } from "../data/nav.js";
+import { X as dict, fmt } from "../i18n/index.js";
 interface Props { page: string }
 const lang = langOf(Astro.url.pathname);
-const en = lang === "en";
+const x = dict(lang);
+const en = lang !== "zh";
 const site = Astro.site ? Astro.site.href.replace(/\/$/, "") : "";
 const url = site + Astro.url.pathname;
 const T = en
@@ -23,6 +25,8 @@ const T = en
       faq: ["问之前先看看", "常见问题", "，大家问过的都在那里。"],
       alt: "小小东的微信二维码", mobile: "手机上：长按保存图片，再用微信扫一扫从相册识别。",
     };
+// 其他语言：反馈的 issue 模板用英文（维护者看得懂），页面上的文字用这种语言
+if (x) Object.assign(T, x.comp.feedback);
 const href = `${REPO}/issues/new?title=${encodeURIComponent(T.title)}&body=${encodeURIComponent(T.body)}`;
 const QR = "https://vip.xiaoxiaodong.ai/site-assets/wechat-qr.png";
 ---
@@ -30,10 +34,10 @@ const QR = "https://vip.xiaoxiaodong.ai/site-assets/wechat-qr.png";
   <i data-xxd-icon="MessageCircle" data-size="16"></i>
   <span>{T.lead}</span>
   <div class="feedback__ways">
-    <a class="xxd-link" href={href} rel="noopener">{T.gh}</a>{en ? ", " : "、"}<a class="xxd-link" href="https://x.com/xiaoxiaodong" rel="noopener">{T.x}</a>{T.or}<button class="xxd-link" type="button" data-xxd-popover="feedback-wx" data-placement="top-start">{T.wx}</button>
+    <a class="xxd-link" href={href} rel="noopener">{T.gh}</a>{x ? T.sep : en ? ", " : "、"}<a class="xxd-link" href="https://x.com/xiaoxiaodong" rel="noopener">{T.x}</a>{T.or}<button class="xxd-link" type="button" data-xxd-popover="feedback-wx" data-placement="top-start">{T.wx}</button>
   </div>
   <div class="xxd-popover feedback__qr" id="feedback-wx" popover>
-    <span class="feedback__faq">{T.faq[0]}<a href={link("/faq/", lang)}>{T.faq[1]}</a>{T.faq[2]}</span>
+    <span class="feedback__faq">{T.faq[0]}<a href={link("/faq/", fullLang(lang))}>{T.faq[1]}</a>{T.faq[2]}</span>
     <img src={QR} width="148" height="152" alt={T.alt} loading="lazy" decoding="async" />
     <span class="contact__mobile">{T.mobile}</span>
   </div>

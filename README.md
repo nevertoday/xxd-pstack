@@ -10,7 +10,7 @@
 
 ### 👉 [在线阅读](https://pstack.xiaoxiaodong.ai) · [English](https://pstack.xiaoxiaodong.ai/en/)
 
-网站有中文和英文两版，README 有 10 种语言。免费，开源。
+首页和新手入门三课有 10 种语言，完整教程有中文和英文。README 也有 10 种语言。免费，开源。
 
 ![新手入门](https://img.shields.io/badge/新手入门-3_课-8A9A8C?style=flat-square)
 ![完整教程](https://img.shields.io/badge/完整教程-9_步-8A9A8C?style=flat-square)

@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) bringt sie dazu, ihre Arbeit selbst auszuprobieren, bevor sie „fertig“ sagt.<br>Diese Anleitung erklärt pstack in einfachen Worten. Du kannst es lernen, auch wenn du noch nie Code geschrieben hast.
 
-### 👉 [Online lesen](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [Online lesen](https://pstack.xiaoxiaodong.ai/de/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-Die Website gibt es auf Englisch und Chinesisch, diese README in 10 Sprachen. Kostenlos und Open Source.
+Startseite und die drei Einsteigerlektionen gibt es auf Deutsch, die vollständige Anleitung auf Englisch und Chinesisch. Diese README gibt es in 10 Sprachen. Kostenlos und Open Source.
 
 ![Einsteigerkurs](https://img.shields.io/badge/Einsteigerkurs-3_Lektionen-8A9A8C?style=flat-square)
 ![Leitfaden](https://img.shields.io/badge/Leitfaden-9_Schritte-8A9A8C?style=flat-square)
@@ -27,7 +27,7 @@ Die Website gibt es auf Englisch und Chinesisch, diese README in 10 Sprachen. Ko
 
 **Wo anfangen**
 
-- **Noch nie Code geschrieben**: die [3 Lektionen für Einsteiger](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20 Minuten. Du lernst, dir von der KI kleine Seiten und Tools bauen zu lassen und zu erkennen, ob sie es richtig gemacht hat.
+- **Noch nie Code geschrieben**: die [3 Lektionen für Einsteiger](https://pstack.xiaoxiaodong.ai/de/start/1-why/), 20 Minuten. Du lernst, dir von der KI kleine Seiten und Tools bauen zu lassen und zu erkennen, ob sie es richtig gemacht hat.
 - **Du programmierst**: der [Leitfaden in 9 Schritten](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) und 17 How-tos, von der ersten Aufgabe bis dahin, dass sie über Nacht allein arbeitet.
 - **Du willst besser mit KI reden**: Zu jedem der [34 Skills](https://pstack.xiaoxiaodong.ai/en/skills/) gibt es den vollen Text und eine Analyse, wie er formuliert ist. So siehst du, wie ein Profi Prompts schreibt.
 
@@ -143,7 +143,7 @@ Hier zahlen sich alle vorherigen Schritte aus: Nur eine KI, die **ihre eigene Ar
 
 | Bereich | Inhalt |
 |---|---|
-| [Einsteigerkurs](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3 Lektionen, 20 Minuten, ohne Programmieren: was es dir bringt → installieren → zum ersten Mal benutzen |
+| [Einsteigerkurs](https://pstack.xiaoxiaodong.ai/de/start/1-why/) | 3 Lektionen, 20 Minuten, ohne Programmieren: was es dir bringt → installieren → zum ersten Mal benutzen |
 | [Ganzer Leitfaden](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 Schritte für alle, die programmieren: was es ist → Installation → Modelle wählen → erste Aufgabe → erst verstehen → entwerfen, bauen, aufräumen → verifizieren und ausliefern → über Nacht → sobald du dich auskennst |
 | [Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 Skills, jeweils mit vollem Text und einer Analyse der Formulierung |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 Anleitungen, je eine Aufgabe |

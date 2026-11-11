@@ -1,0 +1,78 @@
+---
+layout: ../../../layouts/Lesson.astro
+tldr: "اكتب سطرين في Claude Code، واختر «Install for you»، وينتهي التثبيت في 5 دقائق."
+lesson: 2
+description: اكتب سطرين في Claude Code، واختر «Install for you»، وعندما ترى /pstack:poteto-mode يكون التثبيت قد تم. ما الذي يجب أن تراه في كل خطوة، وماذا تفعل إن رأيت شيئًا آخر.
+---
+import Callout from "../../../components/Callout.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Q from "../../../components/Q.astro";
+
+افتح Claude Code كما تفعل عادة، واعمل في الخانة التي تحادث فيها الذكاء الاصطناعي. هناك ثلاث خطوات.
+
+## الخطوة 1: أخبره أين يجد pstack
+
+انسخ هذا السطر، والصقه في الخانة، واضغط Enter:
+
+<Cmd c="/plugin marketplace add cursor/plugins" />
+
+بهذا تضيف «متجر الإضافات» الخاص بـ Cursor. أداة pstack موجودة فيه، ويستطيع Claude Code أن يثبّت منه أيضًا.
+
+<Callout type="ok">
+تظهر عبارة `Successfully added marketplace: cursor-plugins` (أي «أُضيف المتجر بنجاح»).
+</Callout>
+
+## الخطوة 2: ثبّت pstack
+
+انسخ هذا السطر واضغط Enter:
+
+<Cmd c="/plugin install pstack@cursor-plugins" />
+
+يظهر على الشاشة وصف pstack، وتحته ثلاثة خيارات تسألك لمن تريد التثبيت.
+
+بمفتاحَي الأسهم ↑ ↓ اختر الخيار الأول **Install for you** (أي «ثبّت لي أنا»، ويعمل في أي مجلد)، واضغط Enter.
+
+<Callout type="ok">
+يقول السطر الأخير `Plugin is now active.` (أي «الإضافة تعمل الآن»). وإن ظهر بدلًا منه `Run /reload-plugins to apply` (أي «شغّل /reload-plugins لتطبيق التغيير»)، فافعل ما يقوله: اكتب `/reload-plugins` واضغط Enter.
+</Callout>
+
+## الخطوة 3: تأكد من أنه ثُبّت
+
+اكتب `/pstack:` في الخانة، و**لا تضغط Enter بعد**.
+
+<Callout type="ok">
+تظهر قائمة بأوامر تبدأ بـ `pstack:`، ومنها `/pstack:poteto-mode`. إن رأيته، فقد انتهيت. اضغط Esc لإغلاق القائمة.
+</Callout>
+
+## من الآن تبدأ الأوامر بـ pstack:
+
+بعد التثبيت، يبدأ كل أمر من أوامر pstack بـ `pstack:`. الصفحات الأخرى في هذا الموقع تكتب `/poteto-mode` لأنه أسهل في القراءة. أما في Claude Code فتكتب `/pstack:poteto-mode`.
+
+لا شيء آخر يحتاج إلى إعداد. يعمل فور تثبيته.
+
+## إن ظهر شيء مختلف
+
+<Q q="عندما أكتب /plugin، يقول إن الأمر غير موجود.">
+
+نسختك من Claude Code قديمة. حدّثها أولًا:
+
+1. اكتب `/exit` واضغط Enter للخروج من Claude Code.
+2. في النافذة نفسها، اكتب `claude update`، واضغط Enter، وانتظر حتى ينتهي.
+3. اكتب `claude` واضغط Enter لتفتحه من جديد. ثم ابدأ مرة أخرى من الخطوة 1.
+
+
+</Q>
+<Q q="في الخطوة 2 يقول إنه لا يجد pstack.">
+<p>على الأرجح لم تنجح الخطوة 1. اكتب سطر الخطوة 1 مرة أخرى، وانتظر حتى تظهر `Successfully added marketplace`، ثم نفّذ الخطوة 2.</p>
+</Q>
+<Q q="لا يظهر شيء عندما أكتب /pstack:.">
+
+أولًا، أعد فتحه: اكتب `/exit` للخروج، ثم اكتب `claude`، ثم جرّب `/pstack:` مرة أخرى.
+
+ما زال لا يظهر؟ اكتب `/plugin` واضغط Tab حتى تصل إلى صفحة Installed (أي «المثبَّتة»). تأكد من أن pstack موجود فيها وأنه مفعَّل.
+
+
+</Q>
+<Q q="أستخدم Cursor، لا Claude Code.">
+<p>اكتب `/add-plugin pstack` في خانة المحادثة في Cursor، فيُثبَّت. ولا تحتاج الأوامر إلى البادئة `pstack:` أيضًا. حيث يقول الدرس التالي `/pstack:poteto-mode`، اكتب أنت `/poteto-mode`.</p>
+</Q>

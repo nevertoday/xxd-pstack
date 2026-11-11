@@ -10,7 +10,7 @@
 
 ### 👉 [Read online](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-The site is in English and Chinese, and this README is in 10 languages. Free and open source.
+The home page and the 3 beginner lessons are in 10 languages; the full guide is in English and Chinese. This README is in 10 languages too. Free and open source.
 
 ![Beginner track](https://img.shields.io/badge/Beginner_track-3_lessons-8A9A8C?style=flat-square)
 ![Guide](https://img.shields.io/badge/Guide-9_steps-8A9A8C?style=flat-square)

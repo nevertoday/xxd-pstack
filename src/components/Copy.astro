@@ -1,11 +1,17 @@
 ---
 // 一段要复制的话或命令：带标题和复制按钮的代码块
 import { langOf } from "../data/nav.js";
+import { X as dict, fmt } from "../i18n/index.js";
 interface Props { title?: string; id: string; lang?: string; code: string }
-const en = langOf(Astro.url.pathname) === "en";
-const { title = en ? "Copy this" : "复制下面这段", id, lang = "text", code } = Astro.props;
+const pageLang = langOf(Astro.url.pathname);
+const en = pageLang === "en";
+const x = dict(pageLang);
+const { title = x ? x.comp.copyTitle : en ? "Copy this" : "复制下面这段", id, lang = "text", code } = Astro.props;
+const copy = x ? x.comp.copy : en ? "Copy" : "复制";
+// 开头的斜杠命令单独包一层从左往右：阿拉伯语这类从右往左的页面里，斜杠才不会跑到命令后面。复制的文字不变
+const lead = code.match(/^\/[^\s]+/)?.[0] ?? "";
 ---
 <div class="xxd-code-block copy-block">
-  <div class="xxd-code__head">{title}<button class="xxd-btn" data-variant="ghost" data-size="xs" data-copy-target={`#${id} code`} aria-label={en ? "Copy" : "复制"}><i data-xxd-icon="Copy" data-size="14"></i>{en ? "Copy" : "复制"}</button></div>
-  <pre class="xxd-code" id={id} tabindex="0"><code data-lang={lang}>{code}</code></pre>
+  <div class="xxd-code__head">{title}<button class="xxd-btn" data-variant="ghost" data-size="xs" data-copy-target={`#${id} code`} aria-label={copy}><i data-xxd-icon="Copy" data-size="14"></i>{copy}</button></div>
+  <pre class="xxd-code" id={id} tabindex="0"><code data-lang={lang}>{lead && <span dir="ltr">{lead}</span>}{code.slice(lead.length)}</code></pre>
 </div>

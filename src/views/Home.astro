@@ -3,7 +3,8 @@
 // 最后才是给会写代码的人的一张图和完整教程路线。
 import Site from "../layouts/Site.astro";
 import Contact from "../components/Contact.astro";
-import { LESSONS, lessonHref, STEPS, stepHref, link, langOf, t } from "../data/nav.js";
+import { LESSONS, lessonHref, STEPS, stepHref, link, langOf, fullLang, t } from "../data/nav.js";
+import { X as dict, fmt } from "../i18n/index.js";
 import { inline } from "../lib/md.js";
 
 const lang = langOf(Astro.url.pathname);
@@ -77,7 +78,12 @@ const EN = {
   CONN: ["match", "do", "verify"],
   stepsLabel: (n) => `Full guide: ${n} steps`,
 };
-const C = lang === "en" ? EN : ZH;
+// 其他语言：文字来自 src/i18n/<语言>.js；FLOW 的图标沿用英文版；完整教程链到英文版
+const x = dict(lang);
+const fl = fullLang(lang);
+const C = x
+  ? { ...EN, ...x.home, brand: x.ui.brand, FLOW: EN.FLOW.map(([icon], i) => [icon, ...(x.home.FLOW[i] ?? EN.FLOW[i].slice(1))]), stepsLabel: (n) => fmt(x.home.stepsLabel, { n }) }
+  : lang === "en" ? EN : ZH;
 ---
 <Site title={C.brand} wide>
   <div class="home">
@@ -85,7 +91,7 @@ const C = lang === "en" ? EN : ZH;
     <p class="home__lead">{C.lead[0]}<mark>{C.lead[1]}</mark>{C.lead[2]}</p>
     <div class="home__cta">
       <a class="xxd-btn" data-variant="primary" href={lessonHref(LESSONS[0], lang)}>{C.cta[0]}<i data-xxd-icon="ArrowRight" data-size="16"></i></a>
-      <a class="xxd-btn" data-variant="ghost" href={stepHref(STEPS[0], lang)}>{C.cta[1]}</a>
+      <a class="xxd-btn" data-variant="ghost" href={stepHref(STEPS[0], fl)} hreflang={fl === lang ? undefined : fl}>{C.cta[1]}</a>
     </div>
     <p class="home__note">{C.ctaNote}</p>
 
@@ -131,6 +137,7 @@ const C = lang === "en" ? EN : ZH;
     <section aria-labelledby="h-dev">
       <h2 id="h-dev">{C.devH}</h2>
       <p>{C.devP}</p>
+      {x && <p class="home__note">{C.devNote}</p>}
       <div class="flow">
         {C.FLOW.map(([icon, h, p], i) => (
           <>
@@ -153,8 +160,8 @@ const C = lang === "en" ? EN : ZH;
           <li class="xxd-steps__item">
             <span class="xxd-steps__mark" aria-hidden="true">{s.n}</span>
             <span class="xxd-steps__text">
-              <a class="xxd-steps__title xxd-steps__link" href={stepHref(s, lang)}>{t(s, "title", lang)}</a>
-              <span class="xxd-steps__desc">{t(s, "minutes", lang)} · {t(s, "sum", lang)}</span>
+              <a class="xxd-steps__title xxd-steps__link" href={stepHref(s, fl)}>{t(s, "title", fl)}</a>
+              <span class="xxd-steps__desc">{t(s, "minutes", fl)} · {t(s, "sum", fl)}</span>
             </span>
           </li>
         ))}

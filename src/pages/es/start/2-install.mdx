@@ -1,0 +1,78 @@
+---
+layout: ../../../layouts/Lesson.astro
+tldr: "Escribe dos líneas en Claude Code, elige \"Install for you\" y en 5 minutos está instalado."
+lesson: 2
+description: Escribe dos líneas en Claude Code, elige "Install for you" y, cuando veas /pstack:poteto-mode, ya está instalado. Qué deberías ver en cada paso y qué hacer si no lo ves.
+---
+import Callout from "../../../components/Callout.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Q from "../../../components/Q.astro";
+
+Abre Claude Code como siempre y trabaja en el cuadro donde chateas con la IA. Son tres pasos.
+
+## Paso 1: dile dónde encontrar pstack
+
+Copia esta línea, pégala en el cuadro y presiona Enter:
+
+<Cmd c="/plugin marketplace add cursor/plugins" />
+
+Esto añade la «tienda de plugins» de Cursor. pstack está ahí, y Claude Code también puede instalar desde ella.
+
+<Callout type="ok">
+Aparece `Successfully added marketplace: cursor-plugins` («tienda añadida correctamente»).
+</Callout>
+
+## Paso 2: instala pstack
+
+Copia esta línea y presiona Enter:
+
+<Cmd c="/plugin install pstack@cursor-plugins" />
+
+En la pantalla aparece la información de pstack y, debajo, tres opciones que preguntan para quién es.
+
+Con las flechas ↑ ↓ elige la primera, **Install for you** (instalar para ti; funciona en cualquier carpeta), y presiona Enter.
+
+<Callout type="ok">
+La última línea dice `Plugin is now active.` («el plugin ya está activo»). Si en cambio dice `Run /reload-plugins to apply` («ejecuta /reload-plugins para aplicarlo»), haz lo que dice: escribe `/reload-plugins` y presiona Enter.
+</Callout>
+
+## Paso 3: comprueba que está instalado
+
+Escribe `/pstack:` en el cuadro y **todavía no presiones Enter**.
+
+<Callout type="ok">
+Se abre una lista de comandos que empiezan por `pstack:`, y uno de ellos es `/pstack:poteto-mode`. Si lo ves, ya terminaste. Presiona Esc para cerrar la lista.
+</Callout>
+
+## A partir de ahora, los comandos empiezan por pstack:
+
+Una vez instalado, todos los comandos de pstack empiezan por `pstack:`. Otras páginas de este sitio escriben `/poteto-mode` porque se lee mejor. En Claude Code, tú escribes `/pstack:poteto-mode`.
+
+No hay que configurar nada más. Funciona en cuanto se instala.
+
+## Si algo no sale bien
+
+<Q q="Al escribir /plugin, me dice que el comando no existe.">
+
+Tu Claude Code es demasiado antiguo. Actualízalo primero:
+
+1. Escribe `/exit` y presiona Enter para salir de Claude Code.
+2. En la misma ventana, escribe `claude update`, presiona Enter y espera a que termine.
+3. Escribe `claude` y presiona Enter para abrirlo de nuevo. Vuelve a empezar desde el paso 1.
+
+
+</Q>
+<Q q="En el paso 2 me dice que no encuentra pstack.">
+<p>Seguramente el paso 1 no funcionó. Escribe otra vez la línea del paso 1, espera a ver `Successfully added marketplace` y luego haz el paso 2.</p>
+</Q>
+<Q q="Al escribir /pstack: no aparece nada.">
+
+Primero, vuelve a abrirlo: escribe `/exit` para salir, escribe `claude` y prueba `/pstack:` otra vez.
+
+¿Sigue sin aparecer? Escribe `/plugin` y presiona Tab hasta llegar a la página Installed (instalados). Comprueba que pstack está ahí y que está activado.
+
+
+</Q>
+<Q q="Uso Cursor, no Claude Code.">
+<p>Escribe `/add-plugin pstack` en el chat de Cursor y queda instalado. Los comandos tampoco necesitan el prefijo `pstack:`. Donde la siguiente lección diga `/pstack:poteto-mode`, escribe `/poteto-mode`.</p>
+</Q>

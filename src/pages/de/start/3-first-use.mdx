@@ -1,0 +1,134 @@
+---
+layout: ../../../layouts/Lesson.astro
+tldr: "Schick eine dreiteilige Nachricht und bekomm eine kleine Seite, die zählt, wie viel Wasser du trinkst."
+lesson: 3
+description: "Leg einen leeren Ordner an, schick eine dreiteilige Nachricht und lass die KI eine kleine Seite bauen, die zählt, wie viel Wasser du trinkst. Wo du in ihrer Antwort hinschaust, woran du erkennst, ob sie gut gearbeitet hat, und was du sagst, wenn nicht."
+---
+import Callout from "../../../components/Callout.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Reply from "../../../components/Reply.astro";
+import Q from "../../../components/Q.astro";
+
+In dieser Lektion baust du mit pstack etwas Echtes und Kleines: eine Webseite, die zählt, wie viele Gläser Wasser du am Tag trinkst. Am Ende siehst du, was anders ist als bei der KI wie üblich.
+
+## Leg zuerst einen leeren Ordner an
+
+1. Leg auf deinem Desktop (am Mac: Schreibtisch) einen neuen Ordner namens `water` an.
+2. Falls Claude Code offen ist, tippe `/exit`, um es zu beenden.
+3. Tippe im selben Fenster diese Zeile und drück Enter. Sie bedeutet „geh in den Ordner water auf dem Desktop“:
+
+<Cmd c="cd ~/Desktop/water" />
+
+4. Tippe `claude` und drück Enter. Claude Code öffnet sich in diesem Ordner.
+
+Warum ein neuer Ordner: Die KI arbeitet in dem Ordner, in dem du Claude Code öffnest. In einem neuen, leeren Ordner kommt sie an nichts anderes auf deinem Computer heran.
+
+## Schick ihr diese Nachricht
+
+<Copy id="first" title="Kopieren, ins Feld einfügen, Enter drücken" code={`/pstack:poteto-mode Bau mir eine kleine Webseite, die zählt, wie viel Wasser ich jeden Tag trinke. Das ist ein leerer Ordner; richte alles ein, was nötig ist.
+So sieht „fertig“ aus: Ich öffne die Seite und klicke auf „Ein Glas getrunken“, und die Zahl für heute steigt um eins; ich schließe die Seite, öffne sie wieder, und die Zahl ist noch da; die Seite zeigt, wie viele Gläser ich an jedem der letzten 7 Tage getrunken habe.
+Zeig mir am Ende: wie du es geprüft hast, was du gemacht und was du gesehen hast, wenn möglich mit Screenshot. Sag mir dann, wie ich die Seite öffne.`} />
+
+Das `/pstack:poteto-mode` am Anfang ist der Schalter. Damit hält sich die KI an die Regeln von pstack. Ohne ihn arbeitet sie wie immer.
+
+Der Rest der Nachricht hat nur drei Teile. Das ist schon der ganze Trick bei pstack:
+
+<mark><strong>Was ich will · So sieht „fertig“ aus · Was du mir am Ende zeigst</strong></mark>
+
+- **Was ich will**: eine Seite, die Wasser zählt.
+- **So sieht „fertig“ aus**: Ein Klick zählt eins dazu, die Zahl bleibt nach Schließen und Öffnen erhalten, und man sieht 7 Tage. So weiß sie, woran sie erkennt, dass sie fertig ist. Jeden dieser Punkte prüft sie.
+- **Was du mir am Ende zeigst**: wie sie geprüft hat und was dabei herauskam. Den Code kannst du nicht lesen, also verlang etwas, das du verstehst.
+
+## Sie hält an und fragt dich
+
+Sie arbeitet ein paar Minuten. Zwischendurch hält Claude Code an und fragt: Darf ich diese Datei anlegen? Darf ich diesen Befehl ausführen?
+
+So schützt dich Claude Code: Jeder Schritt braucht dein Okay. Dieser Ordner ist neu und leer, also wähl **Yes** (Ja).
+
+## Wo du in der Antwort hinschaust
+
+Die Antwort ist länger als sonst und steckt vielleicht voller Fachwörter. Überspring, was du nicht verstehst, und **schau nur auf die vier markierten Stellen**:
+
+<Reply code={`① So verstehe ich das Ziel: eine Seite, die Wasser zählt. Ein Klick auf
+   „Ein Glas getrunken“ zählt für heute eins dazu; die Zahl bleibt nach
+   Schließen und Öffnen erhalten; sie zeigt die letzten 7 Tage.
+
+② To-do
+   ☐ Diesen Ordner einrichten
+   ☐ Die Seite bauen
+   ☐ Prüfen: ein Glas dazu, schließen und öffnen, 7 Tage sehen
+   ☐ Dir die Ergebnisse geben
+
+   … (dazwischen arbeitet sie; das kannst du überspringen) …
+
+③ Was ich geprüft habe
+   ✓ 3-mal auf „Ein Glas getrunken“ geklickt; heute steht 3
+   ✓ Seite geschlossen und wieder geöffnet; immer noch 3
+   ✓ Für jeden der letzten 7 Tage gibt es einen Balken; der von heute ist am höchsten
+   ? Nicht prüfen konnte ich: wie es am Handy aussieht (nur am Computer geprüft)
+
+④ So öffnest du es: Doppelklick auf index.html im Ordner water`} />
+
+- **Schau zuerst auf ①.** Hat sie es richtig verstanden? Wenn nicht, tipp einfach eine Korrektur, etwa „30 Tage statt 7“.
+- **② sind die Schritte, die sie vorhat.** Sie hakt sie nacheinander ab. Darum musst du dich nicht kümmern.
+- **③ ist am wichtigsten.** Jede Zeile sagt, was sie getan und was sie gesehen hat. Die Zeile „Nicht prüfen konnte ich“ zeigt, dass sie ehrlich ist. Und das ist gut so.
+- **Mach, was bei ④ steht, und schau selbst nach.**
+
+## Woran du erkennst, ob sie gut gearbeitet hat
+
+Stell dir drei Fragen:
+
+- Ist das Ziel, das sie wiederholt hat, das, was ich gemeint habe?
+- Hat sie bei „fertig“ aufgelistet, was sie wirklich geprüft und was sie gesehen hat?
+- Wenn ich es selbst öffne: Passt es zu dem, was sie gesagt hat?
+
+Dreimal ja? Dann ist die Aufgabe erledigt.
+
+Sagt sie nur „fertig“, ganz ohne Prüfungen, ist sie noch nicht fertig. Antworte dann:
+
+<Copy id="no-proof" code="Zeig mir, was du wirklich geprüft hast: was du gemacht und was du gesehen hast. Sag mir nicht nur, dass es fertig ist." />
+
+## Was du sagst, wenn etwas nicht stimmt
+
+<Q q="Das Ergebnis stimmt nicht, zum Beispiel ändert sich die Zahl beim Klicken nicht.">
+<p>Sag nur, was du gesehen hast, etwa: „Ich habe dreimal geklickt, und die Zahl ist bei 0 geblieben.“ Die Ursache überlässt du ihr. Ein falscher Tipp von dir schickt sie in die falsche Richtung.</p>
+</Q>
+<Q q="Die Antwort ist lang und voller Wörter, die ich nicht kenne.">
+<p>Tippe `/pstack:bro`. Dann erzählt sie die letzte Antwort in einfachen Worten nach, viel kürzer.</p>
+</Q>
+<Q q="Sie hat mir eine Frage gestellt, die ich nicht verstehe.">
+<p>Antworte: „Ich programmiere nicht. Frag mich bitte in einfachen Worten, oder wähl für mich die sicherste Option und sag mir, warum.“</p>
+</Q>
+<Q q="Sie macht Dinge, um die ich nicht gebeten habe, und ich will, dass sie aufhört.">
+<p>Drück Esc, dann hört sie auf. Sag ihr danach, was du willst, etwa: „Nur der Wasserzähler, erst mal nichts anderes dazu.“</p>
+</Q>
+<Q q="Unter Windows heißt es bei der cd-Zeile, der Ordner wird nicht gefunden.">
+<p>Auf manchen Windows-Rechnern liegt der Desktop in OneDrive. Probier stattdessen `cd ~/OneDrive/Desktop/water`.</p>
+</Q>
+<Q q="Ich nutze die Claude-Desktop-App, und es gibt keine Stelle, um cd zu tippen.">
+<p>Wenn du eine neue Sitzung startest, fragt sie dich nach einem Ordner. Wähl water auf deinem Desktop. Der Rest ist gleich.</p>
+</Q>
+
+## Jetzt kannst du es
+
+Egal, was du ab jetzt machst, es sieht immer gleich aus: `/pstack:poteto-mode` plus die drei Teile. Noch zwei Beispiele:
+
+<Copy id="ex-fix" title="Ein Problem beheben, das immer wiederkommt" code={`/pstack:poteto-mode Meine Lesezeichen-Erweiterung speichert manchmal denselben Eintrag doppelt, wenn ich auf Speichern klicke.
+So sieht „fertig“ aus: Ich klicke zehnmal hintereinander auf Speichern, und in der Liste steht trotzdem nur einer.
+Zeig mir am Ende: wie du das Problem wieder hervorgerufen hast und was passiert ist, als du es nach der Reparatur noch mal probiert hast.`} />
+
+<Copy id="ex-how" title="Nichts ändern, nur verstehen" code="/pstack:how Wie funktioniert das, was in diesem Ordner liegt? Erklär es in einfachen Worten; ich programmiere nicht." />
+
+Das zweite Beispiel nutzt `/pstack:how`: Es erklärt nur und rührt deine Sachen nicht an. Nimm es, wenn du etwas erst verstehen willst, bevor du entscheidest, ob du es änderst.
+
+<Callout type="tip" title="Das reicht fürs Erste">
+Diese drei Lektionen sind alles, was du als Einsteiger brauchst. Die beste Übung ab jetzt: Such dir eine kleine Sache aus, die du wirklich haben willst, und beschreib sie mit denselben drei Teilen.
+
+Alles andere auf der Seite (auf Englisch) schlägst du nach, wenn du es brauchst:
+
+- Sie kommt vom Weg ab: [Wieder auf Kurs bringen](/en/howto/steer/).
+- Sie verbraucht dein Kontingent schnell: [Kosten niedrig halten](/en/howto/cost/).
+- Andere Fragen: [Häufige Fragen](/en/faq/).
+- Du programmierst und willst es für größere Projekte nutzen: [Vollständige Anleitung](/en/guide/0-what/).
+</Callout>

@@ -1,0 +1,135 @@
+---
+layout: ../../../layouts/Lesson.astro
+tldr: "Envía un mensaje de tres partes y obtén una página pequeña que registra cuánta agua bebes."
+lesson: 3
+description: Crea una carpeta vacía, envía un mensaje de tres partes y haz que la IA construya una página pequeña que registra cuánta agua bebes. Dónde mirar en su respuesta, cómo saber si lo hizo bien y qué decirle cuando no.
+---
+import Callout from "../../../components/Callout.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Reply from "../../../components/Reply.astro";
+import Q from "../../../components/Q.astro";
+
+En esta lección usas pstack para hacer algo real y pequeño: una página web que registra cuántos vasos de agua bebes cada día. Al final verás en qué se diferencia de la IA de siempre.
+
+## Primero, crea una carpeta vacía
+
+1. Crea una carpeta nueva en tu escritorio llamada `water`.
+2. Si Claude Code está abierto, escribe `/exit` para salir.
+3. En la misma ventana, escribe esta línea y presiona Enter. Significa «entra en la carpeta water del escritorio»:
+
+<Cmd c="cd ~/Desktop/water" />
+
+4. Escribe `claude` y presiona Enter. Claude Code se abre dentro de esa carpeta.
+
+Por qué una carpeta nueva: la IA trabaja en la carpeta donde abres Claude Code. En una carpeta nueva y vacía, no puede tocar ningún otro archivo tuyo.
+
+## Envíale este mensaje
+
+<Copy id="first" title="Copia, pega en el cuadro, presiona Enter" code={`/pstack:poteto-mode Hazme una página web pequeña que registre cuánta agua bebo cada día. Esta carpeta está vacía; prepara todo lo que haga falta.
+Cómo se ve terminado: abro la página y hago clic en "Un vaso más", y el número de hoy sube en uno; la cierro y la vuelvo a abrir, y el número sigue ahí; la página muestra cuántos vasos bebí cada uno de los últimos 7 días.
+Al terminar, muéstrame: cómo lo comprobaste, qué hiciste y qué viste, con una captura de pantalla si puedes. Luego dime cómo abrir la página.`} />
+
+El `/pstack:poteto-mode` del principio es el interruptor. Con él, la IA sigue las reglas de pstack. Sin él, trabaja como siempre.
+
+El resto del mensaje tiene solo tres partes, y ese es todo el truco para usar pstack:
+
+<mark><strong>Qué quiero · Cómo se ve terminado · Qué me muestras al terminar</strong></mark>
+
+- **Qué quiero**: una página que registre el agua.
+- **Cómo se ve terminado**: al hacer clic suma uno, el número sigue ahí después de cerrar y volver a abrir, y se ven 7 días. Así le dices «cómo saber que está terminado», y comprobará cada una de estas cosas.
+- **Qué me muestras al terminar**: cómo lo comprobó y qué encontró. No sabes leer el código, así que pide algo que puedas entender.
+
+## Se detendrá a preguntarte cosas
+
+Trabajará unos minutos. Mientras tanto, Claude Code se detiene a preguntar: ¿puedo crear este archivo? ¿Puedo ejecutar este comando?
+
+Así es como Claude Code te protege: cada paso necesita tu permiso. Esta carpeta es nueva y está vacía, así que elige **Yes** (sí).
+
+## Dónde mirar en su respuesta
+
+Su respuesta será más larga de lo normal y puede estar llena de palabras técnicas. Sáltate lo que no entiendas y **mira solo los cuatro puntos marcados**:
+
+<Reply code={`① Lo que entendí del objetivo: una página que registra el agua.
+   Al hacer clic en "Un vaso más" suma uno al número de hoy;
+   el número sigue ahí al cerrar y volver a abrir; muestra los
+   últimos 7 días.
+
+② Por hacer
+   ☐ Preparar esta carpeta
+   ☐ Hacer la página
+   ☐ Comprobar: sumar un vaso, cerrar y volver a abrir, ver 7 días
+   ☐ Entregarte los resultados
+
+   … (en medio está haciendo el trabajo; puedes saltártelo) …
+
+③ Lo que comprobé
+   ✓ Hice clic 3 veces en "Un vaso más"; hoy muestra 3
+   ✓ Cerré la página y la volví a abrir; sigue en 3
+   ✓ Hay una barra para cada uno de los últimos 7 días; la de hoy es la más alta
+   ? No pude comprobar: cómo se ve en un teléfono (solo lo comprobé en una pantalla grande)
+
+④ Cómo abrirla: haz doble clic en index.html dentro de la carpeta water`} />
+
+- **Mira primero el ①.** ¿Lo entendió bien? Si no, escribe la corrección, por ejemplo: «no 7 días, 30 días».
+- **El ② son los pasos que piensa seguir.** Los va marcando a medida que avanza. No tienes que encargarte de eso.
+- **El ③ es el más importante.** Cada línea dice qué hizo y qué vio. La línea de «no pude comprobar» es la IA siendo honesta, y eso es bueno.
+- **Haz lo que dice el ④ y míralo tú mismo.**
+
+## Cómo saber si lo hizo bien
+
+Hazte tres preguntas:
+
+- ¿El objetivo que repitió es el mismo que yo tenía en mente?
+- Cuando dijo que había terminado, ¿enumeró lo que comprobó de verdad y lo que vio?
+- Cuando lo abro yo, ¿coincide con lo que dijo?
+
+Si las tres respuestas son sí, el trabajo está hecho.
+
+Si solo dice «listo» sin ninguna comprobación, no está terminado. Respóndele:
+
+<Copy id="no-proof" code="Muéstrame lo que comprobaste de verdad: qué hiciste y qué viste. No me digas solo que está listo." />
+
+## Qué decir cuando algo está mal
+
+<Q q="El resultado está mal; por ejemplo, el número no cambia al hacer clic.">
+<p>Di solo lo que viste, por ejemplo: «Hice clic tres veces y el número se quedó en 0». No intentes adivinar la causa. Una suposición equivocada la lleva por el camino equivocado.</p>
+</Q>
+<Q q="La respuesta es larga y está llena de palabras que no conozco.">
+<p>Escribe `/pstack:bro`. Vuelve a contar la última respuesta con palabras sencillas, mucho más corta.</p>
+</Q>
+<Q q="Me hizo una pregunta que no entiendo.">
+<p>Respóndele: «No sé programar. Pregúntame con palabras sencillas, o elige por mí la opción más segura y dime por qué».</p>
+</Q>
+<Q q="Está haciendo cosas que no le pedí y quiero que pare.">
+<p>Presiona Esc y se detiene. Luego dile lo que quieres, por ejemplo: «solo el registro de agua, no añadas nada más por ahora».</p>
+</Q>
+<Q q="En Windows, la línea cd dice que no encuentra la carpeta.">
+<p>En algunos equipos con Windows, el escritorio está dentro de OneDrive. Prueba con `cd ~/OneDrive/Desktop/water`.</p>
+</Q>
+<Q q="Uso la app de escritorio de Claude y no hay dónde escribir cd.">
+<p>Cuando empiezas una sesión nueva, te pide que elijas una carpeta. Elige water, en tu escritorio. Lo demás es igual.</p>
+</Q>
+
+## Ya lo tienes
+
+Hagas lo que hagas a partir de ahora, siempre tiene la misma forma: `/pstack:poteto-mode` más las tres partes. Dos ejemplos más:
+
+<Copy id="ex-fix" title="Arreglar un problema que vuelve una y otra vez" code={`/pstack:poteto-mode Mi extensión de marcadores a veces guarda lo mismo dos veces cuando hago clic en guardar.
+Cómo se ve terminado: hago clic en guardar diez veces seguidas y en la lista sigue habiendo uno solo.
+Al terminar, muéstrame: cómo hiciste que el problema volviera a pasar, y qué pasó al probarlo de nuevo después del arreglo.`} />
+
+<Copy id="ex-how" title="No cambiar nada, solo entenderlo" code="/pstack:how ¿Cómo funciona lo que hay en esta carpeta? Explícamelo con palabras sencillas; no sé programar." />
+
+El segundo ejemplo usa `/pstack:how`: solo explica y no toca tus cosas. Úsalo cuando quieras entender algo antes de decidir si lo cambias.
+
+<Callout type="tip" title="Con esto basta por ahora">
+Estas tres lecciones son todo lo que necesitas para empezar. La mejor práctica a partir de aquí: elige algo pequeño que de verdad quieras y descríbelo con las mismas tres partes.
+
+Lo demás del sitio, consúltalo cuando lo necesites (en inglés):
+
+- Se desvía del camino: mira [Pull it back on track](/en/howto/steer/) (cómo volver a encaminarla).
+- Gasta tu plan muy rápido: mira [Keep costs down](/en/howto/cost/) (cómo gastar menos).
+- Otras dudas: mira las [preguntas frecuentes](/en/faq/).
+- Sabes programar y quieres usarlo en proyectos más grandes: mira la [guía completa](/en/guide/0-what/).
+</Callout>
