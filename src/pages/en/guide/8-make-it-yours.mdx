@@ -10,6 +10,7 @@ import Checkpoint from "../../../components/Checkpoint.astro";
 import Term from "../../../components/Term.astro";
 import Copy from "../../../components/Copy.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 ## Start small
 
@@ -38,10 +39,7 @@ It should say which decision the principle changed. See [the 24 principles](/en/
 
 **What you get**: it reads recent commits and review comments, and groups the mistakes into kinds. It makes one commit per kind, using the firmest fix it can:
 
-1. **Make the mistake impossible**: change the structure or data structure.
-2. **Make it fail loudly**: types, lint, CI checks.
-3. **Catch it with tests.**
-4. **Write a rule for the AI**: the last resort, since skipping a rule raises no error.
+<Fig id="g8-guard" />
 
 Type just `/correct` with no argument, and it searches the history on its own.
 

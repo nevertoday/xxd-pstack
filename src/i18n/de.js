@@ -116,22 +116,51 @@ export default {
     reply: "Illustration: So ungefähr sieht die Antwort aus",
     feedback: {
       lead: "Ist auf dieser Seite etwas unklar, oder hat etwas nicht wie beschrieben geklappt?",
-      gh: "Sag es mir auf GitHub", sep: ", ", x: "schreib mir auf X", or: " oder ", wx: "füg mich auf WeChat hinzu",
-      faq: ["Schau vorher in die ", "häufigen Fragen", " (Englisch): Dort stehen alle Fragen, die schon gestellt wurden."],
-      alt: "WeChat-QR-Code von Xiaoxiaodong",
-      mobile: "Am Handy: lange drücken zum Speichern, dann in WeChat aus deinen Fotos scannen.",
+      gh: "Sag es auf GitHub",
+      faq: [". Oder schau zuerst in die ", "FAQ (auf Englisch)", "."],
     },
     contact: {
-      h: "Feedback und Vorschläge",
-      p: "Hast du einen Vorschlag? Ist ein Schritt unklar, oder klappt er nicht wie beschrieben? Sag mir Bescheid, dann nehme ich es in die Anleitung auf. Du kannst gern in deiner eigenen Sprache schreiben.",
-      faq: ["Schau vorher in die ", "häufigen Fragen", " (Englisch): Dort stehen alle Fragen, die schon gestellt wurden."],
-      ask: "Wenn du mehrere Fragen hast, sammle sie bitte in einer Nachricht, statt sie einzeln zu stellen. Danke!",
-      btn: "Feedback auf GitHub geben",
-      x: "Schreib mir auf X",
-      cap: "Oder füg mich auf WeChat hinzu",
-      mobile: "Am Handy: lange drücken zum Speichern, dann in WeChat aus deinen Fotos scannen.",
-      alt: "WeChat-QR-Code von Xiaoxiaodong",
+      h: "Fragen und Austausch",
+      p: "Bei einem Schritt hängen geblieben, etwas Unklares gefunden oder mit pstack etwas gebaut, das du zeigen willst? Bring es auf GitHub. Fragen, die oft kommen, landen in der Anleitung. Du kannst gern auf Deutsch schreiben.",
+      faq: ["Bevor du fragst, schau in die ", "FAQ (auf Englisch)", ": Viele Antworten stehen schon dort."],
+      btn: "Auf GitHub fragen oder diskutieren",
+      x: "Der Autor auf X",
       privacy: "Bevor du Screenshots schickst: Mach API-Schlüssel, Firmencode und Kontodaten unkenntlich.",
+    },
+  },
+  // 新手三课的图示（src/data/figs.js 里 LESSON_FIGS；结构和那里的 en 一样）
+  figs: {
+    ui: {
+      label: "Schaubild",
+      replay: "Nochmal ansehen",
+    },
+    "l1-habits": {
+      a: {
+        who: "Die KI wie üblich",
+        steps: ["Versteht ungefähr", "Ändert drauflos"],
+        end: "„Fertig!“ Du öffnest es, der Button tut nichts",
+      },
+      b: {
+        who: "Die KI mit pstack",
+        steps: ["Wiederholt, was du willst", "Findet, wo das Problem liegt", "Ändert erst dann", "Probiert es selbst aus"],
+        end: "Zeigt dir, was sie gesehen hat",
+      },
+      cap: "Die zusätzlichen Schritte sind die Gewohnheiten, die pstack mitbringt. Etwas langsamer, aber du machst nicht dauernd alles neu.",
+    },
+    "l2-install": {
+      notes: ["Schritt 1: den Plugin-Store hinzufügen", "Schritt 2: pstack installieren, Install for you wählen", "Schritt 3: /pstack: tippen, ohne Enter; steht poteto-mode in der Liste, ist es installiert"],
+      cap: "Illustration: So sehen die drei Schritte in Claude Code ungefähr aus. Der echte Bildschirm zeigt ein paar Zeilen mehr.",
+    },
+    "l3-folder": {
+      place: "Schreibtisch",
+      items: ["Arbeit", "Fotos", "water"],
+      ai: "Hier arbeitet die KI",
+      note: "An deine anderen Ordner kommt sie nicht heran",
+      cap: "Die KI arbeitet in dem Ordner, in dem du Claude Code öffnest. Deshalb fängst du mit einem neuen, leeren an.",
+    },
+    "l3-prompt": {
+      parts: [{"text": "/pstack:poteto-mode", "label": "Der Schalter"}, {"text": "Bau mir eine kleine Webseite, die zählt, wie viel Wasser ich jeden Tag trinke.", "label": "Was ich will"}, {"text": "„Ein Glas getrunken“ erhöht die Zahl für heute; sie bleibt nach dem Neuöffnen; die letzten 7 Tage sind zu sehen.", "label": "So sieht „fertig“ aus"}, {"text": "Wie du es geprüft hast und was du gesehen hast, wenn möglich mit Screenshot.", "label": "Was du mir am Ende zeigst"}],
+      cap: "Zuerst der Schalter; jeder der drei Teile hat genau eine Aufgabe.",
     },
   },
 };

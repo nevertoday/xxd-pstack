@@ -9,6 +9,7 @@ import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Reply from "../../../components/Reply.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 このレッスンでは、pstack を使って小さいけれど本物のものを作ります。毎日水を何杯飲んだかを記録するウェブページです。終わるころには、いつもの AI との違いがわかります。
 
@@ -24,6 +25,8 @@ import Q from "../../../components/Q.astro";
 
 新しいフォルダを作る理由：AI は、Claude Code を開いたフォルダの中で作業します。新しい空のフォルダなら、パソコンのほかのものには触れません。
 
+<Fig id="l3-folder" />
+
 ## このメッセージを送る
 
 <Copy id="first" title="コピーして入力欄に貼り付け、Enter" code={`/pstack:poteto-mode 毎日飲んだ水の量を記録する小さなウェブページを作ってください。ここは空のフォルダです。必要な準備はお任せします。
@@ -35,6 +38,8 @@ import Q from "../../../components/Q.astro";
 残りのメッセージは 3 つのパートだけ。これが pstack の使い方のコツのすべてです。
 
 <mark><strong>やってほしいこと · できあがりの姿 · 終わったら見せてほしいもの</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **やってほしいこと**：水の量を記録するページ。
 - **できあがりの姿**：押すと 1 つ増える、閉じて開き直しても数字が残る、7 日分が見える。これは「どうなったら完成か」を伝えていて、AI はこの 1 つ 1 つを確かめます。

@@ -115,23 +115,52 @@ export default {
     cmdLabel: "Copier la commande : {c}",
     reply: "Illustration : à quoi ressemble à peu près sa réponse",
     feedback: {
-      lead: "Quelque chose n'est pas clair sur cette page, ou ne marche pas comme indiqué ?",
-      gh: "Dites-le-moi sur GitHub", sep: ", ", x: "écrivez-moi sur X", or: " ou ", wx: "ajoutez-moi sur WeChat",
-      faq: ["Avant de demander, regardez la ", "FAQ", " (en anglais) : les questions déjà posées y sont toutes."],
-      alt: "Code QR WeChat de Xiaoxiaodong",
-      mobile: "Sur téléphone : appui long pour enregistrer l'image, puis scannez-la depuis vos photos dans WeChat.",
+      lead: "Quelque chose n'est pas clair sur cette page, ou ne marche pas comme indiqué ?",
+      gh: "Dites-le sur GitHub",
+      faq: [". Ou jetez d'abord un œil à la ", "FAQ (en anglais)", "."],
     },
     contact: {
-      h: "Retours et suggestions",
-      p: "Une suggestion ? Une étape pas claire, ou qui ne marche pas comme indiqué ? Dites-le-moi, et je l'ajouterai au guide. Vous pouvez m'écrire dans votre langue.",
-      faq: ["Avant de demander, regardez la ", "FAQ", " (en anglais) : les questions déjà posées y sont toutes."],
-      ask: "Si vous avez plusieurs questions, regroupez-les dans un seul message plutôt que de les poser une par une. Merci !",
-      btn: "Donner mon avis sur GitHub",
-      x: "M'écrire sur X",
-      cap: "Ou ajoutez-moi sur WeChat",
-      mobile: "Sur téléphone : appui long pour enregistrer l'image, puis scannez-la depuis vos photos dans WeChat.",
-      alt: "Code QR WeChat de Xiaoxiaodong",
+      h: "Questions et discussion",
+      p: "Bloqué à une étape, quelque chose de pas clair, ou envie de montrer ce que vous avez fait avec pstack ? Venez en parler sur GitHub. Les questions qui reviennent le plus sont ajoutées au guide. Vous pouvez écrire en français.",
+      faq: ["Avant de demander, regardez la ", "FAQ (en anglais)", " : beaucoup de réponses y sont déjà."],
+      btn: "Poser une question sur GitHub",
+      x: "L'auteur sur X",
       privacy: "Avant d'envoyer des captures d'écran, floutez les clés d'API, le code de votre entreprise et les infos de vos comptes.",
+    },
+  },
+  // 新手三课的图示（src/data/figs.js 里 LESSON_FIGS；结构和那里的 en 一样）
+  figs: {
+    ui: {
+      label: "Schéma",
+      replay: "Revoir",
+    },
+    "l1-habits": {
+      a: {
+        who: "L'IA habituelle",
+        steps: ["Comprend en gros", "Change des choses"],
+        end: "« C'est fait ! » Vous ouvrez : le bouton ne fait rien",
+      },
+      b: {
+        who: "L'IA avec pstack",
+        steps: ["Redit ce que vous voulez", "Cherche où est le problème", "Puis fait le changement", "L'essaie elle-même"],
+        end: "Vous montre ce qu'elle a vu",
+      },
+      cap: "Les étapes en plus sont les habitudes qu'ajoute pstack. Un peu plus lent, mais vous ne refaites plus la même chose.",
+    },
+    "l2-install": {
+      notes: ["Étape 1 : ajoutez la boutique de plugins", "Étape 2 : installez pstack, choisissez Install for you", "Étape 3 : tapez /pstack: sans appuyer sur Entrée ; si poteto-mode est dans la liste, c'est installé"],
+      cap: "Illustration : voilà à peu près à quoi ressemblent les trois étapes dans Claude Code. Le vrai écran affiche quelques lignes de plus.",
+    },
+    "l3-folder": {
+      place: "Bureau",
+      items: ["Travail", "Photos", "water"],
+      ai: "L'IA travaille ici",
+      note: "Vos autres dossiers restent hors de portée",
+      cap: "L'IA travaille dans le dossier où vous ouvrez Claude Code. D'où le nouveau dossier vide.",
+    },
+    "l3-prompt": {
+      parts: [{"text": "/pstack:poteto-mode", "label": "L'interrupteur"}, {"text": "Crée-moi une petite page web qui compte combien d'eau je bois chaque jour.", "label": "Ce que je veux"}, {"text": "« J'ai bu un verre » ajoute un au compteur du jour ; il reste après réouverture ; on voit les 7 derniers jours.", "label": "Le résultat attendu"}, {"text": "Comment tu as vérifié et ce que tu as vu, avec une capture si tu peux.", "label": "Ce que tu me montres à la fin"}],
+      cap: "D'abord l'interrupteur ; chacune des trois parties a un seul rôle.",
     },
   },
 };

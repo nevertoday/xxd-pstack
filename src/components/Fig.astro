@@ -1,0 +1,292 @@
+---
+// 正文里的图示：<Fig id="l1-habits" />。数据和文字在 src/data/figs.js（新手三课的其他语言在 src/i18n/<语言>.js 的 figs）。
+// 全部是 HTML + CSS，颜色、圆角都用令牌，跟着亮暗、直角圆角、主色走；文字能换行，手机上竖排。
+// 动画：进入视野后一步步亮起来（带 data-k 的部分按顺序出现），放两遍停在完整的样子，可以「再看一遍」。
+// 没有脚本、或者系统设了减少动效：直接显示完整的图。
+import { FIGS, FIG_UI } from "../data/figs.js";
+import { langOf } from "../data/nav.js";
+import { X as dict } from "../i18n/index.js";
+interface Props { id: string }
+const { id } = Astro.props;
+const F = FIGS[id];
+if (!F) throw new Error(`src/data/figs.js 里没有图「${id}」`);
+const lang = langOf(Astro.url.pathname);
+const x = dict(lang);
+const T = F[lang] ?? x?.figs?.[id] ?? F.en;
+const UI = FIG_UI[lang] ?? x?.figs?.ui ?? FIG_UI.en;
+const B = F.base;
+const type = F.type;
+
+// 一共几步（data-k 从 1 数到 n）
+const n = {
+  compare: () => Math.max(T.a.steps.length, T.b.steps.length) + 1,
+  term: () => B.scenes.length * 2,
+  folder: () => 3,
+  anatomy: () => T.parts.length,
+  stack: () => T.layers.length,
+  flow: () => T.steps.length + (T.loop ? 1 : 0),
+  night: () => T.night.loop.length + 3,
+  ladder: () => T.rungs.length,
+  fan: () => 4,
+  tree: () => 3,
+}[type]();
+const stage = type !== "term";
+// anatomy：编号和开头一小段粘在一起（有空格的语言取第一个词，中日文取前两个字），免得编号单独留在行尾
+const head = (t: string) => { const i = t.indexOf(" "); const n = i > 0 && i < 24 ? i : Math.min(2, t.length); return [t.slice(0, n), t.slice(n)]; };
+// 文字里的 /命令 包成等宽、不断行的一段（先转义再包）
+const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const rich = (t: string) => esc(t).replace(/(^|[\s、，,（(「“])(\/[a-z][a-z-]*)/g, '$1<span class="fig-cmd">$2</span>');
+const arr = "ArrowRight";
+---
+<figure class={`fig fig--${type}`} data-n={n} data-fig={id}>
+  <div class={stage ? "fig__stage" : "fig__bare"}>
+    {type === "compare" && (
+      <div class="fig-cmp">
+        {["a", "b"].map((side) => (
+          <div class={`fig-cmp__lane fig-cmp__lane--${side}`}>
+            <p class="fig-cmp__who">{T[side].who}</p>
+            <ol class="fig-cmp__steps">
+              {T[side].steps.map((s, i) => (
+                <li data-k={i + 1}>
+                  {i > 0 && <i class="fig__down" data-xxd-icon="ArrowDown" data-size="14"></i>}
+                  <span class="fig-chip"><i data-xxd-icon={B[side].icons[i]} data-size="16"></i>{s}</span>
+                </li>
+              ))}
+              <li data-k={T[side].steps.length + 1}>
+                <i class="fig__down" data-xxd-icon="ArrowDown" data-size="14"></i>
+                <span class={`fig-chip ${side === "a" ? "is-bad" : "is-good"}`}><i data-xxd-icon={side === "a" ? "CircleX" : "CircleCheck"} data-size="16"></i>{T[side].end}</span>
+              </li>
+            </ol>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {type === "term" && (
+      <div class="fig-term" dir="ltr">
+        <div class="fig-term__bar" aria-hidden="true"><span></span><span></span><span></span><b>Claude Code</b></div>
+        <div class="fig-term__body">
+          {B.scenes.map((s, i) => (
+            <div class="fig-term__scene">
+              <p class="fig-term__note" dir="auto" data-k={i * 2 + 1}>{T.notes[i]}</p>
+              <p class={`fig-term__cmd${s.enter === false ? " is-open" : ""}`} data-k={i * 2 + 1} data-type><span class="fig-term__prompt" aria-hidden="true">&gt; </span><span class="fig-term__typed">{s.cmd}</span><span class="fig-term__caret" aria-hidden="true"></span></p>
+              <div class="fig-term__out" data-k={i * 2 + 2}>
+                {s.out.map((o) => <p class={`is-${o.tone}`}>{o.t}</p>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {type === "folder" && (
+      <div class="fig-fold">
+        <p class="fig-fold__place" data-k="1"><i data-xxd-icon="Monitor" data-size="14"></i>{T.place}</p>
+        <ul class="fig-fold__items">
+          {T.items.map((it, i) => {
+            const here = i === T.items.length - 1;
+            return (
+              <li class={here ? "is-here" : "is-away"} data-k={here ? 2 : 1}>
+                <i data-xxd-icon={here ? "FolderOpen" : "Folder"} data-size="28"></i>
+                <span class="fig-fold__name">{it}</span>
+                {here ? <span class="fig-fold__ai"><i data-xxd-icon="Bot" data-size="14"></i>{T.ai}</span> : <i class="fig-fold__lock" data-xxd-icon="Lock" data-size="12"></i>}
+              </li>
+            );
+          })}
+        </ul>
+        <p class="fig-fold__note" data-k="3"><i data-xxd-icon="Lock" data-size="14"></i>{T.note}</p>
+      </div>
+    )}
+
+    {type === "anatomy" && (
+      <div class="fig-ana">
+        <p class="fig-ana__msg">
+          {T.parts.map((p, i) => <span class={`fig-ana__seg t${i}`} data-k={i + 1}><span class="fig-ana__head"><b class="fig-ana__no" aria-hidden="true">{i + 1}</b>{head(p.text)[0]}</span>{head(p.text)[1]}</span>)}
+        </p>
+        <ol class="fig-ana__keys">
+          {T.parts.map((p, i) => <li class={`t${i}`} data-k={i + 1}><b class="fig-ana__no" aria-hidden="true">{i + 1}</b>{p.label}</li>)}
+        </ol>
+      </div>
+    )}
+
+    {type === "stack" && (
+      <ol class="fig-stack">
+        {T.layers.map((l, i) => (
+          <li class={i === B.hi ? "is-hi" : undefined} data-k={i + 1}>
+            <i data-xxd-icon={B.icons[i]} data-size="18"></i>
+            <div><b>{l.t}</b><span set:html={rich(l.d)} /></div>
+          </li>
+        ))}
+      </ol>
+    )}
+
+    {type === "flow" && (
+      <>
+        <ol class="fig-flow" style={`--n:${T.steps.length}`}>
+          {T.steps.map((s, i) => {
+            const mark = B.marks?.[i];
+            const gate = B.gateAt === i;
+            const cls = [B.optional?.includes(i) && "is-opt", gate && "is-gate"].filter(Boolean).join(" ") || undefined;
+            return (
+              <li class={cls} data-k={i + 1}>
+                {i > 0 && <span class="fig-flow__arr" aria-hidden="true"><i data-xxd-icon={arr} data-size="14"></i></span>}
+                <div class="fig-flow__box">
+                  <span class="fig-flow__top"><span class="fig-flow__no">{i + 1}</span><i data-xxd-icon={B.icons[i]} data-size="16"></i></span>
+                  {mark && <span class={`fig-flow__mark is-${mark}`}><i data-xxd-icon={mark === "bad" ? "X" : "Check"} data-size="12"></i></span>}
+                  <b set:html={rich(s.t)} />
+                  <span class="fig-flow__d" set:html={rich(s.d)} />
+                  {gate && <span class="fig-flow__gate"><i data-xxd-icon="User" data-size="12"></i>{T.gate}</span>}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+        {T.loop && <p class="fig-flow__loop" data-k={T.steps.length + 1}><i data-xxd-icon="CornerUpLeft" data-size="14"></i>{T.loop}</p>}
+      </>
+    )}
+
+    {type === "night" && (
+      <div class="fig-night">
+        <div class="fig-night__col" data-k="1">
+          <p class="fig-night__h"><i data-xxd-icon={B.icons[0]} data-size="16"></i>{T.eve.t}</p>
+          <ul>{T.eve.items.map((t) => <li set:html={rich(t)} />)}</ul>
+        </div>
+        <div class="fig-night__col fig-night__col--loop">
+          <p class="fig-night__h"><i data-xxd-icon={B.icons[1]} data-size="16"></i>{T.night.t}</p>
+          <ol>{T.night.loop.map((t, i) => <li data-k={i + 2} set:html={rich(t)} />)}</ol>
+          <p class="fig-night__log" data-k={T.night.loop.length + 2}><i data-xxd-icon="NotebookTabs" data-size="14"></i>{T.night.log}</p>
+        </div>
+        <div class="fig-night__col" data-k={T.night.loop.length + 3}>
+          <p class="fig-night__h"><i data-xxd-icon={B.icons[2]} data-size="16"></i>{T.morn.t}</p>
+          <ol>{T.morn.items.map((t, i) => <li class={i === 1 ? "is-key" : undefined} set:html={rich(t)} />)}</ol>
+        </div>
+      </div>
+    )}
+
+    {type === "ladder" && (
+      <div class="fig-lad">
+        <p class="fig-lad__axis" aria-hidden="true"><span>{T.high}</span><span class="fig-lad__line"></span><span>{T.low}</span></p>
+        <ol>
+          {T.rungs.map((r, i) => (
+            <li data-k={i + 1} style={`--w:${100 - i * 9}%;--s:${100 - i * 26}%`}>
+              <i data-xxd-icon={B.icons[i]} data-size="16"></i>
+              <div><b>{r.t}</b><span>{r.d}</span></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    )}
+
+    {type === "fan" && (
+      <div class="fig-fan">
+        <div class="fig-fan__from" data-k="1"><i data-xxd-icon="GitBranch" data-size="16"></i>{T.from}</div>
+        <span class="fig-fan__arr" data-k="2" aria-hidden="true"><i data-xxd-icon={arr} data-size="14"></i></span>
+        <div class="fig-fan__by" data-k="2">
+          <ul>{T.by.map((m) => <li><i data-xxd-icon="Bot" data-size="14"></i>{m}</li>)}</ul>
+          <p>{T.act}</p>
+        </div>
+        <span class="fig-fan__arr" data-k="3" aria-hidden="true"><i data-xxd-icon={arr} data-size="14"></i></span>
+        <div class="fig-fan__out">
+          <div class="fig-fan__keep" data-k="3"><b><i data-xxd-icon="Bug" data-size="14"></i>{T.keep.t}</b><span>{T.keep.d}</span></div>
+          <div class="fig-fan__drop" data-k="4"><b><i data-xxd-icon="CircleDashed" data-size="14"></i>{T.drop.t}</b><span>{T.drop.d}</span></div>
+        </div>
+      </div>
+    )}
+
+    {type === "tree" && (
+      <div class="fig-tree">
+        <div class="fig-tree__root" data-k="1">
+          <i data-xxd-icon="MessageSquare" data-size="16"></i>
+          <div><b>{T.root.t}</b><span>{T.root.d}</span></div>
+          <em class="fig-tag is-strong">{T.root.tag}</em>
+        </div>
+        <ul class="fig-tree__kids" data-k="2">
+          {T.kids.map((k) => <li><i data-xxd-icon="Bot" data-size="14"></i><code>{k.t}</code><em class="fig-tag is-cheap">{k.tag}</em></li>)}
+        </ul>
+        <p class="fig-tree__note" data-k="3">{T.note}</p>
+      </div>
+    )}
+  </div>
+  <figcaption>
+    <span class="fig__label">{UI.label}</span><span class="fig__cap" set:html={rich(T.cap)} />
+    <button class="fig__replay" type="button" hidden><i data-xxd-icon="RotateCcw" data-size="14"></i>{UI.replay}</button>
+  </figcaption>
+</figure>
+
+<script>
+  // 一步步亮起来：.is-anim 让没轮到的部分淡成影子；at 每隔一会儿加一，带 data-k ≤ at 的亮起。
+  // 只在图进入视野时走，离开就停；放两遍后停在完整的样子，显示「再看一遍」。
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const STEP = 1100, HOLD = 2800, LOOPS = 2;
+  for (const fig of document.querySelectorAll<HTMLElement>(".fig[data-n]")) {
+    if (reduce.matches) continue;
+    const n = Number(fig.dataset.n);
+    const items = [...fig.querySelectorAll<HTMLElement>("[data-k]")];
+    const typers = [...fig.querySelectorAll<HTMLElement>("[data-type] .fig-term__typed")];
+    typers.forEach((el) => (el.dataset.full = el.textContent || ""));
+    const replay = fig.querySelector<HTMLButtonElement>(".fig__replay")!;
+    let at = 0, loops = 0, timer = 0, visible = false, running = false, done = false;
+    const set = (a: number) => {
+      at = a;
+      for (const el of items) {
+        const k = Number(el.dataset.k);
+        el.classList.toggle("is-on", k <= a);
+        el.classList.toggle("is-cur", k === a);
+      }
+      if (a === 0) typers.forEach((el) => (el.textContent = ""));
+    };
+    // 打字：一个字一个字出来，返回要多久
+    const type = (el: HTMLElement) => {
+      const full = el.dataset.full || "";
+      let i = 0;
+      el.textContent = "";
+      const t = window.setInterval(() => {
+        el.textContent = full.slice(0, ++i);
+        if (i >= full.length) clearInterval(t);
+      }, 38);
+      return full.length * 38 + 700;
+    };
+    const finish = () => {
+      done = true; running = false;
+      set(n);
+      items.forEach((el) => el.classList.remove("is-cur"));
+      typers.forEach((el) => (el.textContent = el.dataset.full || ""));
+      replay.hidden = false;
+    };
+    const tick = () => {
+      if (!visible) { running = false; return; }
+      if (at >= n) {
+        if (++loops >= LOOPS) return finish();
+        timer = window.setTimeout(() => { set(0); timer = window.setTimeout(tick, 600); }, HOLD);
+        return;
+      }
+      set(at + 1);
+      let wait = STEP;
+      for (const el of items) {
+        if (Number(el.dataset.k) !== at || !el.hasAttribute("data-type")) continue;
+        const typed = el.querySelector<HTMLElement>(".fig-term__typed");
+        if (typed) wait = Math.max(wait, type(typed));
+      }
+      timer = window.setTimeout(tick, wait);
+    };
+    const start = () => {
+      if (running || done) return;
+      running = true;
+      timer = window.setTimeout(tick, at === 0 ? 400 : STEP);
+    };
+    fig.classList.add("is-anim");
+    set(0);
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) start();
+      else { clearTimeout(timer); running = false; }
+    }, { threshold: 0.45 }).observe(fig);
+    replay.addEventListener("click", () => {
+      replay.hidden = true;
+      done = false; loops = 0;
+      clearTimeout(timer); running = false;
+      set(0);
+      start();
+    });
+  }
+</script>

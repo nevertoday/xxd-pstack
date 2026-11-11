@@ -116,22 +116,51 @@ export default {
     reply: "Ilustração: mais ou menos assim fica a resposta dele",
     feedback: {
       lead: "Algo nesta página ficou confuso ou não funcionou como está escrito?",
-      gh: "Me conte no GitHub", sep: ", ", x: "me mande uma mensagem no X", or: " ou ", wx: "me adicione no WeChat",
-      faq: ["Antes de perguntar, veja as ", "perguntas frequentes", ": as dúvidas que as pessoas já tiveram estão todas lá."],
-      alt: "QR code do WeChat de Xiaoxiaodong",
-      mobile: "No celular: toque e segure para salvar a imagem, depois escaneie pelas suas fotos no WeChat.",
+      gh: "Conte no GitHub",
+      faq: [". Ou veja antes as ", "perguntas frequentes (em inglês)", "."],
     },
     contact: {
-      h: "Comentários e sugestões",
-      p: "Tem uma sugestão, ou achou um passo confuso ou que não funciona como está escrito? Me avise e eu acrescento no guia. Pode escrever no seu idioma.",
-      faq: ["Antes de perguntar, veja as ", "perguntas frequentes", ": as dúvidas que as pessoas já tiveram estão todas lá."],
-      ask: "Se tiver várias perguntas, junte todas numa mensagem só, em vez de mandar uma por uma. Obrigado!",
-      btn: "Deixar um comentário no GitHub",
-      x: "Me mande uma mensagem no X",
-      cap: "Ou me adicione no WeChat",
-      mobile: "No celular: toque e segure para salvar a imagem, depois escaneie pelas suas fotos no WeChat.",
-      alt: "QR code do WeChat de Xiaoxiaodong",
+      h: "Perguntas e conversa",
+      p: "Travou em algum passo, achou algo pouco claro ou fez algo com o pstack que queira mostrar? Traga para o GitHub. As perguntas que mais aparecem entram no guia. Pode escrever em português.",
+      faq: ["Antes de perguntar, veja as ", "perguntas frequentes (em inglês)", ": muitas respostas já estão lá."],
+      btn: "Pergunte ou converse no GitHub",
+      x: "O autor no X",
       privacy: "Antes de mandar capturas de tela, esconda chaves de API, código da sua empresa e dados das suas contas.",
+    },
+  },
+  // 新手三课的图示（src/data/figs.js 里 LESSON_FIGS；结构和那里的 en 一样）
+  figs: {
+    ui: {
+      label: "Diagrama",
+      replay: "Ver de novo",
+    },
+    "l1-habits": {
+      a: {
+        who: "A IA de sempre",
+        steps: ["Entende por alto", "Muda as coisas"],
+        end: "“Pronto!” Você abre e o botão não faz nada",
+      },
+      b: {
+        who: "A IA com pstack",
+        steps: ["Repete o que você quer", "Descobre onde está o problema", "Depois faz a mudança", "Testa ela mesma"],
+        end: "Mostra o que viu",
+      },
+      cap: "Os passos a mais são os hábitos que o pstack acrescenta. Um pouco mais lento, mas você para de refazer a mesma coisa.",
+    },
+    "l2-install": {
+      notes: ["Passo 1: adicione a loja de plugins", "Passo 2: instale o pstack e escolha Install for you", "Passo 3: digite /pstack: sem apertar Enter; se poteto-mode aparecer na lista, está instalado"],
+      cap: "Ilustração: é mais ou menos assim que os três passos aparecem no Claude Code. A tela real mostra algumas linhas a mais.",
+    },
+    "l3-folder": {
+      place: "Área de trabalho",
+      items: ["Trabalho", "Fotos", "water"],
+      ai: "A IA trabalha aqui",
+      note: "Suas outras pastas ficam fora do alcance",
+      cap: "A IA trabalha na pasta em que você abre o Claude Code. Por isso você começa com uma nova e vazia.",
+    },
+    "l3-prompt": {
+      parts: [{"text": "/pstack:poteto-mode", "label": "O interruptor"}, {"text": "Faça para mim uma pequena página web que registre quanta água eu bebo por dia.", "label": "O que eu quero"}, {"text": "Com “Bebi um copo” o número de hoje sobe; continua lá ao reabrir; mostra os últimos 7 dias.", "label": "Como fica quando estiver pronto"}, {"text": "Como você verificou e o que viu, com uma captura se der.", "label": "O que me mostrar ao terminar"}],
+      cap: "Primeiro o interruptor; cada uma das três partes cuida de uma coisa.",
     },
   },
 };

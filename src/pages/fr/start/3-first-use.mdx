@@ -9,6 +9,7 @@ import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Reply from "../../../components/Reply.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 Dans cette leçon, vous utilisez pstack pour créer quelque chose de vrai et de petit : une page web qui compte combien de verres d'eau vous buvez chaque jour. À la fin, vous verrez la différence avec l'IA habituelle.
 
@@ -24,6 +25,8 @@ Dans cette leçon, vous utilisez pstack pour créer quelque chose de vrai et de 
 
 Pourquoi un nouveau dossier : l'IA travaille dans le dossier où vous ouvrez Claude Code. Dans un dossier neuf et vide, elle ne peut toucher à rien d'autre sur votre ordinateur.
 
+<Fig id="l3-folder" />
+
 ## Envoyez-lui ce message
 
 <Copy id="first" title="Copiez, collez dans la zone de saisie, appuyez sur Entrée" code={`/pstack:poteto-mode Crée-moi une petite page web qui compte combien d'eau je bois chaque jour. Ce dossier est vide ; fais toute la préparation nécessaire.
@@ -35,6 +38,8 @@ Le `/pstack:poteto-mode` du début, c'est l'interrupteur. Avec lui, l'IA suit le
 Le reste du message n'a que trois parties. C'est tout le secret pour utiliser pstack :
 
 <mark><strong>Ce que je veux · Le résultat attendu · Ce que tu me montres à la fin</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **Ce que je veux** : une page qui compte l'eau.
 - **Le résultat attendu** : un clic ajoute un, le nombre reste quand on ferme et qu'on rouvre, et on voit 7 jours. Ça lui dit « comment savoir que c'est fini », et elle vérifiera chacun de ces points.

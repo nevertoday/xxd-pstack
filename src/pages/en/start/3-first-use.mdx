@@ -9,6 +9,7 @@ import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Reply from "../../../components/Reply.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 In this lesson you use pstack to make something real and small: a web page that tracks how many glasses of water you drink each day. By the end you'll see how it differs from the AI as usual.
 
@@ -24,6 +25,8 @@ In this lesson you use pstack to make something real and small: a web page that 
 
 Why a new folder: the AI works in whatever folder you open Claude Code in. In a new, empty folder, it can't touch anything else on your computer.
 
+<Fig id="l3-folder" />
+
 ## Send it this message
 
 <Copy id="first" title="Copy, paste into the box, press Enter" code={`/pstack:poteto-mode Make me a small web page that tracks how much water I drink each day. This is an empty folder; do whatever setup it needs.
@@ -35,6 +38,8 @@ The `/pstack:poteto-mode` at the start is the switch. With it, the AI follows ps
 The rest of the message has just three parts, and that's the whole trick to using pstack:
 
 <mark><strong>What I want · What done looks like · What to show me when it's done</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **What I want**: a page that tracks water.
 - **What done looks like**: clicking adds one, the number survives closing and reopening, and you can see 7 days. This tells it "how to know it's done," and it will check each of these.

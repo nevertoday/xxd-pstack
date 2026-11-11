@@ -115,23 +115,52 @@ export default {
     cmdLabel: "Copiar comando: {c}",
     reply: "Ilustración: más o menos así se ve su respuesta",
     feedback: {
-      lead: "¿Algo de esta página no se entiende o no funcionó como dice?",
-      gh: "Cuéntamelo en GitHub", sep: ", ", x: "escríbeme en X", or: " o ", wx: "agrégame en WeChat",
-      faq: ["Antes de preguntar, mira las ", "preguntas frecuentes", ": ahí están las dudas que ya ha tenido la gente."],
-      alt: "Código QR de WeChat de Xiaoxiaodong",
-      mobile: "En el teléfono: mantén presionada la imagen para guardarla y luego escanéala desde tus fotos en WeChat.",
+      lead: "¿Algo de esta página no se entendió, o no funcionó como dice?",
+      gh: "Cuéntalo en GitHub",
+      faq: [". O mira antes las ", "preguntas frecuentes (en inglés)", "."],
     },
     contact: {
-      h: "Comentarios y sugerencias",
-      p: "¿Tienes una sugerencia o encontraste un paso que no se entiende o no funciona como dice? Avísame y lo añado a la guía. Puedes escribirme en tu idioma.",
-      faq: ["Antes de preguntar, mira las ", "preguntas frecuentes", ": ahí están las dudas que ya ha tenido la gente."],
-      ask: "Si tienes varias preguntas, júntalas en un solo mensaje en lugar de mandarlas una por una. ¡Gracias!",
-      btn: "Dejar un comentario en GitHub",
-      x: "Escríbeme en X",
-      cap: "O agrégame en WeChat",
-      mobile: "En el teléfono: mantén presionada la imagen para guardarla y luego escanéala desde tus fotos en WeChat.",
-      alt: "Código QR de WeChat de Xiaoxiaodong",
+      h: "Preguntas y conversación",
+      p: "¿Te atascaste en un paso, encontraste algo poco claro o hiciste algo con pstack que quieras enseñar? Tráelo a GitHub. Las preguntas que más se repiten acaban en la guía. Puedes escribir en español.",
+      faq: ["Antes de preguntar, mira las ", "preguntas frecuentes (en inglés)", ": muchas respuestas ya están ahí."],
+      btn: "Pregunta o comenta en GitHub",
+      x: "El autor en X",
       privacy: "Antes de enviar capturas, tapa las claves de API, el código de tu empresa y los datos de tus cuentas.",
+    },
+  },
+  // 新手三课的图示（src/data/figs.js 里 LESSON_FIGS；结构和那里的 en 一样）
+  figs: {
+    ui: {
+      label: "Diagrama",
+      replay: "Ver de nuevo",
+    },
+    "l1-habits": {
+      a: {
+        who: "La IA de siempre",
+        steps: ["Entiende por encima", "Cambia cosas"],
+        end: "«¡Listo!» Lo abres y el botón no hace nada",
+      },
+      b: {
+        who: "La IA con pstack",
+        steps: ["Repite lo que quieres", "Busca dónde está el problema", "Luego hace el cambio", "Lo prueba ella misma"],
+        end: "Te muestra lo que vio",
+      },
+      cap: "Los pasos de más son los hábitos que añade pstack. Un poco más lento, pero dejas de rehacer lo mismo.",
+    },
+    "l2-install": {
+      notes: ["Paso 1: añade la tienda de plugins", "Paso 2: instala pstack y elige Install for you", "Paso 3: escribe /pstack: sin pulsar Enter; si en la lista aparece poteto-mode, ya está instalado"],
+      cap: "Ilustración: así se ven más o menos los tres pasos en Claude Code. La pantalla real muestra algunas líneas más.",
+    },
+    "l3-folder": {
+      place: "Escritorio",
+      items: ["Trabajo", "Fotos", "water"],
+      ai: "La IA trabaja aquí",
+      note: "Tus otras carpetas quedan fuera de su alcance",
+      cap: "La IA trabaja en la carpeta donde abres Claude Code. Por eso empiezas con una nueva y vacía.",
+    },
+    "l3-prompt": {
+      parts: [{"text": "/pstack:poteto-mode", "label": "El interruptor"}, {"text": "Hazme una página web pequeña que registre cuánta agua bebo cada día.", "label": "Qué quiero"}, {"text": "Con «Un vaso más» sube el número de hoy; sigue ahí al reabrirla; muestra los últimos 7 días.", "label": "Cómo se ve terminado"}, {"text": "Cómo lo comprobaste y qué viste, con una captura si puedes.", "label": "Qué me muestras al terminar"}],
+      cap: "Primero el interruptor; cada una de las tres partes hace un trabajo.",
     },
   },
 };

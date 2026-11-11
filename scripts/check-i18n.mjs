@@ -3,11 +3,13 @@
 //   node scripts/check-i18n.mjs           全部查
 // 查的是：src/i18n/<语言>.js 的键和 base.js 一样多、{占位} 没丢、数组长度一样；
 // src/pages/<语言>/ 下的首页和三课都在、MDX 能编译、复制块的 id 和英文版一样、每页最多一处 <mark>、
-// 站内链接指向存在的页面（新手入门指向本语言，其他页面指向 /en/）。
+// 站内链接指向存在的页面（新手入门指向本语言，其他页面指向 /en/）；
+// 新手三课的图示（figs）和 src/data/figs.js 的英文结构一样，三课里用到的 <Fig> 和英文版一样。
 import { readFileSync, existsSync } from "node:fs";
 import { compile } from "@mdx-js/mdx";
 import BASE from "../src/i18n/base.js";
 import { EXTRA } from "../src/i18n/index.js";
+import { FIGS, FIG_UI, LESSON_FIGS } from "../src/data/figs.js";
 
 const LESSONS = ["1-why", "2-install", "3-first-use"];
 const want = process.argv[2] ? [process.argv[2]] : Object.keys(EXTRA);
@@ -29,11 +31,13 @@ const walk = (base, tr, path, code) => {
 };
 
 const ids = (s) => [...s.matchAll(/<Copy id="([^"]+)"/g)].map((m) => m[1]).sort().join(",");
+const figs = (s) => [...s.matchAll(/<Fig id="([^"]+)"/g)].map((m) => m[1]).join(",");
 
 for (const code of want) {
   const d = EXTRA[code];
   if (!d) { fail(code, "不是非全站语言"); continue; }
   walk(BASE, d, "", code);
+  walk({ ui: FIG_UI.en, ...Object.fromEntries(LESSON_FIGS.map((id) => [id, FIGS[id].en])) }, d.figs, "figs", code);
   if (!existsSync(`src/pages/${code}/index.astro`)) fail(code, "缺首页");
   for (const f of LESSONS) {
     const p = `src/pages/${code}/start/${f}.mdx`;
@@ -43,6 +47,7 @@ for (const code of want) {
     try { await compile(s); } catch (e) { fail(code, `${f} 编译不过：${e.message.split("\n")[0]}`); }
     if (s === en) fail(code, `${f} 还是英文原样`);
     if (ids(s) !== ids(en)) fail(code, `${f} 复制块的 id 和英文版不一样`);
+    if (figs(s) !== figs(en)) fail(code, `${f} 的图示和英文版不一样（英文版：${figs(en) || "没有"}）`);
     if ((s.match(/<mark/g) || []).length > 1) fail(code, `${f} 有不止一处 <mark>`);
     if (!/^tldr: /m.test(s)) fail(code, `${f} 缺 tldr`);
     for (const m of s.matchAll(/\]\((\/[^)\s]*)\)|href="(\/[^"]*)"/g)) {

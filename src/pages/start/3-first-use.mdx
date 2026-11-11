@@ -9,6 +9,7 @@ import Copy from "../../components/Copy.astro";
 import Cmd from "../../components/Cmd.astro";
 import Reply from "../../components/Reply.astro";
 import Q from "../../components/Q.astro";
+import Fig from "../../components/Fig.astro";
 
 这一课用 pstack 做一个真的小东西：一个记录每天喝了几杯水的网页。做完你就知道它和平常的 AI 有什么不一样。
 
@@ -24,6 +25,8 @@ import Q from "../../components/Q.astro";
 
 为什么要新建文件夹：你在哪个文件夹里打开 Claude Code，AI 就在哪里干活。新的空文件夹里，它碰不到你电脑上别的东西。
 
+<Fig id="l3-folder" />
+
 ## 把这段话发给它
 
 <Copy id="first" title="复制，粘贴进输入框，回车" code={`/pstack:poteto-mode 帮我做一个记录每天喝水的小网页。这是一个空文件夹，需要的准备工作你来做。
@@ -35,6 +38,8 @@ import Q from "../../components/Q.astro";
 后面的话只有三部分，这就是用 pstack 的全部窍门：
 
 <mark><strong>我想要什么 · 做好是什么样子 · 做完给我看什么</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **我想要什么**：一个记录喝水的网页。
 - **做好是什么样子**：点了会加一，关掉再开还在，能看到 7 天。这是在告诉它「怎么算做完」，它会照着这几条去检查。

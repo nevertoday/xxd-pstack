@@ -9,6 +9,7 @@ import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Reply from "../../../components/Reply.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 En esta lección usas pstack para hacer algo real y pequeño: una página web que registra cuántos vasos de agua bebes cada día. Al final verás en qué se diferencia de la IA de siempre.
 
@@ -24,6 +25,8 @@ En esta lección usas pstack para hacer algo real y pequeño: una página web qu
 
 Por qué una carpeta nueva: la IA trabaja en la carpeta donde abres Claude Code. En una carpeta nueva y vacía, no puede tocar ningún otro archivo tuyo.
 
+<Fig id="l3-folder" />
+
 ## Envíale este mensaje
 
 <Copy id="first" title="Copia, pega en el cuadro, presiona Enter" code={`/pstack:poteto-mode Hazme una página web pequeña que registre cuánta agua bebo cada día. Esta carpeta está vacía; prepara todo lo que haga falta.
@@ -35,6 +38,8 @@ El `/pstack:poteto-mode` del principio es el interruptor. Con él, la IA sigue l
 El resto del mensaje tiene solo tres partes, y ese es todo el truco para usar pstack:
 
 <mark><strong>Qué quiero · Cómo se ve terminado · Qué me muestras al terminar</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **Qué quiero**: una página que registre el agua.
 - **Cómo se ve terminado**: al hacer clic suma uno, el número sigue ahí después de cerrar y volver a abrir, y se ven 7 días. Así le dices «cómo saber que está terminado», y comprobará cada una de estas cosas.

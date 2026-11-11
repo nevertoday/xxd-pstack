@@ -1,7 +1,8 @@
 ---
-// 页面末尾的反馈入口：在 GitHub 上新建一条带模板的反馈，也可以 X 私信或加小小东微信（二维码用 xxd 的说明浮层 Popover）
+// 每页末尾一行：这一页没看懂、照做不成，就到 GitHub 提出来（带好页面信息的模板），或者先翻常见问题。
+// 不放个人联系方式：学的人在 GitHub 上提问、讨论，大家都看得到，答案也能补进教程。
 import { link, langOf, fullLang, REPO } from "../data/nav.js";
-import { X as dict, fmt } from "../i18n/index.js";
+import { X as dict } from "../i18n/index.js";
 interface Props { page: string }
 const lang = langOf(Astro.url.pathname);
 const x = dict(lang);
@@ -12,33 +13,24 @@ const T = en
   ? {
       title: `[Feedback] ${Astro.props.page}`,
       body: `Page: ${url}\n\nWhat was unclear / what didn't work:\n\nTool (Claude Code / Cursor / Codex / other) and version:\n\nWhat the AI replied (paste the text; no API keys or company code):\n\nWhat you tried:\n`,
-      lead: "Anything on this page unclear, or didn't work as written?",
-      gh: "Tell me on GitHub", x: "message me on X", or: ", or ", wx: "add me on WeChat",
-      faq: ["Before asking, check the ", "FAQ", ": the questions people have asked are all there."],
-      alt: "Xiaoxiaodong's WeChat QR code", mobile: "On a phone: long-press to save, then scan it from your photos in WeChat.",
+      lead: "Something on this page unclear, or didn't work as written?",
+      gh: "Bring it up on GitHub",
+      faq: [". Or check the ", "FAQ", " first."],
     }
   : {
       title: `[教程反馈] ${Astro.props.page}`,
       body: `页面：${url}\n\n哪里没看懂 / 照做不成功：\n\n我用的工具（Claude Code / Cursor / Codex / 其他）和版本：\n\nAI 回了什么（直接复制文字；别贴 API Key 和公司代码）：\n\n试过什么：\n`,
-      lead: "这一页有没看懂、或者照做不成功的地方？",
-      gh: "到 GitHub 告诉我", x: "在 X 上私信我", or: "，或者", wx: "加我微信",
-      faq: ["问之前先看看", "常见问题", "，大家问过的都在那里。"],
-      alt: "小小东的微信二维码", mobile: "手机上：长按保存图片，再用微信扫一扫从相册识别。",
+      lead: "这一页有没看懂、或者照做不成的地方？",
+      gh: "到 GitHub 提出来",
+      faq: ["，也可以先翻翻", "常见问题", "。"],
     };
 // 其他语言：反馈的 issue 模板用英文（维护者看得懂），页面上的文字用这种语言
 if (x) Object.assign(T, x.comp.feedback);
+// 中文、日文：问号后面直接接，不空格
+const sp = /^(zh|ja)$/.test(lang) ? "" : " ";
 const href = `${REPO}/issues/new?title=${encodeURIComponent(T.title)}&body=${encodeURIComponent(T.body)}`;
-const QR = "https://vip.xiaoxiaodong.ai/site-assets/wechat-qr.png";
 ---
 <aside class="feedback">
-  <i data-xxd-icon="MessageCircle" data-size="16"></i>
-  <span>{T.lead}</span>
-  <div class="feedback__ways">
-    <a class="xxd-link" href={href} rel="noopener">{T.gh}</a>{x ? T.sep : en ? ", " : "、"}<a class="xxd-link" href="https://x.com/xiaoxiaodong" rel="noopener">{T.x}</a>{T.or}<button class="xxd-link" type="button" data-xxd-popover="feedback-wx" data-placement="top-start">{T.wx}</button>
-  </div>
-  <div class="xxd-popover feedback__qr" id="feedback-wx" popover>
-    <span class="feedback__faq">{T.faq[0]}<a href={link("/faq/", fullLang(lang))}>{T.faq[1]}</a>{T.faq[2]}</span>
-    <img src={QR} width="148" height="152" alt={T.alt} loading="lazy" decoding="async" />
-    <span class="contact__mobile">{T.mobile}</span>
-  </div>
+  <i data-xxd-icon="MessagesSquare" data-size="16"></i>
+  <span>{T.lead}{sp}<a class="xxd-link" href={href} rel="noopener">{T.gh}</a>{T.faq[0]}<a class="xxd-link" href={link("/faq/", fullLang(lang))}>{T.faq[1]}</a>{T.faq[2]}</span>
 </aside>

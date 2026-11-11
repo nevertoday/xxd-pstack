@@ -9,6 +9,7 @@ import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Reply from "../../../components/Reply.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 Nesta lição você usa o pstack para fazer algo real e pequeno: uma página web que registra quantos copos de água você bebe por dia. No fim, você vai ver a diferença em relação à IA de sempre.
 
@@ -24,6 +25,8 @@ Nesta lição você usa o pstack para fazer algo real e pequeno: uma página web
 
 Por que uma pasta nova: a IA trabalha na pasta onde você abre o Claude Code. Numa pasta nova e vazia, ela não consegue mexer em mais nada do seu computador.
 
+<Fig id="l3-folder" />
+
 ## Mande esta mensagem
 
 <Copy id="first" title="Copie, cole na caixa, aperte Enter" code={`/pstack:poteto-mode Faça para mim uma pequena página web que registre quanta água eu bebo por dia. Esta pasta está vazia; prepare tudo o que for preciso.
@@ -35,6 +38,8 @@ O `/pstack:poteto-mode` no começo é o interruptor. Com ele, a IA segue as regr
 O resto da mensagem tem só três partes, e esse é todo o segredo para usar o pstack:
 
 <mark><strong>O que eu quero · Como fica quando estiver pronto · O que me mostrar ao terminar</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **O que eu quero**: uma página que registra a água.
 - **Como fica quando estiver pronto**: clicar soma um, o número continua lá depois de fechar e abrir, e dá para ver 7 dias. Isso diz para ela “como saber que terminou”, e ela vai verificar cada um desses pontos.

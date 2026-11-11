@@ -248,45 +248,31 @@
   .shot__stamp { color: var(--muted-2); }
 
   .feedback {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; max-width: var(--read-width, 680px);
+    display: flex; align-items: flex-start; gap: 8px; max-width: var(--read-width, 680px);
     margin-top: var(--space-6); padding: var(--space-3) var(--space-4); background: var(--wash);
     color: var(--muted); font-size: var(--text-sm); line-height: 20px;
   }
+  .feedback > .ui-icon { margin-top: 2px; }
   .feedback a { color: var(--ink); }
 
-  /* ---------- 反馈与建议 ---------- */
-  /* 卡片：xxd-layer 管边框、圆角、主体和下面洗色的一条；这里只排主体里的文字和二维码 */
+  /* ---------- 提问和讨论 ---------- */
+  /* 卡片：xxd-layer 管边框、圆角、主体和下面洗色的一条；这里只排主体里的文字和按钮 */
   .contact { margin-top: var(--space-8); }
-  .contact__body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-4) var(--space-6); align-items: center; padding: var(--space-5, 20px) var(--space-6); }
+  .contact__body { padding: var(--space-5, 20px) var(--space-6); }
   .contact h2 { margin: 0 0 8px; }
   /* 首页和常见问题页一个样（以前首页被 .home h2 + p 盖成了小号灰字，常见问题页是正文字号，两边不一致） */
-  .contact .contact__text p { margin: 0; color: var(--muted); font-size: var(--text-sm); line-height: 20px; }
-  .contact .contact__text .contact__ask { margin-top: 4px; }
-  .contact__btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-3); }
+  .contact .contact__body p { max-width: 60ch; margin: 0; color: var(--muted); font-size: var(--text-sm); line-height: 22px; }
+  .contact .contact__body .contact__faq { margin-top: 4px; }
+  .contact__faq a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+  .contact__btns { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: var(--space-4); }
+  .contact__x { display: inline-flex; align-items: center; gap: 2px; font-size: var(--text-sm); }
   .contact__note { margin: 0; padding-inline: var(--space-6); }
-  .contact__qr { margin: 0; text-align: center; }
-  /* 二维码在暗色下也要白底才扫得出来 */
-  .contact__qr img, .feedback__qr img { display: block; height: auto; padding: 8px; background: #fff; border: 1px solid var(--line); } /* xxd-ignore */
-  .contact__qr img { width: 160px; margin: 0 auto; }
-  .contact__qr figcaption { max-width: 180px; margin-top: 8px; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
-  .contact__mobile { display: none; }
-  /* 反馈卡的二维码不要白底块：亮色用正片叠底，白底融进卡片；暗色反相再滤色，变成浅色码点、底色跟卡片一样。
-     图片本身没改，手机长按保存的还是原图 */
-  .contact__qr img { padding: 0; border: 0; background: none; mix-blend-mode: multiply; }
-  :root[data-theme="dark"] .contact__qr img { filter: invert(1); mix-blend-mode: screen; }
-  /* 每页末尾：微信二维码是 xxd 的说明浮层（Popover），定位、阴影、点外面关闭都由它管 */
-  .feedback__qr { min-width: 0; }
-  .feedback__qr img { width: 148px; }
-  .feedback__qr .contact__mobile { max-width: 148px; margin-top: 6px; font-size: var(--text-xs); line-height: 18px; }
   /* 侧栏最后的「常见问题」：字用警示色，后面一个小圆点，每隔一会儿向外泛一圈涟漪（像「有新消息」），提醒大家常见问题先看这里。只动 transform / opacity；减少动效时只留静止的点 */
   .site-nav__faq { color: var(--warning-text); }
   .site-nav__ping { position: relative; flex: none; width: 6px; height: 6px; margin-inline-start: -4px; border-radius: var(--r-pill); background: var(--warning-solid); }
   .site-nav__ping::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--warning-solid); animation: site-ping 2.6s ease-out infinite; }
   @keyframes site-ping { 0% { transform: scale(1); opacity: .55; } 70%, 100% { transform: scale(3.2); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .site-nav__ping::after { animation: none; opacity: 0; } }
-  /* 点开微信二维码时先提醒看常见问题（反馈卡和每页末尾的浮层都有） */
-  .feedback__faq { display: block; max-width: 148px; margin-bottom: 8px; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
-  .feedback__faq a, .contact .contact__text .contact__ask a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
 
   /* 正文里一点就复制的命令（Cmd.astro）：命令长时照常换行，不撑出横向滚动 */
   .cmd { display: inline; text-align: start; white-space: normal; }
@@ -351,15 +337,214 @@
     .home h1 { font-size: var(--text-xl); line-height: 1.4; }
     .step-head h1 { font-size: var(--text-xl); }
     .site-brand__name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-    .contact__body { grid-template-columns: 1fr; padding: var(--space-4); }
+    .contact__body { padding: var(--space-4); }
     .contact__note { padding-inline: var(--space-4); }
-    .contact__qr figcaption { max-width: none; }
-    .feedback { align-items: flex-start; }
-    .feedback__ways { display: block; flex-basis: 100%; }
   }
-  @media (pointer: coarse) {
-    .contact__mobile { display: block; }
+
+  /* ---------- 图示（components/Fig.astro） ---------- */
+  /* 一张图 = 洗色的底（不画边）+ 上面的白卡片（细线），一个框只有一个框；颜色、圆角只用令牌。
+     宽度用容器查询：正文栏窄了就竖排，不看屏幕宽度。 */
+  .fig { container: fig / inline-size; margin: var(--space-6) 0; }
+  .fig__stage { padding: var(--space-5, 20px); background: var(--wash); border-radius: var(--r-md); }
+  .fig ol, .fig ul { margin: 0; padding: 0; list-style: none; }
+  .fig li { margin: 0; }
+  .fig p { margin: 0; }
+  .fig figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin-top: 8px; color: var(--muted); font-size: var(--text-xs); line-height: 20px; }
+  .fig__label { flex: none; color: var(--ink); font-weight: var(--weight-strong); }
+  .fig__cap { flex: 1 1 16em; min-width: 0; }
+  .fig__replay { display: inline-flex; align-items: center; gap: 4px; margin-inline-start: auto; padding: 0; border: 0; background: none; color: var(--muted); font: inherit; cursor: pointer; }
+  .fig__replay:hover { color: var(--ink); }
+  .fig__replay:focus-visible { outline: 2px solid var(--focus, var(--ink)); outline-offset: 2px; }
+  .fig__replay[hidden] { display: none; }
+  .fig b { font-weight: var(--weight-strong); }
+  /* 文字里的 /命令：等宽、不在连字符处断开 */
+  .fig-cmd { font-family: var(--font-mono); font-size: .92em; white-space: nowrap; }
+  .fig .ui-icon { flex: none; }
+  .fig__down { align-self: center; margin: 4px 0; color: var(--muted-2); }
+  .fig-ana__head { white-space: nowrap; }
+  .fig__arr { flex: none; margin-inline: 4px; color: var(--muted-2); }
+  [dir="rtl"] .fig__arr, [dir="rtl"] .fig-flow__arr > .ui-icon, [dir="rtl"] .fig-fan__arr > .ui-icon { scale: -1 1; }
+
+  /* 动画：没轮到的部分淡成影子，轮到了浮上来；只动 opacity / transform */
+  .fig.is-anim [data-k] { opacity: .16; transform: translateY(4px); transition: opacity .45s var(--ease-out-quart), transform .45s var(--ease-out-quart); }
+  .fig.is-anim [data-k].is-on { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .fig [data-k] { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+  /* 小卡片 */
+  .fig-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); font-size: var(--text-sm); line-height: 20px; }
+  .fig-chip > .ui-icon { color: var(--muted); }
+  .fig-chip.is-bad { background: var(--danger-tint); border-color: transparent; color: var(--danger-text); }
+  .fig-chip.is-good { background: var(--success-tint); border-color: transparent; color: var(--success-text); }
+  .fig-chip.is-bad > .ui-icon, .fig-chip.is-good > .ui-icon { color: currentColor; }
+
+  /* compare：两条路并排，一步一行往下走；左边早早「做好了」，右边多走几步 */
+  .fig-cmp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fig-cmp__lane { display: grid; align-content: start; gap: 10px; padding-inline-end: var(--space-5); }
+  .fig-cmp__lane--b { padding-inline: var(--space-5) 0; border-inline-start: 1px dashed var(--line-strong); }
+  .fig-cmp__who { font-size: var(--text-sm); font-weight: var(--weight-strong); line-height: 20px; }
+  .fig-cmp__lane--a .fig-cmp__who { color: var(--muted); font-weight: 400; }
+  .fig-cmp__steps { display: flex; flex-direction: column; }
+  .fig-cmp__steps > li { display: flex; flex-direction: column; }
+  .fig-cmp .fig-chip { align-items: flex-start; }
+  .fig-cmp .fig-chip > .ui-icon { margin-top: 2px; }
+  @container fig (max-width: 420px) { .fig-cmp__lane { padding-inline-end: 12px; } .fig-cmp__lane--b { padding-inline: 12px 0; } .fig-cmp .fig-chip { padding: 6px 8px; font-size: var(--text-xs); line-height: 18px; } }
+
+  /* term：终端 */
+  .fig__bare { display: block; }
+  .fig-term { overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper); font: var(--text-sm) / 1.65 var(--font-mono); text-align: start; }
+  .fig-term__bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: var(--wash); color: var(--muted); font: var(--text-xs) / 18px var(--font-body); }
+  .fig-term__bar span { width: 9px; height: 9px; border-radius: var(--r-circle); background: var(--line-strong); }
+  .fig-term__bar b { margin-inline-start: 6px; font-weight: 500; }
+  .fig-term__body { padding: 14px 16px 16px; }
+  .fig-term__scene + .fig-term__scene { margin-top: 16px; }
+  .fig-term__note { margin-bottom: 2px !important; color: var(--muted); font: var(--text-xs) / 18px var(--font-body); }
+  .fig-term__cmd { min-height: 1.65em; color: var(--ink); overflow-wrap: anywhere; }
+  .fig-term__prompt { color: var(--muted-2); }
+  .fig-term__caret { display: inline-block; width: .55em; height: 1.1em; margin-inline-start: 1px; vertical-align: -.2em; background: var(--ink); opacity: 0; }
+  .fig.is-anim .fig-term__cmd.is-cur .fig-term__caret, .fig-term__cmd.is-open.is-on .fig-term__caret { animation: fig-blink 1.05s steps(1) infinite; }
+  .fig:not(.is-anim) .fig-term__cmd.is-open .fig-term__caret { opacity: 1; }
+  @keyframes fig-blink { 0% { opacity: 1; } 50% { opacity: 0; } }
+  .fig-term__out p { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .fig-term__out .is-ok { color: var(--success-text); }
+  .fig-term__out .is-sel { color: var(--ink); font-weight: 500; }
+  .fig-term__out .is-dim { color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .fig-term__caret { animation: none !important; } }
+
+  /* folder：AI 只在一个文件夹里 */
+  .fig-fold { display: grid; gap: 12px; }
+  .fig-fold__place, .fig-fold__note { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+  .fig-fold__items { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.5fr); gap: 12px; }
+  .fig-fold__items > li { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 112px; padding: 14px 8px; border-radius: var(--r-sm); font-size: var(--text-sm); line-height: 20px; text-align: center; }
+  .fig-fold__items .is-away { border: 1px solid var(--line-strong); color: var(--muted); }
+  .fig-fold__items .is-away > .ui-icon { color: var(--muted-2); }
+  .fig-fold__lock { position: absolute; top: 8px; inset-inline-end: 8px; color: var(--muted-2); }
+  .fig-fold__items .is-here { background: var(--paper); border: 1px dashed var(--ink); }
+  .fig-fold__name { font-family: var(--font-mono); font-size: var(--text-xs); }
+  .fig-fold__items .is-here .fig-fold__name { color: var(--ink); font-weight: 500; }
+  .fig-fold__ai { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: var(--r-xs); background: var(--ink); color: var(--on-ink); font-size: var(--text-2xs); line-height: 18px; }
+  @container fig (max-width: 420px) { .fig-fold__items { grid-template-columns: 1fr 1fr; } .fig-fold__items .is-here { grid-column: 1 / -1; } }
+
+  /* anatomy：一句话拆成几块，颜色和下面的说明一一对应，还有编号 */
+  .fig-ana__msg { padding: 12px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); font-size: var(--text-sm); line-height: 32px; }
+  .fig-ana__seg { margin-inline-end: .3em; padding: 3px 4px; border-bottom: 2px solid; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .fig-ana .t0 { --c: var(--ink); --b: var(--wash-strong); }
+  .fig { --fig-sky: #2f6fd0; --fig-sky-tint: #e6eefb; }
+  :root[data-theme="dark"] .fig { --fig-sky: #79a7ee; --fig-sky-tint: #1d2a3d; }
+  .fig-ana .t1 { --c: var(--fig-sky); --b: var(--fig-sky-tint); }
+  .fig-ana .t2 { --c: var(--success-solid); --b: var(--success-tint); }
+  .fig-ana .t3 { --c: var(--warning-solid); --b: var(--warning-tint); }
+  .fig-ana__seg { background: var(--b); border-color: var(--c); }
+  .fig-ana__seg.t0 { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+  .fig-ana__no { display: inline-grid; place-items: center; width: 16px; height: 16px; margin-inline-end: 5px; border-radius: var(--r-circle); background: var(--c); color: var(--paper); font: 600 10px / 1 var(--font-body); vertical-align: 1px; }
+  .fig-ana__keys { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px !important; font-size: var(--text-xs); line-height: 18px; }
+  .fig-ana__keys > li { display: flex; align-items: center; }
+
+  /* stack：分层 */
+  .fig-stack { display: grid; gap: 18px; max-width: 540px; margin-inline: auto !important; }
+  .fig-stack > li { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); }
+  .fig-stack > li + li::before { content: ""; position: absolute; inset-inline-start: 50%; top: -19px; height: 18px; border-inline-start: 1px solid var(--line-strong); }
+  .fig-stack > li > .ui-icon { margin-top: 1px; color: var(--muted); }
+  .fig-stack > li.is-hi { border-color: var(--ink); }
+  .fig-stack > li.is-hi > .ui-icon { color: var(--ink); }
+  .fig-stack b, .fig-stack span { display: block; }
+  .fig-stack b { font-size: var(--text-sm); line-height: 20px; }
+  .fig-stack span { margin-top: 2px; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+
+  /* flow：几步流程，横排，窄了竖排 */
+  .fig-flow { --gap: 28px; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: var(--gap); }
+  .fig-flow > li { position: relative; display: flex; }
+  .fig-flow__arr { position: absolute; inset-inline-start: calc(var(--gap) * -1); top: 50%; display: flex; justify-content: center; width: var(--gap); margin-top: -7px; color: var(--muted-2); }
+  .fig-flow__box { position: relative; flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 12px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); }
+  .fig-flow__top { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; color: var(--muted); }
+  .fig-flow__no { font: 500 var(--text-2xs) / 16px var(--font-mono); }
+  .fig-flow__box b { font-size: var(--text-sm); line-height: 20px; }
+  .fig-flow__d { color: var(--muted); font-size: var(--text-xs); line-height: 18px; overflow-wrap: anywhere; }
+  .fig-flow > li.is-opt .fig-flow__box { background: transparent; border-style: dashed; border-color: var(--line-strong); }
+  .fig.is-anim .fig-flow > li.is-cur .fig-flow__box, .fig-flow > li.is-gate .fig-flow__box { border-color: var(--ink); }
+  .fig-flow__mark { position: absolute; top: 10px; inset-inline-end: 10px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: var(--r-circle); }
+  .fig-flow__mark.is-bad { background: var(--danger-tint); color: var(--danger-text); }
+  .fig-flow__mark.is-good { background: var(--success-tint); color: var(--success-text); }
+  .fig-flow__gate { display: inline-flex; align-self: flex-start; align-items: center; gap: 4px; margin-top: 8px; padding: 1px 8px; border-radius: var(--r-xs); background: var(--ink); color: var(--on-ink); font-size: var(--text-2xs); line-height: 18px; }
+  .fig-flow__loop { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-top: 12px !important; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+  @container fig (max-width: 620px) {
+    .fig-flow { --gap: 22px; grid-template-columns: 1fr; }
+    .fig-flow__arr { inset-inline-start: 0; top: calc(var(--gap) * -1); align-items: center; width: 100%; height: var(--gap); margin-top: 0; }
+    .fig-flow__arr > .ui-icon, [dir="rtl"] .fig-flow__arr > .ui-icon { rotate: 90deg; scale: 1; }
+    .fig-flow__box { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; }
+    .fig-flow__top { grid-row: span 3; margin: 0; }
+    .fig-flow__box > :not(.fig-flow__top):not(.fig-flow__mark) { grid-column: 2; }
+    .fig-flow__gate { justify-self: start; }
+    .fig-flow__loop { justify-content: flex-start; }
   }
+
+  /* night：睡前、夜里一轮轮、早上 */
+  .fig-night { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+  .fig-night__col { padding: 12px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); }
+  .fig-night__col--loop { border-color: var(--ink); }
+  .fig-night__h { display: flex; align-items: center; gap: 6px; margin-bottom: 8px !important; font-size: var(--text-sm); font-weight: var(--weight-strong); line-height: 20px; }
+  .fig-night__col ul, .fig-night__col ol { display: grid; gap: 4px; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+  .fig-night__col ul > li { position: relative; padding-inline-start: 12px; }
+  .fig-night__col ul > li::before { content: ""; position: absolute; inset-inline-start: 0; top: 7px; width: 4px; height: 4px; border-radius: var(--r-circle); background: var(--muted-2); }
+  .fig-night__col ol { counter-reset: fig; }
+  .fig-night__col ol > li { counter-increment: fig; display: flex; gap: 8px; }
+  .fig-night__col ol > li::before { content: counter(fig); flex: none; width: 16px; color: var(--muted-2); font: 500 var(--text-2xs) / 18px var(--font-mono); }
+  .fig-night__col--loop ol > li { color: var(--ink); }
+  .fig.is-anim .fig-night__col--loop ol > li.is-cur::before { color: var(--ink); }
+  .fig-night__col ol > li.is-key { color: var(--ink); font-weight: 500; }
+  .fig-night__log { display: flex; align-items: center; gap: 6px; margin-top: 10px !important; padding-top: 8px; border-top: 1px dashed var(--line-strong); color: var(--muted); font-size: var(--text-2xs); line-height: 16px; }
+  @container fig (max-width: 620px) { .fig-night { grid-template-columns: 1fr; } }
+
+  /* ladder：由牢到不牢，越往下越短、左边的色条越淡 */
+  .fig-lad { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 14px; }
+  .fig-lad__axis { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--muted); font-size: var(--text-2xs); line-height: 16px; text-align: center; }
+  .fig-lad__line { flex: 1; border-inline-start: 1px solid var(--line-strong); }
+  .fig-lad ol { display: grid; gap: 8px; }
+  .fig-lad ol > li { display: flex; align-items: flex-start; gap: 10px; width: var(--w); padding: 10px 12px; background: var(--paper); border: 1px solid var(--line); border-inline-start: 3px solid color-mix(in srgb, var(--ink) var(--s), var(--line)); border-radius: var(--r-sm); }
+  .fig-lad ol > li > .ui-icon { margin-top: 2px; color: var(--muted); }
+  .fig-lad b, .fig-lad span { display: block; }
+  .fig-lad b { font-size: var(--text-sm); line-height: 20px; }
+  .fig-lad span { color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+  @container fig (max-width: 520px) { .fig-lad ol > li { width: 100%; } }
+
+  /* fan：一个改动，几个模型去弄坏它，结果分两堆 */
+  .fig-fan { display: grid; grid-template-columns: minmax(0, .8fr) 26px minmax(0, 1fr) 26px minmax(0, 1.4fr); align-items: center; }
+  .fig-fan__from { display: flex; align-items: center; gap: 6px; padding: 10px 12px; background: var(--paper); border: 1px solid var(--ink); border-radius: var(--r-sm); font-size: var(--text-sm); font-weight: var(--weight-strong); line-height: 20px; }
+  .fig-fan__arr { display: flex; justify-content: center; color: var(--muted-2); }
+  .fig-fan__by ul { display: grid; gap: 6px; }
+  .fig-fan__by li { display: flex; align-items: center; gap: 6px; padding: 5px 10px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); font-size: var(--text-xs); line-height: 18px; }
+  .fig-fan__by p { margin-top: 6px !important; color: var(--muted); font-size: var(--text-2xs); line-height: 16px; text-align: center; }
+  .fig-fan__out { display: grid; gap: 8px; }
+  .fig-fan__keep, .fig-fan__drop { padding: 10px 12px; border-radius: var(--r-sm); }
+  .fig-fan__keep { background: var(--paper); border: 1px solid var(--ink); }
+  .fig-fan__drop { border: 1px dashed var(--line-strong); color: var(--muted); }
+  .fig-fan__out b { display: flex; align-items: center; gap: 6px; font: var(--weight-strong) var(--text-sm) / 20px var(--font-mono); }
+  .fig-fan__out span { display: block; margin-top: 2px; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+  @container fig (max-width: 620px) {
+    .fig-fan { grid-template-columns: 1fr; }
+    .fig-fan__arr { height: 24px; align-items: center; }
+    .fig-fan__arr > .ui-icon, [dir="rtl"] .fig-fan__arr > .ui-icon { rotate: 90deg; scale: 1; }
+    .fig-fan__by ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* tree：主对话带几个写代码的帮手 */
+  .fig-tree { display: grid; justify-items: center; }
+  .fig-tree__root { position: relative; display: flex; align-items: flex-start; gap: 10px; max-width: 100%; padding: 10px 14px; background: var(--paper); border: 1px solid var(--ink); border-radius: var(--r-sm); }
+  .fig-tree__root::after { content: ""; position: absolute; top: 100%; inset-inline-start: 50%; height: 14px; border-inline-start: 1px solid var(--line-strong); }
+  .fig-tree__root > .ui-icon { margin-top: 2px; }
+  .fig-tree__root b, .fig-tree__root span { display: block; }
+  .fig-tree__root b { font-size: var(--text-sm); line-height: 20px; }
+  .fig-tree__root span { color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+  .fig-tree__kids { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: 100%; margin-top: 28px !important; }
+  .fig-tree__kids::before { content: ""; position: absolute; top: -14px; inset-inline: calc((100% - 24px) / 6); border-top: 1px solid var(--line-strong); }
+  .fig-tree__kids > li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 8px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); text-align: center; }
+  .fig-tree__kids > li::before { content: ""; position: absolute; bottom: 100%; inset-inline-start: 50%; height: 14px; border-inline-start: 1px solid var(--line-strong); }
+  .fig-tree__kids > li > .ui-icon { color: var(--muted); }
+  .fig-tree__kids code { font-size: var(--text-xs); overflow-wrap: anywhere; }
+  .fig-tree__note { margin-top: 12px !important; color: var(--muted); font-size: var(--text-xs); line-height: 18px; text-align: center; }
+  .fig-tag { display: inline-block; padding: 0 6px; border-radius: var(--r-xs); font-size: var(--text-2xs); font-style: normal; line-height: 18px; white-space: nowrap; }
+  .fig-tag.is-strong { margin-inline-start: 4px; background: var(--ink); color: var(--on-ink); }
+  .fig-tag.is-cheap { background: var(--success-tint); color: var(--success-text); }
+  @container fig (max-width: 480px) { .fig-tree__kids { grid-template-columns: 1fr; } .fig-tree__kids::before { display: none; } .fig-tree__kids > li { flex-direction: row; } .fig-tree__kids > li + li::before { display: none; } }
 
   /* ---------- 技能速查（views/SkillsPage.astro） ---------- */
   .skills__legend { margin: var(--space-3) 0; padding: 0 !important; list-style: none; font-size: var(--text-sm); }

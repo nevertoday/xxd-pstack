@@ -1,59 +1,42 @@
 ---
-// 反馈与建议：首页、常见问题末尾的卡片（xxd 分层卡片 LayerCard）。主体：说明 + 请把问题汇总一次发，GitHub、X 私信两个按钮，小小东微信并列（二维码不加白底，跟随主题单色显示）；
-// 下面洗色的一条：发截图前先打码
+// 首页、常见问题末尾的「提问和讨论」卡片（xxd 分层卡片 LayerCard）：到 GitHub 提问、讨论、分享做出来的东西；
+// 作者的 X 只是一个安静的文字链接。下面洗色的一条：发截图前先打码。
 import { langOf, link, fullLang, REPO } from "../data/nav.js";
 import { X as dict } from "../i18n/index.js";
 const lang = langOf(Astro.url.pathname);
 const en = lang !== "zh";
 const x = dict(lang);
 const onFaq = Astro.url.pathname.replace(/\/$/, "").endsWith("/faq");
-const QR = "https://vip.xiaoxiaodong.ai/site-assets/wechat-qr.png";
 const ISSUE = `${REPO}/issues/new`;
 const X = "https://x.com/xiaoxiaodong";
-const X_MARK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>';
 const T = en
   ? {
-      h: "Feedback and suggestions",
-      p: "Have a suggestion, or found a step that's unclear or doesn't work as written? Let me know and I'll add it to the guide.",
-      faq: ["Before asking, check the ", "FAQ", ": the questions people have asked are all there."],
-      ask: "If you have questions, please gather them into one message rather than asking one by one. Thanks!",
-      btn: "Give feedback on GitHub",
-      x: "Message me on X",
-      cap: "Or add me on WeChat",
-      mobile: "On a phone: long-press to save, then scan it from your photos in WeChat.",
-      alt: "Xiaoxiaodong's WeChat QR code",
+      h: "Questions and discussion",
+      p: "Stuck on a step, found something unclear, or built something with pstack you'd like to show? Bring it to GitHub. The questions that come up most get worked into the guide. Writing in your own language is fine.",
+      faq: ["Before asking, check the ", "FAQ", ": many answers are already there."],
+      btn: "Ask or discuss on GitHub",
+      x: "The author is on X",
       privacy: "Before sending screenshots, blur out API keys, company code and account details.",
     }
   : {
-      h: "反馈与建议",
-      p: "对教程有建议，或者发现哪一步没写清楚、照做不成功，欢迎告诉我，我会补进来。",
-      faq: ["问之前先看看", "常见问题", "，大家问过的都在那里。"],
-      ask: "有问题尽量先整理好一起发，别逐个问，谢谢。",
-      btn: "到 GitHub 反馈",
-      x: "在 X 上私信我",
-      cap: "也可以加我微信反馈",
-      mobile: "手机上：长按保存图片，再用微信扫一扫从相册识别。",
-      alt: "小小东的微信二维码",
+      h: "提问和讨论",
+      p: "卡在哪一步、哪里没写清楚，或者想分享你用 pstack 做出来的东西，都欢迎到 GitHub 上提出来。问得多的，我会补进教程。",
+      faq: ["问之前可以先看看", "常见问题", "，很多答案已经在那里了。"],
+      btn: "到 GitHub 提问或讨论",
+      x: "作者在 X 上",
       privacy: "发截图前，先把 API Key、公司代码和账号信息打码。",
     };
 if (x) Object.assign(T, x.comp.contact);
 ---
 <section class="xxd-layer contact" aria-labelledby="h-contact">
   <div class="xxd-layer__primary contact__body">
-    <div class="contact__text">
-      <h2 id="h-contact">{T.h}</h2>
-      <p>{T.p}</p>
-      {!onFaq && <p class="contact__ask">{T.faq[0]}<a href={link("/faq/", fullLang(lang))}>{T.faq[1]}</a>{T.faq[2]}</p>}
-      <p class="contact__ask">{T.ask}</p>
-      <div class="contact__btns">
-        <a class="xxd-btn" href={ISSUE} rel="noopener">{T.btn}<i data-xxd-icon="ArrowRight" data-size="16"></i></a>
-        <a class="xxd-btn" href={X} rel="noopener"><Fragment set:html={X_MARK} />{T.x}</a>
-      </div>
+    <h2 id="h-contact">{T.h}</h2>
+    <p>{T.p}</p>
+    {!onFaq && <p class="contact__faq">{T.faq[0]}<a href={link("/faq/", fullLang(lang))}>{T.faq[1]}</a>{T.faq[2]}</p>}
+    <div class="contact__btns">
+      <a class="xxd-btn" href={ISSUE} rel="noopener"><i data-xxd-icon="MessagesSquare" data-size="16"></i>{T.btn}</a>
+      <a class="xxd-link contact__x" href={X} rel="noopener">{T.x}<i data-xxd-icon="ArrowUpRight" data-size="14"></i></a>
     </div>
-    <figure class="contact__qr">
-      <img src={QR} width="160" height="165" alt={T.alt} loading="lazy" decoding="async" />
-      <figcaption>{T.cap}<span class="contact__mobile">{T.mobile}</span></figcaption>
-    </figure>
   </div>
   <p class="xxd-layer__secondary contact__note"><i data-xxd-icon="EyeOff" data-size="14"></i>{T.privacy}</p>
 </section>

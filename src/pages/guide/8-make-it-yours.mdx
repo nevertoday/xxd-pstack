@@ -10,6 +10,7 @@ import Checkpoint from "../../components/Checkpoint.astro";
 import Term from "../../components/Term.astro";
 import Copy from "../../components/Copy.astro";
 import Q from "../../components/Q.astro";
+import Fig from "../../components/Fig.astro";
 
 ## 从小处开始
 
@@ -38,10 +39,7 @@ pstack 有 24 条<Term k="原则" />，每条都有英文名。比如「先删�
 
 **你会得到**：它翻最近的提交和评审意见，把错归成几类，每类一个提交。它会挑最牢的办法堵住：
 
-1. **让错根本没法发生**：换结构或数据结构。
-2. **一犯就报错**：类型、lint、CI 检查。
-3. **用测试抓住。**
-4. **写成给 AI 的规则**：最后一招，因为 AI 跳过规则不会报错。
+<Fig id="g8-guard" />
 
 只打 `/correct` 不带参数，它会自己从历史里找。
 

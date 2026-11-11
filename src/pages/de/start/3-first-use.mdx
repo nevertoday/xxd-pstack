@@ -9,6 +9,7 @@ import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Reply from "../../../components/Reply.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 In dieser Lektion baust du mit pstack etwas Echtes und Kleines: eine Webseite, die zählt, wie viele Gläser Wasser du am Tag trinkst. Am Ende siehst du, was anders ist als bei der KI wie üblich.
 
@@ -24,6 +25,8 @@ In dieser Lektion baust du mit pstack etwas Echtes und Kleines: eine Webseite, d
 
 Warum ein neuer Ordner: Die KI arbeitet in dem Ordner, in dem du Claude Code öffnest. In einem neuen, leeren Ordner kommt sie an nichts anderes auf deinem Computer heran.
 
+<Fig id="l3-folder" />
+
 ## Schick ihr diese Nachricht
 
 <Copy id="first" title="Kopieren, ins Feld einfügen, Enter drücken" code={`/pstack:poteto-mode Bau mir eine kleine Webseite, die zählt, wie viel Wasser ich jeden Tag trinke. Das ist ein leerer Ordner; richte alles ein, was nötig ist.
@@ -35,6 +38,8 @@ Das `/pstack:poteto-mode` am Anfang ist der Schalter. Damit hält sich die KI an
 Der Rest der Nachricht hat nur drei Teile. Das ist schon der ganze Trick bei pstack:
 
 <mark><strong>Was ich will · So sieht „fertig“ aus · Was du mir am Ende zeigst</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **Was ich will**: eine Seite, die Wasser zählt.
 - **So sieht „fertig“ aus**: Ein Klick zählt eins dazu, die Zahl bleibt nach Schließen und Öffnen erhalten, und man sieht 7 Tage. So weiß sie, woran sie erkennt, dass sie fertig ist. Jeden dieser Punkte prüft sie.

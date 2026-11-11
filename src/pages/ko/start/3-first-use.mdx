@@ -9,6 +9,7 @@ import Copy from "../../../components/Copy.astro";
 import Cmd from "../../../components/Cmd.astro";
 import Reply from "../../../components/Reply.astro";
 import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
 
 이번 레슨에서는 pstack으로 작지만 진짜로 쓸 수 있는 걸 만들어요. 매일 물을 몇 잔 마셨는지 기록하는 웹페이지예요. 다 하고 나면 평소의 AI와 뭐가 다른지 알게 돼요.
 
@@ -24,6 +25,8 @@ import Q from "../../../components/Q.astro";
 
 새 폴더를 만드는 이유: AI는 Claude Code를 연 폴더 안에서 일해요. 새로 만든 빈 폴더라면, 컴퓨터의 다른 것은 건드릴 수 없어요.
 
+<Fig id="l3-folder" />
+
 ## 이 메시지를 보내세요
 
 <Copy id="first" title="복사해서 입력창에 붙여 넣고 Enter" code={`/pstack:poteto-mode 매일 마신 물의 양을 기록하는 작은 웹페이지를 만들어 주세요. 여기는 빈 폴더예요. 필요한 준비는 알아서 해 주세요.
@@ -35,6 +38,8 @@ import Q from "../../../components/Q.astro";
 나머지 메시지는 딱 세 부분이에요. 이게 pstack을 쓰는 요령의 전부예요.
 
 <mark><strong>원하는 것 · 완성된 모습 · 끝나면 보여 줄 것</strong></mark>
+
+<Fig id="l3-prompt" />
 
 - **원하는 것**: 물을 기록하는 페이지.
 - **완성된 모습**: 누르면 하나 늘어나고, 닫았다 다시 열어도 숫자가 남아 있고, 7일 치가 보여요. 이건 “어떻게 되면 끝인지”를 알려 주는 거예요. AI는 이걸 하나하나 확인해요.
