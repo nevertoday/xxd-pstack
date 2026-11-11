@@ -320,7 +320,8 @@ def overnight(lang="zh"):
 
 
 # ---------- 6. social：GitHub 分享大图 / 网站 og:image（1280×640，静态） ----------
-def social():
+def social(lang="zh"):
+    L = pick(lang)
     W, H = 1280, 640
     b = [f'<rect width="{W}" height="{H}" fill="{PAPER}"/>']
     # 本站标志：暖黑方块里三根错开叠下去的横条
@@ -330,14 +331,16 @@ def social():
     for i, op in enumerate([1, .62, .32]):
         b.append(f'<rect x="{mx + (4 + i * 1.5) * u}" y="{my + (4 + i * 4.5) * u}" width="{9 * u}" height="{3 * u}" fill="{CARD}" opacity="{op}"/>')
     b.append(t(mx + ms + 22, my + 47, "pstack", 54, INK, 700, MONO, extra='letter-spacing="-1"'))
-    b.append(t(84, 262, "新手教程", 64, INK, 700))
-    b.append(t(84, 338, "让 AI 写代码像个靠谱的", 34, INK, 600))
-    b.append(t(84, 386, "资深工程师。", 34, INK, 600))
-    # 荧光笔：先搞懂，再动手，拿出证据
-    b.append(rect(80, 422, 446, 24, "#F2C46B", 0, extra='opacity=".55"'))
-    b.append(t(84, 440, "先搞懂，再动手，拿出证据。", 34, INK, 700))
-    b.append(t(84, 512, "主线 9 步 · 技能速查 34 个 · How-to 17 篇 · 说人话", 20, MUTED))
-    b.append(t(84, 560, "pstack.xiaoxiaodong.ai", 24, INK, 600, MONO))
+    b.append(t(84, 262, L("新手教程", "for beginners"), 64, INK, 700))
+    # 痛点两行 + 荧光笔一行（宽度按字数估：中文一字 34，其他一字约 14.6）
+    b.append(t(84, 338, L("AI 说「修好了」，", "Your AI says “fixed.”"), 34, INK, 600))
+    b.append(t(84, 386, L("你一打开，还是坏的。", "You open it. Still broken."), 34, INK, 600))
+    hl = L("pstack 让它先自己试一遍。", "pstack makes it try first.")
+    hw = sum(34 if ord(c) > 0x2E80 else 14.6 for c in hl) + 10
+    b.append(rect(80, 422, hw, 24, "#F2C46B", 0, extra='opacity=".55"'))
+    b.append(t(84, 440, hl, 34, INK, 700))
+    b.append(t(84, 512, L("新手入门 3 课 · 完整教程 9 步 · 34 个技能 · 中文 / English", "3 beginner lessons · 9-step guide · 34 skills · English / 中文"), 20, MUTED))
+    b.append(t(84, 560, L("pstack.xiaoxiaodong.ai", "pstack.xiaoxiaodong.ai/en"), 24, INK, 600, MONO))
     # 右边：终端卡片（hero 动画的最后一帧）
     x0, y0, ww, wh = 700, 150, 500, 340
     b.append(f'<rect x="{x0}" y="{y0}" width="{ww}" height="{wh}" rx="14" fill="#000" opacity=".9" filter="url(#ssh)"/>')
@@ -345,9 +348,9 @@ def social():
     for i, c in enumerate(["#FF5F57", "#FEBC2E", "#28C840"]):
         b.append(f'<circle cx="{x0 + 22 + i * 20}" cy="{y0 + 18}" r="6" fill="{c}"/>')
     b.append(t(x0 + 22, y0 + 76, "›", 18, "#D7B9C8", 700, MONO))
-    b.append(t(x0 + 42, y0 + 76, "/poteto-mode 收藏会重复。", 16, TERM_FG, 600, MONO))
-    b.append(t(x0 + 42, y0 + 100, "先复现，再修，再验证。", 16, TERM_FG, 600, MONO))
-    steps = [("复现", ROSE), ("找根因", APRICOT), ("修", SAGE), ("验证", MINT), ("开 PR", LILAC)]
+    b.append(t(x0 + 42, y0 + 76, L("/poteto-mode 收藏会重复。", "/poteto-mode Saves duplicate."), 16, TERM_FG, 600, MONO))
+    b.append(t(x0 + 42, y0 + 100, L("先复现，再修，再验证。", "Reproduce, fix, verify."), 16, TERM_FG, 600, MONO))
+    steps = [(L("复现", "Reproduce"), ROSE), (L("找根因", "Find cause"), APRICOT), (L("修", "Fix"), SAGE), (L("验证", "Verify"), MINT), (L("开 PR", "Open PR"), LILAC)]
     for i, (name, col) in enumerate(steps):
         y = y0 + 148 + i * 38
         b.append(rect(x0 + 42, y - 18, 22, 22, "none", 5, "#55524B", 'stroke-width="1.5"'))
@@ -355,18 +358,18 @@ def social():
         b.append(t(x0 + 78, y, name, 16, col, 700))
     cx, cy = x0 + 250, y0 + 140
     b.append(rect(cx, cy, 214, 150, "#24231F", 10, "#3A3833"))
-    b.append(t(cx + 18, cy + 30, "证据", 14, "#D7B9C8", 700))
-    b.append(t(cx + 18, cy + 66, "修之前", 14, TERM_MUTED))
-    b.append(t(cx + 196, cy + 66, "2 条", 22, BAD, 700, MONO, "end"))
-    b.append(t(cx + 18, cy + 102, "修之后", 14, TERM_MUTED))
-    b.append(t(cx + 196, cy + 102, "1 条", 22, "#9CC59E", 700, MONO, "end"))
+    b.append(t(cx + 18, cy + 30, L("修之前 / 修之后", "Before / after"), 14, "#D7B9C8", 700))
+    b.append(t(cx + 18, cy + 66, L("修之前", "Before"), 14, TERM_MUTED))
+    b.append(t(cx + 196, cy + 66, L("2 条", "2 rows"), 22, BAD, 700, MONO, "end"))
+    b.append(t(cx + 18, cy + 102, L("修之后", "After"), 14, TERM_MUTED))
+    b.append(t(cx + 196, cy + 102, L("1 条", "1 row"), 22, "#9CC59E", 700, MONO, "end"))
     b.append(t(cx + 18, cy + 134, "prove it works ✓", 13, TERM_FG, 500, MONO))
     b.append("</g>")
     defs = (f'<clipPath id="sw"><rect x="{x0}" y="{y0}" width="{ww}" height="{wh}" rx="14"/></clipPath>'
             '<filter id="ssh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#3A3326" flood-opacity=".20"/></filter>')
     content = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">\n'
                f'<defs>{defs}</defs>\n' + "\n".join(b) + "\n</svg>\n")
-    write("social.svg", content)
+    write("social.svg", content, lang)
 
 
 if __name__ == "__main__":
@@ -376,4 +379,4 @@ if __name__ == "__main__":
         how(lang)
         skills(lang)
         overnight(lang)
-    social()
+        social(lang)

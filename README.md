@@ -4,13 +4,13 @@
 
 **中文** · [English](./README.en.md) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
 
-**让 AI 写代码像个靠谱的资深工程师：先搞懂，再动手，拿出证据。**
+### AI 说「修好了」，你一打开，还是坏的。
 
-[pstack](https://github.com/backnotprop/pstack) 的中文入门教程。说人话，从装上第一行命令，讲到在真实项目里放手让它跑一夜。
+[pstack](https://github.com/backnotprop/pstack) 让它改完先自己试一遍，再来跟你说。<br>这份教程用大白话把 pstack 讲清楚，不会写代码也能学会。
 
-### 👉 [在线阅读：pstack.xiaoxiaodong.ai](https://pstack.xiaoxiaodong.ai)
+### 👉 [在线阅读](https://pstack.xiaoxiaodong.ai) · [English](https://pstack.xiaoxiaodong.ai/en/)
 
-**不会写代码？** 先看 [新手入门三课](https://pstack.xiaoxiaodong.ai/start/1-why/)，20 分钟就能用起来。
+网站有中文和英文两版，README 有 10 种语言。免费，开源。
 
 ![新手入门](https://img.shields.io/badge/新手入门-3_课-8A9A8C?style=flat-square)
 ![完整教程](https://img.shields.io/badge/完整教程-9_步-8A9A8C?style=flat-square)
@@ -25,6 +25,12 @@
   <img src="assets/hero.svg" width="100%" alt="演示：输入一句 /poteto-mode 提示词，AI 列出修 bug 的步骤并逐项打勾，最后给出修前修后的证据">
 </p>
 
+**从哪开始**
+
+- **没写过代码**：[新手入门 3 课](https://pstack.xiaoxiaodong.ai/start/1-why/)，20 分钟。学会让 AI 帮你做小网页、小工具，并看出它做得对不对。
+- **会写代码**：[9 步完整教程](https://pstack.xiaoxiaodong.ai/guide/0-what/)和 17 篇 How-to，从第一个任务讲到让它独自跑一整夜。
+- **想学怎么跟 AI 说话**：[34 个技能](https://pstack.xiaoxiaodong.ai/skills/)都有原文、中文译文和写法拆解，看高手怎么写提示词。
+
 <p align="center">
   <a href="#-为什么需要它">为什么</a> ·
   <a href="#-它是怎么干活的">怎么干活</a> ·
@@ -38,24 +44,30 @@
 
 ## 😵 为什么需要它
 
-用 AI 写过代码的人，大概都见过这一幕：它一上来就改，改在看起来合理的地方，然后告诉你「已修复，应该没问题了」。你一跑，还是坏的。
+用 AI 写代码，你多半经历过这些：
+
+- 它说「已修复，应该没问题了」。你一跑，还是坏的。
+- 你说「还是不行」，它说「抱歉」，又改一处。来回五轮，一个下午没了。
+- 你只想改一个按钮，它顺手动了十几个文件。
+- 新开一个对话，它把昨天踩过的坑又踩一遍。
 
 <p align="center">
   <img src="assets/before-after.svg" width="100%" alt="对比：不用 pstack 时 AI 直接改代码、跳过复现和验证；用 pstack 时五步都做，并给出修前修后的证据">
 </p>
 
-pstack 是 poteto（React 核心团队成员，在 Cursor 工作）每天自己写代码用的一包 Agent Skills。**模型还是那个模型，变的是做事的顺序和标准：**
+不是模型不够聪明，是它做事没章法：没看懂就改，没试过就说做完。pstack 是 poteto（React 核心团队成员，在 Cursor 工作）每天自己写代码用的一套 Agent Skills。**模型还是那个模型，变的是做事的顺序和标准：**
 
 | | 平常的 AI | 装了 pstack |
 |---|---|---|
 | 动手之前 | 直接改 | 先用自己的话复述目标，先用 `/how` 读懂代码 |
-| 修 bug | 在表面加个判断 | 先复现，找到**第一个出错的地方**再修 |
+| 修 bug | 在表面加个判断 | 先让问题再出现一次，找到**第一个出错的地方**再修 |
 | 说「做完了」 | 「应该没问题了」 | 贴出真实的命令输出、存下来的值、前后对比 |
-| 代码量 | 越改越多 | 第一条原则：能删就删，用最小的改动解决问题 |
+| 代码量 | 越改越多 | 能删就删，用最小的改动解决问题 |
+| 同一个错 | 下次还犯 | 用 `/correct` 改仓库本身，让下一个 AI 犯不了 |
 | 并行 | 几个 AI 抢同一个目录 | 各用各的 worktree，放心同时开好几个 |
 
 > [!NOTE]
-> pstack 会多派子代理、让几个模型互相挑刺，所以**更慢、更费 token**。这是换来严谨的价格。小改动不用它，怎么省见 [控制花费](https://pstack.xiaoxiaodong.ai/howto/cost/)。
+> pstack 会多派帮手 AI、让几个模型互相挑刺，所以**更慢、更费 token**。小改动不用它，怎么省见 [控制花费](https://pstack.xiaoxiaodong.ai/howto/cost/)。
 
 ## 🧭 它是怎么干活的
 
@@ -92,7 +104,7 @@ npx skills add backnotprop/pstack
 ```
 
 > [!TIP]
-> 一句好提示词最多五样东西：**目标**、**怎么算做完**、**想看什么证据**、**你已经知道的**、**真正的约束**。最好别写的两样：具体怎么做，和你猜的原因。详见 [第 3 步](https://pstack.xiaoxiaodong.ai/guide/3-first-task/)。
+> 一句好提示词最多五样东西：**目标**、**怎么算做完**、**想看什么证据**、**你已经知道的**、**不能碰的地方**。最好别写的两样：具体怎么做，和你猜的原因。详见 [第 3 步](https://pstack.xiaoxiaodong.ai/guide/3-first-task/)。
 
 ## 🗺️ 34 个技能，一张图
 
@@ -108,14 +120,14 @@ npx skills add backnotprop/pstack
 
 | 你手上的活 | 看这篇 | 一句话要点 |
 |---|---|---|
-| 修一个 bug | [先复现，再修，再证明](https://pstack.xiaoxiaodong.ai/howto/fix-bug/) | 「先复现」是约束，不是客气话 |
-| 加一个功能 | [不碰坏旧的](https://pstack.xiaoxiaodong.ai/howto/add-feature/) | 说清楚哪些旧行为一个字节都不能变 |
+| 修一个 bug | [先复现，再修，再证明](https://pstack.xiaoxiaodong.ai/howto/fix-bug/) | 先让问题再出现一次，再动手修 |
+| 加一个功能 | [不碰坏旧的](https://pstack.xiaoxiaodong.ai/howto/add-feature/) | 说清楚哪些旧行为一点都不能变 |
 | 重构 | [结构变，行为不变](https://pstack.xiaoxiaodong.ai/howto/refactor/) | 先录下现在的输出，改完证明没变 |
 | 嫌它慢 | [拿数字说话](https://pstack.xiaoxiaodong.ai/howto/perf/) | 给一个测量值，不是一个感觉 |
 | 接手陌生项目 | [先看懂再动手](https://pstack.xiaoxiaodong.ai/howto/new-codebase/) | 「先别改代码」让它只调查 |
 | 提交前心里没底 | [让几个模型挑刺](https://pstack.xiaoxiaodong.ai/howto/review-branch/) | 只留下能跑出失败的问题 |
 | 写文档 | [README、PR 说明](https://pstack.xiaoxiaodong.ai/howto/write-docs/) | 给别人用的代码，先写 README |
-| 一个大迁移 | [睡前交给它](https://pstack.xiaoxiaodong.ai/howto/big-migration/) | 「做 4 小时」不是完成条件 |
+| 一个大迁移 | [睡前交给它](https://pstack.xiaoxiaodong.ai/howto/big-migration/) | 完成条件要能判断过没过，不写「做 4 小时」 |
 
 还有 [照抄就能用的提示词](https://pstack.xiaoxiaodong.ai/howto/recipes/)、[跑偏了一句话拉回来](https://pstack.xiaoxiaodong.ai/howto/steer/)、[不知道该用哪个技能](https://pstack.xiaoxiaodong.ai/howto/which-skill/)。
 
@@ -168,7 +180,7 @@ tools/build_assets.py  生成 README 插画、SVG 动画和分享大图（social
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) 由 [poteto](https://x.com/poteto) 开发；本站用的是 [backnotprop/pstack](https://github.com/backnotprop/pstack) 这个通用镜像。教程内容依据它的 README 和 docs/guide 写成，命令和行为以官方仓库为准。
 - 站点骨架来自 [小小东 VPS 教程站](https://vps.xiaoxiaodong.ai)，界面用 [小小东 UI Kit](https://ui.xiaoxiaodong.ai)，插画配色借自 [ghostty-tint](https://github.com/nevertoday/ghostty-tint)。
 
-本站是非官方的中文入门教程。发现哪里没写清楚、照做不成功，欢迎 [提 Issue](https://github.com/nevertoday/xxd-pstack/issues)。
+本站是非官方的入门教程，网站有中文和英文两版。发现哪里没写清楚、照做不成功，欢迎 [提 Issue](https://github.com/nevertoday/xxd-pstack/issues)。
 
 ## 📄 License
 

@@ -4,16 +4,15 @@
 
 [中文](./README.md) · [English](./README.en.md) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · **Deutsch** · [Português](./README.pt.md)
 
-**Lass die KI Code schreiben wie ein verlässlicher Senior Engineer: erst verstehen, dann ändern, dann Belege zeigen.**
+### Die KI sagt „behoben“. Du öffnest es. Immer noch kaputt.
 
-Eine Einsteigeranleitung für [pstack](https://github.com/backnotprop/pstack) in einfachen Worten: vom ersten Installationsbefehl bis dahin, es in einem echten Projekt die ganze Nacht arbeiten zu lassen.
+[pstack](https://github.com/backnotprop/pstack) bringt sie dazu, ihre Arbeit selbst auszuprobieren, bevor sie „fertig“ sagt.<br>Diese Anleitung erklärt pstack in einfachen Worten. Du kannst es lernen, auch wenn du noch nie Code geschrieben hast.
 
-### 👉 [Online lesen: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
+### 👉 [Online lesen](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-**Du programmierst nicht?** Fang mit den [drei Lektionen für Einsteiger](https://pstack.xiaoxiaodong.ai/en/start/1-why/) an. In 20 Minuten nutzt du es.
+Die Website gibt es auf Englisch und Chinesisch, diese README in 10 Sprachen. Kostenlos und Open Source.
 
-Die Tutorial-Website gibt es auf Englisch und Chinesisch (chinesische Version: <https://pstack.xiaoxiaodong.ai>).
-
+![Einsteigerkurs](https://img.shields.io/badge/Einsteigerkurs-3_Lektionen-8A9A8C?style=flat-square)
 ![Leitfaden](https://img.shields.io/badge/Leitfaden-9_Schritte-8A9A8C?style=flat-square)
 ![Skills](https://img.shields.io/badge/Skills-34-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_Anleitungen-C9A97A?style=flat-square)
@@ -25,6 +24,12 @@ Die Tutorial-Website gibt es auf Englisch und Chinesisch (chinesische Version: <
 <p align="center">
   <img src="assets/en/hero.svg" width="100%" alt="Demo: Du tippst einen /poteto-mode-Prompt; die KI listet die Schritte zur Fehlerbehebung auf, hakt sie einzeln ab und zeigt am Ende Belege für vorher und nachher">
 </p>
+
+**Wo anfangen**
+
+- **Noch nie Code geschrieben**: die [3 Lektionen für Einsteiger](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20 Minuten. Du lernst, dir von der KI kleine Seiten und Tools bauen zu lassen und zu erkennen, ob sie es richtig gemacht hat.
+- **Du programmierst**: der [Leitfaden in 9 Schritten](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) und 17 How-tos, von der ersten Aufgabe bis dahin, dass sie über Nacht allein arbeitet.
+- **Du willst besser mit KI reden**: Zu jedem der [34 Skills](https://pstack.xiaoxiaodong.ai/en/skills/) gibt es den vollen Text und eine Analyse, wie er formuliert ist. So siehst du, wie ein Profi Prompts schreibt.
 
 <p align="center">
   <a href="#-warum-du-es-brauchst">Warum</a> ·
@@ -39,24 +44,30 @@ Die Tutorial-Website gibt es auf Englisch und Chinesisch (chinesische Version: <
 
 ## 😵 Warum du es brauchst
 
-Wer schon mit KI programmiert hat, kennt das wahrscheinlich: Sie legt sofort los, ändert etwas an einer plausibel wirkenden Stelle und meldet dann: „Behoben, sollte jetzt passen.“ Du führst es aus, und es ist immer noch kaputt.
+Wer schon mit KI programmiert hat, kennt das wahrscheinlich:
+
+- Sie sagt: „Behoben, sollte jetzt passen.“ Du führst es aus. Immer noch kaputt.
+- Du sagst: „Geht immer noch nicht.“ Sie entschuldigt sich und ändert etwas anderes. Fünf Runden später ist dein Nachmittag weg.
+- Du wolltest einen Button ändern. Sie hat ein Dutzend Dateien angefasst.
+- In einem neuen Chat tappt sie in dieselbe Falle wie gestern.
 
 <p align="center">
   <img src="assets/en/before-after.svg" width="100%" alt="Vergleich: Ohne pstack ändert die KI sofort den Code und überspringt Reproduzieren und Verifizieren; mit pstack geht sie alle fünf Schritte durch und zeigt Belege für vorher und nachher">
 </p>
 
-pstack ist das Paket an Agent Skills, das poteto (Mitglied des React-Kernteams, arbeitet bei Cursor) jeden Tag beim eigenen Programmieren nutzt. **Das Modell bleibt dasselbe. Was sich ändert, sind die Reihenfolge der Arbeit und der Anspruch daran:**
+Das Modell ist nicht zu dumm. Es arbeitet nur ohne Methode: Es ändert Code, den es nicht verstanden hat, und meldet „fertig“, ohne es auszuprobieren. pstack ist das Paket an Agent Skills, das poteto (Mitglied des React-Kernteams, arbeitet bei Cursor) jeden Tag beim eigenen Programmieren nutzt. **Das Modell bleibt dasselbe. Was sich ändert, sind die Reihenfolge der Arbeit und der Anspruch daran:**
 
 | | Typische KI | Mit pstack |
 |---|---|---|
 | Bevor Code angefasst wird | Ändert direkt | Formuliert das Ziel in eigenen Worten und liest den Code zuerst mit `/how` |
-| Einen Bug beheben | Fügt an der Oberfläche eine Prüfung ein | Reproduziert zuerst, findet **die erste Stelle, an der es schiefgeht**, und behebt dann |
+| Einen Bug beheben | Fügt an der Oberfläche eine Prüfung ein | Lässt den Bug erst noch einmal auftreten, findet **die erste Stelle, an der es schiefgeht**, und behebt dann |
 | „Fertig“ sagen | „Sollte jetzt passen“ | Fügt echte Befehlsausgaben, gespeicherte Werte und Vorher-nachher-Vergleiche ein |
-| Codemenge | Wird immer mehr | Erstes Prinzip: löschen, was geht, und mit der kleinsten Änderung lösen |
+| Codemenge | Wird immer mehr | Löscht, was geht, und löst es mit der kleinsten Änderung |
+| Derselbe Fehler | Passiert beim nächsten Mal wieder | `/correct` ändert das Repo selbst, damit die nächste KI ihn nicht machen kann |
 | Paralleles Arbeiten | Mehrere KIs streiten sich um einen Ordner | Jede bekommt ihren eigenen Worktree, so laufen mehrere gefahrlos gleichzeitig |
 
 > [!NOTE]
-> pstack schickt mehr Subagenten los und lässt mehrere Modelle an der Arbeit der anderen herumkritteln, deshalb ist es **langsamer und verbraucht mehr Tokens**. Das ist der Preis für Gründlichkeit. Für kleine Änderungen brauchst du es nicht. Wie man spart, steht unter [Kosten im Griff](https://pstack.xiaoxiaodong.ai/en/howto/cost/) (auf Englisch).
+> pstack schickt mehr Helfer-KIs los und lässt mehrere Modelle an der Arbeit der anderen herumkritteln, deshalb ist es **langsamer und verbraucht mehr Tokens**. Für kleine Änderungen brauchst du es nicht. Wie man spart, steht unter [Kosten im Griff](https://pstack.xiaoxiaodong.ai/en/howto/cost/) (auf Englisch).
 
 ## 🧭 So arbeitet es
 
@@ -93,7 +104,7 @@ Zeig mir den tatsächlichen Inhalt von storage vor und nach dem Fix.
 ```
 
 > [!TIP]
-> Ein guter Prompt enthält höchstens fünf Dinge: **das Ziel**, **was als fertig gilt**, **welche Belege du sehen willst**, **was du schon weißt** und **echte Einschränkungen**. Zwei Dinge lässt du besser weg: wie genau es zu tun ist, und deine Vermutung zur Ursache. Mehr dazu in [Schritt 3](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/) (auf Englisch).
+> Ein guter Prompt enthält höchstens fünf Dinge: **das Ziel**, **was als fertig gilt**, **welche Belege du sehen willst**, **was du schon weißt** und **was nicht angefasst werden darf**. Zwei Dinge lässt du besser weg: wie genau es zu tun ist, und deine Vermutung zur Ursache. Mehr dazu in [Schritt 3](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/) (auf Englisch).
 
 ## 🗺️ 34 Skills auf einer Karte
 
@@ -101,7 +112,7 @@ Zeig mir den tatsächlichen Inhalt von storage vor und nach dem Fix.
   <img src="assets/en/skills.svg" width="100%" alt="pstack-Skill-Karte: 34 Skills in sieben Gruppen, dazu 24 Prinzipien">
 </p>
 
-Im Alltag tippst du nur `/poteto-mode`; die anderen ruft es selbst auf, wenn es sie braucht. Wenn du einen Skill gezielt beim Namen aufrufen oder einen Namen nachschlagen willst, den die KI erwähnt hat, schau in die [Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/) (auf Englisch): Zu jedem Skill gibt es eine Erklärung in einfachen Worten, wann man ihn nutzt, ein Beispiel zum Kopieren und was man dazu installieren sollte.
+Im Alltag tippst du nur `/poteto-mode`; die anderen ruft es selbst auf, wenn es sie braucht. Wenn du einen Skill gezielt beim Namen aufrufen oder einen Namen nachschlagen willst, den die KI erwähnt hat, schau in die [Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/) (auf Englisch): Zu jedem Skill gibt es eine Erklärung in einfachen Worten, wann man ihn nutzt, ein Beispiel zum Kopieren und was man dazu installieren sollte. Öffne einen Skill, um seine vollständige SKILL.md und „Was seine Formulierung lehrt“ zu lesen: ein paar Sätze aus dem Original, was jeder davon bei der KI bewirkt, warum er so geschrieben ist und wie du ihn für deine eigenen Prompts übernimmst.
 
 ## 🛠 In echten Projekten
 
@@ -109,14 +120,14 @@ Jede Anleitung enthält Prompts, die du direkt kopieren kannst, mit Beispielen a
 
 | Deine Aufgabe | Lies das | Der Kern in einem Satz |
 |---|---|---|
-| Einen Bug beheben | [Reproduzieren, beheben, beweisen](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | „Erst reproduzieren“ ist eine Vorgabe, keine Höflichkeit |
-| Ein Feature hinzufügen | [Ohne Altes kaputt zu machen](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Sag, welches bestehende Verhalten sich um kein einziges Byte ändern darf |
+| Einen Bug beheben | [Reproduzieren, beheben, beweisen](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | Den Bug erst wieder auslösen, bevor irgendetwas behoben wird |
+| Ein Feature hinzufügen | [Ohne Altes kaputt zu machen](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Sag, welches bestehende Verhalten sich überhaupt nicht ändern darf |
 | Refaktorieren | [Neue Struktur, gleiches Verhalten](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | Erst die aktuelle Ausgabe festhalten, danach beweisen, dass sie gleich blieb |
 | Es ist zu langsam | [Schneller machen, mit Zahlen](https://pstack.xiaoxiaodong.ai/en/howto/perf/) | Gib ihm einen Messwert, kein Gefühl |
 | Ein fremdes Projekt übernehmen | [Erst verstehen, dann anfassen](https://pstack.xiaoxiaodong.ai/en/howto/new-codebase/) | „Ändere noch keinen Code“ beschränkt es aufs Untersuchen |
 | Unsicher vor dem Einreichen | [Mehrere Modelle nach Schwächen suchen lassen](https://pstack.xiaoxiaodong.ai/en/howto/review-branch/) | Nur Probleme behalten, die sich als echter Fehlschlag zeigen lassen |
 | Doku schreiben | [READMEs, PR-Beschreibungen](https://pstack.xiaoxiaodong.ai/en/howto/write-docs/) | Bei Code, den andere nutzen, zuerst die README schreiben |
-| Eine große Migration | [Vor dem Schlafengehen übergeben](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | „Arbeite 4 Stunden“ ist keine Fertig-Bedingung |
+| Eine große Migration | [Vor dem Schlafengehen übergeben](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | Eine Fertig-Bedingung, die besteht oder scheitert, nicht „Arbeite 4 Stunden“ |
 
 Außerdem gibt es [Prompts zum Kopieren](https://pstack.xiaoxiaodong.ai/en/howto/recipes/), [Mit einem Satz zurück auf Kurs](https://pstack.xiaoxiaodong.ai/en/howto/steer/) und [Welcher Skill passt?](https://pstack.xiaoxiaodong.ai/en/howto/which-skill/) (alles auf Englisch).
 
@@ -132,8 +143,9 @@ Hier zahlen sich alle vorherigen Schritte aus: Nur eine KI, die **ihre eigene Ar
 
 | Bereich | Inhalt |
 |---|---|
-| [Leitfaden](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 Schritte, der Reihe nach: was es ist → Installation → Modelle wählen → erste Aufgabe → erst verstehen → entwerfen, bauen, aufräumen → verifizieren und ausliefern → über Nacht → mach es zu deinem |
-| [Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 Skills, je eine Karte |
+| [Einsteigerkurs](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3 Lektionen, 20 Minuten, ohne Programmieren: was es dir bringt → installieren → zum ersten Mal benutzen |
+| [Ganzer Leitfaden](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 Schritte für alle, die programmieren: was es ist → Installation → Modelle wählen → erste Aufgabe → erst verstehen → entwerfen, bauen, aufräumen → verifizieren und ausliefern → über Nacht → sobald du dich auskennst |
+| [Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 Skills, jeweils mit vollem Text und einer Analyse der Formulierung |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 Anleitungen, je eine Aufgabe |
 | [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 Begriffe: ein Satz → ein Vergleich → in pstack → häufige Irrtümer; mit Tabellen der 24 Prinzipien und 23 Playbooks |
 | [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | Kostet das Geld? Muss ich Cursor nutzen? Pfuscht es mir im Code herum? |
@@ -154,6 +166,7 @@ src/data/nav.js        Website-Struktur: Leitfaden, How-to-Liste, Glossar (einzi
 src/data/skills.js     Daten der Skill-Referenz
 src/data/wiki.js       Wiki-Einträge
 src/data/faq.js        FAQ
+src/pages/start/       Einsteigerkurs, 3 Lektionen (MDX)
 src/pages/guide/       Leitfaden (MDX)
 src/pages/howto/       How-to (MDX)
 public/xxd/            Xiaoxiaodong UI Kit (eigene Kopie, kein CDN)
@@ -167,7 +180,7 @@ Inhalte bearbeiten, Seiten hinzufügen und Schreibregeln: siehe [docs/MAINTAININ
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) stammt von [poteto](https://x.com/poteto); diese Website nutzt [backnotprop/pstack](https://github.com/backnotprop/pstack), einen allgemeinen Mirror. Der Leitfaden basiert auf dessen README und docs/guide; für Befehle und Verhalten gilt das offizielle Repository.
 - Das Gerüst der Website stammt von der [Xiaoxiaodong-VPS-Tutorial-Website](https://vps.xiaoxiaodong.ai), die Oberfläche nutzt das [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai), und die Farben der Illustrationen sind von [ghostty-tint](https://github.com/nevertoday/ghostty-tint) entliehen.
 
-Dies ist eine inoffizielle Einsteigeranleitung. Wenn etwas unklar ist oder die Schritte nicht funktionieren, [eröffne bitte ein Issue](https://github.com/nevertoday/xxd-pstack/issues).
+Dies ist eine inoffizielle Einsteigeranleitung. Die Website gibt es auf Englisch und Chinesisch. Wenn etwas unklar ist oder die Schritte nicht funktionieren, [eröffne bitte ein Issue](https://github.com/nevertoday/xxd-pstack/issues).
 
 ## 📄 Lizenz
 

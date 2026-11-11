@@ -9,7 +9,8 @@
   - 正文：`src/pages/en/guide/`、`src/pages/en/howto/`（MDX，路径多一层 `../`；站内链接加 `/en`；`<Term k="中文键" />` 照原样，英文名在 `nav.js` 的 `GLOSSARY[k].en`）。
   - 数据：`nav.js` 各条目的 `en: {}`；`wiki.en.js`、`faq.en.js`、`skills.en.js`（按 slug / 技能名叠加，结构和条数要和中文一致）；界面文字在各组件和 `views/` 里的 zh / en 两份。
   - 强调：每页最多一处 `<mark>`（这页最要紧的一句），`<u>` 只给照做会失败的坑；英文页放在对应的那句上。
-- README 有 10 种语言（`README.md` 中文，`README.<lang>.md` 其他）；非中文版用 `assets/en/` 的英文插画（同一个 `build_assets.py` 生成）。
+- 本项目面向全球读者，不只是中文读者：网站有中文和英文，README 有 10 种语言（`README.md` 中文，`README.<lang>.md` 其他）。非中文版用 `assets/en/` 的英文插画（同一个 `build_assets.py` 生成）。
+- 改 README 时 10 种语言一起改，每种都按当地读者的说法写（不是逐字翻译）；结构、链接、徽章保持一致。不要把项目说成「中文教程」。
 
 ```bash
 npm install
@@ -122,4 +123,4 @@ printf '<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:128
 cp assets/social.png public/og.png
 ```
 
-`public/og.png` 是网站的分享图（og:image）。`assets/social.png` 要在 GitHub 仓库 Settings → General → Social preview 手动上传（GitHub 没有接口能设置）。
+分享图有中英两张：`assets/social.svg` 和 `assets/en/social.svg`，转成 PNG 后分别复制成 `public/og.png`（中文页用）和 `public/og-en.png`（英文页用）；上面的命令把 `assets/social.svg` 换成 `assets/en/social.svg` 再跑一次就是英文版。GitHub 仓库的 Social preview 用英文版 `assets/en/social.png`（项目面向全球），要在 Settings → General → Social preview 手动上传（GitHub 没有接口能设置）。

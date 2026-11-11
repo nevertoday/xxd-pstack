@@ -4,16 +4,15 @@
 
 [中文](./README.md) · [English](./README.en.md) · **한국어** · [日本語](./README.ja.md) · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
 
-**AI가 믿을 만한 시니어 엔지니어처럼 코드를 쓰게 하세요: 먼저 이해하고, 그다음 손대고, 증거를 보여 줍니다.**
+### AI는 "고쳤습니다"라고 합니다. 열어 보면 여전히 고장 나 있습니다.
 
-[pstack](https://github.com/backnotprop/pstack)을 쉬운 말로 풀어 쓴 입문 가이드입니다. 첫 설치 명령부터 실제 프로젝트에서 밤새 맡겨 두는 것까지 다룹니다.
+[pstack](https://github.com/backnotprop/pstack)은 AI가 "다 됐습니다"라고 말하기 전에 직접 돌려 보게 만듭니다.<br>이 가이드는 pstack을 쉬운 말로 설명합니다. 코드를 한 번도 안 써 봤어도 배울 수 있습니다.
 
-### 👉 [온라인으로 읽기: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
+### 👉 [온라인으로 읽기](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-**코딩을 안 해 봤나요?** [입문 3강](https://pstack.xiaoxiaodong.ai/en/start/1-why/)부터 보세요. 20분이면 쓸 수 있습니다.
+사이트는 영어와 중국어로, 이 README는 10개 언어로 볼 수 있습니다. 무료이고 오픈 소스입니다.
 
-튜토리얼 사이트는 영어와 중국어로 제공됩니다 (중국어판: <https://pstack.xiaoxiaodong.ai>).
-
+![입문](https://img.shields.io/badge/%EC%9E%85%EB%AC%B8-3%EA%B0%95-8A9A8C?style=flat-square)
 ![가이드](https://img.shields.io/badge/%EA%B0%80%EC%9D%B4%EB%93%9C-9%EB%8B%A8%EA%B3%84-8A9A8C?style=flat-square)
 ![스킬](https://img.shields.io/badge/%EC%8A%A4%ED%82%AC-34%EA%B0%9C-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17%ED%8E%B8-C9A97A?style=flat-square)
@@ -25,6 +24,12 @@
 <p align="center">
   <img src="assets/en/hero.svg" width="100%" alt="데모: /poteto-mode 프롬프트 한 줄을 입력하면 AI가 버그 수정 단계를 나열하고 하나씩 체크한 뒤, 수정 전후의 증거를 보여 준다">
 </p>
+
+**어디서부터 볼까**
+
+- **코드를 써 본 적이 없다면**: [입문 3강](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20분. AI에게 작은 페이지와 도구를 만들게 하고, 제대로 만들었는지 알아보는 법을 배웁니다.
+- **코드를 쓴다면**: [9단계 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)와 How-to 17편. 첫 작업부터 밤새 혼자 일하게 두는 것까지 다룹니다.
+- **AI에게 말하는 법을 늘리고 싶다면**: [스킬 34개](https://pstack.xiaoxiaodong.ai/en/skills/)마다 전문과 문장 해설이 붙어 있습니다. 고수가 프롬프트를 어떻게 쓰는지 볼 수 있습니다.
 
 <p align="center">
   <a href="#-왜-필요한가">왜 필요한가</a> ·
@@ -39,24 +44,30 @@
 
 ## 😵 왜 필요한가
 
-AI로 코드를 써 본 사람이라면 이런 장면을 본 적이 있을 겁니다. 시작하자마자 그럴듯해 보이는 곳을 고치고는 "수정했습니다, 이제 괜찮을 거예요"라고 말합니다. 실행해 보면 여전히 고장 나 있습니다.
+AI로 코드를 써 봤다면 아마 이런 일을 겪어 봤을 겁니다.
+
+- "수정했습니다, 이제 괜찮을 거예요"라고 합니다. 실행해 보면 여전히 고장 나 있습니다.
+- "아직 안 돼요"라고 하면 "죄송합니다" 하고 다른 곳을 고칩니다. 다섯 번 주고받고 나면 오후가 통째로 사라집니다.
+- 버튼 하나만 바꿔 달라고 했는데, 파일을 열 개 넘게 건드립니다.
+- 새 대화를 열면 어제 빠졌던 구멍에 또 빠집니다.
 
 <p align="center">
   <img src="assets/en/before-after.svg" width="100%" alt="비교: pstack 없이는 AI가 바로 코드를 고치고 재현과 검증을 건너뛴다. pstack을 쓰면 다섯 단계를 모두 거치고 수정 전후의 증거를 보여 준다">
 </p>
 
-pstack은 poteto(React 코어 팀 멤버, Cursor 재직)가 매일 직접 코드를 쓸 때 사용하는 Agent Skills 묶음입니다. **모델은 그대로입니다. 바뀌는 것은 일하는 순서와 기준입니다:**
+모델이 멍청해서가 아닙니다. 방법 없이 일하기 때문입니다. 이해하지 못한 코드를 고치고, 돌려 보지도 않고 다 됐다고 합니다. pstack은 poteto(React 코어 팀 멤버, Cursor 재직)가 매일 직접 코드를 쓸 때 사용하는 Agent Skills 묶음입니다. **모델은 그대로입니다. 바뀌는 것은 일하는 순서와 기준입니다:**
 
 | | 보통의 AI | pstack을 설치하면 |
 |---|---|---|
 | 손대기 전 | 바로 고친다 | 목표를 자기 말로 다시 설명하고, `/how`로 먼저 코드를 읽는다 |
-| 버그 수정 | 겉에 조건문 하나 추가 | 먼저 재현하고, **처음 잘못되는 지점**을 찾은 뒤 고친다 |
+| 버그 수정 | 겉에 조건문 하나 추가 | 먼저 버그를 다시 일으켜 보고, **처음 잘못되는 지점**을 찾은 뒤 고친다 |
 | "다 됐다"고 할 때 | "이제 괜찮을 거예요" | 실제 명령 출력, 저장된 값, 전후 비교를 붙인다 |
-| 코드 양 | 고칠수록 늘어난다 | 첫 번째 원칙: 지울 수 있으면 지우고, 가장 작은 변경으로 해결한다 |
+| 코드 양 | 고칠수록 늘어난다 | 지울 수 있으면 지우고, 가장 작은 변경으로 해결한다 |
+| 같은 실수 | 다음에 또 한다 | `/correct`로 저장소 자체를 고쳐서, 다음 AI가 같은 실수를 할 수 없게 한다 |
 | 병렬 작업 | 여러 AI가 한 폴더를 두고 다툰다 | 각자 자기 worktree를 써서, 여러 개를 동시에 안심하고 돌린다 |
 
 > [!NOTE]
-> pstack은 서브에이전트를 더 많이 보내고 여러 모델이 서로의 결과를 따져 보게 하므로 **더 느리고 토큰도 더 씁니다**. 꼼꼼함의 대가입니다. 작은 변경에는 쓰지 마세요. 아끼는 방법은 [비용 줄이기](https://pstack.xiaoxiaodong.ai/en/howto/cost/)(영어)를 보세요.
+> pstack은 도우미 AI를 더 많이 보내고 여러 모델이 서로의 결과를 따져 보게 하므로 **더 느리고 토큰도 더 씁니다**. 작은 변경에는 쓰지 마세요. 아끼는 방법은 [비용 줄이기](https://pstack.xiaoxiaodong.ai/en/howto/cost/)(영어)를 보세요.
 
 ## 🧭 어떻게 일하나
 
@@ -93,7 +104,7 @@ npx skills add backnotprop/pstack
 ```
 
 > [!TIP]
-> 좋은 프롬프트에는 최대 다섯 가지가 들어갑니다: **목표**, **어떻게 되면 완료인지**, **보고 싶은 증거**, **이미 알고 있는 것**, **실제 제약**. 빼는 편이 나은 것은 두 가지입니다: 구체적으로 어떻게 할지, 그리고 원인에 대한 당신의 추측. 자세한 내용은 [3단계](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/)(영어)를 보세요.
+> 좋은 프롬프트에는 최대 다섯 가지가 들어갑니다: **목표**, **어떻게 되면 완료인지**, **보고 싶은 증거**, **이미 알고 있는 것**, **건드리면 안 되는 것**. 빼는 편이 나은 것은 두 가지입니다: 구체적으로 어떻게 할지, 그리고 원인에 대한 당신의 추측. 자세한 내용은 [3단계](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/)(영어)를 보세요.
 
 ## 🗺️ 스킬 34개를 한 장에
 
@@ -101,7 +112,7 @@ npx skills add backnotprop/pstack
   <img src="assets/en/skills.svg" width="100%" alt="pstack 스킬 맵: 일곱 그룹의 스킬 34개와 원칙 24개">
 </p>
 
-평소에는 `/poteto-mode`만 입력하면 됩니다. 나머지는 필요할 때 알아서 부릅니다. 특정 스킬을 이름으로 부르고 싶거나 AI가 언급한 이름을 찾아보고 싶다면 [스킬 레퍼런스](https://pstack.xiaoxiaodong.ai/en/skills/)(영어)를 보세요. 스킬마다 쉬운 한 줄 설명, 언제 쓰는지, 그대로 복사할 수 있는 예문, 함께 설치할 스킬이 있습니다.
+평소에는 `/poteto-mode`만 입력하면 됩니다. 나머지는 필요할 때 알아서 부릅니다. 특정 스킬을 이름으로 부르고 싶거나 AI가 언급한 이름을 찾아보고 싶다면 [스킬 레퍼런스](https://pstack.xiaoxiaodong.ai/en/skills/)(영어)를 보세요. 스킬마다 쉬운 한 줄 설명, 언제 쓰는지, 그대로 복사할 수 있는 예문, 함께 설치할 스킬이 있습니다. 스킬을 열면 SKILL.md 전문과 "문장에서 배울 점"을 읽을 수 있습니다. 원문에서 몇 문장을 골라, 각 문장이 AI에게 무엇을 하게 하는지, 왜 그렇게 썼는지, 내 프롬프트에 어떻게 가져다 쓸지 설명합니다.
 
 ## 🛠 실제 프로젝트에서
 
@@ -109,14 +120,14 @@ npx skills add backnotprop/pstack
 
 | 지금 하려는 일 | 읽을 글 | 한 줄 요점 |
 |---|---|---|
-| 버그 수정 | [재현하고, 고치고, 증명하기](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | "먼저 재현"은 예의상 하는 말이 아니라 제약이다 |
-| 기능 추가 | [기존 것을 망가뜨리지 않고](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | 어떤 기존 동작이 1바이트도 바뀌면 안 되는지 말한다 |
+| 버그 수정 | [재현하고, 고치고, 증명하기](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | 고치기 전에 먼저 버그를 다시 일으킨다 |
+| 기능 추가 | [기존 것을 망가뜨리지 않고](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | 어떤 기존 동작이 조금도 바뀌면 안 되는지 말한다 |
 | 리팩터링 | [구조는 바꾸고 동작은 그대로](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | 지금의 출력을 먼저 기록하고, 바꾼 뒤 그대로임을 증명한다 |
 | 너무 느리다 | [숫자로 말하기](https://pstack.xiaoxiaodong.ai/en/howto/perf/) | 느낌이 아니라 측정값을 준다 |
 | 낯선 프로젝트 인수 | [손대기 전에 이해하기](https://pstack.xiaoxiaodong.ai/en/howto/new-codebase/) | "아직 코드는 고치지 마"라고 하면 조사만 한다 |
 | 제출 전에 불안하다 | [여러 모델에게 흠 잡게 하기](https://pstack.xiaoxiaodong.ai/en/howto/review-branch/) | 실패를 실제로 재현할 수 있는 문제만 남긴다 |
 | 문서 작성 | [README, PR 설명](https://pstack.xiaoxiaodong.ai/en/howto/write-docs/) | 남이 쓸 코드라면 README부터 쓴다 |
-| 큰 마이그레이션 | [자기 전에 맡기기](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | "4시간 동안 해"는 완료 조건이 아니다 |
+| 큰 마이그레이션 | [자기 전에 맡기기](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | "4시간 동안 해"가 아니라, 통과와 실패가 분명한 완료 조건을 준다 |
 
 그 밖에 [그대로 복사해 쓰는 프롬프트](https://pstack.xiaoxiaodong.ai/en/howto/recipes/), [한 문장으로 다시 궤도에 올리기](https://pstack.xiaoxiaodong.ai/en/howto/steer/), [어떤 스킬을 써야 할지 모르겠을 때](https://pstack.xiaoxiaodong.ai/en/howto/which-skill/)도 있습니다. (모두 영어)
 
@@ -132,8 +143,9 @@ npx skills add backnotprop/pstack
 
 | 섹션 | 내용 |
 |---|---|
-| [가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9단계, 순서대로 읽기: 무엇인가 → 설치 → 모델 고르기 → 첫 작업 → 먼저 이해하기 → 설계·구현·정리 → 검증과 전달 → 밤새 맡기기 → 나만의 것으로 |
-| [스킬 레퍼런스](https://pstack.xiaoxiaodong.ai/en/skills/) | 스킬 34개, 하나에 카드 하나 |
+| [입문 과정](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3강, 20분, 코딩 몰라도 됨: 무엇을 해 주나 → 설치하기 → 처음 써 보기 |
+| [전체 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 코드를 쓰는 사람을 위한 9단계: 무엇인가 → 설치 → 모델 고르기 → 첫 작업 → 먼저 이해하기 → 설계·구현·정리 → 검증과 전달 → 밤새 맡기기 → 익숙해지면 |
+| [스킬 레퍼런스](https://pstack.xiaoxiaodong.ai/en/skills/) | 스킬 34개, 각각 전문과 문장 해설 포함 |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17편, 한 편에 한 가지 일 |
 | [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 개념 20개: 한 문장 → 비유 → pstack에서는 → 흔한 오해. 원칙 24개와 플레이북 23개 대조표 포함 |
 | [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | 돈이 드나요? Cursor를 꼭 써야 하나요? 내 코드를 함부로 고치지 않나요? |
@@ -154,6 +166,7 @@ src/data/nav.js        사이트 구조: 가이드, How-to 목록, 용어집 (�
 src/data/skills.js     스킬 레퍼런스 데이터
 src/data/wiki.js       Wiki 항목
 src/data/faq.js        FAQ
+src/pages/start/       입문 과정 3강 (MDX)
 src/pages/guide/       가이드 (MDX)
 src/pages/howto/       How-to (MDX)
 public/xxd/            Xiaoxiaodong UI Kit (CDN 없이 사본 포함)
@@ -167,7 +180,7 @@ tools/build_assets.py  README 일러스트, SVG 애니메이션, 공유 이미�
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack)은 [poteto](https://x.com/poteto)가 만들었습니다. 이 사이트는 범용 미러인 [backnotprop/pstack](https://github.com/backnotprop/pstack)을 사용합니다. 가이드 내용은 그 README와 docs/guide를 바탕으로 썼으며, 명령과 동작은 공식 저장소가 기준입니다.
 - 사이트 골격은 [Xiaoxiaodong VPS 튜토리얼 사이트](https://vps.xiaoxiaodong.ai)에서 왔고, 인터페이스는 [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai)을, 일러스트 색은 [ghostty-tint](https://github.com/nevertoday/ghostty-tint)에서 빌려 왔습니다.
 
-이 사이트는 비공식 입문 가이드입니다. 설명이 불분명하거나 따라 했는데 잘 안 되면 [Issue를 열어](https://github.com/nevertoday/xxd-pstack/issues) 주세요.
+이 사이트는 비공식 입문 가이드입니다. 사이트는 영어와 중국어로 제공됩니다. 설명이 불분명하거나 따라 했는데 잘 안 되면 [Issue를 열어](https://github.com/nevertoday/xxd-pstack/issues) 주세요.
 
 ## 📄 라이선스
 

@@ -4,14 +4,15 @@
 
 [中文](./README.md) · **English** · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
 
-**Make AI write code like a senior engineer you can trust: understand first, then change, then show the evidence.**
+### Your AI says “fixed.” You open it. Still broken.
 
-A plain-language beginner's guide to [pstack](https://github.com/backnotprop/pstack), from typing your first install command to letting it run overnight on a real project.
+[pstack](https://github.com/backnotprop/pstack) makes it try its own work before it tells you it's done.<br>This guide explains pstack in plain words. You can learn it even if you've never written code.
 
-### 👉 [Read it online: pstack.xiaoxiaodong.ai/en](https://pstack.xiaoxiaodong.ai/en/)
+### 👉 [Read online](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
 
-**Don't code?** Start with the [three beginner lessons](https://pstack.xiaoxiaodong.ai/en/start/1-why/). You'll be using it in 20 minutes.
+The site is in English and Chinese, and this README is in 10 languages. Free and open source.
 
+![Beginner track](https://img.shields.io/badge/Beginner_track-3_lessons-8A9A8C?style=flat-square)
 ![Guide](https://img.shields.io/badge/Guide-9_steps-8A9A8C?style=flat-square)
 ![Skills](https://img.shields.io/badge/Skills-34-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_guides-C9A97A?style=flat-square)
@@ -23,6 +24,12 @@ A plain-language beginner's guide to [pstack](https://github.com/backnotprop/pst
 <p align="center">
   <img src="assets/en/hero.svg" width="100%" alt="Demo: type one /poteto-mode prompt; the AI lists the bug-fix steps, checks them off one by one, and ends with before-and-after evidence">
 </p>
+
+**Where to start**
+
+- **Never written code**: the [3 beginner lessons](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20 minutes. Learn to have AI build small pages and tools for you, and to tell whether it got them right.
+- **You code**: the [9-step guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) and 17 how-tos, from your first task to letting it work alone overnight.
+- **You want to get better at talking to AI**: each of the [34 skills](https://pstack.xiaoxiaodong.ai/en/skills/) comes with its full text and a breakdown of how it's worded. See how an expert writes prompts.
 
 <p align="center">
   <a href="#-why-you-need-it">Why</a> ·
@@ -37,24 +44,30 @@ A plain-language beginner's guide to [pstack](https://github.com/backnotprop/pst
 
 ## 😵 Why you need it
 
-If you've written code with AI, you've probably seen this: it starts editing right away, changes something in a plausible-looking spot, then tells you "Fixed, should be fine now." You run it, and it's still broken.
+If you've coded with AI, you've probably lived through these:
+
+- It says "Fixed, should be fine now." You run it. Still broken.
+- You say "still broken." It says "sorry" and changes something else. Five rounds later, your afternoon is gone.
+- You asked it to change one button. It touched a dozen files.
+- In a new chat, it falls into the same hole it fell into yesterday.
 
 <p align="center">
   <img src="assets/en/before-after.svg" width="100%" alt="Comparison: without pstack the AI edits code right away and skips reproducing and verifying; with pstack it does all five steps and shows before-and-after evidence">
 </p>
 
-pstack is the pack of Agent Skills that poteto (a React core team member who works at Cursor) uses to write code every day. **The model stays the same. What changes is the order it works in and the bar it holds itself to:**
+The model isn't too dumb. It just works without a method: it changes code it hasn't understood, and calls things done without trying them. pstack is the set of Agent Skills that poteto (a React core team member who works at Cursor) uses to write code every day. **The model stays the same. What changes is the order it works in and the bar it holds itself to:**
 
 | | Typical AI | With pstack |
 |---|---|---|
 | Before touching code | Edits right away | Restates the goal in its own words, reads the code with `/how` first |
-| Fixing a bug | Adds a check on the surface | Reproduces it first, finds **the first place it goes wrong**, then fixes |
+| Fixing a bug | Adds a check on the surface | Makes the bug happen again, finds **the first place it goes wrong**, then fixes |
 | Saying "done" | "Should be fine now" | Pastes real command output, stored values, before-and-after comparisons |
-| Amount of code | Keeps growing | First principle: delete what you can, solve it with the smallest change |
+| Amount of code | Keeps growing | Deletes what it can, solves it with the smallest change |
+| The same mistake | Makes it again next time | `/correct` changes the repo itself, so the next AI can't make it |
 | Parallel work | Several AIs fight over one folder | Each gets its own worktree, so you can safely run several at once |
 
 > [!NOTE]
-> pstack sends out more subagents and has several models pick holes in each other's work, so it's **slower and uses more tokens**. That's the price of being thorough. Skip it for small changes. For ways to save, see [Keep costs down](https://pstack.xiaoxiaodong.ai/en/howto/cost/).
+> pstack sends out more helper AIs and has several models pick holes in each other's work, so it's **slower and uses more tokens**. Skip it for small changes. For ways to save, see [Keep costs down](https://pstack.xiaoxiaodong.ai/en/howto/cost/).
 
 ## 🧭 How it works
 
@@ -91,7 +104,7 @@ Show me the actual storage contents before and after the fix.
 ```
 
 > [!TIP]
-> A good prompt has at most five things: **the goal**, **what counts as done**, **what evidence you want**, **what you already know**, and **real constraints**. Two things are better left out: exactly how to do it, and your guess at the cause. More in [Step 3](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/).
+> A good prompt has at most five things: **the goal**, **what counts as done**, **what evidence you want**, **what you already know**, and **what must not be touched**. Two things are better left out: exactly how to do it, and your guess at the cause. More in [Step 3](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/).
 
 ## 🗺️ 34 skills, one map
 
@@ -99,7 +112,7 @@ Show me the actual storage contents before and after the fix.
   <img src="assets/en/skills.svg" width="100%" alt="pstack skill map: 34 skills in seven groups, plus 24 principles">
 </p>
 
-Day to day you only type `/poteto-mode`; it calls the others when it needs them. If you want to call one by name, or the AI mentions a name you want to look up, see the [Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/): each skill has a plain-language summary, when to use it, an example you can copy, and what to install with it.
+Day to day you only type `/poteto-mode`; it calls the others when it needs them. If you want to call one by name, or the AI mentions a name you want to look up, see the [Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/): each skill has a plain-language summary, when to use it, an example you can copy, and what to install with it. Open a skill to read its full SKILL.md and "what its wording teaches": a few sentences from the original, what each makes the AI do, why it's written that way, and how to borrow it in your own prompts.
 
 ## 🛠 In real projects
 
@@ -107,14 +120,14 @@ Every guide has prompts you can copy as is, with examples from real setups like 
 
 | The job in front of you | Read this | The gist |
 |---|---|---|
-| Fix a bug | [Reproduce, fix, prove it](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | "Reproduce first" is a constraint, not a pleasantry |
-| Add a feature | [Without breaking old ones](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Say which existing behavior must not change by a single byte |
+| Fix a bug | [Reproduce, fix, prove it](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | Make the bug happen again before anything gets fixed |
+| Add a feature | [Without breaking old ones](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Say which existing behavior must not change at all |
 | Refactor | [New structure, same behavior](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | Record the current output first, then prove it didn't change |
 | It's too slow | [Make it faster, with numbers](https://pstack.xiaoxiaodong.ai/en/howto/perf/) | Give it a measurement, not a feeling |
 | Take over an unfamiliar project | [Understand before you touch it](https://pstack.xiaoxiaodong.ai/en/howto/new-codebase/) | "Don't change any code yet" keeps it to investigating |
 | Unsure before you ship | [Let several models pick holes](https://pstack.xiaoxiaodong.ai/en/howto/review-branch/) | Only keep the problems that can be shown failing |
 | Write docs | [READMEs, PR descriptions](https://pstack.xiaoxiaodong.ai/en/howto/write-docs/) | For code others will use, write the README first |
-| A big migration | [Hand it over before bed](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | "Work for 4 hours" is not a done condition |
+| A big migration | [Hand it over before bed](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | A done condition that passes or fails, not "work for 4 hours" |
 
 There's also [Copy-paste prompts](https://pstack.xiaoxiaodong.ai/en/howto/recipes/), [Pull it back on track in one sentence](https://pstack.xiaoxiaodong.ai/en/howto/steer/) and [Not sure which skill to use](https://pstack.xiaoxiaodong.ai/en/howto/which-skill/).
 
@@ -130,8 +143,9 @@ This is where all the earlier steps pay off: only an AI that **can verify its ow
 
 | Section | What's in it |
 |---|---|
-| [Guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 steps, read in order: what it is → install → pick models → first task → understand first → design, build, clean up → verify and ship → run overnight → make it your own |
-| [Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 skills, one card each |
+| [Beginner track](https://pstack.xiaoxiaodong.ai/en/start/1-why/) | 3 lessons, 20 minutes, no coding needed: what it does for you → install it → use it for the first time |
+| [Full guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) | 9 steps for people who code: what it is → install → pick models → first task → understand first → design, build, clean up → verify and ship → run overnight → once you're comfortable |
+| [Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/) | 34 skills, each with its full text and a breakdown of its wording |
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 guides, one task each |
 | [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 concepts: one sentence → an analogy → in pstack → common mistakes; includes tables of the 24 principles and 23 playbooks |
 | [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | Does it cost money? Do I have to use Cursor? Will it mess up my code? |
@@ -152,6 +166,7 @@ src/data/nav.js        Site structure: guide, How-to list, glossary (single sour
 src/data/skills.js     Data for the skill reference
 src/data/wiki.js       Wiki entries
 src/data/faq.js        FAQ
+src/pages/start/       Beginner track, 3 lessons (MDX)
 src/pages/guide/       Guide (MDX)
 src/pages/howto/       How-to (MDX)
 public/xxd/            Xiaoxiaodong UI Kit (bundled copy, no CDN)
@@ -165,7 +180,7 @@ For editing content, adding pages and writing rules, see [docs/MAINTAINING.md](d
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) is built by [poteto](https://x.com/poteto); this site uses [backnotprop/pstack](https://github.com/backnotprop/pstack), a general-purpose mirror. The guide is based on its README and docs/guide; the official repository is the source of truth for commands and behavior.
 - The site skeleton comes from the [Xiaoxiaodong VPS tutorial site](https://vps.xiaoxiaodong.ai), the interface uses the [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai), and the illustration colors are borrowed from [ghostty-tint](https://github.com/nevertoday/ghostty-tint).
 
-This is an unofficial beginner's guide. If something isn't clear, or following the steps doesn't work, please [open an issue](https://github.com/nevertoday/xxd-pstack/issues).
+This is an unofficial beginner's guide. The site is in English and Chinese. If something isn't clear, or following the steps doesn't work, please [open an issue](https://github.com/nevertoday/xxd-pstack/issues).
 
 ## 📄 License
 

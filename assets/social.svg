@@ -7,11 +7,11 @@
 <rect x="106.4" y="133.6" width="28.8" height="9.600000000000001" fill="#FBFAF8" opacity="0.32"/>
 <text x="170" y="139" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="54" font-weight="700" fill="#2B2A27" text-anchor="start" letter-spacing="-1">pstack</text>
 <text x="84" y="262" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="64" font-weight="700" fill="#2B2A27" text-anchor="start" >新手教程</text>
-<text x="84" y="338" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="600" fill="#2B2A27" text-anchor="start" >让 AI 写代码像个靠谱的</text>
-<text x="84" y="386" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="600" fill="#2B2A27" text-anchor="start" >资深工程师。</text>
-<rect x="80" y="422" width="446" height="24" rx="0" fill="#F2C46B" opacity=".55"/>
-<text x="84" y="440" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="700" fill="#2B2A27" text-anchor="start" >先搞懂，再动手，拿出证据。</text>
-<text x="84" y="512" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="20" font-weight="400" fill="#8A867D" text-anchor="start" >主线 9 步 · 技能速查 34 个 · How-to 17 篇 · 说人话</text>
+<text x="84" y="338" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="600" fill="#2B2A27" text-anchor="start" >AI 说「修好了」，</text>
+<text x="84" y="386" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="600" fill="#2B2A27" text-anchor="start" >你一打开，还是坏的。</text>
+<rect x="80" y="422" width="418.2" height="24" rx="0" fill="#F2C46B" opacity=".55"/>
+<text x="84" y="440" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="700" fill="#2B2A27" text-anchor="start" >pstack 让它先自己试一遍。</text>
+<text x="84" y="512" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="20" font-weight="400" fill="#8A867D" text-anchor="start" >新手入门 3 课 · 完整教程 9 步 · 34 个技能 · 中文 / English</text>
 <text x="84" y="560" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="24" font-weight="600" fill="#2B2A27" text-anchor="start" >pstack.xiaoxiaodong.ai</text>
 <rect x="700" y="150" width="500" height="340" rx="14" fill="#000" opacity=".9" filter="url(#ssh)"/>
 <g clip-path="url(#sw)"><rect x="700" y="150" width="500" height="340" rx="0" fill="#1A1A1A" /><rect x="700" y="150" width="500" height="36" rx="0" fill="#2A2926" />
@@ -37,7 +37,7 @@
 <path d="M747,443 l5,5 l8,-10" fill="none" stroke="#E0DAEA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="778" y="450" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="16" font-weight="700" fill="#E0DAEA" text-anchor="start" >开 PR</text>
 <rect x="950" y="290" width="214" height="150" rx="10" fill="#24231F" stroke="#3A3833" />
-<text x="968" y="320" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill="#D7B9C8" text-anchor="start" >证据</text>
+<text x="968" y="320" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill="#D7B9C8" text-anchor="start" >修之前 / 修之后</text>
 <text x="968" y="356" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="400" fill="#8A867D" text-anchor="start" >修之前</text>
 <text x="1146" y="356" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="22" font-weight="700" fill="#B5655B" text-anchor="end" >2 条</text>
 <text x="968" y="392" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="400" fill="#8A867D" text-anchor="start" >修之后</text>
