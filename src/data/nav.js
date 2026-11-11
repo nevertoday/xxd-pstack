@@ -25,7 +25,7 @@ export const PSTACK_UPSTREAM = "https://github.com/cursor/plugins/tree/main/psta
 export const LESSONS = [
   { n: 1, slug: "1-why", title: "它能帮你什么", minutes: "3 分钟", sum: "AI 说「好了」却没好？pstack 让它做完拿出证据", en: { title: "What it does for you", minutes: "3 minutes", sum: "AI says “done” but it isn't? pstack makes it show proof" } },
   { n: 2, slug: "2-install", title: "装上它", minutes: "5 分钟", sum: "在 Claude Code 里输入两行，选一个选项", en: { title: "Install it", minutes: "5 minutes", sum: "Type two lines in Claude Code and pick one option" } },
-  { n: 3, slug: "3-first-use", title: "第一次用", minutes: "10 分钟", sum: "用一段三句话，做出一个小网页", en: { title: "Use it for the first time", minutes: "10 minutes", sum: "Make a small web page with one three-part message" } },
+  { n: 3, slug: "3-first-use", title: "第一次用", minutes: "10 分钟", sum: "发一段三部分的话，做出一个小网页", en: { title: "Use it for the first time", minutes: "10 minutes", sum: "Make a small web page with one three-part message" } },
 ];
 export const lessonHref = (s, lang = "zh") => link(`/start/${s.slug}/`, lang);
 

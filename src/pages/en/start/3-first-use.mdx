@@ -22,7 +22,7 @@ In this lesson you use pstack to make something real and small: a web page that 
 
 4. Type `claude` and press Enter. Claude Code opens inside that folder.
 
-Why a new folder: the AI works in whatever folder you open it in. With a new, empty folder, it can't touch anything else on your computer.
+Why a new folder: the AI works in whatever folder you open Claude Code in. In a new, empty folder, it can't touch anything else on your computer.
 
 ## Send it this message
 
@@ -42,9 +42,9 @@ The rest of the message has just three parts, and that's the whole trick to usin
 
 ## It will stop and ask you things
 
-While it works, Claude Code will stop now and then to ask: may I create this file? May I run this command?
+It will work for a few minutes. Along the way, Claude Code stops to ask: may I create this file? May I run this command?
 
-That's Claude Code protecting you. Every step needs your OK. This folder is new and empty, so pick **Yes**.
+That's Claude Code protecting you: every step needs your OK. This folder is new and empty, so pick **Yes**.
 
 ## Where to look in its reply
 
@@ -70,10 +70,10 @@ Its reply will be longer than usual and may be full of technical words. Skip wha
 
 ④ How to open it: double-click index.html in the water folder`} />
 
-1. **Look at ① first.** Did it get it right? If not, just type a correction, like "not 7 days, 30 days."
+- **Look at ① first.** Did it get it right? If not, just type a correction, like "not 7 days, 30 days."
 - **② is the steps it plans to take.** It ticks them off as it goes. You don't need to manage it.
-- **③ matters most.** Each line should be a check it really did, not "should be fine." The "couldn't check" line is it being honest, and that's a good thing.
-4. **Do what ④ says and look for yourself.**
+- **③ matters most.** Each line says what it did and what it saw. The "couldn't check" line is it being honest, and that's a good thing.
+- **Do what ④ says and look for yourself.**
 
 ## How to tell whether it did well
 
@@ -92,7 +92,7 @@ If it only says "done" with no checks at all, it isn't done. Reply with:
 ## What to say when it's wrong
 
 <Q q="The result is wrong, for example the number doesn't change when I click.">
-<p>Tell it what you saw, and don't guess the cause: "I clicked three times and the number stayed at 0." Don't say "maybe the storage is broken." Your guess can send it the wrong way.</p>
+<p>Say only what you saw, like: "I clicked three times and the number stayed at 0." Skip guessing the cause. A wrong guess sends it the wrong way.</p>
 </Q>
 <Q q="The reply is long and full of words I don't know.">
 <p>Type `/pstack:bro`. It retells the last reply in plain words, much shorter.</p>
@@ -105,6 +105,9 @@ If it only says "done" with no checks at all, it isn't done. Reply with:
 </Q>
 <Q q="On Windows, the cd line says it can't find the folder.">
 <p>On some Windows computers the desktop lives inside OneDrive. Try `cd ~/OneDrive/Desktop/water` instead.</p>
+</Q>
+<Q q="I use the Claude desktop app, and there's nowhere to type cd.">
+<p>When you start a new session, it asks you to pick a folder. Pick water on your desktop. The rest is the same.</p>
 </Q>
 
 ## You've got it
@@ -120,5 +123,12 @@ When you're done, show me: how you made the problem happen again, and what happe
 The second example uses `/pstack:how`: it only explains and doesn't touch your things. Use it when you want to understand something before deciding whether to change it.
 
 <Callout type="tip" title="That's enough for now">
-These three lessons are all a beginner needs. The best practice from here is to pick a small thing you actually want and describe it with the same three parts. Look up everything else on the site when you need it: if it drifts off track, see [Pull it back in one sentence](/en/howto/steer/); if it uses your plan up fast, see [Keep costs down](/en/howto/cost/); for other questions, see the [FAQ](/en/faq/). If you code and want to use it on bigger projects, see the [full guide](/en/guide/0-what/).
+These three lessons are all a beginner needs. The best practice from here: pick a small thing you actually want, and describe it with the same three parts.
+
+Look up everything else on the site when you need it:
+
+- It drifts off track: see [Pull it back on track](/en/howto/steer/).
+- It uses up your plan fast: see [Keep costs down](/en/howto/cost/).
+- Other questions: see the [FAQ](/en/faq/).
+- You code and want it on bigger projects: see the [full guide](/en/guide/0-what/).
 </Callout>

@@ -16,10 +16,10 @@ import Q from "../../components/Q.astro";
 
 <Cmd c="/plugin marketplace add cursor/plugins" />
 
-这一行的意思是：把 Cursor 官方的「插件商店」加进来。pstack 就放在这个商店里。
+这一行把 Cursor 的「插件商店」加进来。pstack 放在这个商店里，Claude Code 也能从这里装。
 
 <Callout type="ok">
-一行提示：`Successfully added marketplace: cursor-plugins`，意思是「商店添加成功」。
+屏幕上出现 `Successfully added marketplace: cursor-plugins`，意思是「商店添加成功」。
 </Callout>
 
 ## 第二步：装上 pstack
@@ -28,10 +28,12 @@ import Q from "../../components/Q.astro";
 
 <Cmd c="/plugin install pstack@cursor-plugins" />
 
-屏幕上会打开 pstack 的介绍，下面有三个选项，问你装给谁用。用方向键选第一个 **Install for you**（给你自己装，所有文件夹里都能用），按回车。
+屏幕上会出现 pstack 的介绍，下面有三个选项，问你装给谁用。
+
+按方向键 ↑ ↓ 选第一个 **Install for you**（给你自己装，在哪个文件夹都能用），按回车。
 
 <Callout type="ok">
-最后一行写着 `Plugin is now active.`，意思是「插件已经可以用了」。如果写的是 `Run /reload-plugins to apply`，也没关系，它会自己处理好。
+最后一行写着 `Plugin is now active.`，意思是「插件已经可以用了」。如果写的是 `Run /reload-plugins to apply`，就照它说的，输入 `/reload-plugins` 回车。
 </Callout>
 
 ## 第三步：确认装好了
@@ -42,22 +44,34 @@ import Q from "../../components/Q.astro";
 弹出一串以 `pstack:` 开头的命令，其中有 `/pstack:poteto-mode`。看到它，就装好了。按 Esc 收起列表。
 </Callout>
 
-## 记住一件事
+## 以后命令前面都加 pstack:
 
-装好以后，pstack 的命令前面都要带上 `pstack:`。这个网站别的页面为了好读，写的是 `/poteto-mode`，你在 Claude Code 里要打 `/pstack:poteto-mode`。
+装好以后，pstack 的命令都以 `pstack:` 开头。网站别的页面为了好读，写的是 `/poteto-mode`。你在 Claude Code 里要打 `/pstack:poteto-mode`。
 
-别的都不用设置。网站上有一页「选模型和预算」，那是可选的，不设置也能用。
+别的都不用设置，装好就能用。
 
 ## 不对怎么办
 
 <Q q="输入 /plugin 以后，提示找不到这个命令。">
-<p>你的 Claude Code 版本太旧了。先输入 `/exit` 退出，在同一个窗口里输入 `claude update` 回车，等它更新完，再输入 `claude` 重新打开，从第一步再来。</p>
+
+你的 Claude Code 版本太旧了，先更新一下：
+
+1. 输入 `/exit`，回车，退出 Claude Code。
+2. 在同一个窗口里输入 `claude update`，回车，等它更新完。
+3. 输入 `claude`，回车，重新打开，从第一步再来。
+
+
 </Q>
 <Q q="第二步提示找不到 pstack。">
 <p>多半是第一步没成功。把第一步那一行再输一次，看到 `Successfully added marketplace` 以后再做第二步。</p>
 </Q>
 <Q q="打 /pstack: 什么都没弹出来。">
-<p>输入 `/exit` 退出，再输入 `claude` 重新打开，然后再打一次 `/pstack:`。还是没有的话，输入 `/plugin`，按 Tab 切到 Installed（已安装）那一页，看看 pstack 在不在、是不是开着的。</p>
+
+先重新打开一次：输入 `/exit` 退出，再输入 `claude`，然后再打一次 `/pstack:`。
+
+还是没有的话，输入 `/plugin`，按 Tab 切到 Installed（已安装）那一页。看看 pstack 在不在、是不是开着的。
+
+
 </Q>
 <Q q="我用的是 Cursor，不是 Claude Code。">
 <p>在 Cursor 的对话框里输入 `/add-plugin pstack` 就装好了，命令也不用加 `pstack:` 前缀。下一课里的 `/pstack:poteto-mode`，你打成 `/poteto-mode`。</p>
