@@ -2,21 +2,22 @@
 
 # Guía de pstack para principiantes
 
-[中文](./README.md) · [English](./README.en.md) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [العربية](./README.ar.md) · **Español** · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
+[English](./README.en.md) · [中文](./README.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · **Español** · [Português](./README.pt.md) · [Français](./README.fr.md) · [Deutsch](./README.de.md) · [Русский](./README.ru.md) · [العربية](./README.ar.md)
 
 ### Tu IA dice «arreglado». Lo abres. Sigue roto.
 
 [pstack](https://github.com/backnotprop/pstack) hace que pruebe su propio trabajo antes de decirte que ha terminado.<br>Esta guía explica pstack con palabras sencillas. Puedes aprenderlo aunque nunca hayas escrito código.
 
-### 👉 [Leer en línea](https://pstack.xiaoxiaodong.ai/es/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [Leer en línea](https://pstack.xiaoxiaodong.ai/es/)
 
-La página de inicio y las 3 lecciones para principiantes están en español; la guía completa, en inglés y en chino. Este README está en 10 idiomas. Gratis y de código abierto.
+Gratis y de código abierto. El sitio está en 10 idiomas; puedes cambiar de idioma cuando quieras, arriba a la derecha.
 
 ![Principiantes](https://img.shields.io/badge/Principiantes-3_lecciones-8A9A8C?style=flat-square)
 ![Guía](https://img.shields.io/badge/Gu%C3%ADa-9_pasos-8A9A8C?style=flat-square)
 ![Skills](https://img.shields.io/badge/Skills-34-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_gu%C3%ADas-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20_entradas-9AA8C4?style=flat-square)
+![Idiomas](https://img.shields.io/badge/Idiomas-10-9AA8C4?style=flat-square)
 ![Herramientas](https://img.shields.io/badge/Claude_Code_·_Cursor_·_Codex-✓-8A9A8C?style=flat-square)
 
 </div>
@@ -25,21 +26,17 @@ La página de inicio y las 3 lecciones para principiantes están en español; la
   <img src="assets/en/hero.svg" width="100%" alt="Demostración: escribes un prompt con /poteto-mode; la IA enumera los pasos para arreglar el bug, los marca uno a uno y termina con pruebas del antes y el después">
 </p>
 
-**Por dónde empezar**
-
-- **Nunca has programado**: las [3 lecciones para principiantes](https://pstack.xiaoxiaodong.ai/es/start/1-why/), 20 minutos. Aprende a pedirle a la IA páginas y herramientas pequeñas, y a saber si las ha hecho bien.
-- **Programas**: la [guía de 9 pasos](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) y 17 how-tos, desde tu primera tarea hasta dejarla trabajar sola toda la noche.
-- **Quieres aprender a hablarle mejor a la IA**: cada una de las [34 skills](https://pstack.xiaoxiaodong.ai/en/skills/) trae su texto completo y un análisis de cómo está escrita. Mira cómo escribe prompts un experto.
-
 <p align="center">
   <a href="#-por-qué-lo-necesitas">Por qué</a> ·
+  <a href="#-pstack-es-genial-pero-cuesta-aprenderlo-por-tu-cuenta">Lo difícil</a> ·
+  <a href="#-cómo-te-ayuda-esta-guía">Lo que aporta</a> ·
   <a href="#-cómo-trabaja">Cómo trabaja</a> ·
   <a href="#-empieza-en-tres-minutos">Primeros pasos</a> ·
   <a href="#️-34-skills-en-un-mapa">Mapa de skills</a> ·
   <a href="#-en-proyectos-reales">Proyectos reales</a> ·
   <a href="#-déjalo-trabajar-toda-la-noche">Toda la noche</a> ·
   <a href="#-ejecutarlo-en-local">En local</a> ·
-  <a href="https://pstack.xiaoxiaodong.ai/en/">Leer en línea</a>
+  <a href="https://pstack.xiaoxiaodong.ai/es/">Leer en línea</a>
 </p>
 
 ## 😵 Por qué lo necesitas
@@ -68,6 +65,34 @@ El modelo no es tonto. Lo que pasa es que trabaja sin método: cambia código qu
 
 > [!NOTE]
 > pstack lanza más IA ayudantes y hace que varios modelos busquen fallos en el trabajo de los otros, así que es **más lento y gasta más tokens**. No lo uses para cambios pequeños. Para ahorrar, consulta [Reducir costes](https://pstack.xiaoxiaodong.ai/en/howto/cost/) (en inglés).
+
+## 🧗 pstack es genial, pero cuesta aprenderlo por tu cuenta
+
+poteto escribió pstack para su propio uso. La documentación oficial da por hecho que ya eres un ingeniero con mucha experiencia:
+
+- **Un muro de nombres el primer día**: 34 skills, 23 playbooks, 24 principios, todo jerga. ¿Cuáles necesitas de verdad?
+- **No hay un primer paso claro**: ¿qué versión instalo? ¿Hay que configurarlo? ¿Qué comando escribo?
+- **Saberse el comando no basta**: si tu prompt no dice qué significa «terminado», se sigue desviando. Solo que se desvía con más cuidado.
+- **Respuestas que no entiendes**: largas y técnicas. No sabes qué línea importa y cuál te puedes saltar.
+
+Mucha gente lo instala, lo prueba una vez, piensa «tampoco cambia tanto» y lo deja.
+
+## ✨ Cómo te ayuda esta guía
+
+- **De cero a usarlo en 20 minutos**: tres lecciones para principiantes, un solo camino. Cada paso te dice qué deberías ver y qué hacer si no lo ves.
+- **Aprende solo lo que necesitas**: un comando, `/poteto-mode`, y un mensaje en tres partes: **Qué quiero · Cómo se ve terminado · Qué me muestras al terminar**. Todo lo demás está marcado como «consúltalo cuando lo necesites».
+- **Un prompt listo para copiar en cada situación**: arreglar un bug, añadir una función, refactorizar, heredar un código que no conoces, dejarle trabajo antes de irte a dormir. Cambia lo que va entre < > y envíalo.
+- **Aprende a leer sus respuestas**: dónde está su reformulación, su lista de tareas y sus comprobaciones; cómo saber si lo ha hecho bien, y qué frase mandarle cuando se desvía.
+- **Aprende a escribir prompts de un experto**: lee el texto completo de las 34 skills, con varias frases de cada una desmontadas: qué hace hacer a la IA, por qué está escrita así y cómo aprovecharla tú.
+- **Palabras sencillas**: cada página empieza con una línea sobre lo que te ayuda a conseguir, y los términos poco conocidos se explican al pasar el ratón por encima.
+- **Para todo el mundo**: la página de inicio y las lecciones para principiantes están en 10 idiomas, así que puedes empezar en el tuyo.
+- **Al día**: revisada con la versión actual de pstack; cada comando coincide con el repositorio oficial.
+
+**Por dónde empezar**
+
+- **Nunca has programado**: las [3 lecciones para principiantes](https://pstack.xiaoxiaodong.ai/es/start/1-why/), 20 minutos. Aprende a pedirle a la IA páginas y herramientas pequeñas, y a saber si las ha hecho bien.
+- **Programas**: la [guía de 9 pasos](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) y 17 how-tos, desde tu primera tarea hasta dejarla trabajar sola toda la noche.
+- **Quieres aprender a hablarle mejor a la IA**: cada una de las [34 skills](https://pstack.xiaoxiaodong.ai/en/skills/) trae su texto completo y un análisis de cómo está escrita. Mira cómo escribe prompts un experto.
 
 ## 🧭 Cómo trabaja
 
@@ -149,6 +174,7 @@ Aquí es donde todos los pasos anteriores dan fruto: solo una IA que **puede ver
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 guías, una tarea cada una |
 | [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 conceptos: una frase → una analogía → en pstack → errores comunes; incluye tablas de los 24 principios y los 23 playbooks |
 | [Preguntas frecuentes](https://pstack.xiaoxiaodong.ai/en/faq/) | ¿Cuesta dinero? ¿Tengo que usar Cursor? ¿Me va a estropear el código? |
+| Idiomas | Página de inicio y lecciones para principiantes: 10 idiomas. Guía completa, skills, how-tos, wiki y preguntas frecuentes: English y 中文 |
 
 Pulsa <kbd>⌘</kbd> <kbd>K</kbd> arriba a la derecha de cualquier página para buscar en todo el sitio. En el texto, el **marcador** y el **subrayado grueso** señalan lo importante, y los términos con subrayado punteado muestran una explicación de una línea al pasar el ratón.
 
@@ -180,7 +206,7 @@ Para editar contenido, añadir páginas y las normas de redacción, consulta [do
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) es obra de [poteto](https://x.com/poteto); este sitio usa [backnotprop/pstack](https://github.com/backnotprop/pstack), un mirror de uso general. La guía se basa en su README y en docs/guide; para comandos y comportamiento, manda el repositorio oficial.
 - La estructura del sitio viene del [sitio de tutoriales Xiaoxiaodong VPS](https://vps.xiaoxiaodong.ai), la interfaz usa el [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai) y los colores de las ilustraciones son de [ghostty-tint](https://github.com/nevertoday/ghostty-tint).
 
-Esta es una guía para principiantes no oficial. El sitio está en inglés y en chino. Si algo no está claro o seguir los pasos no funciona, [abre un issue](https://github.com/nevertoday/xxd-pstack/issues).
+Esta es una guía para principiantes no oficial. Si algo no está claro o seguir los pasos no funciona, [abre un issue](https://github.com/nevertoday/xxd-pstack/issues).
 
 ## 📄 Licencia
 

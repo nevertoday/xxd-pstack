@@ -2,21 +2,22 @@
 
 # pstack für Einsteiger
 
-[中文](./README.md) · [English](./README.en.md) · [한국어](./README.ko.md) · [日本語](./README.ja.md) · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · **Deutsch** · [Português](./README.pt.md)
+[English](./README.en.md) · [中文](./README.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Español](./README.es.md) · [Português](./README.pt.md) · [Français](./README.fr.md) · **Deutsch** · [Русский](./README.ru.md) · [العربية](./README.ar.md)
 
 ### Die KI sagt „behoben“. Du öffnest es. Immer noch kaputt.
 
 [pstack](https://github.com/backnotprop/pstack) bringt sie dazu, ihre Arbeit selbst auszuprobieren, bevor sie „fertig“ sagt.<br>Diese Anleitung erklärt pstack in einfachen Worten. Du kannst es lernen, auch wenn du noch nie Code geschrieben hast.
 
-### 👉 [Online lesen](https://pstack.xiaoxiaodong.ai/de/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [Online lesen](https://pstack.xiaoxiaodong.ai/de/)
 
-Startseite und die drei Einsteigerlektionen gibt es auf Deutsch, die vollständige Anleitung auf Englisch und Chinesisch. Diese README gibt es in 10 Sprachen. Kostenlos und Open Source.
+Kostenlos und Open Source. Die Website gibt es in 10 Sprachen; oben rechts kannst du jederzeit wechseln.
 
 ![Einsteigerkurs](https://img.shields.io/badge/Einsteigerkurs-3_Lektionen-8A9A8C?style=flat-square)
 ![Leitfaden](https://img.shields.io/badge/Leitfaden-9_Schritte-8A9A8C?style=flat-square)
 ![Skills](https://img.shields.io/badge/Skills-34-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_Anleitungen-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20_Eintr%C3%A4ge-9AA8C4?style=flat-square)
+![Sprachen](https://img.shields.io/badge/Sprachen-10-9AA8C4?style=flat-square)
 ![Tools](https://img.shields.io/badge/Claude_Code_·_Cursor_·_Codex-✓-8A9A8C?style=flat-square)
 
 </div>
@@ -25,21 +26,17 @@ Startseite und die drei Einsteigerlektionen gibt es auf Deutsch, die vollständi
   <img src="assets/en/hero.svg" width="100%" alt="Demo: Du tippst einen /poteto-mode-Prompt; die KI listet die Schritte zur Fehlerbehebung auf, hakt sie einzeln ab und zeigt am Ende Belege für vorher und nachher">
 </p>
 
-**Wo anfangen**
-
-- **Noch nie Code geschrieben**: die [3 Lektionen für Einsteiger](https://pstack.xiaoxiaodong.ai/de/start/1-why/), 20 Minuten. Du lernst, dir von der KI kleine Seiten und Tools bauen zu lassen und zu erkennen, ob sie es richtig gemacht hat.
-- **Du programmierst**: der [Leitfaden in 9 Schritten](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) und 17 How-tos, von der ersten Aufgabe bis dahin, dass sie über Nacht allein arbeitet.
-- **Du willst besser mit KI reden**: Zu jedem der [34 Skills](https://pstack.xiaoxiaodong.ai/en/skills/) gibt es den vollen Text und eine Analyse, wie er formuliert ist. So siehst du, wie ein Profi Prompts schreibt.
-
 <p align="center">
   <a href="#-warum-du-es-brauchst">Warum</a> ·
+  <a href="#-pstack-ist-stark-aber-allein-schwer-zu-lernen">Der Haken</a> ·
+  <a href="#-so-hilft-dir-diese-anleitung">Highlights</a> ·
   <a href="#-so-arbeitet-es">So arbeitet es</a> ·
   <a href="#-in-drei-minuten-loslegen">Loslegen</a> ·
   <a href="#️-34-skills-auf-einer-karte">Skill-Karte</a> ·
   <a href="#-in-echten-projekten">Echte Projekte</a> ·
   <a href="#-über-nacht-arbeiten-lassen">Über Nacht</a> ·
   <a href="#-lokal-starten">Lokal starten</a> ·
-  <a href="https://pstack.xiaoxiaodong.ai/en/">Online lesen</a>
+  <a href="https://pstack.xiaoxiaodong.ai/de/">Online lesen</a>
 </p>
 
 ## 😵 Warum du es brauchst
@@ -68,6 +65,34 @@ Das Modell ist nicht zu dumm. Es arbeitet nur ohne Methode: Es ändert Code, den
 
 > [!NOTE]
 > pstack schickt mehr Helfer-KIs los und lässt mehrere Modelle an der Arbeit der anderen herumkritteln, deshalb ist es **langsamer und verbraucht mehr Tokens**. Für kleine Änderungen brauchst du es nicht. Wie man spart, steht unter [Kosten im Griff](https://pstack.xiaoxiaodong.ai/en/howto/cost/) (auf Englisch).
+
+## 🧗 pstack ist stark, aber allein schwer zu lernen
+
+poteto hat pstack für den eigenen Gebrauch geschrieben. Die offizielle Doku setzt voraus, dass du schon Senior-Entwickler bist:
+
+- **Eine Wand aus Namen am ersten Tag**: 34 Skills, 23 Playbooks, 24 Prinzipien, alles Fachjargon. Welche davon brauchst du wirklich?
+- **Kein klarer erster Schritt**: Welche Version installierst du? Musst du etwas konfigurieren? Welchen Befehl tippst du ein?
+- **Den Befehl zu kennen reicht nicht**: Wenn dein Prompt nicht sagt, was „fertig“ heißt, driftet die KI trotzdem ab. Nur eben gründlicher.
+- **Antworten, mit denen du nichts anfangen kannst**: lang und technisch. Du siehst nicht, welche Zeile zählt und welche du überspringen kannst.
+
+Viele installieren es, probieren es einmal aus, denken „so viel anders ist das auch nicht“ und geben auf.
+
+## ✨ So hilft dir diese Anleitung
+
+- **In 20 Minuten von null zur ersten Nutzung**: drei Einsteigerlektionen, ein Weg. Bei jedem Schritt steht, was du sehen solltest und was zu tun ist, wenn nicht.
+- **Nur lernen, was du brauchst**: ein Befehl, `/poteto-mode`, plus eine Nachricht in drei Teilen: **Was ich will · So sieht „fertig“ aus · Was du mir am Ende zeigst**. Alles andere ist als „bei Bedarf nachschlagen“ markiert.
+- **Für jede Lage ein Prompt zum Kopieren**: Bug beheben, Feature hinzufügen, refaktorieren, fremden Code übernehmen, Arbeit vor dem Schlafengehen übergeben. Die Teile in spitzen Klammern austauschen, abschicken.
+- **Ihre Antworten lesen lernen**: wo du ihre Zusammenfassung des Auftrags, ihre To-do-Liste und ihre Prüfungen findest, woran du erkennst, ob sie gut gearbeitet hat, und welchen einen Satz du schickst, wenn sie abdriftet.
+- **Prompts schreiben lernen vom Profi**: Lies den vollen Text aller 34 Skills, bei jedem mit ein paar zerlegten Sätzen: was die Zeile bei der KI bewirkt, warum sie so formuliert ist und wie du sie übernimmst.
+- **Einfache Worte**: Jede Seite beginnt mit einem Satz dazu, wobei sie dir hilft, und unbekannte Begriffe erklären sich beim Darüberfahren.
+- **Weltweit lesbar**: Startseite und Einsteigerlektionen gibt es in 10 Sprachen, du kannst also in deiner eigenen anfangen.
+- **Auf dem aktuellen Stand**: geprüft mit der aktuellen pstack-Version; jeder Befehl stimmt mit dem offiziellen Repo überein.
+
+**Wo anfangen**
+
+- **Noch nie Code geschrieben**: die [3 Lektionen für Einsteiger](https://pstack.xiaoxiaodong.ai/de/start/1-why/), 20 Minuten. Du lernst, dir von der KI kleine Seiten und Tools bauen zu lassen und zu erkennen, ob sie es richtig gemacht hat.
+- **Du programmierst**: der [Leitfaden in 9 Schritten](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) und 17 How-tos, von der ersten Aufgabe bis dahin, dass sie über Nacht allein arbeitet.
+- **Du willst besser mit KI reden**: Zu jedem der [34 Skills](https://pstack.xiaoxiaodong.ai/en/skills/) gibt es den vollen Text und eine Analyse, wie er formuliert ist. So siehst du, wie ein Profi Prompts schreibt.
 
 ## 🧭 So arbeitet es
 
@@ -149,6 +174,7 @@ Hier zahlen sich alle vorherigen Schritte aus: Nur eine KI, die **ihre eigene Ar
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 Anleitungen, je eine Aufgabe |
 | [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 Begriffe: ein Satz → ein Vergleich → in pstack → häufige Irrtümer; mit Tabellen der 24 Prinzipien und 23 Playbooks |
 | [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | Kostet das Geld? Muss ich Cursor nutzen? Pfuscht es mir im Code herum? |
+| Sprachen | Startseite und Einsteigerlektionen: 10 Sprachen. Ganzer Leitfaden, Skills, How-tos, Wiki und FAQ: English und 中文 |
 
 Mit <kbd>⌘</kbd> <kbd>K</kbd> oben rechts auf jeder Seite durchsuchst du die ganze Website. Im Text markieren **Textmarker** und **dicke Unterstreichung** das Wichtigste, und gepunktet unterstrichene Begriffe zeigen beim Darüberfahren eine Erklärung in einem Satz.
 
@@ -180,7 +206,7 @@ Inhalte bearbeiten, Seiten hinzufügen und Schreibregeln: siehe [docs/MAINTAININ
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) stammt von [poteto](https://x.com/poteto); diese Website nutzt [backnotprop/pstack](https://github.com/backnotprop/pstack), einen allgemeinen Mirror. Der Leitfaden basiert auf dessen README und docs/guide; für Befehle und Verhalten gilt das offizielle Repository.
 - Das Gerüst der Website stammt von der [Xiaoxiaodong-VPS-Tutorial-Website](https://vps.xiaoxiaodong.ai), die Oberfläche nutzt das [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai), und die Farben der Illustrationen sind von [ghostty-tint](https://github.com/nevertoday/ghostty-tint) entliehen.
 
-Dies ist eine inoffizielle Einsteigeranleitung. Die Website gibt es auf Englisch und Chinesisch. Wenn etwas unklar ist oder die Schritte nicht funktionieren, [eröffne bitte ein Issue](https://github.com/nevertoday/xxd-pstack/issues).
+Dies ist eine inoffizielle Einsteigeranleitung. Wenn etwas unklar ist oder die Schritte nicht funktionieren, [eröffne bitte ein Issue](https://github.com/nevertoday/xxd-pstack/issues).
 
 ## 📄 Lizenz
 

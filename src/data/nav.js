@@ -6,8 +6,8 @@ import { EXTRA } from "../i18n/index.js";
 const BASE = (import.meta.env?.BASE_URL || "/").replace(/\/$/, "");
 /** 网站的语言。zh、en 是全站；其他语言只有首页和新手入门三课，别的页面链到英文版（full: false）。 */
 export const LANGS = [
-  { code: "zh", name: "中文", html: "zh-CN", full: true },
   { code: "en", name: "English", html: "en", full: true },
+  { code: "zh", name: "中文", html: "zh-CN", full: true },
   { code: "ja", name: "日本語", html: "ja" },
   { code: "ko", name: "한국어", html: "ko" },
   { code: "es", name: "Español", html: "es" },

@@ -2,21 +2,22 @@
 
 # pstack 입문 가이드
 
-[中文](./README.md) · [English](./README.en.md) · **한국어** · [日本語](./README.ja.md) · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
+[English](./README.en.md) · [中文](./README.md) · [日本語](./README.ja.md) · **한국어** · [Español](./README.es.md) · [Português](./README.pt.md) · [Français](./README.fr.md) · [Deutsch](./README.de.md) · [Русский](./README.ru.md) · [العربية](./README.ar.md)
 
 ### AI는 "고쳤습니다"라고 합니다. 열어 보면 여전히 고장 나 있습니다.
 
 [pstack](https://github.com/backnotprop/pstack)은 AI가 "다 됐습니다"라고 말하기 전에 직접 돌려 보게 만듭니다.<br>이 가이드는 pstack을 쉬운 말로 설명합니다. 코드를 한 번도 안 써 봤어도 배울 수 있습니다.
 
-### 👉 [온라인으로 읽기](https://pstack.xiaoxiaodong.ai/ko/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [온라인으로 읽기](https://pstack.xiaoxiaodong.ai/ko/)
 
-홈페이지와 입문 3강은 한국어로 볼 수 있고, 전체 가이드는 영어와 중국어로 되어 있습니다. 이 README는 10개 언어로 있습니다. 무료이고 오픈 소스입니다.
+무료이고 오픈 소스입니다. 사이트는 10개 언어로 볼 수 있고, 오른쪽 위에서 언제든 바꿀 수 있습니다.
 
 ![입문](https://img.shields.io/badge/%EC%9E%85%EB%AC%B8-3%EA%B0%95-8A9A8C?style=flat-square)
 ![가이드](https://img.shields.io/badge/%EA%B0%80%EC%9D%B4%EB%93%9C-9%EB%8B%A8%EA%B3%84-8A9A8C?style=flat-square)
 ![스킬](https://img.shields.io/badge/%EC%8A%A4%ED%82%AC-34%EA%B0%9C-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17%ED%8E%B8-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20%EA%B0%9C_%ED%95%AD%EB%AA%A9-9AA8C4?style=flat-square)
+![언어](https://img.shields.io/badge/%EC%96%B8%EC%96%B4-10%EA%B0%9C-9AA8C4?style=flat-square)
 ![도구](https://img.shields.io/badge/Claude_Code_·_Cursor_·_Codex-✓-8A9A8C?style=flat-square)
 
 </div>
@@ -25,21 +26,17 @@
   <img src="assets/en/hero.svg" width="100%" alt="데모: /poteto-mode 프롬프트 한 줄을 입력하면 AI가 버그 수정 단계를 나열하고 하나씩 체크한 뒤, 수정 전후의 증거를 보여 준다">
 </p>
 
-**어디서부터 볼까**
-
-- **코드를 써 본 적이 없다면**: [입문 3강](https://pstack.xiaoxiaodong.ai/ko/start/1-why/), 20분. AI에게 작은 페이지와 도구를 만들게 하고, 제대로 만들었는지 알아보는 법을 배웁니다.
-- **코드를 쓴다면**: [9단계 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)와 How-to 17편. 첫 작업부터 밤새 혼자 일하게 두는 것까지 다룹니다.
-- **AI에게 말하는 법을 늘리고 싶다면**: [스킬 34개](https://pstack.xiaoxiaodong.ai/en/skills/)마다 전문과 문장 해설이 붙어 있습니다. 고수가 프롬프트를 어떻게 쓰는지 볼 수 있습니다.
-
 <p align="center">
   <a href="#-왜-필요한가">왜 필요한가</a> ·
+  <a href="#-pstack은-좋지만-혼자-익히기는-어렵다">어려운 점</a> ·
+  <a href="#-이-가이드가-도와주는-것">이 가이드의 장점</a> ·
   <a href="#-어떻게-일하나">작동 방식</a> ·
   <a href="#-3분-만에-시작하기">시작하기</a> ·
   <a href="#️-스킬-34개를-한-장에">스킬 맵</a> ·
   <a href="#-실제-프로젝트에서">실제 프로젝트</a> ·
   <a href="#-밤새-맡겨-두기">밤새 맡기기</a> ·
   <a href="#-로컬에서-실행하기">로컬 실행</a> ·
-  <a href="https://pstack.xiaoxiaodong.ai/en/">온라인으로 읽기</a>
+  <a href="https://pstack.xiaoxiaodong.ai/ko/">온라인으로 읽기</a>
 </p>
 
 ## 😵 왜 필요한가
@@ -68,6 +65,34 @@ AI로 코드를 써 봤다면 아마 이런 일을 겪어 봤을 겁니다.
 
 > [!NOTE]
 > pstack은 도우미 AI를 더 많이 보내고 여러 모델이 서로의 결과를 따져 보게 하므로 **더 느리고 토큰도 더 씁니다**. 작은 변경에는 쓰지 마세요. 아끼는 방법은 [비용 줄이기](https://pstack.xiaoxiaodong.ai/en/howto/cost/)(영어)를 보세요.
+
+## 🧗 pstack은 좋지만, 혼자 익히기는 어렵다
+
+poteto는 pstack을 자기가 쓰려고 만들었습니다. 공식 문서는 읽는 사람이 이미 숙련된 엔지니어라고 가정합니다.
+
+- **첫날부터 쏟아지는 이름**: 스킬 34개, 플레이북 23개, 원칙 24개, 전부 전문 용어입니다. 정말 필요한 건 어느 것일까요?
+- **첫걸음이 안 보인다**: 어느 버전을 설치하지? 설정이 필요한가? 무슨 명령을 입력하지?
+- **명령만 안다고 되는 게 아니다**: 프롬프트에 '완료'가 무엇인지 적지 않으면 여전히 엇나갑니다. 좀 더 꼼꼼하게 엇나갈 뿐이죠.
+- **답을 읽을 수가 없다**: 길고 기술적입니다. 어느 줄이 중요하고 어디를 건너뛰어도 되는지 알 수 없습니다.
+
+설치하고, 한 번 써 보고, "별 차이 없네" 하고 그만두는 사람이 많습니다.
+
+## ✨ 이 가이드가 도와주는 것
+
+- **처음부터 20분이면 쓸 수 있다**: 입문 3강, 길은 하나뿐. 단계마다 무엇이 보여야 하는지, 안 보이면 어떻게 하는지 적혀 있습니다.
+- **필요한 것만 배운다**: 명령은 `/poteto-mode` 하나, 그리고 세 부분으로 된 메시지 하나: **원하는 것 · 완성된 모습 · 끝나면 보여 줄 것**. 나머지는 모두 "필요할 때 찾아보면 됨"이라고 표시해 두었습니다.
+- **상황마다 복사해서 바로 쓰는 프롬프트**: 버그 수정, 기능 추가, 리팩터링, 낯선 코드베이스 넘겨받기, 자기 전에 일 맡기기. 꺾쇠괄호(< >) 부분만 바꿔서 보내면 됩니다.
+- **답 읽는 법을 배운다**: 다시 정리한 목표, 할 일 목록, 검증 결과가 어디 있는지, 잘했는지 어떻게 판단하는지, 엇나갔을 때 보낼 한 줄까지.
+- **고수에게서 프롬프트 쓰는 법을 배운다**: 스킬 34개의 전문을 읽고, 각각 몇 문장씩 뜯어봅니다. 그 문장이 AI에게 무엇을 시키는지, 왜 그렇게 썼는지, 어떻게 가져다 쓰는지.
+- **쉬운 말**: 모든 페이지가 첫 줄에서 그 페이지가 무엇을 도와주는지 말하고, 낯선 용어는 마우스를 올리면 설명이 나옵니다.
+- **어느 나라에서든 읽을 수 있다**: 홈페이지와 입문 강의는 10개 언어로 되어 있어, 자기 언어로 시작할 수 있습니다.
+- **늘 최신 상태**: 현재 pstack 릴리스와 대조해 확인했고, 모든 명령은 공식 저장소와 같습니다.
+
+**어디서부터 볼까**
+
+- **코드를 써 본 적이 없다면**: [입문 3강](https://pstack.xiaoxiaodong.ai/ko/start/1-why/), 20분. AI에게 작은 페이지와 도구를 만들게 하고, 제대로 만들었는지 알아보는 법을 배웁니다.
+- **코드를 쓴다면**: [9단계 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)와 How-to 17편. 첫 작업부터 밤새 혼자 일하게 두는 것까지 다룹니다.
+- **AI에게 말하는 법을 늘리고 싶다면**: [스킬 34개](https://pstack.xiaoxiaodong.ai/en/skills/)마다 전문과 문장 해설이 붙어 있습니다. 고수가 프롬프트를 어떻게 쓰는지 볼 수 있습니다.
 
 ## 🧭 어떻게 일하나
 
@@ -149,6 +174,7 @@ npx skills add backnotprop/pstack
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17편, 한 편에 한 가지 일 |
 | [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 개념 20개: 한 문장 → 비유 → pstack에서는 → 흔한 오해. 원칙 24개와 플레이북 23개 대조표 포함 |
 | [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | 돈이 드나요? Cursor를 꼭 써야 하나요? 내 코드를 함부로 고치지 않나요? |
+| 언어 | 홈페이지와 입문 강의: 10개 언어. 전체 가이드, 스킬, How-to, Wiki, FAQ: English와 中文 |
 
 페이지 오른쪽 위에서 <kbd>⌘</kbd> <kbd>K</kbd>로 사이트 전체를 검색할 수 있습니다. 본문에서 **형광펜**과 **굵은 밑줄**은 핵심이고, 점선 밑줄이 있는 용어에 마우스를 올리면 한 줄 설명이 나옵니다.
 
@@ -180,7 +206,7 @@ tools/build_assets.py  README 일러스트, SVG 애니메이션, 공유 이미�
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack)은 [poteto](https://x.com/poteto)가 만들었습니다. 이 사이트는 범용 미러인 [backnotprop/pstack](https://github.com/backnotprop/pstack)을 사용합니다. 가이드 내용은 그 README와 docs/guide를 바탕으로 썼으며, 명령과 동작은 공식 저장소가 기준입니다.
 - 사이트 골격은 [Xiaoxiaodong VPS 튜토리얼 사이트](https://vps.xiaoxiaodong.ai)에서 왔고, 인터페이스는 [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai)을, 일러스트 색은 [ghostty-tint](https://github.com/nevertoday/ghostty-tint)에서 빌려 왔습니다.
 
-이 사이트는 비공식 입문 가이드입니다. 사이트는 영어와 중국어로 제공됩니다. 설명이 불분명하거나 따라 했는데 잘 안 되면 [Issue를 열어](https://github.com/nevertoday/xxd-pstack/issues) 주세요.
+이 사이트는 비공식 입문 가이드입니다. 설명이 불분명하거나 따라 했는데 잘 안 되면 [Issue를 열어](https://github.com/nevertoday/xxd-pstack/issues) 주세요.
 
 ## 📄 라이선스
 

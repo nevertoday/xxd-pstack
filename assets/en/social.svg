@@ -11,7 +11,7 @@
 <text x="84" y="386" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="600" fill="#2B2A27" text-anchor="start" >You open it. Still broken.</text>
 <rect x="80" y="422" width="389.59999999999997" height="24" rx="0" fill="#F2C46B" opacity=".55"/>
 <text x="84" y="440" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="700" fill="#2B2A27" text-anchor="start" >pstack makes it try first.</text>
-<text x="84" y="512" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="20" font-weight="400" fill="#8A867D" text-anchor="start" >3 beginner lessons · 9-step guide · 34 skills · English / 中文</text>
+<text x="84" y="512" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="20" font-weight="400" fill="#8A867D" text-anchor="start" >3 beginner lessons · 9-step guide · 34 skills · 10 languages</text>
 <text x="84" y="560" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="24" font-weight="600" fill="#2B2A27" text-anchor="start" >pstack.xiaoxiaodong.ai/en</text>
 <rect x="700" y="150" width="500" height="340" rx="14" fill="#000" opacity=".9" filter="url(#ssh)"/>
 <g clip-path="url(#sw)"><rect x="700" y="150" width="500" height="340" rx="0" fill="#1A1A1A" /><rect x="700" y="150" width="500" height="36" rx="0" fill="#2A2926" />

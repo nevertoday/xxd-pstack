@@ -339,7 +339,7 @@ def social(lang="zh"):
     hw = sum(34 if ord(c) > 0x2E80 else 14.6 for c in hl) + 10
     b.append(rect(80, 422, hw, 24, "#F2C46B", 0, extra='opacity=".55"'))
     b.append(t(84, 440, hl, 34, INK, 700))
-    b.append(t(84, 512, L("新手入门 3 课 · 完整教程 9 步 · 34 个技能 · 中文 / English", "3 beginner lessons · 9-step guide · 34 skills · English / 中文"), 20, MUTED))
+    b.append(t(84, 512, L("新手入门 3 课 · 完整教程 9 步 · 34 个技能 · 10 种语言", "3 beginner lessons · 9-step guide · 34 skills · 10 languages"), 20, MUTED))
     b.append(t(84, 560, L("pstack.xiaoxiaodong.ai", "pstack.xiaoxiaodong.ai/en"), 24, INK, 600, MONO))
     # 右边：终端卡片（hero 动画的最后一帧）
     x0, y0, ww, wh = 700, 150, 500, 340

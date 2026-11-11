@@ -2,21 +2,22 @@
 
 # pstack 入門ガイド
 
-[中文](./README.md) · [English](./README.en.md) · [한국어](./README.ko.md) · **日本語** · [العربية](./README.ar.md) · [Español](./README.es.md) · [Français](./README.fr.md) · [Русский](./README.ru.md) · [Deutsch](./README.de.md) · [Português](./README.pt.md)
+[English](./README.en.md) · [中文](./README.md) · **日本語** · [한국어](./README.ko.md) · [Español](./README.es.md) · [Português](./README.pt.md) · [Français](./README.fr.md) · [Deutsch](./README.de.md) · [Русский](./README.ru.md) · [العربية](./README.ar.md)
 
 ### AI が「直しました」と言う。開いてみると、まだ壊れている。
 
 [pstack](https://github.com/backnotprop/pstack) を入れると、AI は「できました」と言う前に、自分で動かして確かめるようになります。<br>このガイドは pstack をやさしい言葉で説明します。コードを書いたことがなくても学べます。
 
-### 👉 [オンラインで読む](https://pstack.xiaoxiaodong.ai/ja/) · [English](https://pstack.xiaoxiaodong.ai/en/) · [中文](https://pstack.xiaoxiaodong.ai)
+### 👉 [オンラインで読む](https://pstack.xiaoxiaodong.ai/ja/)
 
-トップページと入門 3 レッスンは日本語で読めます。完全ガイドは英語と中国語です。この README は 10 言語あります。無料で、オープンソースです。
+無料で、オープンソースです。サイトは 10 言語に対応していて、右上でいつでも切り替えられます。
 
 ![入門](https://img.shields.io/badge/%E5%85%A5%E9%96%80-3%E3%83%AC%E3%83%83%E3%82%B9%E3%83%B3-8A9A8C?style=flat-square)
 ![ガイド](https://img.shields.io/badge/%E3%82%AC%E3%82%A4%E3%83%89-9%E3%82%B9%E3%83%86%E3%83%83%E3%83%97-8A9A8C?style=flat-square)
 ![スキル](https://img.shields.io/badge/%E3%82%B9%E3%82%AD%E3%83%AB-34%E5%80%8B-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17%E6%9C%AC-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20%E9%A0%85%E7%9B%AE-9AA8C4?style=flat-square)
+![対応言語](https://img.shields.io/badge/%E5%AF%BE%E5%BF%9C%E8%A8%80%E8%AA%9E-10-9AA8C4?style=flat-square)
 ![ツール](https://img.shields.io/badge/Claude_Code_·_Cursor_·_Codex-✓-8A9A8C?style=flat-square)
 
 </div>
@@ -25,21 +26,17 @@
   <img src="assets/en/hero.svg" width="100%" alt="デモ：/poteto-mode のプロンプトを一行入力すると、AI がバグ修正の手順を並べて一つずつチェックし、最後に修正前後の証拠を示す">
 </p>
 
-**どこから始めるか**
-
-- **コードを書いたことがない**：[入門 3 レッスン](https://pstack.xiaoxiaodong.ai/ja/start/1-why/)、20 分。AI に小さなページやツールを作ってもらう方法と、それがちゃんとできているかを見分ける方法を学びます。
-- **コードを書く**：[9 ステップのガイド](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)と 17 本の How-to。最初のタスクから、一晩ひとりで任せるところまで。
-- **AI への頼み方がうまくなりたい**：[34 個のスキル](https://pstack.xiaoxiaodong.ai/en/skills/)には、どれも全文と言い回しの解説が付いています。プロがどうプロンプトを書くのかが見えます。
-
 <p align="center">
   <a href="#-なぜ必要か">なぜ必要か</a> ·
+  <a href="#-pstack-はすごいでもひとりで身につけるのは大変">つまずくところ</a> ·
+  <a href="#-このガイドでできること">見どころ</a> ·
   <a href="#-どう動くか">どう動くか</a> ·
   <a href="#-3-分で始める">始め方</a> ·
   <a href="#️-34-個のスキルを-1-枚で">スキルマップ</a> ·
   <a href="#-実際のプロジェクトで">実際のプロジェクト</a> ·
   <a href="#-一晩任せる">一晩任せる</a> ·
   <a href="#-ローカルで動かす">ローカルで動かす</a> ·
-  <a href="https://pstack.xiaoxiaodong.ai/en/">オンラインで読む</a>
+  <a href="https://pstack.xiaoxiaodong.ai/ja/">オンラインで読む</a>
 </p>
 
 ## 😵 なぜ必要か
@@ -68,6 +65,34 @@ AI でコードを書いたことがあれば、たぶんこんな目にあっ�
 
 > [!NOTE]
 > pstack は手伝い役の AI を多く送り出し、複数のモデルに互いの粗探しをさせるので、**遅くなり、トークンも多く使います**。小さな変更には使わないでください。節約の方法は [コストを抑える](https://pstack.xiaoxiaodong.ai/en/howto/cost/)（英語）を見てください。
+
+## 🧗 pstack はすごい。でも、ひとりで身につけるのは大変
+
+poteto は pstack を自分のために作りました。公式ドキュメントは、読む人がもう熟練のエンジニアであることを前提にしています。
+
+- **初日から名前の壁**：スキル 34 個、プレイブック 23 個、原則 24 個、どれも専門用語。本当に必要なのはどれ？
+- **最初の一歩がわからない**：どのバージョンを入れる？ 設定はいる？ どのコマンドを打てばいい？
+- **コマンドを知っているだけでは足りない**：プロンプトで「完了」の意味を伝えないと、やっぱり脱線します。前より丁寧に脱線するだけです。
+- **返事が読めない**：長くて専門的。どの行が大事で、どこを読み飛ばしていいのかわからない。
+
+入れて、一度試して、「あまり変わらないな」と思ってやめてしまう人はたくさんいます。
+
+## ✨ このガイドでできること
+
+- **ゼロから 20 分で使えるように**：入門 3 レッスン、道は一本だけ。どのステップにも、何が見えるはずか、見えなかったらどうするかが書いてあります。
+- **必要なことだけ覚える**：コマンドは `/poteto-mode` ひとつ。あとは 3 つの部分でできたメッセージを一通：**やってほしいこと · できあがりの姿 · 終わったら見せてほしいもの**。それ以外には「必要になったら調べれば OK」と印をつけてあります。
+- **場面ごとに、コピーしてすぐ使えるプロンプト**：バグ修正、機能追加、リファクタリング、知らないコードの引き継ぎ、寝る前の引き渡し。山かっこ（< >）の部分を書き換えて送るだけです。
+- **返事の読み方がわかる**：言い直し、ToDo リスト、確認結果がどこにあるか。うまくやれたかの見分け方。脱線したときに送る一言まで。
+- **プロからプロンプトの書き方を学べる**：34 個のスキルの全文が読め、それぞれ数文を取り出して分解しています。その一文が AI に何をさせるのか、なぜその言い方なのか、どう借りればいいのか。
+- **やさしい言葉**：どのページも最初の一行で、そのページで何ができるかを伝えます。なじみのない用語は、カーソルを乗せると説明が出ます。
+- **世界中で読める**：トップページと入門レッスンは 10 言語。自分の言葉で始められます。
+- **いつも最新**：現在の pstack のリリースと照らし合わせて確認しています。コマンドはすべて公式リポジトリどおりです。
+
+**どこから始めるか**
+
+- **コードを書いたことがない**：[入門 3 レッスン](https://pstack.xiaoxiaodong.ai/ja/start/1-why/)、20 分。AI に小さなページやツールを作ってもらう方法と、それがちゃんとできているかを見分ける方法を学びます。
+- **コードを書く**：[9 ステップのガイド](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)と 17 本の How-to。最初のタスクから、一晩ひとりで任せるところまで。
+- **AI への頼み方がうまくなりたい**：[34 個のスキル](https://pstack.xiaoxiaodong.ai/en/skills/)には、どれも全文と言い回しの解説が付いています。プロがどうプロンプトを書くのかが見えます。
 
 ## 🧭 どう動くか
 
@@ -149,6 +174,7 @@ npx skills add backnotprop/pstack
 | [How-to](https://pstack.xiaoxiaodong.ai/en/howto/) | 17 本、一本につき一つのこと |
 | [Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/) | 20 の概念：一言で → たとえると → pstack では → よくある誤解。24 の原則と 23 のプレイブックの対照表つき |
 | [FAQ](https://pstack.xiaoxiaodong.ai/en/faq/) | お金はかかる？ Cursor でないとだめ？ コードを勝手に書き換えない？ |
+| 言語 | トップページと入門レッスン：10 言語。フルガイド、スキル、How-to、Wiki、FAQ：English と 中文 |
 
 ページ右上の <kbd>⌘</kbd> <kbd>K</kbd> でサイト全体を検索できます。本文の**蛍光ペン**と**太い下線**は要点で、点線の付いた用語にカーソルを乗せると一行の説明が出ます。
 
@@ -180,7 +206,7 @@ tools/build_assets.py  README のイラスト、SVG アニメーション、共�
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) は [poteto](https://x.com/poteto) が開発しました。このサイトでは汎用ミラーの [backnotprop/pstack](https://github.com/backnotprop/pstack) を使っています。ガイドの内容はその README と docs/guide をもとに書いており、コマンドと動作は公式リポジトリが正です。
 - サイトの骨組みは [Xiaoxiaodong VPS チュートリアルサイト](https://vps.xiaoxiaodong.ai) から、インターフェースは [Xiaoxiaodong UI Kit](https://ui.xiaoxiaodong.ai) を使い、イラストの配色は [ghostty-tint](https://github.com/nevertoday/ghostty-tint) から借りています。
 
-このサイトは非公式の入門ガイドです。サイトは英語と中国語で読めます。説明がわかりにくい箇所や、手順どおりにやってもうまくいかない箇所があれば、[Issue を作成](https://github.com/nevertoday/xxd-pstack/issues)してください。
+このサイトは非公式の入門ガイドです。説明がわかりにくい箇所や、手順どおりにやってもうまくいかない箇所があれば、[Issue を作成](https://github.com/nevertoday/xxd-pstack/issues)してください。
 
 ## 📄 ライセンス
 
