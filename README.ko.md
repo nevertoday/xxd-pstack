@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack)은 AI가 "다 됐습니다"라고 말하기 전에 직접 돌려 보게 만듭니다.<br>이 가이드는 pstack을 쉬운 말로 설명합니다. 코드를 한 번도 안 써 봤어도 배울 수 있습니다.
 
-<a href="https://pstack.xiaoxiaodong.ai/ko/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/ko-dark.svg"><img src="assets/btn/ko.svg" height="56" alt="지금 배우기"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/ko/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ko-1-dark.svg"><img src="assets/doors/ko-1.svg" height="92" alt="코딩은 처음: 입문 3강 · 20분"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ko-2-dark.svg"><img src="assets/doors/ko-2.svg" height="92" alt="코드를 쓴다면: 9단계 전체 가이드(영어)"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ko-3-dark.svg"><img src="assets/doors/ko-3.svg" height="92" alt="프롬프트 배우기: 34개 스킬 해부(영어)"></picture></a>
 
-<sub>무료 · 20분이면 시작 · 10개 언어</sub>
+<sub>무료 · 오픈 소스 · 10개 언어</sub>
 
 ![입문](https://img.shields.io/badge/%EC%9E%85%EB%AC%B8-3%EA%B0%95-8A9A8C?style=flat-square)
 ![가이드](https://img.shields.io/badge/%EA%B0%80%EC%9D%B4%EB%93%9C-9%EB%8B%A8%EA%B3%84-8A9A8C?style=flat-square)
@@ -87,12 +87,6 @@ poteto는 pstack을 자기가 쓰려고 만들었습니다. 공식 문서는 읽
 - **쉬운 말**: 모든 페이지가 첫 줄에서 그 페이지가 무엇을 도와주는지 말하고, 낯선 용어는 마우스를 올리면 설명이 나옵니다.
 - **어느 나라에서든 읽을 수 있다**: 홈페이지와 입문 강의는 10개 언어로 되어 있어, 자기 언어로 시작할 수 있습니다.
 - **늘 최신 상태**: 현재 pstack 릴리스와 대조해 확인했고, 모든 명령은 공식 저장소와 같습니다.
-
-**어디서부터 볼까**
-
-- **코드를 써 본 적이 없다면**: [입문 3강](https://pstack.xiaoxiaodong.ai/ko/start/1-why/), 20분. AI에게 작은 페이지와 도구를 만들게 하고, 제대로 만들었는지 알아보는 법을 배웁니다.
-- **코드를 쓴다면**: [9단계 가이드](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)와 How-to 17편. 첫 작업부터 밤새 혼자 일하게 두는 것까지 다룹니다.
-- **AI에게 말하는 법을 늘리고 싶다면**: [스킬 34개](https://pstack.xiaoxiaodong.ai/en/skills/)마다 전문과 문장 해설이 붙어 있습니다. 고수가 프롬프트를 어떻게 쓰는지 볼 수 있습니다.
 
 ## 🧭 어떻게 일하나
 

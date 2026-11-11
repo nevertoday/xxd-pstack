@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) заставляет его проверить свою работу, прежде чем сказать «готово».<br>Это руководство объясняет pstack простыми словами. Разобраться можно, даже если вы никогда не писали код.
 
-<a href="https://pstack.xiaoxiaodong.ai/ru/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/ru-dark.svg"><img src="assets/btn/ru.svg" height="56" alt="Начать обучение"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/ru/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ru-1-dark.svg"><img src="assets/doors/ru-1.svg" height="92" alt="Без опыта в коде: 3 урока · 20 минут"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ru-2-dark.svg"><img src="assets/doors/ru-2.svg" height="92" alt="Пишете код: Гайд из 9 шагов (англ.)"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ru-3-dark.svg"><img src="assets/doors/ru-3.svg" height="92" alt="Учиться промптам: 34 навыка по частям (англ.)"></picture></a>
 
-<sub>Бесплатно · старт за 20 минут · 10 языков</sub>
+<sub>Бесплатно · открытый код · 10 языков</sub>
 
 ![Курс для новичков](https://img.shields.io/badge/%D0%9A%D1%83%D1%80%D1%81_%D0%B4%D0%BB%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BA%D0%BE%D0%B2-3_%D1%83%D1%80%D0%BE%D0%BA%D0%B0-8A9A8C?style=flat-square)
 ![Руководство](https://img.shields.io/badge/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-9_%D1%88%D0%B0%D0%B3%D0%BE%D0%B2-8A9A8C?style=flat-square)
@@ -87,12 +87,6 @@ poteto написал pstack для себя. Официальная докум�
 - **Простыми словами**: каждая страница начинается с одной строки о том, в чём она поможет, а незнакомые термины объясняются при наведении.
 - **Для читателей по всему миру**: главная страница и уроки для новичков есть на 10 языках, так что начать можно на своём.
 - **Без устаревших сведений**: сверено с текущей версией pstack; каждая команда совпадает с официальным репозиторием.
-
-**С чего начать**
-
-- **Никогда не писали код**: [3 урока для новичков](https://pstack.xiaoxiaodong.ai/ru/start/1-why/), 20 минут. Научитесь поручать ИИ небольшие страницы и инструменты и понимать, правильно ли он их сделал.
-- **Пишете код**: [руководство из 9 шагов](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) и 17 статей how-to — от первой задачи до того, чтобы оставить его работать одного на всю ночь.
-- **Хотите лучше формулировать задачи для ИИ**: у каждого из [34 навыков](https://pstack.xiaoxiaodong.ai/en/skills/) есть полный текст и разбор того, как он написан. Посмотрите, как пишет промпты профессионал.
 
 ## 🧭 Как он работает
 

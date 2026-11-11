@@ -373,49 +373,65 @@ def social(lang="zh"):
 
 
 
-# ---------- 7. button：README 顶部的「开始学习」按钮（每种语言一张亮色、一张暗色） ----------
-# 照小小东 UI Kit 的主按钮：墨色底、白字、直角、没有阴影和渐变；暗色时反过来（浅底深字）。
-# 只有一处动效：箭头隔几秒往前挪 4px（只动 transform，不弹跳），系统开了「减少动态效果」就不动。
-# 字宽用 Chrome 量过（600 20px 系统字体），宽度按字算，不靠估。按钮下面那行说明写在 README 里，是文字，不进图。
-BUTTONS = {
-    "en": ("Start learning", "Free · up and running in 20 minutes · 10 languages", 125),
-    "zh": ("开始学习", "免费 · 20 分钟上手 · 10 种语言", 80),
-    "ja": ("学びはじめる", "無料 · 20 分で使いはじめられる · 10 言語", 120),
-    "ko": ("지금 배우기", "무료 · 20분이면 시작 · 10개 언어", 92),
-    "es": ("Empieza a aprender", "Gratis · listo en 20 minutos · 10 idiomas", 182),
-    "pt": ("Comece a aprender", "Grátis · pronto em 20 minutos · 10 idiomas", 180),
-    "fr": ("Commencer à apprendre", "Gratuit · prêt en 20 minutes · 10 langues", 228),
-    "de": ("Jetzt loslegen", "Kostenlos · startklar in 20 Minuten · 10 Sprachen", 129),
-    "ru": ("Начать обучение", "Бесплатно · старт за 20 минут · 10 языков", 165),
-    "ar": ("ابدأ التعلّم", "مجاني · تبدأ خلال 20 دقيقة · 10 لغات", 81),
+# ---------- 7. doors：README 顶部的三扇门（没写过代码 / 会写代码 / 想学写提示词），每种语言三张卡片，亮色暗色各一张 ----------
+# 和插画同一张纸：细线框、直角、没有阴影和渐变；顶上一条柔和的色条（灰绿、杏、淡紫，和徽章、插画同一套）。
+# 唯一的动效：箭头隔几秒往前挪 4px，三张错开一点；系统开了「减少动态效果」就不动。
+# 改了文字要重新量字宽（Chrome 里 canvas measureText，字体见下面 font）。
+DOORS = {
+    "en": [["Never written code", "3 lessons · 20 minutes"], ["You write code", "The 9-step guide"], ["Learn to prompt", "34 skills, taken apart"]],
+    "zh": [["没写过代码", "新手入门 3 课 · 20 分钟"], ["会写代码", "9 步完整教程"], ["想学写提示词", "34 个技能拆解"]],
+    "ja": [["コードは初めて", "入門 3 レッスン · 20 分"], ["コードを書く人", "9 ステップの完全ガイド（英語）"], ["プロンプトを学ぶ", "34 スキルを分解（英語）"]],
+    "ko": [["코딩은 처음", "입문 3강 · 20분"], ["코드를 쓴다면", "9단계 전체 가이드(영어)"], ["프롬프트 배우기", "34개 스킬 해부(영어)"]],
+    "es": [["Nunca he programado", "3 lecciones · 20 minutos"], ["Sé programar", "Guía de 9 pasos (inglés)"], ["Aprender a pedir", "34 skills al detalle (inglés)"]],
+    "pt": [["Nunca programei", "3 lições · 20 minutos"], ["Sei programar", "Guia de 9 passos (inglês)"], ["Aprender a pedir", "34 skills em detalhe (inglês)"]],
+    "fr": [["Jamais codé ?", "3 leçons · 20 minutes"], ["Vous codez", "Guide en 9 étapes (anglais)"], ["Écrire de bons prompts", "34 skills décortiqués (anglais)"]],
+    "de": [["Noch nie programmiert", "3 Lektionen · 20 Minuten"], ["Du programmierst", "9-Schritte-Anleitung (Englisch)"], ["Prompts lernen", "34 Skills zerlegt (Englisch)"]],
+    "ru": [["Без опыта в коде", "3 урока · 20 минут"], ["Пишете код", "Гайд из 9 шагов (англ.)"], ["Учиться промптам", "34 навыка по частям (англ.)"]],
+    "ar": [["لم تكتب كودًا من قبل", "3 دروس · 20 دقيقة"], ["تكتب الكود", "دليل من 9 خطوات (بالإنجليزية)"], ["تعلّم كتابة الطلبات", "تفكيك 34 مهارة (بالإنجليزية)"]],
 }
-BTN_THEMES = {"light": ("#111111", "#FFFFFF"), "dark": ("#F3F0EA", "#171612")}
+# 每张卡片标题（600 18px）和说明（400 13px）的字宽，在 Chrome 里用系统字体量的
+DOOR_TEXT_W = {
+    "en": [[160, 136], [125, 105], [135, 126]],
+    "zh": [[90, 137], [72, 77], [108, 85]],
+    "ja": [[126, 137], [126, 194], [144, 150]],
+    "ko": [[83, 84], [98, 127], [114, 113]],
+    "es": [[187, 148], [115, 147], [142, 158]],
+    "pt": [[145, 126], [120, 154], [142, 170]],
+    "fr": [[119, 130], [98, 167], [196, 182]],
+    "de": [[195, 150], [153, 190], [129, 162]],
+    "ru": [[151, 118], [104, 147], [165, 178]],
+    "ar": [[144, 91], [79, 142], [132, 133]],
+}
+DOOR_BARS = ["#DDE7D3", "#EFDFC9", "#E0DAEA"]
+DOOR_THEMES = {"light": ("#FBFAF8", "#D9D6CE", "#2B2A27", "#8A867D"), "dark": ("#201F1A", "#3A3833", "#F3F0EA", "#A39E93")}
 
 
-def button(lang):
-    label, _, tw = BUTTONS[lang]
+def doors(lang):
     rtl = lang == "ar"
-    pad, gap, icon, H = 30, 10, 20, 56
-    W = pad * 2 + tw + 3 + gap + icon
+    widths = DOOR_TEXT_W[lang]
+    W = max(200, *(max(tw + 66, sw + 40) for tw, sw in widths))
+    H = 92
     font = "-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Apple SD Gothic Neo','Noto Sans','Noto Sans Arabic','Geeza Pro',sans-serif"
-    tx = pad if not rtl else W - pad
-    ix = W - pad - icon if not rtl else pad  # 箭头左上角
+    out = OUT / "doors"
+    out.mkdir(exist_ok=True)
+    tx = 18 if not rtl else W - 18
+    ax = W - 18 - 16 if not rtl else 18
     path = "M4 12h16m-6-6 6 6-6 6" if not rtl else "M20 12H4m6-6-6 6 6 6"
     move = 4 if not rtl else -4
-    for theme, (bg, fg) in BTN_THEMES.items():
-        content = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
-                   f'<style>.a{{animation:a 3.2s ease-in-out infinite}}@keyframes a{{0%,62%,100%{{transform:translateX(0)}}78%{{transform:translateX({move}px)}}}}'
+    d = ' direction="rtl"' if rtl else ""
+    for i, (title, sub) in enumerate(DOORS[lang]):
+        for theme, (bg, line, ink, muted) in DOOR_THEMES.items():
+            svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
+                   f'<style>.a{{animation:a 3.6s ease-in-out {i * 0.35:.2f}s infinite}}@keyframes a{{0%,60%,100%{{transform:translateX(0)}}75%{{transform:translateX({move}px)}}}}'
                    f'@media (prefers-reduced-motion:reduce){{.a{{animation:none}}}}</style>'
-                   f'<rect width="{W}" height="{H}" fill="{bg}"/>'
-                   f'<text x="{tx}" y="{H / 2 + 7}" font-family="{font}" font-size="20" font-weight="600" fill="{fg}"'
-                   f'{" direction=\"rtl\"" if rtl else ""}>{escape(label)}</text>'
-                   f'<g class="a"><path transform="translate({ix} {(H - icon) / 2}) scale({icon / 24})" d="{path}" fill="none" stroke="{fg}" '
-                   f'stroke-width="{1.5 * 24 / icon:.2f}" stroke-linecap="round" stroke-linejoin="miter"/></g></svg>\n')
-        out = OUT / "btn"
-        out.mkdir(exist_ok=True)
-        name = f"{lang}.svg" if theme == "light" else f"{lang}-dark.svg"
-        (out / name).write_text(content, encoding="utf-8")
-    print(f"✓ assets/btn/{lang}.svg (+ dark)  {W}×{H}")
+                   f'<rect x=".5" y=".5" width="{W - 1}" height="{H - 1}" fill="{bg}" stroke="{line}"/>'
+                   f'<rect width="{W}" height="5" fill="{DOOR_BARS[i]}"/>'
+                   f'<text x="{tx}" y="44" font-family="{font}" font-size="18" font-weight="600" fill="{ink}"{d}>{escape(title)}</text>'
+                   f'<text x="{tx}" y="68" font-family="{font}" font-size="13" fill="{muted}"{d}>{escape(sub)}</text>'
+                   f'<g class="a"><path transform="translate({ax} 30) scale({16 / 24})" d="{path}" fill="none" stroke="{ink}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="miter"/></g>'
+                   '</svg>\n')
+            (out / f"{lang}-{i + 1}{'' if theme == 'light' else '-dark'}.svg").write_text(svg, encoding="utf-8")
+    print(f"✓ assets/doors/{lang}-1..3 (+ dark)  {W}×{H}")
 
 if __name__ == "__main__":
     for lang in ("zh", "en"):
@@ -425,5 +441,5 @@ if __name__ == "__main__":
         skills(lang)
         overnight(lang)
         social(lang)
-    for lang in BUTTONS:
-        button(lang)
+    for lang in DOORS:
+        doors(lang)

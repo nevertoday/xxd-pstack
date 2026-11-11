@@ -8,9 +8,9 @@
 
 O [pstack](https://github.com/backnotprop/pstack) faz a IA testar o próprio trabalho antes de dizer que terminou.<br>Este guia explica o pstack em linguagem simples. Dá para aprender mesmo se você nunca escreveu uma linha de código.
 
-<a href="https://pstack.xiaoxiaodong.ai/pt/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/pt-dark.svg"><img src="assets/btn/pt.svg" height="56" alt="Comece a aprender"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/pt/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/pt-1-dark.svg"><img src="assets/doors/pt-1.svg" height="92" alt="Nunca programei: 3 lições · 20 minutos"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/pt-2-dark.svg"><img src="assets/doors/pt-2.svg" height="92" alt="Sei programar: Guia de 9 passos (inglês)"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/pt-3-dark.svg"><img src="assets/doors/pt-3.svg" height="92" alt="Aprender a pedir: 34 skills em detalhe (inglês)"></picture></a>
 
-<sub>Grátis · pronto em 20 minutos · 10 idiomas</sub>
+<sub>Grátis · código aberto · 10 idiomas</sub>
 
 ![Para iniciantes](https://img.shields.io/badge/Para_iniciantes-3_li%C3%A7%C3%B5es-8A9A8C?style=flat-square)
 ![Guia](https://img.shields.io/badge/Guia-9_passos-8A9A8C?style=flat-square)
@@ -87,12 +87,6 @@ Muita gente instala, testa uma vez, acha que "não muda tanta coisa assim" e des
 - **Linguagem simples**: cada página começa com uma linha dizendo no que ela ajuda, e os termos desconhecidos se explicam quando você passa o mouse.
 - **Para ler em qualquer lugar do mundo**: a página inicial e as lições para iniciantes estão em 10 idiomas, então você pode começar no seu.
 - **Sempre atualizado**: conferido com a versão atual do pstack; todos os comandos batem com o repositório oficial.
-
-**Por onde começar**
-
-- **Nunca escreveu código**: as [3 lições para iniciantes](https://pstack.xiaoxiaodong.ai/pt/start/1-why/), 20 minutos. Aprenda a pedir para a IA criar pequenas páginas e ferramentas para você, e a saber se ela acertou.
-- **Você programa**: o [guia em 9 passos](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) e 17 guias práticos, da primeira tarefa até deixá-lo trabalhando sozinho a noite toda.
-- **Quer conversar melhor com a IA**: cada uma das [34 skills](https://pstack.xiaoxiaodong.ai/en/skills/) vem com o texto completo e uma análise de como foi escrita. Veja como um especialista escreve prompts.
 
 ## 🧭 Como ele trabalha
 

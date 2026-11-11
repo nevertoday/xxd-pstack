@@ -121,7 +121,7 @@ npm run build      # 输出到 dist/
 
 ## README 插画和分享大图
 
-README 顶部的「开始学习」按钮是 `assets/btn/<语言>.svg` 和 `<语言>-dark.svg`（GitHub 暗色时用后者，`<picture>` 切换），文字和量好的字宽在 `build_assets.py` 的 `BUTTONS` 里。样子照 UI Kit 的主按钮：墨色、直角、没有阴影和渐变；只有箭头隔几秒挪一下。按钮下面那行说明写在 README 里，是文字。改了标签要重新量字宽（Chrome 里 `600 20px` 系统字体的 measureText）。
+README 顶部的三扇门（没写过代码 / 会写代码 / 想学写提示词）是 `assets/doors/<语言>-<1..3>.svg` 和 `-dark.svg`（GitHub 暗色时用后者，`<picture>` 切换），文字和量好的字宽在 `build_assets.py` 的 `DOORS`、`DOOR_TEXT_W` 里。样子和插画同一张纸：细线框、直角、顶上一条柔和色条，只有箭头隔几秒挪一下。改了文字要重新量字宽（Chrome 里 canvas 的 measureText）。卡片下面那行「免费 · 开源 · 10 种语言」写在 README 里，是文字。
 
 `python3 tools/build_assets.py` 生成 `assets/*.svg`（README 插画、SVG 动画、分享图 `social.svg`）。分享图还要转成 PNG（用 Chrome 渲染，中文字体最准）：
 

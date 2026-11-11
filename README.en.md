@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) makes it try its own work before it tells you it's done.<br>This guide explains pstack in plain words. You can learn it even if you've never written code.
 
-<a href="https://pstack.xiaoxiaodong.ai/en/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/en-dark.svg"><img src="assets/btn/en.svg" height="56" alt="Start learning"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/en/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-1-dark.svg"><img src="assets/doors/en-1.svg" height="92" alt="Never written code: 3 lessons · 20 minutes"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-2-dark.svg"><img src="assets/doors/en-2.svg" height="92" alt="You write code: The 9-step guide"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-3-dark.svg"><img src="assets/doors/en-3.svg" height="92" alt="Learn to prompt: 34 skills, taken apart"></picture></a>
 
-<sub>Free · up and running in 20 minutes · 10 languages</sub>
+<sub>Free · open source · 10 languages</sub>
 
 ![Beginner track](https://img.shields.io/badge/Beginner_track-3_lessons-8A9A8C?style=flat-square)
 ![Guide](https://img.shields.io/badge/Guide-9_steps-8A9A8C?style=flat-square)
@@ -87,12 +87,6 @@ Plenty of people install it, try it once, think "it's not that different," and g
 - **Plain words**: every page opens with one line on what it helps you get done, and unfamiliar terms explain themselves on hover.
 - **Readable worldwide**: the home page and beginner lessons come in 10 languages, so you can start in your own.
 - **Kept current**: checked against the current pstack release; every command matches the official repo.
-
-**Where to start**
-
-- **Never written code**: the [3 beginner lessons](https://pstack.xiaoxiaodong.ai/en/start/1-why/), 20 minutes. Learn to have AI build small pages and tools for you, and to tell whether it got them right.
-- **You code**: the [9-step guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) and 17 how-tos, from your first task to letting it work alone overnight.
-- **You want to get better at talking to AI**: each of the [34 skills](https://pstack.xiaoxiaodong.ai/en/skills/) comes with its full text and a breakdown of how it's worded. See how an expert writes prompts.
 
 ## 🧭 How it works
 

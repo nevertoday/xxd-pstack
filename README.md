@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) 让它改完先自己试一遍，再来跟你说。<br>这份教程用大白话把 pstack 讲清楚，不会写代码也能学会。
 
-<a href="https://pstack.xiaoxiaodong.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/zh-dark.svg"><img src="assets/btn/zh.svg" height="56" alt="开始学习"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-1-dark.svg"><img src="assets/doors/zh-1.svg" height="92" alt="没写过代码: 新手入门 3 课 · 20 分钟"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-2-dark.svg"><img src="assets/doors/zh-2.svg" height="92" alt="会写代码: 9 步完整教程"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-3-dark.svg"><img src="assets/doors/zh-3.svg" height="92" alt="想学写提示词: 34 个技能拆解"></picture></a>
 
-<sub>免费 · 20 分钟上手 · 10 种语言</sub>
+<sub>免费 · 开源 · 10 种语言</sub>
 
 ![新手入门](https://img.shields.io/badge/新手入门-3_课-8A9A8C?style=flat-square)
 ![完整教程](https://img.shields.io/badge/完整教程-9_步-8A9A8C?style=flat-square)
@@ -87,12 +87,6 @@ pstack 是 poteto 写给自己用的。官方文档默认你已经是资深工�
 - **说人话**：每页标题下有一句话，告诉你这页能帮你做成什么；生词悬停就有解释。
 - **全球都能读**：首页和新手入门有 10 种语言，母语读者从第一课就能学。
 - **跟着 pstack 更新**：内容核对到 pstack 当前版本，每个命令都对照过官方仓库。
-
-**从哪开始**
-
-- **没写过代码**：[新手入门 3 课](https://pstack.xiaoxiaodong.ai/start/1-why/)，20 分钟。学会让 AI 帮你做小网页、小工具，并看出它做得对不对。
-- **会写代码**：[9 步完整教程](https://pstack.xiaoxiaodong.ai/guide/0-what/)和 17 篇 How-to，从第一个任务讲到让它独自跑一整夜。
-- **想学怎么跟 AI 说话**：[34 个技能](https://pstack.xiaoxiaodong.ai/skills/)都有原文、译文和写法拆解，看高手怎么写提示词。
 
 ## 🧭 它是怎么干活的
 

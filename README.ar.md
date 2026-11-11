@@ -10,9 +10,9 @@
 
 مع [pstack](https://github.com/backnotprop/pstack)، يجرّب الذكاء الاصطناعي عمله بنفسه قبل أن يقول لك إنه انتهى.<br>هذا الدليل يشرح pstack بكلمات بسيطة، ويمكنك أن تتعلّمه حتى لو لم تكتب سطر كود من قبل.
 
-<a href="https://pstack.xiaoxiaodong.ai/ar/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/ar-dark.svg"><img src="assets/btn/ar.svg" height="56" alt="ابدأ التعلّم"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/ar/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ar-1-dark.svg"><img src="assets/doors/ar-1.svg" height="92" alt="لم تكتب كودًا من قبل: 3 دروس · 20 دقيقة"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ar-2-dark.svg"><img src="assets/doors/ar-2.svg" height="92" alt="تكتب الكود: دليل من 9 خطوات (بالإنجليزية)"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/ar-3-dark.svg"><img src="assets/doors/ar-3.svg" height="92" alt="تعلّم كتابة الطلبات: تفكيك 34 مهارة (بالإنجليزية)"></picture></a>
 
-<sub>مجاني · تبدأ خلال 20 دقيقة · 10 لغات</sub>
+<sub>مجاني · مفتوح المصدر · 10 لغات</sub>
 
 ![مسار المبتدئين](https://img.shields.io/badge/%D9%85%D8%B3%D8%A7%D8%B1_%D8%A7%D9%84%D9%85%D8%A8%D8%AA%D8%AF%D8%A6%D9%8A%D9%86-3_%D8%AF%D8%B1%D9%88%D8%B3-8A9A8C?style=flat-square)
 ![الدليل](https://img.shields.io/badge/%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84-9_%D8%AE%D8%B7%D9%88%D8%A7%D8%AA-8A9A8C?style=flat-square)
@@ -89,12 +89,6 @@
 - **كلمات بسيطة**: كل صفحة تبدأ بسطر واحد عمّا تساعدك على إنجازه، والمصطلحات غير المألوفة تشرح نفسها عند تمرير المؤشر فوقها.
 - **مقروء في كل مكان**: الصفحة الرئيسية ودروس المبتدئين متوفرة بـ 10 لغات، فتبدأ بلغتك.
 - **محدَّث دائمًا**: روجع على إصدار pstack الحالي، وكل أمر مطابق للمستودع الرسمي.
-
-**من أين تبدأ**
-
-- **لم تكتب كودًا من قبل**: [الدروس الثلاثة للمبتدئين](https://pstack.xiaoxiaodong.ai/ar/start/1-why/)، في 20 دقيقة. تتعلّم كيف تجعل الذكاء الاصطناعي يبني لك صفحات وأدوات صغيرة، وكيف تعرف هل أنجزها كما يجب.
-- **تكتب الكود**: [الدليل في 9 خطوات](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) و17 دليلًا عمليًا (How-to)، من مهمتك الأولى حتى تتركه يعمل وحده طوال الليل.
-- **تريد أن تحسّن طريقة كلامك مع الذكاء الاصطناعي**: كل مهارة من [المهارات الـ 34](https://pstack.xiaoxiaodong.ai/en/skills/) معها نصها الكامل وتحليل لطريقة صياغتها. شاهد كيف يكتب الخبير أوامره.
 
 ## 🧭 كيف يعمل
 

@@ -8,9 +8,9 @@
 
 [pstack](https://github.com/backnotprop/pstack) bringt sie dazu, ihre Arbeit selbst auszuprobieren, bevor sie „fertig“ sagt.<br>Diese Anleitung erklärt pstack in einfachen Worten. Du kannst es lernen, auch wenn du noch nie Code geschrieben hast.
 
-<a href="https://pstack.xiaoxiaodong.ai/de/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/btn/de-dark.svg"><img src="assets/btn/de.svg" height="56" alt="Jetzt loslegen"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/de/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/de-1-dark.svg"><img src="assets/doors/de-1.svg" height="92" alt="Noch nie programmiert: 3 Lektionen · 20 Minuten"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/de-2-dark.svg"><img src="assets/doors/de-2.svg" height="92" alt="Du programmierst: 9-Schritte-Anleitung (Englisch)"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/de-3-dark.svg"><img src="assets/doors/de-3.svg" height="92" alt="Prompts lernen: 34 Skills zerlegt (Englisch)"></picture></a>
 
-<sub>Kostenlos · startklar in 20 Minuten · 10 Sprachen</sub>
+<sub>Kostenlos · Open Source · 10 Sprachen</sub>
 
 ![Einsteigerkurs](https://img.shields.io/badge/Einsteigerkurs-3_Lektionen-8A9A8C?style=flat-square)
 ![Leitfaden](https://img.shields.io/badge/Leitfaden-9_Schritte-8A9A8C?style=flat-square)
@@ -87,12 +87,6 @@ Viele installieren es, probieren es einmal aus, denken „so viel anders ist das
 - **Einfache Worte**: Jede Seite beginnt mit einem Satz dazu, wobei sie dir hilft, und unbekannte Begriffe erklären sich beim Darüberfahren.
 - **Weltweit lesbar**: Startseite und Einsteigerlektionen gibt es in 10 Sprachen, du kannst also in deiner eigenen anfangen.
 - **Auf dem aktuellen Stand**: geprüft mit der aktuellen pstack-Version; jeder Befehl stimmt mit dem offiziellen Repo überein.
-
-**Wo anfangen**
-
-- **Noch nie Code geschrieben**: die [3 Lektionen für Einsteiger](https://pstack.xiaoxiaodong.ai/de/start/1-why/), 20 Minuten. Du lernst, dir von der KI kleine Seiten und Tools bauen zu lassen und zu erkennen, ob sie es richtig gemacht hat.
-- **Du programmierst**: der [Leitfaden in 9 Schritten](https://pstack.xiaoxiaodong.ai/en/guide/0-what/) und 17 How-tos, von der ersten Aufgabe bis dahin, dass sie über Nacht allein arbeitet.
-- **Du willst besser mit KI reden**: Zu jedem der [34 Skills](https://pstack.xiaoxiaodong.ai/en/skills/) gibt es den vollen Text und eine Analyse, wie er formuliert ist. So siehst du, wie ein Profi Prompts schreibt.
 
 ## 🧭 So arbeitet es
 
