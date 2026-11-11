@@ -256,5 +256,61 @@
         "try": "Hang each rule on a moment: \"About to change the database → back it up first and tell me where.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "编译通过就说做完了",
+          "with": "对着真实结果验证，拿出证据才说做完"
+        },
+        {
+          "without": "跳过一些步骤也不告诉你",
+          "with": "把对应 playbook 的步骤原样抄进待办，跳过的写明理由"
+        },
+        {
+          "without": "把猜测说得像查实了一样",
+          "with": "每条说法都注明是测出来的、推出来的，还是猜的"
+        }
+      ],
+      "intro": "开头说明其他技能放在哪，派 `poteto-agent` 时要把这个文件的完整路径写进去。",
+      "sections": [
+        "列出一串触发条件：先复述你的目标，写代码前先定数据形状，碰到对应情况就调用对应技能。",
+        "把原则分成五组，写明每条什么时候用，用哪条就先把它的 SKILL.md 读完。",
+        "可逆的事直接做。强推共享分支、部署、删数据、给客户发消息，一定先停下问你。",
+        "派帮手 AI 时按难度选模型和推理强度，新活交给新帮手，交回的活自己审过再总结。",
+        "说明在 Claude Code、Codex 等工具里，Cursor 专用的工具名和文件路径各对应什么。",
+        "回复用短句，不用长破折号，先说对使用者的影响，每条说法带上证据或标明是猜的。",
+        "注释只留代码本身说不清的原因，测试脚本用断言里的文字说明每一步，不写旁白注释。",
+        "按任务从二十多个 playbook 里挑一个，比如 Bug fix、Feature，先把它的步骤抄进待办。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Calls it done once it compiles.",
+          "with": "Checks the real result and shows the evidence before calling it done."
+        },
+        {
+          "without": "Skips steps without telling you.",
+          "with": "Copies the matching playbook's steps into a todo list. Skipped ones say skip: <reason>."
+        },
+        {
+          "without": "States guesses as if they were checked.",
+          "with": "Labels every claim as measured, inferred, or guess, in the same sentence."
+        }
+      ],
+      "intro": "It says where the bundled skills live and tells the AI to put this file's path in every `poteto-agent` prompt.",
+      "sections": [
+        "A list of triggers: restate your goal first, name the data shape before code, and call the matching skill for each situation.",
+        "Principles in five groups, each with when it applies. The AI reads a principle's full SKILL.md before using it.",
+        "Reversible work goes ahead without asking. Force-pushes to shared branches, deploys, data deletion and customer messages always wait for you.",
+        "Picks each helper's model and effort by difficulty, gives new work to fresh helpers, and reviews what they return itself.",
+        "Maps Cursor-only tool names and file paths to their equivalents in Claude Code, Codex, Pi and OpenCode.",
+        "Short sentences, no long dashes, impact on the user first, and every claim carries its evidence or a guess label.",
+        "Keeps a comment only for a why the code can't show. Test scripts let assertion messages describe each step.",
+        "Matches the task to one of 23 playbooks, such as Bug fix or Feature, and copies its steps into the todo list."
+      ]
+    }
+  }
 }

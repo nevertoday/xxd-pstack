@@ -96,5 +96,43 @@
         "try": "With an outline, add: \"'Background' and 'Goal' below are notes for you. Don't use them as headings.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "罗列一串函数名和常量，就算讲过了",
+          "with": "先说它通常叫什么、是什么，再讲解决什么问题、怎么运作"
+        },
+        {
+          "without": "写一大段，还加上「关键点」「TL;DR」这类标签",
+          "with": "先给一两句完整的答案就停，不印任何提示标签"
+        },
+        {
+          "without": "像上课一样出题、让你复述、喊「暂停」",
+          "with": "像跟同事聊天一样讲，问你要不要深入，跟着你走"
+        }
+      ],
+      "intro": "`teach` 先跑 `how` 和 `why` 查清楚，再按你提问的原因挑几个要点，用口语讲成一篇。它从定义和最短的完整答案讲起，三个以上部件就一张张叠着画图，文字按 `unslop` 的规矩写。",
+      "sections": []
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Lists function names and constants and calls it explained.",
+          "with": "Gives the common name and a plain definition, then the problem and the mechanism."
+        },
+        {
+          "without": "Writes a dense block with labels like \"key insight\" or \"TL;DR\".",
+          "with": "Gives a complete answer in a sentence or two, then stops. No framing labels."
+        },
+        {
+          "without": "Lectures with quizzes, \"Pause\" and asks you to say it back.",
+          "with": "Talks like a colleague, offers to go deeper, and follows your lead."
+        }
+      ],
+      "intro": "Teach runs `how` and `why`, picks the few points that fit why you are asking, and blends them into one spoken explanation. It starts from a plain definition and a short answer, builds diagrams one part at a time, and writes through `unslop`.",
+      "sections": []
+    }
+  }
 }

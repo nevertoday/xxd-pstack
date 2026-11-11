@@ -192,5 +192,57 @@
         "try": "When you ask for status, give a shape: \"Reply as 'Done: … Not done: … (why)'.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "发现问题就直接改技能文件",
+          "with": "列出接受、拒绝、待办三份清单，等你批准才改"
+        },
+        {
+          "without": "一次性的小事也当成经验记下",
+          "with": "只留能长期用的经验，琐碎的对话直接跳过"
+        },
+        {
+          "without": "跨项目翻遍所有聊天记录",
+          "with": "只在当前工作区的会话目录里找这次对话"
+        }
+      ],
+      "intro": "说明用途：从这次对话里挖出能长期用的经验，改进技能。琐碎的对话、已有技能管住的情况就跳过。",
+      "sections": [
+        "按所用工具找到这次对话的记录文件，用开头那句话确认，不跨项目乱翻。",
+        "同时派出判断、工具、发散三个帮手 AI，模型按 pstack 设置文件或默认值来选。",
+        "再派一个帮手 AI 核对引用，汇总成接受、拒绝、待办三份清单。",
+        "能用 lint、脚本或运行时检查管住的条目，从接受挪到待办。",
+        "待办直接提交到任务跟踪，接受的改动等你批准，改在技能副本上，不开 PR 也不推送。",
+        "用短清单收尾：改了哪些技能、新建了什么、提交了哪些待办、丢掉了什么及原因。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Edits skill files as soon as it spots a problem.",
+          "with": "Shows Accepted, Rejected and Backlog lists and waits for your approval before editing."
+        },
+        {
+          "without": "Records one-off events as lessons.",
+          "with": "Keeps only durable learnings and skips trivial chats."
+        },
+        {
+          "without": "Searches chat logs across every project.",
+          "with": "Looks for this chat's transcript only in the current workspace's session folder."
+        }
+      ],
+      "intro": "It mines this conversation for durable learnings and turns them into skill edits. It skips trivial chats and cases an existing skill already covered.",
+      "sections": [
+        "Finds this chat's transcript in your tool's session folder for this workspace and confirms it by the opening prompt.",
+        "Starts three helpers at once (judgment, tooling, divergent), each on the model the pstack settings file or default names.",
+        "One more helper spot-checks citations and merges the findings into Accepted, Rejected and Backlog lists.",
+        "Moves any accepted item that a lint, script, flag or runtime check would enforce better into Backlog.",
+        "Files Backlog items now, waits for approval on Accepted edits, edits a skill copy, and never opens a PR or pushes.",
+        "Ends with a short list: edits applied, new skills, Backlog filed, and findings dropped with reasons."
+      ]
+    }
+  }
 }

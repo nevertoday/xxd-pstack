@@ -88,5 +88,43 @@
         "try": "When you set a rule, add the exception: \"Reply in Chinese, but keep error messages and commands in English.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "用 `as` 把类型硬转过去，先让编译通过",
+          "with": "在数据进来的地方先校验，校验过了才转类型"
+        },
+        {
+          "without": "用一堆可选字段拼出几种情况",
+          "with": "给每种情况加 `kind` 标记，不可能的组合写不出来"
+        },
+        {
+          "without": "外部数据直接标成 `any`",
+          "with": "外部数据标成 `unknown`，用项目的 schema 库解析"
+        }
+      ],
+      "intro": "先套用 type-system-discipline 原则，再给一张 16 条规则的表，从用 `kind` 区分情况、外部数据用 `unknown`，到测试少 mock、发布的代码不留 `console.log`。例子放在 `references/patterns.md`。",
+      "sections": []
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Forces types through with `as` so the code compiles.",
+          "with": "Validates data where it enters, and casts only after that check."
+        },
+        {
+          "without": "Models variants as a bag of optional fields.",
+          "with": "Tags each variant with a `kind` literal so impossible states can't exist."
+        },
+        {
+          "without": "Types outside data as `any`.",
+          "with": "Types outside data as `unknown` and parses it with the repo's schema library."
+        }
+      ],
+      "intro": "It applies the type-system-discipline principle first, then gives a 16-rule table, from `kind` unions and `unknown` for outside data to real tests and no `console.log` in shipped code. Examples live in `references/patterns.md`.",
+      "sections": []
+    }
+  }
 }

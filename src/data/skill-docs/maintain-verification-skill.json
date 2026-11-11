@@ -136,5 +136,51 @@
         "try": "When the AI checks a site, write: \"Before saying a link is broken, paste the error you got opening it.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "功能坏了，改文档把它掩盖过去",
+          "with": "只改验证技能自己的文件，产品的毛病报告给你"
+        },
+        {
+          "without": "实例状态不明还接着操作，越测越乱",
+          "with": "出错后先跑 Doctor 检查实例，再接着操作"
+        },
+        {
+          "without": "什么都没改也开一个 PR",
+          "with": "只在有改动时开一个 PR，结论写明三种之一"
+        }
+      ],
+      "intro": "应用一改，功能清单就过时，这个技能按功能做维护，每个功能都从源码查一遍，再真跑一遍。",
+      "sections": [
+        "结论三选一：clean 不开 PR，changed 开一个 PR，blocked 要说清卡在哪。",
+        "只改验证技能自己的目录，产品代码不碰，应用真坏了就报告给你。",
+        "七步：找目标，理清单，帮手 AI 按功能查源码，合并，真跑每个功能，分三类问题，开 PR 或停下。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Rewrites the docs to cover up a broken feature.",
+          "with": "Edits only the verification skill's files and reports product bugs to you."
+        },
+        {
+          "without": "Keeps driving an instance in an unknown state.",
+          "with": "Runs Doctor after any failed drive before driving again."
+        },
+        {
+          "without": "Opens a PR even when nothing changed.",
+          "with": "Opens one PR only for proven changes and names the outcome."
+        }
+      ],
+      "intro": "A feature map goes stale when the app changes, so this pass checks every feature in source and runs every feature live.",
+      "sections": [
+        "Ends in one of three outcomes: clean with no PR, changed with one PR, or blocked with the exact reason.",
+        "Edits only the verification skill's own folder. Product code stays untouched, and real breakage gets reported to you.",
+        "Seven steps: find the skill, tidy the index, read source per feature, merge, run every feature live, triage, then ship or stop."
+      ]
+    }
+  }
 }

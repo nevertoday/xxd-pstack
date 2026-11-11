@@ -124,5 +124,53 @@
         "try": "When you ask for a report, list it: \"Which file changed, how you tested, and the last lines of test output.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "直接改代码，说一句「修好了」",
+          "with": "先写测试跑一遍，确认它是因为这个 bug 失败"
+        },
+        {
+          "without": "改测试去迁就错误的实现",
+          "with": "测试照应有的行为写，已有的断言保持原样"
+        },
+        {
+          "without": "为走流程硬塞一个全是 mock 的测试",
+          "with": "测试难写就改用脚本或复现命令，并说明原因"
+        }
+      ],
+      "intro": "说明有便宜的测试路径时，先写一个修前失败、修后通过的测试，太难测就换最接近的检查方式。",
+      "sections": [
+        "六步：弄清 bug，挑最近的测试类型，先写失败的测试，确认失败原因对，最小改动修复，重跑通过。",
+        "改用定向脚本、复现命令、浏览器自动化等方式检查，宁可不加测试，坏测试一个都不加。",
+        "测试照应有的行为写，已有断言保持原样，只盯这一个 bug，偶发的 bug 尽量写成每次结果一样的测试。",
+        "汇报证据：哪个测试修前失败、报了什么错，修后哪次跑通过，做不到就说明原因和替代检查。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Edits the code and just says it's fixed.",
+          "with": "Writes a test first and confirms it fails because of this bug."
+        },
+        {
+          "without": "Changes the test to match the wrong code.",
+          "with": "Writes the test from intended behavior and keeps existing assertions intact."
+        },
+        {
+          "without": "Forces in a test made mostly of mocks.",
+          "with": "Uses a script or repro command when a test is impractical, and says why."
+        }
+      ],
+      "intro": "It says that with a cheap test path, the AI writes a test that fails before the fix and passes after. Otherwise it uses the closest check.",
+      "sections": [
+        "Six steps: understand the bug, pick the nearest test type, write a failing test, confirm why it fails, fix minimally, rerun.",
+        "Falls back to a targeted script, repro command or browser automation. No new test beats a bad one.",
+        "Tests encode intended behavior, assertions stay, focus stays on this bug, and flaky bugs get deterministic tests where possible.",
+        "Reports evidence: the test that failed before and its error, the passing run after, or why that wasn't possible."
+      ]
+    }
+  }
 }

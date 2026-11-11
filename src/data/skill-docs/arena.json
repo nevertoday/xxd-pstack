@@ -152,5 +152,59 @@
         "try": "When AI answers contradict, don't ask for a compromise; ask: \"What was unclear in my request that led to such different answers?\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "凭整体感觉挑一个顺眼的",
+          "with": "先定 3 到 6 条评分标准，逐条给每一份打分"
+        },
+        {
+          "without": "让写方案的同一家模型给自己打分",
+          "with": "换另一家模型当裁判，按标准打分并推荐底稿"
+        },
+        {
+          "without": "把几份方案的内容拼在一起",
+          "with": "选一份当底稿，从别家挑一两处好点子手工改进来"
+        }
+      ],
+      "intro": "开跑前先列一个待办清单，六个阶段各一条。",
+      "sections": [
+        "写清每份要交什么，定 3 到 6 条评分标准，按设置文件选模型，每份给单独的 worktree。",
+        "一条消息同时派出所有帮手 AI，各交一份方案和说明，写清考虑过、放弃了什么。",
+        "都交完后从另一家模型里挑一个裁判，只看不改，按标准逐条打分并推荐底稿。",
+        "自己把每份从头读到尾逐条打分，再跟裁判对照，意见不同就把两边理由都读一遍。",
+        "从落选方案里各挑一两处好点子手工改进底稿，方案差太远就重写任务再跑。",
+        "按 prove-it-works 检查合成结果，查出问题就回 Frame 重来或回 Graft 补上。",
+        "交一份合成结果和说明：底稿和理由、裁判意见、每处借鉴的来源、放弃的、验证结果。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Picks the version that feels best overall.",
+          "with": "Sets 3 to 6 gradeable criteria and scores every candidate on each one."
+        },
+        {
+          "without": "Lets the model that wrote the work grade it.",
+          "with": "Has a model from another family judge the candidates and recommend a base."
+        },
+        {
+          "without": "Pastes pieces of several versions together.",
+          "with": "Picks one base and hand-folds in one or two ideas from the others."
+        }
+      ],
+      "intro": "It opens a todolist with one entry per phase before launching anything.",
+      "sections": [
+        "States what each candidate produces, sets a 3 to 6 point rubric, picks runners, and gives each its own worktree.",
+        "Spawns all runners in one message. Each returns its work and a rationale naming what it rejected.",
+        "After all finish, one judge from another model family scores each criterion without editing and recommends a base.",
+        "Reads every candidate end to end, scores each criterion, and compares with the judge. Disagreement means rereading both rationales.",
+        "Hand-ports one or two good ideas from each loser into the base. Wild divergence means reframing and rerunning.",
+        "Checks the result per prove-it-works. A miss sends it back to Frame or to Graft.",
+        "Delivers one artifact plus a note: the base and why, the judge's verdict, each graft's source, rejections, and verification."
+      ]
+    }
+  }
 }

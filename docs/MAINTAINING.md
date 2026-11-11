@@ -29,11 +29,12 @@ npm run build      # 输出到 dist/
 - **站点结构**只在 `src/data/nav.js` 改：主线 9 步（`STEPS`）、How-to 清单（`HOWTO`）、术语解释（`GLOSSARY`）、本站仓库地址（`REPO`）。
 - **主线教程**每一步是 `src/pages/guide/<n>-<slug>.mdx`，开头写 `layout: ../../layouts/Guide.astro` 和 `step: n`。
 - **How-to** 是 `src/pages/howto/<slug>.mdx`（`layout: ../../layouts/HowTo.astro`，`slug` 要和 `HOWTO` 里一致，`step` 是相关的主线步骤）。
-- **技能速查**只改数据：`src/data/skills.js`（每个技能：一句话、什么时候用、例句、要一起装的技能、谁来调用）。
-- **技能详情页**（`/skills/<名>/`）：人话简介来自 `skills.js`；原文、中文译文和「从它的写法里学」来自 `src/data/skill-docs/<名>.json`。
+- **技能速查**只改数据：`src/data/skills.js`（每个技能：一句话、什么时候用、例句、要一起装的技能、谁来调用）。页面是一组组卡片，上面能按名字、想做的事和「谁来调用」筛选（也搜例句和「用它和不用它」）。
+- **技能详情页**（`/skills/<名>/`）：页头卡片（一句话、什么时候用、能复制的例句），下面三个标签页一次只显示一块：**概览**（用它和不用它、文档每一节讲什么，点一节跳进全文）、**写法亮点**、**全文**（带「跳到」）。人话简介来自 `skills.js`；原文、中文译文、写法（`lessons`）和概览（`brief`）来自 `src/data/skill-docs/<名>.json`。
+  - `brief.zh` / `brief.en` 各有：`compare` 正好 3 行 `{ without, with }`（直接跟 AI 说时它通常怎么做 / 用了这个技能它怎么做，只写原文里点名或明确针对的做法，每格一句）；`intro`（原文第一个小节前那段讲什么，没有就空着）；`sections`（每节一句，条数和顺序跟 `src/lib/skill-sections.js` 切出来的一样）。
   - 原文按空行切成一块块，每块一对 `{ en, zh }`，页面上可切换中文 / 原文 / 对照。
   - pstack 更新后：`node scripts/skill-docs.mjs sync <pstack 仓库目录>`。英文没变的块保留译文，变了的块译文清空。
-  - 然后 `node scripts/skill-docs.mjs check`，把它列出的缺译文、写法原句找不到的补上。
+  - 然后 `node scripts/skill-docs.mjs check`，把它列出的缺译文、写法原句找不到、概览节数对不上的补上。
   - 译文要完整忠实（不缩写、不增删），代码块、命令、技能名、原则名、路径保持英文；用户写「用户 / 对方」，不用他 / 她。
   - 写法每个技能 3–5 条：`quote` 必须是原文里的原句；`does` 这句让 AI 做什么、`why` 为什么这样写、`try` 读者怎么借用，各一句。
   - 原文是 MIT 许可（Lauren Tan），页脚保留署名和核对到的版本。

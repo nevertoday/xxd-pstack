@@ -192,5 +192,57 @@
         "try": "When you ask for a check, write: \"If the docs and the code disagree, trust the code and tell me where they differ.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "状态框里写的是代码变量名",
+          "with": "状态和箭头都用读者的话写，比如「你按下播放」"
+        },
+        {
+          "without": "检查不过，就把规则改松",
+          "with": "每条规则写成 INVARIANT，让 TLC 找出违反它的路径"
+        },
+        {
+          "without": "模型报了 bug 就直接当真",
+          "with": "在真代码上逐步重放 bug，复现不了先怀疑模型"
+        }
+      ],
+      "intro": "开头说明：这张图用读者的话讲系统怎么在状态之间走，对不对由读者来定。",
+      "sections": [
+        "在仓库外写 TLA+ 规格和配置，跑 `statechart` 命令，第一次要联网装 TLC 和 Java。",
+        "每条规则写成 INVARIANT，`Next` 按动作拆开，终点状态补一个原地不动的动作，免得报死锁。",
+        "在 view 模块里写 `state()` 和 `step()`，用读者的话给状态和箭头起名，箭头压到 20 个左右。",
+        "看懂 `breaks` 和 `mayBreak` 标记、「Rules not checked」清单，以及 TLC 越过 bug 继续跑的情况。",
+        "把 `chart.mmd` 当 mermaid 代码块给你看，超过 500 个状态只画出错路径，要图片用 Pele 渲染。",
+        "交出图和每个 bug 的规则与路径，说明模型漏了什么，再到真代码上逐步重放 bug。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Labels states and arrows with variable names and code actions.",
+          "with": "Labels each state and arrow in the reader's words, like \"you press play\"."
+        },
+        {
+          "without": "Loosens a rule when the check fails.",
+          "with": "Writes each rule as an INVARIANT and lets TLC find the path that breaks it."
+        },
+        {
+          "without": "Takes a bug the model reports as real.",
+          "with": "Replays each bug path on the real code and doubts the model if it doesn't occur."
+        }
+      ],
+      "intro": "It says the chart shows how a system moves between states in the reader's words, and the reader decides if that is right.",
+      "sections": [
+        "Writes a TLA+ spec and config in a scratch folder outside the repo and runs the command. The first run installs TLC.",
+        "Writes each agreed rule as an INVARIANT, splits Next into named actions, and adds a do-nothing step for end states.",
+        "Writes a view module whose state() and step() name states and arrows in the reader's words, keeping about 20 arrows.",
+        "Explains the breaks and mayBreak marks, the \"Rules not checked\" list, and why TLC keeps going past a bug.",
+        "Shows chart.mmd as a mermaid block. Past 500 states it draws only bug paths. Images are rendered with Pele.",
+        "Hands over each chart with one line per bug and what the model leaves out, then replays bugs against real code."
+      ]
+    }
+  }
 }

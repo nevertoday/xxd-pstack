@@ -136,5 +136,51 @@
         "try": "Rule out the shortcut first: \"Don't just list search results. I want the problems you only find by reading.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "交一篇听起来很有道理的分析",
+          "with": "找出改动安全靠的那一两条事实，写脚本跑真代码证明"
+        },
+        {
+          "without": "用 grep 列出所有调用方就交差",
+          "with": "读所调用库的源码和版本，追 grep 搜不到的数据和时机"
+        },
+        {
+          "without": "罗列一长串「可能会出事」",
+          "with": "每个风险写明 `file:line`、多大可能、多严重、怎么检查"
+        }
+      ],
+      "intro": "说明它要找改动在别处弄坏的东西，和 `how`、`why` 配套，列调用方不算数，要找 grep 看不到的问题。",
+      "sections": [
+        "给每条关键事实按五级定把握程度，从「你说的」到「在运行的应用里重现」，并写明停在第几级。",
+        "读改动，找出它安全靠的那条事实，去 grep 到不了的地方查，评估风险，写脚本证明，大改动跑 `arena`。",
+        "交五块：改了什么、安全靠的事实和证明、风险、已排除的、合并前最便宜的测试或脚本。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Hands back a writeup that sounds convincing.",
+          "with": "Finds the one or two facts safety depends on and proves them by running code."
+        },
+        {
+          "without": "Greps the callers and calls it done.",
+          "with": "Reads the library source and version, and follows data and timing grep can't see."
+        },
+        {
+          "without": "Lists a long string of maybes.",
+          "with": "Gives each risk a `file:line`, likelihood, cost, and a way to check it."
+        }
+      ],
+      "intro": "It says the skill finds what a change breaks elsewhere, pairs with `how` and `why`, and looks past what grep shows.",
+      "sections": [
+        "Grades each key fact on five levels, from \"you said so\" to \"reproduced in the running app\", and says where it stopped.",
+        "Reads the change, finds the one safety fact, looks past grep, weighs risks, proves it by script. Big changes go to `arena`.",
+        "Returns five parts: what it does, the safety fact and its proof, risks, what was cleared, and the cheapest pre-merge test."
+      ]
+    }
+  }
 }

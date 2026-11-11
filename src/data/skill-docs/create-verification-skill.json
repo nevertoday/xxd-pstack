@@ -132,5 +132,55 @@
         "try": "Set a bar for handoff: \"A page you haven't opened on a phone is a draft; don't send it to me.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "用内部 setter 或测试专用接口证明功能能用",
+          "with": "走真实的用户路径，再核对写入的文件和数据"
+        },
+        {
+          "without": "清理时把截图和日志这些证据一起删了",
+          "with": "清理完确认证据还在技能指定的位置"
+        },
+        {
+          "without": "按进程名杀进程，连你在用的实例也关掉",
+          "with": "只关这次自己启动的实例"
+        }
+      ],
+      "intro": "要生成的是项目里的 `verify-<app>` 技能，用来启动真应用、像用户一样操作、留下证据，写给从没见过这个应用的下一个 AI 看。",
+      "sections": [
+        "从代码里回答五个问题：用户碰什么、怎么启动、怎么操作、能留什么证据、能不能同时开两个。",
+        "写带 frontmatter 的 `SKILL.md`，分 Launch、Doctor、Drive、Evidence、Cleanup、Helpers 六节，全用仓库里的真命令。",
+        "在 `features/` 里先写 3 到 5 个主要功能，每个写怎么进入、怎么操作、看到什么算成功。",
+        "照技能自己的步骤完整跑一遍，测一个功能，清理后证据还在才算过。",
+        "告诉你以后用 `/maintain-verification-skill` 让功能清单跟上应用，你问了才建议多久跑一次。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Proves a feature through internal setters or test-only endpoints.",
+          "with": "Follows the real user path and checks the files and rows it wrote."
+        },
+        {
+          "without": "Deletes the screenshots and logs along with the cleanup.",
+          "with": "Confirms the evidence is still at its named location after cleanup."
+        },
+        {
+          "without": "Kills processes by name, including the instance you are using.",
+          "with": "Stops only the instances this run started."
+        }
+      ],
+      "intro": "It generates a project-local `verify-<app>` skill that launches the real app, drives it like a user and captures evidence, written for an agent who has never seen the app.",
+      "sections": [
+        "Answers five questions from the code: surface, run command, how to drive it, what evidence exists, and isolation.",
+        "Writes `SKILL.md` with frontmatter and six sections, Launch, Doctor, Drive, Evidence, Cleanup and Helpers, using the repo's real commands.",
+        "Writes `features/` files for the top 3 to 5 features: how to reach each, how to drive it, what proves it works.",
+        "Follows the skill end to end on one mapped feature. It passes only if the evidence survives cleanup.",
+        "Points you to `/maintain-verification-skill` to keep the map current, and suggests a schedule only if you ask."
+      ]
+    }
+  }
 }

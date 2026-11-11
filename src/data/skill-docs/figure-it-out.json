@@ -152,5 +152,57 @@
         "try": "When you set a standard, cover the middle case: \"A test that didn't run counts as a failure.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "拿到大任务就直接开写代码",
+          "with": "先交一份阶段清单，写明怎样算做完和多严格"
+        },
+        {
+          "without": "看自己的汇报就说做好了",
+          "with": "检查真正做出来的东西，结论标成 VERIFIED、NOT VERIFIED 或 INCONCLUSIVE"
+        },
+        {
+          "without": "全部做完才统一检查一遍",
+          "with": "每一小步改完就对照标准测一次，没进展就撤回"
+        }
+      ],
+      "intro": "说明没有现成做法时先设计一套流程，严格程度跟着任务走，用科学方法做，留下你回来能查的决策记录。",
+      "sections": [
+        "待办清单第一条是读 `poteto-mode` 的 Principles 部分，后面再加各个阶段。",
+        "开跑前写清能被证伪的完成标准、量化的范围和严格程度，长任务先给你看一次。",
+        "拆成能单独合并的小块，最没把握的先做，先搭验证工具记下改前数值，把阶段清单写下来。",
+        "每块当一次实验：说出假设，做最小改动，对照标准测量，有进展就留，没进展就撤回。",
+        "用 `show-me-your-work` 边做边记日志，每完成一步记一行，通常连同代码一起提交。",
+        "在真实产品上对照完成标准检查，把反复出现的纠正写成检查或脚本，再交上流程和未完成的事。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Starts coding the big task right away.",
+          "with": "Hands over a phase list first, with a done test and a rigor level."
+        },
+        {
+          "without": "Trusts its own report that the work is done.",
+          "with": "Inspects the real artifact and marks VERIFIED, NOT VERIFIED, or INCONCLUSIVE."
+        },
+        {
+          "without": "Saves all the checking for the end.",
+          "with": "Measures each small change against the done test and reverts what didn't help."
+        }
+      ],
+      "intro": "It says that when no playbook fits, the AI designs one first: phases scaled to the risk, run as experiments, with an auditable decision trail.",
+      "sections": [
+        "Makes reading the Principles section of `poteto-mode` the first todo, then adds the phases.",
+        "Before starting, states a falsifiable done test, quantified scope, and a rigor level. A long run gets one checkpoint with you.",
+        "Splits work into landable units, riskiest first, builds the check with a baseline before the work, and writes the phase list down.",
+        "Treats each unit as an experiment: hypothesis, smallest change, measure against the done test, keep or revert.",
+        "Logs the run with `show-me-your-work`, a row per landed step, usually committed with the code.",
+        "Checks the whole against the done test on the real product, turns repeated corrections into checks, and lists what is open."
+      ]
+    }
+  }
 }

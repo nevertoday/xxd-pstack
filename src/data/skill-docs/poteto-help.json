@@ -248,5 +248,61 @@
         "try": "Add to your question: \"Give the conclusion in the first sentence, and at most one example.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "你问怎么用，它直接开工花掉 token",
+          "with": "回答问题，再给一段提示词，发不发由你决定"
+        },
+        {
+          "without": "凭印象回答，说不出出处",
+          "with": "先读要引用的那个文件，再附上它在 GitHub 上的公开链接"
+        },
+        {
+          "without": "给你一串技能，让你自己排顺序",
+          "with": "默认推荐 `/poteto-mode`，你要多做或少做某件事时才点名单个技能"
+        }
+      ],
+      "intro": "开头说它只回答 pstack 的问题，给提示词和出处链接，真要干活的请求就转到 `/poteto-mode` 去做。",
+      "sections": [
+        "看不出你要什么就出一道五选一的题，顺便查你跑没跑过 `/setup-pstack`。",
+        "给出三步：装插件，跑 `/setup-pstack`，用 `/poteto-mode` 开个真任务，再讲怎么少花 token。",
+        "教你写开头的提示词：说目标和怎么算做完，不列技能，再讲怎么让它每轮都开着。",
+        "用一张表把你想做的事对到具体技能，再分清 `/how` 和 `/why` 这类容易混的。",
+        "说明 playbook 没有斜杠命令，在 `/poteto-mode` 里说「babysit this pr」这类话就能点名。",
+        "一张症状对照表，比如模式几轮后失效、并行的 AI 互相覆盖，每条配一个修法。",
+        "指向 `/automate-me`、`/reflect` 和写技能的 playbook，技能出了错就单开一个 PR 修。",
+        "回复先给答案，最多一段示例提示词，再附出处链接。你没要全部清单就写短。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "You ask how, and it starts the work, spending tokens.",
+          "with": "Answers, then hands you a prompt to send when you choose."
+        },
+        {
+          "without": "Answers from memory with no source.",
+          "with": "Reads the file it routes to first and links its public GitHub copy."
+        },
+        {
+          "without": "Hands you a list of skills to run in order.",
+          "with": "Recommends `/poteto-mode` by default. Names one skill only when you want more or less."
+        }
+      ],
+      "intro": "It answers pstack questions with a prompt and a source link, and hands real work requests to `/poteto-mode`.",
+      "sections": [
+        "If your need is unclear, it asks one five-option question. It also checks whether `/setup-pstack` has run.",
+        "Three steps: install, run `/setup-pstack`, start a real task with `/poteto-mode`. Plus how to spend fewer tokens.",
+        "How to word the first prompt: the goal and the done check, no skill list. Plus how to keep the mode on.",
+        "A table maps what you want to the right skill, with notes on close pairs like `/how` and `/why`.",
+        "Playbooks have no slash command. Inside `/poteto-mode`, phrases like \"babysit this pr\" name one directly.",
+        "A symptom table, such as the mode fading after a few turns or parallel agents overwriting each other, each with a fix.",
+        "Points to `/automate-me`, `/reflect` and the skill-authoring playbook. A broken skill gets fixed in its own PR.",
+        "Answer first, at most one example prompt, then the source link. Short unless you asked for the whole map."
+      ]
+    }
+  }
 }

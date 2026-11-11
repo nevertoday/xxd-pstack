@@ -212,5 +212,59 @@
         "try": "When you hand off writing: \"By default, send it when done; if I say 'show me first', stop and wait.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "想到哪写到哪，直接写实现",
+          "with": "先写类型、函数签名和模块边界，函数体留 `not implemented`"
+        },
+        {
+          "without": "只出一个方案就开干",
+          "with": "用 `arena` 让几个模型各画草图，至少两个结构不同"
+        },
+        {
+          "without": "写不下去就打补丁硬绕过去",
+          "with": "偏离草图就说出来，同类麻烦反复出现就推倒重画"
+        }
+      ],
+      "intro": "说明它先画出类型、签名、类和模块边界，函数体空着，综合几个模型的方案后再照草图填代码。",
+      "sections": [
+        "开工前列一个待办清单，Ground、Sketch、Agree、Implement、Scrap 五步各一条。",
+        "对要碰的每个系统跑 `how`，动到归属或分层时再跑 `why`，全新项目才可以跳过。",
+        "用 `arena` 让多个模型各画草图，至少两个结构不同，按红旗清单筛，挑接口小又藏得多的。",
+        "默认画完直接写，你说「with checkpoint」才停下等你点头，你反对设计就回 A、B 重来。",
+        "把 `not implemented` 换成真代码，草图就是合同，多出参数时先查是草图错了还是写多了。",
+        "同类绕路反复出现、类型要靠 `any` 才编得过时推倒草图，先删后加，再跑 `arena`。",
+        "先写调用方怎么用，再推出类型草图，附一份按模板写的设计理由和合成取舍。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Starts writing the implementation straight away.",
+          "with": "Sketches types, signatures and module boundaries first, with `not implemented` bodies."
+        },
+        {
+          "without": "Runs with the first design it thinks of.",
+          "with": "Uses `arena` for sketches from several models, at least two structurally distinct."
+        },
+        {
+          "without": "Bolts workarounds onto a design that doesn't fit.",
+          "with": "Reports every deviation from the sketch and scraps it when the same friction repeats."
+        }
+      ],
+      "intro": "It sketches types, signatures, classes and module boundaries with empty bodies, merges several models' designs, then fills in code against the sketch.",
+      "sections": [
+        "Opens a todolist with one entry each for Ground, Sketch, Agree, Implement and Scrap.",
+        "Runs `how` on every system the code touches, and `why` if ownership or layering changes. Skips only for greenfield work.",
+        "Runs `arena` for sketches, needs two distinct shapes, screens them against the red flags, and prefers a smaller, deeper interface.",
+        "Goes straight to code by default. Pauses for sign-off only on \"with checkpoint\". Pushback sends it back to A and B.",
+        "Replaces `not implemented` with code. The sketch is the contract, so an unplanned parameter means asking what was wrong.",
+        "Scraps the sketch when workarounds repeat or types need `any`, subtracts before adding, then reruns `arena`.",
+        "Writes the caller's usage first, derives the type sketch from it, and ships a templated rationale with the synthesis decision."
+      ]
+    }
+  }
 }

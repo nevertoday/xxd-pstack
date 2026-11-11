@@ -136,5 +136,57 @@
         "try": "When you ask for test results: \"Tell me which browsers this covered, and list the ones it didn't.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "只报一句「验证通过」，不说范围",
+          "with": "写明验证了什么、上限和前提、哪些没覆盖"
+        },
+        {
+          "without": "发现问题就顺手改产品代码",
+          "with": "把反例按代码里的步骤讲给你，你要改才改"
+        },
+        {
+          "without": "交出一个从没见它失败过的检查",
+          "with": "在真代码上故意弄坏一处，确认检查能抓到"
+        }
+      ],
+      "intro": "开头对比测试和形式化验证，说明这个技能要挑一处验证一条规则，再留下一个下一个 AI 能拿来复查改动的技能。",
+      "sections": [
+        "从代码里找一条出错会伤到用户、测试又很少碰到的承诺，你点名了就从那里开始。",
+        "按问题挑工具：步骤顺序用 TLA+ 建小模型，每个输入都要对就用直接跑代码的验证器。",
+        "七条标准：对得上代码、能失败、发现照实报、说清范围、不懂工具也能读、重跑便宜、跟代码同步。",
+        "写带 frontmatter 的项目技能，记下覆盖的代码和同步的提交，TLA+ 结果交给 `/statechart` 讲。",
+        "在真代码上做一个弄坏规则的临时改动，检查必须抓到，撤掉后回到原来的结果。",
+        "告诉你验证了什么、为什么选这个工具、上限、发现了什么、怎么跑、哪些没覆盖。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Reports \"verified\" without saying how far it reaches.",
+          "with": "States what is verified, the bounds and assumptions, and what is left out."
+        },
+        {
+          "without": "Fixes product code as soon as it finds a problem.",
+          "with": "Tells you the counterexample in the code's steps and edits code only if asked."
+        },
+        {
+          "without": "Hands over a check nobody has seen fail.",
+          "with": "Breaks the real code on purpose and confirms the check catches it."
+        }
+      ],
+      "intro": "It contrasts tests with checking every case in a scope, then says the skill verifies one property and leaves a verify skill for the next agent.",
+      "sections": [
+        "Finds a promise in the code whose break hurts users and that tests rarely reach, starting where you point.",
+        "Matches the tool to the question: TLA+ for bad step orders, a code-level verifier for every-input questions.",
+        "Seven standards: true to the code, able to fail, findings kept, honest scope, readable, cheap to rerun, kept in sync.",
+        "Writes a project skill with frontmatter, the coverage record and sync commit, and sends TLA+ results to `/statechart`.",
+        "Breaks the property with a scratch change in real code. The check must catch it, then return to its old result.",
+        "Tells you what was verified, the tool and why, the bounds, the findings, how to run it, and what's left out."
+      ]
+    }
+  }
 }

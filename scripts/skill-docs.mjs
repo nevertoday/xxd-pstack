@@ -6,11 +6,14 @@
 // 切块：按空行把正文切成一块块 Markdown（代码块整体算一块），每块一对 { en, zh }。
 // 再次 sync 时，英文没变的块保留原来的译文；变了的块译文清空，check 会列出来，补上就行。
 // 「写法」（lessons）不随 sync 变：引用的原句如果在新原文里找不到了，check 会提醒。
+// 「概览」（brief）也不随 sync 变：zh / en 各有 compare（3 行「直接说 / 用它」）、intro（开头一句）、sections（每节一句）。
+// 原文的节数变了，sections 就对不上了，check 会提醒，照新的节补写。
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SKILLS } from "../src/data/skills.js";
+import { skillSections } from "../src/lib/skill-sections.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "src/data/skill-docs");
@@ -77,6 +80,7 @@ if (cmd === "sync") {
       description: { en: desc, zh: old?.description?.en === desc ? old.description.zh : "" },
       blocks: blocks(body).map((en) => ({ en, zh: oldZh.get(en) || "" })),
       lessons: old?.lessons || [],
+      ...(old?.brief ? { brief: old.brief } : {}),
     };
     const before = JSON.stringify(old);
     const after = JSON.stringify(next);
@@ -94,10 +98,12 @@ if (cmd === "check" || cmd === "sync") {
     const text = [d.description.en, ...d.blocks.map((b) => b.en)].join("\n");
     const lost = (d.lessons || []).filter((l) => !text.includes(l.quote)).length;
     const few = (d.lessons || []).length < 3;
-    if (missing || lost || few) {
+    const secs = skillSections(d.blocks).sections.length;
+    const brief = ["zh", "en"].filter((l) => d.brief?.[l]?.compare?.length !== 3 || d.brief?.[l]?.sections?.length !== secs);
+    if (missing || lost || few || brief.length) {
       bad++;
-      console.log(`✗ ${name}：${missing ? `${missing} 块没译文 ` : ""}${few ? `写法只有 ${(d.lessons || []).length} 条 ` : ""}${lost ? `${lost} 条写法的原句在原文里找不到` : ""}`);
+      console.log(`✗ ${name}：${missing ? `${missing} 块没译文 ` : ""}${few ? `写法只有 ${(d.lessons || []).length} 条 ` : ""}${lost ? `${lost} 条写法的原句在原文里找不到 ` : ""}${brief.length ? `概览（brief）缺了或和 ${secs} 节对不上：${brief.join("、")}` : ""}`);
     }
   }
-  console.log(bad ? `还有 ${bad} 个技能要补` : "✓ 全部技能都有译文和写法");
+  console.log(bad ? `还有 ${bad} 个技能要补` : "✓ 全部技能都有译文、写法和概览");
 }

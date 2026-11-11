@@ -120,5 +120,47 @@
         "try": "When you ask for a report, set the order: \"Conclusion first, then the reasons, then the next step.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "只翻自己的聊天记录拼出来龙去脉",
+          "with": "同时查 PR、工单、聊天频道和线上报错这些共享记录"
+        },
+        {
+          "without": "照聊天里的说法报进度",
+          "with": "用 `git` 和 `gh` 核对每个 PR、分支和工单现在的状态"
+        },
+        {
+          "without": "顺带翻了别的项目的聊天",
+          "with": "先报出要查的范围，默认当前项目的最近 7 天"
+        }
+      ],
+      "intro": "开头讲它从你的聊天记录和 PR、工单等共享记录里找回进度，分六步：分清任务、定范围、分头翻聊天、查共享记录、核对实际状态、写简报。",
+      "sections": [
+        "简报依次写：最多 5 条的概况，每条线一个状态标签，最多 5 个反复出现的问题，一个具体的下一步。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Rebuilds the story from its own chat history alone.",
+          "with": "Also searches PRs, tickets, chat channels and error tracking for the same code."
+        },
+        {
+          "without": "Reports status from what the chats said.",
+          "with": "Checks each PR, branch and ticket against live state with `git` and `gh`."
+        },
+        {
+          "without": "Reads chats from other projects too.",
+          "with": "States the scope first. The default is the active project's last 7 days."
+        }
+      ],
+      "intro": "It rebuilds your recent context from your chats and the shared record in six steps: classify, lock the scope, mine chats in parallel, sweep the shared record, verify live state, write the brief.",
+      "sections": [
+        "In order: a capsule of up to 5 bullets, one tagged line per thread, up to 5 recurring problems, one next move."
+      ]
+    }
+  }
 }

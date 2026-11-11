@@ -164,5 +164,51 @@
         "try": "When you ask for a summary, add: \"Each line should still make sense if forwarded on its own.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "长篇讲过程，要你拍板的事埋在中间",
+          "with": "第一句就说什么在等你，每件事附上它的建议"
+        },
+        {
+          "without": "满篇提交哈希、文件路径和构建号",
+          "with": "用平常话说对你有什么变化，用不上的编号都省掉"
+        },
+        {
+          "without": "编数字，或画出没截到的界面",
+          "with": "每个数字都对过来源，只放真实的截图和视频"
+        }
+      ],
+      "intro": "说明要做什么：从你 `/ketchup` 前的最后一条消息讲起，帮你弄懂每个变化，列出所有等你拍板的事，口吻照 `/bro`。",
+      "sections": [
+        "这一轮只看不改，查清每个 PR、CI 和帮手 AI 的现状，只把只有你能做的事算成待办。",
+        "第一句说什么在等你，经过控制在 100 词内，每个待办约 30 词，附建议、证据和风险。",
+        "只在图比文字好懂时画，每张最多 6 个框、每框 8 个词，表格和状态列表不算图。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Tells the long story and buries what needs your decision.",
+          "with": "Opens by naming what waits on you, and gives its pick for each call."
+        },
+        {
+          "without": "Fills the update with hashes, file paths and build numbers.",
+          "with": "Says what changed for you in plain words, leaving out IDs you don't need."
+        },
+        {
+          "without": "Invents numbers or pictures of screens it never captured.",
+          "with": "Checks each number against its source and embeds only real screenshots and videos."
+        }
+      ],
+      "intro": "It catches you up from your last message before /ketchup, explains each change, and lists every call you must make, in /bro's plain voice.",
+      "sections": [
+        "Changes nothing this turn, checks each PR, CI run and agent this chat touched, and lists only calls you alone can make.",
+        "Opens with what waits on you, keeps the story under 100 words, and gives each item its pick, evidence and risk.",
+        "Draws only when a picture explains better: six boxes at most, eight words each. Tables and status lists don't count."
+      ]
+    }
+  }
 }

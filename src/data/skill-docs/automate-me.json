@@ -224,5 +224,53 @@
         "try": "With two steps, say what the first misses: \"Read the logs; they don't show what the user clicked, so record a run too.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "你说过一次的话就写成规矩",
+          "with": "多段历史里都出现过的习惯才写进去"
+        },
+        {
+          "without": "一口气抛给你 20 个问题",
+          "with": "问一两道多选题，每题 4 到 6 个选项，再加一道自由问答"
+        },
+        {
+          "without": "写满「沟通要清楚」这种空泛条目",
+          "with": "只写你有具体规则的部分，没有就整段省掉"
+        }
+      ],
+      "intro": "说明它按顺序串起三件事：挖你的聊天记录、用写技能的工具起草、用 unslop 打磨文字。",
+      "sections": [
+        "分 7 步：查有没有旧 mode 技能、挖记录、问你、归类、起草、改文字、在 worktree 里开 PR。",
+        "只写反复出现的习惯，其他技能用路径引用，不写花哨比喻，没规则的部分整段省掉。",
+        "不跑测试打分循环，请你读草稿，看像不像你、漏了什么，然后发布。",
+        "只想做某个任务的技能，或只记一条窄流程（比如写提交信息），就用普通技能。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Turns a preference you stated once into a rule.",
+          "with": "Codifies only habits seen across several slices of your history."
+        },
+        {
+          "without": "Dumps 20 questions on you at once.",
+          "with": "Asks one or two multiple-choice questions with 4 to 6 options, then one open question."
+        },
+        {
+          "without": "Fills the skill with vague sections like \"communicate clearly\".",
+          "with": "Adds a section only where you have a specific rule, and skips the rest."
+        }
+      ],
+      "intro": "It chains three steps into one -mode skill: mining your chats, drafting with your skill-authoring tool, and polishing prose with unslop.",
+      "sections": [
+        "Seven steps: check for an existing mode skill, mine chats, ask you, cluster, draft, polish, and open a PR from a worktree.",
+        "Codify only repeated habits, reference other skills by path, skip clever prose, and leave out sections with no real rule.",
+        "Skips benchmark loops. You read the draft, say whether it sounds like you and what's missing, then it ships.",
+        "For a task-specific skill or one narrow workflow, like commit messages, make a regular skill instead."
+      ]
+    }
+  }
 }

@@ -168,5 +168,53 @@
         "try": "For expense sorting, write: \"If the invoice date is missing, use the order date and mark it 'order date'.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "检查通过了，就当代码没问题",
+          "with": "通过后故意弄坏新代码，确认检查还能抓到"
+        },
+        {
+          "without": "分不清是验证过时还是代码有 bug",
+          "with": "对着真代码一步步回放反例，每步都能发生才算 bug"
+        },
+        {
+          "without": "检查失败，就改模型改到通过",
+          "with": "先照代码写好更新再重跑，不按结果去凑"
+        }
+      ],
+      "intro": "开头点出最危险的情况是代码改了检查照样通过，并说明这个技能处理合并、手改这类绕过验证技能的改动。",
+      "sections": [
+        "每个检查给四种结论之一：in sync、updated、bug、blocked，updated 和 bug 可以同时成立。",
+        "只改模型、harness、规则文件和验证技能，产品代码不碰，规则失败就照实报告。",
+        "六步：找检查，先原样跑，读每个改动并分四类，照代码更新，重跑判断，更新同步提交。",
+        "每个检查报结论、读过的提交、改动原因、用来证明能失败的破坏，并分开说哪些是过时哪些是 bug。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Treats a passing check as proof the code is fine.",
+          "with": "Breaks the new code on purpose after a pass and confirms the check catches it."
+        },
+        {
+          "without": "Can't tell stale verification from a real bug.",
+          "with": "Replays the counterexample against real code. Only if every step can happen is it a bug."
+        },
+        {
+          "without": "Tweaks the model until a failing check passes.",
+          "with": "Writes the update from the code before rerunning, never shaped by the result."
+        }
+      ],
+      "intro": "It names the danger of a check that keeps passing on code that changed, and covers changes that skipped the verify skill, like merges.",
+      "sections": [
+        "Each check gets one of four outcomes: in sync, updated, bug or blocked. Updated and bug can both apply.",
+        "Edits only models, harnesses, property files and the verify skill. Product code stays untouched, and failures get reported.",
+        "Six steps: find checks, run as is, sort changes four ways, update from code, rerun and judge, move the sync commit.",
+        "Reports per check the outcome, commits read, why each change, the deliberate break, and which failures were drift and which bugs."
+      ]
+    }
+  }
 }

@@ -120,5 +120,55 @@
         "try": "Add: \"Where I'm unclear, write one line on how you read it, then keep going without waiting for me.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "逐行念代码，像一份带注释的源码",
+          "with": "按概览、关键概念、怎么运作、代码在哪、坑来讲"
+        },
+        {
+          "without": "一边查一边顺手改了代码",
+          "with": "派出的帮手 AI 全都只看不改"
+        },
+        {
+          "without": "问题说不清时自己闷头猜一个",
+          "with": "先写出自己怎么理解，接着去查，你随时可以改方向"
+        }
+      ],
+      "intro": "开头定下讲多深，够资深工程师上手一个模块就行，再说明只看不改的探索帮手和讲解帮手各用哪个模型。",
+      "sections": [
+        "先判断问题大小：单个模块派一个帮手边查边讲，跨多个文件的走探索流程，拿不准就走简单的。",
+        "把问题拆成 2 到 4 个角度，每个角度一个探索帮手，在同一条消息里一起派出去。",
+        "所有探索帮手都交回后，再派一个讲解帮手，把它们的发现合成一篇讲解。",
+        "把讲解帮手写的内容交给你，只为讲清楚做些小改动。",
+        "讲解分五节：概览、关键概念、怎么运作、代码在哪、坑，用不上的那节就删。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Walks through the code like annotated source.",
+          "with": "Explains in five parts: Overview, Key Concepts, How It Works, Where Things Live, Gotchas."
+        },
+        {
+          "without": "Edits code while it looks around.",
+          "with": "Runs every helper read-only, so your code stays untouched."
+        },
+        {
+          "without": "Silently guesses what an unclear question means.",
+          "with": "States its reading of the question, then explores. You can redirect anytime."
+        }
+      ],
+      "intro": "It sets the depth at a senior engineer onboarding onto a subsystem, and names the models for the read-only explorer and explainer helpers.",
+      "sections": [
+        "Sizes the question. One module gets one helper that explores and explains. A multi-file subsystem gets explorers. Unsure means simple.",
+        "Splits the question into 2 to 4 angles and sends one explorer per angle, all in one message.",
+        "After every explorer returns, one explainer gets all their findings and writes a single explanation.",
+        "Hands you the explainer's text with only light edits for clarity.",
+        "Five sections: Overview, Key Concepts, How It Works, Where Things Live, Gotchas. Any that don't apply are dropped."
+      ]
+    }
+  }
 }

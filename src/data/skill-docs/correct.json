@@ -120,5 +120,53 @@
         "try": "Set a number: \"When the same question comes up a second time, add the answer to the FAQ.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "被纠正后往说明文件里加一条规则",
+          "with": "先改架构或类型，让错的写法根本写不出来"
+        },
+        {
+          "without": "加了检查就当它管用",
+          "with": "拿过去真犯过的错跑新检查，证明新检查真能报错"
+        },
+        {
+          "without": "同一个错又犯了，只改眼前这处",
+          "with": "规则已有却没东西强制，就在同一次改动里往高层修"
+        }
+      ],
+      "intro": "说明目标：改仓库，让下一个只看眼前文件、照抄最近例子的 AI 也犯不了同样的错。",
+      "sections": [
+        "读最近的提交、回退、审阅意见和说明文件，把反复出现的错误归成几类。",
+        "按四级从高到低修：架构消除、类型和 lint 拦住、测试行为，最后才写文档。",
+        "最常见的类别一类一个提交，证明新检查能拦下过去真犯过的错，本地和 CI 跑同一条命令。",
+        "说明文件里放一张规则和强制手段的对照表，回复写清每类错的证据、选的层级和原因。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Adds another rule to the instructions file after each correction.",
+          "with": "Changes the architecture or types first so the wrong code can't be written."
+        },
+        {
+          "without": "Assumes a new check works once it is added.",
+          "with": "Proves each new check fails on a real past mistake."
+        },
+        {
+          "without": "Fixes only the spot in front of it when a mistake repeats.",
+          "with": "Treats a rule nothing enforces as a repeat and fixes it at a higher level."
+        }
+      ],
+      "intro": "The goal is to change the repo so the next agent, which sees only its open files and copies the nearest example, can't repeat the mistake.",
+      "sections": [
+        "Reads recent commits, reverts, review comments and agent instruction files, and groups the repeated mistakes into classes.",
+        "Fixes each class at the highest of four levels: architecture, types and lint, behavior tests, then docs last.",
+        "Fixes the most frequent classes, one commit each, proving each check fails on a real past mistake, locally and in CI.",
+        "Keeps a rule-to-enforcer table in the instruction file. The reply gives each class's evidence, its level, and why."
+      ]
+    }
+  }
 }

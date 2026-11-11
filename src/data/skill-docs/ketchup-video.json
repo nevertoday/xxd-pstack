@@ -104,5 +104,51 @@
         "try": "When you ask for a link check, write: \"Open each page and read it; a status code isn't enough, some error pages return 200.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "幻灯片做成要点列表或表格",
+          "with": "每张只讲一点，在同一张图上变化，用箭头和高亮指出改动"
+        },
+        {
+          "without": "字幕压在画面上，挡住内容",
+          "with": "字幕放在画面下方等高的条里，从不遮挡画面"
+        },
+        {
+          "without": "渲染完不看就发出来",
+          "with": "每张抽一帧看字幕，量停留时长，读不完就重渲"
+        }
+      ],
+      "intro": "说明它照 `/ketchup` 的规则走，只把总结和配图换成带字幕的短视频，回复里只放开头一句、视频、剩下的工作和待办。",
+      "sections": [
+        "先写一句要你记住的话和每张一行提纲，最多 10 张，只用真实截图、diff 和数据。",
+        "每张配一行约 10 个词的字幕，说画面的意思，放在画面下方固定高度的条里。",
+        "渲染一段无声横屏视频，字幕烧进画面，每三个词停一秒，发前逐张抽帧、量时长。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Turns slides into bullet lists, tables or status lists.",
+          "with": "Makes one point per slide, changing one picture with arrows and highlights."
+        },
+        {
+          "without": "Lays subtitles over the picture, covering what it shows.",
+          "with": "Puts each subtitle in a same-height strip below the slide."
+        },
+        {
+          "without": "Sends the rendered video without looking at it.",
+          "with": "Checks a frame per slide, measures each hold, and re-renders any slide too fast to read."
+        }
+      ],
+      "intro": "It follows /ketchup but shows what happened as a short subtitled video. The reply holds the opening line, the video, leftover work and the calls.",
+      "sections": [
+        "Plans one takeaway sentence and one line per slide, uses at most 10 slides, built from real screenshots, diffs and data.",
+        "Gives each slide a subtitle of about ten words saying what it means, in a fixed strip below the slide.",
+        "Renders a silent landscape video with burned-in subtitles, at least one second per three words, then checks each slide's frame and hold."
+      ]
+    }
+  }
 }

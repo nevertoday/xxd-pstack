@@ -116,5 +116,53 @@
         "try": "Before a draft is done, have the AI answer: \"Who reads this? What do they do next? Which line can go?\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "跑一次就报提速数字",
+          "with": "两边交替各跑至少 5 次，报中位数和范围"
+        },
+        {
+          "without": "一边用默认配置就比出输赢",
+          "with": "两边都按生产环境调好再测，调不了就不判输赢"
+        },
+        {
+          "without": "凭读代码猜哪里慢",
+          "with": "另跑一次做 profile，找出卡住速度的地方并对到源码"
+        }
+      ],
+      "intro": "说明什么时候用：交出任何性能数字之前。你只要粗估时跑一次就行，但仍要查第 4 和第 7 题。",
+      "sections": [
+        "先写下打算交出的那句结论，读一遍测量脚本，用 `uptime` 和 `nproc` 看机器忙不忙。",
+        "回答 7 个问题：瓶颈在哪、调好没、超上限没、出错没、能复现吗、要紧吗、真跑了吗。",
+        "先给结论，再给带单位、次数、范围和瓶颈的数字。说不出瓶颈就判「说不准」。",
+        "在 Perf issue 和 Hillclimb 两个流程里，先用这份清单核对基线和测试脚本。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Reports a speedup from a single run.",
+          "with": "Runs each side at least 5 times, alternating, and reports median and range."
+        },
+        {
+          "without": "Picks a winner while one side runs on default settings.",
+          "with": "Tunes both sides like production first. If it can't, it picks no winner."
+        },
+        {
+          "without": "Guesses from the code why it is slow.",
+          "with": "Profiles a separate run to find the limiter and maps it to source."
+        }
+      ],
+      "intro": "Use it whenever you report a performance number. A ballpark you asked for needs one run, but still checks questions 4 and 7.",
+      "sections": [
+        "Writes down the claim to test, reads the measurement script, and checks machine load with uptime and nproc.",
+        "Answers 7 questions: what limits it, was it tuned, did it break limits, did it error, reproduce, matter, happen.",
+        "Leads with the verdict and the number, run count, range and limiter. No named limiter means inconclusive.",
+        "Vets the Perf issue playbook's baseline and the Hillclimb harness with this checklist before they are used."
+      ]
+    }
+  }
 }

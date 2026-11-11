@@ -100,5 +100,49 @@
         "try": "For a long piece, say: \"Step one: outline only. Step two: write.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "删注释时顺手改了业务代码",
+          "with": "帮手 AI 改了业务代码或越出范围，一律驳回"
+        },
+        {
+          "without": "写着 `do not remove` 的注释原样留着",
+          "with": "提议改成类型、测试或 lint 检查，你同意后再删注释"
+        },
+        {
+          "without": "删了注释，它说明的绕路写法还留在代码里",
+          "with": "从真正的原因修，删掉点名的每个绕路写法"
+        }
+      ],
+      "intro": "把注释交给一个新开的帮手 AI Comment Sicko 去查，听它的判断，主 AI 只执行审过的发现。",
+      "sections": [
+        "查你给的文件或改动，没给就查当前分支对 `main` 的 diff，没提交的改动也算。",
+        "六步：派帮手 AI 去查，审它的报告，小问题直接删，从真正的原因修，`do not remove` 改成检查，最后汇报数字。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Edits application code while removing comments.",
+          "with": "Rejects any helper edit to application code or outside the scope."
+        },
+        {
+          "without": "Leaves `do not remove` comments in place.",
+          "with": "Offers a type, test or lint that enforces it, then deletes the comment once you approve."
+        },
+        {
+          "without": "Deletes the comment but keeps the workaround it explained.",
+          "with": "Fixes the real cause and removes every named workaround."
+        }
+      ],
+      "intro": "It hands the comments to a fresh helper, Comment Sicko, defers to its view, and acts only on findings it accepts.",
+      "sections": [
+        "Checks the files or diff you name, or else the current diff against `main`, uncommitted changes included.",
+        "Six steps: spawn the helper, audit its report, fix trivial flags, fix the real cause, encode constraint comments, report counts."
+      ]
+    }
+  }
 }

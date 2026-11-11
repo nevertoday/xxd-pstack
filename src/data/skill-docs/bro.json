@@ -60,5 +60,43 @@
         "try": "Give a scene for tone: \"Explain this error the way you'd explain it to a non-technical relative.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "满篇行话，你读完还是不懂",
+          "with": "去掉行话，把上一条消息重说一遍"
+        },
+        {
+          "without": "换几个词，又说一遍同样长的",
+          "with": "说得更简单、更短"
+        },
+        {
+          "without": "东一句西一句，前后接不上",
+          "with": "前后连贯，像一个人跟另一个人说话"
+        }
+      ],
+      "intro": "让 AI 把上一条消息重说一遍，去掉行话，说得连贯、简单、简短，像人跟人说话那样。",
+      "sections": []
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Fills the reply with jargon you can't follow.",
+          "with": "Restates the last message with no jargon."
+        },
+        {
+          "without": "Rewords it at the same length.",
+          "with": "Makes it simpler and more concise."
+        },
+        {
+          "without": "Answers in disconnected pieces.",
+          "with": "Speaks coherently, like one person talking to another."
+        }
+      ],
+      "intro": "It has the AI restate its last message without jargon, simpler and shorter, like one person talking to another.",
+      "sections": []
+    }
+  }
 }

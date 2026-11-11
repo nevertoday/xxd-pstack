@@ -120,5 +120,53 @@
         "try": "When the AI checks your work, add: \"If you find no typos, just reply 'none found'.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "列一堆风格、命名上的意见凑数",
+          "with": "每个问题都附上命令、实际输出和该有的输出"
+        },
+        {
+          "without": "对手 AI 说有问题就照单全收",
+          "with": "把每个发现的命令重跑一遍，跑不出失败就删掉"
+        },
+        {
+          "without": "找到问题顺手就改了代码",
+          "with": "只交报告，修不修由你决定"
+        }
+      ],
+      "intro": "说明几个对手 AI 专门想办法弄坏改动，只有跑出来的问题才算数，它只报告，不动手修。",
+      "sections": [
+        "没指定范围就审整个分支的改动，用 `in-your-own-words` 复述这次想做什么，不清楚就问你。",
+        "借用 `arena` 的派发步骤，给每个对手一个 worktree 和同一份「弄坏它」的任务说明。",
+        "重跑每个发现的命令，输出确实失败且违背目标的才留下，同一原因的合并成一条。",
+        "报告分三块：复述的目标，每个留下的发现和谁发现的，每个对手被删了几条、为什么。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Pads the list with style and naming opinions.",
+          "with": "Gives each finding with the command, its actual output, and the expected output."
+        },
+        {
+          "without": "Accepts whatever a reviewer claims is broken.",
+          "with": "Reruns every finding's command and drops any that don't show the failure."
+        },
+        {
+          "without": "Fixes the code as soon as it spots a problem.",
+          "with": "Hands back a report only. You decide what to fix."
+        }
+      ],
+      "intro": "It says adversaries try to break the change, only findings proven by a run count, and it reports without fixing.",
+      "sections": [
+        "Defaults to the whole branch diff, restates the intent with `in-your-own-words`, and asks you when the intent is unclear.",
+        "Reuses `arena`'s spawning steps, giving each adversary its own worktree and the same \"break this change\" brief.",
+        "Reruns each finding's command, keeps it only if it fails and breaks the intent, and merges shared root causes.",
+        "Reports three parts: the restated intent, each verified finding with who found it, and each adversary's dropped count and reasons."
+      ]
+    }
+  }
 }

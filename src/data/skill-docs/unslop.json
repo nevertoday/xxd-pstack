@@ -144,5 +144,61 @@
         "try": "Give the cause with the rule: \"A long title usually tries to say two things; split it.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "写「好读的 SQL」这种只讲感觉的句子",
+          "with": "换成机制或数字，比如「改列名会让构建失败」"
+        },
+        {
+          "without": "写「专家认为」，不说是哪位专家",
+          "with": "写出具体来源，写不出就删掉"
+        },
+        {
+          "without": "开头夸「好问题」，结尾问「还需要别的吗」",
+          "with": "删掉客套和奉承，直接回答"
+        }
+      ],
+      "intro": "先扫一遍下面列出的 AI 腔，再改写，意思不变，语气照原文想要的来。",
+      "sections": [
+        "规则带固定编号，别的技能按编号引用，删掉的规则留着空号不补。",
+        "删掉「突出了」「体现了」这类空 -ing 短语，「专家认为」要写出来源或删掉。",
+        "AI 词换成大白话，「serves as」改回「is」，不硬凑三项，同一个东西只用一个名字。",
+        "完全不用破折号，少用冒号和粗体，标题用句子式大小写，删装饰 emoji，用直引号。",
+        "删掉「希望对你有帮助」这类客套和「好问题」这类奉承，直接回答。",
+        "「in order to」改成「to」，层层含糊压成一个「may」，空泛结尾换成具体计划或事实。",
+        "把 substrate、north star、flywheel 这类听着专业的比喻名词换成具体的词。",
+        "让每句写出机制或数字，拆长句，改成主动语态，删副词和比喻，箭头缩写写回完整句子。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Writes feel-good lines like \"SQL you can read\".",
+          "with": "Names the mechanism or a number, like \"a column rename fails the build\"."
+        },
+        {
+          "without": "Says \"experts believe\" without naming anyone.",
+          "with": "Names the source, or deletes the claim."
+        },
+        {
+          "without": "Opens with \"Great question!\" and closes with \"Let me know if...\".",
+          "with": "Drops the pleasantries and flattery and answers directly."
+        }
+      ],
+      "intro": "It scans the text for the patterns listed below, then rewrites it, keeping the meaning and the intended tone.",
+      "sections": [
+        "Rules carry fixed numbers that other skills cite. A removed rule leaves its number empty.",
+        "Cuts empty \"-ing\" phrases like \"highlighting\", and makes \"experts believe\" name a source or go.",
+        "Swaps AI words like \"delve\" for plain ones, says \"is\" for \"serves as\", and drops forced threes and synonym cycling.",
+        "Bans em dashes, limits colons and bold, uses sentence-case headings, drops decorative emojis, and uses straight quotes.",
+        "Deletes chatbot lines like \"I hope this helps!\" and flattery like \"Great question!\", and answers directly.",
+        "Shrinks \"in order to\" to \"to\" and stacked hedges to \"may\", and swaps generic endings for specific facts.",
+        "Replaces technical-sounding metaphor nouns like \"substrate\", \"north star\" and \"flywheel\" with the concrete word.",
+        "Makes each sentence name a mechanism or number, splits dense sentences, names the actor, and spells out arrows."
+      ]
+    }
+  }
 }

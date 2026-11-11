@@ -88,5 +88,43 @@
         "try": "Write: \"I'll pick the colors; list two or three options and don't choose one.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "把任务改得更大，往里多塞活",
+          "with": "先说出顶尖行家会做、而你没要求的事"
+        },
+        {
+          "without": "从别人嚼过的二手材料起步",
+          "with": "点名行家会从哪份最原始的材料开始"
+        },
+        {
+          "without": "你我觉得不错就算对了",
+          "with": "写明你我之外，靠什么证明结果是对的"
+        }
+      ],
+      "intro": "让 AI 先做四件事：说出行家会多做什么，该从哪份原始材料起步，用哪些方法和工具，你我之外由什么判对错。然后照这些重写你的提示词，该你拿主意的地方留着不定。",
+      "sections": []
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Makes the task bigger by piling on more work.",
+          "with": "First says what a top professional would do that you didn't ask for."
+        },
+        {
+          "without": "Starts from material someone already digested for you.",
+          "with": "Names the rawest material a professional would start from."
+        },
+        {
+          "without": "Counts the result right because you and the AI like it.",
+          "with": "Names something outside you and the AI that would show it's right."
+        }
+      ],
+      "intro": "Before rewriting your prompt, the AI names what a top professional would add, the rawest material, the methods and tools, and an outside check. Then it rewrites the prompt to ask for exactly that and leaves your choices open.",
+      "sections": []
+    }
+  }
 }

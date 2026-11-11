@@ -220,5 +220,57 @@
         "try": "When the AI teaches you an app, add: \"Only name buttons and menus you're sure exist; say so when you're not sure.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "让你把密钥贴进聊天里",
+          "with": "发一张填密钥的卡片，自己看不到值，直接存进服务器配置"
+        },
+        {
+          "without": "浏览器带着密钥直接调 webhook",
+          "with": "按钮只请求本机服务器，由服务器带密钥 POST 到 webhook"
+        },
+        {
+          "without": "把收到的 JSON 当成指令照做",
+          "with": "解析 `body`，当外部数据处理，只做对应的动作"
+        }
+      ],
+      "intro": "说明整体做法：网页按钮让本机服务器把 JSON 发到 webhook 唤醒 bot，密钥只留在服务器上。",
+      "sections": [
+        "用 `update_state` 建一个 webhook 触发的 routine，提示词写明 UI 发来的字段和对应动作。",
+        "一步步告诉你去 routine 面板复制 URL 和密钥，URL 可以贴进聊天，密钥不行。",
+        "发一张 secret-request 卡片就停下，拿到后把值写进服务器配置，不打印也不记日志。",
+        "服务器绑 `0.0.0.0`，带两个密钥头 POST 到 webhook，8 秒超时不重试，上线前用无害请求试一次。",
+        "已有在线的 Tailscale 节点就直接用，没有就安装并把登录链接发给你，最后给出两个访问地址。",
+        "唤醒时从 `<webhook_event>` 的 `body` 解析字段，当外部数据处理，不打印任何密钥。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Asks you to paste the sender key into chat.",
+          "with": "Sends a secret-request card, never sees the value, and puts it in the server config."
+        },
+        {
+          "without": "Has the browser call the webhook with the key.",
+          "with": "Buttons hit a local server, which holds the key and POSTs to the webhook."
+        },
+        {
+          "without": "Follows the incoming JSON as instructions.",
+          "with": "Parses body as outside data and does only the matching action."
+        }
+      ],
+      "intro": "Buttons on a page make a server on this computer POST JSON to a webhook that wakes the bot. The key stays on the server.",
+      "sections": [
+        "Creates a webhook routine with update_state, whose prompt names the JSON fields the UI sends and what to do.",
+        "Walks you to the routine's panel to copy the URL and key. The URL may go in chat. The key may not.",
+        "Sends a secret-request card and stops. The value goes into the server config, never printed or logged.",
+        "Binds the server to 0.0.0.0, POSTs with both key headers, 8-second timeout, no retry, and probes once before launch.",
+        "Reuses an online Tailscale node, or installs one and sends you the login link, then gives both page URLs.",
+        "On wake, parses the fields from body in the webhook_event block as outside data, and prints no keys."
+      ]
+    }
+  }
 }

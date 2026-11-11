@@ -60,5 +60,43 @@
         "try": "Ask for both: \"Tell me what I'm trying to get done, and what's stopping me right now.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "照搬你的原话，看不出懂没懂",
+          "with": "用它自己的话重说一遍你的目标"
+        },
+        {
+          "without": "只说要做什么，不提你卡在哪",
+          "with": "单独说出你想解决的是什么问题"
+        },
+        {
+          "without": "把自己的理解当成定论",
+          "with": "说出它认为你要什么，摆出来给你看"
+        }
+      ],
+      "intro": "让 AI 用自己的话说出它认为你的目标是什么，你想解决的是什么问题。",
+      "sections": []
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Echoes your wording, so you can't tell if it understood.",
+          "with": "Restates your goals in its own words."
+        },
+        {
+          "without": "Repeats the task and skips what's blocking you.",
+          "with": "Names the problem you're trying to solve, on its own."
+        },
+        {
+          "without": "Treats its reading of your request as settled.",
+          "with": "Lays out what it thinks you want, for you to see."
+        }
+      ],
+      "intro": "It has the AI restate, in its own words, what it thinks your goals are and what problem you're solving.",
+      "sections": []
+    }
+  }
 }

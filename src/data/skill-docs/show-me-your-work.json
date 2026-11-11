@@ -192,5 +192,61 @@
         "try": "When you ask for problems, add: \"If you find no risks, say 'none'; don't pad the list.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "用一大段话当证据",
+          "with": "每个决定记一行 TSV，证据写提交号、PR 或文件位置"
+        },
+        {
+          "without": "自己检查自己做的事",
+          "with": "请另一家模型审记录，回复末尾列出 Attention"
+        },
+        {
+          "without": "日志写了什么就信什么",
+          "with": "交差前对照对话记录逐行核对，漏记的补上新行"
+        }
+      ],
+      "intro": "开头只有一句：全程只留一份日志。",
+      "sections": [
+        "一个 TSV 文件，每个决定一行，六列：时间、阶段、决定、原因、证据、结果，附一份示例。",
+        "用 `scripts/log.sh` 追加一行，用大白话写，只记分岔、完成、回退这类关键点，新一轮先记 `start` 行。",
+        "日志默认放在工作目录的 `decisions.tsv`，不进 git，只有审阅者需要时才提交。",
+        "只追加不改写，错的决定用新行盖过，证据优先用已提交脚本跑出来的结果。",
+        "交差前读本次对话记录，逐行核对日志和证据，漏记的补上，错的加新行更正。",
+        "找另一家模型的帮手 AI 审日志和对话记录，回复末尾写 Attention，先写审阅模型名。",
+        "告诉读者怎么看：从上往下读，顺着证据点开抽查，用 `column` 在终端排成表格。",
+        "其他技能要留记录时直接引用它，由它定格式，不再重写各列。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Backs up its claims with paragraphs of prose.",
+          "with": "Logs one TSV row per decision, with a commit, PR or file:line as evidence."
+        },
+        {
+          "without": "Reviews its own work and calls it fine.",
+          "with": "Has a model from another family review the trail, then ends with an Attention section."
+        },
+        {
+          "without": "Trusts its own log as written.",
+          "with": "Checks every row against the run's transcript before handing back, adding rows for gaps."
+        }
+      ],
+      "intro": "It opens with one line: keep a single log.",
+      "sections": [
+        "One TSV file, one row per decision, with six columns: ts, phase, decision, why, evidence, result. An example follows.",
+        "Appends plain-worded rows with scripts/log.sh for forks, finished units and reverts. Each new run opens with a start row.",
+        "Keeps the log at decisions.tsv in the work dir, out of git, committed only when a reviewer needs the trail.",
+        "Append only: a new row supersedes a wrong one. Evidence from committed scripts beats one-off checks.",
+        "Before handing back, reads this run's transcript, checks each row and its evidence, and adds rows for gaps and errors.",
+        "A helper on a different model family reviews the trail. The reply ends with an Attention section naming that model.",
+        "Tells the reader to read top to bottom, follow evidence pointers, and render the TSV with column in a terminal.",
+        "Other skills point to this one for their audit trail and let it own the format."
+      ]
+    }
+  }
 }

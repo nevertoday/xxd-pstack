@@ -565,50 +565,112 @@
   .fig-tag.is-cheap { background: var(--success-tint); color: var(--success-text); }
   @container fig (max-width: 480px) { .fig-tree__kids { grid-template-columns: 1fr; } .fig-tree__kids::before { display: none; } .fig-tree__kids > li { flex-direction: row; } .fig-tree__kids > li + li::before { display: none; } }
 
-  /* ---------- 技能速查（views/SkillsPage.astro） ---------- */
-  .skills__legend { margin: var(--space-3) 0; padding: 0 !important; list-style: none; font-size: var(--text-sm); }
-  .skills__legend li { display: flex; align-items: center; gap: 10px; margin: 6px 0 !important; color: var(--muted); }
-  .skills__note { color: var(--muted); font-size: var(--text-sm); }
-  .skill { padding: var(--space-4) 0; border-top: 1px solid var(--line); scroll-margin-top: 72px; }
-  .xxd-prose h2 + .skill { border-top: 0; padding-top: 0; }
-  .skill__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
-  .skill__head h3 { margin: 0 !important; font-size: var(--text-md); }
-  .skill__head h3 code { font: var(--weight-strong) var(--text-md) / 1.4 var(--font-mono); background: none; padding: 0; }
-  .skill__src { display: inline-flex; align-items: center; gap: 2px; margin-inline-start: auto; color: var(--muted) !important; font-size: var(--text-xs); text-decoration: none !important; }
-  .skill__src:hover { color: var(--ink) !important; }
-  .skill__zh { margin: var(--space-2) 0 0 !important; }
-  .skill__use, .skill__needs { margin: 6px 0 0 !important; color: var(--muted); font-size: var(--text-sm); line-height: 22px; }
-  .skill__use > span, .skill__needs > span { display: inline-block; min-width: 6em; color: var(--ink); }
-  .skill__ex { margin: var(--space-2) 0 0 !important; white-space: pre-wrap; word-break: break-word; }
-  :target.skill { animation: skill-flash 1600ms var(--ease-out-quart, ease-out); }
-  @keyframes skill-flash { 0%, 30% { background: var(--wash); } 100% { background: transparent; } }
-  @media (prefers-reduced-motion: reduce) { :target.skill { animation: none; } }
+  /* ---------- 技能速查（views/SkillsPage.astro）：筛选条 + 一组组卡片 ---------- */
+  .skills__filter { display: grid; gap: var(--space-2); margin: var(--space-4) 0 var(--space-2); }
+  .skills__filter[hidden], .skills__group[hidden], .skcard[hidden] { display: none !important; }
+  .skills__search { position: relative; }
+  .skills__search > .ui-icon, .skills__search > [data-xxd-icon] { position: absolute; inset-inline-start: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+  .skills__search .xxd-input { width: 100%; padding-inline-start: 36px; }
+  .skills__kinds { justify-self: start; max-width: 100%; overflow-x: auto; }
+  .skills__kinds > button { flex: 0 0 auto; max-width: none; overflow: visible; text-overflow: clip; white-space: nowrap; }
+  @media (max-width: 480px) { .skills__n { display: none; } .skills__kinds > button { padding-inline: var(--space-2); } }
+  .skills__n { margin-inline-start: 6px; color: var(--muted); font: var(--text-xs) var(--font-mono); }
+  .skills__hint { min-height: 1em; margin: 0 !important; color: var(--muted); font-size: var(--text-xs); }
+  .skills__empty { color: var(--muted); }
+  .skills__group h2 { scroll-margin-top: 72px; }
+  .skcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-3); margin: var(--space-3) 0 0 !important; padding: 0 !important; list-style: none; }
+  .skcard { margin: 0 !important; padding: 0 !important; scroll-margin-top: 72px; }
+  .skcard__link { display: flex; flex-direction: column; gap: 6px; height: 100%; padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper); color: inherit !important; text-decoration: none !important; transition: border-color var(--dur-fast, 120ms) ease, background-color var(--dur-fast, 120ms) ease; }
+  .skcard__link:hover { border-color: var(--line-strong); background: var(--wash); }
+  .skcard__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .skcard__head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .skcard__name { padding: 0; background: none; font: var(--weight-strong) var(--text-sm) / 1.4 var(--font-mono); overflow-wrap: anywhere; }
+  .skcard__zh { font-size: var(--text-sm); line-height: 22px; }
+  .skcard__use { margin-top: auto; color: var(--muted); font-size: var(--text-xs); line-height: 18px; }
+  .skcard__use > span { margin-inline-end: 6px; color: var(--ink); }
+  :target.skcard .skcard__link { animation: skill-flash 1600ms var(--ease-out-quart, ease-out); }
+  @keyframes skill-flash { 0%, 30% { background: var(--wash-strong); } 100% { background: var(--paper); } }
+  @media (prefers-reduced-motion: reduce) { :target.skcard .skcard__link { animation: none; } .skcard__link { transition: none; } }
 }
 
-/* ---------- 技能详情页：简介 → 写法 → 全文（中文 / 原文 / 对照） ---------- */
+/* ---------- 技能详情页：页头卡片 → 概览 / 写法亮点 / 全文 三个标签页 ---------- */
 @layer site {
-  .skills .skill__head h3 a { color: inherit; text-decoration: none; }
-  .skills .skill__head h3 a:hover code { text-decoration: underline; text-underline-offset: 3px; }
   .skilldoc__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
   .skilldoc__head h1 { margin: 0 !important; }
   .skilldoc__head h1 code { font: inherit; font-family: var(--font-mono); background: none; padding: 0; }
-  .skilldoc .skill__use + .skill__ex { margin-top: 6px !important; }
   .skilldoc__lead { color: var(--muted); font-size: var(--text-sm); }
 
-  .lessons { padding: 0 !important; list-style: none; counter-reset: lesson; }
-  .lesson { margin: 0 !important; padding: var(--space-4) 0; border-top: 1px solid var(--line); counter-increment: lesson; }
-  .lesson:first-child { border-top: 0; padding-top: var(--space-2); }
+  /* 页头卡片：什么时候用、要一起装、详细教程，加上能直接复制的例句 */
+  .skilldoc__card { margin: var(--space-4) 0 0; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper); }
+  .skilldoc__facts { display: grid; gap: 6px; margin: 0 0 var(--space-3) !important; }
+  .skilldoc__facts > div { display: grid; grid-template-columns: 6.5em 1fr; gap: var(--space-3); font-size: var(--text-sm); line-height: 22px; }
+  .skilldoc__facts dt { color: var(--muted); }
+  .skilldoc__facts dd { margin: 0; }
+  .skilldoc__card .copy-block { margin: 0 !important; }
+  .skilldoc__card .xxd-code { white-space: pre-wrap; word-break: break-word; }
+
+  /* 标签栏：滚动时贴在顶栏下面 */
+  #skilldoc-top { display: block; height: 0; margin-top: var(--space-6); }
+  .skilldoc__tabbar { position: sticky; top: 56px; z-index: 5; margin: 0; background: var(--bg); }
+  .skilldoc__tabbar .xxd-tabs { margin: 0; }
+  .skilldoc__count { margin-inline-start: 6px; color: var(--muted); font: var(--text-xs) var(--font-mono); }
+  .skilldoc__panel { padding-top: var(--space-4); }
+  .skilldoc__panel[hidden] { display: none; }
+  .skilldoc__panel > h2:first-child, .skilldoc__panel > .skilldoc__anchor + h2 { margin-top: var(--space-2) !important; }
+  .skilldoc__panel h2, .skilldoc .doc__row[id] { scroll-margin-top: 112px; }
+  .skilldoc__panel-h { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .skilldoc__panel-h + .skilldoc__lead { margin-top: 0 !important; }
+
+  /* 用它和不用它 */
+  .vs { margin: var(--space-3) 0 0; border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; font-size: var(--text-sm); line-height: 22px; }
+  .vs__row { display: grid; grid-template-columns: 1fr 1fr; }
+  .vs__row + .vs__row { border-top: 1px solid var(--line); }
+  .vs__row > span { display: flex; gap: 8px; padding: 10px var(--space-3); }
+  .vs__row--head > span { padding-block: 8px; background: var(--wash); color: var(--muted); font-size: var(--text-xs); }
+  .vs__row--head code { padding: 0; background: none; color: var(--ink); font-size: inherit; }
+  .vs__without { color: var(--muted); }
+  .vs__with { background: var(--success-tint, var(--wash)); }
+  .vs__row--head > span:last-child { background: var(--success-tint, var(--wash)); }
+  .vs__row > span > .ui-icon, .vs__row > span > [data-xxd-icon] { flex: none; margin-top: 4px; }
+  .vs__without > .ui-icon { color: var(--muted-2); }
+  .vs__with > .ui-icon { color: var(--success-text, var(--success)); }
+
+  /* 文档写了什么：一节一行，点了跳进全文 */
+  .outline__intro { display: grid; grid-template-columns: 2.25em 1fr; gap: 0; color: var(--muted); font-size: var(--text-sm); }
+  .outline__intro > span:first-child { font-size: var(--text-xs); }
+  .outline { margin: var(--space-2) 0 0 !important; padding: 0 !important; list-style: none; }
+  .outline > li { margin: 0 !important; padding: 0 !important; }
+  .outline > li + li { border-top: 1px solid var(--line); }
+  .outline__link { display: grid; grid-template-columns: 2.25em 1fr auto; align-items: start; gap: 0 var(--space-2); padding: 10px 6px; border-radius: var(--r-sm); color: inherit !important; text-decoration: none !important; }
+  .outline__link:hover { background: var(--wash); }
+  .outline__link > .ui-icon { margin-top: 4px; color: var(--muted-2); }
+  .outline__link:hover > .ui-icon { color: var(--ink); }
+  .outline__n { color: var(--muted); font: var(--text-sm) / 22px var(--font-mono); }
+  .outline__body { display: grid; gap: 2px; }
+  .outline__title { font-weight: var(--weight-strong); font-size: var(--text-sm); line-height: 22px; }
+  .outline__what { color: var(--muted); font-size: var(--text-sm); line-height: 22px; }
+  .skilldoc__next { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-6) !important; }
+  .skilldoc__next .xxd-btn { text-decoration: none !important; }
+
+  /* 写法亮点：一句一张卡，三条说明并排 */
+  .lessons { display: grid; gap: var(--space-3); padding: 0 !important; list-style: none; counter-reset: lesson; }
+  .lesson { margin: 0 !important; padding: var(--space-4) !important; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper); counter-increment: lesson; }
   .lesson__title { margin: 0 !important; font-weight: var(--weight-strong); }
   .lesson__title::before { content: counter(lesson) "  "; color: var(--muted); font: var(--weight-regular) var(--text-sm) var(--font-mono); white-space: pre; }
   .lesson__quote { margin: var(--space-2) 0 0 !important; }
   .lesson__quote p { margin: 0 !important; }
   .lesson__quote-zh { margin-top: 4px !important; color: var(--muted); font-size: var(--text-sm); }
-  .lesson__notes { display: grid; gap: 6px; margin: var(--space-3) 0 0; }
-  .lesson__notes > div { display: grid; grid-template-columns: 5em 1fr; gap: var(--space-3); }
-  .lesson__notes dt { color: var(--muted); font-size: var(--text-sm); line-height: var(--leading-md); }
+  .lesson__notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin: var(--space-3) 0 0; font-size: var(--text-sm); line-height: 22px; }
+  .lesson__notes > div { display: grid; align-content: start; gap: 2px; }
+  .lesson__notes dt { color: var(--muted); font-size: var(--text-xs); }
   .lesson__notes dd { margin: 0; }
+  .lesson__try dd { color: var(--ink); }
 
-  .skilldoc__modes { margin: var(--space-2) 0 var(--space-4); }
+  /* 全文 */
+  .skilldoc__tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin: var(--space-2) 0 var(--space-4); }
+  .skilldoc__modes { margin: 0; }
+  .skilldoc__jump { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: var(--text-sm); }
+  .skilldoc__jump select { max-width: min(320px, 70vw); }
   .doc { font-size: var(--text-sm); }
   .doc__row > * > :first-child { margin-top: 0 !important; }
   .doc__row > * > :last-child { margin-bottom: 0 !important; }
@@ -619,11 +681,33 @@
   .doc[data-mode="zh"] .doc__en, .doc[data-mode="en"] .doc__zh { display: none; }
   .doc[data-mode="both"] .doc__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
   .doc[data-mode="both"] .doc__en { color: var(--muted); }
+  .skilldoc__credit { margin-top: var(--space-8) !important; color: var(--muted); font-size: var(--text-xs); }
+
+  /* 页尾：同组的其他技能、上一个 / 下一个 */
+  .skilldoc__more { margin-top: var(--space-8); padding-top: var(--space-4); border-top: 1px solid var(--line); }
+  .skilldoc__more-h { margin: 0 0 var(--space-2) !important; color: var(--muted); font-size: var(--text-sm); }
+  .skilldoc__chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 !important; padding: 0 !important; list-style: none; }
+  .skilldoc__chips li { margin: 0 !important; }
+  .skilldoc__chips a { display: inline-block; padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--r-pill); color: inherit !important; text-decoration: none !important; }
+  .skilldoc__chips a:hover { background: var(--wash); border-color: var(--line-strong); }
+  .skilldoc__chips code { padding: 0; background: none; font-size: var(--text-xs); }
+  .skilldoc__pager { display: flex; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-4); }
+  .skilldoc__pg { display: grid; gap: 2px; padding: var(--space-2) var(--space-3); border: 1px solid var(--line); border-radius: var(--r-md); color: inherit !important; text-decoration: none !important; min-width: 0; }
+  .skilldoc__pg:hover { background: var(--wash); }
+  .skilldoc__pg > span { color: var(--muted); font-size: var(--text-xs); }
+  .skilldoc__pg code { padding: 0; background: none; font-size: var(--text-sm); overflow-wrap: anywhere; }
+  .skilldoc__pg--next { text-align: end; }
+
   @media (max-width: 720px) {
     .doc[data-mode="both"] .doc__row { grid-template-columns: 1fr; gap: var(--space-2); }
-    .lesson__notes > div { grid-template-columns: 1fr; gap: 0; }
+    .lesson__notes { grid-template-columns: 1fr; gap: var(--space-2); }
+    .skilldoc__facts > div { grid-template-columns: 1fr; gap: 0; }
+    .vs__row { grid-template-columns: 1fr; }
+    .vs__row--head { display: none; }
+    .vs__row > span::before { content: attr(data-label); display: none; }
+    .vs__without { padding-bottom: 4px !important; }
+    .vs__with { padding-top: 6px !important; }
   }
-  .skilldoc__credit { margin-top: var(--space-8) !important; color: var(--muted); font-size: var(--text-xs); }
 }
 
 /* ---------- 多语言：语言菜单、从右往左的语言（阿拉伯语） ---------- */
@@ -636,7 +720,7 @@
     [dir="rtl"] .site-nav[data-open] { transform: none; }
   }
   /* 箭头和流动的点：从右往左的语言里镜像过来 */
-  [dir="rtl"] .flow__track, [dir="rtl"] .home__cta .ui-icon, [dir="rtl"] .skill__src .ui-icon { transform: scaleX(-1); }
+  [dir="rtl"] .flow__track, [dir="rtl"] .home__cta .ui-icon, [dir="rtl"] .outline__link > .ui-icon, [dir="rtl"] .skilldoc__next .ui-icon { transform: scaleX(-1); }
   /* 命令、行内代码保持从左往右；要发给 AI 的提示词和回复示意是这种语言写的，跟着从右往左 */
   [dir="rtl"] :not(pre) > code, [dir="rtl"] .cmd, [dir="rtl"] kbd { direction: ltr; unicode-bidi: isolate; }
   [dir="rtl"] pre { direction: ltr; text-align: left; }

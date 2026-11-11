@@ -212,5 +212,59 @@
         "try": "Have the AI sort before it writes: \"First decide: does the reader want to act now or understand, and are they new or experienced?\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "步骤里写「只需」「很简单」「应该被完成」",
+          "with": "步骤写成直接的命令，条件放在命令前面"
+        },
+        {
+          "without": "句子一样短，读着像机器写的",
+          "with": "长短句混着用，讲解类文档写出自己的判断"
+        },
+        {
+          "without": "PR 说明里贴一大段日志和 SHA 列表",
+          "with": "PR 说明写成一分钟读完的简报，日志放链接"
+        }
+      ],
+      "intro": "开头给出压在四层规则上面的三条总规矩，再要求用代码里的真实名字，不自己造行话。",
+      "sections": [
+        "长短句故意混用，讲解类文档写出自己的看法，用「改列名会让构建失败」这种具体说法。",
+        "教程每步给出看得见的结果，操作指南只写动作，参考只描述事实，观点只放在讲解里。",
+        "对读者用「你」和现在时，指令写成命令，条件放前面，标题写出要点，链接文字说清去哪。",
+        "一句一条指令，指令超过约 20 词就拆，警告放在步骤前面，一个动作只用一个词。",
+        "「only」「not」紧挨它修饰的词，拆开长名词串，每个「it」只指一样东西，不用分号和斜杠。",
+        "改过的文档都再过一遍 `unslop`，PR 和提交信息也照这些规则写，界面文案按产品自己的规范。",
+        "把一段讲 `budget.json` 的绕口说明改成三句：谁读什么、超了会怎样、`--write` 什么时候用。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Writes steps with \"simply\", \"easy\" or \"should be done\".",
+          "with": "Writes each step as a direct command, with the condition first."
+        },
+        {
+          "without": "Clips every sentence to one length, so it reads machine-written.",
+          "with": "Mixes short and long sentences and takes a view in explanations."
+        },
+        {
+          "without": "Pastes logs and SHA lists into the PR body.",
+          "with": "Writes the PR body as a one-minute briefing and links the logs."
+        }
+      ],
+      "intro": "It sets three rules above the four layers, then requires real code names and no invented jargon.",
+      "sections": [
+        "Mixes short and long sentences, takes a view in explanations, and writes specifics like \"a column rename fails the build\".",
+        "Tutorials show a visible result each step, how-tos give only actions, reference only describes, and opinion lives in explanations.",
+        "Addresses \"you\" in present tense, writes commands, puts conditions first, makes headings carry the point, and labels links clearly.",
+        "One instruction per sentence, a split past about 20 words, warnings before the step, and one word per action.",
+        "Keeps \"only\" and \"not\" beside their word, breaks up noun strings, gives each \"it\" one referent, and drops semicolons and slashes.",
+        "Runs `unslop` on every touched doc, applies the rules to PRs and commits, and leaves UI strings to product copy guidelines.",
+        "Rewrites a tangled paragraph about `budget.json` into three sentences: what reads what, when CI fails, and when to use `--write`."
+      ]
+    }
+  }
 }

@@ -220,5 +220,61 @@
         "try": "With a checklist, add: \"For any item you didn't do, add a line at the end saying why.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "把自己猜出来的理由当成事实说",
+          "with": "发现、推测、几种可能的解释、不知道的分开写，各标把握"
+        },
+        {
+          "without": "查了一两处没结果就不查了",
+          "with": "每类来源派一个帮手 AI 去查，查空的也写进来源清单"
+        },
+        {
+          "without": "只看最近一次提交就下结论",
+          "with": "用 `git blame`、`git log` 往回追，再读 PR 里的讨论"
+        }
+      ],
+      "intro": "先说 `why` 查的是代码为什么长成这样，再交代每个帮手 AI 用哪个模型，并要求用能调 MCP 的普通模式。",
+      "sections": [
+        "要求它当个谨慎的调查者，按 `references/epistemics.md` 分清知道的和推测的。",
+        "弄清要查哪段代码、问的是哪类原因，问得含糊就先说出自己的理解再接着查。",
+        "先自己跑 `git blame`、`git log`、`gh pr view`，整理出文件、行号、提交和 PR，发给每个帮手。",
+        "把连上的 MCP 分进 7 类来源，每类派一个帮手 AI 同时去查，跳过哪类都要写明理由。",
+        "派一个帮手 AI 汇总，交给它所有发现和空结果、代码线索、原问题和 epistemics 规则。",
+        "把汇总结果交给你，可以改得更好读，表示把握程度的说法一个字不动。",
+        "按发现、推测、几种解释、未知、来源清单分节写，要改代码时再列 Preserve / Change / Avoid / Risk。",
+        "提醒别把最近一次提交当成全部原因，现在的样子常是很多次决定叠出来的。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "States a guessed reason as if it were fact.",
+          "with": "Separates findings, inferences, competing hypotheses and unknowns, each marked with confidence."
+        },
+        {
+          "without": "Stops after one or two sources turn up nothing.",
+          "with": "Sends one investigator per evidence source and lists empty ones in Sources Consulted."
+        },
+        {
+          "without": "Treats the latest commit as the whole story.",
+          "with": "Traces history with `git blame` and `git log`, then reads the PR discussions."
+        }
+      ],
+      "intro": "It says `why` explains what forces shaped the code, sets each helper's model, and requires agent mode so MCP tools stay available.",
+      "sections": [
+        "Tells the AI to act as a careful investigator and follow `references/epistemics.md` to separate knowledge from inference.",
+        "Pins down the target code and the kind of reason asked. If vague, it states its reading and continues.",
+        "Runs `git blame`, `git log` and `gh pr view` first, collecting files, lines, commits and PRs for every investigator.",
+        "Sorts connected MCPs into 7 evidence categories and runs one investigator per category at once. Every skip needs a written reason.",
+        "Spawns one synthesizer with all findings and null results, the code anchor, the question and the epistemics rules.",
+        "Shows you the synthesizer's answer, lightly edited at most, with its confidence wording untouched.",
+        "Writes findings, inferences, hypotheses, unknowns and one line per source. Before a change, adds Preserve / Change / Avoid / Risk.",
+        "Warns against recency bias. The latest commit is rarely the whole reason, so trace further back."
+      ]
+    }
+  }
 }

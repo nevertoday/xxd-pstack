@@ -172,5 +172,63 @@
         "try": "When the AI writes for you: \"You may ask once at the end whether I want images; if I say no, drop it.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "写进一个你用不了的模型名",
+          "with": "先列出这次能调用的模型，只写里面有的"
+        },
+        {
+          "without": "不问你就把配置写好了",
+          "with": "先问四档预算，再列出每个角色的模型，等你确认"
+        },
+        {
+          "without": "重跑时留着已经废弃的角色行",
+          "with": "删掉废弃的角色，整份覆盖文件，重跑结果一样"
+        }
+      ],
+      "intro": "开头说明配置文件放哪，Cursor、Claude Code 和其他工具各用一个路径。",
+      "sections": [
+        "一共八步，从查能用的模型，到写配置，最后是两次可选的提议。",
+        "列出这次能传给帮手 AI 的模型名，一个都查不到就请你贴上来。",
+        "已有配置就读出预算和各角色的模型，当作起点，再删掉废弃角色的行。",
+        "问你选 unlimited、large、medium、small 哪一档，照档调整每个模型的推理强度，再列表让你确认或改。",
+        "写之前再核一遍，选中的模型不在能用的名单里，就停下重新问你。",
+        "写一行预算，每个角色一行，整份覆盖文件，Cursor 版加上 `alwaysApply: true`。",
+        "告诉你写了哪个文件。在 Cursor 和 Claude Code 里，新开的对话才用上它。",
+        "项目里还没有能驱动 app 的验证办法，就问一次要不要用 `/create-verification-skill` 生成。",
+        "还没有形式化验证技能，就问一次要不要用 `/create-formal-verification-skill` 生成，你说不要就往下走。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Writes a model name you can't actually use.",
+          "with": "Lists the models it can call this session and writes only those."
+        },
+        {
+          "without": "Writes the settings without asking you.",
+          "with": "Asks for one of four budgets, shows each role's model, and waits for your OK."
+        },
+        {
+          "without": "Leaves retired role lines in the file on a re-run.",
+          "with": "Drops retired roles and overwrites the whole file, so re-runs give the same result."
+        }
+      ],
+      "intro": "It lists where the settings file goes in Cursor, Claude Code and every other harness.",
+      "sections": [
+        "Eight steps, from finding usable models to writing the file, ending with two optional offers.",
+        "Lists the model names it can pass to helpers this session. If it finds none, it asks you to paste yours.",
+        "Reads an existing file's budget and role choices as the starting point, and drops lines for retired roles.",
+        "Asks for unlimited, large, medium or small, sets each model's effort to match, then shows the roles to accept or change.",
+        "Checks every chosen model is in the detected list. If one isn't, it stops and asks again.",
+        "Writes a budget line and one line per role over the whole file. The Cursor version adds `alwaysApply: true`.",
+        "Tells you which file it wrote. In Cursor and Claude Code, new sessions pick it up.",
+        "If the project has no way to drive the app, it offers once to generate one with `/create-verification-skill`.",
+        "If there is no formal verification skill, it offers once to run `/create-formal-verification-skill`. On no, it moves on."
+      ]
+    }
+  }
 }

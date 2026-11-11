@@ -1,10 +1,16 @@
 ---
-// 一个技能的详情页：人话简介 → 从它的写法里学（几句原文：让 AI 做什么、为什么这样写、你怎么借用）→ 全文（中文 / 原文 / 对照）。
-// 数据：简介来自 skills.js（英文叠 skills.en.js），原文、译文和写法来自 data/skill-docs/<名>.json（scripts/skill-docs.mjs 生成）。
+// 一个技能的详情页。页头一张卡：一句话、什么时候用、能直接复制的例句。下面三个标签页，一次只看一块：
+//   概览：用它和不用它的对比，加上原文每一节讲什么（点一节跳进全文）
+//   写法亮点：几句原文，每句让 AI 做什么、为什么管用、你怎么借来用
+//   全文：中文 / 原文 / 对照，带「跳到哪一节」
+// 没有 JS 时三块都显示。地址栏的 #overview / #learn / #full 或任何一节的锚点，都会切到对应的标签页。
+// 数据：简介来自 skills.js（英文叠 skills.en.js）；原文、译文、写法（lessons）、对比和每节一句（brief）来自 data/skill-docs/<名>.json。
 import Site from "../layouts/Site.astro";
+import Copy from "../components/Copy.astro";
 import { skillsFor } from "../data/skills.i18n.js";
 import { link, PSTACK, langOf, HOWTO_FLAT, howtoHref, t } from "../data/nav.js";
 import { inline } from "../lib/md.js";
+import { skillSections } from "../lib/skill-sections.js";
 import { micromark } from "micromark";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
 interface Props { name: string }
@@ -13,7 +19,11 @@ const lang = langOf(Astro.url.pathname);
 const en = lang === "en";
 const groups = skillsFor(lang);
 const all = groups.flatMap((g) => g.items.map((s) => ({ ...s, group: g })));
-const s = all.find((x) => x.name === name);
+const at = all.findIndex((x) => x.name === name);
+const s = all[at];
+const prev = all[at - 1];
+const next = all[at + 1];
+const siblings = s.group.items.filter((x) => x.name !== name);
 const docs = import.meta.glob("../data/skill-docs/*.json", { eager: true, import: "default" });
 const d = docs[`../data/skill-docs/${name}.json`];
 const has = new Set(Object.keys(docs).map((k) => k.match(/([^/]+)\.json$/)[1]));
@@ -31,26 +41,47 @@ const fixLinks = (html) =>
 const md = (x) => fixLinks(micromark(x.replace(/^(#{1,4}) /gm, "$1## "), { extensions: [gfm()], htmlExtensions: [gfmHtml()] }));
 
 const T = en
-  ? { crumbs: "Skills at a glance", use: "When to use", ex: "Say it like this", needs: "Install with", sep: ", ",
-      learnH: "What its wording teaches", learnP: "A few sentences from the original: what each one makes the AI do, why it's written that way, and how you can borrow it.",
+  ? { crumbs: "Skills at a glance", use: "When to use", ex: "Say it like this", needs: "Install with", guide: "Full how-to", sep: ", ", oneLine: "In one line",
+      tabs: ["Overview", "Wording worth borrowing", "Full text"], tabsLabel: "Parts of this page",
+      vsH: "Just asking vs. using it", vsP: (n) => `The same request, typed plainly or with /${n}. Here's what changes.`, without: "Just asking", with: (n) => `With /${n}`,
+      outH: "What the document says", outP: (secs, words, min) => secs ? `${secs} sections, about ${words} words, ${min} min to read. Click a section to read it.` : `About ${words} words, ${min} min to read.`,
+      intro: "Opening", readIt: "Read", toLearn: "See the wording worth borrowing", toFull: "Read the full text",
+      learnH: "Wording worth borrowing", learnP: "A few sentences from the original: what each one makes the AI do, why it works, and how you can borrow it.",
       does: "Makes the AI", why: "Why it works", try: "Borrow it",
-      fullH: "Full text", fullP: "The SKILL.md the AI reads, as written.", modes: [["en", "Original"]],
-      credit: ["Original by Lauren Tan (poteto), MIT license. Checked against the pstack mirror at", "."], open: "View on GitHub" }
-  : { crumbs: "技能速查", use: "什么时候用", ex: "这样说", needs: "要一起装", sep: "、",
-      learnH: "从它的写法里学", learnP: "挑了几句原文：每句让 AI 做什么、为什么这样写、你写提示词时怎么借用。",
-      does: "让 AI", why: "写法", try: "借来用",
-      fullH: "全文", fullP: "AI 读到的就是这份 SKILL.md。可以看中文、看原文，或者一段一段对照着看。", modes: [["zh", "中文"], ["en", "原文"], ["both", "对照"]],
-      credit: ["原文作者 Lauren Tan（poteto），MIT 许可。译文由本站翻译，核对到 pstack 镜像", "。"], open: "在 GitHub 上看" };
+      fullH: "Full text", fullP: "The SKILL.md the AI reads, as written.", modes: [["en", "Original"]], jump: "Jump to", jumpTop: "Top",
+      credit: ["Original by Lauren Tan (poteto), MIT license. Checked against the pstack mirror at", "."], open: "View on GitHub",
+      moreH: (g) => `More in “${g}”`, prev: "Previous", next: "Next" }
+  : { crumbs: "技能速查", use: "什么时候用", ex: "这样说", needs: "要一起装", guide: "详细教程", sep: "、", oneLine: "一句话",
+      tabs: ["概览", "写法亮点", "全文"], tabsLabel: "这一页的几部分",
+      vsH: "用它和不用它", vsP: (n) => `同一件事，直接跟 AI 说，和点名用 /${n}，AI 的做法不一样：`, without: "直接说", with: (n) => `用 /${n}`,
+      outH: "文档写了什么", outP: (secs, words, min, zh) => `${secs ? `原文分 ${secs} 节，` : ""}约 ${words} 个英文单词，中文译文约 ${zh} 字，读完约 ${min} 分钟。${secs ? "点一节直接跳到全文。" : ""}`,
+      intro: "开头", readIt: "读这一节", toLearn: "看写法亮点", toFull: "读全文",
+      learnH: "写法亮点", learnP: "挑了几句原文：每句让 AI 做什么、为什么这样写管用、你写提示词时怎么借来用。",
+      does: "让 AI", why: "为什么管用", try: "借来用",
+      fullH: "全文", fullP: "AI 读到的就是这份 SKILL.md。可以看中文、看原文，或者一段一段对照着看。", modes: [["zh", "中文"], ["en", "原文"], ["both", "对照"]], jump: "跳到", jumpTop: "开头",
+      credit: ["原文作者 Lauren Tan（poteto），MIT 许可。译文由本站翻译，核对到 pstack 镜像", "。"], open: "在 GitHub 上看",
+      moreH: (g) => `「${g}」里的其他技能`, prev: "上一个", next: "下一个" };
+
 const lessons = (d.lessons || []).map((l) => ({ quote: l.quote, quoteZh: l.quoteZh, ...(en ? l.en : l.zh) }));
+const brief = d.brief?.[en ? "en" : "zh"];
+const outline = skillSections(d.blocks);
+const secIds = new Map(outline.sections.map((x, i) => [x.index, `sec-${i + 1}`]));
+const zhChars = d.blocks.reduce((n, b) => n + ((b.zh || "").match(/[一-鿿]/g) || []).length, 0);
+const minutes = Math.max(1, Math.round(outline.total / 220));
+const round = (n) => (n < 100 ? n : Math.round(n / 50) * 50);
+
 const headings = [
+  ...(brief ? [{ slug: "compare", text: T.vsH, depth: 2 }] : []),
+  { slug: "outline", text: T.outH, depth: 2 },
   ...(lessons.length ? [{ slug: "learn", text: T.learnH, depth: 2 }] : []),
   { slug: "full", text: T.fullH, depth: 2 },
 ];
 const badge = s.auto ? ["success", en ? "Auto" : "自动调用"] : s.manual ? ["warning", en ? "Type it yourself" : "要你亲手打"] : ["", en ? "Call when needed" : "按需点名"];
-// 有专门 How-to 的技能：页头下面给一条「详细教程」
+// 有专门 How-to 的技能：卡片里给一条「详细教程」
 const GUIDE = { "create-verification-skill": "verify-app", "maintain-verification-skill": "verify-app", "create-formal-verification-skill": "formal-verify", "maintain-formal-verification-skill": "formal-verify" };
 const guide = GUIDE[name] && HOWTO_FLAT.find((h) => h.slug === GUIDE[name]);
 const desc = en ? d.description.en : d.description.zh || d.description.en;
+const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T.tabs[1], lessons.length]] : []), ["full", T.tabs[2], null]];
 ---
 <Site title={`/${name} · ${T.crumbs}`} description={s.zh} headings={headings}>
   <article class="xxd-prose skilldoc">
@@ -59,16 +90,77 @@ const desc = en ? d.description.en : d.description.zh || d.description.en;
       <h1><code>/{name}</code></h1>
       <span class="xxd-badge" data-tone={badge[0] || undefined}>{badge[1]}</span>
     </div>
-    <p class="page-tldr"><span class="page-tldr__label">{en ? "In one line" : "一句话"}</span>{s.zh}</p>
-    <p class="skill__use"><span>{T.use}</span>{s.use}</p>
-    <p class="skill__use"><span>{T.ex}</span></p>
-    <pre class="xxd-code skill__ex"><code>{s.ex}</code></pre>
-    {s.needs && <p class="skill__needs"><span>{T.needs}</span>{s.needs.join(T.sep)}</p>}
-    {guide && <p class="skill__needs"><span>{en ? "Full how-to" : "详细教程"}</span><a class="xxd-link" href={howtoHref(guide.slug, lang)}>{t(guide, "title", lang)}</a></p>}
+    <p class="page-tldr"><span class="page-tldr__label">{T.oneLine}</span>{s.zh}</p>
+
+    <div class="skilldoc__card">
+      <dl class="skilldoc__facts">
+        <div><dt>{T.use}</dt><dd>{s.use}</dd></div>
+        {s.needs && <div><dt>{T.needs}</dt><dd>{s.needs.join(T.sep)}</dd></div>}
+        {guide && <div><dt>{T.guide}</dt><dd><a class="xxd-link" href={howtoHref(guide.slug, lang)}>{t(guide, "title", lang)}</a></dd></div>}
+      </dl>
+      <Copy id="skill-ex" title={T.ex} code={s.ex} />
+    </div>
+
+    <span id="skilldoc-top" class="skilldoc__anchor"></span>
+    <div class="skilldoc__tabbar">
+      <div class="xxd-tabs" role="tablist" aria-label={T.tabsLabel} id="skilldoc-tabs" data-xxd-tabs>
+        {panels.map(([id, label, n], i) => (
+          <button role="tab" id={`tab-${id}`} data-value={id} aria-controls={`panel-${id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+            {label}{n && <span class="skilldoc__count">{n}</span>}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <section class="skilldoc__panel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" data-panel="overview">
+      <span id="overview" class="skilldoc__anchor"></span>
+      {brief && (
+        <>
+          <h2 id="compare">{T.vsH}</h2>
+          <p class="skilldoc__lead">{T.vsP(name)}</p>
+          <div class="vs" role="table" aria-label={T.vsH}>
+            <div class="vs__row vs__row--head" role="row">
+              <span role="columnheader">{T.without}</span>
+              <span role="columnheader"><code>{T.with(name)}</code></span>
+            </div>
+            {brief.compare.map((r) => (
+              <div class="vs__row" role="row">
+                <span class="vs__without" role="cell" data-label={T.without}><i data-xxd-icon="X" data-size="14" aria-hidden="true"></i><span set:html={inline(r.without)} /></span>
+                <span class="vs__with" role="cell" data-label={T.with(name)}><i data-xxd-icon="Check" data-size="14" aria-hidden="true"></i><span set:html={inline(r.with)} /></span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      <h2 id="outline">{T.outH}</h2>
+      <p class="skilldoc__lead">{T.outP(outline.sections.length, round(outline.total), minutes, round(zhChars))}</p>
+      {brief?.intro && <p class="outline__intro"><span>{T.intro}</span><span set:html={inline(brief.intro)} /></p>}
+      {outline.sections.length > 0 && (
+        <ol class="outline">
+          {outline.sections.map((x, i) => (
+            <li>
+              <a class="outline__link" href={`#sec-${i + 1}`}>
+                <span class="outline__n">{i + 1}</span>
+                <span class="outline__body">
+                  <span class="outline__title">{en ? x.en : x.zh}</span>
+                  {brief?.sections?.[i] && <span class="outline__what" set:html={inline(brief.sections[i])} />}
+                </span>
+                <i data-xxd-icon="ArrowRight" data-size="14" aria-hidden="true"></i>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+      <p class="skilldoc__next">
+        {lessons.length > 0 && <a class="xxd-btn" data-variant="secondary" href="#learn">{T.toLearn}<i data-xxd-icon="ArrowRight" data-size="14"></i></a>}
+        <a class="xxd-btn" data-variant="ghost" href="#full">{T.toFull}<i data-xxd-icon="ArrowRight" data-size="14"></i></a>
+      </p>
+    </section>
 
     {lessons.length > 0 && (
-      <>
-        <h2 id="learn">{T.learnH}</h2>
+      <section class="skilldoc__panel" role="tabpanel" id="panel-learn" aria-labelledby="tab-learn" data-panel="learn">
+        <h2 id="learn" class="skilldoc__panel-h">{T.learnH}</h2>
         <p class="skilldoc__lead">{T.learnP}</p>
         <ol class="lessons">
           {lessons.map((l) => (
@@ -81,51 +173,115 @@ const desc = en ? d.description.en : d.description.zh || d.description.en;
               <dl class="lesson__notes">
                 <div><dt>{T.does}</dt><dd set:html={inline(l.does)} /></div>
                 <div><dt>{T.why}</dt><dd set:html={inline(l.why)} /></div>
-                <div><dt>{T.try}</dt><dd set:html={inline(l.try)} /></div>
+                <div class="lesson__try"><dt>{T.try}</dt><dd set:html={inline(l.try)} /></div>
               </dl>
             </li>
           ))}
         </ol>
-      </>
+      </section>
     )}
 
-    <h2 id="full">{T.fullH}</h2>
-    <p class="skilldoc__lead">{T.fullP}</p>
-    {!en && (
-      <div class="xxd-segmented skilldoc__modes" data-xxd-segmented role="radiogroup" aria-label={T.fullH} id="skilldoc-modes">
-        {T.modes.map(([v, label], i) => <button type="button" role="radio" data-value={v} aria-checked={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{label}</button>)}
+    <section class="skilldoc__panel" role="tabpanel" id="panel-full" aria-labelledby="tab-full" data-panel="full">
+      <h2 id="full" class="skilldoc__panel-h">{T.fullH}</h2>
+      <p class="skilldoc__lead">{T.fullP}</p>
+      <div class="skilldoc__tools">
+        {!en && (
+          <div class="xxd-segmented skilldoc__modes" data-xxd-segmented role="radiogroup" aria-label={T.fullH} id="skilldoc-modes">
+            {T.modes.map(([v, label], i) => <button type="button" role="radio" data-value={v} aria-checked={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{label}</button>)}
+          </div>
+        )}
+        {outline.sections.length > 1 && (
+          <label class="skilldoc__jump">
+            <span>{T.jump}</span>
+            <select class="xxd-select" data-size="sm" id="skilldoc-jump">
+              <option value="full">{T.jumpTop}</option>
+              {outline.sections.map((x, i) => <option value={`sec-${i + 1}`}>{i + 1}. {en ? x.en : x.zh}</option>)}
+            </select>
+          </label>
+        )}
       </div>
-    )}
-    <div class="doc" id="skilldoc-doc" data-mode={en ? "en" : "zh"}>
-      <div class="doc__row doc__desc">
-        <div class="doc__en" lang="en"><p><span class="doc__tag">description</span>{d.description.en}</p></div>
-        {!en && <div class="doc__zh"><p><span class="doc__tag">description</span>{desc}</p></div>}
-      </div>
-      {d.blocks.map((b) => (
-        <div class="doc__row">
-          <div class="doc__en" lang="en" set:html={md(b.en)} />
-          {!en && <div class="doc__zh" set:html={md(b.zh || b.en)} />}
+      <div class="doc" id="skilldoc-doc" data-mode={en ? "en" : "zh"}>
+        <div class="doc__row doc__desc">
+          <div class="doc__en" lang="en"><p><span class="doc__tag">description</span>{d.description.en}</p></div>
+          {!en && <div class="doc__zh"><p><span class="doc__tag">description</span>{desc}</p></div>}
         </div>
-      ))}
-    </div>
-    <p class="skilldoc__credit">{T.credit[0]} <code class="xxd-code-inline">{d.commit}</code>{T.credit[1]} <a href={src} target="_blank" rel="noopener">{T.open}</a></p>
+        {d.blocks.map((b, i) => (
+          <div class="doc__row" id={secIds.get(i)}>
+            <div class="doc__en" lang="en" set:html={md(b.en)} />
+            {!en && <div class="doc__zh" set:html={md(b.zh || b.en)} />}
+          </div>
+        ))}
+      </div>
+      <p class="skilldoc__credit">{T.credit[0]} <code class="xxd-code-inline">{d.commit}</code>{T.credit[1]} <a href={src} target="_blank" rel="noopener">{T.open}</a></p>
+    </section>
+
+    <nav class="skilldoc__more" aria-label={T.moreH(s.group.title)}>
+      {siblings.length > 0 && (
+        <>
+          <p class="skilldoc__more-h">{T.moreH(s.group.title)}</p>
+          <ul class="skilldoc__chips">
+            {siblings.map((x) => <li><a href={link(`/skills/${x.name}/`, lang)} title={x.zh}><code>/{x.name}</code></a></li>)}
+          </ul>
+        </>
+      )}
+      <div class="skilldoc__pager">
+        {prev ? <a class="skilldoc__pg" href={link(`/skills/${prev.name}/`, lang)}><span>{T.prev}</span><code>/{prev.name}</code></a> : <span></span>}
+        {next && <a class="skilldoc__pg skilldoc__pg--next" href={link(`/skills/${next.name}/`, lang)}><span>{T.next}</span><code>/{next.name}</code></a>}
+      </div>
+    </nav>
   </article>
-  {!en && (
-    <script is:inline>
-      (() => {
-        // 中文 / 原文 / 对照：记住上次选的（只是个人偏好，存不了也没关系）
-        const seg = document.getElementById("skilldoc-modes");
-        const doc = document.getElementById("skilldoc-doc");
-        if (!seg || !doc) return;
-        const set = (v) => {
-          doc.dataset.mode = v;
-          for (const b of seg.children) { const on = b.dataset.value === v; b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; }
-        };
-        let saved = null;
-        try { saved = localStorage.getItem("pstack-skilldoc-mode"); } catch {}
-        if (saved && [...seg.children].some((b) => b.dataset.value === saved)) set(saved);
-        seg.addEventListener("xxd:change", (e) => { set(e.detail.value); try { localStorage.setItem("pstack-skilldoc-mode", e.detail.value); } catch {} });
-      })();
-    </script>
-  )}
+  <script is:inline>
+    (() => {
+      // 三个标签页：点标签、点站内锚点（目录、搜索结果、「读这一节」）都切到对应的那一页
+      const bar = document.getElementById("skilldoc-tabs");
+      if (!bar) return;
+      const tabs = [...bar.querySelectorAll('[role="tab"]')];
+      const panels = [...document.querySelectorAll("[data-panel]")];
+      const show = (v) => {
+        for (const t of tabs) { const on = t.dataset.value === v; t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1; }
+        for (const p of panels) p.hidden = p.dataset.panel !== v;
+        if (window.Xxd?.moveInk) try { window.Xxd.moveInk(bar); } catch {}
+      };
+      const panelOf = (id) => { const el = id && document.getElementById(id); return el ? el.closest("[data-panel]") : null; };
+      // 标签栏贴在顶上时，切换后回到这一页的开头（标签栏自己是 sticky，scrollIntoView 对它不起作用，所以量它前面的占位）
+      const mark = document.getElementById("skilldoc-top");
+      const stuck = () => mark.getBoundingClientRect().top < 56;
+      const toTop = () => window.scrollTo({ top: mark.getBoundingClientRect().top + window.scrollY - 56, behavior: "instant" });
+      const goHash = (smooth) => {
+        const id = decodeURIComponent(location.hash.slice(1));
+        const p = panelOf(id);
+        if (!p) return false;
+        show(p.dataset.panel);
+        const el = document.getElementById(id);
+        if (el && id !== p.dataset.panel && !el.classList.contains("skilldoc__anchor")) el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+        else toTop();
+        return true;
+      };
+      if (!goHash(false)) show("overview");
+      window.addEventListener("hashchange", () => goHash(true));
+      bar.addEventListener("xxd:change", (e) => {
+        const v = e.detail.value;
+        show(v);
+        history.replaceState(null, "", v === "overview" ? location.pathname + location.search : "#" + v);
+        if (stuck()) toTop();
+      });
+
+      // 全文：跳到某一节
+      const jump = document.getElementById("skilldoc-jump");
+      jump?.addEventListener("change", () => { const el = document.getElementById(jump.value); el?.scrollIntoView({ block: "start" }); });
+
+      // 全文：中文 / 原文 / 对照，记住上次选的（只是个人偏好，存不了也没关系）
+      const seg = document.getElementById("skilldoc-modes");
+      const doc = document.getElementById("skilldoc-doc");
+      if (!seg || !doc) return;
+      const set = (v) => {
+        doc.dataset.mode = v;
+        for (const b of seg.children) { const on = b.dataset.value === v; b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; }
+      };
+      let saved = null;
+      try { saved = localStorage.getItem("pstack-skilldoc-mode"); } catch {}
+      if (saved && [...seg.children].some((b) => b.dataset.value === saved)) set(saved);
+      seg.addEventListener("xxd:change", (e) => { set(e.detail.value); try { localStorage.setItem("pstack-skilldoc-mode", e.detail.value); } catch {} });
+    })();
+  </script>
 </Site>

@@ -136,5 +136,55 @@
         "try": "For a contract review: \"Find every clause that works against me, not just the first one.\""
       }
     }
-  ]
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "把帮手 AI 的原始输出整段贴给你",
+          "with": "汇总成一张结果表，每个问题一句话，缺口单独列出"
+        },
+        {
+          "without": "帮手没交结果，也当作通过",
+          "with": "缺结果的重派一次，再缺就记成缺口，不算通过"
+        },
+        {
+          "without": "发现第一个问题就停下汇报",
+          "with": "列出每个能证明的问题，结果标 `PASS`、`ISSUES` 或 `BLOCKED`"
+        }
+      ],
+      "intro": "",
+      "sections": [
+        "开跑前列一个待办清单，Frame、Fan out、Aggregate、Report 四步各一条。",
+        "写清怎样算做完，选切块还是赛跑，赛跑先定取胜规则，测提交时写明 SHA 和测法。",
+        "一条消息派出所有帮手 AI，默认在云端后台跑，每份说明写全目标、范围、检查方法和汇报格式。",
+        "读最终结果，没记 SHA 和测法的重派一次，再缺就记成缺口，赛跑按事先定的规则选。",
+        "在聊天里交一份报告：结果表、每个问题一句话、缺口和掉线的帮手、用了哪条赛跑规则。"
+      ]
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Pastes the raw helper output at you.",
+          "with": "Merges results into one table, one line per issue, gaps listed apart."
+        },
+        {
+          "without": "Counts a helper that returned nothing as a pass.",
+          "with": "Respawns a missing result once, then records a gap. A gap is not a pass."
+        },
+        {
+          "without": "Stops at the first problem it finds.",
+          "with": "Lists every issue it can prove and marks results `PASS`, `ISSUES` or `BLOCKED`."
+        }
+      ],
+      "intro": "",
+      "sections": [
+        "Opens a todolist with one entry each for Frame, Fan out, Aggregate and Report.",
+        "States the done test, picks slices or a race, fixes the race rule first, and names SHAs and method for measurements.",
+        "Spawns all workers in one message, in the cloud by default. Each brief stands alone: goal, scope, check, report format.",
+        "Reads final results, respawns once any that skipped the SHAs or method, records a gap after that, applies the race rule.",
+        "Returns one in-chat report: a result table, one line per issue, gaps and dropouts, and the race rule used."
+      ]
+    }
+  }
 }
