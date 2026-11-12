@@ -127,10 +127,10 @@ import Fig from "../../components/Fig.astro";
 
 ## 作者自己怎么用
 
-- **2026 年 10 月 18 日发布**，跟着 pstack v0.15.27 出来，当时标的是 beta。作者 poteto 在[发布帖](https://x.com/poteto/status/2111926622278521253)里举了两个例子：用 TLA+ 给并发的状态机建模，在 Rust 里用 Kani 查未定义行为。她说自己用 TLA+ 给代码建模，已经找到了好几个 bug，但没说是哪些。
-- **「问题决定工具」是测出来的。**她在[加这个技能的 PR](https://github.com/cursor/plugins/pull/709) 里，拿 6 个它没见过的开源项目试：pg-boss、swr、HikariCP、client-go、cJSON、arrayvec。在 C 写的 cJSON 和 Rust 写的 arrayvec 上，它每次都选了直接在代码上跑的验证器（CBMC 和 Kani）。一个写死「用 TLA+」的早期版本，在这两个项目上还是选了 TLA+。她也提醒样本很小，每个项目只跑了一两次，只能算线索。
-- **复查技能她说得很坦白。**在[那个 PR](https://github.com/cursor/plugins/pull/716) 里，她拿 Go 的信号量（包括一个故意少了唤醒的版本）和 Python 的 cachetools 跑了 54 次。结论是这个技能没让结果更正确，AI 本来就能把验证跟上；它多做到的是「改完后再故意弄坏一次，确认检查还抓得到」：用了技能 11 次全做到，不用只做到 10 次里的 5 次。
-- **她的搭配用法**（[10 月 21 日的帖子](https://x.com/poteto/status/2112736749281759566)）：先用 `/statechart` 让 AI 画状态图，把代码看懂；再用生成的 TLA+ 验证技能，赶在用户之前找到 bug。
+- **2026 年 10 月 18 日发布**，跟着 pstack v0.15.27 出来，当时标的是 beta。作者 poteto 在[发布帖](https://x.com/poteto/status/2111926622278521253)里举了两个例子：用 TLA+ 给并发的状态机建模，在 Rust 里用 Kani 查未定义行为。作者说自己用 TLA+ 给代码建模，已经找到了好几个 bug，但没说是哪些。
+- **「问题决定工具」是测出来的。**作者在[加这个技能的 PR](https://github.com/cursor/plugins/pull/709) 里，拿 6 个它没见过的开源项目试：pg-boss、swr、HikariCP、client-go、cJSON、arrayvec。在 C 写的 cJSON 和 Rust 写的 arrayvec 上，它每次都选了直接在代码上跑的验证器（CBMC 和 Kani）。一个写死「用 TLA+」的早期版本，在这两个项目上还是选了 TLA+。作者也提醒样本很小，每个项目只跑了一两次，只能算线索。
+- **复查技能，作者说得很坦白。**在[那个 PR](https://github.com/cursor/plugins/pull/716) 里，poteto 拿 Go 的信号量（包括一个故意少了唤醒的版本）和 Python 的 cachetools 跑了 54 次。结论是这个技能没让结果更正确，AI 本来就能把验证跟上；它多做到的是「改完后再故意弄坏一次，确认检查还抓得到」：用了技能 11 次全做到，不用只做到 10 次里的 5 次。
+- **作者的搭配用法**（[10 月 21 日的帖子](https://x.com/poteto/status/2112736749281759566)）：先用 `/statechart` 让 AI 画状态图，把代码看懂；再用生成的 TLA+ 验证技能，赶在用户之前找到 bug。
 
 ## 为什么现在值得试
 
