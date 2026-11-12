@@ -18,7 +18,6 @@ interface Props {
   title: string;
   description?: string;
   headings?: { slug: string; text: string; depth: number }[];
-  wide?: boolean;
   /** 这一页专讲某个工具（frontmatter 写 cmds: literal）：命令照原样显示，不跟着「我用的工具」换 */
   literal?: boolean;
 }
@@ -52,13 +51,15 @@ const langLinks = LANGS.map((l) => ({ ...l, href: langHref(Astro.url.pathname, l
 const rel = (Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ""), "") || "/");
 const alternates = langLinks.filter((l) => l.code !== lang && (isFull(l.code) || /^\/([a-z]{2}\/)?(start\/|$)/.test(rel)));
 // 外观面板的文字：中文、英文用 UI Kit 自带的，其他语言传进去
+// 顶栏的三个下拉都从触发按钮的末端垂下来。UI Kit 的定位按物理方向算，从右往左的语言里「末端」是左边
+const menuAt = info.dir === "rtl" ? "bottom-start" : "bottom-end";
 const lookOpts = JSON.stringify(x ? { locale: "en", labels: x.ui.appearance } : { locale: lang === "zh" ? "zh-CN" : "en", labels: { cornersDesc: lang === "zh" ? "关掉就是直角" : "Off keeps every corner square" } });
 // 「我用的工具」：外观面板里那一组的文字；命令怎么换写法见 src/data/tools.js
 const TU = x?.comp?.tool ?? TOOL_UI[lang] ?? TOOL_UI.en;
 const toolOpts = JSON.stringify({ key: TOOL_KEY, def: TOOL_DEFAULT, tools: TOOLS.map((t) => t[0]), names: SKILL_NAMES });
 const wikiItems = WIKI.map((w) => (en ? { ...w, ...WIKI_EN[w.slug] } : w));
 const faqGroups = en ? FAQ_EN : FAQ;
-const { title, description = L.desc, headings = [], wide = false, literal = false } = Astro.props;
+const { title, description = L.desc, headings = [], literal = false } = Astro.props;
 const keep = literal ? "" : undefined;
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const cur = (href) => (href.replace(/\/$/, "") || "/") === path;
@@ -122,7 +123,7 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
           <i data-xxd-icon="Palette" data-size="16"></i>
           <span class="site-look__dot" id="site-look-dot" hidden></span>
         </button>
-        <div class="xxd-popover site-look-pop" id="site-look-pop" popover data-opts={lookOpts}>
+        <div class="xxd-popover site-look-pop" id="site-look-pop" popover data-placement={menuAt} data-opts={lookOpts}>
           <!-- 外观设置组由 UI Kit 挂进来；这一组「命令」挂完以后移到它后面 -->
           <section class="xxd-group site-tool-group" id="site-tool-group" data-tool-pick data-sk-keep>
             <h3 class="xxd-group__title">{TU.group}</h3>
@@ -139,7 +140,7 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
         </div>
         <!-- 语言：菜单里列出全部语言，当前的那个打勾；中文、英文是全站，其他语言有首页和新手入门 -->
         <button class="xxd-btn site-lang" data-size="sm" data-variant="ghost" type="button" data-xxd-menu="site-lang-menu" aria-label={L.lang ?? (lang === "zh" ? "语言" : "Language")} data-tooltip={L.lang ?? (lang === "zh" ? "语言" : "Language")} data-tooltip-placement="bottom"><i data-xxd-icon="Languages" data-size="16"></i><span class="site-lang__name">{info.name}</span></button>
-        <div class="xxd-menu site-lang-menu" id="site-lang-menu" role="menu" popover data-placement="bottom-end">
+        <div class="xxd-menu site-lang-menu" id="site-lang-menu" role="menu" popover data-placement={menuAt}>
           {langLinks.map((l) => <a class="xxd-menu__item" role="menuitemradio" aria-checked={l.code === lang ? "true" : "false"} href={l.href} hreflang={l.html} lang={l.html}>{l.name}</a>)}
         </div>
         <!-- GitHub：点图标直接去本教程的仓库；旁边的小箭头展开，可以换去 pstack 的镜像或官方原版 -->
@@ -147,7 +148,7 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
           <a class="xxd-btn" data-size="sm" data-variant="ghost" data-icon-only href={REPO} aria-label={L.repo} data-tooltip={L.repo} data-tooltip-placement="bottom-end" set:html={GITHUB_MARK} />
           <button class="xxd-btn site-gh__more" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-menu="site-gh-menu" aria-label={L.repoMore} data-tooltip={L.repoMore} data-tooltip-placement="bottom-end"><i data-xxd-icon="ChevronDown" data-size="14"></i></button>
         </div>
-        <div class="xxd-menu site-gh-menu" id="site-gh-menu" role="menu" popover data-placement="bottom-end">
+        <div class="xxd-menu site-gh-menu" id="site-gh-menu" role="menu" popover data-placement={menuAt}>
           {L.repos.map(([href, name, path, note], i) => (
             <a class="xxd-menu__item site-gh-menu__item" role="menuitem" href={href} aria-current={i === 0 ? "true" : undefined}>
               <span class="site-gh-menu__name">{name}{i === 0 && <span class="site-gh-menu__tag">{L.repoDefault}</span>}</span>
@@ -219,7 +220,7 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
         </div>
       </nav>
 
-      <main id="main" class:list={["site-main", { "site-main--wide": wide }]} data-sk-keep={keep}>
+      <main id="main" class="site-main" data-sk-keep={keep}>
         <slot />
         <footer class="site-foot"><p set:html={L.foot} /></footer>
       </main>

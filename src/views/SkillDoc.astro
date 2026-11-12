@@ -193,10 +193,10 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
         {outline.sections.length > 1 && (
           <label class="skilldoc__jump">
             <span>{T.jump}</span>
-            <select class="xxd-select" data-size="sm" id="skilldoc-jump">
+            <span class="xxd-select"><select id="skilldoc-jump">
               <option value="full">{T.jumpTop}</option>
               {outline.sections.map((x, i) => <option value={`sec-${i + 1}`}>{i + 1}. {en ? x.en : x.zh}</option>)}
-            </select>
+            </select></span>
           </label>
         )}
       </div>

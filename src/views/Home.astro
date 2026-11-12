@@ -84,8 +84,9 @@ const fl = fullLang(lang);
 const C = x
   ? { ...EN, ...x.home, brand: x.ui.brand, FLOW: EN.FLOW.map(([icon], i) => [icon, ...(x.home.FLOW[i] ?? EN.FLOW[i].slice(1))]), stepsLabel: (n) => fmt(x.home.stepsLabel, { n }) }
   : lang === "en" ? EN : ZH;
+const headings = [["h-pain", C.painH], ["h-diff", C.diffH], ["h-lessons", C.lessonsH], ["h-fit", C.fitH], ["h-dev", C.devH]].map(([slug, text]) => ({ slug, text, depth: 2 }));
 ---
-<Site title={C.brand} wide>
+<Site title={C.brand} headings={headings}>
   <div class="home">
     <h1>{C.h1}</h1>
     <p class="home__lead">{C.lead[0]}<mark>{C.lead[1]}</mark>{C.lead[2]}</p>
