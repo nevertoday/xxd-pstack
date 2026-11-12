@@ -1,6 +1,6 @@
 {
   "name": "statechart",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Check a TLA+ model of a system that moves between states, such as a product flow, a protocol, or a service, and draw it as a Mermaid statechart. The report gives the shortest path to each state that breaks a rule. Use for /statechart, or to show a bug as a path through states.",
     "zh": "检查一个会在不同状态之间切换的系统的 TLA+ 模型，比如一段产品流程、一个协议或一个服务，并把它画成 Mermaid 状态图。报告会给出走到每个违反规则的状态的最短路径。用于 /statechart，或者想把一个 bug 展示成一条穿过各个状态的路径时。"

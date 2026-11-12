@@ -1,6 +1,6 @@
 {
   "name": "no-comments",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Spawn Comment Sicko, fix accepted findings, and offer encodings for claimed constraints.",
     "zh": "派出 Comment Sicko，修好被采纳的发现；对注释里声称要遵守的限制，提出把它写进代码来保证的办法。"

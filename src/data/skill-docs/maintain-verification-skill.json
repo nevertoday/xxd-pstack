@@ -1,6 +1,6 @@
 {
   "name": "maintain-verification-skill",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Periodic pass that keeps a project's verification skill and feature map honest: parallel source readers per feature, one live session driving every feature, at most one PR of proven corrections. Use for /maintain-verification-skill or \"audit the verify skill\".",
     "zh": "定期跑的一轮检查，让项目的验证技能和功能地图保持真实：每个功能派一个读源码的帮手 AI，并行去读；用一个实时会话把每个功能都操作一遍；最多提一个 PR，里面只放已经证明过的修正。用于 /maintain-verification-skill 或「审一下验证技能」。"

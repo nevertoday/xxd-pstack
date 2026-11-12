@@ -1,6 +1,6 @@
 {
   "name": "recall",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Reconstruct your recent working context from your own chat history, live state, and the shared record (user reports, prior fixes, incidents), then hand back a tight current-state brief. Use for 'recall my work on X', 'catch me up', 'what have I been working on', 'where did I leave off', before starting or resuming work.",
     "zh": "从你自己的聊天记录、当前的实际状态和共享记录（用户的反馈、以前的修复、事故）里，重建你最近的工作情况，然后交回一份紧凑的现状简报。用于「回忆一下我在 X 上的工作」「帮我跟上进度」「我最近在忙什么」「我上次做到哪了」，以及开始或继续工作之前。"

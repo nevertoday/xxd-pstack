@@ -1,6 +1,6 @@
 {
   "name": "create-formal-verification-skill",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Generate a project-local skill that formally verifies the code where a bug costs the most and tests reach the least, in any language, with whichever verification tool fits. Use for /create-formal-verification-skill, \"model-check this race\", \"prove this invariant\", or when concurrency, retries, state machines, parsers, or unsafe code need more than tests.",
     "zh": "生成一个放在项目里的技能：找出 bug 代价最大、测试又最难碰到的那部分代码，对它做形式化验证。任何语言都行，用最合适的验证工具。用于 /create-formal-verification-skill、「model-check this race」、「prove this invariant」，或者并发、重试、状态机、解析器、unsafe 代码光靠测试不够的时候。"

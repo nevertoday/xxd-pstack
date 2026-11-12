@@ -1,6 +1,6 @@
 {
   "name": "benchmark-checklist",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Vet a perf measurement (limiter, tuning, limits, errors, repeatability, relevance, and whether the work happened) before you report or act on it. Use when you run a benchmark or report a speedup or regression you measured.",
     "zh": "在报告一个性能测量结果或据此行动之前，先核查它（瓶颈、调优、极限、错误、可重复性、相关性，以及工作到底有没有发生）。在你跑基准测试，或者报告你测到的提速或退步时使用。"

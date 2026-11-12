@@ -1,6 +1,6 @@
 {
   "name": "correct",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Find the mistakes agents keep repeating in this repo and make each one impossible. Try architecture first, then types, then a lint whose error names the fix, then a test, and write docs last. Prove each check fails on a real past mistake. Repeat this each time the operator corrects you. Use for /correct.",
     "zh": "找出 AI 在这个仓库里反复犯的错，让每一种都不可能再犯。先试架构，再试类型，然后是一条报错里写明怎么改的 lint，再是测试，最后才写文档。证明每项检查都会在一次真实的过往错误上失败。每次操作者纠正你时，都重复一遍。用于 /correct。"

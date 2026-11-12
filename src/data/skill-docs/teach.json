@@ -1,6 +1,6 @@
 {
   "name": "teach",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Explain a body of work plainly so a person actually understands it. Runs the `how` and `why` skills and weaves what they find into one clear explanation. Use for 'teach me this', 'help me really understand X', 'explain this change or subsystem to me'.",
     "zh": "把一项工作讲明白，让一个人真正理解它。它会运行 `how` 和 `why` 两个技能，把它们找到的东西织进一段清楚的讲解里。用于「教教我这个」「帮我真正弄懂 X」「给我讲讲这个改动或子系统」。"

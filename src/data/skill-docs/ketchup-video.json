@@ -1,6 +1,6 @@
 {
   "name": "ketchup-video",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Catch the user up like /ketchup, with a short subtitled video of slides for what happened and the waiting calls as text under it. Use for /ketchup-video.",
     "zh": "像 /ketchup 一样帮用户追上进度，但把发生了什么做成一段带字幕的幻灯片短视频，等用户拍板的事以文字写在视频下面。用于 /ketchup-video。"

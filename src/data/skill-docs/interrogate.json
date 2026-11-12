@@ -1,6 +1,6 @@
 {
   "name": "interrogate",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Use for \"interrogate\", \"adversarial review\", \"multi-model review\", \"challenge this\", \"stress test this code\", \"find blind spots\", or \"tear this apart\". Adversaries try to break a change or design, and only findings proven by a run survive.",
     "zh": "用于「interrogate」「对抗式审查」「多模型审查」「挑战一下这个」「压力测试这段代码」「找盲点」或「把它拆个稀烂」。对手们想办法弄坏一个改动或设计，只有被一次运行证明了的发现才能留下。"

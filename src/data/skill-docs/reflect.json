@@ -1,6 +1,6 @@
 {
   "name": "reflect",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Spawn three parallel review subagents over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.",
     "zh": "派出三个并行的审阅帮手 AI，去读当前的对话记录，找出值得记下的经验，再把每条经验对应到某个现有技能上的一处具体修改。用户说 reflect 时使用。"

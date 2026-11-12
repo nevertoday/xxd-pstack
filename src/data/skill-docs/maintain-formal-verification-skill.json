@@ -1,6 +1,6 @@
 {
   "name": "maintain-formal-verification-skill",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Bring a project's formal verification back in line with the code after the code changes: find the commits that touched verified code, update the model, harness, or properties to describe the code as it is now, rerun, and say whether each failure is drift in the verification or a bug in the code. Use for /maintain-formal-verification-skill, \"is the model still true to the code\", or after merges and refactors that touched verified code without rechecking it.",
     "zh": "代码改了以后，让项目的形式化验证重新和代码对上：找出碰过已验证代码的提交，更新模型、harness（驱动检查的代码）或性质，让它们描述代码现在的样子，然后重跑，并说出每个失败是验证偏离了代码，还是代码里有 bug。用于 /maintain-formal-verification-skill、「模型和代码还对得上吗」，或者合并、重构碰了已验证的代码却没有重新检查之后。"

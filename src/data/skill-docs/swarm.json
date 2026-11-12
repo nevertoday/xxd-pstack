@@ -1,6 +1,6 @@
 {
   "name": "swarm",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Fan out N parallel workers, drain them, and return one report. Use for /swarm, 'swarm this', or parallel coverage, races, gauntlets, and exploration.",
     "zh": "同时派出 N 个并行干活的帮手 AI，等它们全部做完，交回一份报告。用于 /swarm、「swarm this」，或者需要并行覆盖、竞速、连番考验和探索的时候。"

@@ -1,6 +1,6 @@
 {
   "name": "make-bot-ui",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Use when building a custom UI (page, dashboard, buttons) that should wake a Grok Bot over a webhook, when the user must provide a webhook sender key, or when exposing that UI on Tailscale.",
     "zh": "用于：做一个自定义界面（网页、仪表盘、按钮），要通过 webhook 唤醒一个 Grok Bot；用户必须提供 webhook 发送密钥；或者要把这个界面放到 Tailscale 上访问。"

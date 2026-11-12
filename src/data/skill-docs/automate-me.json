@@ -1,6 +1,6 @@
 {
   "name": "automate-me",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Use for \"automate me\", \"create/update/refresh my -mode skill\", \"turn/capture my preferences or working style into a skill\", or wanting agents to follow how the user works. Drafts or revises a personal -mode skill via create-skill + unslop, optionally pulling fresh evidence from recent transcripts.",
     "zh": "用于「automate me」「创建 / 更新 / 刷新我的 -mode 技能」「把我的偏好或工作习惯变成 / 记成一个技能」，或者想让 AI 照用户的方式干活。借助 create-skill 和 unslop，起草或修改一个个人的 -mode 技能，也可以从最近的聊天记录里拉取新的证据。"

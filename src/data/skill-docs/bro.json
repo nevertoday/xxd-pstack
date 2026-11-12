@@ -1,6 +1,6 @@
 {
   "name": "bro",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Restate the last message in plain human language, with no jargon.",
     "zh": "用大白话把上一条消息重新说一遍，不用行话。"

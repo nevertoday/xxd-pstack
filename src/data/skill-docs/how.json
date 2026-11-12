@@ -1,6 +1,6 @@
 {
   "name": "how",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Use why for motivation.",
     "zh": "用于「X 是怎么运作的」、改动之前的代码讲解，以及放在哪、归谁管、分在哪一层的问题（「这个该放在哪」「哪个包负责这个」「这是不是对的那一层」）。讲解子系统的架构、运行时的流程，以及帮新人上手时要搭起的整体理解。问动机用 why。"

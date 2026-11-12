@@ -1,6 +1,6 @@
 {
   "name": "sharpen",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Make a task deeper, not bigger, then rewrite the prompt. Use for /sharpen.",
     "zh": "把一件任务做深，而不是做大，然后改写提示词。用于 /sharpen。"

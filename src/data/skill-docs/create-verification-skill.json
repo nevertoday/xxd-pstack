@@ -1,6 +1,6 @@
 {
   "name": "create-verification-skill",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Generate a project-local verification skill that drives your app the way a user does — any language, framework, or platform. Use for /create-verification-skill, \"make a control skill for this repo\", or when a project has no scripted way to prove UI/CLI/service behavior.",
     "zh": "生成一个放在项目里的验证技能，让它像用户一样去操作你的应用。任何语言、框架、平台都行。用于 /create-verification-skill、「给这个仓库做一个操控技能」，或者项目里还没有能用脚本证明界面 / 命令行 / 服务行为的办法时。"

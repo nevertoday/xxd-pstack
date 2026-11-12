@@ -1,6 +1,6 @@
 {
   "name": "in-your-own-words",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Restate in your own words what you think the user's goals are and what problem they're trying to solve. Use for /in-your-own-words.",
     "zh": "用你自己的话，说说你认为用户的目标是什么，用户想解决的是什么问题。用于 /in-your-own-words。"

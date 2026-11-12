@@ -1,6 +1,6 @@
 {
   "name": "blast-radius",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Find what a change could break somewhere else before it ships, beyond the diff, and prove the one fact it's safe because of by running real code instead of writing it up. Use for 'blast radius of X', 'what could this break', or reviewing a small diff you don't trust.",
     "zh": "在改动上线之前，找出它可能在别处弄坏什么，不只看 diff 本身；并通过运行真实代码、而不是写一篇说明，来证明它之所以安全所依赖的那一个事实。用于「X 的影响范围」「这可能弄坏什么」，或者审查一个你不放心的小 diff。"

@@ -1,6 +1,6 @@
 {
   "name": "tdd",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Use only when the user explicitly asks for TDD, a failing test, or a regression test, OR when the bug has an obvious cheap local test target. Skip when the test path is unclear, expensive, integration-heavy, or not requested.",
     "zh": "只在这些时候用：用户明确要求 TDD、一个会失败的测试或一个回归测试；或者这个 bug 明显有一个便宜的本地测试可写。测试路径不清楚、代价高、很依赖集成环境，或者用户没要求时，跳过。"

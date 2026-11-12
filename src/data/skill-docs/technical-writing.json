@@ -1,6 +1,6 @@
 {
   "name": "technical-writing",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /technical-writing or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.",
     "zh": "分层的技术写作标准：Diátaxis 管文档结构，Google 开发者文档风格管句子，STE 管指令写法，Global English 管句法。用于 /technical-writing，或者写、审文档、RFC、README、PR 说明和提交信息的时候。"

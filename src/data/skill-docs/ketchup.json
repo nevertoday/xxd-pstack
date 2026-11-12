@@ -1,6 +1,6 @@
 {
   "name": "ketchup",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Catch the user up on what changed in this chat since their last message, in plain words and small visuals. List every item waiting on them with what they need to decide it from the reply alone. Use for /ketchup.",
     "zh": "用大白话和小图，告诉用户自从用户上一条消息以来，这个对话里变了什么。把每件等用户拍板的事都列出来，并附上用户光看这条回复就能做决定所需的信息。用于 /ketchup。"

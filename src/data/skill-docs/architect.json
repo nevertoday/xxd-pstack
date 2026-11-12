@@ -1,6 +1,6 @@
 {
   "name": "architect",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
     "zh": "写代码之前，先画出类型、函数签名和模块结构的草图，然后在填充实现的过程中一直跟着。用于 /architect、「architect this」、「design this」，或者一上来就写代码会把错误的结构定死的、不简单的活。"

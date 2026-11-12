@@ -1,6 +1,6 @@
 {
   "name": "figure-it-out",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Design an auditable playbook when no narrower one fits: a large migration, an ambitious multi-part change, or work a human reviews after stepping away. Scales rigor to the task, runs a hypothesis loop, and logs decisions. Use for /figure-it-out or 'figure it out'.",
     "zh": "没有更具体的剧本合适时，设计一份可以审查的剧本：一次大迁移、一个有野心的多部分改动，或者有人离开、回来再审查的工作。它按任务调整严格程度，跑一个假设循环，并记录决定。用于 /figure-it-out 或「figure it out」。"

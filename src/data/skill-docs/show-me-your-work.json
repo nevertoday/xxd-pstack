@@ -1,6 +1,6 @@
 {
   "name": "show-me-your-work",
-  "commit": "0854796",
+  "commit": "97de40d",
   "description": {
     "en": "Keep a reviewable decision trail for long-running or unattended work: a TSV log with one row per decision (what, why, evidence, result). Local by default; commit it when a reviewer needs the trail to trust the result. Use for /show-me-your-work, autonomous or multi-phase runs, or work a human reviews after stepping away.",
     "zh": "为长时间运行或没人看着的工作，留下一份可以审查的决定记录：一个 TSV 日志，每个决定一行（做了什么、为什么、证据、结果）。默认只放在本地；审查的人需要靠这份记录才能信任结果时，就把它提交。用于 /show-me-your-work、自主运行或分好几个阶段的运行，或者有人离开、回来再审查的工作。"
