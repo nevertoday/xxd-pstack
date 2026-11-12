@@ -50,6 +50,7 @@ npm run build      # 输出到 dist/
 - 提示词用中文写，技能名和原则名保留英文（`/how`、`prove it works`），AI 才认得。
 - 只写 pstack 仓库里写明了的行为和命令；会变的东西（默认模型、剧本数量、命令前缀）以 [pstack 仓库](https://github.com/backnotprop/pstack) 为准，变了就改 `data/` 里对应的那一处。
 - 当前内容核对到 pstack **0.15.36**（backnotprop/pstack `97de40d`，2026-11-11）。下次同步先看它的 `SYNC-LOG.md` 从这一行往后有没有「Synced」，再 `git diff 97de40d HEAD -- skills docs` 看具体改了什么。
+- 外部参考资料（作者的长文等）记在 `docs/sources/README.md`：出处、要点、本站哪页用到、还没用上的地方。原文副本放 `docs/sources/raw/`，不提交。
 - 作者 poteto 一律称「作者」或「poteto」，不用他 / 她。
 - MDX 正文里不能出现裸的 `<`、`{`、`}`：占位符写在代码里，比如 `` `<你的应用名>` ``。
 

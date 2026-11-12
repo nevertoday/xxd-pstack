@@ -23,6 +23,8 @@ When a change touches several places, `/poteto-mode` designs it first on its own
 
 **What you get**: a few designs side by side. Each one starts with "how a caller uses it". It then builds the one it picked. To see the design first, add "with checkpoint, stop and show me before you implement".
 
+While it builds against the design, if something doesn't fit, it stops and tells you. If the design itself is wrong, it throws it out and starts over instead of patching it. That's normal.
+
 ## One decision you're unsure about: /arena
 
 Use it for names, formats or algorithms that will be hard to change later.
@@ -42,6 +44,22 @@ Use it for names, formats or algorithms that will be hard to change later.
 <Copy id="proto" code="/poteto-mode Build a few prototypes of the new dropdown menu. Give me screenshots or screen recordings to compare." />
 
 **What you get**: a few throwaway drafts, each screenshotted or timed, side by side for you to pick. This works for UI, behavior and algorithms.
+
+Plans work the same way. Prototype the parts you're unsure about, then write what you saw into the plan. A plan that never tried anything can be wrong, however detailed it gets.
+
+## A big feature: write the tutorial first, then the design
+
+<Copy id="backwards" title="The author's version, swap in your own task" code={`(1) /recall what I did on virtual list bugs and perf issues in the past 7 days. Use /how and /why to understand how our current virtual list works.
+(2) Then plan with /poteto-mode and /technical-writing: design a new engine that removes flicker and jitter at the root. Start with a tutorial on how I'd use the new package to add a virtual list to a React app.
+(3) Once the plan is written, /teach me, and prove the new approach beats the current one.`} />
+
+Each part does one job:
+
+- **Bring back the context**: the bugs you fixed and how it works now are what the new design has to solve.
+- **Design from the usage**: write how people will use it first, and you see right away whether it's easy to use.
+- **Ask for proof**: reasons aren't enough, ask for a comparison. With a [verification skill](/en/howto/verify-app/) in the project, it can show real evidence.
+
+[Step 3](/en/guide/3-first-task/) said not to line up skills in your message. That's for small tasks. For a big design like this, the author names skills part by part, each part naming only what it needs.
 
 ## While building, say what you saw
 
