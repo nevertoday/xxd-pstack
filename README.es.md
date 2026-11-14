@@ -172,7 +172,7 @@ Aquí es donde todos los pasos anteriores dan fruto: solo una IA que **puede ver
 
 Pulsa <kbd>⌘</kbd> <kbd>K</kbd> arriba a la derecha de cualquier página para buscar en todo el sitio. En el texto, el **marcador** y el **subrayado grueso** señalan lo importante, y los términos con subrayado punteado muestran una explicación de una línea al pasar el ratón.
 
-## 🧑‍💻 Ejecutarlo en local
+## 💻 Ejecutarlo en local
 
 ```bash
 npm install

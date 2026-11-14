@@ -172,7 +172,7 @@ This is where all the earlier steps pay off: only an AI that **can verify its ow
 
 Press <kbd>⌘</kbd> <kbd>K</kbd> at the top right of any page to search the whole site. In the text, **highlighter** and **bold underline** mark the key points, and dotted-underlined terms show a one-line explanation on hover.
 
-## 🧑‍💻 Run it locally
+## 💻 Run it locally
 
 ```bash
 npm install

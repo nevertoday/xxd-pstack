@@ -172,7 +172,7 @@ C'est ici que toutes les étapes précédentes paient : seule une IA **capable d
 
 Appuyez sur <kbd>⌘</kbd> <kbd>K</kbd> en haut à droite de n'importe quelle page pour chercher dans tout le site. Dans le texte, le **surligneur** et le **soulignement épais** marquent l'essentiel, et les termes soulignés en pointillés affichent une explication d'une ligne au survol.
 
-## 🧑‍💻 Lancer en local
+## 💻 Lancer en local
 
 ```bash
 npm install

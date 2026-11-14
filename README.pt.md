@@ -172,7 +172,7 @@ Também há [Prompts para copiar e colar](https://pstack.xiaoxiaodong.ai/en/howt
 
 Aperte <kbd>⌘</kbd> <kbd>K</kbd> no canto superior direito de qualquer página para buscar no site inteiro. No texto, o **marca-texto** e o **sublinhado grosso** indicam o essencial, e termos com sublinhado pontilhado mostram uma explicação de uma linha ao passar o mouse.
 
-## 🧑‍💻 Rodar localmente
+## 💻 Rodar localmente
 
 ```bash
 npm install

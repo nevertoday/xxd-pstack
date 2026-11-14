@@ -172,7 +172,7 @@ npx skills add backnotprop/pstack
 
 页面右上角 <kbd>⌘</kbd> <kbd>K</kbd> 全站搜索，正文里**荧光笔**和**粗下划线**标的是重点，带虚线的词悬停就有一句话解释。
 
-## 🧑‍💻 本地运行
+## 💻 本地运行
 
 ```bash
 npm install

@@ -172,7 +172,7 @@ Hier zahlen sich alle vorherigen Schritte aus: Nur eine KI, die **ihre eigene Ar
 
 Mit <kbd>⌘</kbd> <kbd>K</kbd> oben rechts auf jeder Seite durchsuchst du die ganze Website. Im Text markieren **Textmarker** und **dicke Unterstreichung** das Wichtigste, und gepunktet unterstrichene Begriffe zeigen beim Darüberfahren eine Erklärung in einem Satz.
 
-## 🧑‍💻 Lokal starten
+## 💻 Lokal starten
 
 ```bash
 npm install
