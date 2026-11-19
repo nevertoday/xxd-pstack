@@ -1,6 +1,6 @@
 {
   "name": "setup-pstack",
-  "commit": "97de40d",
+  "commit": "0d2dc00",
   "description": {
     "en": "Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes an always-applied rule that overrides the skill defaults. Use for /setup-pstack, \"configure pstack models\", \"pstack budget\", or changing pstack's model choices.",
     "zh": "设置 pstack 每个角色用哪个模型、用多大的推理预算。它会查出你能用的模型，写一条始终生效的规则，覆盖技能的默认设置。用于 /setup-pstack、「configure pstack models」、「pstack budget」，或者想改 pstack 的模型选择时。"
@@ -39,48 +39,60 @@
       "zh": "### 2. 读取当前状态"
     },
     {
-      "en": "The default role-to-model mapping is the rule shape shown in step 5 below. If the settings file already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.",
-      "zh": "默认的角色和模型对应关系，就是下面第 5 步给出的规则格式。如果设置文件已经存在，就读它，把它的 `# budget` 那一行和各角色的值当作当前的选择。否则就从这些默认值开始。如果某一行的角色不在第 5 步里，比如 `how critics`，那是已经撤掉的角色，删掉这一行。"
+      "en": "The default role-to-model mapping is the rule shape shown in step 5 below. If the settings file already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it.",
+      "zh": "默认的角色和模型对应关系，就是下面第 5 步给出的规则格式。如果设置文件已经存在，就读它，把它的 `# budget` 那一行和各角色的值当作当前的选择。否则就从这些默认值开始。如果某一行的角色不在第 5 步里，比如 `hardest tasks`、`architect runners`、`reflect tooling` 或 `why investigators`，那是已经撤掉的角色，删掉这一行。"
+    },
+    {
+      "en": "A settings file without the `# defaults: 3` line comes from an older setup. That setup wrote a line for every role, so some of its values are old defaults, not choices. Before step 3, replace these values:",
+      "zh": "没有 `# defaults: 3` 那一行的设置文件，来自旧版的设置。旧版给每个角色都写了一行，所以其中有些值是旧的默认值，不是用户的选择。在第 3 步之前，把下面这些值换掉："
+    },
+    {
+      "en": "- An `arena cross-judge pool` list of exactly one `claude-fable-*` entry, one `claude-opus-*` entry, and one `gemini-*` entry, in any order, takes the role's step 5 list. Fable and Opus are one vendor, so the Fable entry could judge only where the Opus entry also could.\n- A `# budget: unlimited` line becomes `large`, because no role runs above `xhigh`.\n- If the settings file has no `# defaults: 2` line either, an old slug is one that matches `grok-*`. An old slug in `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, or `swarm workers` takes the role's step 5 default. In a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`), a list of exactly one `claude-opus-*` entry and one old slug, in either order, takes the role's step 5 list. In any other list, each old slug becomes `claude-opus-5-5-high-fast`.",
+      "zh": "- `arena cross-judge pool` 的列表如果正好是一个 `claude-fable-*` 项、一个 `claude-opus-*` 项和一个 `gemini-*` 项，顺序不限，就换成第 5 步里这个角色的列表。Fable 和 Opus 出自同一家公司，所以 Opus 项不能当评审的地方，Fable 项也不能当。\n- `# budget: unlimited` 这一行改成 `large`，因为没有哪个角色的强度高于 `xhigh`。\n- 如果设置文件里连 `# defaults: 2` 那一行也没有，旧模型名就是匹配 `grok-*` 的模型名。`feature, refactoring`、`bug-fix`、`perf-issue`、`hillclimb` 或 `swarm workers` 里的旧模型名，换成第 5 步里这个角色的默认值。在小组角色（`arena runners`、`arena cross-judge pool`、`interrogate reviewers`）里，列表如果正好是一个 `claude-opus-*` 项和一个旧模型名，顺序不限，就换成第 5 步里这个角色的列表。在其他任何列表里，每个旧模型名都改成 `claude-opus-5-5-high-fast`。"
+    },
+    {
+      "en": "Every other value is the user's choice and stays, including an old slug in any other role and every `inherit-parent` or `auto` value. Tell the user which values you replaced.",
+      "zh": "其他每个值都是用户的选择，保留不动，包括其他角色里的旧模型名，以及每一个 `inherit-parent` 或 `auto` 值。告诉用户你换掉了哪些值。"
     },
     {
       "en": "### 3. Budget, map, and confirm",
       "zh": "### 3. 定预算、对应模型、确认"
     },
     {
-      "en": "**(a) Ask for a budget.** Prefer your structured-question tool (`AskQuestion` in Cursor, `AskUserQuestion` in Claude Code, `question` in OpenCode) over free text. Offer these four options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.",
-      "zh": "**(a) 问预算。** 优先用你的结构化提问工具（Cursor 里的 `AskQuestion`、Claude Code 里的 `AskUserQuestion`、OpenCode 里的 `question`），不要用自由文本。给出下面这四个选项，标签要和这里逐字一样；如果规则里记着当前预算，就说出来。如果没有规则，就说明 `large` 和技能的默认设置一致。"
+      "en": "**(a) Ask for a budget.** Prefer your structured-question tool (`AskQuestion` in Cursor, `AskUserQuestion` in Claude Code, `question` in OpenCode) over free text. Offer these three options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.",
+      "zh": "**(a) 问预算。** 优先用你的结构化提问工具（Cursor 里的 `AskQuestion`、Claude Code 里的 `AskUserQuestion`、OpenCode 里的 `question`），不要用自由文本。给出下面这三个选项，标签要和这里逐字一样；如果规则里记着当前预算，就说出来。如果没有规则，就说明 `large` 和技能的默认设置一致。"
     },
     {
-      "en": "- `unlimited — max reasoning`\n- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`",
-      "zh": "- `unlimited — max reasoning`\n- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`"
+      "en": "- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`",
+      "zh": "- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`"
     },
     {
-      "en": "**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). `unlimited`, `large`, `medium`, and `small` set the effort token of every real slug, panel entries included, to `max`, `xhigh`, `high`, or `medium`. The effort token is the last token, or the one before a trailing `fast`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`. Grok slugs top out at `xhigh`, so under `unlimited` the fallback puts Grok at `xhigh` and keeps `grok-4.7-xhigh-fast` as it is. `large` keeps both defaults. `small` turns them into `claude-opus-5-5-medium` and `grok-4.7-medium-fast`.",
-      "zh": "**(b) 套用预算。** 从技能的默认设置建一张工作表；如果是重跑，保留你按系列、列表或别名（`inherit-parent`、`auto`）改过的角色。`unlimited`、`large`、`medium`、`small` 会把每个真实模型名（包括小组列表里的条目）的强度标记分别设为 `max`、`xhigh`、`high`、`medium`。强度标记是模型名的最后一段；如果最后一段是 `fast`，就是它前面那一段。强度从高到低是 `max` > `xhigh` > `high` > `medium` > `low`。如果结果不是查出来的模型名，就用同一系列里、强度不超过目标的最高那个已查出的模型名；没有的话，就把这个角色标成需要选择。`inherit-parent` 和 `auto` 不变。所以 `unlimited` 会把 `claude-opus-5-5-xhigh` 变成 `claude-opus-5-5-max`。Grok 的模型名最高只到 `xhigh`，所以在 `unlimited` 下，这条退而求其次的规则让 Grok 停在 `xhigh`，`grok-4.7-xhigh-fast` 保持原样。`large` 两个默认值都不变。`small` 会把它们变成 `claude-opus-5-5-medium` 和 `grok-4.7-medium-fast`。"
+      "en": "**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). Families are the ones Phase A of the **arena** skill defines, so Fable is its own family. Each role has a target effort, which is its default's effort moved by the budget. `large` keeps it, `medium` lowers it one step, and `small` lowers it two steps, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a target at the bottom of the ladder stays there. Most defaults are at `xhigh`, and each budget label names where those land. Set the effort token of every real slug in the role, panel entries included, to the role's target. The effort token is the last token, or the one before a trailing `fast`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`. Opus 5.5 always runs its `-fast` slug, so every Opus 5.5 value ends in `-fast`. Fable 5.2 and Gemini have no fast slug, so never write one. Gemini tops out at `high`, so a Gemini entry runs at `high` when its role's target is `xhigh`.",
+      "zh": "**(b) 套用预算。** 从技能的默认设置建一张工作表；如果是重跑，保留你按系列、列表或别名（`inherit-parent`、`auto`）改过的角色。系列就是 **arena** 技能阶段 A 里定义的那些，所以 Fable 自成一个系列。每个角色都有一个目标强度，就是它默认值的强度按预算挪过之后的结果。`large` 保持不变，`medium` 降一档，`small` 降两档，强度从高到低是 `xhigh` > `high` > `medium` > `low`。没有哪个角色的强度高于 `xhigh`；目标已经在最低一档的，就停在那里。大多数默认值在 `xhigh`，每个预算标签写的就是它们降到哪一档。把这个角色里每个真实模型名（包括小组列表里的条目）的强度标记设为这个角色的目标强度。强度标记是模型名的最后一段；如果最后一段是 `fast`，就是它前面那一段。如果结果不是查出来的模型名，就用同一系列里、强度不超过目标的最高那个已查出的模型名；没有的话，就把这个角色标成需要选择。`inherit-parent` 和 `auto` 不变。所以 `medium` 会把 `claude-opus-5-5-xhigh-fast` 变成 `claude-opus-5-5-high-fast`，把 `claude-opus-5-5-high-fast` 变成 `claude-opus-5-5-medium-fast`；`small` 会把它们变成 `claude-opus-5-5-medium-fast` 和 `claude-opus-5-5-low-fast`。Opus 5.5 总是用它的 `-fast` 模型名跑，所以每个 Opus 5.5 的值都以 `-fast` 结尾。Fable 5.2 和 Gemini 没有 fast 模型名，所以绝不要写。Gemini 最高只到 `high`，所以角色的目标是 `xhigh` 时，Gemini 项用 `high` 跑。"
     },
     {
-      "en": "**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer your structured-question tool over free text. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a family other than the parent's, in list order, so order it by preference. An `inherit-parent` or `auto` value never judges. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.",
-      "zh": "**(c) 列出角色并确认。** 列出每个角色和它的模型，凡是不在已查出集合里的真实模型名，都标成需要选择。第 2 步删掉的每一行也列出来。问用户是照单全收，还是改某几个角色；选项是查出来的模型，再加上 `inherit-parent` 和 `auto`（两者都表示：这个角色用主对话的模型跑，用 Auto 的用户就是靠这个一直留在 Auto 上）。优先用你的结构化提问工具，不要用自由文本。小组角色（arena runners、architect runners、interrogate reviewers）的值是一个列表，每个条目跑一个帮手 AI，别名条目也算，所以列表有多长，就跑几个。`arena cross-judge pool` 也是一个列表，但 Arena 只跑一个评委。它只试和主对话模型不同系列的值，按列表顺序试，所以要按你的偏好排序。值为 `inherit-parent` 或 `auto` 的条目永远不当评委。`swarm workers` 是每个干活帮手的默认模型，除非竞速或比较时给每一路另外指定了模型。"
+      "en": "**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer your structured-question tool over free text. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a vendor other than the parent's, in list order, so order it by preference. Fable and the other Claude models are one vendor. An `inherit-parent` or `auto` value never judges. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.",
+      "zh": "**(c) 列出角色并确认。** 列出每个角色和它的模型，凡是不在已查出集合里的真实模型名，都标成需要选择。第 2 步删掉的每一行也列出来。问用户是照单全收，还是改某几个角色；选项是查出来的、强度在 `xhigh` 或以下的模型，再加上 `inherit-parent` 和 `auto`（两者都表示：这个角色用主对话的模型跑，用 Auto 的用户就是靠这个一直留在 Auto 上）。优先用你的结构化提问工具，不要用自由文本。小组角色（arena runners、interrogate reviewers）的值是一个列表，每个条目跑一个帮手 AI，别名条目也算，所以列表有多长，就跑几个。`arena cross-judge pool` 也是一个列表，但 Arena 只跑一个评委。它只试和主对话模型出自不同公司的值，按列表顺序试，所以要按你的偏好排序。Fable 和其他 Claude 模型算同一家。值为 `inherit-parent` 或 `auto` 的条目永远不当评委。`swarm workers` 是每个干活帮手的默认模型，除非竞速或比较时给每一路另外指定了模型。"
     },
     {
       "en": "### 4. Validate",
       "zh": "### 4. 校验"
     },
     {
-      "en": "Every real slug written must be in the detected set. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.",
-      "zh": "写进去的每个真实模型名都必须在已查出的集合里。`inherit-parent` 和 `auto` 永远通过。如果选中的某个真实模型名用不了，就停下来重新问。"
+      "en": "Every real slug written must be in the detected set and at `xhigh` or below. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.",
+      "zh": "写进去的每个真实模型名都必须在已查出的集合里，而且强度在 `xhigh` 或以下。`inherit-parent` 和 `auto` 永远通过。如果选中的某个真实模型名用不了，就停下来重新问。"
     },
     {
       "en": "### 5. Write the rule",
       "zh": "### 5. 写规则"
     },
     {
-      "en": "Write the settings file with a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses. In Cursor, include the frontmatter below with `alwaysApply: true`. In other harnesses, write the settings file without the frontmatter (start at the first `#` line). Overwrite the whole file so re-runs stay idempotent. Shape:",
-      "zh": "写设置文件：一行 `# budget`，写上选定的标签和它对应的目标强度；每个角色一行，用和 poteto-mode 相同的标签。在 Cursor 里，带上下面的 frontmatter，其中写 `alwaysApply: true`。在其他工具里，写设置文件时不带 frontmatter（从第一个 `#` 行开始）。整个文件覆盖重写，这样重跑多少次结果都一样。格式："
+      "en": "Write the settings file with the `# defaults: 3` line, a `# budget` line with the chosen label and the effort that label names, and one line per role, using the same labels poteto-mode uses. In Cursor, include the frontmatter below with `alwaysApply: true`. In other harnesses, write the settings file without the frontmatter (start at the first `#` line). Overwrite the whole file so re-runs stay idempotent. Shape:",
+      "zh": "写设置文件：一行 `# defaults: 3`；一行 `# budget`，写上选定的标签和这个标签写的强度；每个角色一行，用和 poteto-mode 相同的标签。在 Cursor 里，带上下面的 frontmatter，其中写 `alwaysApply: true`。在其他工具里，写设置文件时不带 frontmatter（从第一个 `#` 行开始）。整个文件覆盖重写，这样重跑多少次结果都一样。格式："
     },
     {
-      "en": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```",
-      "zh": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```"
+      "en": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model` and spawn a general-purpose subagent). Alias entries in a panel list still count toward its fan-out.\n# defaults: 3\n# budget: large (xhigh)\nfeature, refactoring: claude-opus-5-5-xhigh-fast\nbug-fix: claude-opus-5-5-xhigh-fast\nperf-issue: claude-opus-5-5-xhigh-fast\nhillclimb: claude-opus-5-5-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh-fast\narena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\narena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-carbon-high\nswarm workers: claude-opus-5-5-high-fast\ninterrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\n```",
+      "zh": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model` and spawn a general-purpose subagent). Alias entries in a panel list still count toward its fan-out.\n# defaults: 3\n# budget: large (xhigh)\nfeature, refactoring: claude-opus-5-5-xhigh-fast\nbug-fix: claude-opus-5-5-xhigh-fast\nperf-issue: claude-opus-5-5-xhigh-fast\nhillclimb: claude-opus-5-5-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh-fast\narena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\narena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-carbon-high\nswarm workers: claude-opus-5-5-high-fast\ninterrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\n```"
     },
     {
       "en": "### 6. Confirm",
@@ -125,33 +137,33 @@
       }
     },
     {
-      "quote": "Offer these four options with these exact labels",
-      "quoteZh": "给出下面这四个选项，标签要和这里逐字一样",
+      "quote": "Offer these three options with these exact labels, and name the current budget when the rule records one.",
+      "quoteZh": "给出下面这三个选项，标签要和这里逐字一样；如果规则里记着当前预算，就说出来。",
       "zh": {
         "title": "把选项一字不差写出来",
-        "does": "它问预算时，每次都给你同样的四个选项，说法也一样。",
+        "does": "它问预算时，每次都给你同样的三个选项，说法也一样，还会告诉你现在选的是哪一档。",
         "why": "把选项原样写进提示词并要求照抄，AI 就不会自己改写、多加一个或漏掉一个。",
         "try": "让 AI 做问卷时写：「问满意度只给三个选项：『满意』『一般』『不满意』，原样照抄。」"
       },
       "en": {
         "title": "Spell out the exact options",
-        "does": "It asks about budget with the same four options every time, worded the same way.",
+        "does": "It asks about budget with the same three options every time, worded the same way, and names your current one.",
         "why": "Writing the options into the prompt and asking for them verbatim stops the AI from rewording, adding or dropping one.",
         "try": "For a survey: \"Ask about satisfaction with exactly these options: 'Satisfied', 'OK', 'Not satisfied'.\""
       }
     },
     {
-      "quote": "So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`.",
-      "quoteZh": "所以 `unlimited` 会把 `claude-opus-5-5-xhigh` 变成 `claude-opus-5-5-max`。",
+      "quote": "So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`.",
+      "quoteZh": "所以 `medium` 会把 `claude-opus-5-5-xhigh-fast` 变成 `claude-opus-5-5-high-fast`，把 `claude-opus-5-5-high-fast` 变成 `claude-opus-5-5-medium-fast`；`small` 会把它们变成 `claude-opus-5-5-medium-fast` 和 `claude-opus-5-5-low-fast`。",
       "zh": {
         "title": "规则后面跟个算好的例子",
-        "does": "它按预算换模型时不容易算错，比如选最大预算，就把 xhigh 换成 max。",
+        "does": "它按预算换模型时不容易算错，比如选中档预算，就把每个模型降一档，xhigh 变成 high。",
         "why": "抽象的换算规则容易读偏，紧跟一个算好的例子，AI 能拿自己的结果对一对。",
         "try": "给换算规则时顺手举例：「金额四舍五入到百位，比如 1,260 写成 1,300。」"
       },
       "en": {
         "title": "Follow a rule with an example",
-        "does": "It swaps models for your budget correctly, such as turning xhigh into max for the biggest budget.",
+        "does": "It swaps models for your budget correctly, such as dropping each model one step, xhigh to high, for the medium budget.",
         "why": "An abstract conversion rule is easy to misread; a worked example right after lets the AI check its own answer.",
         "try": "Give an example with the rule: \"Round amounts to the nearest hundred, so 1,260 becomes 1,300.\""
       }
@@ -182,7 +194,7 @@
         },
         {
           "without": "不问你就把配置写好了",
-          "with": "先问四档预算，再列出每个角色的模型，等你确认"
+          "with": "先问三档预算，再列出每个角色的模型，等你确认"
         },
         {
           "without": "重跑时留着已经废弃的角色行",
@@ -193,10 +205,10 @@
       "sections": [
         "一共八步，从查能用的模型，到写配置，最后是两次可选的提议。",
         "列出这次能传给帮手 AI 的模型名，一个都查不到就请你贴上来。",
-        "已有配置就读出预算和各角色的模型，当作起点，再删掉废弃角色的行。",
-        "问你选 unlimited、large、medium、small 哪一档，照档调整每个模型的推理强度，再列表让你确认或改。",
-        "写之前再核一遍，选中的模型不在能用的名单里，就停下重新问你。",
-        "写一行预算，每个角色一行，整份覆盖文件，Cursor 版加上 `alwaysApply: true`。",
+        "已有配置就读出预算和各角色的模型，当作起点，删掉废弃角色的行，旧版留下的默认值换成新的，并告诉你换了哪些。",
+        "问你选 large、medium、small 哪一档，照档把每个角色的推理强度降零到两档（最高 xhigh），再列表让你确认或改。",
+        "写之前再核一遍，选中的模型不在能用的名单里或强度高于 xhigh，就停下重新问你。",
+        "写一行 `# defaults: 3`、一行预算，每个角色一行，整份覆盖文件，Cursor 版加上 `alwaysApply: true`。",
         "告诉你写了哪个文件。在 Cursor 和 Claude Code 里，新开的对话才用上它。",
         "项目里还没有能驱动 app 的验证办法，就问一次要不要用 `/create-verification-skill` 生成。",
         "还没有形式化验证技能，就问一次要不要用 `/create-formal-verification-skill` 生成，你说不要就往下走。"
@@ -210,7 +222,7 @@
         },
         {
           "without": "Writes the settings without asking you.",
-          "with": "Asks for one of four budgets, shows each role's model, and waits for your OK."
+          "with": "Asks for one of three budgets, shows each role's model, and waits for your OK."
         },
         {
           "without": "Leaves retired role lines in the file on a re-run.",
@@ -221,10 +233,10 @@
       "sections": [
         "Eight steps, from finding usable models to writing the file, ending with two optional offers.",
         "Lists the model names it can pass to helpers this session. If it finds none, it asks you to paste yours.",
-        "Reads an existing file's budget and role choices as the starting point, and drops lines for retired roles.",
-        "Asks for unlimited, large, medium or small, sets each model's effort to match, then shows the roles to accept or change.",
-        "Checks every chosen model is in the detected list. If one isn't, it stops and asks again.",
-        "Writes a budget line and one line per role over the whole file. The Cursor version adds `alwaysApply: true`.",
+        "Reads an existing file's budget and role choices as the starting point, drops retired roles, and swaps old-setup defaults for new ones, saying which.",
+        "Asks for large, medium or small, lowers each role's effort zero to two steps (never above xhigh), then shows the roles to accept or change.",
+        "Checks every chosen model is in the detected list and at xhigh or below. If one isn't, it stops and asks again.",
+        "Writes a `# defaults: 3` line, a budget line and one line per role over the whole file. The Cursor version adds `alwaysApply: true`.",
         "Tells you which file it wrote. In Cursor and Claude Code, new sessions pick it up.",
         "If the project has no way to drive the app, it offers once to generate one with `/create-verification-skill`.",
         "If there is no formal verification skill, it offers once to run `/create-formal-verification-skill`. On no, it moves on."

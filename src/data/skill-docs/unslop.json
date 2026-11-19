@@ -1,6 +1,6 @@
 {
   "name": "unslop",
-  "commit": "97de40d",
+  "commit": "0d2dc00",
   "description": {
     "en": "Cut AI tells from any writing.",
     "zh": "从任何文字里去掉一看就是 AI 写的痕迹。"
@@ -15,68 +15,12 @@
       "zh": "编辑文字，去掉 AI 的写作套路。先按下面的套路扫一遍，再改写。保留原意，贴合原本想要的语气。"
     },
     {
-      "en": "## Patterns to detect and fix",
-      "zh": "## 要找出并改掉的套路"
-    },
-    {
       "en": "Rule numbers are stable ids that other skills cite. A removed rule leaves a gap.",
       "zh": "规则编号是固定的 id，别的技能会引用它们。删掉的规则会留下一个空号。"
     },
     {
-      "en": "### Content",
-      "zh": "### 内容"
-    },
-    {
-      "en": "3. **Superficial -ing phrases.** \"highlighting...\", \"ensuring...\", \"reflecting...\", \"showcasing...\", \"fostering...\". Delete or expand with real sources.\n5. **Vague attributions.** \"Experts believe\", \"Industry reports suggest\", \"Some critics argue\". Name the source or delete.",
-      "zh": "3. **肤浅的 -ing 短语。** 「highlighting...」「ensuring...」「reflecting...」「showcasing...」「fostering...」。删掉，或者用真实的来源展开。\n5. **含糊的出处。** 「Experts believe」「Industry reports suggest」「Some critics argue」。写出来源，或者删掉。"
-    },
-    {
-      "en": "### Language",
-      "zh": "### 用词"
-    },
-    {
-      "en": "7. **AI vocabulary.** Additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, landscape (abstract), pivotal, showcase, tapestry (abstract), testament, underscore, vibrant. Replace with plain words.\n8. **Fancy ways to say \"is\".** \"serves as\", \"stands as\", \"boasts\", \"features\". Say \"is\" or \"has\".\n9. **\"Not just X, but Y.\"** State the point directly instead.\n10. **Rule of three.** Don't force ideas into groups of three. Use the natural number.\n11. **Synonym cycling.** Protagonist, main character, central figure, hero all in one paragraph. Pick one, repeat it.\n12. **False ranges.** \"from X to Y\" where X and Y aren't on a meaningful scale. List topics directly.",
-      "zh": "7. **AI 词汇。** Additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, landscape（抽象义）, pivotal, showcase, tapestry（抽象义）, testament, underscore, vibrant。换成平常的词。\n8. **把「is」说得花里胡哨。** 「serves as」「stands as」「boasts」「features」。直接说「is」或「has」。\n9. **「Not just X, but Y.」** 直接说出要点。\n10. **三个一组。** 不要硬把想法凑成三个一组。有几个就写几个。\n11. **同义词轮换。** 一段里 Protagonist、main character、central figure、hero 全都出现。选一个，一直用它。\n12. **假的范围。** 「from X to Y」，而 X 和 Y 并不在一个有意义的刻度上。直接把话题列出来。"
-    },
-    {
-      "en": "### Style",
-      "zh": "### 风格"
-    },
-    {
-      "en": "13. **Em dash overuse.** Avoid em dashes entirely. Use periods or commas only (no parentheses, no en dashes, no hyphen-as-dash substitutes). If a thought needs separation, end the sentence or use a comma.\n14. **Colon overuse.** Colons are fine before a list or example, not as mid-sentence connectors. \"If you're coming from traditional automation: instead of registering event handlers, you describe conditions\" adds nothing with the colon. Rewrite to let the point stand on its own without comparison framing. \"Describing when the scheduler should fire works best as plain English.\" Same meaning, no crutch punctuation.\n15. **Boldface overuse.** Don't bold every proper noun or acronym.\n16. **Inline-header lists.** The tell is a bold label and colon that restates the line: \"**Performance:** Performance improved...\". Convert those to prose. A bold lead-in that ends in a period, names the item, and is followed by genuinely new detail (\"**Schema in TypeScript.** Tables live in one file.\") is fine, not a tell.\n17. **Title case headings.** Use sentence case.\n18. **Decorative emojis.** Remove from headings and bullets.\n19. **Curly quotes.** Use straight quotes.",
-      "zh": "13. **破折号用太多。** 完全不用破折号（em dash）。只用句号或逗号（不用括号，不用 en dash，也不拿连字符冒充破折号）。一个想法需要隔开时，就结束这句话，或者用逗号。\n14. **冒号用太多。** 冒号放在列表或例子前面没问题，但不要拿它当句子中间的连接词。「If you're coming from traditional automation: instead of registering event handlers, you describe conditions」这句的冒号什么都没加。改写成让要点自己站得住，不要那种拿来对比的铺垫。「Describing when the scheduler should fire works best as plain English.」意思一样，没有靠标点撑着。\n15. **加粗用太多。** 不要把每个专有名词或缩写都加粗。\n16. **带行内标题的列表。** 破绽是一个加粗标签加冒号，又把这一行的内容重复一遍：「**Performance:** Performance improved...」。把这种改成正常的句子。一个以句号结尾、点出这一项的名字、后面跟着真正新内容的加粗开头（「**Schema in TypeScript.** Tables live in one file.」）没问题，不算破绽。\n17. **标题每个词首字母大写。** 改用句子式大小写。\n18. **装饰用的 emoji。** 从标题和列表项里删掉。\n19. **弯引号。** 用直引号。"
-    },
-    {
-      "en": "### Communication artifacts",
-      "zh": "### 沟通类文字"
-    },
-    {
-      "en": "20. **Chatbot phrases.** \"I hope this helps!\", \"Let me know if...\", \"Of course!\", \"Certainly!\", \"Found the smoking gun!\" Remove.\n22. **Sycophantic tone.** \"Great question! You're absolutely right!\" Respond directly.",
-      "zh": "20. **聊天机器人用语。** 「I hope this helps!」「Let me know if...」「Of course!」「Certainly!」「Found the smoking gun!」删掉。\n22. **讨好的语气。** 「Great question! You're absolutely right!」直接回应。"
-    },
-    {
-      "en": "### Filler",
-      "zh": "### 废话"
-    },
-    {
-      "en": "23. **Filler phrases.** \"In order to\" becomes \"To\". \"Due to the fact that\" becomes \"Because\". Delete \"It is important to note that\".\n24. **Excessive hedging.** \"could potentially possibly be argued that it might\" becomes \"may\".\n25. **Generic conclusions.** \"The future looks bright.\" State specific plans or facts.",
-      "zh": "23. **凑字的短语。** 「In order to」改成「To」。「Due to the fact that」改成「Because」。删掉「It is important to note that」。\n24. **过度含糊。** 「could potentially possibly be argued that it might」改成「may」。\n25. **空泛的结尾。** 「The future looks bright.」写出具体的计划或事实。"
-    },
-    {
-      "en": "### Jargon",
-      "zh": "### 行话"
-    },
-    {
-      "en": "26. **Abstract metaphor nouns.** Substrate (base), wedge, wedge in (add), vector (way, method), locus, vantage, nexus, primitive as a noun, harness as a metaphor, surface as in \"API surface\", bedrock, scaffolding as a metaphor, modality, paradigm, gold-plating (more than the job needs), ratchet as a metaphor (the mechanism's real name, or a limit that only tightens), evacuate for moving code (move out), endgame (the last phase), north star, flywheel. These read as technical but usually have a plainer concrete word. Pick the concrete word.",
-      "zh": "26. **抽象的比喻名词。** Substrate（base）、wedge、wedge in（add）、vector（way、method）、locus、vantage、nexus、当名词用的 primitive、当比喻用的 harness、「API surface」里那种 surface、bedrock、当比喻用的 scaffolding、modality、paradigm、gold-plating（more than the job needs）、当比喻用的 ratchet（换成这个机制的真名，或者「一个只会收紧的限制」）、说挪代码时用的 evacuate（move out）、endgame（the last phase）、north star、flywheel。这些读起来很技术，但通常都有更平实、更具体的词。选那个具体的词。"
-    },
-    {
-      "en": "### Plain speech",
-      "zh": "### 说人话"
-    },
-    {
-      "en": "27. **Say what it does, not how it feels.** \"the database stays close at hand\", \"SQL you can read\", \"types that follow your schema\" name a feeling. The fix names the mechanism or a number: \"`.toSQL()` returns the exact string sent to the database\", \"a column rename fails the build\". Ask what the sentence tells the reader to do or know, then write that. If you can't restate it as a concrete instruction, fact, or number, cut it. One more check: if the sentence could appear unchanged in another project's docs, it says nothing about this one. Cut it.\n28. **Shorten or split dense sentences.** If the reader has to backtrack to parse a sentence, break it in two or drop clauses. One idea per sentence.\n29. **Active voice.** Prefer it. Catch \"is/are/was/were + past participle\" and name the actor: \"queries are validated\" becomes \"the compiler validates queries\", \"the file is parsed by the loader\" becomes \"the loader parses the file\". Passive is fine only when the actor is unknown or genuinely doesn't matter.\n30. **Cut adverbs, or use a stronger verb.** \"runs quickly\" becomes \"is fast\" or the number, and \"significantly improves\" becomes the measured delta. An adverb propping up a weak verb means the verb is wrong.\n31. **Prefer the plain word.** \"utilize\" and \"leverage\" become \"use\", \"facilitate\" becomes \"help\", \"numerous\" becomes \"many\", \"in the event that\" becomes \"if\". The fancier synonym is rarely clearer.\n32. **Mannered prose.** Metaphor or flourish where a literal phrase exists: aphorisms (\"wire it or delete it\"), rhetorical fragments for effect, personified code (\"the plan holds it\"), figurative verbs (\"rides along\", \"stands on\"), stock framing phrases. \"A dial worth turning\" becomes \"a parameter worth varying\". Say what you mean. Rule 26 covers the metaphor nouns.\n33. **Over-compression.** Dropped articles, verbless fragments, symbol-speak, and abbreviations that make the reader decode instead of read. \"Parser rejects bad date → exit 2, no write\" becomes \"The parser rejects a bad date, exits with code 2, and writes nothing.\" Write whole sentences with their articles and verbs, and spell out arrows and abbreviations.",
-      "zh": "27. **说它做什么，不说它给人什么感觉。** 「the database stays close at hand」「SQL you can read」「types that follow your schema」说的是一种感觉。改法是写出机制或一个数字：「`.toSQL()` returns the exact string sent to the database」「a column rename fails the build」。问问这句话要读者去做什么、知道什么，然后就写那个。如果你没法把它改写成一条具体的指令、事实或数字，就删掉。再查一项：如果这句话原封不动地放进另一个项目的文档里也说得通，它对这个项目就什么都没说。删掉。\n28. **缩短或拆开太密的句子。** 如果读者得回头重读才能看懂一句话，就拆成两句，或者删掉几个从句。一句话一个意思。\n29. **用主动语态。** 优先用它。找出「is/are/was/were + 过去分词」，点出是谁做的：「queries are validated」改成「the compiler validates queries」，「the file is parsed by the loader」改成「the loader parses the file」。只有不知道是谁做的、或者是谁做的确实无关紧要时，才可以用被动语态。\n30. **删掉副词，或者换一个更有力的动词。** 「runs quickly」改成「is fast」或者直接给数字，「significantly improves」改成量出来的差值。一个靠副词撑着的弱动词，说明动词选错了。\n31. **用平常的词。** 「utilize」和「leverage」改成「use」，「facilitate」改成「help」，「numerous」改成「many」，「in the event that」改成「if」。更花哨的同义词，很少更清楚。\n32. **做作的文字。** 明明有字面的说法，却用比喻或修辞：格言式的话（「wire it or delete it」）、为了效果而写的残句、把代码拟人化（「the plan holds it」）、比喻性的动词（「rides along」「stands on」）、套路化的开场框架。「A dial worth turning」改成「a parameter worth varying」。有话直说。比喻名词归第 26 条管。\n33. **压缩过度。** 省掉冠词、没有动词的残句、拿符号代替话、缩写，让读者得去解码，而不是阅读。「Parser rejects bad date → exit 2, no write」改成「The parser rejects a bad date, exits with code 2, and writes nothing.」写完整的句子，带上冠词和动词，把箭头和缩写都写成字。"
+      "en": "3. No trailing \"-ing\" phrases that add no fact (\"highlighting...\", \"ensuring...\").\n5. No vague attributions (\"experts believe\"). Name the source or delete.\n7. No AI vocabulary: additionally, crucial, delve, enhance, foster, landscape, pivotal, showcase, testament, underscore, vibrant.\n8. Say \"is\" or \"has\", not \"serves as\", \"stands as\", \"boasts\", \"features\".\n9. No \"not just X, but Y\". State the point.\n10. Don't force ideas into threes.\n11. One name per thing. Repeat it.\n12. No \"from X to Y\" unless X and Y sit on a real scale.\n13. No em dashes, en dashes, or hyphens used as dashes, and no parentheses in their place. Use a period or a comma.\n14. A colon goes before a list or an example, never mid-sentence as a connector.\n15. Don't bold every proper noun or acronym.\n16. No bold label and colon that restates its line (\"**Performance:** Performance improved...\"). A bold lead-in that ends in a period and adds new detail is fine.\n17. Sentence case headings.\n18. No decorative emojis.\n19. Straight quotes.\n20. No chatbot phrases (\"I hope this helps!\", \"Let me know if...\").\n22. No praise or agreement openers. Respond directly.\n23. Cut filler. \"In order to\" becomes \"to\". Delete \"it is important to note that\".\n24. One hedge at most: \"may\".\n25. No generic conclusions. State specific plans or facts.\n26. No abstract metaphor nouns: substrate, wedge, vector, nexus, primitive, harness, surface, scaffolding, paradigm, ratchet, north star, flywheel. Use the concrete word.\n27. Say what it does, not how it feels. Name the mechanism or the number. Cut a sentence that could appear unchanged in another project's docs.\n28. One idea per sentence. Split a sentence the reader has to reread.\n29. Active voice. Name the actor unless it is unknown or doesn't matter.\n30. Cut adverbs or use a stronger verb. Give the number.\n31. Use the plain word: \"use\", not \"utilize\" or \"leverage\".\n32. No metaphor, aphorism, personified code, or figurative verb where a literal phrase exists.\n33. Write whole sentences with their articles and verbs. Spell out arrows and abbreviations.",
+      "zh": "3. 不在句尾挂不添任何事实的「-ing」短语（「highlighting...」「ensuring...」）。\n5. 不写含糊的出处（「experts believe」）。写出来源，或者删掉。\n7. 不用 AI 词汇：additionally, crucial, delve, enhance, foster, landscape, pivotal, showcase, testament, underscore, vibrant。\n8. 说「is」或「has」，不说「serves as」「stands as」「boasts」「features」。\n9. 不写「not just X, but Y」。直接说出要点。\n10. 不要硬把想法凑成三个一组。\n11. 一样东西只用一个名字。重复用它。\n12. 不写「from X to Y」，除非 X 和 Y 在一个真实的刻度上。\n13. 不用 em dash、en dash，不拿连字符当破折号，也不用括号代替它们。用句号或逗号。\n14. 冒号放在列表或例子前面，绝不放在句子中间当连接词。\n15. 不要把每个专有名词或缩写都加粗。\n16. 不用加粗标签加冒号来重复这一行的内容（「**Performance:** Performance improved...」）。以句号结尾、后面补充了新细节的加粗开头没问题。\n17. 标题用句子式大小写。\n18. 不用装饰用的 emoji。\n19. 用直引号。\n20. 不用聊天机器人用语（「I hope this helps!」「Let me know if...」）。\n22. 不用夸奖或附和开头。直接回应。\n23. 删掉凑字的话。「In order to」改成「to」。删掉「it is important to note that」。\n24. 含糊的说法最多一处：「may」。\n25. 不写空泛的结尾。写出具体的计划或事实。\n26. 不用抽象的比喻名词：substrate, wedge, vector, nexus, primitive, harness, surface, scaffolding, paradigm, ratchet, north star, flywheel。用具体的词。\n27. 说它做什么，不说它给人什么感觉。写出机制或数字。原封不动放进另一个项目的文档里也说得通的句子，删掉。\n28. 一句话一个意思。读者得重读的句子，拆开。\n29. 用主动语态。点出是谁做的，除非不知道是谁，或者是谁无关紧要。\n30. 删掉副词，或者换一个更有力的动词。给出数字。\n31. 用平常的词：说「use」，不说「utilize」或「leverage」。\n32. 有字面说法的地方，不用比喻、格言、拟人化的代码或比喻性的动词。\n33. 写完整的句子，带上冠词和动词。把箭头和缩写写成字。"
     }
   ],
   "lessons": [
@@ -97,24 +41,24 @@
       }
     },
     {
-      "quote": "Catch \"is/are/was/were + past participle\" and name the actor",
-      "quoteZh": "找出「is/are/was/were + 过去分词」，点出是谁做的",
+      "quote": "Name the actor unless it is unknown or doesn't matter.",
+      "quoteZh": "点出是谁做的，除非不知道是谁，或者是谁无关紧要。",
       "zh": {
-        "title": "写出一眼能扫到的特征",
-        "does": "它能一句句挑出被动句，并补上动作到底是谁做的。",
-        "why": "给出看得见的字面特征，AI 就知道该搜什么，不用凭感觉判断。",
-        "try": "想去掉某种毛病，写出它的样子：「找出所有『进行 + 动词』，比如『进行优化』，改成『优化』。」"
+        "title": "规则带上例外",
+        "does": "它把被动句改成写出动作是谁做的，只有不知道是谁、或是谁无关紧要时才保留被动。",
+        "why": "规则里直接写明例外，AI 就不会一刀切，把本该保留的被动句也硬改掉。",
+        "try": "提要求时顺手写出例外：「每段都加小标题，只有一两句的短段除外。」"
       },
       "en": {
-        "title": "Describe a scannable pattern",
-        "does": "It picks out passive sentences one by one and names who does the action.",
-        "why": "A visible surface pattern tells the AI exactly what to search for, instead of judging by feel.",
-        "try": "To remove a habit, show its shape: \"Find every 'make use of' and change it to 'use'.\""
+        "title": "Write the exception into the rule",
+        "does": "It rewrites passive sentences to name who acts, and keeps the passive only when the actor is unknown or doesn't matter.",
+        "why": "Stating the exception inside the rule stops the AI from rewriting every passive sentence, including the ones that should stay.",
+        "try": "Put the exception in the request: \"Give every paragraph a subheading, except paragraphs of one or two sentences.\""
       }
     },
     {
-      "quote": "if the sentence could appear unchanged in another project's docs, it says nothing about this one.",
-      "quoteZh": "如果这句话原封不动地放进另一个项目的文档里也说得通，它对这个项目就什么都没说。",
+      "quote": "Cut a sentence that could appear unchanged in another project's docs.",
+      "quoteZh": "原封不动放进另一个项目的文档里也说得通的句子，删掉。",
       "zh": {
         "title": "用「搬到别处」来测空话",
         "does": "放到哪个项目都成立的套话会被删掉，留下的句子都在说这个项目自己。",
@@ -129,19 +73,19 @@
       }
     },
     {
-      "quote": "An adverb propping up a weak verb means the verb is wrong.",
-      "quoteZh": "一个靠副词撑着的弱动词，说明动词选错了。",
+      "quote": "One name per thing. Repeat it.",
+      "quoteZh": "一样东西只用一个名字。重复用它。",
       "zh": {
-        "title": "讲出毛病从哪来",
-        "does": "它不只删掉「快速地」「显著地」，还会换一个本身就准确的动词或一个数字。",
-        "why": "说出毛病的来源，AI 就能去改根子，也能处理清单里没写到的例子。",
-        "try": "提要求时带上原因：「标题太长，通常是一个标题想说两件事，把它拆开。」"
+        "title": "明说可以重复",
+        "does": "同一样东西从头到尾用同一个词，它不会为了显得有变化换成同义词。",
+        "why": "「Repeat it」直接允许重复，AI 就不会把一个东西换着叫，让读者以为是好几样东西。",
+        "try": "改文案时加一句：「全文统一叫『订单』，不要换成『单子』『购买记录』。」"
       },
       "en": {
-        "title": "Say where the problem comes from",
-        "does": "It doesn't just delete \"quickly\" or \"significantly\"; it picks an exact verb or a number instead.",
-        "why": "Naming the cause lets the AI fix the source and handle cases the list never mentions.",
-        "try": "Give the cause with the rule: \"A long title usually tries to say two things; split it.\""
+        "title": "Say repetition is fine",
+        "does": "It calls one thing by one word from start to finish instead of cycling through synonyms for variety.",
+        "why": "\"Repeat it\" gives explicit permission, so the AI stops renaming one thing until readers think it is several.",
+        "try": "When you ask for an edit, add: \"Call it 'order' everywhere. Don't switch to 'purchase' or 'transaction'.\""
       }
     }
   ],
@@ -149,56 +93,38 @@
     "zh": {
       "compare": [
         {
-          "without": "写「好读的 SQL」这种只讲感觉的句子",
-          "with": "换成机制或数字，比如「改列名会让构建失败」"
+          "without": "写只讲感觉的句子，放进哪个项目的文档都说得通",
+          "with": "写出机制或数字，换个项目就不成立的句子才留下"
         },
         {
           "without": "写「专家认为」，不说是哪位专家",
           "with": "写出具体来源，写不出就删掉"
         },
         {
-          "without": "开头夸「好问题」，结尾问「还需要别的吗」",
+          "without": "开头先夸或附和，结尾问「还需要别的吗」",
           "with": "删掉客套和奉承，直接回答"
         }
       ],
-      "intro": "先扫一遍下面列出的 AI 腔，再改写，意思不变，语气照原文想要的来。",
-      "sections": [
-        "规则带固定编号，别的技能按编号引用，删掉的规则留着空号不补。",
-        "删掉「突出了」「体现了」这类空 -ing 短语，「专家认为」要写出来源或删掉。",
-        "AI 词换成大白话，「serves as」改回「is」，不硬凑三项，同一个东西只用一个名字。",
-        "完全不用破折号，少用冒号和粗体，标题用句子式大小写，删装饰 emoji，用直引号。",
-        "删掉「希望对你有帮助」这类客套和「好问题」这类奉承，直接回答。",
-        "「in order to」改成「to」，层层含糊压成一个「may」，空泛结尾换成具体计划或事实。",
-        "把 substrate、north star、flywheel 这类听着专业的比喻名词换成具体的词。",
-        "让每句写出机制或数字，拆长句，改成主动语态，删副词和比喻，箭头缩写写回完整句子。"
-      ]
+      "intro": "先按下面的套路扫一遍再改写，意思和语气不变。规则编号固定，供别的技能引用，删掉的留空号。清单一行一条，从空 -ing 短语、AI 词汇、破折号，到客套话、抽象比喻名词和被动语态。",
+      "sections": []
     },
     "en": {
       "compare": [
         {
-          "without": "Writes feel-good lines like \"SQL you can read\".",
-          "with": "Names the mechanism or a number, like \"a column rename fails the build\"."
+          "without": "Writes feel-good lines that would fit any project's docs.",
+          "with": "Names the mechanism or a number, and cuts lines that would fit another project unchanged."
         },
         {
           "without": "Says \"experts believe\" without naming anyone.",
           "with": "Names the source, or deletes the claim."
         },
         {
-          "without": "Opens with \"Great question!\" and closes with \"Let me know if...\".",
+          "without": "Opens with praise or agreement and closes with \"Let me know if...\".",
           "with": "Drops the pleasantries and flattery and answers directly."
         }
       ],
-      "intro": "It scans the text for the patterns listed below, then rewrites it, keeping the meaning and the intended tone.",
-      "sections": [
-        "Rules carry fixed numbers that other skills cite. A removed rule leaves its number empty.",
-        "Cuts empty \"-ing\" phrases like \"highlighting\", and makes \"experts believe\" name a source or go.",
-        "Swaps AI words like \"delve\" for plain ones, says \"is\" for \"serves as\", and drops forced threes and synonym cycling.",
-        "Bans em dashes, limits colons and bold, uses sentence-case headings, drops decorative emojis, and uses straight quotes.",
-        "Deletes chatbot lines like \"I hope this helps!\" and flattery like \"Great question!\", and answers directly.",
-        "Shrinks \"in order to\" to \"to\" and stacked hedges to \"may\", and swaps generic endings for specific facts.",
-        "Replaces technical-sounding metaphor nouns like \"substrate\", \"north star\" and \"flywheel\" with the concrete word.",
-        "Makes each sentence name a mechanism or number, splits dense sentences, names the actor, and spells out arrows."
-      ]
+      "intro": "It scans for the patterns below, then rewrites, keeping the meaning and the intended tone. Rule numbers are fixed ids other skills cite. The list gives one line per rule, from empty -ing phrases, AI words and dashes to chatbot phrases, metaphor nouns and passive voice.",
+      "sections": []
     }
   }
 }

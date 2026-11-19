@@ -86,13 +86,13 @@ export default {
       "You only want fastest and cheapest: pstack checks more, so it's slower and uses more of your plan",
     ],
     devH: "If you write code",
-    devP: "pstack is the pack of skills poteto (on the React core team, working at Cursor) uses for their own code every day: 34 skills, 23 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
+    devP: "pstack is the pack of skills poteto (on the React core team, working at Cursor) uses for their own code every day: 34 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
     // 完整教程目前只有英文和中文
     devNote: "The full guide is in English (and Chinese) for now.",
     // FLOW：每个是 [标题, 说明]，图标和顺序固定
     FLOW: [
       ["You say one sentence", "The goal, plus how you'll know it's done. For example: “reproduce it first, then fix, then verify.”"],
-      ["/poteto-mode picks a playbook", "It chooses one of 23 playbooks and copies its steps into the todo list as they are."],
+      ["/poteto-mode picks a playbook", "It chooses one of 22 playbooks and copies its steps into the todo list as they are."],
       ["Skills run step by step", "/how to read code, /architect to settle a design, /interrogate to pick holes; helper AIs when there's a lot to do."],
       ["It checks before handing back", "Real command output, screenshots, before-and-after. If something can't be verified, it says so."],
     ],

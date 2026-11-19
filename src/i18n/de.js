@@ -79,11 +79,11 @@ export default {
       "du nur das Schnellste und Billigste willst: pstack prüft mehr, ist deshalb langsamer und verbraucht mehr von deinem Kontingent",
     ],
     devH: "Wenn du programmierst",
-    devP: "pstack ist das Skill-Paket, das poteto (im React-Kernteam, arbeitet bei Cursor) jeden Tag für den eigenen Code nutzt: 34 Skills, 23 Playbooks und 24 Engineering-Prinzipien. Unten siehst du die vier Schritte, die es bei jeder Aufgabe geht, und die vollständige Anleitung in 9 Schritten.",
+    devP: "pstack ist das Skill-Paket, das poteto (im React-Kernteam, arbeitet bei Cursor) jeden Tag für den eigenen Code nutzt: 34 Skills, 22 Playbooks und 24 Engineering-Prinzipien. Unten siehst du die vier Schritte, die es bei jeder Aufgabe geht, und die vollständige Anleitung in 9 Schritten.",
     devNote: "Die vollständige Anleitung gibt es vorerst auf Englisch (und Chinesisch).",
     FLOW: [
       ["Du sagst einen Satz", "Das Ziel, plus woran du erkennst, dass es fertig ist. Zum Beispiel: „Erst reproduzieren, dann beheben, dann prüfen.“"],
-      ["/poteto-mode wählt ein Playbook", "Es wählt eins von 23 Playbooks und übernimmt dessen Schritte unverändert in die To-do-Liste."],
+      ["/poteto-mode wählt ein Playbook", "Es wählt eins von 22 Playbooks und übernimmt dessen Schritte unverändert in die To-do-Liste."],
       ["Skills laufen Schritt für Schritt", "/how zum Lesen von Code, /architect für Designentscheidungen, /interrogate zum Aufspüren von Schwachstellen; Helfer-KIs, wenn viel zu tun ist."],
       ["Es prüft, bevor es abgibt", "Echte Befehlsausgaben, Screenshots, Vorher-nachher. Was sich nicht prüfen lässt, sagt es offen."],
     ],

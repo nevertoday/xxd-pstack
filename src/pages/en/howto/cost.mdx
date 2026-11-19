@@ -5,7 +5,7 @@ time: 5 minutes to read, 5 to change settings
 for: You think pstack burns too many tokens and want to save a bit
 step: 2
 tldr: Just ask for small things. For big ones, use a strong main model and cheap coding models, or drop a budget level.
-description: Where pstack's money goes; skip /poteto-mode for small things; a strong main model with cheap coding models; the four budgets; smaller review panels; what auto and inherit-parent mean.
+description: Where pstack's money goes; skip /poteto-mode for small things; a strong main model with cheap coding models; the three budgets; smaller review panels; what auto and inherit-parent mean.
 ---
 import Callout from "../../../components/Callout.astro";
 import Term from "../../../components/Term.astro";
@@ -19,7 +19,7 @@ import Fig from "../../../components/Fig.astro";
 The same job costs a lot more <Term k="token" text="tokens" /> (AI usage) with `/poteto-mode`. The extra goes to three places:
 
 - **Helper AIs.** Reading and writing code goes to several <Term k="子代理" text="subagents" />, and each one costs separately.
-- **Review panels.** `arena`, `architect`, and `interrogate` have several models each do a pass. The default is two, so two costs.
+- **Review panels.** `arena` and `interrogate` have several models each do a pass. The default is three, so three costs.
 - **Thinking longer.** The default level is `xhigh`. The longer it thinks, the more it costs.
 
 That money buys checks and second opinions. The moves below spend less without losing them.
@@ -45,11 +45,10 @@ Run `/setup-pstack`. At the last step, "confirm roles," change the `feature, ref
 
 <Cmd c="/setup-pstack" />
 
-It offers four budgets:
+It offers three budgets:
 
 | Budget | Level | Notes |
 | --- | --- | --- |
-| `unlimited` | Up to `max` | Most expensive |
 | `large` | `xhigh` | The default |
 | `medium` | `high` | A bit cheaper |
 | `small` | `medium` | Cheapest |
@@ -57,17 +56,17 @@ It offers four budgets:
 The budget only changes how long models think, not which models. Roles you changed yourself are kept. <u>Start a new conversation after you pick</u>, or it won't apply.
 
 <Callout type="tip" title="It already adjusts to the job">
-The budget is only the starting point. It raises the level one step for the hardest work, and lowers it two or more for routine chores. So even on `large`, simple work isn't billed at the top rate.
+The budget is only the starting point. It lowers the level two or more steps for routine chores, so even on `large`, simple work isn't billed at the top rate. No role runs above `xhigh`.
 </Callout>
 
 ## Send one fewer reviewer
 
-The `arena runners`, `architect runners`, and `interrogate reviewers` lines send one helper per model listed. The default is two:
+The `arena runners` and `interrogate reviewers` lines send one helper per model listed. The default is three:
 
-<Copy id="cost-panel-before" title="Default: two per panel" code={`arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
+<Copy id="cost-panel-before" title="Default: three per panel" code={`arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high
+interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high`} />
 
-Delete one and you pay for one less, but you also lose one model's view. You can also say it per task:
+Delete one and you pay for one less, but you also lose one model's view. fable costs the most, so dropping it saves the most. You can also say it per task:
 
 <Copy id="cost-arena" code="/arena this naming question isn't a big deal. 2 options is enough." />
 
@@ -75,7 +74,7 @@ Delete one and you pay for one less, but you also lose one model's view. You can
 
 Putting `auto` or `inherit-parent` on a role means the same thing: no model is set, so it uses the main conversation's model. `auto` isn't a model called auto.
 
-When the main conversation is cheap, these roles are cheap too. In Claude Code, the coding roles use it by default.
+When the main conversation is cheap, these roles are cheap too. In Claude Code, the gemini seat on the review panel uses it by default.
 
 ## Stuck?
 

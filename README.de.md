@@ -70,7 +70,7 @@ Das Modell ist nicht zu dumm. Es arbeitet nur ohne Methode: Es ändert Code, den
 
 poteto hat pstack für den eigenen Gebrauch geschrieben. Die offizielle Doku setzt voraus, dass du schon Senior-Entwickler bist:
 
-- **Eine Wand aus Namen am ersten Tag**: 34 Skills, 23 Playbooks, 24 Prinzipien, alles Fachjargon. Welche davon brauchst du wirklich?
+- **Eine Wand aus Namen am ersten Tag**: 34 Skills, 22 Playbooks, 24 Prinzipien, alles Fachjargon. Welche davon brauchst du wirklich?
 - **Kein klarer erster Schritt**: Welche Version installierst du? Musst du etwas konfigurieren? Welchen Befehl tippst du ein?
 - **Den Befehl zu kennen reicht nicht**: Wenn dein Prompt nicht sagt, was „fertig“ heißt, driftet die KI trotzdem ab. Nur eben gründlicher.
 - **Antworten, mit denen du nichts anfangen kannst**: lang und technisch. Du siehst nicht, welche Zeile zählt und welche du überspringen kannst.
@@ -94,7 +94,7 @@ Viele installieren es, probieren es einmal aus, denken „so viel anders ist das
   <img src="assets/en/how.svg" width="100%" alt="So arbeitet pstack: Du sagst, was du willst, /poteto-mode wählt ein Playbook, ruft Schritt für Schritt Skills auf und kommt mit Belegen zurück">
 </p>
 
-Du musst dir nur einen Befehl merken, `/poteto-mode`, und klar sagen, **was du willst** und **was als fertig gilt**. Es wählt eines von 23 „Playbooks“ (Bug beheben, Feature hinzufügen, refaktorieren, Performance untersuchen ...), überträgt die Schritte in eine To-do-Liste und ruft Schritt für Schritt die anderen Skills auf. Schritte, die es auslassen will, verschwinden nicht stillschweigend, sondern werden mit `skip: Grund` markiert.
+Du musst dir nur einen Befehl merken, `/poteto-mode`, und klar sagen, **was du willst** und **was als fertig gilt**. Es wählt eines von 22 „Playbooks“ (Bug beheben, Feature hinzufügen, refaktorieren, Performance untersuchen ...), überträgt die Schritte in eine To-do-Liste und ruft Schritt für Schritt die anderen Skills auf.
 
 ## ⚡ In drei Minuten loslegen
 
@@ -166,7 +166,7 @@ Hier zahlen sich alle vorherigen Schritte aus: Nur eine KI, die **ihre eigene Ar
 - **[Ganzer Leitfaden](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 Schritte für alle, die programmieren · was es ist → Installation → Modelle wählen → erste Aufgabe → erst verstehen → entwerfen, bauen, aufräumen → verifizieren und ausliefern → über Nacht → sobald du dich auskennst
 - **[Skill-Referenz](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 Skills, jeweils mit vollem Text und einer Analyse der Formulierung
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 Anleitungen, je eine Aufgabe
-- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 Begriffe · ein Satz → ein Vergleich → in pstack → häufige Irrtümer; mit Tabellen der 24 Prinzipien und 23 Playbooks
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 Begriffe · ein Satz → ein Vergleich → in pstack → häufige Irrtümer; mit Tabellen der 24 Prinzipien und 22 Playbooks
 - **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: Kostet das Geld? Muss ich Cursor nutzen? Pfuscht es mir im Code herum?
 - **Sprachen**: Startseite und Einsteigerlektionen · 10 Sprachen. Ganzer Leitfaden, Skills, How-tos, Wiki und FAQ · English und 中文
 

@@ -4,7 +4,7 @@ slug: update-remove
 time: 4 minutes to read
 for: You want to update pstack, see what's installed, or remove it
 step: 1
-tldr: Find the update and uninstall commands for how you installed. After updating, clear old defaults from your settings file; after uninstalling, delete it.
+tldr: Find the update and uninstall commands for how you installed. After updating, rerun /setup-pstack; after uninstalling, delete the settings file.
 description: "Find the commands to list, update, and uninstall, by how you installed. The trap to watch: after an update changes the default models, your old settings file still names the old ones."
 ---
 import Callout from "../../../components/Callout.astro";
@@ -47,14 +47,15 @@ Can't remember? If commands need the `pstack:` prefix, it's the Claude Code plug
 </div>
 </Tabs>
 
-## After updating: clear the old defaults
+## After updating: rerun setup
 
 `/setup-pstack` writes each <Term k="模型角色" />'s model into the settings file, one line each. If a new version changes the default models, your file still names the old ones. <mark>When a skill reads that line, it keeps using the old model</mark>.
 
-Pick one:
+<Cmd c="/setup-pstack" />
 
-1. Open the settings file and delete the lines you never changed on purpose. Those roles then use the new defaults.
-2. Delete the whole file and run `/setup-pstack` again.
+It recognizes old defaults, swaps them for the new ones, and tells you which. Models you chose on purpose stay. If an older version wrote the file, `/poteto-mode` reminds you once per conversation.
+
+For an old value it doesn't recognize, open the settings file and delete that line (or the whole file) first, then run it.
 
 | Tool | Settings file |
 | --- | --- |
@@ -75,7 +76,7 @@ A <Term k="验证技能" /> it generated (a folder like `verify-your-app`) belon
 ## Stuck?
 
 <Q q="I updated, but it still uses the old models.">
-Most likely the old settings file. Delete that role's line, or rerun `/setup-pstack`, then start a new conversation.
+Most likely the old settings file. Rerun `/setup-pstack`. If that doesn't fix it, delete that role's line. Then start a new conversation.
 </Q>
 <Q q="I can't see pstack's skills in npx skills list.">
 Make sure you're running it in the project folder where you installed. Skills installed in a project and skills installed with `-g` live in different places.

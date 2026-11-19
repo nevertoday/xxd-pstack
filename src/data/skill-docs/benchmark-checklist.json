@@ -1,6 +1,6 @@
 {
   "name": "benchmark-checklist",
-  "commit": "97de40d",
+  "commit": "0d2dc00",
   "description": {
     "en": "Vet a perf measurement (limiter, tuning, limits, errors, repeatability, relevance, and whether the work happened) before you report or act on it. Use when you run a benchmark or report a speedup or regression you measured.",
     "zh": "在报告一个性能测量结果或据此行动之前，先核查它（瓶颈、调优、极限、错误、可重复性、相关性，以及工作到底有没有发生）。在你跑基准测试，或者报告你测到的提速或退步时使用。"
@@ -39,8 +39,8 @@
       "zh": "## 报告"
     },
     {
-      "en": "- Lead with the verdict: faster, slower, no measurable difference, or inconclusive.\n- Give the number with its unit, the run count, the range, and the limiter. For example, \"p50 41 ms → 33 ms, median of 7 runs per side, range 32 to 35 ms after, bound by JSON parsing on one core.\"\n- Call the verdict inconclusive when you claim a difference but cannot name the limiter, when a side ran untuned, or when you could not check questions 4 and 7. Name the gap.\n- Keep a PR body to one primary number, per the **Opening a PR** playbook. Put the runs, range, and limiter evidence in a linked artifact or notes file.",
-      "zh": "- 先给结论：更快、更慢、没有可测量的差别，或者说不准。\n- 给出带单位的数字、运行次数、范围和瓶颈。例如：「p50 41 ms → 33 ms，每边 7 次运行取中位数，改后范围 32 到 35 ms，瓶颈是单核上的 JSON 解析。」\n- 以下情况，结论定为说不准：你声称有差别，但说不出瓶颈；有一边没调优；或者你没能检查第 4 和第 7 个问题。说出缺了什么。\n- 按 **Opening a PR** 剧本，PR 正文里只放一个主要数字。运行记录、范围和瓶颈的证据，放在一个链接过去的附件或笔记文件里。"
+      "en": "- Lead with the verdict: faster, slower, no measurable difference, or inconclusive.\n- Give the number with its unit, the run count, the range, and the limiter. For example, \"p50 41 ms → 33 ms, median of 7 runs per side, range 32 to 35 ms after, bound by JSON parsing on one core.\"\n- Call the verdict inconclusive when you claim a difference but cannot name the limiter, when a side ran untuned, or when you could not check questions 4 and 7. Name the gap.\n- Keep a PR body to one primary number. Put the runs, range, and limiter evidence in a linked artifact or notes file.",
+      "zh": "- 先给结论：更快、更慢、没有可测量的差别，或者说不准。\n- 给出带单位的数字、运行次数、范围和瓶颈。例如：「p50 41 ms → 33 ms，每边 7 次运行取中位数，改后范围 32 到 35 ms，瓶颈是单核上的 JSON 解析。」\n- 以下情况，结论定为说不准：你声称有差别，但说不出瓶颈；有一边没调优；或者你没能检查第 4 和第 7 个问题。说出缺了什么。\n- PR 正文里只放一个主要数字。运行记录、范围和瓶颈的证据，放在一个链接过去的附件或笔记文件里。"
     },
     {
       "en": "## Other perf material",

@@ -1,6 +1,6 @@
 {
   "name": "sharpen",
-  "commit": "97de40d",
+  "commit": "0d2dc00",
   "description": {
     "en": "Make a task deeper, not bigger, then rewrite the prompt. Use for /sharpen.",
     "zh": "把一件任务做深，而不是做大，然后改写提示词。用于 /sharpen。"
@@ -19,8 +19,8 @@
       "zh": "然后改写我的提示词，让它正好要求这些。"
     },
     {
-      "en": "Leave choices that are mine to make open instead of deciding them.",
-      "zh": "该由我做的选择，留着别定，不要替我决定。"
+      "en": "Have the rewritten prompt ask the agent to prototype any choice an experiment can settle and recommend an option based on what it observed. Leave product or preference choices that no experiment can settle for me to make.",
+      "zh": "让重写后的提示词要求 AI：凡是能靠实验定下来的选择，先做个原型试一试，再根据观察到的结果推荐一个选项。产品上或偏好上的选择，没有实验能定下来的，留给我来做。"
     }
   ],
   "lessons": [
@@ -73,19 +73,19 @@
       }
     },
     {
-      "quote": "Leave choices that are mine to make open instead of deciding them.",
-      "quoteZh": "该由我做的选择，留着别定，不要替我决定。",
+      "quote": "Leave product or preference choices that no experiment can settle for me to make.",
+      "quoteZh": "产品上或偏好上的选择，没有实验能定下来的，留给我来做。",
       "zh": {
         "title": "划出该你拍板的事",
-        "does": "该你决定的事，比如预算或风格，它会留给你，不会替你定。",
-        "why": "先说清哪些决定归你，AI 就不会为了显得周全而替你拍板。",
-        "try": "在提示词里写：「配色由我定，你只列两三个选项，不要直接选。」"
+        "does": "能靠实验定的选择，它先做原型试，再推荐一个；只看偏好的事，比如风格，留给你定。",
+        "why": "先分清哪些选择试一下就有答案、哪些只能由你定，AI 就不会为了显得周全而替你拍板。",
+        "try": "在提示词里写：「两种布局各做个原型比一比，再推荐一个；配色由我定，你只列两三个选项。」"
       },
       "en": {
         "title": "Mark which calls are yours",
-        "does": "It leaves your decisions, like budget or style, to you instead of making them.",
-        "why": "Saying which decisions are yours stops the AI from making them just to look thorough.",
-        "try": "Write: \"I'll pick the colors; list two or three options and don't choose one.\""
+        "does": "It prototypes choices an experiment can settle and recommends one; taste calls, like style, it leaves to you.",
+        "why": "Splitting what a test can answer from what only you can decide stops the AI from deciding for you to look thorough.",
+        "try": "Write: \"Prototype both layouts and recommend one; I'll pick the colors, so just list two or three options.\""
       }
     }
   ],
@@ -105,7 +105,7 @@
           "with": "写明你我之外，靠什么证明结果是对的"
         }
       ],
-      "intro": "让 AI 先做四件事：说出行家会多做什么，该从哪份原始材料起步，用哪些方法和工具，你我之外由什么判对错。然后照这些重写你的提示词，该你拿主意的地方留着不定。",
+      "intro": "让 AI 先做四件事：说出行家会多做什么，该从哪份原始材料起步，用哪些方法和工具，你我之外由什么判对错。然后照这些重写你的提示词：能靠实验定的选择先做原型再推荐，只看偏好的选择留给你。",
       "sections": []
     },
     "en": {
@@ -123,7 +123,7 @@
           "with": "Names something outside you and the AI that would show it's right."
         }
       ],
-      "intro": "Before rewriting your prompt, the AI names what a top professional would add, the rawest material, the methods and tools, and an outside check. Then it rewrites the prompt to ask for exactly that and leaves your choices open.",
+      "intro": "Before rewriting your prompt, the AI names what a top professional would add, the rawest material, the methods and tools, and an outside check. Then it rewrites the prompt to ask for exactly that: prototype the choices an experiment can settle, and leave taste calls to you.",
       "sections": []
     }
   }

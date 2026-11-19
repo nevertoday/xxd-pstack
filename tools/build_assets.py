@@ -190,11 +190,11 @@ def how(lang="zh"):
     L = pick(lang)
     W, H, T = 960, 270, 4.8
     cards = L([("01", "你说一句话", "目标 + 怎么算做完", "「先复现，再修，再验证」", ROSE),
-               ("02", "/poteto-mode", "从 23 套剧本里挑一套", "步骤抄进待办清单", APRICOT),
+               ("02", "/poteto-mode", "从 22 套剧本里挑一套", "步骤抄进待办清单", APRICOT),
                ("03", "按步骤调技能", "/how · /architect 等", "活多就派子代理", SAGE),
                ("04", "带证据交回来", "命令输出 · 截图 · 前后对比", "验证不了就说「说不准」", LILAC)],
               [("01", "You ask", "goal + when it's done", "“Reproduce, fix, verify”", ROSE),
-               ("02", "/poteto-mode", "picks 1 of 23 playbooks", "steps go on the todo list", APRICOT),
+               ("02", "/poteto-mode", "picks 1 of 22 playbooks", "steps go on the todo list", APRICOT),
                ("03", "Calls skills", "/how · /architect, etc.", "big jobs go to subagents", SAGE),
                ("04", "Brings evidence", "output · before/after", "can't verify? it says so", LILAC)])
     body, defs = [], []

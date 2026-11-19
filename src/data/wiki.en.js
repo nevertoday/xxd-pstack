@@ -75,7 +75,7 @@ export const WIKI_EN = {
       "How you write it depends on the tool. With the Claude Code plugin, add `pstack:`, like `!/pstack:how`; in Cursor or after an npx install it's just `!/how`; in Codex, use `$`, like `!$how`. Commands on this site follow the tool you pick under Appearance at the top right.",
     ],
     myths: [
-      "\"Naming more skills in one message is better\": the pstack docs warn about this. Writing \"first /how, then /architect\" often breaks the order it already planned. ==Just say what you want and what it must not touch.== Only name a skill to replace a default choice.",
+      "\"Naming more skills in one message is better\": the pstack docs warn about this. Writing \"first /architect, then /arena, then /interrogate\" often breaks the order it already planned. ==Just say what you want and what it must not touch.== Only name a skill to replace a default choice.",
     ],
   },
   "token-budget": {
@@ -83,7 +83,7 @@ export const WIKI_EN = {
     one: "Tokens are the unit AI usage is billed in. The reasoning budget sets how long it thinks at each step.",
     like: "Like hiring a contractor. A quick look and start is cheap. Measuring, drawing plans and a second check costs more, but you redo less.",
     here: [
-      "pstack sends out helper AIs and has several models review together, and all of that costs tokens. So by default it's slower and pricier, but more careful. `/setup-pstack` asks you to pick a tier. `large` is the default (xhigh). `unlimited` runs every model at its highest. `medium` and `small` cost less.",
+      "pstack sends out helper AIs and has several models review together, and all of that costs tokens. So by default it's slower and pricier, but more careful. `/setup-pstack` asks you to pick a tier. `large` is the default (xhigh), and also the top tier. `medium` and `small` cost less.",
       "Three ways to save. Use a cheap, fast model for the coding roles. Shrink the review panel. Skip `/poteto-mode` for small changes.",
     ],
     myths: [
@@ -125,7 +125,7 @@ export const WIKI_EN = {
     one: "A playbook is the fixed set of steps for one kind of task. You describe the task; it picks one and follows it.",
     like: "Like hospital triage. You describe the symptoms, the nurse sends you to the right department, and each department has its own routine.",
     here: [
-      "`/poteto-mode` has 23 playbooks. You don't name one: describe the task and it picks. If nothing fits, it uses `/figure-it-out` to design one on the spot.",
+      "`/poteto-mode` has 22 playbooks. You don't name one: describe the task and it picks. If nothing fits, it uses `/figure-it-out` to design one on the spot.",
       "A few phrases change its choice. \"Don't change code yet\": investigate only. \"New task\": treat it as something new and pick again. \"I'm going to bed\": keep working on its own for a long stretch.",
     ],
     list: [
@@ -141,29 +141,28 @@ export const WIKI_EN = {
       ["Write a skill / Eval", "Write or edit a skill; test the change"],
       ["Babysit", "Watch a PR until it can merge"],
       ["Shipping", "Verify each PR, then merge in order"],
-      ["Autonomous / Orchestrate", "Run a long task to the end; run big projects"],
+      ["Autonomous run", "Run a long task to the end"],
       ["Autopilot-full / Autopilot-stack", "Run PRs to merge, or verify and wait for you"],
       ["Take over / Safe pause", "Pick up unfinished work; stop cleanly"],
       ["Multi-phase plan", "Plan first for multi-phase, multi-PR work"],
       ["Clean up worktrees", "Delete unused worktrees to free disk"],
       ["Open a PR", "Wrap up: tidy commits, write the description"],
     ],
-    listTitle: "The 23 playbooks (some grouped)", listHead: ["Playbook", "What it's for"],
+    listTitle: "The 22 playbooks (some grouped)", listHead: ["Playbook", "What it's for"],
     myths: [
-      "\"I have to learn all 23 first\": no. ==You describe the task; picking the playbook is its job.== This table just helps you read the to-do list.",
-      "\"Every step in the playbook runs\": not always. Steps it doesn't need stay on the list, marked `skip:` with a reason.",
+      "\"I have to learn all 22 first\": no. ==You describe the task; picking the playbook is its job.== This table just helps you read the to-do list.",
     ],
   },
   "todo": {
-    title: "The to-do list and skip", group: "How pstack works",
-    one: "The to-do list is the steps it writes down when it starts. Skipped steps stay on it, marked `skip:` with a reason.",
-    like: "Like a pilot's pre-flight checklist. Every item is read out, and the ones that don't apply say why.",
+    title: "The to-do list", group: "How pstack works",
+    one: "The to-do list is the steps it writes down when it starts. The first items are the chosen playbook's steps, copied as-is.",
+    like: "Like a pilot's pre-flight checklist. Work down it item by item, and a missing item is easy to spot.",
     here: [
-      "==Reading the list is the easiest way to keep an eye on the AI.== Which approach it chose, which steps it plans, what it skipped: all at a glance. If it skipped something it shouldn't, say \"don't skip step 3, make the problem happen again first\".",
+      "==Reading the list is the easiest way to keep an eye on the AI.== Which approach it chose and which steps it plans: all at a glance. If an important step is missing, say \"don't skip step 3, make the problem happen again first\".",
       "The first items are the chosen playbook's steps, copied as-is. In Claude Code, it uses the TodoWrite tool if the session has one. If not, it writes the list in its reply and updates it at each stage.",
     ],
     myths: [
-      "\"A longer list means more care\": the length depends on the type of task. What matters is that no step gets skipped quietly.",
+      "\"A longer list means more care\": the length depends on the type of task. What matters is the right approach, with every step it needs.",
     ],
   },
   "subagent": {
@@ -209,7 +208,7 @@ export const WIKI_EN = {
     one: "pstack splits the work into roles. Each role can use a different model, set in one small config file.",
     like: "Like a building crew. Not everyone needs to be the priciest hire. The inspector should come from another firm, so nobody checks their own work.",
     here: [
-      "Default split: coding goes to grok. The hardest changes, writing and judgment go to opus 5.5. The review panel has one of each by default. ==Models from different families reviewing each other is a core pstack practice.==",
+      "Default split: coding, writing and judgment all go to opus 5.5. The review panel has one each of fable 5.2, opus 5.5 and gemini 4 carbon by default. ==Different models reviewing each other is a core pstack practice.==",
       "`/setup-pstack` checks which models you can use and writes the config. In Cursor it's `~/.cursor/rules/pstack-models.mdc`. In Claude Code it's `~/.claude/rules/pstack-models.md`. Other tools use `~/.agents/pstack-models.md`. Changes apply in a new chat. Claude Code only offers Claude models; see [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well).",
     ],
     myths: [
@@ -222,7 +221,7 @@ export const WIKI_EN = {
     one: "`/arena`: several people solve the same problem, and the best wins. `/swarm`: a big job split into pieces, one each.",
     like: "`/arena` is a design pitch: pick one entry as the base and work in the others' best ideas. `/swarm` is grading exams: a hundred papers split among five teachers.",
     here: [
-      "Use `/arena` for decisions that are hard to change later, like names, formats and algorithms. Each candidate works on its own, and a model from another family judges them. Then it picks a base, adds the best parts of the others, and verifies. `/architect` uses it inside.",
+      "Use `/arena` for decisions that are hard to change later, like names, formats and algorithms. Each candidate works on its own, and a model from another company judges them. Then it picks a base, adds the best parts of the others, and verifies. `/architect` uses it for big or disputed designs.",
       "Use `/swarm` for jobs that must cover everything, like \"check every package\". Each helper handles its own piece and reports \"pass / problem / blocked\". At the end you get one short report.",
     ],
     myths: [
@@ -276,7 +275,7 @@ export const WIKI_EN = {
     like: "Like a lab notebook: what was done, why, and what happened. The next day, the supervisor flips through it and gets it.",
     here: [
       "`/show-me-your-work` keeps it. Each row has the time, stage, decision, reason, where the proof is, and the result. It's saved as a TSV file, `decisions.tsv` by default, and stays on your machine.",
-      "When you come back, say \"/show-me-your-work walk me through what you did last night\". Before it hands you the summary, a model from another family reviews it. The reply ends with a \"needs attention\" section. ==**Read that section first, then the rows it points to.**== For a quick status check, use `/ketchup`. It only reads, and tells you in plain words what changed and what's waiting on you.",
+      "When you come back, say \"/show-me-your-work walk me through what you did last night\". Before it hands you the summary, a model from another company reviews it. The reply ends with a \"needs attention\" section. ==**Read that section first, then the rows it points to.**== For a quick status check, use `/ketchup`. It only reads, and tells you in plain words what changed and what's waiting on you.",
     ],
     myths: [
       "\"With a log, I don't need to review\": the log makes reviewing faster. You review the decisions, not a whole night of chat.",

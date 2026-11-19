@@ -79,11 +79,11 @@ export default {
       "Vous voulez seulement le plus rapide et le moins cher : pstack vérifie davantage, donc c'est plus lent et ça consomme davantage votre forfait",
     ],
     devH: "Si vous codez",
-    devP: "pstack, c'est le pack de skills que poteto (membre de l'équipe React, chez Cursor) utilise tous les jours pour son propre code : 34 skills, 23 playbooks et 24 principes d'ingénierie. Ci-dessous, les quatre étapes qu'il suit pour chaque tâche, et le guide complet en 9 étapes.",
+    devP: "pstack, c'est le pack de skills que poteto (membre de l'équipe React, chez Cursor) utilise tous les jours pour son propre code : 34 skills, 22 playbooks et 24 principes d'ingénierie. Ci-dessous, les quatre étapes qu'il suit pour chaque tâche, et le guide complet en 9 étapes.",
     devNote: "Pour l'instant, le guide complet existe en anglais (et en chinois).",
     FLOW: [
       ["Vous dites une phrase", "L'objectif, et comment vous saurez que c'est fini. Par exemple : « reproduis d'abord le bug, puis corrige, puis vérifie »."],
-      ["/poteto-mode choisit un playbook", "Il choisit l'un des 23 playbooks et recopie ses étapes telles quelles dans la liste de tâches."],
+      ["/poteto-mode choisit un playbook", "Il choisit l'un des 22 playbooks et recopie ses étapes telles quelles dans la liste de tâches."],
       ["Les skills s'enchaînent", "/how pour lire le code, /architect pour décider d'une conception, /interrogate pour chercher les failles ; des IA d'appoint quand il y a beaucoup à faire."],
       ["Il vérifie avant de rendre la main", "Vraie sortie des commandes, captures d'écran, avant/après. Si quelque chose ne peut pas être vérifié, il le dit."],
     ],

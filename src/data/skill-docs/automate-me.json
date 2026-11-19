@@ -1,6 +1,6 @@
 {
   "name": "automate-me",
-  "commit": "97de40d",
+  "commit": "0d2dc00",
   "description": {
     "en": "Use for \"automate me\", \"create/update/refresh my -mode skill\", \"turn/capture my preferences or working style into a skill\", or wanting agents to follow how the user works. Drafts or revises a personal -mode skill via create-skill + unslop, optionally pulling fresh evidence from recent transcripts.",
     "zh": "用于「automate me」「创建 / 更新 / 刷新我的 -mode 技能」「把我的偏好或工作习惯变成 / 记成一个技能」，或者想让 AI 照用户的方式干活。借助 create-skill 和 unslop，起草或修改一个个人的 -mode 技能，也可以从最近的聊天记录里拉取新的证据。"
@@ -55,8 +55,8 @@
       "zh": "- **Cursor：** 系统提示词里写明了这个工作区在 `~/.cursor/projects/` 下的 `agent-transcripts/` 目录。\n- **Claude Code：** `~/.claude/projects/<slug>/*.jsonl`，其中 `<slug>` 是工作区路径，里面每个不是字母或数字的字符都换成「-」。\n- **Pi：** `~/.pi/agent/sessions/--<slug>--/*.jsonl`，其中 `<slug>` 是工作区路径去掉开头的斜杠，每个「/」换成「-」。\n- **Codex：** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`。只保留第一行里 `payload.cwd` 等于工作区路径的文件。\n- **其他工具：** 这个工具为这个工作区存会话的目录。"
     },
     {
-      "en": "Survey recent agent conversations within that scope for recurring patterns. Run multiple parallel subagents across slices of history (e.g. last 2-4 weeks, split into 3 slices so each has enough material). Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill. Each slice mining subagent reads transcripts from the workspace-scoped path the parent provides, looks for the signals below, and returns a short structured list of patterns it saw with evidence pointers. Default signals worth hunting:",
-      "zh": "在这个范围内，翻看最近和 AI 的对话，找反复出现的规律。按时间切成几段，并行派出多个帮手 AI（比如最近 2-4 周，切成 3 段，让每段都有足够的材料）。每个帮手 AI 的思考深度、用快速还是标准速度，按 **poteto-mode** 技能里 Subagents 一节，看活来定。每个挖一段记录的帮手 AI，从你给它的、限定在这个工作区的路径里读聊天记录，找下面这些信号，交回一份简短的结构化清单，列出它看到的规律和证据所在的位置。默认值得找的信号："
+      "en": "Survey recent agent conversations within that scope for recurring patterns. Run multiple parallel subagents across slices of history (e.g. last 2-4 weeks, split into 3 slices so each has enough material). Pick each subagent's reasoning level for the job, per the Subagents section of the **poteto-mode** skill. Each slice mining subagent reads transcripts from the workspace-scoped path the parent provides, looks for the signals below, and returns a short structured list of patterns it saw with evidence pointers. Default signals worth hunting:",
+      "zh": "在这个范围内，翻看最近和 AI 的对话，找反复出现的规律。按时间切成几段，并行派出多个帮手 AI（比如最近 2-4 周，切成 3 段，让每段都有足够的材料）。每个帮手 AI 的思考深度，按 **poteto-mode** 技能里 Subagents 一节，看活来定。每个挖一段记录的帮手 AI，从你给它的、限定在这个工作区的路径里读聊天记录，找下面这些信号，交回一份简短的结构化清单，列出它看到的规律和证据所在的位置。默认值得找的信号："
     },
     {
       "en": "- Response preferences (length, tone, format, \"dumb it down\" corrections)\n- Delegation habits (subagents, models, specialized workflows, parallelism)\n- Verification posture (what \"done\" means, unit tests vs live repro, reviewers)\n- Code and prose discipline (style, principles cited, lint/format tools)\n- Process conventions (worktrees, commits, PRs, review/merge tooling)\n- Meta preferences (fixing skills mid-task, proposing new ones)",

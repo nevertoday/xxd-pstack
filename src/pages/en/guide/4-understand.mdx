@@ -40,13 +40,13 @@ Each one says its understanding out loud. That lets you check whether it got it 
 
 Ask what you really want to know. It reads the code and explains it like a senior coworker showing you around: how the code runs, the key data, the parts that are easy to miss.
 
-For a big module, it first sends a few helper AIs to read different parts.
+It sends one look-only helper AI to read the code and write the explanation, then hands that to you.
 
 ## Ask why it was built this way: /why
 
 <Copy id="why" code="/why Why is the retry limit 5? Does that reason still hold?" />
 
-It goes through the Git history first. Then it checks the other places you've connected, like issues, docs, and chat. Every point cites a source, and it keeps evidence apart from guesses.
+It reads the record, not the code: the commits and PR discussions that brought the code in, and every later change. If that trail is thin, it looks elsewhere. It quotes what the authors wrote and marks its own guesses as guesses.
 
 If it finds nothing, it says so. "Nobody wrote down why" is an answer too.
 
@@ -81,7 +81,7 @@ It reads the records left behind and says where it will pick up. For parts someo
 ## Stuck?
 
 <Q q="/why says it can't find the reason.">
-<p>That's normal. It can only search places you've connected. To search issues, chat, and docs, connect the matching MCP in your tool first (GitHub, Linear, Slack, Notion, for example). Without them, it will at least go through the Git history.</p>
+<p>That's normal. It mostly reads commits and PR discussions. If nobody wrote the reason down, it can't find it. When the commit messages say too little, it looks elsewhere, like issues or docs you've connected (connect the matching MCP in your tool, such as GitHub, Linear or Notion).</p>
 </Q>
 <Q q="It's too technical.">
 <p>Say "explain it for someone new to this project," or type <code>/bro</code> after it's done.</p>

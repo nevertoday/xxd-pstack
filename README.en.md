@@ -70,7 +70,7 @@ The model isn't too dumb. It just works without a method: it changes code it has
 
 poteto wrote pstack for their own use. The official docs assume you're already a senior engineer:
 
-- **A wall of names on day one**: 34 skills, 23 playbooks, 24 principles, all jargon. Which ones do you actually need?
+- **A wall of names on day one**: 34 skills, 22 playbooks, 24 principles, all jargon. Which ones do you actually need?
 - **No obvious first step**: which version do you install? Do you need to configure it? Which command do you type?
 - **Knowing the command isn't enough**: if your prompt doesn't say what "done" means, it still drifts. It just drifts more carefully.
 - **Replies you can't read**: long and technical. You can't tell which line matters and which you can skip.
@@ -94,7 +94,7 @@ Plenty of people install it, try it once, think "it's not that different," and g
   <img src="assets/en/how.svg" width="100%" alt="How pstack works: you say what you want, /poteto-mode picks a playbook, calls skills step by step, and comes back with evidence">
 </p>
 
-You only need to remember one command, `/poteto-mode`, and say clearly **what you want** and **what counts as done**. It picks one of 23 "playbooks" (fix a bug, add a feature, refactor, chase performance...), copies the steps into a todo list, and calls the other skills one step at a time. Steps it decides to skip don't quietly vanish; they're marked `skip: reason`.
+You only need to remember one command, `/poteto-mode`, and say clearly **what you want** and **what counts as done**. It picks one of 22 "playbooks" (fix a bug, add a feature, refactor, chase performance...), copies the steps into a todo list, and calls the other skills one step at a time.
 
 ## ⚡ Get started in three minutes
 
@@ -166,7 +166,7 @@ This is where all the earlier steps pay off: only an AI that **can verify its ow
 - **[Full guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 steps for people who code · what it is → install → pick models → first task → understand first → design, build, clean up → verify and ship → run overnight → once you're comfortable
 - **[Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, each with its full text and a breakdown of its wording
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guides, one task each
-- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 concepts · one sentence → an analogy → in pstack → common mistakes; includes tables of the 24 principles and 23 playbooks
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 concepts · one sentence → an analogy → in pstack → common mistakes; includes tables of the 24 principles and 22 playbooks
 - **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: Does it cost money? Do I have to use Cursor? Will it mess up my code?
 - **Languages**: Home page and beginner lessons · 10 languages. Full guide, skills, how-tos, wiki and FAQ · English and 中文
 

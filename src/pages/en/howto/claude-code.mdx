@@ -67,108 +67,87 @@ Why? Two things decide which models get used:
 - **The session model**: the one you pick with `/model`, the AI you talk to directly. It picks the approach, hands out work, and reviews every change.
 - **Each line in the settings file**: which model each helper AI (<Term k="子代理" text="subagent" />) runs on.
 
-By default, pstack has grok write the code. Claude Code can't use grok, so those lines become `inherit-parent`. That means "follow the session model."
+By default, pstack uses opus 5.5 for coding and judgment. The review panel has one each of fable, opus and gemini. Claude Code can't use gemini, so that seat becomes `inherit-parent`. That means "follow the session model."
 
-So if you change nothing and run the session on opus, opus does all the work. It costs the most, and both review seats are the same model. Balanced moves the coding to sonnet. That halves the price and puts two different models on reviews.
+So if you change nothing, opus does nearly all the work, which costs the most. Balanced moves the coding to sonnet, which halves the price. It also gives the third review seat to sonnet, so the three seats are three different models.
 
 Prices are API list prices as of October 2026, per million <Term k="token" text="tokens" />. On a subscription, pricier models use up your limits faster:
 
 | Model | Input / output | Good for |
 | --- | --- | --- |
-| fable | $10 / $50 | Strongest, when cost is no object |
-| opus | $4 / $20 | Session, judgment, hardest changes |
-| sonnet | $2 / $10 | Writing code, second review seat |
+| fable | $10 / $50 | Strongest, a review seat by default |
+| opus | $4 / $20 | Session, judgment, writing |
+| sonnet | $2 / $10 | Writing code, one review seat |
 | haiku | $0.1 / $0.5 | Not recommended |
 
-Why not haiku: checking the results uses the same model as the coding line. Make that the cheapest model, and the checks get weaker too.
+Why not haiku: checking the results uses the `swarm workers` model. Make that the cheapest model, and the checks get weaker too.
 
 ### Three plans
 
 <Tabs id="cc-plans" label="Pick a plan" items={[["balanced", "Balanced (recommended)"], ["cheap", "Save money"], ["max", "Cost no object"]]}>
 <div slot="balanced">
 
-**Run the session on opus, and change every `inherit-parent` in the settings file to `sonnet xhigh`.**
+**Run the session on opus, give coding and checks to sonnet, and seat fable, opus and sonnet on each review.**
 
-The session has to understand you and review changes, so it gets opus. Coding helpers get clearly scoped work, which sonnet can handle. The hardest changes go through `hardest tasks`, still on opus.
+The session has to understand you and review changes, so it gets opus. Coding helpers get clearly scoped work, which sonnet can handle. Judgment and writing stay on opus.
 
 <Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md (balanced)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
 # budget: large (xhigh)
 feature, refactoring: sonnet xhigh
 bug-fix: sonnet xhigh
 perf-issue: sonnet xhigh
 hillclimb: sonnet xhigh
 judgment and prose: opus xhigh
-hardest tasks: opus xhigh
-how explorer: sonnet xhigh
-how explainer: opus xhigh
-why investigators: sonnet xhigh
-why synthesizer: opus xhigh
-reflect tooling: sonnet xhigh
-reflect judgment, divergent, synthesizer: opus xhigh
-arena runners: opus xhigh, sonnet xhigh
-arena cross-judge pool: opus xhigh, sonnet xhigh
-swarm workers: sonnet xhigh
-architect runners: opus xhigh, sonnet xhigh
-interrogate reviewers: opus xhigh, sonnet xhigh`} />
+arena runners: fable high, opus high, sonnet high
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: sonnet high
+interrogate reviewers: fable high, opus high, sonnet high`} />
 
 </div>
 <div slot="cheap">
 
-**Run the session on sonnet, keep the default settings file, and pick the medium budget.**
+**Run the session on sonnet, put `inherit-parent` on the coding lines, and pick the medium budget.**
 
-You don't change a line. `inherit-parent` follows the session to sonnet, and opus still makes the judgment calls. Medium lowers every level from xhigh to high. For complex work, switch back to opus with `/model` before you start.
+`inherit-parent` follows the session to sonnet, and opus still makes the judgment calls. Medium lowers every role one level: xhigh becomes high, and the reviewers' high becomes medium. The review panel drops fable and keeps two seats. For complex work, switch back to opus with `/model` before you start.
 
 <Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md (save money)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
 # budget: medium (high)
 feature, refactoring: inherit-parent
 bug-fix: inherit-parent
 perf-issue: inherit-parent
 hillclimb: inherit-parent
 judgment and prose: opus high
-hardest tasks: opus high
-how explorer: inherit-parent
-how explainer: opus high
-why investigators: inherit-parent
-why synthesizer: opus high
-reflect tooling: inherit-parent
-reflect judgment, divergent, synthesizer: opus high
-arena runners: opus high, inherit-parent
-arena cross-judge pool: opus high, inherit-parent
+arena runners: opus medium, inherit-parent
+arena cross-judge pool: opus medium, inherit-parent
 swarm workers: inherit-parent
-architect runners: opus high, inherit-parent
-interrogate reviewers: opus high, inherit-parent`} />
+interrogate reviewers: opus medium, inherit-parent`} />
 
 </div>
 <div slot="max">
 
-**Run the session on opus, give judgment to fable, the code to opus, and seat three models on each review.**
+**Run the session on opus, give coding, judgment and checks to opus, and run all three review seats at xhigh.**
 
-fable goes where judgment matters most: explaining, summarizing, the hardest changes. A review lists three models, so it sends three helpers. fable's list price is 2.5 times opus. If your account can't use fable, setup won't offer it.
+Why not give judgment to fable? pstack's rule: outside the review panel, fable runs only when you name it, or after opus fails the same job twice. To use it for one job, say "use fable for this" in the prompt. fable's list price is 2.5 times opus. If your account can't use fable, setup won't offer it.
 
 <Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md (cost no object)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
 # budget: large (xhigh)
 feature, refactoring: opus xhigh
 bug-fix: opus xhigh
 perf-issue: opus xhigh
 hillclimb: opus xhigh
-judgment and prose: fable xhigh
-hardest tasks: fable xhigh
-how explorer: sonnet xhigh
-how explainer: fable xhigh
-why investigators: opus xhigh
-why synthesizer: fable xhigh
-reflect tooling: opus xhigh
-reflect judgment, divergent, synthesizer: fable xhigh
+judgment and prose: opus xhigh
 arena runners: fable xhigh, opus xhigh, sonnet xhigh
-arena cross-judge pool: fable xhigh, opus xhigh
+arena cross-judge pool: opus high, inherit-parent
 swarm workers: opus xhigh
-architect runners: fable xhigh, opus xhigh, sonnet xhigh
 interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
 
 </div>
 </Tabs>
 
-None of the plans use the unlimited budget. pstack already raises the level one step for the hardest step on its own.
+large is the top budget: no role in pstack runs above xhigh. Keep the `# defaults: 3` line in the file. Without it, pstack treats the file as written by an older version and asks you to rerun setup.
 
 ### How to write it in
 
@@ -216,8 +195,8 @@ If you installed from the marketplace, type `!/pstack:poteto-mode`; without `pst
 <Q q="I ran setup, but the models I chose didn't take effect.">
 The settings file is only read when a new session starts. Quit and open a new one. If that doesn't help, open `~/.claude/rules/pstack-models.md` and check the line shows the model you chose.
 </Q>
-<Q q="A reply says /arena skipped its judge, or found no reviewer from another family.">
-A few steps want a model from "another family" to review, like the `/arena` judge. All Claude models count as one family. So it skips the judge, picks itself, and says so. The `arena cross-judge pool` line does almost nothing here. For another vendor's eyes, take the review that matters to Codex or Cursor and run `/interrogate` there.
+<Q q="A reply says /arena skipped its judge, or found no reviewer from another company.">
+A few steps want a model from "another company" to review, like the `/arena` judge. All Claude models, fable included, count as one company. So it skips the judge, picks itself, and says so. The `arena cross-judge pool` line does almost nothing here. For another vendor's eyes, take the review that matters to Codex or Cursor and run `/interrogate` there.
 </Q>
 <Q q="The skills use Cursor's names. Do I translate them?">
 No. The plugin includes a mapping guide (`docs/harness/claude-code.md`), and the AI translates on its own. For example, `.cursor/rules/` becomes `CLAUDE.md` (or `AGENTS.md` if there isn't one), and cloud agents become a local <Term k="worktree" />.

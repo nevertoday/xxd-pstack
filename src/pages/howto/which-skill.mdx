@@ -50,7 +50,7 @@ import Cmd from "../../components/Cmd.astro";
 - **`/how`、`/why`、`/teach`**：`/how` 讲代码在做什么，`/why` 讲为什么这样做，`/teach` 跑完一个或两个，再给你讲透。
 - **`/interrogate` 和 `/blast-radius`**：前者审改动本身，后者找改动之外会被弄坏的地方。
 - **`/recall` 和 `/ketchup`**：前者跨多个对话找进度，后者只讲这个对话里的变化。
-- **`/architect`**：定完设计会直接开写。想先看设计，说「with checkpoint」。
+- **`/architect`**：定完设计会直接开写。想先看设计，就说「先给我看设计，我同意了再写」。
 
 ## 一件事要做多少设计
 
@@ -84,5 +84,5 @@ import Cmd from "../../components/Cmd.astro";
 直接交给 `/poteto-mode`。没有现成做法时，它会转给 `/figure-it-out` 现场设计一套。
 </Q>
 <Q q="斜杠菜单里有个 /orchestrate，是 pstack 的吗？">
-不是。Orchestrate 是 `/poteto-mode` 里的一种做法，菜单里那个是别的插件的。
+不是，菜单里那个是别的插件的。pstack 里要跑好几天的大项目，交给 `/poteto-mode`，它会转给 `/figure-it-out`。
 </Q>

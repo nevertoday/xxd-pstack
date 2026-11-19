@@ -71,7 +71,7 @@ If not, run it while you watch.
 
 <Copy id="mig-audit" title="Morning audit" code="/show-me-your-work tell me what you did last night" />
 
-**Read the Attention section at the end first.** A helper from a different model family reads the log first. Attention lists what deserves a closer look, like decisions with weak evidence. Follow those log lines.
+**Read the Attention section at the end first.** A helper on another company's model reads the log first. Attention lists what deserves a closer look, like decisions with weak evidence. Follow those log lines.
 
 The <Term k="决策日志" /> is `decisions.tsv` in the work folder by default, and isn't committed. Each row is one decision, with its reason and evidence.
 
@@ -85,11 +85,12 @@ If you need to close your laptop or restart your editor, say "pause" or "I'm goi
 
 ## More than one job overnight
 
-For a series of changes, or a project that runs for days, there are three <Term k="剧本" text="playbooks" />:
+For a series of unrelated changes, there are two <Term k="剧本" text="playbooks" />:
 
 - **Autopilot-stack: doesn't merge.** In the morning you see verified PRs and decide yourself.
 - **Autopilot-full: merges.** Each PR merges only after a different helper verifies it.
-- **Orchestrate: multi-day projects.** The coordinator writes no code itself.
+
+A project that runs for days has no playbook of its own. `/poteto-mode` passes it to `/figure-it-out`, which designs an approach for it on the spot.
 
 Not sure? Pick Autopilot-stack. You still get the final say before merging.
 

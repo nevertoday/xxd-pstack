@@ -70,7 +70,7 @@ Le modèle n'est pas trop bête. Il travaille simplement sans méthode : il modi
 
 poteto a écrit pstack pour son propre usage. La doc officielle part du principe que vous êtes déjà ingénieur senior :
 
-- **Un mur de noms dès le premier jour** : 34 skills, 23 playbooks, 24 principes, que du jargon. Lesquels vous servent vraiment ?
+- **Un mur de noms dès le premier jour** : 34 skills, 22 playbooks, 24 principes, que du jargon. Lesquels vous servent vraiment ?
 - **Aucun premier pas évident** : quelle version installer ? Faut-il configurer quelque chose ? Quelle commande taper ?
 - **Connaître la commande ne suffit pas** : si votre prompt ne dit pas ce que « terminé » veut dire, l'IA dérape quand même. Elle dérape juste avec plus de soin.
 - **Des réponses illisibles** : longues et techniques. Impossible de savoir quelle ligne compte et laquelle on peut sauter.
@@ -94,7 +94,7 @@ Beaucoup l'installent, l'essaient une fois, se disent « ça ne change pas grand
   <img src="assets/en/how.svg" width="100%" alt="Comment pstack travaille : vous dites ce que vous voulez, /poteto-mode choisit un playbook, appelle les skills étape par étape et revient avec des preuves">
 </p>
 
-Une seule commande à retenir, `/poteto-mode`, et dites clairement **ce que vous voulez** et **ce qui compte comme terminé**. Il choisit l'un de ses 23 « playbooks » (corriger un bug, ajouter une fonctionnalité, refactoriser, traquer un problème de performance...), recopie les étapes dans une liste de tâches et appelle les autres skills une étape à la fois. Les étapes qu'il décide de sauter ne disparaissent pas en silence : elles sont marquées `skip: raison`.
+Une seule commande à retenir, `/poteto-mode`, et dites clairement **ce que vous voulez** et **ce qui compte comme terminé**. Il choisit l'un de ses 22 « playbooks » (corriger un bug, ajouter une fonctionnalité, refactoriser, traquer un problème de performance...), recopie les étapes dans une liste de tâches et appelle les autres skills une étape à la fois.
 
 ## ⚡ Démarrer en trois minutes
 
@@ -166,7 +166,7 @@ C'est ici que toutes les étapes précédentes paient : seule une IA **capable d
 - **[Guide complet](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 étapes pour ceux qui codent · ce que c'est → installation → choix des modèles → première tâche → comprendre d'abord → concevoir, construire, nettoyer → vérifier et livrer → toute la nuit → une fois à l'aise
 - **[Référence des skills](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, chacune avec son texte intégral et une analyse de sa formulation
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 fiches, une tâche chacune
-- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 notions · une phrase → une analogie → dans pstack → idées reçues ; avec les tableaux des 24 principes et des 23 playbooks
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 notions · une phrase → une analogie → dans pstack → idées reçues ; avec les tableaux des 24 principes et des 22 playbooks
 - **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: C'est payant ? Faut-il utiliser Cursor ? Va-t-il abîmer mon code ?
 - **Langues**: Page d'accueil et leçons pour débutants · 10 langues. Guide complet, skills, how-to, wiki et FAQ · English et 中文
 

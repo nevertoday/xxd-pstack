@@ -1,6 +1,6 @@
 {
   "name": "show-me-your-work",
-  "commit": "97de40d",
+  "commit": "0d2dc00",
   "description": {
     "en": "Keep a reviewable decision trail for long-running or unattended work: a TSV log with one row per decision (what, why, evidence, result). Local by default; commit it when a reviewer needs the trail to trust the result. Use for /show-me-your-work, autonomous or multi-phase runs, or work a human reviews after stepping away.",
     "zh": "为长时间运行或没人看着的工作，留下一份可以审查的决定记录：一个 TSV 日志，每个决定一行（做了什么、为什么、证据、结果）。默认只放在本地；审查的人需要靠这份记录才能信任结果时，就把它提交。用于 /show-me-your-work、自主运行或分好几个阶段的运行，或者有人离开、回来再审查的工作。"
@@ -99,8 +99,8 @@
       "zh": "## 换一个模型来审查这份记录"
     },
     {
-      "en": "Before handing back, spawn a subagent on a different model family from the one that did the work. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
-      "zh": "交回之前，派一个帮手 AI，用和干活的那个模型不同的模型家族。自己审自己代替不了它。这个帮手 AI 读审查记录和这次运行的对话记录，然后标出用户应该注意的地方。不是把活重做一遍，而是扫一遍有什么不够好或有风险。每个帮手 AI 的推理强度、用快速还是标准速度，按任务来选，参照 **poteto-mode** 技能的 Subagents 一节。"
+      "en": "Before handing back, spawn a subagent on another vendor's model than the one that did the work. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick each subagent's reasoning level for the job, per the Subagents section of the **poteto-mode** skill.",
+      "zh": "交回之前，派一个帮手 AI，用另一家厂商的模型，不用干活的那个模型。自己审自己代替不了它。这个帮手 AI 读审查记录和这次运行的对话记录，然后标出用户应该注意的地方。不是把活重做一遍，而是扫一遍有什么不够好或有风险。每个帮手 AI 的推理强度按任务来选，参照 **poteto-mode** 技能的 Subagents 一节。"
     },
     {
       "en": "- Decisions logged with weak or absent evidence.\n- Verification steps skipped or claimed without proof in the transcript.\n- Choices that look risky in hindsight (premature, scope-creeping, papering over a symptom).\n- Gaps the user would otherwise miss on a casual skim.",
@@ -202,7 +202,7 @@
         },
         {
           "without": "自己检查自己做的事",
-          "with": "请另一家模型审记录，回复末尾列出 Attention"
+          "with": "请另一家厂商的模型审记录，回复末尾列出 Attention"
         },
         {
           "without": "日志写了什么就信什么",
@@ -216,7 +216,7 @@
         "日志默认放在工作目录的 `decisions.tsv`，不进 git，只有审阅者需要时才提交。",
         "只追加不改写，错的决定用新行盖过，证据优先用已提交脚本跑出来的结果。",
         "交差前读本次对话记录，逐行核对日志和证据，漏记的补上，错的加新行更正。",
-        "找另一家模型的帮手 AI 审日志和对话记录，回复末尾写 Attention，先写审阅模型名。",
+        "找另一家厂商模型的帮手 AI 审日志和对话记录，回复末尾写 Attention，先写审阅模型名。",
         "告诉读者怎么看：从上往下读，顺着证据点开抽查，用 `column` 在终端排成表格。",
         "其他技能要留记录时直接引用它，由它定格式，不再重写各列。"
       ]
@@ -229,7 +229,7 @@
         },
         {
           "without": "Reviews its own work and calls it fine.",
-          "with": "Has a model from another family review the trail, then ends with an Attention section."
+          "with": "Has another vendor's model review the trail, then ends with an Attention section."
         },
         {
           "without": "Trusts its own log as written.",
@@ -243,7 +243,7 @@
         "Keeps the log at decisions.tsv in the work dir, out of git, committed only when a reviewer needs the trail.",
         "Append only: a new row supersedes a wrong one. Evidence from committed scripts beats one-off checks.",
         "Before handing back, reads this run's transcript, checks each row and its evidence, and adds rows for gaps and errors.",
-        "A helper on a different model family reviews the trail. The reply ends with an Attention section naming that model.",
+        "A helper on another vendor's model reviews the trail. The reply ends with an Attention section naming that model.",
         "Tells the reader to read top to bottom, follow evidence pointers, and render the TSV with column in a terminal.",
         "Other skills point to this one for their audit trail and let it own the format."
       ]

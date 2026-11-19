@@ -71,7 +71,7 @@ keep a decision log. don't ask me before committing.
 
 <Copy id="mig-audit" title="早上审计" code="/show-me-your-work 告诉我你昨晚做了什么" />
 
-**先读回复最后的 Attention。** 另一个模型家族的帮手 AI 会先读一遍日志。Attention 列出值得细看的地方，比如证据弱的决定。顺着它指的那几行去查就行。
+**先读回复最后的 Attention。** 用另一家公司模型的帮手 AI 会先读一遍日志。Attention 列出值得细看的地方，比如证据弱的决定。顺着它指的那几行去查就行。
 
 <Term k="决策日志" />默认在工作目录的 `decisions.tsv`，不提交进仓库。每行一个决定，带理由和证据。
 
@@ -85,11 +85,12 @@ keep a decision log. don't ask me before committing.
 
 ## 一晚上不止一件事
 
-手上是一串改动，或者要跑好几天，有三种<Term k="剧本" />：
+手上是一串不相干的改动，有两种<Term k="剧本" />：
 
 - **Autopilot-stack：不合并。** 早上你看到验证过的 PR，自己决定合不合。
 - **Autopilot-full：会合并。** 每个 PR 要另一个帮手验证过才合。
-- **Orchestrate：好几天的大项目。** 协调的那个自己不写代码。
+
+要跑好几天的大项目没有专门的剧本。`/poteto-mode` 会转给 `/figure-it-out`，给它现场设计一套做法。
 
 拿不准就选 Autopilot-stack，合并前还有你这一关。
 

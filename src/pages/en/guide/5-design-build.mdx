@@ -21,9 +21,9 @@ When a change touches several places, `/poteto-mode` designs it first on its own
 
 <Copy id="arch" code="/architect Design the import flow first, don't write code yet. What I care about most is how callers use it." />
 
-**What you get**: a few designs side by side. Each one starts with "how a caller uses it". It then builds the one it picked. To see the design first, add "with checkpoint, stop and show me before you implement".
+**What you get**: it first reads all the code the change touches. Then it sketches two different shapes: the types, how functions are called, how modules split. It picks the one where each piece of data has one owner and callers need to know least. For a big or disputed design, it uses `/arena` to compare more versions. It then builds the one it picked. To see the design first, say so in the prompt: "show me the design first, and wait for my OK before writing code".
 
-While it builds against the design, if something doesn't fit, it stops and tells you. If the design itself is wrong, it throws it out and starts over instead of patching it. That's normal.
+While it builds, if the same workaround keeps coming back, the design is wrong. It redesigns instead of patching. That's normal.
 
 ## One decision you're unsure about: /arena
 
@@ -31,7 +31,7 @@ Use it for names, formats or algorithms that will be hard to change later.
 
 <Copy id="arena" code="/arena This cache key format will be hard to change later. Give me 5 options." />
 
-**What you get**: several AIs each write a version. A model from another family scores them (say, Grok instead of Claude). The top one becomes the base, and good ideas from the rest get added.
+**What you get**: several AIs each write a version. A model from another company scores them (say, Gemini judging Claude's work). The top one becomes the base, and good ideas from the rest get added.
 
 ## It's written, now find the flaws: /interrogate
 

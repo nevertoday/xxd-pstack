@@ -24,22 +24,24 @@ import Q from "../../components/Q.astro";
 | 选项 | 推理档位 | 适合 |
 | --- | --- | --- |
 | `large` | xhigh（默认） | 拿不准就选它 |
-| `unlimited` | max | 很难的活，不在乎钱 |
 | `medium` | high | 想省一点 |
 | `small` | medium | 简单任务、预算紧 |
+
+`large` 就是最高档。pstack 里没有哪个角色会超过 xhigh。
 
 ## 问每个角色用什么模型时：先用默认
 
 每种<Term k="模型角色" />可以用不同的模型：
 
-- **写代码的**：默认 grok，快又便宜。
-- **做判断的**（最难的改动、拿主意）：默认 opus 5.5。
-- **评审小组**：默认 opus 5.5 加 grok，故意让两家互相挑错。
+- **写代码、写文字、做判断的**：默认都是 opus 5.5。
+- **评审小组**：默认 fable 5.2、opus 5.5、gemini 4 carbon 各一个，故意让不同的模型互相挑错。
+
+最贵的 fable 5.2 平时不出场。评审小组之外，只有你点名要它，或者 opus 5.5 同一件事连着两次没做成，才会用它。
 
 只改你在意的。设成 `auto` 或 `inherit-parent`，就是跟主对话用同一个模型。
 
 <Callout type="tip" title="用 Claude Code 的话">
-Claude Code 里派出去的帮手 AI 只能用 Claude 家的模型。默认给 grok 的角色，会改用当前对话的模型。三套现成搭配见[在 Claude Code 里用](/howto/claude-code/#怎么配最好)。
+Claude Code 里派出去的帮手 AI 只能用 Claude 家的模型。评审小组里 gemini 那个座位，会改用当前对话的模型。三套现成搭配见[在 Claude Code 里用](/howto/claude-code/#怎么配最好)。
 </Callout>
 
 ## 问要不要验证技能时：新手选「要」
@@ -66,7 +68,7 @@ Cursor 和 Claude Code 只在新对话开始时读它。所以<mark>配完关掉
 <p>再跑一次 <code>/setup-pstack</code>，改过的角色会保留。想让某个角色回到默认，删掉配置文件里那一行。</p>
 </Q>
 <Q q="pstack 更新后默认模型变了，我的没跟着变。">
-<p>旧配置里还是旧值。删掉那几行（或整个文件），再跑一次 <code>/setup-pstack</code>。</p>
+<p>旧配置里还是旧值。再跑一次 <code>/setup-pstack</code>：它认得出的旧默认会换成新的，并告诉你换了哪些，你自己选的保留。它认不出的旧值，先删掉那一行（或整个文件）再跑。</p>
 </Q>
 <Q q="验证技能当时没要，现在想要。">
 <p>运行 <code>/create-verification-skill</code>。详见<a href="/guide/6-verify-ship/">第 6 步</a>。</p>

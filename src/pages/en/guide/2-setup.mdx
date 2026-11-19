@@ -24,22 +24,24 @@ The <Term k="推理预算" /> is how long the model gets to think. Longer is mor
 | Option | Reasoning level | Good for |
 | --- | --- | --- |
 | `large` | xhigh (default) | Pick this if unsure |
-| `unlimited` | max | Very hard work, cost no issue |
 | `medium` | high | Saving a bit |
 | `small` | medium | Simple tasks, tight budget |
+
+`large` is the top budget. No role in pstack runs above xhigh.
 
 ## When it asks about models per role: keep the defaults
 
 Each <Term k="模型角色" /> can use a different model:
 
-- **Coding roles**: grok by default. Fast and cheap.
-- **Judgment roles** (the hardest changes, making calls): opus 5.5 by default.
-- **Review panel**: opus 5.5 plus grok by default. Two model families, on purpose, so they find each other's mistakes.
+- **Coding, writing and judgment roles**: opus 5.5 by default.
+- **Review panel**: one each of fable 5.2, opus 5.5 and gemini 4 carbon by default. Different models, on purpose, so they find each other's mistakes.
+
+fable 5.2, the priciest, stays out of the way. Outside the review panel, it runs only when you name it, or after opus 5.5 fails the same job twice.
 
 Only change the ones you care about. `auto` or `inherit-parent` means "use the same model as the main conversation."
 
 <Callout type="tip" title="If you use Claude Code">
-In Claude Code, helper AIs can only use Claude models. Roles that default to grok will use your current conversation's model. For three ready-made setups, see [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well).
+In Claude Code, helper AIs can only use Claude models. The gemini seat on the review panel uses your current conversation's model instead. For three ready-made setups, see [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well).
 </Callout>
 
 ## When it asks about a verification skill: as a beginner, say yes
@@ -66,7 +68,7 @@ Cursor and Claude Code only read it when a new conversation starts. So <mark>onc
 <p>Run <code>/setup-pstack</code> again. Roles you changed are kept. To reset a role to its default, delete that line from the config file.</p>
 </Q>
 <Q q="pstack updated its default models, but mine didn't change.">
-<p>Your old config still has the old values. Delete those lines (or the whole file), then run <code>/setup-pstack</code> again.</p>
+<p>Your old config still has the old values. Run <code>/setup-pstack</code> again. It swaps the old defaults it recognizes for the new ones and tells you which. Your own choices stay. For an old value it doesn't recognize, delete that line (or the whole file) first.</p>
 </Q>
 <Q q="I said no to the verification skill, and now I want it.">
 <p>Run <code>/create-verification-skill</code>. See <a href="/en/guide/6-verify-ship/">Step 6</a>.</p>

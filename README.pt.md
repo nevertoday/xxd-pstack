@@ -70,7 +70,7 @@ O modelo não é burro. Ele só trabalha sem método: muda código que não ente
 
 poteto escreveu o pstack para uso próprio. A documentação oficial parte do princípio de que você já é um engenheiro sênior:
 
-- **Uma parede de nomes logo no primeiro dia**: 34 skills, 23 playbooks, 24 princípios, tudo em jargão. De quais você precisa de verdade?
+- **Uma parede de nomes logo no primeiro dia**: 34 skills, 22 playbooks, 24 princípios, tudo em jargão. De quais você precisa de verdade?
 - **Nenhum primeiro passo óbvio**: qual versão instalar? Precisa configurar alguma coisa? Qual comando digitar?
 - **Saber o comando não basta**: se o seu prompt não diz o que é "pronto", a IA sai do rumo do mesmo jeito. Só que com mais cuidado.
 - **Respostas que você não consegue ler**: longas e técnicas. Não dá para saber qual linha importa e qual dá para pular.
@@ -94,7 +94,7 @@ Muita gente instala, testa uma vez, acha que "não muda tanta coisa assim" e des
   <img src="assets/en/how.svg" width="100%" alt="Como o pstack trabalha: você diz o que quer, /poteto-mode escolhe um playbook, chama as skills passo a passo e volta com provas">
 </p>
 
-Você só precisa lembrar de um comando, `/poteto-mode`, e dizer com clareza **o que quer** e **o que conta como pronto**. Ele escolhe um dos 23 "playbooks" (corrigir bug, adicionar recurso, refatorar, investigar desempenho...), copia os passos para uma lista de tarefas e chama as outras skills um passo de cada vez. Os passos que ele decide pular não somem em silêncio: ficam marcados como `skip: motivo`.
+Você só precisa lembrar de um comando, `/poteto-mode`, e dizer com clareza **o que quer** e **o que conta como pronto**. Ele escolhe um dos 22 "playbooks" (corrigir bug, adicionar recurso, refatorar, investigar desempenho...), copia os passos para uma lista de tarefas e chama as outras skills um passo de cada vez.
 
 ## ⚡ Comece em três minutos
 
@@ -166,7 +166,7 @@ Também há [Prompts para copiar e colar](https://pstack.xiaoxiaodong.ai/en/howt
 - **[Guia completo](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 passos para quem programa · o que é → instalar → escolher modelos → primeira tarefa → entender primeiro → projetar, construir, limpar → verificar e entregar → a noite toda → quando você já estiver à vontade
 - **[Referência de skills](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, cada uma com o texto completo e uma análise da redação
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guias, uma tarefa cada
-- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 conceitos · uma frase → uma analogia → no pstack → equívocos comuns; inclui tabelas dos 24 princípios e dos 23 playbooks
+- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 conceitos · uma frase → uma analogia → no pstack → equívocos comuns; inclui tabelas dos 24 princípios e dos 22 playbooks
 - **[Perguntas frequentes](https://pstack.xiaoxiaodong.ai/en/faq/)**: Custa dinheiro? Preciso usar o Cursor? Ele vai bagunçar meu código?
 - **Idiomas**: Página inicial e lições para iniciantes · 10 idiomas. Guia completo, skills, how-tos, wiki e perguntas frequentes · English e 中文
 

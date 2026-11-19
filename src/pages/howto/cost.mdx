@@ -5,7 +5,7 @@ time: 读 5 分钟，改设置 5 分钟
 for: 觉得 pstack 太费 token、想省点钱
 step: 2
 tldr: 小事直接说；大事让主对话用强模型、写代码用便宜模型，或者降一档预算。
-description: pstack 的钱花在哪；小事别开 /poteto-mode；主对话用强模型、写代码用便宜模型；四档预算；缩小评审组；auto 和 inherit-parent 是什么意思。
+description: pstack 的钱花在哪；小事别开 /poteto-mode；主对话用强模型、写代码用便宜模型；三档预算；缩小评审组；auto 和 inherit-parent 是什么意思。
 ---
 import Callout from "../../components/Callout.astro";
 import Term from "../../components/Term.astro";
@@ -19,7 +19,7 @@ import Fig from "../../components/Fig.astro";
 同一件事，用 `/poteto-mode` 做要多花不少 <Term k="token" />（AI 的额度）。多在三处：
 
 - **派出去的帮手 AI。** 读代码、写代码会分给几个<Term k="子代理" />，每个都单独花钱。
-- **评审组。** `arena`、`architect`、`interrogate` 会让几个模型各做一遍。默认两个，就是两份钱。
+- **评审组。** `arena`、`interrogate` 会让几个模型各做一遍。默认三个，就是三份钱。
 - **想得久。** 默认档位 `xhigh`，想得越久越贵。
 
 这些钱换来的是检查和第二意见。下面几招少花一点，又不丢掉它们。
@@ -45,11 +45,10 @@ import Fig from "../../components/Fig.astro";
 
 <Cmd c="/setup-pstack" />
 
-它会给你四档：
+它会给你三档：
 
 | 预算 | 档位 | 说明 |
 | --- | --- | --- |
-| `unlimited` | 最高到 `max` | 最贵 |
 | `large` | `xhigh` | 就是默认 |
 | `medium` | `high` | 便宜一点 |
 | `small` | `medium` | 最省 |
@@ -57,17 +56,17 @@ import Fig from "../../components/Fig.astro";
 预算只改「想多久」，不换模型。你自己改过的角色会保留。<u>选完要开一个新对话</u>，才会生效。
 
 <Callout type="tip" title="它本来就会看活定档位">
-预算只是起点。最难的活它会升一档，例行杂活会降两档以上。所以就算在 `large`，简单的活也不按最高价算。
+预算只是起点。例行杂活它会降两档以上，所以就算在 `large`，简单的活也不按最高价算。没有哪个角色会超过 `xhigh`。
 </Callout>
 
 ## 评审组少派一个
 
-`arena runners`、`architect runners`、`interrogate reviewers` 这几行，列了几个模型就派几个帮手。默认两个：
+`arena runners`、`interrogate reviewers` 这两行，列了几个模型就派几个帮手。默认三个：
 
-<Copy id="cost-panel-before" title="默认：每组两个" code={`arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
+<Copy id="cost-panel-before" title="默认：每组三个" code={`arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high
+interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high`} />
 
-删掉一个，就少一份钱，也少了一个模型的眼光。也可以每次临时说：
+删掉一个，就少一份钱，也少了一个模型的眼光。fable 最贵，删它省得最多。也可以每次临时说：
 
 <Copy id="cost-arena" code="/arena 这个命名问题不大，2 个方案就够了。" />
 
@@ -75,7 +74,7 @@ interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast`} />
 
 给角色填 `auto` 或 `inherit-parent`，意思一样：不指定模型，跟主对话用同一个。`auto` 不是一个叫 auto 的模型。
 
-主对话便宜，这些角色就跟着便宜。Claude Code 里写代码的角色默认就是它。
+主对话便宜，这些角色就跟着便宜。Claude Code 里，评审小组的 gemini 座位默认就是它。
 
 ## 卡住了？
 
