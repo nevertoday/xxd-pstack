@@ -118,12 +118,12 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
       <div class="site-top__end">
       <button class="site-search" id="site-search" type="button" aria-label={L.search}><i data-xxd-icon="Search" data-size="16"></i><span>{L.search}</span><kbd class="xxd-kbd">⌘K</kbd></button>
       <div class="site-tools">
-        <!-- 外观：用 UI Kit 的外观设置组（主题 · 圆角 · 主色），和小小东其他产品同一套、同一份存储；boot.js 在首帧前应用 -->
-        <button class="xxd-btn site-look" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-popover="site-look-pop" aria-label={L.look} data-tooltip={L.look} data-tooltip-placement="bottom">
-          <i data-xxd-icon="Palette" data-size="16"></i>
-          <span class="site-look__dot" id="site-look-dot" hidden></span>
+        <!-- 外观：UI Kit 的外观按钮，图标是现在的主题（亮是太阳、暗是月亮）；点开挂 UI Kit 的外观设置组（主题 · 圆角 · 主色），和小小东其他产品同一套、同一份存储；boot.js 在首帧前应用 -->
+        <button class="xxd-btn xxd-appearance-btn" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-popover="site-look-pop" aria-label={L.look} data-tooltip={L.look} data-tooltip-placement="bottom">
+          <i class="xxd-appearance-btn__sun" data-xxd-icon="Sun" data-size="16"></i>
+          <i class="xxd-appearance-btn__moon" data-xxd-icon="Moon" data-size="16"></i>
         </button>
-        <div class="xxd-popover site-look-pop" id="site-look-pop" popover data-placement={menuAt} data-opts={lookOpts}>
+        <div class="xxd-popover xxd-appearance-pop" id="site-look-pop" popover data-placement={menuAt} data-opts={lookOpts}>
           <!-- 外观设置组由 UI Kit 挂进来；这一组「命令」挂完以后移到它后面 -->
           <section class="xxd-group site-tool-group" id="site-tool-group" data-tool-pick data-sk-keep>
             <h3 class="xxd-group__title">{TU.group}</h3>
@@ -272,22 +272,12 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
     </script>
     <script is:inline>
       (() => {
-        const T = window.XxdTheme, X = window.Xxd;
-        if (!T || !X) return;
+        const X = window.Xxd;
+        if (!X) return;
         // 外观面板：直接挂 UI Kit 的外观设置组。改了就写进同一份设置，下次打开首帧就是这个样子
         const pop = document.getElementById("site-look-pop");
         X.mountAppearance(pop, JSON.parse(pop.dataset.opts || "{}"));
         pop.append(document.getElementById("site-tool-group"));
-        // 外观按钮右下角的小圆点：选了主色才出现，就是那个颜色
-        const dot = document.getElementById("site-look-dot");
-        const syncDot = () => {
-          const a = ({ ...T.DEFAULT_SETTINGS, ...T.read() }).accent || "";
-          dot.hidden = !a;
-          if (a) dot.style.background = a;
-        };
-        pop.addEventListener("xxd:appearance", syncDot);
-        window.addEventListener("xxd:settings", syncDot);
-        syncDot();
         X.init(document);
 
         // 搜索：⌘K / 点按钮，用 xxd 的命令面板
