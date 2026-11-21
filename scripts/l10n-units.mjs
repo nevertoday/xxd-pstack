@@ -47,10 +47,10 @@ export const zhTemplates = () => ({
   ui: UI_ALL.zh,
   nav: {
     lessons: Object.fromEntries(LESSONS.map((s) => [s.slug, text3(s)])), steps: Object.fromEntries(STEPS.map((s) => [s.slug, text3(s)])),
-    howtoGroups: HOWTO.map((g) => g.group), howto: Object.fromEntries(HOWTO.flatMap((g) => g.items.map((i) => [i.slug, i.title]))),
+    howtoGroups: Object.fromEntries(HOWTO.map((g) => [g.id, g.group])), howto: Object.fromEntries(HOWTO.flatMap((g) => g.items.map((i) => [i.slug, i.title]))),
     glossary: Object.fromEntries(Object.entries(GLOSSARY).map(([k, g]) => [k, { label: k, tip: g.tip }])),
   },
-  wiki: { groups: WIKI_GROUPS, entries: Object.fromEntries(WIKI.map(({ slug, group, see, step, howto, ...t }) => [slug, t])) },
+  wiki: { groups: Object.fromEntries(WIKI_GROUPS.map((g) => [g, g])), entries: Object.fromEntries(WIKI.map(({ slug, group, see, step, howto, ...t }) => [slug, t])) },
   faq: Object.fromEntries(FAQ.map((g) => [g.id, { title: g.title, items: g.items }])),
   skills: { groups: Object.fromEntries(SKILLS.map((g) => [g.id, g.title])), skills: Object.fromEntries(SKILLS.flatMap((g) => g.items.map((s) => [s.name, { one: s.zh, use: s.use, ex: s.ex, ...(s.needs ? { needs: s.needs } : {}) }]))) },
   figs: { ui: FIG_UI.zh, ...Object.fromEntries(Object.entries(FIGS).map(([id, f]) => [id, f.zh])) },

@@ -92,8 +92,9 @@ export const STEPS = [
 ];
 export const stepHref = (s, lang = "zh") => href(`/guide/${s.slug}/`, lang);
 
+// 每组的 id 只用来对上另外 8 种语言的翻译（src/l10n/<语言>/nav.json 的 howtoGroups），不出现在页面上
 export const HOWTO = [
-  { group: "在真实项目里", en: { group: "In real projects" }, items: [
+  { id: "real", group: "在真实项目里", en: { group: "In real projects" }, items: [
     { slug: "fix-bug", title: "修一个 bug：先复现，再修，再证明", en: { title: "Fix a bug: reproduce, fix, prove it" } },
     { slug: "add-feature", title: "加一个新功能，不碰坏旧的", en: { title: "Add a feature without breaking old ones" } },
     { slug: "refactor", title: "重构：换个写法，功能不变", en: { title: "Refactor: new code, same behavior" } },
@@ -103,11 +104,11 @@ export const HOWTO = [
     { slug: "write-docs", title: "写 README、文档、PR 说明", en: { title: "Write READMEs, docs and PR descriptions" } },
     { slug: "big-migration", title: "大改动：睡前交给它，早上看结果", en: { title: "Big changes: hand it over at night, check in the morning" } },
   ]},
-  { group: "让 AI 自己证明", en: { group: "Let the AI prove it" }, items: [
+  { id: "prove", group: "让 AI 自己证明", en: { group: "Let the AI prove it" }, items: [
     { slug: "verify-app", title: "给项目配一个验证技能，让 AI 自己去点", en: { title: "Give your project a verification skill, so the AI checks its own work" } },
     { slug: "formal-verify", title: "测试碰不到的 bug：形式化验证", en: { title: "Bugs tests can't reach: formal verification" } },
   ] },
-  { group: "工具和环境", en: { group: "Tools and setup" }, items: [
+  { id: "tools", group: "工具和环境", en: { group: "Tools and setup" }, items: [
     { slug: "claude-code", title: "在 Claude Code 里用", en: { title: "Using it in Claude Code" } },
     { slug: "cursor", title: "在 Cursor 里用", en: { title: "Using it in Cursor" } },
     { slug: "codex", title: "在 Codex 和其他工具里用", en: { title: "Using it in Codex and other tools" } },
@@ -115,12 +116,12 @@ export const HOWTO = [
     { slug: "cost", title: "控制花费", en: { title: "Keep costs down" } },
     { slug: "update-remove", title: "更新、查看、卸载", en: { title: "Update, inspect, uninstall" } },
   ]},
-  { group: "提示词", en: { group: "Prompts" }, items: [
+  { id: "prompts", group: "提示词", en: { group: "Prompts" }, items: [
     { slug: "recipes", title: "照抄就能用的提示词", en: { title: "Copy-paste prompts" } },
     { slug: "steer", title: "它跑偏了，一句话拉回来", en: { title: "Pull it back on track in one sentence" } },
     { slug: "which-skill", title: "不知道该用哪个技能", en: { title: "Not sure which skill to use" } },
   ]},
-  { group: "别人的经验", en: { group: "From other users" }, items: [
+  { id: "others", group: "别人的经验", en: { group: "From other users" }, items: [
     { slug: "field-notes", title: "用过的人怎么说：值得抄的用法和坑", en: { title: "What other users learned: tricks to copy, traps to skip" } },
   ]},
 ];
@@ -157,8 +158,8 @@ for (const code of L10N_LANGS) {
   if (!n) continue;
   for (const s of LESSONS) s[code] = overlay(s.en, n.lessons?.[s.slug]);
   for (const s of STEPS) s[code] = overlay(s.en, n.steps?.[s.slug]);
-  HOWTO.forEach((g, i) => {
-    g[code] = overlay(g.en, { group: n.howtoGroups?.[i] });
+  HOWTO.forEach((g) => {
+    g[code] = overlay(g.en, { group: n.howtoGroups?.[g.id] });
     for (const it of g.items) it[code] = overlay(it.en, { title: n.howto?.[it.slug] });
   });
   for (const [k, g] of Object.entries(GLOSSARY)) g[code] = overlay(g.en, n.glossary?.[k]);
@@ -169,7 +170,7 @@ export const HOWTO_FLAT = HOWTO.flatMap((g) => g.items.map((i) => ({ ...i, group
 export const navTemplate = () => ({
   lessons: Object.fromEntries(LESSONS.map((s) => [s.slug, s.en])),
   steps: Object.fromEntries(STEPS.map((s) => [s.slug, s.en])),
-  howtoGroups: HOWTO.map((g) => g.en.group),
+  howtoGroups: Object.fromEntries(HOWTO.map((g) => [g.id, g.en.group])),
   howto: Object.fromEntries(HOWTO_FLAT.map((h) => [h.slug, h.en.title])),
   glossary: Object.fromEntries(Object.entries(GLOSSARY).map(([k, g]) => [k, g.en])),
 });

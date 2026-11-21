@@ -1,10 +1,10 @@
 {
-  "groups": [
-    "Basics",
-    "How pstack works",
-    "Verification and evidence",
-    "Principles"
-  ],
+  "groups": {
+    "基本概念": "Basics",
+    "pstack 怎么干活": "How pstack works",
+    "验证和证据": "Verification and evidence",
+    "原则": "Principles"
+  },
   "entries": {
     "pstack": {
       "title": "What pstack is",

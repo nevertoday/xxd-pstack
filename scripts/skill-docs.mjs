@@ -8,12 +8,16 @@
 // 「写法」（lessons）不随 sync 变：引用的原句如果在新原文里找不到了，check 会提醒。
 // 「概览」（brief）也不随 sync 变：zh / en 各有 compare（3 行「直接说 / 用它」）、intro（开头一句）、sections（每节一句）。
 // 原文的节数变了，sections 就对不上了，check 会提醒，照新的节补写。
+// 另外 8 种语言的译文（src/l10n/<语言>/skill-docs/<名>.json 的 blocks，按块的顺序）也照这个办法跟着对齐：
+// 英文没变的块保留译文，变了的、新加的块留空（构建时显示英文，node scripts/l10n.mjs check 会列出来）。
+// sync 之后跑 node scripts/l10n.mjs export，更新交给翻译的英文模板。
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SKILLS } from "../src/data/skills.js";
 import { skillSections } from "../src/lib/skill-sections.js";
+import { L10N_LANGS } from "../src/l10n/load.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "src/data/skill-docs");
@@ -85,8 +89,17 @@ if (cmd === "sync") {
     const before = JSON.stringify(old);
     const after = JSON.stringify(next);
     if (before !== after) { writeFileSync(join(OUT, `${name}.json`), JSON.stringify(next, null, 2) + "\n"); changed++; }
+    // 另外 8 种语言：按旧原文找回每块的译文
+    for (const lang of L10N_LANGS) {
+      const p = join(ROOT, "src/l10n", lang, "skill-docs", `${name}.json`);
+      if (!old || !existsSync(p)) continue;
+      const tr = JSON.parse(readFileSync(p, "utf8"));
+      const byEn = new Map(old.blocks.map((b, i) => [b.en, tr.blocks?.[i]]).filter(([, t]) => t));
+      const out = { ...tr, description: old.description.en === desc ? tr.description : "", blocks: next.blocks.map((b) => byEn.get(b.en) || "") };
+      if (JSON.stringify(out) !== JSON.stringify(tr)) writeFileSync(p, JSON.stringify(out, null, 2) + "\n");
+    }
   }
-  console.log(`✓ ${NAMES.length} 个技能，${changed} 个文件有变化（上游 ${commit}）`);
+  console.log(`✓ ${NAMES.length} 个技能，${changed} 个文件有变化（上游 ${commit}）。接着跑 node scripts/l10n.mjs export`);
 }
 
 if (cmd === "check" || cmd === "sync") {

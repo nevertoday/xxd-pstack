@@ -63,13 +63,13 @@
       "sum": "Pull it back in one line; stop the same mistake from happening twice"
     }
   },
-  "howtoGroups": [
-    "In real projects",
-    "Let the AI prove it",
-    "Tools and setup",
-    "Prompts",
-    "From other users"
-  ],
+  "howtoGroups": {
+    "real": "In real projects",
+    "prove": "Let the AI prove it",
+    "tools": "Tools and setup",
+    "prompts": "Prompts",
+    "others": "From other users"
+  },
   "howto": {
     "fix-bug": "Fix a bug: reproduce, fix, prove it",
     "add-feature": "Add a feature without breaking old ones",
