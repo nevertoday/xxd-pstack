@@ -1,0 +1,65 @@
+{
+  "description": "Catch the user up like /ketchup, with a short subtitled video of slides for what happened and the waiting calls as text under it. Use for /ketchup-video.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Turns slides into bullet lists, tables or status lists.",
+        "with": "Makes one point per slide, changing one picture with arrows and highlights."
+      },
+      {
+        "without": "Lays subtitles over the picture, covering what it shows.",
+        "with": "Puts each subtitle in a same-height strip below the slide."
+      },
+      {
+        "without": "Sends the rendered video without looking at it.",
+        "with": "Checks a frame per slide, measures each hold, and re-renders any slide too fast to read."
+      }
+    ],
+    "intro": "It follows /ketchup but shows what happened as a short subtitled video. The reply holds the opening line, the video, leftover work and the calls.",
+    "sections": [
+      "Plans one takeaway sentence and one line per slide, uses at most 10 slides, built from real screenshots, diffs and data.",
+      "Gives each slide a subtitle of about ten words saying what it means, in a fixed strip below the slide.",
+      "Renders a silent landscape video with burned-in subtitles, at least one second per three words, then checks each slide's frame and hold."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Before you draw, write the one sentence the user should leave with and one line per slide.",
+      "quoteTr": "Before you draw, write the one sentence the user should leave with and one line per slide.",
+      "title": "Write the takeaway before you build",
+      "does": "The whole video follows one takeaway, and each slide helps you remember it.",
+      "why": "Making the AI say what it wants to get across before it starts keeps the result from scattering.",
+      "try": "Before asking for a report, add: \"First write the one sentence the reader should remember, then write.\""
+    },
+    {
+      "quote": "at least one second for each three words",
+      "quoteTr": "at least one second for each three words",
+      "title": "Turn \"long enough\" into a formula",
+      "does": "Each slide stays up long enough to read its words; nothing flashes past.",
+      "why": "\"Long enough\" is a feeling; \"a second per three words\" is a rule you can compute and check.",
+      "try": "Swap a feeling for a formula: \"Size the reply to the questions: at most three sentences each.\""
+    },
+    {
+      "quote": "not with a still-frame detector, which counts the faint ends of a fade as still",
+      "quoteTr": "not with a still-frame detector, which counts the faint ends of a fade as still",
+      "title": "Name the check that lies",
+      "does": "It really measures how long each slide stays up instead of trusting a tool that miscounts.",
+      "why": "Saying exactly where a common tool goes wrong stops the AI from settling for a number that only looks right.",
+      "try": "When you ask for a link check, write: \"Open each page and read it; a status code isn't enough, some error pages return 200.\""
+    }
+  ],
+  "blocks": [
+    "# Ketchup video",
+    "Follow [`/ketchup`](../ketchup/SKILL.md), but show what happened in a short subtitled video instead of its summary and visuals. Its window starts at the last message the user wrote before `/ketchup-video`, not before any earlier `/ketchup`. Writing and rendering the video, outside the repo, is the one exception to its read-only rule. The reply is ketchup's opening sentence, the embedded video, one line naming any work left that you can do yourself, and the action items. When the video shows a call's options, call each option by the name the video gives it. If the render fails, say so in one line and give only the calls.",
+    "## Slides",
+    "Use the screenshots, recordings, diffs, and data the work produced, not the chat's prose about them. Before you draw, write the one sentence the user should leave with and one line per slide. Drop each slide that does not change what the user knows. Use at most 10 slides, and fewer is better. Neither note goes in the reply.",
+    "Each slide makes one point. Build the slides on one picture and change it from slide to slide, rather than cut to an unrelated one. A color or shape means the same thing on every slide. Show the work in pictures, such as how a system works, a PR stack with each PR's state, a before and after of a fix, or options side by side. Point at what changed with arrows, highlights, and motion. A slide is never a bullet list, a status list, a table, or boxes with nothing connecting them.",
+    "Keep text to the minimum. Put each label on the thing it names, in plain words a person would say, not tags like \"Tests: pass\". Never caption what a picture shows, and never give a fact twice, across slides or in the text under them.",
+    "Show what came of each thing the user asked for, and whether it is done, still running, failed, or not checked. Never show something done that still waits on the user. Show any bug found and fixed on the way. If a visible change has no screenshot, say so on its slide and name what changed on screen. Draw only from facts you have. Never invent a number, and never draw a screen you did not capture.",
+    "## Subtitles",
+    "Give each slide one short subtitle line, about ten words, that says its point the way you would tell the user, from only what that slide shows. Say what the picture means rather than read out its labels. Put the subtitle in a strip below the slide, the same height on every slide and empty except for the subtitle, so it never covers the slide. Set it small, but readable when the video plays at chat size.",
+    "## Render",
+    "Render one silent landscape video, such as an mp4, with motion between slides. Every frame is the slide itself, edge to edge, above its subtitle strip. Make the frames from the slides, never by recording a screen, and burn each subtitle into its slide's frames so it stays on screen for the slide's whole hold. The hold is the time a slide is fully on screen, not counting the motion into or out of it. Hold each slide long enough to read the words it adds, at least one second for each three words. A slide adds its subtitle and each word that was not on the slide before it, including a label it changes. The first slide adds all its words. Words inside a screenshot do not count.",
+    "Before you embed the video, check the rendered file. Look at one frame from each slide at chat size, and check that its subtitle is readable and covers nothing. Measure each hold by matching the file's frames to the slide, not with a still-frame detector, which counts the faint ends of a fade as still. Count the words each slide adds against its measured hold. Fix any slide you cannot read in that time, render again, and check again."
+  ]
+}

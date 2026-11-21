@@ -1,0 +1,60 @@
+{
+  "description": "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Use why for motivation.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Lists files and functions without showing how the whole fits together.",
+        "with": "Writes an architectural explanation a senior engineer new to the area could start working from."
+      },
+      {
+        "without": "Edits code while it looks around.",
+        "with": "Sends one read-only helper, so your code stays untouched."
+      },
+      {
+        "without": "Silently guesses what an unclear question means.",
+        "with": "States its reading of the question, then explores. You can redirect anytime."
+      }
+    ],
+    "intro": "It answers \"how does X work\" questions. If the scope is unclear, it states its reading and explores, and you can redirect.",
+    "sections": [
+      "Sends one read-only helper that explores and writes the explanation in one pass, aimed at a senior engineer new to the area.",
+      "Hands you the helper's text with only light edits for clarity, never a rewrite."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "They should understand the architecture well enough to start working in it confidently.",
+      "quoteTr": "They should understand the architecture well enough to start working in it confidently.",
+      "title": "Set depth by what the reader can do",
+      "does": "It explains until you could start changing this code with confidence, no shallower and no line-by-line tour.",
+      "why": "\"More detail\" has no measure; naming what the reader should be able to do gives the AI a ruler for enough.",
+      "try": "Say what you need to do afterward: \"Explain enough that I can change this config myself.\""
+    },
+    {
+      "quote": "Do not substantially rewrite it.",
+      "quoteTr": "Do not substantially rewrite it.",
+      "title": "Say how much a handoff may change",
+      "does": "The main chat passes the helper's explanation to you nearly as written, with light edits for clarity.",
+      "why": "Allowing light edits and ruling out a rewrite stops the AI from squeezing a good explanation into its own lossy summary.",
+      "try": "When the AI tidies someone else's text: \"Fix typos and breaks, add a line of context if needed, but don't rewrite it.\""
+    },
+    {
+      "quote": "If the scope is ambiguous, state your interpretation and explore.",
+      "quoteTr": "If the scope is ambiguous, state your interpretation and explore.",
+      "title": "State your reading, then start",
+      "does": "When the question is vague, it says how it reads it and gets going; you can redirect any time.",
+      "why": "Saying its reading out loud means it doesn't stall waiting for you, and you can see if it misread.",
+      "try": "Add: \"Where I'm unclear, write one line on how you read it, then keep going without waiting for me.\""
+    }
+  ],
+  "blocks": [
+    "# How",
+    "Explore the codebase to answer \"how does X work?\" questions.",
+    "If the scope is ambiguous, state your interpretation and explore. The user can redirect.",
+    "## 1. Explain",
+    "Spawn one read-only general-purpose subagent that explores and explains in one pass: `Task` with `subagent_type: generalPurpose` and `readonly: true` in Cursor, `Agent` in Claude Code (`subagent_type: general-purpose`), `task` in OpenCode (`subagent_type: general`), `spawn_agent` in Codex. If your harness has no subagent tool, as in Pi without an extension, do the exploring and writing yourself. Give it the user's question and this brief:",
+    "> You are writing an architectural explanation for a senior engineer. Explore the codebase and write an explanation that a senior engineer unfamiliar with this area could read and walk away with a solid mental model. They should understand the architecture well enough to start working in it confidently. You have read-only access to the codebase.",
+    "## 2. Present",
+    "Present the subagent's output. Light edits for clarity or context from the conversation are fine. Do not substantially rewrite it."
+  ]
+}

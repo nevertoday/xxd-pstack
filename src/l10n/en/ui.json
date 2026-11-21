@@ -1,0 +1,365 @@
+{
+  "site": {
+    "brand": "pstack for beginners",
+    "desc": "Learn pstack even if you don't code: three lessons, 20 minutes, plain words.",
+    "skip": "Skip to content",
+    "menu": "Open menu",
+    "search": "Search the guide",
+    "searchPh": "Search steps, how-tos, skills, terms, questions…",
+    "searchEmpty": "Nothing found. Try another word",
+    "look": "Appearance and commands",
+    "lang": "Language",
+    "repo": "This guide on GitHub",
+    "repoMore": "Other repos: the pstack mirror, the official original",
+    "repoDefault": "Default",
+    "repos": [
+      [
+        "This guide",
+        "Source for this guide; file issues here"
+      ],
+      [
+        "pstack mirror",
+        "The version this site follows"
+      ],
+      [
+        "Official pstack",
+        "Maintained by poteto, for Cursor"
+      ]
+    ],
+    "navLabel": "Site navigation",
+    "start": "Start",
+    "home": "Home",
+    "lessons": "Beginner track: start here",
+    "main": "Full guide: for people who code",
+    "pending": "In progress",
+    "ref": "Reference",
+    "howto": "How-to: how exactly",
+    "skills": "Skills at a glance: all 34",
+    "wiki": "Wiki: what is it",
+    "faq": "FAQ",
+    "toc": "On this page",
+    "tocLabel": "On this page",
+    "hintMain": "Full guide",
+    "hintLesson": "Beginner track",
+    "hintFaq": "FAQ",
+    "hintSkill": "Skill",
+    "section": "Section",
+    "foot": "An unofficial beginner's guide to {pstack}, not its official docs. pstack is made by poteto (MIT); the official repo is the source of truth for commands and behavior. Source and feedback for this guide are on {github}.",
+    "appearance": {
+      "group": "Appearance",
+      "theme": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "corners": "Rounded corners",
+      "cornersDesc": "Off keeps every corner square",
+      "accent": "Accent",
+      "accentDesc": "Used for buttons, selection and focus"
+    }
+  },
+  "tool": {
+    "group": "Commands",
+    "label": "I use",
+    "desc": "Commands on this site are shown for this tool, so copying just works",
+    "bare": "Installed with npx",
+    "now": "Shown as: "
+  },
+  "home": {
+    "h1": "Before the AI says “done,” make it try the thing itself",
+    "lead": [
+      "pstack is a free, open-source set of work rules you install into your AI. With it, the AI first makes sure it knows what you want, then changes only what needs changing. ",
+      "You don't need to know how to code",
+      "."
+    ],
+    "cta": "Start here if you're new",
+    "ctaFull": "I code: the full guide",
+    "ctaNote": "The beginner track is three lessons, 20 minutes.",
+    "painH": "Has this happened to you?",
+    "PAIN": [
+      "The AI says “done!” You open it, and the button does nothing.",
+      "You say “still broken.” It says “sorry, fixed now.” Same result, again and again.",
+      "You wanted one small change, and it changed a pile of things you never asked about."
+    ],
+    "diffH": "What changes once it's installed",
+    "diffW": "When",
+    "diffA": "AI as usual",
+    "diffB": "With pstack",
+    "DIFF": [
+      [
+        "Before it starts",
+        "Starts without checking what you want",
+        "Repeats your goal in its own words first, so you can correct it right away"
+      ],
+      [
+        "While it changes things",
+        "Changes things somewhere that looks about right",
+        "Figures out the problem first, then changes as little as it can"
+      ],
+      [
+        "When it says it's done",
+        "“Should be fine now”",
+        "Lists what it actually checked and what it saw, and says plainly what it couldn't check"
+      ]
+    ],
+    "lessonsH": "Beginners need just three lessons",
+    "lessonsP": "Read them in order, 20 minutes in all. After these three you can use it. Everything else on the site is for looking up later.",
+    "lessonsLabel": "Beginner track: 3 lessons",
+    "fitH": "Is it for you?",
+    "yesH": "Yes, if",
+    "noH": "Not yet, if",
+    "YES": [
+      "You've made small pages, plug-ins or tools with AI and been burned by “done” that wasn't",
+      "You already have Claude Code (or Cursor or Codex) and can chat with the AI in it",
+      "You'd rather get it right than get it fast"
+    ],
+    "NO": [
+      "You haven't used a tool like Claude Code yet: install it with the official guide first, and come back once you can chat",
+      "It's a tiny change like a typo or a color: just ask the AI directly",
+      "You only want fastest and cheapest: pstack checks more, so it's slower and uses more of your plan"
+    ],
+    "devH": "If you write code",
+    "devP": "pstack is the pack of skills poteto (formerly on the React core team; wrote pstack at Cursor, now builds Grok Bot) uses for their own code every day: 34 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
+    "FLOW": [
+      [
+        "You say one sentence",
+        "The goal, plus how you'll know it's done. For example: “reproduce it first, then fix, then verify.”"
+      ],
+      [
+        "/poteto-mode picks a playbook",
+        "It chooses one of 22 playbooks and copies its steps into the todo list as they are."
+      ],
+      [
+        "Skills run step by step",
+        "/how to read code, /architect to settle a design, /interrogate to pick holes; subagents when there's a lot to do."
+      ],
+      [
+        "It checks before handing back",
+        "Real command output, screenshots, before-and-after. If something can't be verified, it says so."
+      ]
+    ],
+    "CONN": [
+      "match",
+      "do",
+      "verify"
+    ],
+    "stepsLabel": "Full guide: {n} steps"
+  },
+  "lesson": {
+    "eyebrow": "Beginner track · lesson {n} of {total}",
+    "prog": "Progress: lesson {n} of {total}",
+    "nav": "Previous and next lesson",
+    "prev": "Previous",
+    "next": "Next",
+    "title": "Lesson {n}: {title}",
+    "tldr": "In one line"
+  },
+  "guide": {
+    "head": "Step {n}: {title}",
+    "eyebrow": "Full guide · step {n} of {last}",
+    "prog": "Progress: step {n} of {last}",
+    "need": "You need: ",
+    "nav": "Previous and next step",
+    "prev": "Previous",
+    "next": "Next",
+    "pending": "Next (in progress)",
+    "tldr": "In one line"
+  },
+  "howto": {
+    "tldr": "In one line",
+    "for": "For: ",
+    "step": "Full guide step {n}: ",
+    "related": "Related articles",
+    "more": "More in “{group}”"
+  },
+  "howtoIndex": {
+    "h": "How-to: how exactly",
+    "p": "One job per article: find the one that matches what you're doing, copy the prompt, change it to fit."
+  },
+  "faq": {
+    "h": "FAQ",
+    "p": [
+      "The questions that come up most when people first meet pstack. Didn't find yours? Open one on ",
+      ", or press ",
+      " to search the whole site."
+    ]
+  },
+  "notFound": {
+    "h": "Page not found",
+    "p": [
+      "The link may be wrong, or the page has moved. Press ",
+      " to search, or start again from here:"
+    ],
+    "home": "Home",
+    "step0": "Beginner track: lesson 1",
+    "skills": "Skills at a glance",
+    "faq": "FAQ"
+  },
+  "wikiIndex": {
+    "h": "Wiki: what is it",
+    "p1": "Every term in the guide, explained in plain words. Each one starts with a single sentence; read on only if you want more.",
+    "p2": [
+      "Don't want the full article? Hover over any word with a dotted underline in the guide for a one-line explanation; click it to come here. To look up a skill by name, see ",
+      "Skills at a glance",
+      "."
+    ]
+  },
+  "wikiEntry": {
+    "like": "An analogy",
+    "here": "In pstack",
+    "list": "List",
+    "head": [
+      "Name",
+      "In plain words"
+    ],
+    "myths": "Common misconceptions",
+    "try": "Try it: ",
+    "step": "Full guide step {n}: ",
+    "see": "Related: ",
+    "sep": ", "
+  },
+  "skills": {
+    "h": "Skills at a glance",
+    "desc": "All {n} pstack skills, each in one plain sentence: what it does and when to use it.",
+    "intro": [
+      "{n} skills, plus ",
+      "24 principles",
+      ". ",
+      "You don't need to memorize them.",
+      " Day to day, type ",
+      " and it calls the “Auto” ones itself. Come here to call one by name, or to look up a name the AI mentioned. Click a card to see how it differs from just asking, what its document says, and the full text."
+    ],
+    "all": "All",
+    "auto": "Auto",
+    "manual": "Type it yourself",
+    "named": "Call when needed",
+    "use": "When to use",
+    "search": "Filter by name or task, e.g. review, slow, why",
+    "filterLabel": "Who calls it",
+    "empty": "No skill matches. Try fewer words, or pick “All”.",
+    "legend": {
+      "auto": "/poteto-mode uses it when a step needs it",
+      "manual": "Runs only when you type it yourself",
+      "named": "Type it when you want it"
+    },
+    "shown": "{n} shown"
+  },
+  "skillDoc": {
+    "ex": "Say it like this",
+    "needs": "Install with",
+    "guide": "Full how-to",
+    "sep": ", ",
+    "oneLine": "In one line",
+    "tabs": [
+      "Overview",
+      "Wording worth borrowing",
+      "Full text"
+    ],
+    "tabsLabel": "Parts of this page",
+    "vsH": "Just asking vs. using it",
+    "vsP": "The same request, typed plainly or with /{name}. Here's what changes.",
+    "without": "Just asking",
+    "with": "With /{name}",
+    "outH": "What the document says",
+    "outP": "{secs} sections, about {words} words, {min} min to read. Click a section to read it.",
+    "outPNoSec": "About {words} words, {min} min to read.",
+    "intro": "Opening",
+    "toLearn": "See the wording worth borrowing",
+    "toFull": "Read the full text",
+    "learnH": "Wording worth borrowing",
+    "learnP": "A few sentences from the original: what each one makes the AI do, why it works, and how you can borrow it.",
+    "does": "Makes the AI",
+    "why": "Why it works",
+    "try": "Borrow it",
+    "fullH": "Full text",
+    "fullP": "The SKILL.md the AI reads, as written.",
+    "modes": {
+      "tr": "Translation",
+      "en": "Original",
+      "both": "Side by side"
+    },
+    "jump": "Jump to",
+    "jumpTop": "Top",
+    "credit": [
+      "Original by Lauren Tan (poteto), MIT license. Checked against the pstack mirror at",
+      "."
+    ],
+    "open": "View on GitHub",
+    "moreH": "More in “{group}”",
+    "prev": "Previous",
+    "next": "Next",
+    "tr": {
+      "fullP": "The SKILL.md the AI reads. Read the translation, the original, or both side by side.",
+      "credit": [
+        "Original by Lauren Tan (poteto), MIT license. Translated by this site; checked against the pstack mirror at",
+        "."
+      ]
+    }
+  },
+  "callout": {
+    "ok": "You should see",
+    "warn": "Heads up",
+    "no": "Don't do this",
+    "tip": "Tip"
+  },
+  "checkpoint": {
+    "title": "Before moving on, check",
+    "done": "All ticked — on to the next step."
+  },
+  "copy": {
+    "title": "Copy this",
+    "copy": "Copy"
+  },
+  "cmd": {
+    "done": "Command copied",
+    "label": "Copy command: {c}"
+  },
+  "reply": {
+    "title": "Illustration: roughly what its reply looks like"
+  },
+  "tabs": {
+    "label": "Choose"
+  },
+  "shot": {
+    "stamp": "Screenshot {date}; the interface may have changed since."
+  },
+  "feedback": {
+    "lead": "Something on this page unclear, or didn't work as written?",
+    "gh": "Bring it up on GitHub",
+    "faq": [
+      ". Or check the ",
+      "FAQ",
+      " first."
+    ]
+  },
+  "contact": {
+    "h": "Questions and discussion",
+    "p": "Stuck on a step, found something unclear, or built something with pstack you'd like to show? Bring it to GitHub. The questions that come up most get worked into the guide. Writing in your own language is fine.",
+    "faq": [
+      "Before asking, check the ",
+      "FAQ",
+      ": many answers are already there."
+    ],
+    "btn": "Ask or discuss on GitHub",
+    "x": "The author is on X",
+    "privacy": "Before sending screenshots, blur out API keys, company code and account details."
+  },
+  "partial": {
+    "more": "More (in English)",
+    "main": "Full guide: 9 steps",
+    "hintMain": "Full guide (English)",
+    "hintFaq": "FAQ (English)",
+    "hintSkill": "Skill (English)",
+    "ctaFull": "I code: the full guide (English)",
+    "devNote": "The full guide is in English (and Chinese) for now.",
+    "feedbackFaq": [
+      ". Or check the ",
+      "FAQ (in English)",
+      " first."
+    ],
+    "contactFaq": [
+      "Before asking, check the ",
+      "FAQ (in English)",
+      ": many answers are already there."
+    ]
+  }
+}

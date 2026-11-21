@@ -1,0 +1,61 @@
+{
+  "description": "Make a task deeper, not bigger, then rewrite the prompt. Use for /sharpen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Makes the task bigger by piling on more work.",
+        "with": "First says what a top professional would do that you didn't ask for."
+      },
+      {
+        "without": "Starts from material someone already digested for you.",
+        "with": "Names the rawest material a professional would start from."
+      },
+      {
+        "without": "Counts the result right because you and the AI like it.",
+        "with": "Names something outside you and the AI that would show it's right."
+      }
+    ],
+    "intro": "Before rewriting your prompt, the AI names what a top professional would add, the rawest material, the methods and tools, and an outside check. Then it rewrites the prompt to ask for exactly that: prototype the choices an experiment can settle, and leave taste calls to you.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "I want a deeper version of this task, not a bigger one.",
+      "quoteTr": "I want a deeper version of this task, not a bigger one.",
+      "title": "Name the direction you don't want",
+      "does": "It rewrites your prompt to go deeper, instead of piling more work into it.",
+      "why": "\"Deeper\" and \"bigger\" both mean \"more\"; putting them side by side tells the AI which way to add.",
+      "try": "When you ask for an improvement, name the direction: \"I want this article sharper, not longer.\""
+    },
+    {
+      "quote": "Say what a top professional in this field would do here that I'm not asking for.",
+      "quoteTr": "Say what a top professional in this field would do here that I'm not asking for.",
+      "title": "Borrow an expert's eyes",
+      "does": "It adds the steps you didn't think of but an expert would never skip.",
+      "why": "\"Do better\" has no direction; \"what would a top professional do\" gives the AI someone concrete to copy.",
+      "try": "Before an edit, ask: \"What would a senior editor do to this draft that I haven't asked for?\""
+    },
+    {
+      "quote": "Say what, other than you or me, would show the result is right.",
+      "quoteTr": "Say what, other than you or me, would show the result is right.",
+      "title": "Ask for an outside judge",
+      "does": "The rewritten prompt includes an outside check, such as real data, a test, or actually following it.",
+      "why": "The writer and the asker both tend to like the result; naming something outside them is what makes it convincing.",
+      "try": "Add: \"Besides you and me liking it, what would prove this migration guide is right?\""
+    },
+    {
+      "quote": "Leave product or preference choices that no experiment can settle for me to make.",
+      "quoteTr": "Leave product or preference choices that no experiment can settle for me to make.",
+      "title": "Mark which calls are yours",
+      "does": "It prototypes choices an experiment can settle and recommends one; taste calls, like style, it leaves to you.",
+      "why": "Splitting what a test can answer from what only you can decide stops the AI from deciding for you to look thorough.",
+      "try": "Write: \"Prototype both layouts and recommend one; I'll pick the colors, so just list two or three options.\""
+    }
+  ],
+  "blocks": [
+    "I want a deeper version of this task, not a bigger one. Before rewriting it, do four things:",
+    "1. Say what a top professional in this field would do here that I'm not asking for.\n2. Name the rawest material they would start from instead of what has already been digested for me.\n3. Name the specific methods and tools they would use.\n4. Say what, other than you or me, would show the result is right.",
+    "Then rewrite my prompt to ask for exactly that.",
+    "Have the rewritten prompt ask the agent to prototype any choice an experiment can settle and recommend an option based on what it observed. Leave product or preference choices that no experiment can settle for me to make."
+  ]
+}

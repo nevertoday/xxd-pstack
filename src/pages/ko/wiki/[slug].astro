@@ -1,0 +1,8 @@
+---
+import V from "../../../views/WikiEntry.astro";
+import { WIKI } from "../../../data/wiki.js";
+import { isFull } from "../../../data/nav.js";
+// 这种语言还不是全站（src/data/nav.js 的 LANGS）就不生成
+export function getStaticPaths() { return isFull("ko") ? WIKI.map((w) => ({ params: { slug: w.slug } })) : []; }
+---
+<V slug={Astro.params.slug} />

@@ -1,0 +1,85 @@
+{
+  "before": {
+    "title": "Before you start",
+    "items": [
+      [
+        "Does pstack cost money?",
+        "No, pstack is free and open source (MIT). Your AI tool still costs what it costs: subscription or API bill as usual. **The same job uses more of your quota with pstack**, since it runs more helper AIs and checks. See [Keep costs down](/en/howto/cost/)."
+      ],
+      [
+        "Do I have to use Cursor?",
+        "No. The official version is written for Cursor. [backnotprop/pstack](https://github.com/backnotprop/pstack) is a reworked copy (a mirror) that works in Claude Code, Codex, OpenCode, Pi and more. Other tools skip the few Cursor-only features (Automations, Bugbot, cloud agents) and leave a one-line note."
+      ],
+      [
+        "I can't really code. Can I still use it?",
+        "Yes, start by using it to understand code. `/how`, `/teach` and `/bro` get the AI to explain a project in plain words. To let it change code, you need to follow the evidence it shows: command output, screenshots, before and after. Your project should ideally be in Git too."
+      ],
+      [
+        "How does it relate to the plan mode built into Claude Code or Cursor?",
+        "They don't clash, so use either. pstack has no planning skill: the author thinks the best plan is the code itself. If you need a plan, wait until the design is settled, then ask `/poteto-mode` for a plan in phases. Each PR should say how it will be checked."
+      ],
+      [
+        "What's the difference between the official version and the backnotprop mirror?",
+        "On Cursor, install the official version. On anything else, install the mirror. The mirror syncs daily with the [official version](https://github.com/cursor/plugins/tree/main/pstack) and rewrites the Cursor-only parts to work anywhere. It also carries two community fixes. `/no-comments` keeps comments about outside rules. `watch-pr`, which watches your PRs, no longer pulls a PR from someone's fork into your stack, so its review comments stay out of what the AI reads."
+      ]
+    ]
+  },
+  "using": {
+    "title": "Using it",
+    "items": [
+      [
+        "Do I type /poteto-mode for everything?",
+        "No, only for work that needs care. For a one-line copy change or an obvious small fix, just tell the AI. When you're not sure: ==if getting it wrong means redoing it, type it==."
+      ],
+      [
+        "Can I write prompts in a language other than English?",
+        "Yes. The skills are written in English, but the model understands other languages. Keep skill names and principle names in English, like `/how` and `prove it works`. Write the rest in any language."
+      ],
+      [
+        "Will it mess up my code?",
+        "No, and you stay in control. If you only want it to investigate, say \"don't change any code yet\". Code changes happen in a separate copy (a worktree) by default, and end as a PR for you to review. Before anything it can't undo, like deleting things or force-pushing, it stops and asks."
+      ],
+      [
+        "Why does it keep going without asking me?",
+        "That's on purpose: it does what can be undone first, shows you, and lets you correct it. Its first reply restates what you want and what it plans to change. If that's wrong, just interrupt. If running something can answer a question, it tries that instead of asking you."
+      ],
+      [
+        "The replies are too long and technical. What do I do?",
+        "Type `/bro`. It says the last reply again in plain words, shorter and without jargon. If you step away and want an update, type `/ketchup`."
+      ],
+      [
+        "Nothing happens when I type a command in Claude Code?",
+        "A plugin install puts every command under `pstack:`: you type `!/pstack:poteto-mode`, and plain `!/poteto-mode` isn't recognized. That's Claude Code's rule for all plugins, so two plugins can't clash over a name. Commands on this site are written that way by default, so copying works. If you installed with `npx skills`, there's no prefix: open Appearance at the top right and set \"I use\" to \"Installed with npx\". Also, after `/setup-pstack`, start a new session so your model choices take effect. See [Use it in Claude Code](/en/howto/claude-code/)."
+      ],
+      [
+        "I don't have the default models. Will it still work?",
+        "Yes. By default opus 5.5 writes the code and makes the calls, and the review panel adds fable 5.2 and gemini 4 neon. A missing model gets swapped. Claude Code uses the current session's model, and other tools use the closest one they have. To choose yourself, run `/setup-pstack` once. It finds the models you can use and lets you pick."
+      ],
+      [
+        "Can I use it if my project isn't in Git?",
+        "For reading code and investigating, yes; for changing code, set up Git first. Most playbooks that change code create worktrees, make commits and open PRs, which all need Git. Run `git init` in your project, make one commit, and you're ready."
+      ],
+      [
+        "How do I uninstall it?",
+        "It depends on how you installed. Claude Code plugin: type `/plugin uninstall pstack@cursor-plugins` in the chat box, then `/reload-plugins`; to pause it instead, use `disable` in place of `uninstall`. Installed with `npx skills`: run `npx skills remove` in your terminal. If you ran `/setup-pstack`, also delete the settings file it wrote. See [Update, inspect, uninstall](/en/howto/update-remove/)."
+      ]
+    ]
+  },
+  "trust": {
+    "title": "Can I trust it?",
+    "items": [
+      [
+        "It says it's done. How do I know that's true?",
+        "Look at the real results it posts: command output, screenshots, before-and-after numbers. To make sure it posts them, say \"what to show me when it's done\" in your prompt. A good reply marks what it couldn't check as \"not sure\". **If it just says \"all good\" and posts nothing, don't trust it.** Reply `apply prove it works`."
+      ],
+      [
+        "Is it safe to let it run all night?",
+        "Only once all four of these are true. ① You've done this job yourself, or watched it do it once. ② It has the tools you'd use, like a verification skill, logs, a profiler. ③ Every phase can be checked, and it stops when one falls short. ④ You've read a few transcripts and turned repeat failures into checks. See [Let it run on its own](/en/guide/7-overnight/)."
+      ],
+      [
+        "Why does it have several different models review the work?",
+        "Because a model tends to approve what it wrote itself. pstack has models from other companies pick holes and score the work; `/interrogate` and `/arena` both do this. It only keeps problems a command can actually make fail. Different models have different blind spots, so together they miss less."
+      ]
+    ]
+  }
+}

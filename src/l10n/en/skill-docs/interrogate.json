@@ -1,0 +1,74 @@
+{
+  "description": "Use for \"interrogate\", \"adversarial review\", \"multi-model review\", \"challenge this\", \"stress test this code\", \"find blind spots\", or \"tear this apart\". Adversaries try to break a change or design, and only findings proven by a run survive.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Pads the list with style and naming opinions.",
+        "with": "Gives each finding with the command, its actual output, and the expected output."
+      },
+      {
+        "without": "Accepts whatever a reviewer claims is broken.",
+        "with": "Reruns every finding's command and drops any that don't show the failure."
+      },
+      {
+        "without": "Fixes the code as soon as it spots a problem.",
+        "with": "Hands back a report only. You decide what to fix."
+      }
+    ],
+    "intro": "It says adversaries try to break the change, only findings proven by a run count, and it reports without fixing.",
+    "sections": [
+      "Defaults to the whole branch diff, restates the intent with `in-your-own-words`, and asks you when the intent is unclear.",
+      "Reuses `arena`'s spawning steps, giving each adversary its own worktree and the same \"break this change\" brief.",
+      "Reruns each finding's command, keeps it only if it fails and breaks the intent, and merges shared root causes.",
+      "Reports three parts: the restated intent, each verified finding with who found it, and each adversary's dropped count and reasons."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Adversaries try to break a change or a design.",
+      "quoteTr": "Adversaries try to break a change or a design.",
+      "title": "Cast the AI as an opponent",
+      "does": "The helpers aren't there to vouch for the code. Their job is to break it.",
+      "why": "\"Adversary\" and \"break\" turn \"take a look\" into \"defeat it\", so the AI hunts harder.",
+      "try": "When the AI reviews a plan, say: \"You're the toughest competitor. Prove this plan won't work.\""
+    },
+    {
+      "quote": "Report each finding with a title, the exact command, the output it printed, and the output the intent requires.",
+      "quoteTr": "Report each finding with a title, the exact command, the output it printed, and the output the intent requires.",
+      "title": "Put actual next to expected",
+      "does": "Each problem comes with the command, what it printed, and what it should print, so you can rerun it.",
+      "why": "Writing \"what happened\" next to \"what should happen\" shows the gap at once and leaves no room for hand-waving.",
+      "try": "When the AI reports bugs, write: \"For each: what you did, what you saw, what you expected to see.\""
+    },
+    {
+      "quote": "Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter.",
+      "quoteTr": "Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter.",
+      "title": "Name what the rule covers",
+      "does": "It won't pad the list with naming, style, or \"might break later\". Every finding was actually run.",
+      "why": "\"Leave out what you didn't run\" leaves gaps. Naming the kinds most likely to sneak in closes them.",
+      "try": "When the AI hunts for problems, write: \"Only report what stops a customer paying. Colors, wording, and future risks don't count.\""
+    },
+    {
+      "quote": "No findings is a valid result.",
+      "quoteTr": "No findings is a valid result.",
+      "title": "Say \"nothing\" is a fine answer",
+      "does": "When the code is fine, it says so instead of inventing problems to look busy.",
+      "why": "An AI asked to find problems feels it must find some. Saying an empty result counts removes that pressure.",
+      "try": "When the AI checks your work, add: \"If you find no typos, just reply 'none found'.\""
+    }
+  ],
+  "blocks": [
+    "# Interrogate",
+    "Adversaries try to break a change or a design. A finding survives only when a run proves it. Report the findings. Do not apply fixes.",
+    "## Frame",
+    "The scope is what the user names. Otherwise it is the branch diff from its merge base with the base branch, through the working tree. State the intent with the **in-your-own-words** skill, from the user's message, the commits, and the PR description. Ask the user when the intent is unclear.",
+    "## Fan out",
+    "Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with four changes. Read the `interrogate reviewers` line in place of `arena runners`. Copy the scope's uncommitted changes into each worktree. Spawn each adversary as a general-purpose subagent (`generalPurpose` in Cursor). In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:",
+    "> Break this change. Prove each finding with a run against the real code, such as a failing test, a repro script, or command output that shows the wrong behavior. For a design or plan, run a prototype or probe the current tree. Keep repros in your own worktree. Report each finding with a title, the exact command, the output it printed, and the output the intent requires. Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter. No findings is a valid result.",
+    "## Verify",
+    "Verify each finding per arena Phase F by rerunning its command. Keep a finding when the output shows the failure and the failure breaks the intent. Drop the rest. Merge findings that share a root cause.",
+    "Skip arena Phases C, D, and E. Adversaries find different failures, so the verdict keeps every verified finding, not one adversary's list.",
+    "## Output",
+    "- **Intent**: the restatement.\n- **Findings**: for each verified finding, the command, its output, how it breaks the intent, and the adversaries that found it. Say \"no verified findings\" when none survive.\n- **Dropped**: for each adversary, the count of dropped findings and why."
+  ]
+}

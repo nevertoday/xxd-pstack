@@ -1,0 +1,51 @@
+{
+  "description": "Use for 'why does X work this way', 'why we picked Y', design rationale, regressions, postmortems, or data-backed thresholds. Returns a cited read on decisions and tradeoffs. Use how for runtime behavior.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Guesses a reason from the code itself.",
+        "with": "Reads the commits and PR discussions behind it and each later change, then other sources if the trail is thin."
+      },
+      {
+        "without": "States a guessed reason as if it were fact.",
+        "with": "Quotes what the authors wrote and marks its own inferences as inferences."
+      },
+      {
+        "without": "Pieces together an answer even when the record has none.",
+        "with": "Says what the record does not answer."
+      }
+    ],
+    "intro": "It answers why from the record, not the code: the commits and PR discussions, then other sources if the trail is thin. It cites the authors, marks inferences, and names what the record leaves open.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
+      "quoteTr": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
+      "title": "Name where the answer lives",
+      "does": "It reads the original commits and PR discussions instead of inventing a plausible reason from the code.",
+      "why": "Code shows what, not why; naming which record to read, through every later change, leaves no room to hand in a guess.",
+      "try": "When you ask why, point to the source: \"Read the commit and discussion that added this setting, and each change since, not just today's code.\""
+    },
+    {
+      "quote": "Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer.",
+      "quoteTr": "Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer.",
+      "title": "Ask for facts and guesses apart",
+      "does": "Quotes from the authors, its own inferences and the open gaps come apart, so you know which lines to trust outright.",
+      "why": "A \"why\" story is easy to smooth over; labeling inferences and naming the gaps keeps guesses out of the facts.",
+      "try": "When you ask why, add: \"Quote what has a source, mark your own guesses 'guess', and say plainly what you couldn't find.\""
+    },
+    {
+      "quote": "Use how for runtime behavior.",
+      "quoteTr": "Use how for runtime behavior.",
+      "title": "Say what isn't its job",
+      "does": "Questions about runtime behavior go to `how`, instead of being answered from history.",
+      "why": "\"When to use\" alone lets neighboring tools step on each other; adding who handles the rest draws the line.",
+      "try": "When you split up work, mark the edge: \"You handle the copy; layout questions go to design, don't change it yourself.\""
+    }
+  ],
+  "blocks": [
+    "# Why",
+    "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin. Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer."
+  ]
+}

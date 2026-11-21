@@ -1,0 +1,60 @@
+{
+  "description": "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Starts writing the implementation straight away.",
+        "with": "Traces every system the change touches and sketches types, signatures and module boundaries first."
+      },
+      {
+        "without": "Runs with the first design it thinks of.",
+        "with": "Sketches two different shapes and picks the one with one owner per state and the least for callers to know."
+      },
+      {
+        "without": "Bolts workarounds onto a design that doesn't fit.",
+        "with": "Redesigns instead of patching when workarounds repeat."
+      }
+    ],
+    "intro": "Before code, it traces the systems involved, sketches two shapes, and picks by one owner per state, one way per task, and least for callers to know. Repeated workarounds mean a redesign, and large or contested designs go to `arena`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least.",
+      "quoteTr": "Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least.",
+      "title": "Require a second design, then judge",
+      "does": "It sketches at least two differently shaped designs and picks by three concrete tests, instead of running with its first idea.",
+      "why": "Ask for one design and you get the first idea; ask for two plus the tests (one owner, one way, least to know) and the choice has grounds.",
+      "try": "When you ask for a plan: \"Give me two very different approaches, compare them on cost, ease of change and handoff, then pick one.\""
+    },
+    {
+      "quote": "Redesign instead of patching if workarounds repeat.",
+      "quoteTr": "Redesign instead of patching if workarounds repeat.",
+      "title": "Say when to start over",
+      "does": "When the same workaround keeps coming back, it redesigns instead of piling patches onto the wrong shape.",
+      "why": "\"When to give up\" is hard to judge; making repeated workarounds the signal keeps it from quitting too early or patching forever.",
+      "try": "Set a bar for a process: \"If the same complaint keeps coming back, redesign the process instead of patching each case.\""
+    },
+    {
+      "quote": "For a large or contested design, run the **arena** skill instead of sketching alone.",
+      "quoteTr": "For a large or contested design, run the **arena** skill instead of sketching alone.",
+      "title": "Scale the effort to the stakes",
+      "does": "It sketches small designs itself, and for large or contested ones has several models each sketch one to pick from.",
+      "why": "Naming when to escalate keeps the AI from overdoing small jobs or deciding big ones alone.",
+      "try": "Give an escalation rule: \"Decide small changes yourself; for anything touching three or more pages, show me two or three options first.\""
+    },
+    {
+      "quote": "Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+      "quoteTr": "Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+      "title": "Name the cost of skipping it",
+      "does": "On work where jumping to code would lock in the wrong shape, it designs first instead of starting to code.",
+      "why": "\"Use it for hard work\" is vague; naming the cost of skipping it (a locked-in shape) lets the AI tell which jobs need design first.",
+      "try": "State the rule with its cost: \"Show me group announcements before sending; once they're out, they can't be taken back.\""
+    }
+  ],
+  "blocks": [
+    "# Architect",
+    "Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least. Redesign instead of patching if workarounds repeat.",
+    "For a large or contested design, run the **arena** skill instead of sketching alone."
+  ]
+}

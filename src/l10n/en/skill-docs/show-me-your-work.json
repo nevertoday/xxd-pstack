@@ -1,0 +1,96 @@
+{
+  "description": "Keep a reviewable decision trail for long-running or unattended work: a TSV log with one row per decision (what, why, evidence, result). Local by default; commit it when a reviewer needs the trail to trust the result. Use for /show-me-your-work, autonomous or multi-phase runs, or work a human reviews after stepping away.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Backs up its claims with paragraphs of prose.",
+        "with": "Logs one TSV row per decision, with a commit, PR or file:line as evidence."
+      },
+      {
+        "without": "Reviews its own work and calls it fine.",
+        "with": "Has another vendor's model review the trail, then ends with an Attention section."
+      },
+      {
+        "without": "Trusts its own log as written.",
+        "with": "Checks every row against the run's transcript before handing back, adding rows for gaps."
+      }
+    ],
+    "intro": "It opens with one line: keep a single log.",
+    "sections": [
+      "One TSV file, one row per decision, with six columns: ts, phase, decision, why, evidence, result. An example follows.",
+      "Appends plain-worded rows with scripts/log.sh for forks, finished units and reverts. Each new run opens with a start row.",
+      "Keeps the log at decisions.tsv in the work dir, out of git, committed only when a reviewer needs the trail.",
+      "Append only: a new row supersedes a wrong one. Evidence from committed scripts beats one-off checks.",
+      "Before handing back, reads this run's transcript, checks each row and its evidence, and adds rows for gaps and errors.",
+      "A helper on another vendor's model reviews the trail. The reply ends with an Attention section naming that model.",
+      "Tells the reader to read top to bottom, follow evidence pointers, and render the TSV with column in a terminal.",
+      "Other skills point to this one for their audit trail and let it own the format."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Evidence is a pointer, not prose.",
+      "quoteTr": "Evidence is a pointer, not prose.",
+      "title": "Ask where the proof is",
+      "does": "Each row comes with a commit, file or screenshot you can open, not a paragraph saying \"I checked\".",
+      "why": "Fixing the shape of evidence leaves the AI no room to swap proof for nice prose.",
+      "try": "When you ask for conclusions, add: \"Put the file name and line number after each one; no need to explain.\""
+    },
+    {
+      "quote": "A wrong call gets a new row that supersedes it.",
+      "quoteTr": "A wrong call gets a new row that supersedes it.",
+      "title": "Pair each ban with an alternative",
+      "does": "When an earlier row was wrong, it adds a correction below and leaves the old row, so you can see it changed its mind.",
+      "why": "A bare \"don't edit history\" leaves the AI stuck or tempted to cheat; naming what to do instead gives it a way forward.",
+      "try": "When you forbid something, give the alternative: \"Don't delete old entries; mark outdated ones with a new line 'void, see #5'.\""
+    },
+    {
+      "quote": "Correct the log, not the story.",
+      "quoteTr": "Correct the log, not the story.",
+      "title": "Pack rules into short contrasts",
+      "does": "When the check finds a mismatch, it adds a row with what really happened instead of polishing the story.",
+      "why": "\"Fix this, not that\" is short enough to remember, so the AI keeps it even at the end of a long run.",
+      "try": "Write your most important rule as a short contrast: \"Fix the bug, not the error message.\""
+    },
+    {
+      "quote": "\"No flags\" is a valid value.",
+      "quoteTr": "\"No flags\" is a valid value.",
+      "title": "Say \"none\" is an answer",
+      "does": "When the review finds nothing, it writes \"No flags\" instead of inventing a few to look useful.",
+      "why": "Once an empty answer counts, the AI has no reason to make up problems.",
+      "try": "When you ask for problems, add: \"If you find no risks, say 'none'; don't pad the list.\""
+    }
+  ],
+  "blocks": [
+    "# Show me your work",
+    "Keep one canonical log.",
+    "## The format",
+    "A single TSV file, one row per decision. Cells stay single-line. Evidence is a pointer, not prose.",
+    "Copy `references/decision-log-template.tsv` (the header row) to start a clean log. Columns:",
+    "- **ts.** ISO8601 timestamp.\n- **phase.** The phase or workstream.\n- **decision.** What was chosen or done, one line.\n- **why.** The reason in plain words. If a principle drove it, say it plainly, not as a jargon tag.\n- **evidence.** A link or path that proves it: commit SHA, PR number, `file:line`, or an artifact, trace, or screenshot path. Never a paragraph.\n- **result.** The outcome or predicate state: `tests green`, `reverted`, `pixel-diff 0`, `INCONCLUSIVE`, `open`.",
+    "An example, plain-spoken so a reviewer reads it at a glance.",
+    "```\nts\tphase\tdecision\twhy\tevidence\tresult\n2026-05-24T09:02:00Z\tframe\tcounted the work first, about 100 components and roughly 75 hours\twanted to know the size before starting a long run\tcommit 3a9f1c2\tfound 5 things to sort out before starting\n2026-05-24T09:40:00Z\tharness\ttook screenshots of the old version before changing anything\tso we can compare old against new and catch any visual change\tscripts/snapshot.sh, baseline/\tsaved 120 reference screenshots\n2026-05-24T11:15:00Z\twidget\tmoved the widget styles over without changing how it looks\tkeep the change small and the result identical\tcommit 7c21e0a, pixel-diff 0\tlooks identical, tests pass\n2026-05-24T12:30:00Z\twidget\tthrew out a helper's work because its screenshots were blank\tchecked the real files instead of trusting its summary\tworktree reset\treverted, tightened the instructions for next time\n```",
+    "## Logging a row",
+    "Write each entry the way you'd tell a teammate what you did. Plain words, concrete actions, no AI speak or abstract jargon (the **unslop** skill applies to log text too).",
+    "Use the helper `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>`. It stamps `ts`, writes the header on first use, strips stray tabs/newlines, and prefixes any cell starting with `=`, `+`, `-`, or `@` with a single quote. A bare `printf` appending a row works too, but mind those same bytes if cells come from generated or user-supplied text.",
+    "Log decision points and checkpoints, not every action: a fork chosen, a unit completed with its verification result, a pivot or revert with its trigger, a blocker surfaced, a gate fixed. For loop runs, one row per iteration. Skip the trivial and self-evident.",
+    "A run is one agent conversation, including its later turns and any summary of it. A pickup, a replacement agent, or a new chat starts a new run. When a run adds to a log that already has rows, its first row has phase `start`, and so does its first row after another run's `start` row. So a run that comes back to a log in a later turn first reads the log's last rows to see whether another run wrote since. A `start` row names the `ts` range of the rows before it that this run did not write, and its evidence names this run, such as its agent id. Use phase `start` for nothing else.",
+    "## Where it lives",
+    "By default the log is a working artifact, not committed. Keep it at `decisions.tsv` in the work dir, or `.audit/<task-slug>.tsv` when several efforts run at once, and leave it out of git.",
+    "Commit it only when the work is ambitious enough that a reviewer needs the trail to trust the result.",
+    "## Rules",
+    "- Append-only. A wrong call gets a new row that supersedes it. Never edit or delete history.\n- Prefer evidence produced by committed scripts over hand-made one-offs (the **encode-lessons-in-structure** principle skill).",
+    "## Audit the log against the transcript",
+    "At the end of the run, before handing back, check the log told the truth. Read this run's transcript from the active workspace's session directory: in Cursor, the `agent-transcripts/` directory the system prompt names. In Claude Code, `~/.claude/projects/<slug>/` (the workspace path with every character that isn't a letter or digit turned into \"-\"). In Pi, `~/.pi/agent/sessions/--<slug>--/`. In Codex, the `~/.codex/sessions/` file whose first line has `payload.cwd` equal to the workspace path. Don't glob across every project's directory. That reads unrelated private chats. Walk this run's rows against what actually happened. Each stretch of them begins at one of this run's `start` rows, or at the first row if this run created the log, and ends at the next `start` row of another run:",
+    "- Check that every row maps to a real decision or action.\n- Check that each row's evidence resolves and shows what the row claims.\n- A fork, pivot, or abandoned approach that shaped the work but isn't logged is a gap. Add it.",
+    "Correct the log, not the story. The audit never edits or removes a row, even an invented one. When a row records neither a real decision nor a real action, or its claim or evidence is wrong, add a row that supersedes it with what actually happened and a pointer that resolves. This audit does not check rows outside this run's stretches. If this run's own work shows one of them is wrong, supersede it like any wrong call.",
+    "## Cross-model review of the trail",
+    "Before handing back, spawn a subagent on another vendor's model than the one that did the work. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick each subagent's reasoning level for the job, per the Subagents section of the **poteto-mode** skill.",
+    "- Decisions logged with weak or absent evidence.\n- Verification steps skipped or claimed without proof in the transcript.\n- Choices that look risky in hindsight (premature, scope-creeping, papering over a symptom).\n- Gaps the user would otherwise miss on a casual skim.",
+    "Every reply for a run that produced a trail ends with an \"Attention\" section. Lead with the reviewer's model on its own line (`reviewed by <model>`), then list each flag pointing to specific rows or moments. \"No flags\" is a valid value. The model name is not.",
+    "## Reviewing the trail",
+    "Read top to bottom, follow the evidence pointers, spot-check. GitHub renders a committed TSV as a table. `column -s$'\\t' -t decisions.tsv` renders it in a terminal.",
+    "## Composing this skill",
+    "Other skills route their audit trail here instead of inventing one. Reference it by name and let it own the format. Don't restate the columns."
+  ]
+}

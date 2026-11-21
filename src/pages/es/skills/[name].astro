@@ -1,0 +1,10 @@
+---
+import V from "../../../views/SkillDoc.astro";
+import { isFull } from "../../../data/nav.js";
+// 这种语言还不是全站（src/data/nav.js 的 LANGS）就不生成
+export function getStaticPaths() {
+  if (!isFull("es")) return [];
+  return Object.keys(import.meta.glob("../../../data/skill-docs/*.json")).map((k) => ({ params: { name: k.match(/([^/]+)\.json$/)[1] } }));
+}
+---
+<V name={Astro.params.name} />

@@ -1,0 +1,50 @@
+{
+  "description": "Restate the last message in plain human language, with no jargon.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Fills the reply with jargon you can't follow.",
+        "with": "Restates the last message with no jargon."
+      },
+      {
+        "without": "Rewords it at the same length.",
+        "with": "Makes it simpler and more concise."
+      },
+      {
+        "without": "Answers in disconnected pieces.",
+        "with": "Speaks coherently, like one person talking to another."
+      }
+    ],
+    "intro": "It has the AI restate its last message without jargon, simpler and shorter, like one person talking to another.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate your last message.",
+      "quoteTr": "Restate your last message.",
+      "title": "Point at the text to redo",
+      "does": "It just says its last reply again in other words and doesn't start new work.",
+      "why": "Naming the target, \"your last message\", up front means the AI doesn't guess which part you mean.",
+      "try": "Point at what to redo: \"Say the second paragraph of your last reply again.\""
+    },
+    {
+      "quote": "State it more simply and concisely",
+      "quoteTr": "State it more simply and concisely",
+      "title": "Use the original as the yardstick",
+      "does": "The new version is shorter and easier than the old one, not just reworded.",
+      "why": "With the last message as the reference, \"simpler\" has something to measure against.",
+      "try": "Compare against the original: \"Half as long as the last version, same meaning.\""
+    },
+    {
+      "quote": "like one human talking to another",
+      "quoteTr": "like one human talking to another",
+      "title": "Pick a scene for the voice",
+      "does": "It stops sounding like a report and sounds like a colleague explaining next to you.",
+      "why": "A conversation everyone knows is easier to imitate than an adjective like \"plainer\".",
+      "try": "Give a scene for tone: \"Explain this error the way you'd explain it to a non-technical relative.\""
+    }
+  ],
+  "blocks": [
+    "Restate your last message. Stop using jargon and speak coherently. State it more simply and concisely, like one human talking to another."
+  ]
+}

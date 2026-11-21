@@ -1,0 +1,381 @@
+{
+  "ui": {
+    "label": "Diagram",
+    "replay": "Replay"
+  },
+  "l1-habits": {
+    "a": {
+      "who": "AI as usual",
+      "steps": [
+        "Gets the gist",
+        "Changes things"
+      ],
+      "end": "“Done!” You open it, and the button does nothing"
+    },
+    "b": {
+      "who": "AI with pstack",
+      "steps": [
+        "Repeats what you want",
+        "Finds where the problem is",
+        "Then makes the change",
+        "Tries it out itself"
+      ],
+      "end": "Shows you what it saw"
+    },
+    "cap": "The extra steps are the habits pstack adds. A little slower, but you stop redoing the same thing."
+  },
+  "l2-install": {
+    "notes": [
+      "Step 1: add the plugin store",
+      "Step 2: install pstack, pick Install for you",
+      "Step 3: type /pstack: without pressing Enter; poteto-mode in the list means it's installed"
+    ],
+    "cap": "Illustration: roughly what the three steps look like in Claude Code. The real screen shows a few more lines."
+  },
+  "l3-folder": {
+    "place": "Desktop",
+    "items": [
+      "Work files",
+      "Photos",
+      "water"
+    ],
+    "ai": "The AI works here",
+    "note": "Your other folders stay out of reach",
+    "cap": "The AI works in whichever folder you open Claude Code in. So start with a new, empty one."
+  },
+  "l3-prompt": {
+    "parts": [
+      {
+        "text": "/pstack:poteto-mode",
+        "label": "The switch"
+      },
+      {
+        "text": "Make me a small web page that tracks how much water I drink each day.",
+        "label": "What I want"
+      },
+      {
+        "text": "Click “I drank a glass” and today's count goes up by one; it's still there after I reopen it; it shows the last 7 days.",
+        "label": "What done looks like"
+      },
+      {
+        "text": "How you checked it and what you saw, with a screenshot if you can.",
+        "label": "What to show me"
+      }
+    ],
+    "cap": "The switch comes first; each of the three parts does one job."
+  },
+  "g0-layers": {
+    "layers": [
+      {
+        "t": "You",
+        "d": "Say the goal, e.g. “fix this bug and show me evidence”"
+      },
+      {
+        "t": "pstack",
+        "d": "The work rules you install: 22 playbooks, 34 skills, 24 principles"
+      },
+      {
+        "t": "Your AI coding tool",
+        "d": "Claude Code, Cursor, Codex…"
+      },
+      {
+        "t": "The model",
+        "d": "Same as before; pstack doesn't swap it"
+      }
+    ],
+    "cap": "pstack lives inside your tool, between you and the model. The model stays the same; the order and standard of the work change."
+  },
+  "g5-arc": {
+    "steps": [
+      {
+        "t": "Settle the design",
+        "d": "/architect, /arena, prototypes"
+      },
+      {
+        "t": "Build",
+        "d": "Say what you see; /tdd if a test is easy"
+      },
+      {
+        "t": "Pick holes",
+        "d": "/interrogate keeps only problems it can run"
+      },
+      {
+        "t": "Clean up",
+        "d": "/unslop, /no-comments"
+      }
+    ],
+    "cap": "The dashed step is optional: for most changes /poteto-mode designs on its own; name these skills only when you're unsure."
+  },
+  "g6-ship": {
+    "steps": [
+      {
+        "t": "Say what done means",
+        "d": "In the first sentence"
+      },
+      {
+        "t": "It verifies itself",
+        "d": "Real commands, real UI, evidence"
+      },
+      {
+        "t": "Open a PR",
+        "d": "Small, ordered commits"
+      },
+      {
+        "t": "Babysit to green",
+        "d": "Conflicts, review comments, CI"
+      },
+      {
+        "t": "Merge",
+        "d": "You say land the stack"
+      }
+    ],
+    "gate": "Needs you",
+    "cap": "It goes as far as “ready to merge” and stops there. Merging is your call."
+  },
+  "g7-night": {
+    "eve": {
+      "t": "Before bed",
+      "items": [
+        "Write a done condition",
+        "A new worktree off main",
+        "Keep a decision log",
+        "If stuck, stop and say why"
+      ]
+    },
+    "night": {
+      "t": "Overnight, each round",
+      "loop": [
+        "Check whether it's done",
+        "Make one small change",
+        "Verify it",
+        "Commit if it helped, drop it if not"
+      ],
+      "log": "One line in the decision log per round"
+    },
+    "morn": {
+      "t": "In the morning",
+      "items": [
+        "/show-me-your-work",
+        "Read “needs attention” first",
+        "Then the lines it points to"
+      ]
+    },
+    "cap": "You don't reread the whole night's conversation. The log and “needs attention” are enough."
+  },
+  "g8-guard": {
+    "rungs": [
+      {
+        "t": "Make the mistake impossible",
+        "d": "Change the structure or data shape"
+      },
+      {
+        "t": "Make it fail loudly",
+        "d": "Types, lint, CI checks"
+      },
+      {
+        "t": "Catch it with tests",
+        "d": "It shows up when tests run"
+      },
+      {
+        "t": "Write a rule for the AI",
+        "d": "Skipping a rule raises no error, so it comes last"
+      }
+    ],
+    "high": "Strongest",
+    "low": "Last resort",
+    "cap": "/correct starts from the top. If a higher rung works, it doesn't use a lower one."
+  },
+  "h-bug": {
+    "steps": [
+      {
+        "t": "Reproduce it",
+        "d": "Make the problem happen again"
+      },
+      {
+        "t": "Find the real cause",
+        "d": "The first place it goes wrong"
+      },
+      {
+        "t": "Fix it there",
+        "d": "Not a check added downstream"
+      },
+      {
+        "t": "Rerun the same steps",
+        "d": "The problem is gone"
+      }
+    ],
+    "cap": "The first and last steps are the same reproduction, so before and after line up. If it can't reproduce the problem, it doesn't change code."
+  },
+  "h-perf": {
+    "steps": [
+      {
+        "t": "Measure a baseline",
+        "d": "p50 about 900ms"
+      },
+      {
+        "t": "See where time goes",
+        "d": "Take a trace"
+      },
+      {
+        "t": "Fix the measured cause",
+        "d": "Not the guessed one"
+      },
+      {
+        "t": "Measure again, same data",
+        "d": "p50 under 200ms, same results"
+      }
+    ],
+    "loop": "Not faster? Revert and go again",
+    "cap": "Both numbers use the same data, alternating runs several times each, and compare medians."
+  },
+  "h-refactor": {
+    "steps": [
+      {
+        "t": "Save today's output",
+        "d": "Baseline: build once, copy dist"
+      },
+      {
+        "t": "Change the structure",
+        "d": "Subtract before you add"
+      },
+      {
+        "t": "Make the output again",
+        "d": "Same command"
+      },
+      {
+        "t": "Compare the two",
+        "d": "An empty diff means nothing changed"
+      }
+    ],
+    "cap": "You don't need to read every line of code. The output of that last diff is enough."
+  },
+  "h-review": {
+    "from": "Your change",
+    "by": [
+      "Model 1",
+      "Model 2",
+      "Model 3"
+    ],
+    "act": "each tries to break it",
+    "keep": {
+      "t": "Findings",
+      "d": "Actually failed when run, with command and output"
+    },
+    "drop": {
+      "t": "Dropped",
+      "d": "Couldn't be shown in a run, with reasons; skim these too"
+    },
+    "cap": "/interrogate only reports; it doesn't change your code. A problem counts only if a run shows it."
+  },
+  "h-cost": {
+    "root": {
+      "t": "Main conversation",
+      "d": "Understands you, reviews changes",
+      "tag": "Strong model"
+    },
+    "kids": [
+      {
+        "t": "feature, refactoring",
+        "tag": "Cheaper model"
+      },
+      {
+        "t": "bug-fix",
+        "tag": "Cheaper model"
+      },
+      {
+        "t": "perf-issue",
+        "tag": "Cheaper model"
+      }
+    ],
+    "note": "The helpers get clearly defined work, which cheaper models handle well",
+    "cap": "Change these three rows at the end of /setup-pstack, when it asks you to confirm the roles."
+  },
+  "h-steer": {
+    "parts": [
+      {
+        "text": "apply prove it works.",
+        "label": "Principle name, typed as is"
+      },
+      {
+        "text": "Run the real import flow",
+        "label": "What to do this time"
+      },
+      {
+        "text": "and show me the records it wrote.",
+        "label": "The real result you want"
+      }
+    ],
+    "cap": "The name says which rule; the rest says what to do this time and what you want to see."
+  },
+  "h-verify": {
+    "steps": [
+      {
+        "t": "Launch",
+        "d": "From empty data to actually usable"
+      },
+      {
+        "t": "Doctor",
+        "d": "Is this instance worth driving?"
+      },
+      {
+        "t": "Drive it like a user",
+        "d": "Real buttons, real commands"
+      },
+      {
+        "t": "Capture evidence",
+        "d": "Screenshots, video, stored data"
+      },
+      {
+        "t": "Clean up",
+        "d": "Stop only what it started; keep the evidence"
+      }
+    ],
+    "cap": "The generated verify-<app> has these sections. Before handing it over, it runs them end to end once, then checks the evidence survived the cleanup."
+  },
+  "h-formal": {
+    "a": {
+      "who": "Tests",
+      "steps": [
+        "A takes a job and finishes",
+        "B takes the next one and finishes",
+        "One retry, also fine"
+      ],
+      "end": "All green. In production A stalls once, and the same job runs twice"
+    },
+    "b": {
+      "who": "Formal verification",
+      "steps": [
+        "Model taking a job, renewing the lease, timing out, retrying",
+        "Walk every possible order",
+        "Hit a bad order"
+      ],
+      "end": "Hands you a short counterexample in your code's own names"
+    },
+    "cap": "Tests check the orders someone thought of. Formal verification checks every order within the stated scope, so it finds the one nobody did."
+  },
+  "h-formal-cex": {
+    "steps": [
+      {
+        "t": "A takes job 42",
+        "d": "30-second lease"
+      },
+      {
+        "t": "A stalls for 31 s",
+        "d": "A long GC pause, say"
+      },
+      {
+        "t": "The lease expires",
+        "d": "B takes the same job 42"
+      },
+      {
+        "t": "A wakes up and writes",
+        "d": "Without checking it still holds the lease"
+      },
+      {
+        "t": "Job 42 ran twice",
+        "d": "The rule is broken"
+      }
+    ],
+    "cap": "A counterexample is a list of steps like this. Each step maps to a function in your code, so you can walk it through the real code."
+  }
+}

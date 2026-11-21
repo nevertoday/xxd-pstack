@@ -1,0 +1,50 @@
+{
+  "description": "Restate in your own words what you think the user's goals are and what problem they're trying to solve. Use for /in-your-own-words.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Echoes your wording, so you can't tell if it understood.",
+        "with": "Restates your goals in its own words."
+      },
+      {
+        "without": "Repeats the task and skips what's blocking you.",
+        "with": "Names the problem you're trying to solve, on its own."
+      },
+      {
+        "without": "Treats its reading of your request as settled.",
+        "with": "Lays out what it thinks you want, for you to see."
+      }
+    ],
+    "intro": "It has the AI restate, in its own words, what it thinks your goals are and what problem you're solving.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate in your own words",
+      "quoteTr": "Restate in your own words",
+      "title": "Ask for its own words",
+      "does": "The AI doesn't echo your wording; it retells it as it understands it, so a misunderstanding shows at once.",
+      "why": "An echo hides whether it understood; its own words expose any gap.",
+      "try": "After you give a task, ask first: \"Before you start, tell me in your own words what you plan to change.\""
+    },
+    {
+      "quote": "what you think the user's goals are",
+      "quoteTr": "what you think the user's goals are",
+      "title": "Ask for its guess",
+      "does": "It lays out its understanding for you to correct, instead of treating it as fact and starting work.",
+      "why": "\"What you think\" turns understanding into a guess that can be overturned, easy for it to say and for you to fix.",
+      "try": "Frame it as a guess: \"Tell me what you think I care about most, speed or stability.\""
+    },
+    {
+      "quote": "what problem they're trying to solve",
+      "quoteTr": "what problem they're trying to solve",
+      "title": "Ask for goal and problem separately",
+      "does": "It says what you want to achieve and what's blocking you, so you see which half it got wrong.",
+      "why": "The goal is where you want to go and the problem is what's in the way; asking both shows where the gap is.",
+      "try": "Ask for both: \"Tell me what I'm trying to get done, and what's stopping me right now.\""
+    }
+  ],
+  "blocks": [
+    "Restate in your own words what you think the user's goals are and what problem they're trying to solve."
+  ]
+}
