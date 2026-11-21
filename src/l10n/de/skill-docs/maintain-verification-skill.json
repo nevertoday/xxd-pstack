@@ -1,0 +1,77 @@
+{
+  "description": "Regelmäßiger Durchlauf, der Prüf-Skill und Feature-Map eines Projekts ehrlich hält: paralleles Lesen des Quellcodes pro Feature, eine Live-Session, die jedes Feature ansteuert, höchstens ein PR mit belegten Korrekturen. Für /maintain-verification-skill oder „den Prüf-Skill auditieren“.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Schreibt die Doku um, um ein kaputtes Feature zu vertuschen.",
+        "with": "Bearbeitet nur die Dateien des Prüf-Skills und meldet dir Produkt-Bugs."
+      },
+      {
+        "without": "Steuert eine Instanz in unbekanntem Zustand einfach weiter an.",
+        "with": "Führt nach jeder fehlgeschlagenen Ansteuerung zuerst Doctor aus, bevor erneut angesteuert wird."
+      },
+      {
+        "without": "Öffnet selbst dann einen PR, wenn sich nichts geändert hat.",
+        "with": "Öffnet nur bei belegten Änderungen einen PR und benennt das Ergebnis."
+      }
+    ],
+    "intro": "Eine Feature-Map veraltet, sobald sich die App ändert. Deshalb prüft dieser Durchlauf jedes Feature im Quellcode und führt jedes Feature live aus.",
+    "sections": [
+      "Endet mit einem von drei Ergebnissen: clean ohne PR, changed mit einem PR oder blocked mit dem genauen Grund.",
+      "Bearbeitet nur den eigenen Ordner des Prüf-Skills. Der Produktcode bleibt unberührt, und echte Fehler werden dir gemeldet.",
+      "Sieben Schritte: Skill finden, Index aufräumen, Quellcode pro Feature lesen, zusammenführen, jedes Feature live ausführen, einordnen, dann ausliefern oder stoppen."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "The unit of rigor is the feature, not every sentence",
+      "quoteTr": "Die Einheit für Gründlichkeit ist das Feature, nicht jeder Satz",
+      "title": "Sag, wo Gründlichkeit gilt",
+      "does": "Die KI prüft jedes Feature, ohne sich an jedem einzelnen Satz festzubeißen und den Durchlauf auszubremsen.",
+      "why": "Wenn du die Einheit benennst, für die Gründlichkeit gilt, weiß die KI, was vollständig geprüft werden muss und was durchgehen darf.",
+      "try": "Wenn die KI ein langes Dokument Korrektur liest, schreib: „Prüf jedes Kapitel, aber häng dich nicht an jedem Wort auf.“"
+    },
+    {
+      "quote": "Required even when source looks clean.",
+      "quoteTr": "Auch dann Pflicht, wenn der Quellcode sauber aussieht.",
+      "title": "Blockier die verlockende Abkürzung",
+      "does": "Selbst wenn der Code in Ordnung aussieht, öffnet die KI die App und nutzt jedes Feature.",
+      "why": "Den genauen Fall zu nennen, den die KI als Ausrede nutzen würde, wirkt besser, als nur „Pflicht“ zu schreiben.",
+      "try": "Wenn die KI Daten prüft, schreib dazu: „Selbst wenn alles richtig aussieht, prüf 5 zufällige Zeilen stichprobenartig von Hand.“"
+    },
+    {
+      "quote": "Several candidates → ask which one; none → stop and point at `/create-verification-skill` instead of inventing a target.",
+      "quoteTr": "Mehrere Kandidaten → fragen, welcher gemeint ist; keiner → stoppen und auf `/create-verification-skill` verweisen, statt ein Ziel zu erfinden.",
+      "title": "Ordne jeden Fall mit einem Pfeil zu",
+      "does": "Bei mehreren Treffern fragt die KI dich, bei keinem stoppt sie. Sie wählt nicht einfach einen aus und erfindet auch keinen.",
+      "why": "Jeder Fall zeigt mit einem Pfeil auf seine Aktion, und jeder Fall ist aufgeführt, sodass keiner untergeht.",
+      "try": "Schreib beim Aufräumen von Dateien: „Mehr als 10 → frag mich zuerst; keine → sag es mir, leg keine an.“"
+    },
+    {
+      "quote": "require a concrete source path before calling one missing",
+      "quoteTr": "verlange einen konkreten Quellcode-Pfad, bevor du etwas als fehlend bezeichnest",
+      "title": "Setz eine Messlatte für jede Schlussfolgerung",
+      "does": "Wenn die KI sagt, dass in der Feature-Map ein Feature fehlt, nennt sie immer die Stelle im Code.",
+      "why": "Wenn du vorgibst, welche Belege eine Schlussfolgerung braucht, meldet die KI keine Probleme auf bloßen Verdacht.",
+      "try": "Wenn die KI eine Website prüft, schreib: „Bevor du sagst, dass ein Link kaputt ist, füg die Fehlermeldung ein, die du beim Öffnen bekommen hast.“"
+    }
+  ],
+  "blocks": [
+    "# Einen Prüf-Skill pflegen",
+    "Eine Feature-Map veraltet in dem Moment, in dem sich die App ändert. Dieser Skill ist der Wartungszyklus für einen Skill, der mit `/create-verification-skill` erstellt wurde (oder für jeden projektlokalen Prüf-Skill mit einer Feature-Map). Die Einheit für Gründlichkeit ist das Feature, nicht jeder Satz: Decke jede Feature-Datei anhand des Quellcodes ab und führe jedes Feature live aus, ohne jeden einzelnen Stichpunkt bis ins Letzte abzuarbeiten.",
+    "## Ergebnisse",
+    "Wähle eines aus und benenne es:",
+    "- **clean** – jedes Feature wurde im Quellcode und live abgedeckt; nichts, was sich auszuliefern lohnt. Kein Branch, kein PR.\n- **changed** – ein PR liefert belegte Doku-, Harness- oder Map-Korrekturen aus.\n- **blocked** – die Abdeckung konnte nicht abgeschlossen werden oder ein belegter Fix konnte nicht sicher ausgeliefert werden. Sag genau, was blockiert hat.",
+    "## Bearbeitungsbereich",
+    "Bearbeite nur das eigene Verzeichnis des Prüf-Skills (seine SKILL.md, features/ und alle eigenen Harness-Skripte). Bearbeite während eines Laufs niemals Produktcode: Ein Verhalten, das die Feature-Map beschreibt, die App aber nicht mehr zeigt, ist entweder Doku-Drift (Feature-Map korrigieren) oder eine Produkt-Regression (melden, nicht in der Doku vertuschen).",
+    "## Durchlauf",
+    "0. **Ziel finden.** Finde den Prüf-Skill, der gepflegt werden soll: den projektlokalen Skill, dessen Inhalt Launch-/Drive-Abschnitte und eine Feature-Map hat (meist `verify-*/` im Skill-Ordner des Projekts: `.cursor/skills/`, `.claude/skills/`, `.pi/skills/` oder `.agents/skills/`). Mehrere Kandidaten → fragen, welcher gemeint ist; keiner → stoppen und auf `/create-verification-skill` verweisen, statt ein Ziel zu erfinden.",
+    "1. **Index-Hygiene.** Lies die README der Feature-Map und erfasse per Glob alle Dateien im selben Ordner. Korrigiere fehlende, überzählige, doppelte oder tote Einträge. Schlank halten; kein generiertes Inventar.",
+    "2. **Quellcode-Welle.** Ein schreibgeschützter Subagent pro Feature-Datei, parallel gestartet. Jeder erklärt anhand des Quellcodes „Wie funktioniert dieses Feature aus Nutzersicht?“, markiert wahrscheinliche Doku-Drift mit Quellenangaben und liefert ein knappes Rezept für die Live-Prüfung zurück. Untergeordnete Subagents steuern die App niemals an und bearbeiten niemals Dateien. Rückgabeformat: Feature-Zusammenfassung / Einstiegspunkte im Quellcode / wahrscheinliche Drift oder keine / ein Rezept.",
+    "3. **Abgleichen.** Für jede Feature-Datei liegt eine zurückgegebene Zusammenfassung vor. Führe überlappende Rezepte in so wenige App-Zustände wie sinnvoll zusammen. Prüfe gemeldete Drift stichprobenartig; belege als sauber gemeldete Angaben nicht erneut. Durchsuche jüngste Code-Änderungen nach nutzerseitigen Bereichen, die in der Feature-Map fehlen – verlange einen konkreten Quellcode-Pfad, bevor du etwas als fehlend bezeichnest.",
+    "4. **Live-Durchlauf.** Auch dann Pflicht, wenn der Quellcode sauber aussieht. Die gesamte Ansteuerung liegt beim Koordinator; folge dem eigenen Startmodell des Prüf-Skills – eine langlebige Instanz, die bei Servern und UIs nacheinander angesteuert wird, oder eine frische, isolierte Session pro Ansteuerung bei kurzlebigen CLIs (der Launch-Abschnitt des Skills entscheidet, nicht dieser hier). Führe jedes Feature mindestens einmal aus und halte während des gesamten Durchlaufs drei Invarianten ein, ganz gleich, welcher Fehler auftritt: (1) steuere niemals eine Instanz an, deren Zustand du nicht geprüft hast, seit sie zuletzt etwas Unerwartetes getan hat – Doctor vor der ersten Ansteuerung, Doctor bei jeder frischen Session, wenn Sessions die Einheit sind, erneut Doctor nach jeder fehlgeschlagenen Ansteuerung, und wo Doctor den Fehler nicht erkennen kann (ein festgefahrener UI-Zustand bei einem gesunden Prozess), setze sie auf einen bekannten Zustand zurück oder starte sie neu, statt zu hoffen; (2) bisher gesammelte Belege überstehen jedes Aufräumen, was am angegebenen Speicherort überprüft und nicht bloß angenommen wird; (3) nichts, was eine Ansteuerung gestartet hat, überdauert den Nutzen dieser Ansteuerung – Rückstände fehlgeschlagener Versuche werden bereinigt, egal ob die Session hängt, beendet ist oder geteilt wird (bei einer geteilten Instanz bereinigst du die Rückstände, nicht die Instanz). Ein Doctor-Fehler, der durch Skill-Drift entsteht, ist Drift: Behebe ihn innerhalb des Bearbeitungsbereichs und versuche es einmal erneut – starte genau das neu, was der Fix ungültig gemacht hat, und nicht mehr –, bevor du den Durchlauf als `blocked` einstufst. Ein nicht erreichbares Feature gilt nur dann als `verified-unreachable`, wenn die konkrete Voraussetzung (Authentifizierung, Berechtigung, Betriebssystem, externer Zustand) und der versuchte Weg genannt werden; lässt die Feature-Map diese Voraussetzung aus, ist das Drift. Jeder Harness-Fix aus der Triage wird vor dem Ausliefern noch einmal live angesteuert. Das abschließende Aufräumen erfolgt nach der letzten Ansteuerung des Laufs – einschließlich dieser erneuten Nachweise –, sodass nichts den Lauf überdauert (die Belege bleiben laut Skill erhalten).",
+    "5. **Triage.** Falsche oder fehlende Beschreibung aus Nutzersicht → Doku-Drift, beheben. Funktionierendes Verhalten, das das Harness nicht ansteuern kann → Harness-Lücke, beheben; ein Harness-Fix folgt derselben Hilfsskript-Regel wie bei der Erstellung (Skripte ausführbar, Aufruf im Skill-Text dokumentiert). App-Verhalten, das tatsächlich kaputt ist → Produktlücke; für den Nutzer festhalten, aus diesem PR heraushalten.",
+    "6. **Ausliefern oder stoppen.** Bei changed: ein PR mit belegten Korrekturen, lies zuvor jede geänderte Datei noch einmal durch. Bei clean oder blocked: kein PR, berichte das Ergebnis und die Abdeckung ehrlich.",
+    "Halte knappe Lauf-Notizen (abgedeckte Features, unerreichbare Voraussetzungen, bestätigte Drift, Ergebnis) an einem temporären Speicherort fest; committe sie nicht."
+  ]
+}

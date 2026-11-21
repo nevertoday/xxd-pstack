@@ -1,0 +1,90 @@
+{
+  "description": "Vuelve a alinear la verificación formal de un proyecto con el código después de que cambie el código: encuentra los commits que tocaron código verificado, actualiza el modelo, el harness o las propiedades para describir el código tal como está ahora, vuelve a ejecutarla e indica si cada fallo es un desfase en la verificación o un bug en el código. Úsala para /maintain-formal-verification-skill, «¿el modelo sigue siendo fiel al código?» o tras fusiones y refactorizaciones que tocaron código verificado sin volver a comprobarlo.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Toma una comprobación que pasa como demostración de que el código está bien.",
+        "with": "Rompe el código nuevo a propósito después de que pase y confirma que la comprobación lo detecta."
+      },
+      {
+        "without": "No distingue una verificación desactualizada de un bug real.",
+        "with": "Reproduce el contraejemplo sobre el código real. Solo es un bug si cada paso puede ocurrir."
+      },
+      {
+        "without": "Retoca el modelo hasta que pase una comprobación que falla.",
+        "with": "Escribe la actualización a partir del código antes de volver a ejecutar, nunca condicionada por el resultado."
+      }
+    ],
+    "intro": "Señala el peligro de una comprobación que sigue pasando sobre código que cambió, y cubre los cambios que se saltaron la skill de verificación, como las fusiones.",
+    "sections": [
+      "Cada comprobación recibe uno de cuatro resultados: en sincronía, actualizada, bug o bloqueada. «Actualizada» y «bug» pueden aplicarse a la vez.",
+      "Solo edita modelos, harnesses, archivos de propiedades y la skill de verificación. El código de producto no se toca y se informa de los fallos.",
+      "Seis pasos: encontrar las comprobaciones, ejecutarlas tal cual, clasificar los cambios en cuatro tipos, actualizar desde el código, volver a ejecutar y evaluar, y mover el commit de sincronización.",
+      "Informa por cada comprobación del resultado, los commits leídos, el motivo de cada cambio, la ruptura deliberada y qué fallos fueron desfase y cuáles bugs."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "That pass is the dangerous case, because it looks like a proof.",
+      "quoteTr": "Que pase es el caso peligroso, porque parece una demostración.",
+      "title": "Expón la ilusión más tranquilizadora",
+      "does": "Cuando una comprobación pasa, no se relaja. Primero se pregunta si ese resultado sigue significando algo.",
+      "why": "Que pase suele dar sensación de seguridad. Llamarlo el caso peligroso hace que la IA investigue en lugar de marcar la casilla.",
+      "try": "Para evitar que la IA confíe en las buenas noticias, di: «Que no haya quejas no significa que los clientes estén contentos. Trátalo como una señal de alerta y compruébalo»."
+    },
+    {
+      "quote": "Write the update from the code before you rerun, and do not shape it by what makes the check pass.",
+      "quoteTr": "Escribe la actualización a partir del código antes de volver a ejecutar, y no la moldees según lo que haga pasar la comprobación.",
+      "title": "Ordena el trabajo antes del resultado",
+      "does": "Actualiza la verificación a partir del código, no a base de retoques hasta que la comprobación pase.",
+      "why": "Convertir «escríbelo antes de ver el resultado» en un orden fijo no deja margen para trabajar hacia atrás desde el resultado.",
+      "try": "Para un análisis, escribe: «Anota primero tu predicción y después mira los datos. No cambies la predicción después»."
+    },
+    {
+      "quote": "Break the new code the way the property guards against",
+      "quoteTr": "Rompe el código nuevo de la forma contra la que protege la propiedad",
+      "title": "Pide una ruptura deliberada",
+      "does": "Después de que una comprobación pase, rompe el código a propósito para confirmar que de verdad falla.",
+      "why": "Una sola ruptura que demuestre que la comprobación puede fallar convence mucho más que «creo que la comprobación funciona».",
+      "try": "Después de que la IA escriba la validación de un formulario, añade: «Escribe a propósito un número de teléfono incorrecto y confirma que lo rechaza»."
+    },
+    {
+      "quote": "Give each check one outcome, and say which:",
+      "quoteTr": "Asigna un resultado a cada comprobación e indica cuál:",
+      "title": "Permite solo veredictos fijos",
+      "does": "Cada comprobación termina con uno de cuatro resultados, así que ves de inmediato cuáles deben preocuparte.",
+      "why": "Listar y definir de antemano todos los veredictos posibles no deja margen para un «más o menos bien».",
+      "try": "Cuando la IA revise borradores, establece: «Cada veredicto es uno de estos: “publicar”, “publicar tras editar” o “no publicar”. Di cuál»."
+    },
+    {
+      "quote": "If the skill does not record a sync commit, use the last commit that changed the verification files, and say that you did.",
+      "quoteTr": "Si la skill no registra un commit de sincronización, usa el último commit que modificó los archivos de verificación e indica que lo hiciste.",
+      "title": "Planifica la alternativa si faltan datos",
+      "does": "Cuando falta un registro, tiene un sustituto y te avisa de que lo usó.",
+      "why": "Indicar qué hacer cuando faltan datos, además de «dilo», evita que la IA se bloquee o adivine en silencio.",
+      "try": "Para clasificar gastos, escribe: «Si falta la fecha de factura, usa la fecha de pedido y márcalo como “fecha de pedido”»."
+    }
+  ],
+  "blocks": [
+    "# Mantener una skill de verificación formal",
+    "Una comprobación formal demuestra una propiedad de aquello que describe. Cuando el código cambia y la verificación no, la comprobación puede seguir pasando mientras describe código que ya no existe. Que pase es el caso peligroso, porque parece una demostración. Esta skill es el ciclo de mantenimiento para una skill de verificación generada por `/create-formal-verification-skill`, o para cualquier skill local del proyecto que ejecute un verificador de modelos, un demostrador o un verificador a nivel de código sobre código específico. La skill local del proyecto se encarga de un cambio que hace un agente mientras usa esa skill. Esta skill se encarga de los cambios que se la saltaron: fusiones, ediciones hechas sin la skill y el desfase que se acumula a lo largo de muchos commits.",
+    "## Resultados",
+    "Asigna un resultado a cada comprobación e indica cuál:",
+    "- **en sincronía**: ningún cambio desde la última sincronización altera lo que describe la comprobación, y la comprobación pasa.\n- **actualizada**: el código cambió, la verificación describe ahora el código nuevo y la comprobación pasa.\n- **bug**: la verificación describe el código actual y el código incumple la propiedad. Es un hallazgo sobre el código. No es un desfase.\n- **bloqueada**: la comprobación no se pudo volver a alinear o no se pudo ejecutar. Indica exactamente por qué.",
+    "Una comprobación puede ser a la vez «actualizada» y «bug»: la actualización hace que la verificación vuelva a describir el código y luego la propiedad falla sobre él.",
+    "## Alcance de edición",
+    "Edita solo la verificación: modelos, harnesses, archivos de propiedades y la propia skill de verificación. Nunca edites código de producto durante una ejecución, salvo que el usuario te lo pida. Cuando una propiedad falle sobre el código actual, no debilites la propiedad ni el modelo para hacer que pase. Informa del fallo.",
+    "## Recorrido",
+    "1. **Encuentra las comprobaciones.** Una skill de verificación no tiene un nombre fijo, así que encuéntrala por lo que hace: una skill del proyecto que ejecuta un verificador de modelos, un demostrador u otro verificador sobre código específico. Lee cada una que encuentres, o la que haya indicado el usuario. Para cada comprobación, reúne la propiedad, el código que cubre, los límites y supuestos, el comando que la ejecuta y el commit en el que se confirmó por última vez que describía el código. Si no existe ninguna skill de verificación, detente y remite a `/create-formal-verification-skill`. Si la skill no registra un commit de sincronización, usa el último commit que modificó los archivos de verificación e indica que lo hiciste.",
+    "2. **Ejecútala tal cual.** Ejecuta cada comprobación una vez antes de cambiar nada y anota el resultado. Que pase aquí no te dice que el código sea correcto. Te dice que la descripción anterior sigue cumpliéndose. Un fallo aquí puede ser un desfase o un bug. No decidas cuál es hasta el paso 5.",
+    "3. **Lee cada cambio en el código cubierto.** Haz un diff de los archivos cubiertos desde el commit de sincronización hasta el commit actual, y lee cada mensaje de commit. Busca también código que se haya movido: una función cubierta que se renombra, se divide o se mueve a otro archivo sigue siendo código cubierto. Busca también código nuevo que toque el estado que protege una comprobación, como una función nueva que escriba los mismos campos. Para cada cambio, decide de cuál de estos casos se trata:\n   - **Sin efecto.** El cambio no altera nada de lo que describe la verificación, como formato, comentarios o rutas de código que la verificación no cubre. Compruébalo contra el modelo o el harness, no contra el mensaje de commit.\n   - **La verificación ya no describe el código.** Un paso que antes era una acción indivisible ahora son dos, se añadió o eliminó una bifurcación, se movió una comprobación, una nueva ruta llega al estado protegido o un valor tiene ahora un rango distinto. Hay que cambiar el modelo o el harness.\n   - **La promesa cambió a propósito.** El cambio altera lo que promete el código y hay evidencia en el cambio de que es intencional: el comentario de documentación, los tests, el changelog o el mensaje de commit. La propiedad debe cambiar, y debes citar esa evidencia.\n   - **La promesa puede haberse roto.** El código cambió y ninguna evidencia indica que la promesa haya cambiado. Trata cualquier fallo posterior como candidato a bug.",
+    "4. **Actualiza a partir del código, no del resultado.** Cambia el modelo o el harness para que cada parte modificada vuelva a apuntar a código que quien revisa pueda abrir, y mantén cada paso indivisible del código como un solo paso en la verificación. Escribe la actualización a partir del código antes de volver a ejecutar, y no la moldees según lo que haga pasar la comprobación. Cambia una propiedad solo por una promesa que haya cambiado a propósito. Anota la redacción anterior, la nueva redacción y la evidencia. Mantén los límites salvo que el cambio los deje incorrectos. Si tienes que reducir un límite, indícalo en el informe.",
+    "5. **Vuelve a ejecutar y evalúa cada resultado.**\n   - **Pasa:** la comprobación puede pasar ahora sobre una descripción que perdió la capacidad de fallar. Rompe el código nuevo de la forma contra la que protege la propiedad, por ejemplo quitando una comprobación nueva o reordenando un paso nuevo, y confirma que la comprobación lo detecta. Luego deshaz la ruptura.\n   - **Falla:** reproduce el contraejemplo paso a paso sobre el código real. Si un paso no puede ocurrir en el código, la verificación está mal. Corrige la verificación e indica qué estaba mal. Si todos los pasos pueden ocurrir, es un bug. Nombra el commit que lo introdujo, cuenta el contraejemplo como una secuencia de pasos con las propias palabras del código y explica el daño en una frase. Si un test sencillo o un caso de reproducción sobre el código real demuestra el bug, añádelo al informe como evidencia. No hagas commit de eso en el código de producto.",
+    "6. **Actualiza la skill de verificación.** Actualiza el código que cubre cada comprobación, los comandos, los límites, los supuestos y el commit de sincronización. Fija el commit de sincronización en el commit que comprobaste. No muevas el commit de sincronización para una comprobación bloqueada e indícalo en el informe. Luego sigue la skill de verificación una vez como lo haría el siguiente agente, para saber que sus pasos siguen funcionando.",
+    "## Informe",
+    "Indica al usuario, para cada comprobación:",
+    "- el resultado y los commits que leíste;\n- qué cambió en la verificación y por qué, con un motivo breve para cada cambio: el código cambió de forma, o la promesa cambió a propósito (con la evidencia);\n- el resultado de volver a ejecutarla y la ruptura que usaste para demostrar que la comprobación actualizada aún puede fallar;\n- cada bug, en palabras sencillas: el contraejemplo en pasos con las palabras del código, el daño y el commit que lo introdujo;\n- lo que la verificación todavía no cubre, incluido el código nuevo que debería cubrir y no cubre.",
+    "Di sin rodeos qué fallos fueron desfase en la verificación y cuáles fueron bugs en el código. Para una comprobación que pasaba antes de actualizarla y falla después, di que antes pasó sobre una descripción desactualizada.",
+    "Pon las actualizaciones de la verificación en un cambio aparte, separado de cualquier corrección de producto."
+  ]
+}

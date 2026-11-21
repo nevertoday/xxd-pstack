@@ -1,0 +1,50 @@
+{
+  "description": "Reformule avec tes propres mots ce que tu penses être les objectifs de l'utilisateur et le problème qu'il essaie de résoudre. À utiliser pour /in-your-own-words.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Reprend votre formulation : vous ne pouvez pas savoir si elle a compris.",
+        "with": "Reformule vos objectifs avec ses propres mots."
+      },
+      {
+        "without": "Répète la tâche et laisse de côté ce qui vous bloque.",
+        "with": "Nomme séparément le problème que vous essayez de résoudre."
+      },
+      {
+        "without": "Considère sa lecture de votre demande comme acquise.",
+        "with": "Expose ce qu'elle pense que vous voulez, pour que vous puissiez le voir."
+      }
+    ],
+    "intro": "Il demande à l'IA de reformuler, avec ses propres mots, ce qu'elle pense être vos objectifs et le problème que vous cherchez à résoudre.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate in your own words",
+      "quoteTr": "Reformule avec tes propres mots",
+      "title": "Faites-lui utiliser ses propres mots",
+      "does": "L'IA ne reprend pas votre formulation ; elle la redit telle qu'elle la comprend, si bien qu'un malentendu se voit tout de suite.",
+      "why": "Un écho empêche de savoir si elle a compris ; ses propres mots révèlent tout décalage.",
+      "try": "Après avoir donné une tâche, demandez d'abord : « Avant de commencer, dis-moi avec tes propres mots ce que tu comptes modifier. »"
+    },
+    {
+      "quote": "what you think the user's goals are",
+      "quoteTr": "ce que tu penses être les objectifs de l'utilisateur",
+      "title": "Demandez-lui son hypothèse",
+      "does": "Elle expose sa compréhension pour que vous puissiez la corriger, au lieu de la considérer comme un fait établi et de se mettre au travail.",
+      "why": "« Ce que tu penses » transforme la compréhension en une hypothèse révisable, facile à dire pour elle et à corriger pour vous.",
+      "try": "Formulez-le comme une hypothèse : « Dis-moi ce que tu penses être le plus important pour moi, la vitesse ou la stabilité. »"
+    },
+    {
+      "quote": "what problem they're trying to solve",
+      "quoteTr": "le problème qu'il essaie de résoudre",
+      "title": "Demandez l'objectif et le problème séparément",
+      "does": "Elle dit ce que vous voulez accomplir et ce qui vous bloque, si bien que vous voyez quelle moitié elle a mal comprise.",
+      "why": "L'objectif, c'est là où vous voulez aller, et le problème, c'est ce qui fait obstacle ; demander les deux montre où se situe le décalage.",
+      "try": "Demandez les deux : « Dis-moi ce que j'essaie d'accomplir, et ce qui me bloque en ce moment. »"
+    }
+  ],
+  "blocks": [
+    "Reformule avec tes propres mots ce que tu penses être les objectifs de l'utilisateur et le problème qu'il essaie de résoudre."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "description": "Retirer les tics d'IA de n'importe quel texte.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Écrit des phrases flatteuses qui conviendraient à la doc de n'importe quel projet.",
+        "with": "Indique le mécanisme ou un chiffre, et supprime les phrases qui conviendraient telles quelles à un autre projet."
+      },
+      {
+        "without": "Dit « les experts estiment » sans nommer personne.",
+        "with": "Cite la source, ou supprime l'affirmation."
+      },
+      {
+        "without": "Commence par des compliments ou de l'approbation et termine par « N'hésitez pas à me dire si… ».",
+        "with": "Laisse tomber les formules de politesse et la flatterie, et répond directement."
+      }
+    ],
+    "intro": "Il repère les schémas ci-dessous, puis réécrit en gardant le sens et le ton voulu. Les numéros de règles sont des identifiants fixes que d'autres skills citent. La liste donne une ligne par règle, des participes présents vides, des mots typiques de l'IA et des tirets jusqu'aux formules de chatbot, aux noms métaphoriques et à la voix passive.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Rule numbers are stable ids that other skills cite.",
+      "quoteTr": "Les numéros de règles sont des identifiants stables que d'autres skills citent.",
+      "title": "Donnez un numéro fixe à chaque règle",
+      "does": "Les autres skills peuvent simplement dire « appliquez la règle 13 », et les numéros correspondent toujours après l'ajout ou la suppression de règles.",
+      "why": "Des numéros fixes rendent les références courtes et précises, et ils ne se décalent pas quand la liste change.",
+      "try": "Numérotez les règles de rédaction de votre équipe, puis dites lors d'une revue : « Ce paragraphe enfreint la règle 4. »"
+    },
+    {
+      "quote": "Name the actor unless it is unknown or doesn't matter.",
+      "quoteTr": "Nommez l'acteur, sauf s'il est inconnu ou sans importance.",
+      "title": "Écrivez l'exception dans la règle",
+      "does": "Il réécrit les phrases passives pour nommer qui agit, et ne garde le passif que lorsque l'acteur est inconnu ou sans importance.",
+      "why": "Énoncer l'exception dans la règle empêche l'IA de réécrire toutes les phrases passives, y compris celles qui devraient rester.",
+      "try": "Mettez l'exception dans la demande : « Donne un sous-titre à chaque paragraphe, sauf aux paragraphes d'une ou deux phrases. »"
+    },
+    {
+      "quote": "Cut a sentence that could appear unchanged in another project's docs.",
+      "quoteTr": "Supprimez toute phrase qui pourrait figurer telle quelle dans la doc d'un autre projet.",
+      "title": "Testez le remplissage en le déplaçant",
+      "does": "Les phrases qui conviendraient à n'importe quel projet sont supprimées ; ce qui reste parle de ce projet.",
+      "why": "Le « remplissage » est difficile à juger, mais « est-ce que ça conviendrait toujours ailleurs ? » est un test rapide que tout le monde peut faire.",
+      "try": "Quand vous demandez de retoucher une intro, ajoutez : « Supprime toute phrase qui reste vraie si on y met le nom d'un concurrent. »"
+    },
+    {
+      "quote": "One name per thing. Repeat it.",
+      "quoteTr": "Un seul nom par chose. Répétez-le.",
+      "title": "Dites que la répétition est permise",
+      "does": "Il désigne une même chose par un seul mot du début à la fin, au lieu d'enchaîner les synonymes pour varier.",
+      "why": "« Répétez-le » donne une permission explicite, donc l'IA cesse de renommer une même chose jusqu'à faire croire aux lecteurs qu'il y en a plusieurs.",
+      "try": "Quand vous demandez de retoucher un texte, ajoutez : « Appelle-le “commande” partout. Ne passe pas à “achat” ni à “transaction”. »"
+    }
+  ],
+  "blocks": [
+    "# Unslop",
+    "Modifiez le texte pour retirer les tics d'IA. Repérez les schémas ci-dessous, puis réécrivez. Préservez le sens et respectez le ton voulu.",
+    "Les numéros de règles sont des identifiants stables que d'autres skills citent. Une règle supprimée laisse un trou.",
+    "3. Pas de participes présents en fin de phrase qui n'ajoutent aucun fait (« soulignant… », « garantissant… »).\n5. Pas d'attributions vagues (« les experts estiment »). Citez la source ou supprimez.\n7. Pas de vocabulaire d'IA : en outre, crucial, plonger dans, enrichir, favoriser, paysage, décisif, mettre en valeur, témoignage, souligner, vibrant.\n8. Dites « est » ou « a », pas « sert de », « fait figure de », « se targue de », « dispose de ».\n9. Pas de « pas seulement X, mais Y ». Allez droit au fait.\n10. Ne forcez pas les idées à aller par trois.\n11. Un seul nom par chose. Répétez-le.\n12. Pas de « de X à Y » sauf si X et Y se situent sur une vraie échelle.\n13. Pas de tirets cadratins, de tirets demi-cadratins ni de traits d'union utilisés comme tirets, et pas de parenthèses à leur place. Utilisez un point ou une virgule.\n14. Les deux-points vont devant une liste ou un exemple, jamais au milieu d'une phrase comme connecteur.\n15. Ne mettez pas en gras chaque nom propre ou acronyme.\n16. Pas d'intitulé en gras suivi de deux-points qui répète la ligne (« **Performance :** La performance s'est améliorée… »). Une amorce en gras qui se termine par un point et ajoute un nouveau détail convient.\n17. Titres en casse de phrase.\n18. Pas d'émojis décoratifs.\n19. Guillemets droits.\n20. Pas de formules de chatbot (« J'espère que cela vous aide ! », « N'hésitez pas à me dire si… »).\n22. Pas de compliments ni d'approbation en ouverture. Répondez directement.\n23. Éliminez le remplissage. « Afin de » devient « pour ». Supprimez « il est important de noter que ».\n24. Une seule atténuation au maximum : « peut ».\n25. Pas de conclusions génériques. Énoncez des plans ou des faits précis.\n26. Pas de noms métaphoriques abstraits : substrat, coin, vecteur, nexus, primitive, harnais, surface, échafaudage, paradigme, cliquet, étoile polaire, volant d'inertie. Utilisez le mot concret.\n27. Dites ce que cela fait, pas ce que cela évoque. Indiquez le mécanisme ou le chiffre. Supprimez toute phrase qui pourrait figurer telle quelle dans la doc d'un autre projet.\n28. Une idée par phrase. Scindez toute phrase que le lecteur doit relire.\n29. Voix active. Nommez l'acteur, sauf s'il est inconnu ou sans importance.\n30. Supprimez les adverbes ou utilisez un verbe plus fort. Donnez le chiffre.\n31. Utilisez le mot simple : « utiliser », pas « faire usage de » ni « capitaliser sur ».\n32. Pas de métaphore, d'aphorisme, de code personnifié ni de verbe figuré là où une formule littérale existe.\n33. Rédigez des phrases complètes avec leurs articles et leurs verbes. Écrivez les flèches et les abréviations en toutes lettres."
+  ]
+}

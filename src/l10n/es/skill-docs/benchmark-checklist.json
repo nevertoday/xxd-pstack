@@ -1,0 +1,73 @@
+{
+  "description": "Valida una medición de rendimiento (cuello de botella, ajuste, límites, errores, repetibilidad, relevancia y si el trabajo ocurrió realmente) antes de reportarla o actuar sobre ella. Usa esta skill cuando ejecutes un benchmark o reportes una mejora de velocidad o una regresión que hayas medido.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Reporta una mejora de velocidad a partir de una sola ejecución.",
+        "with": "Ejecuta cada lado al menos 5 veces, alternándolos, y reporta la mediana y el rango."
+      },
+      {
+        "without": "Elige un ganador mientras un lado corre con la configuración por defecto.",
+        "with": "Primero ajusta ambos lados como en producción. Si no puede, no elige ganador."
+      },
+      {
+        "without": "Adivina a partir del código por qué es lento.",
+        "with": "Perfila una ejecución aparte para encontrar el cuello de botella y lo ubica en el código fuente."
+      }
+    ],
+    "intro": "Úsala siempre que reportes un número de rendimiento. Una cifra aproximada que hayas pedido necesita una sola ejecución, pero aun así comprueba las preguntas 4 y 7.",
+    "sections": [
+      "Anota la afirmación a comprobar, lee el script de medición y revisa la carga de la máquina con uptime y nproc.",
+      "Responde 7 preguntas: qué lo limita, si estaba ajustado, si rompió algún límite, si dio errores, si se reproduce, si importa y si ocurrió realmente.",
+      "Empieza con el veredicto y el número, la cantidad de ejecuciones, el rango y el cuello de botella. Sin cuello de botella identificado, es no concluyente.",
+      "Valida la línea base del playbook de problema de rendimiento y el harness de Hillclimb con esta lista de verificación antes de usarlos."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Write down the claim you expect to make, in the words you would ship",
+      "quoteTr": "Anota la afirmación que esperas hacer, con las mismas palabras que publicarías",
+      "title": "Escribe la afirmación antes de probar",
+      "does": "Antes de medir, escribe la frase que planea reportar y luego cada pregunta pone a prueba esa frase.",
+      "why": "Una afirmación concreta les da un objetivo a las comprobaciones, así no puede medir primero e inventar la historia después.",
+      "try": "Antes de investigar, añade: «Primero escribe en una línea la conclusión que esperas darme, como “la página de inicio carga el doble de rápido”, y luego comprueba si se sostiene»."
+    },
+    {
+      "quote": "Removing a piece that takes 10% of the run can make the run at most about 11% faster.",
+      "quoteTr": "Quitar una parte que consume el 10% de la ejecución puede hacerla, como máximo, alrededor de un 11% más rápida.",
+      "title": "Usa la aritmética como barrera de seguridad",
+      "does": "Cuando una mejora de velocidad parece demasiado buena, comprueba si siquiera es posible y, si no lo es, admite que la medición está mal.",
+      "why": "Un ejemplo resuelto funciona mejor que «no exageres», porque la IA puede rehacer el cálculo por sí misma.",
+      "try": "Dale un límite que pueda calcular: «Esta sección es una décima parte del texto, así que quitarla ahorra, como máximo, una décima parte del tiempo de lectura»."
+    },
+    {
+      "quote": "Lead with the verdict: faster, slower, no measurable difference, or inconclusive.",
+      "quoteTr": "Empieza con el veredicto: más rápido, más lento, sin diferencia medible o no concluyente.",
+      "title": "Limita el veredicto a unas pocas opciones",
+      "does": "El informe abre con uno de cuatro veredictos, y «no concluyente» es una respuesta real.",
+      "why": "Una lista corta y fija que incluye «no concluyente» evita que la IA fuerce un resultado halagador.",
+      "try": "Cuando quieras un veredicto, enumera las opciones: «Empieza con una de estas: listo para publicar, todavía no está listo, aún no se puede saber»."
+    },
+    {
+      "quote": "Why not double?",
+      "quoteTr": "¿Por qué no el doble?",
+      "title": "Convierte las comprobaciones en preguntas cortas",
+      "does": "Cada número tiene que responder siete preguntas, como «¿por qué no el doble?», lo que obliga a encontrar qué limita la velocidad.",
+      "why": "Una pregunta corta es fácil de recordar y exige una respuesta, así que es más difícil pasarla por alto que una regla.",
+      "try": "Antes de dar por terminado un borrador, pídele a la IA que responda: «¿Quién lee esto? ¿Qué hace después? ¿Qué línea sobra?»."
+    }
+  ],
+  "blocks": [
+    "# Lista de verificación de benchmarks",
+    "Úsala cuando generes un número de rendimiento: el antes y el después de un PR, una afirmación de regresión, un harness de hillclimb o la elección de una biblioteca o configuración. Responde cada pregunta con evidencia de una ejecución, no con una suposición sobre el código.",
+    "Para una cifra aproximada rápida que haya pedido el usuario, basta una ejecución. Aun así, comprueba las preguntas 4 y 7 y di que es una sola ejecución. Omite el resto salvo que esa ejecución parezca incorrecta. Elegir entre opciones nunca es una cifra aproximada.",
+    "## Antes de ejecutar cualquier cosa",
+    "- Anota la afirmación que esperas hacer, con las mismas palabras que publicarías («la exportación es un 30% más rápida en p50 con el conjunto de datos de 60k filas»). Las preguntas ponen a prueba esa frase.\n- Lee el script de medición. Anota qué cronometra, qué cuenta y qué ignora.\n- Comprueba la carga promedio con `uptime` y la cantidad de núcleos con `nproc`. Si la máquina está ocupada, averigua qué se está ejecutando. Si no puedes detenerlo, intercala ambos lados para que los dos vean el mismo ruido, y dilo en el informe.",
+    "## Las preguntas",
+    "1. **¿Por qué no el doble?** Nombra el cuello de botella. Perfila en una ejecución que no vayas a reportar, porque los perfiladores y trazadores ralentizan el trabajo. Apóyate en la CPU por proceso (`top`, `pidstat`), un perfilador de tiempo de ejecución (`node --cpu-prof`, `py-spy`, `perf`), la espera de E/S y el conteo de llamadas al sistema (`strace -c` en Linux), y luego ubica el punto crítico en el código fuente. Vigila también el generador de carga: si se satura primero, lo que mediste fue el generador de carga. Si un cambio no movió el número, el cuello de botella explica por qué; encuéntralo antes de dar el cambio por inútil.\n2. **¿Estaba ajustado?** Ejecuta cada lado tal como corre en producción: compilaciones release, flags y variables de entorno de producción, configuración de lotes y transacciones, pools de conexiones, cachés tan calientes o frías como las ve producción, y las mismas versiones y datos. Si un lado corre con valores por defecto, comparaste configuraciones, no implementaciones. Si el cuello de botella es una configuración (un commit por fila, una compilación de depuración, un índice faltante), ese lado está sin ajustar. Ajústalo y vuelve a medir antes de elegir un ganador. Si no puedes ajustarlo, no elijas un ganador a partir de esa ejecución. Cuando el usuario está eligiendo qué adoptar, reducir la afirmación al código tal como se entrega hoy no arregla esto, porque adopta la opción, no la configuración de hoy.\n3. **¿Rompió algún límite?** Haz la aritmética. Compara los bytes por segundo con el ancho de banda del disco y de la red, las operaciones por segundo multiplicadas por el costo por operación con tus núcleos, y el tiempo ahorrado con el tiempo que tardaba la parte modificada. Quitar una parte que consume el 10% de la ejecución puede hacerla, como máximo, alrededor de un 11% más rápida. Un resultado que supera un límite midió algo distinto al trabajo, como una caché, un no-op o un bug.\n4. **¿Dio errores?** Cuenta los fallos y las respuestas que no sean exitosas, y comprueba que las salidas sean correctas, no solo que existan. Los rechazos suelen ser rápidos, y los timeouts y reintentos son lentos. Si el script no cuenta los errores, añade el conteo.\n5. **¿Se reproduce?** Ejecuta cada lado al menos 5 veces, alternando (A, B, A, B, y así sucesivamente) para que el calentamiento, la inicialización diferida, las cachés y la deriva no favorezcan a ninguno. Reporta la mediana y el rango. Una brecha menor que la variación entre ejecuciones no es una diferencia medible. Cuando el margen sea estrecho, usa un test de suma de rangos o las propias estadísticas del harness.\n6. **¿Importa?** Junto a cualquier resultado micro, mide el recorrido de extremo a extremo por el que espera un usuario, con tamaños de datos y concurrencia realistas, y reporta el resultado micro como proporción del total. Una función auxiliar que consume el 1% de una petición puede hacer la petición, como máximo, un 1% más rápida, por muy rápida que se vuelva esa función.\n7. **¿Ocurrió realmente?** Confirma que el trabajo se ejecutó dentro del tramo cronometrado: la petición llegó al servidor, las filas se escribieron, los bytes se leyeron y el código usó el resultado. El código perezoso (generadores que nadie itera, promesas sin await, resultados que el JIT puede descartar) y los timeouts producen números para un trabajo que nunca ocurrió.",
+    "## Informe",
+    "- Empieza con el veredicto: más rápido, más lento, sin diferencia medible o no concluyente.\n- Da el número con su unidad, la cantidad de ejecuciones, el rango y el cuello de botella. Por ejemplo: «p50 41 ms → 33 ms, mediana de 7 ejecuciones por lado, rango de 32 a 35 ms después, limitado por el análisis de JSON en un solo núcleo».\n- Declara el veredicto como no concluyente cuando afirmas una diferencia pero no puedes nombrar el cuello de botella, cuando un lado se ejecutó sin ajustar o cuando no pudiste comprobar las preguntas 4 y 7. Indica qué faltó.\n- Limita el cuerpo del PR a un solo número principal. Pon las ejecuciones, el rango y la evidencia del cuello de botella en un artefacto enlazado o en un archivo de notas.",
+    "## Otro material de rendimiento",
+    "- Valida la línea base del playbook **Problema de rendimiento** antes de que el playbook planifique a partir de ella, y cada número posterior.\n- Valida el harness del playbook **Hillclimb** antes de que se congele. El harness congelado imprime luego los conteos de errores y de trabajo, así que cada paso de conservar o revertir comprueba las preguntas 4 y 7 gratis."
+  ]
+}

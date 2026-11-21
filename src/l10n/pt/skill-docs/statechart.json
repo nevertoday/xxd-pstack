@@ -1,0 +1,94 @@
+{
+  "description": "Verifique um modelo TLA+ de um sistema que passa de um estado para outro, como um fluxo de produto, um protocolo ou um serviço, e desenhe-o como um statechart em Mermaid. O relatório traz o caminho mais curto até cada estado que quebra uma regra. Use para /statechart ou para mostrar um bug como um caminho entre estados.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Rotula estados e setas com nomes de variáveis e ações de código.",
+        "with": "Rotula cada estado e seta com as palavras do leitor, como “você aperta play”."
+      },
+      {
+        "without": "Afrouxa uma regra quando a verificação falha.",
+        "with": "Escreve cada regra como um INVARIANT e deixa o TLC encontrar o caminho que a quebra."
+      },
+      {
+        "without": "Assume como real um bug que o modelo relata.",
+        "with": "Reproduz cada caminho de bug no código real e duvida do modelo se ele não acontecer."
+      }
+    ],
+    "intro": "Diz que o diagrama mostra como um sistema passa de um estado para outro com as palavras do leitor, e o leitor decide se isso está certo.",
+    "sections": [
+      "Escreve uma especificação TLA+ e sua configuração em uma pasta temporária fora do repositório e roda o comando. A primeira execução instala o TLC.",
+      "Escreve cada regra combinada como um INVARIANT, divide Next em ações nomeadas e adiciona um passo que não faz nada para os estados finais.",
+      "Escreve um módulo de visualização em que state() e step() nomeiam estados e setas com as palavras do leitor, mantendo cerca de 20 setas.",
+      "Explica as marcações breaks e mayBreak, a lista “Rules not checked” e por que o TLC continua depois de um bug.",
+      "Mostra chart.mmd como um bloco mermaid. Acima de 500 estados, desenha só os caminhos de bug. As imagens são renderizadas com o Pele.",
+      "Entrega cada diagrama com uma linha por bug e o que o modelo deixa de fora, depois reproduz os bugs no código real."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Label each state with what the reader can see or cares about",
+      "quoteTr": "Rotule cada estado com o que o leitor pode ver ou com o que se importa",
+      "title": "Nomeie os estados como os leitores os veem",
+      "does": "Cada estado no diagrama aparece como “Pagando”, palavras que você entende, não um nome de variável.",
+      "why": "A nomeação parte do olhar do leitor, assim a IA não carrega os nomes do próprio código.",
+      "try": "Quando pedir um fluxograma, acrescente: “Rotule cada caixa com o que o cliente vê na tela, como ‘Aguardando pagamento’.”"
+    },
+    {
+      "quote": "Never weaken a rule to make it hold.",
+      "quoteTr": "Nunca enfraqueça uma regra para fazê-la valer.",
+      "title": "Bloqueie a trapaça mais fácil",
+      "does": "Quando uma regra quebra, a IA procura o problema em vez de afrouxar a regra até a verificação passar.",
+      "why": "Nomear o atalho que mais tenta a IA, e proibi-lo, funciona melhor do que um vago “tenha cuidado”.",
+      "try": "Quando pedir para corrigir um bug, escreva: “Se um teste falhar, mude o código, nunca o valor esperado do teste.”"
+    },
+    {
+      "quote": "Aim for about 20 arrows or fewer, because a busier chart is hard to read.",
+      "quoteTr": "Mire em cerca de 20 setas ou menos, porque um diagrama mais carregado é difícil de ler.",
+      "title": "Dê o número e o motivo",
+      "does": "O diagrama fica pequeno o bastante para ler de relance; quando fica carregado, a IA junta ou descarta passos que não importam.",
+      "why": "O número deixa o objetivo claro, e o motivo permite que a IA decida bem onde o número não alcança.",
+      "try": "Dê um limite junto com a causa: “No máximo três frases por parágrafo, porque as pessoas leem isso no celular.”"
+    },
+    {
+      "quote": "If a bug does not occur, think that the model is wrong until you show that it is not.",
+      "quoteTr": "Se um bug não acontecer, considere que o modelo está errado até mostrar que não está.",
+      "title": "Diga de qual lado duvidar primeiro",
+      "does": "Quando um bug do diagrama não aparece no código real, a IA verifica o modelo antes de dizer “tudo certo”.",
+      "why": "Quando duas fontes discordam, definir o padrão impede a IA de escolher a que for mais conveniente.",
+      "try": "Quando pedir uma verificação, escreva: “Se a documentação e o código discordarem, confie no código e me diga onde eles divergem.”"
+    }
+  ],
+  "blocks": [
+    "# Statechart",
+    "O diagrama mostra como um sistema passa de um estado para outro, com as palavras da pessoa que o lê. Essa pessoa, o leitor, decide se o comportamento está certo.",
+    "## Execute",
+    "Trabalhe em uma pasta temporária fora do repositório. Escreva uma especificação TLA+ e sua configuração. Depois, rode:",
+    "```sh\n<skill dir>/scripts/statechart SPEC.tla [--config FILE] [--view FILE] [--out DIR]\n```",
+    "`scripts/statechart.ts` está em TypeScript, então rode-o com um runtime que consiga executar TypeScript. `scripts/statechart` é um script de shell POSIX que escolhe um. No Windows nativo, rode `node --disable-warning=ExperimentalWarning <skill dir>/scripts/statechart.ts` com Node 22.18 a 22.x, ou Node 23.6 ou superior.",
+    "A primeira execução instala o TLC e o Java com o mise e precisa de rede.",
+    "## Escreva a especificação",
+    "- Escreva cada regra com a qual o leitor concorda como um INVARIANT. Uma regra pode ser sobre uma tela, um resultado, um valor salvo ou uma mensagem. Se o modelo não tiver uma variável para uma regra, adicione a variável. Nunca enfraqueça uma regra para fazê-la valer.\n- Escreva `Next` como uma disjunção das ações, como `YouPressPlay \\/ YouPressStop`. Se você não fizer isso, o TLC dá o nome `Next` a todos os passos.\n- Um estado sem nenhum passo de saída quebra `NoDeadlock`, mesmo quando é um estado final correto. Quando um INVARIANT ou uma PROPERTY já tem esse nome, a regra é `CHECK_DEADLOCK`. Adicione a `Next` uma ação que seja verdadeira só nos estados finais e não mude nada, como `Done == phase \\in {\"paid\", \"failed\"} /\\ UNCHANGED vars`, e dê a ela um rótulo em `step()`.",
+    "## Escolha o diagrama",
+    "Você faz o trabalho que exige critério: as palavras em cada estado e seta, as fases e suas cores, o título e o relatório para o leitor. Coloque seu trabalho em um módulo de visualização e passe-o com `--view`.",
+    "Para mostrar as palavras do leitor, o módulo de visualização exporta `state(vars)`. O valor retornado por `state()` define o formato:",
+    "- Uma string gera um diagrama plano: `export const state = (v) => (v.paid ? \"Paid\" : \"Paying\");`\n- Um array gera estados-pai: `export const state = (v) => v.main.split(\".\");`\n- Um objeto gera uma região paralela para cada chave: `export const state = (v) => ({ Playback: v.playback, Volume: v.volume });`",
+    "Rotule cada estado com o que o leitor pode ver ou com o que se importa, como “Pagando” ou “Lease retido, gravação pendente”. Deixe nomes de variáveis fora dos rótulos. Em `vars`, uma sequência TLA+ é um objeto com chaves a partir de 1, então `v.pc[1]` é `pc[1]`. Um conjunto é um array.",
+    "O módulo de visualização também pode exportar `step(action, from, to)`. Ele recebe o nome da ação do TLC e os valores antes e depois do passo, e retorna o rótulo da seta. Escreva cada rótulo de passo como o usuário vê acontecer, como “você aperta play” ou “a conexão falha”. Não use o nome do código nem da ação TLA+. Duas ações que terminam do mesmo jeito no diagrama recebem o mesmo rótulo, para compartilharem uma única seta.",
+    "Quando um passo só pode acontecer em algumas condições, termine o rótulo dele com a condição entre colchetes, com as palavras do leitor, como `you press play [while the file loads]`. Em um diagrama de regiões, o comando escreve na seta a condição sobre as outras regiões, com as palavras dos rótulos delas, como `[when Offline]`. Os seus colchetes substituem isso, e duas setas de um mesmo estado podem acabar parecendo iguais. Por isso, em um diagrama de regiões, não escreva colchetes para uma condição sobre outra região. Quando um valor que nenhum rótulo mostra decide para onde um passo vai, nomeie o resultado no rótulo, como “a leitura da lista falha”.",
+    "O módulo de visualização também pode exportar:",
+    "- `group(vars)` retorna o nome de uma fase. Cada estado do diagrama recebe a cor do seu grupo. Quando os estados do modelo por trás de um estado do diagrama estão em grupos diferentes, esse estado fica sem cor.\n- `colors` atribui uma classe de cor a cada nome de grupo.\n- `title` é uma string que o diagrama mostra no topo.",
+    "O comando chama `state()` e `group()` no máximo uma vez para cada estado do modelo, e `step()` no máximo uma vez para cada passo. Tanto o diagrama quanto o relatório usam essas respostas. Por isso, faça cada função depender apenas dos seus argumentos.",
+    "O diagrama não desenha um passo que fica no mesmo rótulo. Divida um rótulo quando o leitor precisar ver um passo assim.",
+    "Mire em cerca de 20 setas ou menos, porque um diagrama mais carregado é difícil de ler. Primeiro, retorne rótulos mais amplos em `state()`. Dê um único rótulo para valores que se comportam da mesma forma e deixe de fora um detalhe de que o leitor não precisa, como uma chamada em andamento cujo retorno não muda nada. Mantenha cada estado de um caminho de bug e mantenha cada marcação. Quando uma junção transforma um estado `breaks` em `mayBreak`, ela esconde onde uma regra quebra. Não junte dois estados que quebram regras diferentes, porque aí o leitor não consegue ver qual regra quebra em qual lugar. Se o diagrama ainda estiver carregado demais, retorne `null` em `step()` para os passos de que o leitor não precisa, como um reset presente em todos os estados ou um passo cuja seta repete o que outras setas mostram. Siga estas regras ao esconder passos:",
+    "- Mantenha cada estado do diagrama alcançável por setas a partir de um estado inicial.\n- Mantenha pelo menos uma seta saindo de cada estado do diagrama que tenha um passo de saída no modelo.\n- Esconda todos os passos de uma seta, ou nenhum deles. Quando você esconde apenas alguns, a condição dela fica mais restrita.\n- Na entrega, diga quais passos o diagrama esconde.",
+    "## Leia o relatório",
+    "- No diagrama, um estado que quebra uma regra tem a classe `breaks`. Quando apenas alguns estados do modelo por trás dele quebram a regra, ele tem a classe `mayBreak`. A Legenda nomeia as regras de cada marcação. Quando duas regras quebram, ela nomeia ambas em uma só marcação, então diga na entrega qual estado quebra qual regra. Em um diagrama de regiões, um estado recebe uma marcação quando toda combinação de estados de região que o inclui pode quebrar uma regra. Quando uma combinação pode quebrar uma regra e nenhum dos seus estados tem marcação, cada estado dessa combinação recebe uma marcação.\n- O TLC segue adiante após um estado que quebra uma regra, então o diagrama mostra os estados depois de um bug.\n- Como o TLC segue adiante após bugs, um modelo sem limite de estados pode rodar sem fim. Mantenha as constantes pequenas ou adicione uma CONSTRAINT.\n- Com uma VIEW ou uma SYMMETRY, o TLC conta como um só estado os estados que trata como iguais, e o diagrama desenha esse único estado. Uma seta pode levar até ele em vez de levar ao estado que o passo atinge, e o relatório informa isso.\n- O TLC verifica as regras em cada estado além de uma CONSTRAINT ou de uma ACTION_CONSTRAINT, mas não explora esse estado nem verifica se ele tem deadlock. Quando o caminho mais curto do TLC para uma regra termina em um estado assim, o diagrama desenha esse estado e o relatório traz esse caminho. O diagrama não desenha os outros estados além do limite. Um deadlock em um estado assim não aparece. O TLC também verifica as regras depois de cada passo que uma ACTION_CONSTRAINT exclui, mesmo quando chega ao próximo estado por outro caminho. Quando o caminho mais curto do TLC para uma regra termina com um passo assim, o diagrama desenha esse passo.\n- O comando verifica as regras com o TLC na configuração como foi escrita, com um worker. Quando uma regra quebra, o comando remove essa regra e roda o TLC de novo, até nenhuma regra quebrar. Depois da primeira quebra, cada execução para em 100.000 estados distintos, para que um modelo grande não rode sem fim. Quando uma execução atinge esse limite ou para com um erro, o relatório lista as regras que não verificou em “Rules not checked”, e o diagrama não as marca. Uma regra que não foi verificada pode valer ou quebrar. Para verificá-la, remova da configuração as regras que quebram ou deixe o modelo menor. O limite adiciona um módulo que muda a ordem das variáveis no TLC, então, para uma propriedade, o TLC pode encontrar um contraexemplo diferente do de uma execução sem o limite.\n- `tlc.out` é o que o TLC imprimiu na configuração como foi escrita. Quando o diagrama não mostra o caminho de bug de uma regra que quebra, `tlc-RULE.out` é o que o TLC imprimiu na execução que o encontrou. Quando o TLC repete seu primeiro aviso, o TLC puro o imprime duas vezes, mas `tlc.out` o mostra uma vez, porque o TLC deixa a segunda cópia fora da saída que este comando lê. Isso só acontece quando o Java roda com `-XX:+UseParallelGC`, já que, fora isso, o primeiro aviso do TLC é a recomendação de passar essa flag, que ele imprime uma vez.",
+    "## Mostre o diagrama",
+    "Mostre `chart.mmd` ao usuário como um bloco de código `mermaid`. O diagrama tem um orçamento de 500 estados, contados pelo TLC na configuração como foi escrita. Acima disso, o diagrama desenha só os caminhos até as regras que quebram e, quando nenhuma regra quebra, o comando não grava nenhum `chart.mmd`. Ele ainda verifica cada regra, e o relatório traz a contagem de estados e cada caminho de bug. Para ver o grafo inteiro, deixe o modelo menor.",
+    "Renderize diagramas com o Pele. Quando o usuário pedir uma imagem, ou quando um diagrama for grande demais para ler como texto, siga `references/render.md`. Não use outro renderizador, a menos que o usuário peça.",
+    "## Faça a entrega",
+    "Entregue cada diagrama e seu texto Mermaid para a pessoa que precisa decidir. Adicione uma linha para cada bug: a regra, a frase do leitor para essa regra e o caminho como o relatório o numera. Diga o que o modelo deixa de fora. Informe o comando que gera os arquivos de novo, com uma nova pasta `--out`.",
+    "Quando o modelo descreve código, reproduza cada caminho de bug no código real, como um teste ou uma repro ao vivo (reprodução mínima do bug), um passo para cada ação. Se um bug não acontecer, considere que o modelo está errado até mostrar que não está."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "description": "Explique un travail en termes simples pour qu'une personne le comprenne vraiment. Exécute les skills `how` et `why` et assemble ce qu'ils trouvent en une seule explication claire. À utiliser pour « apprends-moi ça », « aide-moi à vraiment comprendre X », « explique-moi ce changement ou ce sous-système ».",
+  "brief": {
+    "compare": [
+      {
+        "without": "Liste des noms de fonctions et de constantes et estime que c'est expliqué.",
+        "with": "Donne le nom courant et une définition simple, puis le problème et le mécanisme."
+      },
+      {
+        "without": "Écrit un bloc dense avec des libellés comme « point clé » ou « TL;DR ».",
+        "with": "Donne une réponse complète en une ou deux phrases, puis s'arrête. Aucun libellé d'enrobage."
+      },
+      {
+        "without": "Fait un cours magistral avec des quiz, des « Pause » et vous demande de reformuler.",
+        "with": "Parle comme un collègue, propose d'approfondir et vous laisse guider la suite."
+      }
+    ],
+    "intro": "Teach exécute `how` et `why`, retient les quelques points qui correspondent à la raison de votre question et les fond en une seule explication, comme à l'oral. Il part d'une définition simple et d'une réponse courte, construit les diagrammes un élément à la fois et rédige en passant par `unslop`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Give the smallest complete answer first, a sentence or two, not a dense paragraph, then stop.",
+      "quoteTr": "Donne d'abord la plus petite réponse complète, une ou deux phrases, pas un paragraphe dense, puis arrête-toi.",
+      "title": "Répondre court, puis s'arrêter",
+      "does": "Il répond en une ou deux phrases et n'approfondit que si vous le demandez.",
+      "why": "« Plus petite », « complète » et « arrête-toi » limitent ensemble la longueur sans autoriser une demi-réponse.",
+      "try": "Quand vous posez une question sur une nouvelle notion, ajoutez : « Réponds d'abord en deux phrases. Développe quand je te le demande. »"
+    },
+    {
+      "quote": "Concretely, to teach a flow from A to B to C, draw it three times.",
+      "quoteTr": "Concrètement, pour expliquer un flux de A vers B puis C, dessine-le trois fois.",
+      "title": "Montrer avec A, B, C",
+      "does": "Pour un flux complexe, il dessine une série de diagrammes qui s'enrichissent, pas un seul grand diagramme.",
+      "why": "« Construis-le étape par étape » reste abstrait. « De A vers B puis C, dessiné trois fois » montre exactement ce que chaque étape ajoute.",
+      "try": "Au lieu de « avance étape par étape », écrivez : « Explique A, puis ajoute B, puis ajoute C, un seul élément nouveau à chaque fois. »"
+    },
+    {
+      "quote": "Keep `why`'s confidence language intact (its hedges are findings, not style).",
+      "quoteTr": "Garde intactes les formulations de certitude de `why` (ses réserves sont des constats, pas du style).",
+      "title": "Donner la raison de l'exception",
+      "does": "Il reformule librement, mais conserve des expressions comme « probablement » et « pas sûr ».",
+      "why": "La raison entre parenthèses indique à l'IA que ces réserves portent de l'information, pour qu'elle ne les coupe pas comme du remplissage.",
+      "try": "Quand l'IA peaufine votre texte, dites : « Garde tous les “environ” et “je pense”. Ils montrent mon degré de certitude, pas une habitude. »"
+    },
+    {
+      "quote": "The words in these steps are directions to you, not labels to print.",
+      "quoteTr": "Les mots de ces étapes sont des consignes pour toi, pas des libellés à afficher.",
+      "title": "Séparer les consignes de la sortie",
+      "does": "Il n'affiche pas les noms des étapes du skill comme titres dans sa réponse.",
+      "why": "Les IA recopient souvent les mots du prompt dans la sortie. Préciser qu'il s'agit uniquement de consignes évite cela.",
+      "try": "Avec un plan, ajoutez : « “Contexte” et “Objectif” ci-dessous sont des notes pour toi. Ne les utilise pas comme titres. »"
+    }
+  ],
+  "blocks": [
+    "# Teach",
+    "**Tu expliques ce qu'est une chose, comment elle fonctionne et pourquoi elle est construite ainsi, en termes simples et d'un seul tenant, au rythme de la personne. L'objectif est qu'elle comprenne, pas que tu modifies quoi que ce soit.**",
+    "Teach s'appuie sur `how` et `why`. Repère en quoi consiste le travail et ce qu'il touche, puis lance `how` pour savoir comment ça fonctionne et `why` pour savoir pourquoi c'est ainsi. Ce sont de vrais appels de skills qui font leurs propres recherches. Combine ce qu'ils trouvent en une seule explication simple, commence par ce qui compte pour la personne et approfondis quand elle le demande. Reformule librement pour expliquer, à une exception près. Garde intactes les formulations de certitude de `why` (ses réserves sont des constats, pas du style).",
+    "1. Détermine les quelques points que la personne doit avoir compris en repartant. Choisis-les d'après la raison de sa question (sur le point de le modifier, de le relire, de le déboguer ou de le découvrir) et ce qu'elle sait déjà, deux éléments déduits de la conversation, sans la soumettre à un quiz. Passe ce qu'elle sait manifestement déjà. Mets la profondeur là où porte sa question.\n2. Laisse `how` et `why` faire le travail, ne le refais pas. Lis toi-même le code pour te repérer, puis lance `how` pour savoir comment ça fonctionne et `why` pour savoir pourquoi. Exécute-les en parallèle et combine les résultats. Adapte l'ampleur à la question. Lance les deux pour un sous-système, un seul suffit peut-être pour un petit changement.\n3. Commence par une définition simple. Nomme la chose et dis ce que c'est en termes généraux, comme un ingénieur senior le dirait à voix haute, avec son nom courant si elle en a un. Relie-la ensuite au cas que tu as sous les yeux (« dans X, on utilise ça pour… ») et construis à partir de là : comment ça fonctionne, les raisons profondes, les cas limites. Pour chaque partie, explique l'idée pour qu'elle fasse tilt : le problème qu'elle résout et comment elle fonctionne vraiment. Déroule ce qui se passe au fil de l'action de la personne (elle ouvre un long chat, fait défiler vers le haut) quand c'est ce qui fait passer l'idée. Lister des fonctions et des constantes, c'est de la référence, pas de l'enseignement. N'affiche pas de libellés d'enrobage (« l'idée à garder en tête », « ce qu'il faut retenir », « le point clé », « en substance », « TL;DR »). Donne d'abord la plus petite réponse complète, une ou deux phrases, pas un paragraphe dense, puis arrête-toi. Ajoute des couches quand la personne le demande. Jamais de mur de texte.\n4. Garde le ton d'une conversation, pas d'un cours magistral ni d'une mise en scène. Propose d'approfondir ou de passer à la suite, et laisse la personne guider. Pas de quiz. Pas de théâtre sur le rythme. N'affiche pas « Pause », ne lui demande pas de reformuler, n'annonce pas « la phrase à bien retenir » et ne signale pas qu'une partie est importante ou difficile (« voici le passage où il vaut mieux ralentir », « voici la partie délicate », « c'est ici que ça devient intéressant »). Dis-le simplement. Là où tu ferais une pause, arrête-toi et laisse la personne répondre. En une seule passe, sans humain en direct, livre l'explication proprement et place à la fin toute proposition d'approfondissement.\n5. Montre au lieu de seulement raconter, et construis la vue d'ensemble diagramme par diagramme. Ouvre le diff, le code ou le débogueur quand c'est le moyen le plus rapide de faire passer l'idée. Dessine quand une image parle plus vite que des mots. Pour tout ce qui comporte trois éléments en jeu ou plus, ne dessine pas un seul diagramme qui les rassemble tous d'un coup. Dessine plutôt une courte série où chaque diagramme reprend le précédent et ajoute un seul élément, afin que le lecteur voie le système s'assembler. Un seul diagramme tout-en-un, surtout gardé pour la fin, est une référence, pas de l'enseignement. Concrètement, pour expliquer un flux de A vers B puis C, dessine-le trois fois. D'abord de A vers B. Puis redessine-le en ajoutant C. Puis redessine-le en ajoutant la flèche de retour ou la pièce suivante. Adapte le support à l'idée, et utilise les deux formats quand les deux aident. Un diagramme mermaid convient à un flux ou à une structure où les libellés portent le sens. Quand l'idée est spatiale, comme une mise en page, un chevauchement, une position de défilement ou un avant/après, utilise l'outil de génération d'images et dessine-la façon feutre sur tableau blanc avec quelques libellés courts, car les modèles d'images déforment les textes longs. Génère cette image, ne te contente pas de la décrire avec des mots. La règle de construction progressive vaut aussi pour les images générées. Un seul point simple n'a pas besoin de schéma.",
+    "Rédige chaque réponse en passant par le skill **unslop**, dans un anglais simple et parlé, comme tu l'expliquerais à un collègue. Sois concis, pas laconique. Coupe le remplissage et les formules évasives, garde ce qui fait tilt. Énonce le mécanisme concret, pas une métaphore, un enrobage ou un aperçu de ce qui va suivre. Voici la densité visée : « La virtualisation fonctionne en deux parties, une pour le rendu et une pour le chargement depuis le disque. Quand un élément sort du tampon au défilement, son nœud DOM et ses données en mémoire sont tous deux évincés. » Casse de phrase normale, pas tout en minuscules. Pas de tirets cadratins. Préfère les points aux virgules. Limite chaque phrase à une ou deux virgules. Si les propositions s'empilent, découpe-les en phrases distinctes. Donne un seul nom à chaque concept et garde-le. Évite les phrases en miroir (« A sans B, ou B sans A ») et les chutes bien ficelées (« le reste suit », « tout en découle »). Les mots de ces étapes sont des consignes pour toi, pas des libellés à afficher. Ne reprends pas la structure sous forme de titres ni d'expressions toutes faites.",
+    "**Réponse :** l'explication elle-même, jamais un compte rendu de ce que tu as fait ou livré. Commence par le point principal, suivi de l'explication simple de ce que c'est, comment ça fonctionne et pourquoi, et des pistes qui méritent d'être creusées avec `how` ou `why`."
+  ]
+}

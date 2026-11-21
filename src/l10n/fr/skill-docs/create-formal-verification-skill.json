@@ -1,0 +1,80 @@
+{
+  "description": "Génère un skill local au projet qui vérifie formellement le code où un bug coûte le plus cher et que les tests atteignent le moins, dans n'importe quel langage, avec l'outil de vérification adapté. À utiliser pour /create-formal-verification-skill, « vérifie cette race condition par model checking », « prouve cet invariant », ou lorsque la concurrence, les réessais, les machines à états, les parseurs ou le code non sûr demandent plus que des tests.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Annonce « vérifié » sans dire jusqu'où va la vérification.",
+        "with": "Précise ce qui est vérifié, les bornes et les hypothèses, ainsi que ce qui est laissé de côté."
+      },
+      {
+        "without": "Corrige le code produit dès qu'un problème est trouvé.",
+        "with": "Vous présente le contre-exemple selon les étapes du code et ne modifie le code que si vous le demandez."
+      },
+      {
+        "without": "Remet un contrôle que personne n'a vu échouer.",
+        "with": "Casse volontairement le vrai code et confirme que le contrôle détecte l'erreur."
+      }
+    ],
+    "intro": "Cette introduction oppose les tests à la vérification de tous les cas dans un périmètre donné, puis indique que le skill vérifie une propriété et laisse un skill de vérification pour l'agent suivant.",
+    "sections": [
+      "Trouve une promesse du code dont la rupture nuit aux utilisateurs et que les tests atteignent rarement, en commençant là où vous l'indiquez.",
+      "Adapte l'outil à la question : TLA+ pour les mauvais ordres d'étapes, un vérificateur au niveau du code pour les questions portant sur toutes les entrées.",
+      "Sept critères : fidèle au code, capable d'échouer, anomalies conservées, périmètre honnête, lisible, peu coûteux à relancer, maintenu synchronisé.",
+      "Écrit un skill de projet avec son frontmatter, le relevé de couverture et le commit de synchronisation, et renvoie les résultats TLA+ vers `/statechart`.",
+      "Casse la propriété avec une modification temporaire dans le vrai code. Le contrôle doit détecter l'erreur, puis retrouver son résultat initial.",
+      "Vous indique ce qui a été vérifié, l'outil utilisé et pourquoi, les bornes, les anomalies trouvées, comment lancer le contrôle et ce qui est laissé de côté."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "A check that you have never seen fail proves nothing.",
+      "quoteTr": "Un contrôle que vous n'avez jamais vu échouer ne prouve rien.",
+      "title": "Faire échouer le contrôle une fois",
+      "does": "Il casse volontairement le code pour voir le contrôle détecter l'erreur avant de vous dire que le contrôle passe.",
+      "why": "Une phrase courte et catégorique dit ce qui rend un succès valable, pour qu'un contrôle qui n'échoue jamais ne puisse pas passer pour une preuve.",
+      "try": "Après avoir configuré une alerte, ajoutez : « Crée un enregistrement qui devrait la déclencher et montre-moi qu'elle s'active. »"
+    },
+    {
+      "quote": "Choose the strongest such target in the repo, not the one that is easiest to verify.",
+      "quoteTr": "Choisissez la cible la plus pertinente de ce type dans le dépôt, pas la plus facile à vérifier.",
+      "title": "Nommer la solution de facilité",
+      "does": "Il s'attaque au code qui compte le plus, pas à la partie la plus facile à terminer.",
+      "why": "Les IA dérivent vers l'option facile ; nommer cette tentation à voix haute les empêche d'y céder.",
+      "try": "Quand vous demandez une analyse : « Choisis le problème le plus susceptible de faire perdre des clients, pas le plus facile à analyser. »"
+    },
+    {
+      "quote": "Do not weaken the property or the model until it passes",
+      "quoteTr": "N'affaiblissez pas la propriété ni le modèle jusqu'à ce que le contrôle passe",
+      "title": "Interdire d'abaisser la barre",
+      "does": "Quand le code comporte vraiment un défaut, il signale le problème avec un exemple au lieu d'assouplir discrètement le contrôle.",
+      "why": "Nommer la façon la plus courante de tricher fonctionne bien mieux qu'un « sois honnête » général.",
+      "try": "Quand vous demandez un correctif, ajoutez : « Si un test échoue, dis-moi ce qui ne va pas ; ne modifie pas le test pour le faire passer. »"
+    },
+    {
+      "quote": "A pass covers the model or the bound, not the whole system.",
+      "quoteTr": "Un contrôle réussi couvre le modèle ou la borne, pas tout le système.",
+      "title": "Dire jusqu'où va un contrôle réussi",
+      "does": "Le rapport indique quelle part a été vérifiée, afin que vous ne le preniez pas pour un feu vert sur tout le système.",
+      "why": "Poser une limite sur la conclusion empêche un succès partiel de passer pour une garantie totale.",
+      "try": "Quand vous demandez des résultats de tests : « Dis-moi quels navigateurs ont été couverts et liste ceux qui ne l'ont pas été. »"
+    }
+  ],
+  "blocks": [
+    "# Créer un skill de vérification formelle",
+    "Un test vérifie les cas que quelqu'un a pensé à écrire. La vérification formelle contrôle chaque cas dans un périmètre défini : chaque ordre d'étapes dans un modèle, chaque entrée jusqu'à une borne, ou toutes les entrées. Ce skill trouve la partie du dépôt où cela compte le plus, en vérifie une propriété et laisse un skill local au projet qui permet à l'agent suivant de vérifier une modification par rapport à cette propriété. Écrivez ce skill pour un agent qui le lit à froid, en pleine modification, et qui n'a jamais vu votre travail. L'utilisateur doit pouvoir faire confiance au résultat et agir en conséquence sans apprendre le langage de vérification.",
+    "## Choisir la cible à partir du code",
+    "Répondez à partir de la base de code et ne demandez à l'utilisateur que ce que vous ne pouvez pas observer. Si l'utilisateur a nommé une zone ou un bug, commencez par là.",
+    "Une bonne cible est une promesse que fait le code, dont la rupture nuit aux utilisateurs et où les tests atteignent rarement le cas qui la rompt. Choisissez la cible la plus pertinente de ce type dans le dépôt, pas la plus facile à vérifier.",
+    "## Laisser la question choisir l'outil",
+    "Choisissez l'outil qui répond à la question au moindre coût : un model checker, un assistant de preuve, un vérificateur basé sur SMT ou un autre outil. Savoir si des événements peuvent se produire dans un mauvais ordre convient généralement à un model checker appliqué à un petit modèle de la conception, et TLA+ est le choix par défaut pour cela dans n'importe quel langage. Savoir si le code lui-même se comporte correctement pour chaque entrée, comme pour la sûreté mémoire, un débordement ou un invariant de structure de données, convient généralement à un vérificateur qui s'exécute sur le code. Si aucun vérificateur ne fonctionne sur ce langage, dites-le et testez le vrai code avec des entrées générées, pas avec un modèle manuel de la fonction. Une propriété qui doit tenir quelle que soit la taille, lorsqu'une borne ne suffit pas, peut nécessiter une preuve. Préférez un outil que les développeurs du dépôt peuvent installer et exécuter, et expliquez à l'utilisateur pourquoi vous l'avez choisi.",
+    "## Ce qui fait une bonne vérification",
+    "- **Fidèle au code.** Chaque partie du modèle ou de la preuve renvoie à du code qu'un relecteur peut ouvrir. Ce que la vérification traite comme une étape indivisible est une étape indivisible dans le code. Les noms proviennent de ce dépôt.\n- **Capable d'échouer.** Un contrôle que vous n'avez jamais vu échouer ne prouve rien. Montrez chaque propriété en train d'échouer sur une variante cassée du code qu'elle protège, par exemple avec une vérification supprimée ou une étape réordonnée.\n- **Les anomalies restent des anomalies.** Quand le code actuel rompt la propriété, signalez-le avec le contre-exemple dans les termes du code. N'affaiblissez pas la propriété ni le modèle jusqu'à ce que le contrôle passe, et ne modifiez pas le code produit sauf si l'utilisateur le demande.\n- **Honnête sur le périmètre.** Indiquez ce qui est vérifié, sous quelles bornes et quelles hypothèses, et ce qui est laissé de côté. Un contrôle réussi couvre le modèle ou la borne, pas tout le système.\n- **Lisible sans l'outil.** Énoncez la propriété et le préjudice en une phrase simple chacun. Racontez un contre-exemple sous la forme d'une courte suite d'étapes dans les mots du code.\n- **Peu coûteuse à relancer.** Une seule commande, une version d'outil reproductible et une exécution assez courte pour que l'agent suivant l'utilise à chaque modification concernée.\n- **Maintenue en phase avec le code.** Notez quels fichiers et fonctions chaque contrôle couvre, ainsi que le commit auquel vous avez confirmé pour la dernière fois que la vérification les décrit. Quand le code couvert change après ce commit, l'agent suivant peut voir que la vérification doit être réexaminée.",
+    "## Générer le skill de vérification",
+    "Écrivez un skill local au projet avec un frontmatter qui nomme la zone et indique quand l'utiliser. Sans frontmatter, le skill ne s'enregistre jamais. À partir du skill seul, l'agent suivant doit pouvoir déterminer si une modification touche le code vérifié, lancer le contrôle, distinguer un vrai bug d'une erreur de modélisation et mettre à jour la vérification lorsqu'un changement est voulu. Placez le relevé de couverture et le commit de synchronisation dans le skill, et indiquez à l'agent suivant de ne faire avancer le commit de synchronisation qu'après avoir confirmé que la vérification décrit le code au nouveau commit. Utilisez les vraies commandes, les vrais chemins et les vrais noms de ce dépôt, et ne laissez aucun texte à remplacer.",
+    "Si le contrôle est un modèle TLA+, indiquez à l'agent suivant de lire chaque résultat avec le skill pstack [`/statechart`](../statechart/SKILL.md). Il affiche chaque violation d'invariant trouvée par le vérificateur sous la forme de son chemin le plus court, en mots simples. Quand le contrôle réussit, `/statechart` trace un schéma montrant comment le système passe d'un état à l'autre. Faites référence à `/statechart` par son nom. Ses commandes, options et chemins de fichiers changent selon les versions et les machines, donc n'en copiez aucun dans le skill généré ni dans ses scripts.",
+    "## Le prouver avant de passer la main",
+    "Suivez le skill généré une fois, comme le ferait l'agent suivant, sur une modification temporaire qui rompt la propriété dans le vrai code. Il doit détecter la rupture. Annulez ensuite la modification temporaire et confirmez que le contrôle revient à son état initial : réussi, ou en échec uniquement sur les anomalies que vous allez signaler. Un skill de vérification qui n'a jamais été exécuté n'est qu'un brouillon. Si le skill passe à côté de la rupture ou qu'une étape ne s'exécute pas, corrigez le skill ou la vérification, pas la modification temporaire.",
+    "## Passer la main",
+    "Dites à l'utilisateur ce que vous avez vérifié, quel outil vous avez utilisé et pourquoi, les bornes, ce que le contrôle a trouvé en mots simples, comment le lancer et ce qu'il ne couvre pas. Ne suggérez une seconde cible que si vous en avez trouvé une qui s'en approche. Orientez l'utilisateur vers `/maintain-formal-verification-skill` pour remettre la vérification en phase après des modifications qui ne l'ont pas revérifiée."
+  ]
+}

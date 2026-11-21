@@ -63,5 +63,319 @@
       }
     ],
     "cap": "D'abord l'interrupteur ; chacune des trois parties a un seul rôle."
+  },
+  "g0-layers": {
+    "layers": [
+      {
+        "t": "Vous",
+        "d": "Donnez l'objectif, par ex. « corrige ce bug et montre-moi des preuves »"
+      },
+      {
+        "t": "pstack",
+        "d": "Les règles de travail que vous installez : 22 playbooks, 34 skills, 24 principes"
+      },
+      {
+        "t": "Votre outil de code IA",
+        "d": "Claude Code, Cursor, Codex…"
+      },
+      {
+        "t": "Le modèle",
+        "d": "Le même qu'avant ; pstack ne le remplace pas"
+      }
+    ],
+    "cap": "pstack se place dans votre outil, entre vous et le modèle. Le modèle reste le même ; l'ordre et le niveau d'exigence du travail changent."
+  },
+  "g5-arc": {
+    "steps": [
+      {
+        "t": "Fixer la conception",
+        "d": "/architect, /arena, prototypes"
+      },
+      {
+        "t": "Construire",
+        "d": "Dites ce que vous voyez ; /tdd si un test est simple"
+      },
+      {
+        "t": "Chercher les failles",
+        "d": "/interrogate ne garde que les problèmes vérifiés à l'exécution"
+      },
+      {
+        "t": "Nettoyer",
+        "d": "/unslop, /no-comments"
+      }
+    ],
+    "cap": "L'étape en pointillés est facultative : pour la plupart des changements, /poteto-mode gère la conception tout seul ; citez ces skills uniquement quand vous hésitez."
+  },
+  "g6-ship": {
+    "steps": [
+      {
+        "t": "Dites quand c'est terminé",
+        "d": "Dès la première phrase"
+      },
+      {
+        "t": "Elle vérifie elle-même",
+        "d": "Vraies commandes, vraie interface, preuves"
+      },
+      {
+        "t": "Ouvrir une PR",
+        "d": "Petits commits bien ordonnés"
+      },
+      {
+        "t": "Babysit jusqu'au vert",
+        "d": "Conflits, commentaires de revue, CI"
+      },
+      {
+        "t": "Fusionner",
+        "d": "Vous dites land the stack"
+      }
+    ],
+    "gate": "Votre accord",
+    "cap": "Elle va jusqu'à « prêt à fusionner » et s'arrête là. La fusion reste votre décision."
+  },
+  "g7-night": {
+    "eve": {
+      "t": "Avant de dormir",
+      "items": [
+        "Écrire une condition de fin",
+        "Un nouveau worktree depuis main",
+        "Tenir un journal de décisions",
+        "En cas de blocage, s'arrêter et dire pourquoi"
+      ]
+    },
+    "night": {
+      "t": "La nuit, à chaque tour",
+      "loop": [
+        "Vérifier si c'est terminé",
+        "Faire un petit changement",
+        "Le vérifier",
+        "Commiter si c'est utile, abandonner sinon"
+      ],
+      "log": "Une ligne dans le journal de décisions par tour"
+    },
+    "morn": {
+      "t": "Le matin",
+      "items": [
+        "/show-me-your-work",
+        "Lire d'abord « points d'attention »",
+        "Puis les lignes indiquées"
+      ]
+    },
+    "cap": "Vous n'avez pas à relire toute la conversation de la nuit. Le journal et « points d'attention » suffisent."
+  },
+  "g8-guard": {
+    "rungs": [
+      {
+        "t": "Rendre l'erreur impossible",
+        "d": "Changer la structure ou la forme des données"
+      },
+      {
+        "t": "La faire échouer bruyamment",
+        "d": "Types, lint, vérifications CI"
+      },
+      {
+        "t": "L'attraper avec des tests",
+        "d": "Elle apparaît quand les tests tournent"
+      },
+      {
+        "t": "Écrire une règle pour l'IA",
+        "d": "Ignorer une règle ne lève aucune erreur, elle vient donc en dernier"
+      }
+    ],
+    "high": "Le plus solide",
+    "low": "Dernier recours",
+    "cap": "/correct commence par le haut. Si un barreau supérieur fonctionne, il n'utilise pas de barreau inférieur."
+  },
+  "h-bug": {
+    "steps": [
+      {
+        "t": "Le reproduire",
+        "d": "Faire réapparaître le problème"
+      },
+      {
+        "t": "Trouver la vraie cause",
+        "d": "Le premier endroit où ça déraille"
+      },
+      {
+        "t": "Corriger à cet endroit",
+        "d": "Pas une vérification ajoutée en aval"
+      },
+      {
+        "t": "Relancer les mêmes étapes",
+        "d": "Le problème a disparu"
+      }
+    ],
+    "cap": "La première et la dernière étape sont la même reproduction, pour comparer l'avant et l'après à l'identique. Si elle n'arrive pas à reproduire le problème, elle ne modifie pas le code."
+  },
+  "h-perf": {
+    "steps": [
+      {
+        "t": "Mesurer une référence",
+        "d": "p50 autour de 900 ms"
+      },
+      {
+        "t": "Voir où passe le temps",
+        "d": "Capturer une trace"
+      },
+      {
+        "t": "Corriger la cause mesurée",
+        "d": "Pas celle supposée"
+      },
+      {
+        "t": "Remesurer, mêmes données",
+        "d": "p50 sous 200 ms, mêmes résultats"
+      }
+    ],
+    "loop": "Pas plus rapide ? Annuler et recommencer",
+    "cap": "Les deux chiffres reposent sur les mêmes données, avec plusieurs exécutions alternées, et comparent les médianes."
+  },
+  "h-refactor": {
+    "steps": [
+      {
+        "t": "Garder la sortie actuelle",
+        "d": "Référence : faire un build, copier dist"
+      },
+      {
+        "t": "Changer la structure",
+        "d": "Retirer avant d'ajouter"
+      },
+      {
+        "t": "Régénérer la sortie",
+        "d": "Même commande"
+      },
+      {
+        "t": "Comparer les deux",
+        "d": "Un diff vide signifie que rien n'a changé"
+      }
+    ],
+    "cap": "Vous n'avez pas besoin de lire chaque ligne de code. Le résultat de ce dernier diff suffit."
+  },
+  "h-review": {
+    "from": "Votre changement",
+    "by": [
+      "Modèle 1",
+      "Modèle 2",
+      "Modèle 3"
+    ],
+    "act": "chacun essaie de le casser",
+    "keep": {
+      "t": "Constats",
+      "d": "A vraiment échoué à l'exécution, avec la commande et la sortie"
+    },
+    "drop": {
+      "t": "Écartés",
+      "d": "Impossible à prouver à l'exécution, avec les raisons ; parcourez-les aussi"
+    },
+    "cap": "/interrogate fait seulement un rapport ; il ne modifie pas votre code. Un problème ne compte que si une exécution le démontre."
+  },
+  "h-cost": {
+    "root": {
+      "t": "Conversation principale",
+      "d": "Vous comprend, relit les changements",
+      "tag": "Modèle puissant"
+    },
+    "kids": [
+      {
+        "t": "feature, refactoring",
+        "tag": "Modèle moins cher"
+      },
+      {
+        "t": "bug-fix",
+        "tag": "Modèle moins cher"
+      },
+      {
+        "t": "perf-issue",
+        "tag": "Modèle moins cher"
+      }
+    ],
+    "note": "Les IA d'appoint reçoivent un travail bien cadré, que les modèles moins chers gèrent bien",
+    "cap": "Modifiez ces trois lignes à la fin de /setup-pstack, quand il vous demande de confirmer les rôles."
+  },
+  "h-steer": {
+    "parts": [
+      {
+        "text": "apply prove it works.",
+        "label": "Nom du principe, tapé tel quel"
+      },
+      {
+        "text": "Lance le vrai flux d'import",
+        "label": "Ce qu'il faut faire cette fois"
+      },
+      {
+        "text": "et montre-moi les enregistrements qu'il a écrits.",
+        "label": "Le résultat réel que vous voulez"
+      }
+    ],
+    "cap": "Le nom indique la règle ; le reste précise quoi faire cette fois et ce que vous voulez voir."
+  },
+  "h-verify": {
+    "steps": [
+      {
+        "t": "Lancer",
+        "d": "De données vides à vraiment utilisable"
+      },
+      {
+        "t": "Diagnostic",
+        "d": "Cette instance vaut-elle la peine d'être pilotée ?"
+      },
+      {
+        "t": "Piloter comme un utilisateur",
+        "d": "Vrais boutons, vraies commandes"
+      },
+      {
+        "t": "Capturer les preuves",
+        "d": "Captures d'écran, vidéo, données enregistrées"
+      },
+      {
+        "t": "Nettoyer",
+        "d": "Arrêter uniquement ce qui a été démarré ; garder les preuves"
+      }
+    ],
+    "cap": "Le skill verify-<app> généré contient ces sections. Avant de vous le remettre, l'IA les exécute une fois de bout en bout, puis vérifie que les preuves ont survécu au nettoyage."
+  },
+  "h-formal": {
+    "a": {
+      "who": "Tests",
+      "steps": [
+        "A prend une tâche et termine",
+        "B prend la suivante et termine",
+        "Un nouvel essai, tout va bien aussi"
+      ],
+      "end": "Tout est vert. En production, A se fige une fois et la même tâche s'exécute deux fois"
+    },
+    "b": {
+      "who": "Vérification formelle",
+      "steps": [
+        "Modéliser la prise d'une tâche, le renouvellement du bail, l'expiration, le nouvel essai",
+        "Parcourir tous les ordres possibles",
+        "Tomber sur un mauvais ordre"
+      ],
+      "end": "Vous remet un court contre-exemple avec les noms de votre code"
+    },
+    "cap": "Les tests vérifient les ordres auxquels quelqu'un a pensé. La vérification formelle vérifie tous les ordres dans le périmètre défini ; elle trouve donc celui auquel personne n'a pensé."
+  },
+  "h-formal-cex": {
+    "steps": [
+      {
+        "t": "A prend la tâche 42",
+        "d": "Bail de 30 secondes"
+      },
+      {
+        "t": "A se fige pendant 31 s",
+        "d": "Une longue pause GC, par exemple"
+      },
+      {
+        "t": "Le bail expire",
+        "d": "B prend la même tâche 42"
+      },
+      {
+        "t": "A se réveille et écrit",
+        "d": "Sans vérifier qu'il détient toujours le bail"
+      },
+      {
+        "t": "La tâche 42 s'est exécutée deux fois",
+        "d": "La règle est enfreinte"
+      }
+    ],
+    "cap": "Un contre-exemple est une liste d'étapes comme celle-ci. Chaque étape correspond à une fonction de votre code, ce qui vous permet de le suivre dans le vrai code."
   }
 }

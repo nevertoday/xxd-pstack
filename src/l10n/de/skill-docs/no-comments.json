@@ -1,0 +1,67 @@
+{
+  "description": "Startet Comment Sicko, behebt akzeptierte Funde und schlägt Absicherungen im Code für behauptete Einschränkungen vor.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Ändert beim Entfernen von Kommentaren Anwendungscode.",
+        "with": "Lehnt jede Änderung der Helfer-KI am Anwendungscode oder außerhalb des Umfangs ab."
+      },
+      {
+        "without": "Lässt `do not remove`-Kommentare stehen.",
+        "with": "Bietet einen Typ, Test oder Lint an, der das durchsetzt, und löscht den Kommentar, sobald du zustimmst."
+      },
+      {
+        "without": "Löscht den Kommentar, behält aber den Workaround, den er erklärt hat.",
+        "with": "Behebt die eigentliche Ursache und entfernt jeden genannten Workaround."
+      }
+    ],
+    "intro": "Der Skill übergibt die Kommentare an eine frische Helfer-KI namens Comment Sicko, gibt deren Sicht den Vorrang und handelt nur bei Funden, die er akzeptiert.",
+    "sections": [
+      "Prüft die von dir genannten Dateien oder den genannten Diff – sonst den aktuellen Diff gegen `main`, inklusive nicht committeter Änderungen.",
+      "Sechs Schritte: Helfer-KI starten, ihren Bericht prüfen, triviale Hinweise beheben, die eigentliche Ursache beheben, Einschränkungs-Kommentare im Code absichern, Zahlen melden."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Do not restate its rules.",
+      "quoteTr": "Wiederhole seine Regeln nicht.",
+      "title": "Halte jede Regel an einem Ort",
+      "does": "Die Haupt-KI übergibt nur den Umfang, nicht die Regeln von Comment Sicko, sodass sich beide nicht widersprechen können.",
+      "why": "Eine Regel an einem Ort wird an einem Ort geändert – so entstehen nie zwei widersprüchliche Versionen.",
+      "try": "Wenn du eine Aufgabe übergibst, schreib: „Die Formatierungsregeln stehen in der angehängten Vorlage. Ich wiederhole sie hier nicht.“"
+    },
+    {
+      "quote": "A keep survives only with proof it is about something we cannot change.",
+      "quoteTr": "Ein behaltener Kommentar überlebt nur mit dem Beleg, dass es um etwas geht, das wir nicht ändern können.",
+      "title": "Verlange einen Beleg fürs Behalten",
+      "does": "Kommentare werden standardmäßig gelöscht. Einer bleibt nur mit einem Beleg dafür, dass es um etwas außerhalb unserer Kontrolle geht.",
+      "why": "Wenn das Behalten einen Beleg braucht, kippt der Standard Richtung Löschen – so behält die KI im Zweifel nicht alles.",
+      "try": "Wenn du Dateien aufräumst, sag: „Archiviere alte Dateien standardmäßig. Lass eine nur auf dem Desktop, wenn du sagen kannst, warum sie nächste Woche gebraucht wird.“"
+    },
+    {
+      "quote": "If a kill is ambiguous, do not restore.",
+      "quoteTr": "Ist eine Löschung unklar, stelle nichts wieder her.",
+      "title": "Entscheide bei Gleichstand vorab",
+      "does": "Wenn die KI nicht erkennen kann, ob eine Löschung richtig war, grübelt sie nicht. Sie folgt der vorgegebenen Richtung.",
+      "why": "Wenn ein Gleichstand vorab geklärt ist, hält die KI weder für Rückfragen an noch urteilt sie jedes Mal anders.",
+      "try": "Wenn die KI Feedback sortiert, schreib: „Wenn du eine Beschwerde nicht von einem Vorschlag unterscheiden kannst, behandle sie als Beschwerde.“"
+    },
+    {
+      "quote": "Architect shapes. Step 4 implements.",
+      "quoteTr": "Architect entwirft. Schritt 4 setzt um.",
+      "title": "Trenne Rollen in zwei kurzen Zeilen",
+      "does": "Der Entwurfsschritt endet bei einer Skizze. Änderungen am Code warten auf den nächsten Schritt.",
+      "why": "Zwei winzige Sätze trennen sauber, wer was macht – so ändert die KI beim Entwerfen keinen Code.",
+      "try": "Bei einem langen Text sag: „Schritt eins: nur gliedern. Schritt zwei: schreiben.“"
+    }
+  ],
+  "blocks": [
+    "# Keine Kommentare",
+    "Starte Comment Sicko. Setze akzeptierte Funde um.",
+    "Gib der frischen Sicht von Comment Sicko den Vorrang.",
+    "## Umfang",
+    "Nutze die Dateien oder den Diff des Aufrufers. Nutze ansonsten den aktuellen Diff gegen den Basis-Branch, standardmäßig `main`, einschließlich des Arbeitsverzeichnisses.",
+    "## Schritte",
+    "1. Starte `Task` mit `subagent_type: \"comment-sicko\"`. Übergib den Umfang. Wähle die Reasoning-Stufe jedes Subagents passend zur Aufgabe, gemäß dem Abschnitt „Subagents“ des Skills **poteto-mode**. Wiederhole seine Regeln nicht. Wenn in deinem Harness comment-sicko nicht als Subagent registriert ist (jedes andere Harness als Cursor mit dem pstack-Plugin), starte stattdessen einen allgemeinen Subagent: `Agent` in Claude Code (`subagent_type: general-purpose`), `task` in OpenCode (`subagent_type: general`), `spawn_agent` in Codex. Sein Prompt ist [`references/comment-sicko.md`](references/comment-sicko.md) wortwörtlich, gefolgt vom Umfang. Wenn dein Harness kein Subagent-Tool hat, wie in Pi ohne Erweiterung, führe diesen Prompt selbst in einem frischen Durchgang über den Umfang aus.\n2. Prüfe seinen Bericht und Diff. Lehne Änderungen am Anwendungscode, Überschreitungen des Umfangs, durch Ausnahmen geschützte Löschungen, falsch dargestellte `MUST KILL`-Gründe und Hinweise ab, die absichtlich beibehaltenen Code als fehlerhaft einstufen. Umbau-Hinweise zu Überraschungen in unserem eigenen Code bleiben zu bearbeiten. Stelle diese Kommentare nicht wieder her. Ein behaltener Kommentar überlebt nur mit dem Beleg, dass es um etwas geht, das wir nicht ändern können. Prüfe übersehene Lint- und TypeScript-Unterdrückungen innerhalb des Umfangs. Unterdrückungen bei Korrektheit oder Sicherheit bleiben zu behebende `MUST KILL`-Fälle. Stelle Löschungen nur mit genauen Ausnahmen und einem Beleg innerhalb des Umfangs wieder her. Bevor du bei `IMPORTANT` oder `do not remove` schwach begründete Löschungen oder behaltene Kommentare akzeptierst, verfolge das zugehörige Symbol oder führe `/why` darauf aus. Ist eine Löschung unklar, stelle nichts wieder her. Ist ein behaltener Kommentar widerlegt oder weiter unklar, lösche ihn – außer einem mit `REVIEW` behaltenen Kommentar zu einer externen Regel, der stehen bleibt, bis jemand diese Regel prüft. Melde ihn als offen. Setze einen abgelehnten Bericht zurück und wiederhole den Lauf einmal mit Angabe des Fehlers. Wenn du auch den wiederholten Lauf ablehnst, setze nur dessen abgelehnte Funde zurück, melde sie als offen und mache mit den akzeptierten weiter.\n3. Behebe triviale akzeptierte Hinweise direkt, indem du einen toten Pfad löschst, einen Parameter entfernst oder die echte API nutzt. Wenn eine Behebung einen Entwurf braucht, führe `/architect` einmal für alle akzeptierten Hinweise und den umliegenden Code aus. Stoppe bei der Skizze. Architect entwirft. Schritt 4 setzt um.\n4. Setze die kleinste Lösung für die Grundursache innerhalb des Umfangs um. Entferne jeden genannten Workaround. Liegt die Grundursache außerhalb des Umfangs, setze die kleinste Behebung innerhalb des Umfangs um und melde den Rest als offen. Die Skills **principle-fix-root-causes** und **principle-redesign-from-first-principles** geben nur die Zielrichtung vor. Keiner von beiden erlaubt es, die Grenzen auszuweiten oder Fälle außerhalb davon zu beheben. Hänge niemals Schutzabfragen gegen Symptome an.\n5. Einschränkungs-Kommentare sagen `do not remove`, `do not change wording` oder `talk to X before changing`. Lass behaltene Kommentare zu Dingen stehen, die wir nicht ändern können. Biete die günstigste Absicherung innerhalb des Umfangs an: Typ, Laufzeitprüfung, Test oder CI-Lint. Warte auf eine interaktive Zustimmung. Unbeaufsichtigte Läufe und Evals erfordern eine Vorab-Zustimmung des Aufrufers. Bei Zustimmung sichere die Einschränkung erst im Code ab und lösche dann den Kommentar. Andernfalls lösche den Kommentar, melde die Einschränkung als offen und skizziere Arbeiten außerhalb des Umfangs.\n6. Melde die Anzahl der Löschungen, wiederhergestellte Kommentare, mit `REVIEW` behaltene Kommentare, wiederholte Läufe, die Architect-Skizze, Behebungen, Absicherungsvorschläge, umgesetzte Absicherungen, nicht durchgesetzte Einschränkungen und sonstige offene Arbeiten."
+  ]
+}

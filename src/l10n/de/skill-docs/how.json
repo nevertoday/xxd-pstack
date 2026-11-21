@@ -1,0 +1,60 @@
+{
+  "description": "Für „Wie funktioniert X?“, Code-Walkthroughs vor Änderungen und Fragen zu Platzierung, Zuständigkeit und Schichten („Wo gehört das hin?“, „Welches Paket ist dafür zuständig?“, „Ist das die richtige Schicht?“). Erklärt Subsystem-Architektur, Laufzeitablauf und mentale Modelle für den Einstieg. Nutze why für die Beweggründe.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Listet Dateien und Funktionen auf, ohne zu zeigen, wie alles zusammenhängt.",
+        "with": "Schreibt eine Architekturerklärung, mit der ein Senior Engineer ohne Vorkenntnisse in diesem Bereich direkt loslegen kann."
+      },
+      {
+        "without": "Ändert schon beim Umschauen den Code.",
+        "with": "Schickt eine Helfer-KI mit reinem Lesezugriff los, sodass dein Code unangetastet bleibt."
+      },
+      {
+        "without": "Rät stillschweigend, was mit einer unklaren Frage gemeint ist.",
+        "with": "Nennt erst die eigene Lesart der Frage und erkundet dann. Du kannst jederzeit nachsteuern."
+      }
+    ],
+    "intro": "Der Skill beantwortet Fragen wie „Wie funktioniert X?“. Ist der Umfang unklar, sagt er, wie er die Frage versteht, und erkundet den Code – du kannst nachsteuern.",
+    "sections": [
+      "Schickt eine Helfer-KI mit reinem Lesezugriff los, die in einem Durchgang erkundet und die Erklärung schreibt – zugeschnitten auf einen Senior Engineer ohne Vorkenntnisse in diesem Bereich.",
+      "Gibt dir den Text der Helfer-KI weiter – nur leicht für mehr Klarheit angepasst, nie neu geschrieben."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "They should understand the architecture well enough to start working in it confidently.",
+      "quoteTr": "Die Person sollte die Architektur gut genug verstehen, um sicher mit der Arbeit darin beginnen zu können.",
+      "title": "Richte die Tiefe danach aus, was man nach dem Lesen kann",
+      "does": "Der Skill erklärt so weit, bis du diesen Code sicher ändern könntest – nicht oberflächlicher, aber auch kein Durchgang Zeile für Zeile.",
+      "why": "„Mehr Details“ hat kein Maß; zu benennen, was man nach dem Lesen können soll, gibt der KI einen Maßstab dafür, wann es reicht.",
+      "try": "Sag, was du danach tun musst: „Erklär so viel, dass ich diese Config selbst ändern kann.“"
+    },
+    {
+      "quote": "Do not substantially rewrite it.",
+      "quoteTr": "Schreibe es nicht grundlegend um.",
+      "title": "Sag, wie viel eine Übergabe ändern darf",
+      "does": "Der Hauptchat gibt die Erklärung der Helfer-KI fast unverändert an dich weiter, mit leichten Anpassungen für mehr Klarheit.",
+      "why": "Leichte Anpassungen zu erlauben und ein Umschreiben auszuschließen verhindert, dass die KI eine gute Erklärung in eine eigene Zusammenfassung presst, bei der Details verloren gehen.",
+      "try": "Wenn die KI einen fremden Text aufräumt: „Korrigier Tippfehler und Umbrüche, ergänze bei Bedarf eine Zeile Kontext, aber schreib ihn nicht um.“"
+    },
+    {
+      "quote": "If the scope is ambiguous, state your interpretation and explore.",
+      "quoteTr": "Wenn der Umfang nicht eindeutig ist, nenne deine Interpretation und beginne zu erkunden.",
+      "title": "Sag, wie du es verstehst, dann leg los",
+      "does": "Ist die Frage vage, sagt der Skill, wie er sie versteht, und legt los; du kannst jederzeit nachsteuern.",
+      "why": "Wenn die KI offen sagt, wie sie die Frage versteht, bleibt sie nicht stehen, um auf dich zu warten, und du siehst, falls sie etwas falsch verstanden hat.",
+      "try": "Ergänze: „Wo ich unklar bin, schreib eine Zeile dazu, wie du es verstehst, und mach dann weiter, ohne auf mich zu warten.“"
+    }
+  ],
+  "blocks": [
+    "# How",
+    "Erkunde die Codebase, um Fragen wie „Wie funktioniert X?“ zu beantworten.",
+    "Wenn der Umfang nicht eindeutig ist, nenne deine Interpretation und beginne zu erkunden. Der Nutzer kann nachsteuern.",
+    "## 1. Erklären",
+    "Starte einen allgemeinen Subagent mit reinem Lesezugriff, der in einem Durchgang erkundet und erklärt: `Task` mit `subagent_type: generalPurpose` und `readonly: true` in Cursor, `Agent` in Claude Code (`subagent_type: general-purpose`), `task` in OpenCode (`subagent_type: general`), `spawn_agent` in Codex. Wenn dein Harness kein Subagent-Tool hat, wie in Pi ohne Erweiterung, übernimm das Erkunden und Schreiben selbst. Gib ihm die Frage des Nutzers und diese Anweisung:",
+    "> Du schreibst eine Architekturerklärung für einen Senior Engineer. Erkunde die Codebase und schreibe eine Erklärung, die einem Senior Engineer ohne Vorkenntnisse in diesem Bereich beim Lesen ein solides mentales Modell vermittelt. Die Person sollte die Architektur gut genug verstehen, um sicher mit der Arbeit darin beginnen zu können. Du hast nur Lesezugriff auf die Codebase.",
+    "## 2. Präsentieren",
+    "Präsentiere das Ergebnis des Subagents. Leichte Anpassungen für mehr Klarheit oder Kontext aus dem Gespräch sind in Ordnung. Schreibe es nicht grundlegend um."
+  ]
+}

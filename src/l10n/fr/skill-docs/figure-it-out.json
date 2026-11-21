@@ -1,0 +1,84 @@
+{
+  "description": "Conçoit un playbook auditable quand aucun playbook plus ciblé ne convient : une grosse migration, un changement ambitieux en plusieurs parties ou un travail qu'un humain relira après s'être absenté. Adapte la rigueur à la tâche, exécute une boucle d'hypothèses et consigne les décisions. À utiliser pour /figure-it-out ou « figure it out ».",
+  "brief": {
+    "compare": [
+      {
+        "without": "Commence tout de suite à coder la grosse tâche.",
+        "with": "Fournit d'abord une liste de phases, avec un test de fin et un niveau de rigueur."
+      },
+      {
+        "without": "Se fie à son propre rapport pour affirmer que le travail est terminé.",
+        "with": "Inspecte l'artefact réel et indique VERIFIED, NOT VERIFIED ou INCONCLUSIVE."
+      },
+      {
+        "without": "Garde toutes les vérifications pour la fin.",
+        "with": "Mesure chaque petit changement par rapport au test de fin et annule ce qui n'a pas aidé."
+      }
+    ],
+    "intro": "Il indique que quand aucun playbook ne convient, l'IA en conçoit d'abord un : des phases adaptées au risque, menées comme des expériences, avec un journal de décisions auditable.",
+    "sections": [
+      "Met la lecture de la section Principles de `poteto-mode` en première tâche, puis ajoute les phases.",
+      "Avant de démarrer, énonce un test de fin réfutable, un périmètre chiffré et un niveau de rigueur. Une longue exécution comporte un point de contrôle avec vous.",
+      "Découpe le travail en unités intégrables, les plus risquées d'abord, construit la vérification avec une référence de départ avant le travail, puis met la liste des phases par écrit.",
+      "Traite chaque unité comme une expérience : hypothèse, plus petit changement possible, mesure par rapport au test de fin, conserver ou annuler.",
+      "Consigne l'exécution avec `show-me-your-work`, une ligne par étape intégrée, le tout généralement commité avec le code.",
+      "Vérifie l'ensemble par rapport au test de fin sur le vrai produit, transforme les corrections répétées en vérifications et liste ce qui reste ouvert."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Rigor is gates and artifacts, not \"try harder\".",
+      "quoteTr": "La rigueur, ce sont des garde-fous et des artefacts, pas « faire plus d'efforts ».",
+      "title": "Transformez « fais attention » en vérifications",
+      "does": "Quand la rigueur compte, l'IA ajoute des vérifications et conserve des preuves au lieu de promettre de faire plus attention.",
+      "why": "« Faire plus d'efforts » ne se vérifie pas ; un garde-fou en plus existe ou n'existe pas.",
+      "try": "Pour obtenir plus de soin, demandez une action : « Lance les tests après chaque fichier que tu modifies et colle le résultat. »"
+    },
+    {
+      "quote": "Sequence riskiest-unknown-first.",
+      "quoteTr": "Ordonnez en commençant par l'inconnue la plus risquée.",
+      "title": "Commencez par l'inconnue la plus risquée",
+      "does": "La partie la plus susceptible d'échouer passe en premier, pour que les problèmes apparaissent tôt, et non tout à la fin.",
+      "why": "Une seule règle d'ordre décide par où l'IA commence ; elle ne peut donc pas faire les parties faciles en premier pour avoir l'air occupée.",
+      "try": "Pour une grosse tâche, ajoutez : « Fais d'abord l'étape où tu as le plus de doutes ; garde celles que tu connais bien pour la suite. »"
+    },
+    {
+      "quote": "When something passes too easily, suspect the observation method before the system.",
+      "quoteTr": "Quand quelque chose passe trop facilement, suspectez la méthode d'observation avant le système.",
+      "title": "Apprenez-lui à douter des bonnes nouvelles",
+      "does": "Quand un résultat semble trop beau, l'IA vérifie sa méthode de mesure avant d'annoncer le succès.",
+      "why": "Nommer la situation où il est le plus facile de se faire tromper pousse l'IA à faire une pause quand cela arrive.",
+      "try": "Quand vous demandez de lancer les tests, ajoutez : « Si tout passe du premier coup, vérifie que les tests ont bien tourné. »"
+    },
+    {
+      "quote": "Inconclusive is not a pass.",
+      "quoteTr": "Non concluant ne vaut pas validation.",
+      "title": "Tranchez d'abord la zone grise",
+      "does": "Un résultat peu clair est signalé comme tel, jamais présenté comme une validation.",
+      "why": "Trancher à l'avance le cas le plus facile à présenter comme une bonne nouvelle ne laisse à l'IA aucune marge pour l'enjoliver.",
+      "try": "Quand vous fixez un critère, couvrez le cas intermédiaire : « Un test qui n'a pas tourné compte comme un échec. »"
+    }
+  ],
+  "blocks": [
+    "# Trouver comment faire",
+    "Quand la tâche ne correspond à aucun playbook, concevez-en un. Le livrable avant la moindre ligne de code est le workflow lui-même : une suite de phases qui adapte la rigueur à la tâche, applique la méthode scientifique et laisse un journal de décisions qu'un humain peut auditer après s'être absenté.",
+    "## Démarrer",
+    "Ouvrez une liste de tâches dont le premier élément est de lire la section Principles du skill **poteto-mode**. Ajoutez ensuite les phases ci-dessous comme tâches.",
+    "## Phase A : cadrer",
+    "Faites d'abord un état des lieux, puis engagez-vous. Ne démarrez pas l'exécution avant de pouvoir énoncer :",
+    "- La définition de « terminé » sous forme de prédicat réfutable (le skill de principe **prove-it-works**).\n- Le périmètre, chiffré : estimation du nombre d'unités et de l'effort, ainsi que les blocages mis au jour par l'état des lieux.\n- Le niveau de rigueur, plutôt élevé par défaut. Les décisions irréversibles et les opérations à fort rayon d'impact en exigent davantage. Les étapes réversibles à faible enjeu en exigent moins. La rigueur, ce sont des garde-fous et des artefacts, pas « faire plus d'efforts ».",
+    "Présentez le cadrage et les compromis avant de vous engager dans une longue exécution. Le travail réversible avance sans attendre (le skill de principe **never-block-on-the-human**), mais une exécution de plusieurs heures mérite un point de contrôle.",
+    "## Phase B : concevoir le workflow",
+    "Décomposez en unités atomiques, intégrables indépendamment. Ordonnez en commençant par l'inconnue la plus risquée. Le socle et la vérification passent avant les fonctionnalités (le skill de principe **foundational-thinking**).",
+    "- Construisez le harnais de vérification avant le travail, en capturant la référence depuis l'état d'avant modification, pour que le contrôle se lise comme « ancienne valeur vs nouvelle valeur ».\n- Pour les décisions de conception irréversibles, lancez le skill **architect** (il lance **arena**). Passez-vous-en pour un travail mécanique dont la forme est déjà concrète. Un deuxième passage d'arena sur une conception déjà arrêtée relève de la sur-ingénierie (le skill de principe **laziness-protocol**).\n- Décidez de ce qui se parallélise. Ne parallélisez que le long de frontières nettes, et donnez à chaque exécutant son propre worktree ou sa propre branche (le skill de principe **separate-before-serializing-shared-state**). Ne parallélisez pas à l'excès. Choisissez le niveau de raisonnement de chaque sous-agent selon la tâche, conformément à la section Subagents du skill **poteto-mode**.\n- Mettez par écrit la liste des phases conçues. C'est cette liste que l'humain relit.",
+    "Exécutez ensuite le plan conçu. Ajoutez ses étapes à la liste de tâches sous forme d'éléments concrets entre les entrées Phase C et Phase D. Exécutez chacune selon la discipline de boucle de la phase C, et intercalez le journal de la phase D au fil de l'eau, une ligne à chaque étape intégrée, plutôt que de garder tout le journal pour la fin.",
+    "## Phase C : exécuter la boucle",
+    "Chaque unité est une expérience. Énoncez l'hypothèse, faites le plus petit changement possible, mesurez par rapport au prédicat sur l'artefact réel, conservez-le s'il fait progresser le travail, annulez-le sinon. Appliquez le skill de principe **sequence-verifiable-units**, en vérifiant chaque unité avant d'entamer la suivante au lieu de regrouper les vérifications à la fin.",
+    "- Vérifiez en inspectant l'artefact, jamais sur une simple auto-déclaration. Quand quelque chose passe trop facilement, suspectez la méthode d'observation avant le système.\n- Associez un juge à tout travail délégué. Si un exécutant triche avec le garde-fou, repartez à zéro et durcissez le contrat. Si le garde-fou lui-même est erroné, corrigez-le dans une modification dédiée plutôt que de le contourner.\n- Un verdict est VERIFIED, NOT VERIFIED ou INCONCLUSIVE. Non concluant ne vaut pas validation. Ne cachez pas un résultat négatif.",
+    "## Phase D : tenir le journal d'audit",
+    "Consignez l'exécution avec le skill **show-me-your-work**. Le travail de figure-it-out est en général assez ambitieux pour commiter ce journal afin que la personne qui relit puisse le consulter dans la PR. Ce journal plus le diff, c'est ce qui permet à l'humain de revenir et de faire confiance au travail.",
+    "## Phase E : vérifier et rendre la main",
+    "Vérifiez l'ensemble par rapport au prédicat de la phase A sur le vrai produit, pas seulement sur le harnais. Inscrivez toute correction récurrente dans un garde-fou, une règle de lint, une vérification ou un script (le skill de principe **encode-lessons-in-structure**).",
+    "**Réponse :** le playbook que vous avez conçu, le niveau de rigueur et pourquoi, le chemin du journal de décisions, ce qui est vérifié par rapport au prédicat et ce qui reste ouvert."
+  ]
+}

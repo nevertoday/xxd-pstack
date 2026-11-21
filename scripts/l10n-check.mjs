@@ -47,15 +47,17 @@ const zhCorpus = () => (ZH ??= [
   ...readdirSync("src/data/skill-docs").map((f) => readFileSync(join("src/data/skill-docs", f), "utf8")),
 ].join("\n"));
 
+/** 日语里本来就这么写的汉字词（和中文同形），审过的才加进来 */
+const JA_OK = new Set(["基本概念", "検証", "判定条件", "前提条件", "設計", "実装", "完全一致", "修正", "原因特定", "再現", "整理"]);
 function hanProblems(text, en, lang) {
   if (lang === "zh") return [];
   const bad = [];
   for (const run of String(text).match(HAN_RUN) || []) {
     if (String(en).includes(run)) continue;
     if (lang !== "ja") bad.push(run);
-    else if (run.length >= 4 && zhCorpus().includes(run)) bad.push(run);
+    else if (run.length >= 4 && !JA_OK.has(run) && zhCorpus().includes(run)) bad.push(run);
   }
-  if (lang === "ja") for (const s of String(text).split(/[。！？\n]/)) { const t = s.trim(); if ((t.match(HAN) || []).length >= 6 && !KANA.test(t) && !String(en).includes(t)) bad.push(flat(t, 24)); }
+  if (lang === "ja") for (const s of String(text).split(/[。！？\n]/)) { const t = s.trim(); if ((t.match(HAN) || []).length >= 6 && !KANA.test(t) && !String(en).includes(t) && !(t.match(HAN_RUN) || []).every((r) => JA_OK.has(r) || r.length < 2)) bad.push(flat(t, 24)); }
   return [...new Set(bad)];
 }
 
@@ -109,6 +111,10 @@ class Report {
   miss(where, core) { if (this.full || core) this.err(where, "缺"); else { this.missing.keys++; if (this.missing.keyList.length < 3) this.missing.keyList.push(where); } }
 }
 
+/** 只是一串产品名（Claude Code, Cursor, Codex…；Codex, OpenCode, Pi, etc.），各语言照写英文是对的 */
+const NAMES = /^(?:\s*(?:Claude Code|Cursor|Codex|OpenCode|Pi|Gemini|GitHub|Grok Bot|etc\.|…)\s*[,，、…]?\s*)+$/;
+const onlyNames = (s) => NAMES.test(s.trim());
+
 // ---------- 数据 ----------
 function walkData(R, file, unit, en, tr, path, zh) {
   const at = `${file} ${path || "（整个文件）"}`;
@@ -137,7 +143,10 @@ function walkData(R, file, unit, en, tr, path, zh) {
   if (/(^|\.)quote$/.test(path)) { if (tr !== en) R.err(at, "quote 是原文里的原句，保持英文不动"); return; }
   for (const p of compareLinks(linksOf(en), linksOf(tr), R.lang, false)) R.err(at, p);
   if (isDocBlock) {
-    if (sortJoin(codeSpans(en)) !== sortJoin(codeSpans(tr))) R.err(at, `行内代码和英文不一样：${minus(codeSpans(en), codeSpans(tr)).map((c) => "`" + c + "`").join(" ") || "多了 " + minus(codeSpans(tr), codeSpans(en)).map((c) => "`" + c + "`").join(" ")}`);
+    // 英文的每段行内代码都要在；译文为了语法重复同一段、或给英文里本来就有的词加上代码格式，都可以
+    const lostCode = minus(codeSpans(en), codeSpans(tr));
+    const newCode = [...new Set(codeSpans(tr))].filter((c) => !codeSpans(en).includes(c) && !en.includes(c));
+    if (lostCode.length || newCode.length) R.err(at, `行内代码和英文不一样：${lostCode.length ? "少了 " + lostCode.map((c) => "`" + c + "`").join(" ") : "多了 " + newCode.map((c) => "`" + c + "`").join(" ")}`);
     const fe = fencesOf(en), ft = fencesOf(tr);
     if (fe.length !== ft.length) R.err(at, `代码块有 ${ft.length} 个，英文是 ${fe.length} 个`);
     else fe.forEach((f, i) => { if (f.body !== ft[i].body) R.err(at, `第 ${i + 1} 个代码块和英文不一样（代码块原样保留）`); });
@@ -146,7 +155,7 @@ function walkData(R, file, unit, en, tr, path, zh) {
     if (lost.length) R.err(at, `丢了行内代码 ${lost.map((c) => "`" + c + "`").join(" ")}（命令、文件名保持原样）`);
   }
   // 中文版也和英文一样（原则名、命令、例句里的英文）的，不算没翻
-  if (tr === en && zh !== en && isProse(en) && !(isDocBlock && !isProse(en.replace(/```[\s\S]*?```/g, "")))) R.same(file, at, "");
+  if (tr === en && zh !== en && isProse(en) && !onlyNames(en) && !(isDocBlock && !isProse(en.replace(/```[\s\S]*?```/g, "")))) R.same(file, at, "");
   const han = hanProblems(tr, en, R.lang);
   if (han.length) R.err(at, `有没翻的中文：${han.join("、")}`);
 }

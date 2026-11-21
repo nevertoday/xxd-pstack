@@ -1,0 +1,94 @@
+{
+  "description": "Prüft ein TLA+-Modell für ein System, das zwischen Zuständen wechselt – etwa einen Produktablauf, ein Protokoll oder einen Dienst –, und zeichnet es als Mermaid-Zustandsdiagramm. Der Bericht nennt den kürzesten Pfad zu jedem Zustand, der eine Regel bricht. Nutze den Skill für /statechart oder um einen Bug als Pfad durch Zustände zu zeigen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Beschriftet Zustände und Pfeile mit Variablennamen und Code-Aktionen.",
+        "with": "Beschriftet jeden Zustand und Pfeil in den Worten der Lesenden, etwa „du drückst Play“."
+      },
+      {
+        "without": "Lockert eine Regel, wenn die Prüfung fehlschlägt.",
+        "with": "Schreibt jede Regel als INVARIANT und lässt TLC den Pfad finden, der sie bricht."
+      },
+      {
+        "without": "Hält einen Bug, den das Modell meldet, für echt.",
+        "with": "Spielt jeden Bug-Pfad am echten Code nach und zweifelt am Modell, wenn er dort nicht auftritt."
+      }
+    ],
+    "intro": "Der Skill sagt: Das Diagramm zeigt in den Worten der Lesenden, wie ein System zwischen Zuständen wechselt, und die Lesenden entscheiden, ob das stimmt.",
+    "sections": [
+      "Schreibt eine TLA+-Spezifikation und -Konfiguration in einen temporären Ordner außerhalb des Repos und führt den Befehl aus. Beim ersten Lauf wird TLC installiert.",
+      "Schreibt jede vereinbarte Regel als INVARIANT, teilt Next in benannte Aktionen auf und ergänzt für Endzustände einen Schritt, der nichts ändert.",
+      "Schreibt ein View-Modul, dessen state() und step() Zustände und Pfeile in den Worten der Lesenden benennen, und bleibt bei rund 20 Pfeilen.",
+      "Erklärt die Markierungen breaks und mayBreak, die Liste „Rules not checked“ und warum TLC nach einem Bug weiterläuft.",
+      "Zeigt chart.mmd als mermaid-Block. Bei mehr als 500 Zuständen zeichnet es nur Bug-Pfade. Bilder werden mit Pele gerendert.",
+      "Übergibt jedes Diagramm mit einer Zeile pro Bug und dem, was das Modell weglässt, und spielt Bugs danach am echten Code nach."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Label each state with what the reader can see or cares about",
+      "quoteTr": "Beschrifte jeden Zustand damit, was die Lesenden sehen oder was ihnen wichtig ist",
+      "title": "Zustände so benennen, wie Lesende sie sehen",
+      "does": "Jeder Zustand im Diagramm heißt etwa „Bezahlen“ – Worte, die du verstehst, statt eines Variablennamens.",
+      "why": "Die Benennung geht vom Blick der Lesenden aus, damit die KI nicht die eigenen Namen aus dem Code übernimmt.",
+      "try": "Wenn du ein Flussdiagramm anforderst, ergänze: „Beschrifte jedes Kästchen damit, was Kundinnen und Kunden auf dem Bildschirm sehen, etwa ‚Wartet auf Zahlung‘.“"
+    },
+    {
+      "quote": "Never weaken a rule to make it hold.",
+      "quoteTr": "Schwäche eine Regel niemals ab, damit sie gilt.",
+      "title": "Den einfachsten Trick verbieten",
+      "does": "Wenn eine Regel gebrochen wird, sucht die KI nach dem Problem, statt die Regel zu lockern, bis die Prüfung besteht.",
+      "why": "Die Abkürzung beim Namen zu nennen, zu der die KI am ehesten neigt, und sie zu verbieten, wirkt besser als ein vages „Sei vorsichtig“.",
+      "try": "Wenn du einen Bug beheben lässt, schreib dazu: „Wenn ein Test fehlschlägt, ändere den Code, niemals den erwarteten Wert im Test.“"
+    },
+    {
+      "quote": "Aim for about 20 arrows or fewer, because a busier chart is hard to read.",
+      "quoteTr": "Peile etwa 20 Pfeile oder weniger an, weil ein volleres Diagramm schwer zu lesen ist.",
+      "title": "Zahl und Grund nennen",
+      "does": "Das Diagramm bleibt klein genug, um es auf einen Blick zu erfassen; wird es zu voll, fasst die KI unwichtige Schritte zusammen oder lässt sie weg.",
+      "why": "Die Zahl macht das Ziel klar, und der Grund hilft der KI, auch dort gut zu entscheiden, wo die Zahl allein nicht hinreicht.",
+      "try": "Nenne ein Limit samt Grund: „Höchstens drei Sätze pro Absatz, weil die Leute das auf dem Handy lesen.“"
+    },
+    {
+      "quote": "If a bug does not occur, think that the model is wrong until you show that it is not.",
+      "quoteTr": "Wenn ein Bug nicht auftritt, geh davon aus, dass das Modell falsch liegt, bis du das Gegenteil zeigst.",
+      "title": "Festlegen, welche Seite zuerst angezweifelt wird",
+      "does": "Wenn ein Bug aus dem Diagramm im echten Code nicht auftritt, prüft die KI zuerst das Modell, bevor sie „alles in Ordnung“ sagt.",
+      "why": "Wenn sich zwei Quellen widersprechen, verhindert eine klare Voreinstellung, dass die KI einfach wählt, was ihr gerade passt.",
+      "try": "Wenn du eine Prüfung anforderst, schreib dazu: „Wenn Doku und Code sich widersprechen, vertrau dem Code und sag mir, wo sie voneinander abweichen.“"
+    }
+  ],
+  "blocks": [
+    "# Statechart",
+    "Das Diagramm zeigt, wie ein System zwischen Zuständen wechselt – in den Worten der Person, die es liest. Diese lesende Person entscheidet, ob das Verhalten stimmt.",
+    "## Ausführen",
+    "Arbeite in einem temporären Ordner außerhalb des Repos. Schreib eine TLA+-Spezifikation und die zugehörige Konfiguration. Führ dann aus:",
+    "```sh\n<skill dir>/scripts/statechart SPEC.tla [--config FILE] [--view FILE] [--out DIR]\n```",
+    "`scripts/statechart.ts` ist TypeScript; führ es also mit einer Laufzeitumgebung aus, die TypeScript ausführen kann. `scripts/statechart` ist ein POSIX-Shell-Skript, das eine auswählt. Unter nativem Windows führst du `node --disable-warning=ExperimentalWarning <skill dir>/scripts/statechart.ts` mit Node 22.18 bis 22.x oder ab Node 23.6 aus.",
+    "Der erste Lauf installiert TLC und Java mit mise und braucht eine Netzwerkverbindung.",
+    "## Die Spezifikation schreiben",
+    "- Schreib jede Regel, der die Lesenden zustimmen, als INVARIANT. Eine Regel kann einen Bildschirm, ein Ergebnis, einen gespeicherten Wert oder eine Nachricht betreffen. Hat das Modell keine Variable für eine Regel, füge die Variable hinzu. Schwäche eine Regel niemals ab, damit sie gilt.\n- Schreib `Next` als Disjunktion der Aktionen, etwa `YouPressPlay \\/ YouPressStop`. Tust du das nicht, nennt TLC jeden Schritt `Next`.\n- Ein Zustand ohne ausgehenden Schritt bricht `NoDeadlock` – auch dann, wenn es ein korrekter Endzustand ist. Wenn eine INVARIANT oder eine PROPERTY bereits diesen Namen trägt, heißt die Regel `CHECK_DEADLOCK`. Füge zu `Next` eine Aktion hinzu, die nur in den Endzuständen wahr ist und nichts ändert – etwa `Done == phase \\in {\"paid\", \"failed\"} /\\ UNCHANGED vars` –, und gib ihr in `step()` eine Beschriftung.",
+    "## Das Diagramm wählen",
+    "Du übernimmst die Arbeit, die Urteilsvermögen erfordert: die Worte an jedem Zustand und Pfeil, die Phasen und ihre Farben, den Titel und den Bericht für die Lesenden. Leg diese Arbeit in ein View-Modul und übergib es mit `--view`.",
+    "Um die Worte der Lesenden anzuzeigen, exportiert das View-Modul `state(vars)`. Der Rückgabewert von `state()` bestimmt die Form:",
+    "- Ein String ergibt ein flaches Diagramm: `export const state = (v) => (v.paid ? \"Paid\" : \"Paying\");`\n- Ein Array ergibt übergeordnete Zustände: `export const state = (v) => v.main.split(\".\");`\n- Ein Objekt ergibt eine parallele Region pro Schlüssel: `export const state = (v) => ({ Playback: v.playback, Volume: v.volume });`",
+    "Beschrifte jeden Zustand damit, was die Lesenden sehen oder was ihnen wichtig ist, etwa „Bezahlen“ oder „Lease gehalten, Schreibvorgang ausstehend“. Lass Variablennamen aus den Beschriftungen heraus. In `vars` ist eine TLA+-Sequenz ein Objekt mit Schlüsseln ab 1, sodass `v.pc[1]` für `pc[1]` steht. Eine Menge ist ein Array.",
+    "Das View-Modul kann außerdem `step(action, from, to)` exportieren. Es erhält den TLC-Aktionsnamen sowie die Werte vor und nach dem Schritt und gibt die Beschriftung des Pfeils zurück. Schreib jede Schritt-Beschriftung so, wie Nutzende es erleben, etwa „du drückst Play“ oder „die Verbindung schlägt fehl“. Nenne weder den Code noch die TLA+-Aktion. Zwei Aktionen, die im Diagramm gleich ausgehen, bekommen dieselbe Beschriftung, damit sie sich einen Pfeil teilen.",
+    "Wenn ein Schritt nur unter bestimmten Bedingungen auftreten kann, beende seine Beschriftung mit der Bedingung in eckigen Klammern – in den Worten der Lesenden, etwa `you press play [while the file loads]`. In einem Regionen-Diagramm schreibt der Befehl die Bedingung für die anderen Regionen an den Pfeil, in den Worten ihrer Beschriftungen, etwa `[when Offline]`. Deine eckigen Klammern ersetzen sie, und zwei Pfeile aus demselben Zustand können dann gleich aussehen. Schreib in einem Regionen-Diagramm also keine eckigen Klammern für eine Bedingung in einer anderen Region. Wenn ein Wert, den keine Beschriftung zeigt, darüber entscheidet, wohin ein Schritt führt, nenne das Ergebnis in der Beschriftung, etwa „das Auslesen der Liste schlägt fehl“.",
+    "Das View-Modul kann außerdem Folgendes exportieren:",
+    "- `group(vars)` gibt den Namen einer Phase zurück. Jeder Diagrammzustand bekommt die Farbe seiner Gruppe. Liegen die Modellzustände hinter einem Diagrammzustand in verschiedenen Gruppen, erhält dieser Zustand keine Farbe.\n- `colors` ordnet jedem Gruppennamen eine Farbklasse zu.\n- `title` ist ein String, den das Diagramm ganz oben anzeigt.",
+    "Der Befehl ruft `state()` und `group()` höchstens einmal pro Modellzustand auf und `step()` höchstens einmal pro Schritt. Sowohl das Diagramm als auch der Bericht nutzen diese Ergebnisse. Sorg also dafür, dass jede Funktion nur von ihren Argumenten abhängt.",
+    "Das Diagramm zeichnet keinen Schritt, der innerhalb derselben Beschriftung bleibt. Teil eine Beschriftung auf, wenn die Lesenden einen solchen Schritt sehen müssen.",
+    "Peile etwa 20 Pfeile oder weniger an, weil ein volleres Diagramm schwer zu lesen ist. Gib zuerst gröbere Beschriftungen aus `state()` zurück. Fass Werte, die sich gleich verhalten, unter einer Beschriftung zusammen und lass ein Detail weg, das die Lesenden nicht brauchen – etwa einen laufenden Aufruf, dessen Rückgabe nichts ändert. Behalte jeden Zustand eines Bug-Pfads und jede Markierung bei. Wenn das Zusammenlegen einen `breaks`-Zustand zu `mayBreak` macht, verdeckt es, wo eine Regel gebrochen wird. Leg keine zwei Zustände zusammen, die unterschiedliche Regeln brechen, weil die Lesenden sonst nicht erkennen, welche Regel wo gebrochen wird. Ist das Diagramm immer noch zu voll, gib in `step()` `null` für Schritte zurück, die die Lesenden nicht brauchen – etwa ein Zurücksetzen, das es in jedem Zustand gibt, oder einen Schritt, dessen Pfeil wiederholt, was andere Pfeile schon zeigen. Halte dich an diese Regeln, wenn du Schritte ausblendest:",
+    "- Sorg dafür, dass jeder Diagrammzustand über Pfeile von einem Startzustand aus erreichbar bleibt.\n- Behalte für jeden Diagrammzustand, der im Modell einen ausgehenden Schritt hat, mindestens einen ausgehenden Pfeil.\n- Blende alle Schritte eines Pfeils aus oder keinen. Blendest du nur manche aus, wird seine Bedingung enger.\n- Nenne bei der Übergabe, welche Schritte das Diagramm ausblendet.",
+    "## Den Bericht lesen",
+    "- Im Diagramm hat ein Zustand, der eine Regel bricht, die Klasse `breaks`. Brechen nur manche der Modellzustände dahinter die Regel, hat er die Klasse `mayBreak`. Die Legende nennt die Regeln zu jeder Markierung. Werden zwei Regeln gebrochen, nennt sie beide an einer Markierung; gib bei der Übergabe also an, welcher Zustand welche Regel bricht. In einem Regionen-Diagramm erhält ein Zustand eine Markierung, wenn jede Kombination von Regionszuständen, die ihn enthält, eine Regel brechen kann. Wenn eine Kombination eine Regel brechen kann und keiner ihrer Zustände eine Markierung hat, erhält jeder Zustand in dieser Kombination eine Markierung.\n- TLC läuft nach einem Zustand, der eine Regel bricht, weiter; daher zeigt das Diagramm die Zustände nach einem Bug.\n- Weil TLC nach Bugs weiterläuft, kann ein Modell ohne Begrenzung seiner Zustände endlos laufen. Halte die Konstanten klein oder füge einen CONSTRAINT hinzu.\n- Mit einer VIEW oder einer SYMMETRY zählt TLC Zustände, die es als gleich behandelt, als einen Zustand, und das Diagramm zeichnet diesen einen Zustand. Ein Pfeil kann zu ihm statt zu dem Zustand führen, den der Schritt erreicht, und der Bericht weist darauf hin.\n- TLC prüft die Regeln in jedem Zustand jenseits eines CONSTRAINT oder eines ACTION_CONSTRAINT, erkundet diesen Zustand aber nicht weiter und prüft ihn auch nicht auf Deadlock. Endet der kürzeste Pfad von TLC für eine Regel in einem solchen Zustand, zeichnet das Diagramm diesen Zustand und der Bericht nennt diesen Pfad. Die übrigen Zustände jenseits der Grenze zeichnet das Diagramm nicht. Ein Deadlock in einem solchen Zustand wird nicht angezeigt. TLC prüft die Regeln außerdem nach jedem Schritt, den ein ACTION_CONSTRAINT ausschließt – auch dann, wenn es den nächsten Zustand auf einem anderen Weg erreicht. Endet der kürzeste Pfad von TLC für eine Regel mit einem solchen Schritt, zeichnet das Diagramm diesen Schritt.\n- Der Befehl prüft die Regeln mit TLC anhand der Konfiguration, wie sie geschrieben wurde, und mit einem Worker. Wird eine Regel gebrochen, entfernt der Befehl diese Regel und führt TLC erneut aus, bis keine Regel mehr gebrochen wird. Nach dem ersten Regelbruch stoppt jeder Lauf bei 100.000 verschiedenen Zuständen, damit ein großes Modell nicht endlos läuft. Erreicht ein Lauf diese Grenze oder bricht er mit einem Fehler ab, listet der Bericht die nicht geprüften Regeln unter „Rules not checked“ auf, und das Diagramm markiert sie nicht. Eine nicht geprüfte Regel kann gelten oder gebrochen werden. Um sie zu prüfen, entferne die Regeln, die gebrochen werden, aus der Konfiguration oder mach das Modell kleiner. Die Begrenzung fügt ein Modul hinzu, das die Reihenfolge der Variablen in TLC verändert; bei einer Property kann TLC daher ein anderes Gegenbeispiel finden als bei einem Lauf ohne Begrenzung.\n- `tlc.out` enthält die Ausgabe von TLC für die Konfiguration, wie sie geschrieben wurde. Zeigt das Diagramm den Bug-Pfad einer gebrochenen Regel nicht an, enthält `tlc-RULE.out` die Ausgabe von TLC aus dem Lauf, der ihn gefunden hat. Wenn TLC seine erste Warnung wiederholt, gibt reines TLC sie zweimal aus, `tlc.out` zeigt sie aber nur einmal, weil TLC die zweite Kopie aus der Ausgabe weglässt, die dieser Befehl liest. Das passiert nur, wenn Java mit `-XX:+UseParallelGC` läuft, denn sonst ist die erste Warnung von TLC der Hinweis, dieses Flag zu übergeben, und den gibt TLC nur einmal aus.",
+    "## Das Diagramm zeigen",
+    "Zeig den Nutzenden `chart.mmd` als `mermaid`-Codeblock. Das Diagramm hat ein Budget von 500 Zuständen, gezählt von TLC für die Konfiguration, wie sie geschrieben wurde. Darüber zeichnet das Diagramm nur die Pfade zu den Regeln, die gebrochen werden; wird keine Regel gebrochen, schreibt der Befehl keine `chart.mmd`. Er prüft trotzdem jede Regel, und der Bericht nennt die Anzahl der Zustände sowie jeden Bug-Pfad. Um den gesamten Graphen zu sehen, mach das Modell kleiner.",
+    "Rendere Diagramme mit Pele. Wenn Nutzende um ein Bild bitten oder ein Diagramm als Text zu groß zum Lesen ist, folge `references/render.md`. Verwende keinen anderen Renderer, es sei denn, Nutzende bitten darum.",
+    "## Übergeben",
+    "Gib jedes Diagramm zusammen mit seinem Mermaid-Text an die Person weiter, die entscheiden muss. Füge für jeden Bug eine Zeile hinzu: die Regel, den Satz der Lesenden für diese Regel und den Pfad so, wie der Bericht ihn nummeriert. Sag, was das Modell weglässt. Nenne den Befehl, der die Dateien erneut erzeugt, mit einem neuen `--out`-Ordner.",
+    "Wenn das Modell Code beschreibt, spiel jeden Bug-Pfad am echten Code nach – als Test oder Live-Repro (kurz für Reproduktion), einen Schritt pro Aktion. Wenn ein Bug nicht auftritt, geh davon aus, dass das Modell falsch liegt, bis du das Gegenteil zeigst."
+  ]
+}

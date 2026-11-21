@@ -63,5 +63,319 @@
       }
     ],
     "cap": "Zuerst der Schalter; jeder der drei Teile hat genau eine Aufgabe."
+  },
+  "g0-layers": {
+    "layers": [
+      {
+        "t": "Du",
+        "d": "Nennst das Ziel, z. B. „Beheb diesen Bug und zeig mir Belege“"
+      },
+      {
+        "t": "pstack",
+        "d": "Die Arbeitsregeln, die du installierst: 22 Playbooks, 34 Skills, 24 Prinzipien"
+      },
+      {
+        "t": "Dein KI-Coding-Tool",
+        "d": "Claude Code, Cursor, Codex…"
+      },
+      {
+        "t": "Das Modell",
+        "d": "Dasselbe wie vorher; pstack tauscht es nicht aus"
+      }
+    ],
+    "cap": "pstack sitzt in deinem Tool, zwischen dir und dem Modell. Das Modell bleibt dasselbe; Reihenfolge und Anspruch an die Arbeit ändern sich."
+  },
+  "g5-arc": {
+    "steps": [
+      {
+        "t": "Design festlegen",
+        "d": "/architect, /arena, Prototypen"
+      },
+      {
+        "t": "Bauen",
+        "d": "Sag, was du siehst; /tdd, wenn ein Test einfach ist"
+      },
+      {
+        "t": "Schwachstellen suchen",
+        "d": "/interrogate behält nur Probleme, die es im Lauf zeigen kann"
+      },
+      {
+        "t": "Aufräumen",
+        "d": "/unslop, /no-comments"
+      }
+    ],
+    "cap": "Der gestrichelte Schritt ist optional: Bei den meisten Änderungen entwirft /poteto-mode selbst; nenn diese Skills nur, wenn du unsicher bist."
+  },
+  "g6-ship": {
+    "steps": [
+      {
+        "t": "Sag, was „fertig“ heißt",
+        "d": "Im ersten Satz"
+      },
+      {
+        "t": "Die KI prüft selbst",
+        "d": "Echte Befehle, echte UI, Belege"
+      },
+      {
+        "t": "PR öffnen",
+        "d": "Kleine, geordnete Commits"
+      },
+      {
+        "t": "Babysitten, bis alles grün ist",
+        "d": "Konflikte, Review-Kommentare, CI"
+      },
+      {
+        "t": "Mergen",
+        "d": "Du sagst land the stack"
+      }
+    ],
+    "gate": "Braucht dich",
+    "cap": "Die KI geht bis „bereit zum Mergen“ und hält dort an. Das Mergen ist deine Entscheidung."
+  },
+  "g7-night": {
+    "eve": {
+      "t": "Vor dem Schlafengehen",
+      "items": [
+        "Aufschreiben, wann es fertig ist",
+        "Neuer Worktree ab main",
+        "Ein Entscheidungsprotokoll führen",
+        "Wenn es nicht weitergeht, stoppen und sagen, warum"
+      ]
+    },
+    "night": {
+      "t": "Über Nacht, jede Runde",
+      "loop": [
+        "Prüfen, ob es fertig ist",
+        "Eine kleine Änderung machen",
+        "Sie prüfen",
+        "Committen, wenn es geholfen hat, sonst verwerfen"
+      ],
+      "log": "Pro Runde eine Zeile ins Entscheidungsprotokoll"
+    },
+    "morn": {
+      "t": "Am Morgen",
+      "items": [
+        "/show-me-your-work",
+        "Zuerst „braucht Aufmerksamkeit“ lesen",
+        "Dann die Zeilen, auf die es verweist"
+      ]
+    },
+    "cap": "Du liest nicht den ganzen Chat der Nacht nach. Das Protokoll und „braucht Aufmerksamkeit“ reichen."
+  },
+  "g8-guard": {
+    "rungs": [
+      {
+        "t": "Den Fehler unmöglich machen",
+        "d": "Struktur oder Datenform ändern"
+      },
+      {
+        "t": "Laut fehlschlagen lassen",
+        "d": "Typen, Lint, CI-Prüfungen"
+      },
+      {
+        "t": "Mit Tests abfangen",
+        "d": "Zeigt sich, wenn die Tests laufen"
+      },
+      {
+        "t": "Eine Regel für die KI schreiben",
+        "d": "Eine Regel zu übergehen löst keinen Fehler aus, deshalb kommt sie zuletzt"
+      }
+    ],
+    "high": "Am stärksten",
+    "low": "Letzter Ausweg",
+    "cap": "/correct fängt oben an. Wenn eine höhere Stufe greift, nutzt es keine tiefere."
+  },
+  "h-bug": {
+    "steps": [
+      {
+        "t": "Reproduzieren",
+        "d": "Das Problem erneut auslösen"
+      },
+      {
+        "t": "Eigentliche Ursache finden",
+        "d": "Die erste Stelle, an der es schiefgeht"
+      },
+      {
+        "t": "Dort beheben",
+        "d": "Keine nachträgliche Prüfung weiter hinten"
+      },
+      {
+        "t": "Dieselben Schritte erneut ausführen",
+        "d": "Das Problem ist weg"
+      }
+    ],
+    "cap": "Der erste und der letzte Schritt sind dieselbe Reproduktion, sodass Vorher und Nachher zusammenpassen. Kann die KI das Problem nicht reproduzieren, ändert sie keinen Code."
+  },
+  "h-perf": {
+    "steps": [
+      {
+        "t": "Ausgangswert messen",
+        "d": "p50 etwa 900 ms"
+      },
+      {
+        "t": "Sehen, wo die Zeit bleibt",
+        "d": "Einen Trace aufnehmen"
+      },
+      {
+        "t": "Die gemessene Ursache beheben",
+        "d": "Nicht die vermutete"
+      },
+      {
+        "t": "Nochmal messen, gleiche Daten",
+        "d": "p50 unter 200 ms, gleiche Ergebnisse"
+      }
+    ],
+    "loop": "Nicht schneller? Zurücksetzen und nochmal",
+    "cap": "Beide Werte nutzen dieselben Daten, wechseln sich über mehrere Durchläufe ab und vergleichen die Mediane."
+  },
+  "h-refactor": {
+    "steps": [
+      {
+        "t": "Heutige Ausgabe sichern",
+        "d": "Ausgangsstand: einmal bauen, dist kopieren"
+      },
+      {
+        "t": "Struktur ändern",
+        "d": "Erst entfernen, dann hinzufügen"
+      },
+      {
+        "t": "Ausgabe erneut erzeugen",
+        "d": "Derselbe Befehl"
+      },
+      {
+        "t": "Beide vergleichen",
+        "d": "Ein leerer Diff heißt: Nichts hat sich geändert"
+      }
+    ],
+    "cap": "Du musst nicht jede Zeile Code lesen. Die Ausgabe dieses letzten Diffs reicht."
+  },
+  "h-review": {
+    "from": "Deine Änderung",
+    "by": [
+      "Modell 1",
+      "Modell 2",
+      "Modell 3"
+    ],
+    "act": "jedes versucht, sie kaputtzumachen",
+    "keep": {
+      "t": "Funde",
+      "d": "Im Lauf wirklich fehlgeschlagen, mit Befehl und Ausgabe"
+    },
+    "drop": {
+      "t": "Verworfen",
+      "d": "Ließ sich im Lauf nicht zeigen, mit Begründung; überflieg das auch"
+    },
+    "cap": "/interrogate meldet nur; es ändert deinen Code nicht. Ein Problem zählt nur, wenn ein Lauf es zeigt."
+  },
+  "h-cost": {
+    "root": {
+      "t": "Hauptchat",
+      "d": "Versteht dich, prüft Änderungen",
+      "tag": "Starkes Modell"
+    },
+    "kids": [
+      {
+        "t": "feature, refactoring",
+        "tag": "Günstigeres Modell"
+      },
+      {
+        "t": "bug-fix",
+        "tag": "Günstigeres Modell"
+      },
+      {
+        "t": "perf-issue",
+        "tag": "Günstigeres Modell"
+      }
+    ],
+    "note": "Die Helfer-KIs bekommen klar abgegrenzte Aufgaben, die günstigere Modelle gut schaffen",
+    "cap": "Ändere diese drei Zeilen am Ende von /setup-pstack, wenn es dich bittet, die Rollen zu bestätigen."
+  },
+  "h-steer": {
+    "parts": [
+      {
+        "text": "apply prove it works.",
+        "label": "Name des Prinzips, genau so tippen"
+      },
+      {
+        "text": "Führ den echten Import-Ablauf aus",
+        "label": "Was diesmal zu tun ist"
+      },
+      {
+        "text": "und zeig mir die Datensätze, die er geschrieben hat.",
+        "label": "Das echte Ergebnis, das du willst"
+      }
+    ],
+    "cap": "Der Name nennt die Regel; der Rest sagt, was diesmal zu tun ist und was du sehen willst."
+  },
+  "h-verify": {
+    "steps": [
+      {
+        "t": "Starten",
+        "d": "Von leeren Daten bis wirklich nutzbar"
+      },
+      {
+        "t": "Doctor-Check",
+        "d": "Lohnt es sich, diese Instanz zu bedienen?"
+      },
+      {
+        "t": "Wie ein Nutzer bedienen",
+        "d": "Echte Buttons, echte Befehle"
+      },
+      {
+        "t": "Belege sichern",
+        "d": "Screenshots, Video, gespeicherte Daten"
+      },
+      {
+        "t": "Aufräumen",
+        "d": "Nur stoppen, was selbst gestartet wurde; Belege behalten"
+      }
+    ],
+    "cap": "Das erzeugte verify-<app> enthält diese Abschnitte. Vor der Übergabe lässt die KI alle einmal komplett durchlaufen und prüft dann, ob die Belege das Aufräumen überstanden haben."
+  },
+  "h-formal": {
+    "a": {
+      "who": "Tests",
+      "steps": [
+        "A nimmt einen Job an und wird fertig",
+        "B nimmt den nächsten an und wird fertig",
+        "Ein Retry, auch alles gut"
+      ],
+      "end": "Alles grün. In Produktion hängt A einmal, und derselbe Job läuft zweimal"
+    },
+    "b": {
+      "who": "Formale Verifikation",
+      "steps": [
+        "Modellieren: Job annehmen, Lease verlängern, Timeout, Retry",
+        "Jede mögliche Reihenfolge durchgehen",
+        "Auf eine fehlerhafte Reihenfolge stoßen"
+      ],
+      "end": "Liefert dir ein kurzes Gegenbeispiel mit den Namen aus deinem eigenen Code"
+    },
+    "cap": "Tests prüfen die Reihenfolgen, an die jemand gedacht hat. Formale Verifikation prüft jede Reihenfolge im festgelegten Rahmen und findet so die eine, an die niemand gedacht hat."
+  },
+  "h-formal-cex": {
+    "steps": [
+      {
+        "t": "A nimmt Job 42 an",
+        "d": "30-Sekunden-Lease"
+      },
+      {
+        "t": "A hängt 31 s lang",
+        "d": "Etwa eine lange GC-Pause"
+      },
+      {
+        "t": "Das Lease läuft ab",
+        "d": "B nimmt denselben Job 42 an"
+      },
+      {
+        "t": "A wacht auf und schreibt",
+        "d": "Ohne zu prüfen, ob A das Lease noch hält"
+      },
+      {
+        "t": "Job 42 lief zweimal",
+        "d": "Die Regel ist verletzt"
+      }
+    ],
+    "cap": "Ein Gegenbeispiel ist so eine Liste von Schritten. Jeder Schritt entspricht einer Funktion in deinem Code, sodass du ihn im echten Code durchgehen kannst."
   }
 }

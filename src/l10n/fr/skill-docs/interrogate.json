@@ -1,0 +1,74 @@
+{
+  "description": "À utiliser pour « interrogate », « revue contradictoire », « revue multi-modèles », « remets ça en question », « mets ce code à l'épreuve », « trouve les angles morts » ou « démonte ça pièce par pièce ». Des adversaires essaient de casser une modification ou une conception, et seuls les problèmes prouvés par une exécution survivent.",
+  "brief": {
+    "compare": [
+      {
+        "without": "L'IA gonfle la liste avec des avis sur le style et le nommage.",
+        "with": "L'IA présente chaque problème avec la commande, sa sortie réelle et la sortie attendue."
+      },
+      {
+        "without": "Elle accepte tout ce qu'un relecteur déclare cassé.",
+        "with": "Elle relance la commande de chaque problème et écarte ceux qui ne montrent pas l'échec."
+      },
+      {
+        "without": "Elle corrige le code dès qu'elle repère un problème.",
+        "with": "Elle rend uniquement un rapport. Vous décidez quoi corriger."
+      }
+    ],
+    "intro": "Ce skill dit que des adversaires essaient de casser la modification, que seuls les problèmes prouvés par une exécution comptent et qu'il rend un rapport sans corriger.",
+    "sections": [
+      "Il prend par défaut tout le diff de la branche, reformule l'intention avec `in-your-own-words` et vous pose la question quand l'intention n'est pas claire.",
+      "Il réutilise les étapes de lancement d'`arena`, en donnant à chaque adversaire son propre worktree (un dossier de travail séparé pour le même dépôt Git) et la même consigne : « casse cette modification ».",
+      "Il relance la commande de chaque problème, ne le garde que si elle échoue et que l'échec va à l'encontre de l'intention, puis fusionne les causes racines communes.",
+      "Il rend un rapport en trois parties : l'intention reformulée, chaque problème vérifié avec qui l'a trouvé, et le nombre de problèmes écartés par chaque adversaire avec les raisons."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Adversaries try to break a change or a design.",
+      "quoteTr": "Des adversaires essaient de casser une modification ou une conception.",
+      "title": "Donnez à l'IA le rôle d'un adversaire",
+      "does": "Les IA d'appoint ne sont pas là pour cautionner le code. Leur rôle est de le casser.",
+      "why": "« Adversaire » et « casser » transforment « jette un œil » en « mets-le en échec », donc l'IA cherche avec plus d'acharnement.",
+      "try": "Quand l'IA relit un plan, dites-lui : « Tu es le concurrent le plus coriace. Prouve que ce plan ne marchera pas. »"
+    },
+    {
+      "quote": "Report each finding with a title, the exact command, the output it printed, and the output the intent requires.",
+      "quoteTr": "Signale chaque problème avec un titre, la commande exacte, la sortie qu'elle a affichée et la sortie exigée par l'intention.",
+      "title": "Mettez le réel à côté de l'attendu",
+      "does": "Chaque problème est accompagné de la commande, de ce qu'elle a affiché et de ce qu'elle devrait afficher, pour que vous puissiez la relancer.",
+      "why": "Écrire « ce qui s'est passé » à côté de « ce qui devrait se passer » montre l'écart tout de suite et ne laisse aucune place au flou.",
+      "try": "Quand l'IA signale des bugs, écrivez : « Pour chacun : ce que tu as fait, ce que tu as vu, ce que tu t'attendais à voir. »"
+    },
+    {
+      "quote": "Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter.",
+      "quoteTr": "Écarte tout ce que tu n'as pas exécuté. Cela couvre le style, le nommage, la structure et les risques qui nécessitent une modification future pour avoir un impact.",
+      "title": "Nommez ce que la règle couvre",
+      "does": "L'IA ne gonfle pas la liste avec du nommage, du style ou des « ça pourrait casser plus tard ». Chaque problème a vraiment été vérifié par une exécution.",
+      "why": "« Écarte ce que tu n'as pas exécuté » laisse des brèches. Nommer les cas les plus susceptibles de se faufiler les referme.",
+      "try": "Quand l'IA cherche des problèmes, écrivez : « Ne signale que ce qui empêche un client de payer. Les couleurs, les formulations et les risques futurs ne comptent pas. »"
+    },
+    {
+      "quote": "No findings is a valid result.",
+      "quoteTr": "L'absence de problème est un résultat valide.",
+      "title": "Dites que « rien » est une bonne réponse",
+      "does": "Quand le code va bien, l'IA le dit au lieu d'inventer des problèmes pour avoir l'air occupée.",
+      "why": "Une IA à qui l'on demande de trouver des problèmes se sent obligée d'en trouver. Dire qu'un résultat vide compte enlève cette pression.",
+      "try": "Quand l'IA vérifie votre travail, ajoutez : « Si tu ne trouves aucune faute de frappe, réponds simplement “aucune trouvée”. »"
+    }
+  ],
+  "blocks": [
+    "# Interrogate",
+    "Des adversaires essaient de casser une modification ou une conception. Un problème ne survit que si une exécution le prouve. Signale les problèmes. N'applique pas de correctifs.",
+    "## Cadrer",
+    "Le périmètre est ce que l'utilisateur indique. Sinon, c'est le diff de la branche depuis sa base de fusion avec la branche de base, jusqu'à l'arborescence de travail. Énonce l'intention avec le skill **in-your-own-words**, à partir du message de l'utilisateur, des commits et de la description de la PR. Demande à l'utilisateur quand l'intention n'est pas claire.",
+    "## Lancer en parallèle",
+    "Exécute les étapes 3 et 4 de la phase A ainsi que la phase B du skill **arena**, avec quatre changements. Lis la ligne `interrogate reviewers` à la place de `arena runners`. Copie les modifications non commitées du périmètre dans chaque worktree. Lance chaque adversaire en tant que sous-agent polyvalent (`generalPurpose` dans Cursor). À la place de la tâche et de la justification d'arena, donne à chaque adversaire le périmètre, l'intention et cette consigne :",
+    "> Casse cette modification. Prouve chaque problème par une exécution sur le vrai code, comme un test qui échoue, un script de reproduction ou la sortie d'une commande qui montre le mauvais comportement. Pour une conception ou un plan, exécute un prototype ou sonde l'arborescence actuelle. Garde les cas de reproduction dans ton propre worktree. Signale chaque problème avec un titre, la commande exacte, la sortie qu'elle a affichée et la sortie exigée par l'intention. Écarte tout ce que tu n'as pas exécuté. Cela couvre le style, le nommage, la structure et les risques qui nécessitent une modification future pour avoir un impact. L'absence de problème est un résultat valide.",
+    "## Vérifier",
+    "Vérifie chaque problème selon la phase F d'arena en relançant sa commande. Garde un problème quand la sortie montre l'échec et que cet échec va à l'encontre de l'intention. Écarte le reste. Fusionne les problèmes qui partagent une même cause racine.",
+    "Saute les phases C, D et E d'arena. Les adversaires trouvent des échecs différents, donc le verdict garde chaque problème vérifié, et non la liste d'un seul adversaire.",
+    "## Sortie",
+    "- **Intention** : la reformulation.\n- **Problèmes** : pour chaque problème vérifié, la commande, sa sortie, en quoi il va à l'encontre de l'intention et les adversaires qui l'ont trouvé. Indique « aucun problème vérifié » si aucun ne survit.\n- **Écartés** : pour chaque adversaire, le nombre de problèmes écartés et pourquoi."
+  ]
+}

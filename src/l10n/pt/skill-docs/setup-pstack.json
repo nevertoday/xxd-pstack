@@ -1,0 +1,96 @@
+{
+  "description": "Configure quais modelos o pstack usa por papel e com qual orçamento de raciocínio. Detecta seus modelos disponíveis e grava uma regra sempre aplicada que sobrescreve os padrões das skills. Use para /setup-pstack, “configurar modelos do pstack”, “orçamento do pstack” ou para mudar as escolhas de modelo do pstack.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Escreve um nome de modelo que você não consegue usar.",
+        "with": "Lista os modelos que consegue chamar nesta sessão e escreve só esses."
+      },
+      {
+        "without": "Grava a configuração sem perguntar para você.",
+        "with": "Pede para escolher entre três orçamentos, mostra o modelo de cada papel e espera seu OK."
+      },
+      {
+        "without": "Deixa linhas de papéis descontinuados no arquivo ao rodar de novo.",
+        "with": "Remove papéis descontinuados e sobrescreve o arquivo inteiro, para que novas execuções deem o mesmo resultado."
+      }
+    ],
+    "intro": "Mostra onde fica o arquivo de configuração no Cursor, no Claude Code e em qualquer outro harness (a ferramenta que roda a IA).",
+    "sections": [
+      "Oito passos, desde encontrar modelos utilizáveis até gravar o arquivo, terminando com duas ofertas opcionais.",
+      "Lista os nomes de modelo que consegue passar para IAs ajudantes nesta sessão. Se não encontrar nenhum, pede para você colar os seus.",
+      "Lê o orçamento e as escolhas de papel de um arquivo existente como ponto de partida, remove papéis descontinuados e troca padrões de configurações antigas pelos novos, avisando quais mudou.",
+      "Pede para escolher large, medium ou small, reduz o esforço de cada papel em zero a dois níveis (nunca acima de xhigh) e mostra os papéis para você aceitar ou mudar.",
+      "Verifica se cada modelo escolhido está na lista detectada e em xhigh ou abaixo. Se algum não estiver, para e pergunta de novo.",
+      "Grava uma linha `# defaults: 3`, uma linha de orçamento e uma linha por papel sobrescrevendo o arquivo inteiro. A versão do Cursor adiciona `alwaysApply: true`.",
+      "Avisa qual arquivo gravou. No Cursor e no Claude Code, novas sessões já passam a usá-lo.",
+      "Se o projeto não tiver um jeito de controlar o app, oferece uma vez gerar um com `/create-verification-skill`.",
+      "Se não houver uma skill de verificação formal, oferece uma vez rodar `/create-formal-verification-skill`. Se você disser não, segue em frente."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Never write a real slug you have not confirmed is available.",
+      "quoteTr": "Nunca escreva um slug real que você não tenha confirmado que está disponível.",
+      "title": "Escreva só o que foi confirmado",
+      "does": "Só modelos que você realmente pode usar vão parar na configuração, nunca um nome inventado que quebra a execução.",
+      "why": "“Nunca” ligado a um passo concreto, confirmar, é muito mais difícil de deixar passar do que “seja preciso”.",
+      "try": "Quando pedir uma lista de preços: “Liste só os preços que você confirmou no site oficial; marque o resto como ‘não confirmado’.”"
+    },
+    {
+      "quote": "Offer these three options with these exact labels, and name the current budget when the rule records one.",
+      "quoteTr": "Ofereça estas três opções com estes rótulos exatos e informe o orçamento atual quando a regra registrar um.",
+      "title": "Escreva as opções exatas",
+      "does": "Pergunta sobre o orçamento com as mesmas três opções toda vez, escritas do mesmo jeito, e mostra qual é o seu atual.",
+      "why": "Escrever as opções no prompt e pedir que sejam usadas ao pé da letra impede a IA de reformular, adicionar ou tirar alguma.",
+      "try": "Para uma pesquisa: “Pergunte sobre a satisfação com exatamente estas opções: ‘Satisfeito’, ‘OK’, ‘Não satisfeito’.”"
+    },
+    {
+      "quote": "So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`.",
+      "quoteTr": "Assim, `medium` transforma `claude-opus-5-5-xhigh-fast` em `claude-opus-5-5-high-fast` e `claude-opus-5-5-high-fast` em `claude-opus-5-5-medium-fast`, e `small` os transforma em `claude-opus-5-5-medium-fast` e `claude-opus-5-5-low-fast`.",
+      "title": "Dê um exemplo logo após a regra",
+      "does": "Troca os modelos para o seu orçamento corretamente, como baixar cada modelo um nível, de xhigh para high, no orçamento medium.",
+      "why": "Uma regra de conversão abstrata é fácil de entender errado; um exemplo resolvido logo em seguida deixa a IA conferir a própria resposta.",
+      "try": "Dê um exemplo junto com a regra: “Arredonde valores para a centena mais próxima, então 1.260 vira 1.300.”"
+    },
+    {
+      "quote": "On no, move on without pushing.",
+      "quoteTr": "Se for não, siga em frente sem insistir.",
+      "title": "Pergunte uma vez, aceite o não",
+      "does": "Oferece uma skill de verificação uma vez e deixa para lá se você disser não.",
+      "why": "Dizer quantas vezes perguntar e o que fazer diante de um não evita que a IA fique oferecendo extras sem parar.",
+      "try": "Quando a IA escrever para você: “Você pode perguntar uma vez no final se eu quero imagens; se eu disser não, deixe para lá.”"
+    }
+  ],
+  "blocks": [
+    "# Configurar o pstack",
+    "Grave as configurações de modelo do pstack, um modelo por papel:",
+    "- **Cursor:** `~/.cursor/rules/pstack-models.mdc`, uma regra sempre aplicada.\n- **Claude Code:** `~/.claude/rules/pstack-models.md`. O Claude Code carrega todos os arquivos em `~/.claude/rules/` em cada nova sessão.\n- **Qualquer outro harness** (Codex, Pi, OpenCode e outros): `~/.agents/pstack-models.md`. Esses harnesses não carregam o arquivo sozinhos, então as skills do pstack leem esse arquivo quando escolhem um modelo.",
+    "“O arquivo de configuração” abaixo significa o arquivo do seu harness. No Claude Code, se esse arquivo não existir, leia `~/.agents/pstack-models.md` no lugar, que é onde versões mais antigas desta skill o gravavam.",
+    "## Passos",
+    "### 1. Detectar modelos disponíveis",
+    "Liste os slugs de modelo que você pode passar para um subagente nesta sessão (`Task` no Cursor, `Agent` no Claude Code, `task` no OpenCode, `spawn_agent` no Codex). Essa é a fonte confiável. Se o seu harness também tiver um comando que lista os modelos do usuário, dê preferência a ele para ter a lista completa (por exemplo, `opencode models` ou `pi --list-models`). Se você não conseguir detectar nenhum, peça ao usuário que cole os slugs aos quais tem acesso. Nunca escreva um slug real que você não tenha confirmado que está disponível. Os aliases `inherit-parent` e `auto` são sempre válidos, mesmo não sendo slugs detectados.",
+    "### 2. Carregar o estado atual",
+    "O mapeamento padrão de papel para modelo é o formato de regra mostrado no passo 5 abaixo. Se o arquivo de configuração já existir, leia-o e trate a linha `# budget` e os valores dos papéis dele como as escolhas atuais. Caso contrário, comece a partir desses padrões. Uma linha cujo papel não esteja no passo 5, como `hardest tasks`, `architect runners`, `reflect tooling` ou `why investigators`, é de um papel descontinuado. Remova-a.",
+    "Padrões mais antigos colocavam outro modelo Gemini, e depois `gemini-4-neon-high`, na vaga do painel. Portanto, em qualquer arquivo de configuração, uma entrada `gemini-4-neon-high`, ou uma entrada `gemini-4-*` diferente de `gemini-4-neon-*`, em um papel de painel (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`) é um padrão antigo. Cada uma delas vira `gemini-4-neon-xhigh`. Uma entrada Gemini 4 Neon em qualquer outro nível é escolha do usuário e fica. Informe ao usuário quais entradas você substituiu.",
+    "Um arquivo de configuração sem a linha `# defaults: 3` vem de uma configuração mais antiga. Essa configuração escrevia uma linha para cada papel, então alguns dos seus valores são padrões antigos, não escolhas. Antes do passo 3, substitua estes valores:",
+    "- Uma lista de `arena cross-judge pool` com exatamente uma entrada `claude-fable-*`, uma entrada `claude-opus-*` e uma entrada `gemini-*`, em qualquer ordem, assume a lista do passo 5 para esse papel. Fable e Opus são do mesmo fornecedor, então a entrada Fable só poderia julgar onde a entrada Opus também poderia.\n- Uma linha `# budget: unlimited` vira `large`, porque nenhum papel roda acima de `xhigh`.\n- Se o arquivo de configuração também não tiver a linha `# defaults: 2`, um slug antigo é qualquer um que corresponda a `grok-*`. Um slug antigo em `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb` ou `swarm workers` assume o padrão do passo 5 para esse papel. Em um papel de painel (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`), uma lista com exatamente uma entrada `claude-opus-*` e um slug antigo, em qualquer ordem, assume a lista do passo 5 para esse papel. Em qualquer outra lista, cada slug antigo vira `claude-opus-5-5-high-fast`.",
+    "Qualquer outro valor é escolha do usuário e fica, incluindo um slug antigo em qualquer outro papel e todos os valores `inherit-parent` ou `auto`. Informe ao usuário quais valores você substituiu.",
+    "### 3. Orçamento, mapeamento e confirmação",
+    "**(a) Pergunte o orçamento.** Prefira sua ferramenta de perguntas estruturadas (`AskQuestion` no Cursor, `AskUserQuestion` no Claude Code, `question` no OpenCode) em vez de texto livre. Ofereça estas três opções com estes rótulos exatos e informe o orçamento atual quando a regra registrar um. Se não houver regra, diga que `large` corresponde aos padrões das skills.",
+    "- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`",
+    "**(b) Aplique.** Monte a tabela de trabalho a partir dos padrões das skills e, em uma nova execução, mantenha qualquer papel que você alterou por família, lista ou alias (`inherit-parent`, `auto`). As famílias são as definidas pela Fase A da skill **arena**, então Fable é uma família própria. Cada papel tem um esforço alvo, que é o esforço do seu padrão ajustado pelo orçamento. `large` o mantém, `medium` o baixa um nível e `small` o baixa dois níveis, na escala `xhigh` > `high` > `medium` > `low`. Nenhum papel roda acima de `xhigh`, e um alvo na base da escala permanece lá. A maioria dos padrões está em `xhigh`, e cada rótulo de orçamento indica onde eles vão parar. Defina o token de esforço de cada slug real no papel, incluindo entradas de painel, para o alvo do papel. O token de esforço é o último token, ou o que vem antes de um `fast` no final. Se o resultado não for um slug detectado, use o slug detectado da mesma família com o maior esforço igual ou abaixo do alvo; caso contrário, marque o papel como precisando de uma escolha. `inherit-parent` e `auto` não mudam. Assim, `medium` transforma `claude-opus-5-5-xhigh-fast` em `claude-opus-5-5-high-fast` e `claude-opus-5-5-high-fast` em `claude-opus-5-5-medium-fast`, e `small` os transforma em `claude-opus-5-5-medium-fast` e `claude-opus-5-5-low-fast`. O Opus 5.5 sempre roda seu slug `-fast`, então todo valor de Opus 5.5 termina em `-fast`. Fable 5.2 e Gemini não têm slug fast, então nunca escreva um. Os slugs do Gemini 4 Neon vão de `low` a `xhigh`, sem slug `max` nem `fast`, então sua vaga roda em `gemini-4-neon-xhigh`, seu slug mais alto. Uma entrada Gemini 4 Neon em um papel de painel usa seu próprio alvo, `xhigh` ajustado pelo orçamento, então `large` mantém `gemini-4-neon-xhigh`, `medium` escreve `gemini-4-neon-high` e `small` escreve `gemini-4-neon-medium`.",
+    "**(c) Mostre os papéis e confirme.** Mostre cada papel com seu modelo, marcando qualquer slug real que não esteja no conjunto detectado como precisando de uma escolha. Liste também cada linha removida no passo 2. Pergunte se deseja aceitar como está ou alterar papéis específicos, oferecendo como opções os modelos detectados em `xhigh` ou abaixo, além de `inherit-parent` e `auto` (ambos significam: este papel roda no modelo do chat principal, que é como quem usa Auto continua no Auto). Prefira sua ferramenta de perguntas estruturadas em vez de texto livre. Para papéis de painel (arena runners, interrogate reviewers), o valor é uma lista e um subagente roda para cada entrada, incluindo entradas de alias, então o tamanho da lista define a quantidade. `arena cross-judge pool` também é uma lista, mas o Arena roda um único juiz. Ele tenta apenas valores de um fornecedor diferente do usado pelo chat principal, na ordem da lista, portanto ordene por preferência. Fable e os outros modelos Claude são do mesmo fornecedor. Um valor `inherit-parent` ou `auto` nunca julga. `swarm workers` é o modelo padrão para todos os workers, a menos que uma corrida ou comparação atribua outro modelo para cada braço.",
+    "### 4. Validar",
+    "Todo slug real escrito precisa estar no conjunto detectado e em `xhigh` ou abaixo. `inherit-parent` e `auto` sempre passam. Se um slug real escolhido não estiver disponível, pare e pergunte de novo.",
+    "### 5. Gravar a regra",
+    "Grave o arquivo de configuração com a linha `# defaults: 3`, uma linha `# budget` com o rótulo escolhido e o esforço que esse rótulo indica, e uma linha por papel, usando os mesmos rótulos que o poteto-mode usa. No Cursor, inclua o frontmatter abaixo com `alwaysApply: true`. Em outros harnesses, grave o arquivo de configuração sem o frontmatter (comece na primeira linha `#`). Sobrescreva o arquivo inteiro para que novas execuções continuem idempotentes. Formato:",
+    "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model` and spawn a general-purpose subagent). Alias entries in a panel list still count toward its fan-out.\n# defaults: 3\n# budget: large (xhigh)\nfeature, refactoring: claude-opus-5-5-xhigh-fast\nbug-fix: claude-opus-5-5-xhigh-fast\nperf-issue: claude-opus-5-5-xhigh-fast\nhillclimb: claude-opus-5-5-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh-fast\narena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh\narena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-neon-xhigh\nswarm workers: claude-opus-5-5-high-fast\ninterrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh\n```",
+    "### 6. Confirmar",
+    "Informe ao usuário qual arquivo foi gravado. No Cursor e no Claude Code, ele vale para novas sessões. Em outros harnesses, as skills do pstack leem `~/.agents/pstack-models.md` quando escolhem um modelo. Rodar esta skill de novo atualiza o arquivo.",
+    "### 7. Oferecer uma skill de verificação (opcional)",
+    "Verifique se o projeto tem um jeito de controlar o app real como prova (uma skill `verify-*` ou um harness existente). Se não tiver, ofereça uma vez: “Quer uma skill de verificação local do projeto, para que os agentes possam controlar o app do jeito que um usuário faz e provar que as mudanças funcionam? Posso gerar uma com /create-verification-skill.” Se for sim, chame `/create-verification-skill` (resolvido onde quer que o pstack esteja instalado: workspace, usuário ou plugin). Se for não, siga em frente sem insistir.",
+    "### 8. Oferecer uma skill de verificação formal (opcional)",
+    "Verifique se o projeto já tem uma skill de verificação formal (uma skill do projeto que roda um model checker, uma prova ou outro verificador sobre o código). Se não tiver, ofereça uma vez: “Quer uma skill de verificação formal, para que os agentes possam provar que uma propriedade essencial do seu código vale em todos os casos do escopo, não só nos casos que os testes alcançam? Posso gerar uma com /create-formal-verification-skill.” Se for sim, chame `/create-formal-verification-skill` (resolvido onde quer que o pstack esteja instalado: workspace, usuário ou plugin). Se for não, siga em frente sem insistir."
+  ]
+}

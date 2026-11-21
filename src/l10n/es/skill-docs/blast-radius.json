@@ -1,0 +1,77 @@
+{
+  "description": "Encuentra qué podría romper un cambio en otra parte antes de publicarlo, más allá del diff, y demuestra el único hecho por el que es seguro ejecutando código real en lugar de escribir un informe. Úsala para «radio de impacto de X», «qué podría romper esto» o para revisar un diff pequeño en el que no confías.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Devuelve un informe que suena convincente.",
+        "with": "Encuentra el hecho o los dos hechos de los que depende que sea seguro y los demuestra ejecutando código."
+      },
+      {
+        "without": "Busca con grep los puntos de llamada y lo da por terminado.",
+        "with": "Lee el código fuente y la versión de la biblioteca, y sigue los datos y el orden de ejecución que grep no puede ver."
+      },
+      {
+        "without": "Enumera una larga lista de «tal vez».",
+        "with": "Da a cada riesgo un `file:line`, probabilidad, costo y una forma de comprobarlo."
+      }
+    ],
+    "intro": "Dice que la skill encuentra qué rompe un cambio en otra parte, se complementa con `how` y `why`, y mira más allá de lo que muestra grep.",
+    "sections": [
+      "Clasifica cada hecho clave en cinco niveles, desde «lo dijiste tú» hasta «reproducido en la app en ejecución», y dice dónde se detuvo.",
+      "Lee el cambio, encuentra el único hecho por el que es seguro, mira más allá de grep, sopesa los riesgos y lo demuestra con un script. Los cambios grandes van a `arena`.",
+      "Devuelve cinco partes: qué hace, el hecho por el que es seguro y su evidencia, riesgos, qué se descartó y el test más barato antes de fusionar."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "A blast-radius writeup that sounds right is worthless.",
+      "quoteTr": "Un informe de radio de impacto que suena bien no vale nada.",
+      "title": "Di que sonar bien no cuenta",
+      "does": "No devuelve un ensayo convincente; ejecuta código para demostrar el punto que importa.",
+      "why": "Decir que «suena bien» y «está bien» son cosas distintas evita que la IA trate una prosa fluida como el resultado.",
+      "try": "Cuando pidas una comprobación, añade: «Por muy convincente que se lea, no cuenta. Muéstrame un resultado que pueda abrir»."
+    },
+    {
+      "quote": "For each fact the change's safety depends on, get it as far down this list as is cheap, and say where it stopped.",
+      "quoteTr": "Para cada hecho del que depende que el cambio sea seguro, llévalo tan abajo en esta lista como resulte barato y di dónde se detuvo.",
+      "title": "Clasifica la certeza por niveles",
+      "does": "Para cada hecho clave, te dice qué nivel de certeza alcanzó: solo lo dijo, señaló el código o lo ejecutó de verdad.",
+      "why": "Una escala de débil a fuerte permite que la IA indique dónde se detuvo en lugar de dar un vago «parece estar bien».",
+      "try": "Pide un nivel para cada afirmación: «Marca cada una como 1 lo oí, 2 leí la fuente, 3 lo probé por mi cuenta»."
+    },
+    {
+      "quote": "Find the one fact it's safe because of.",
+      "quoteTr": "Encuentra el único hecho por el que es seguro.",
+      "title": "Encuentra primero ese único hecho",
+      "does": "En lugar de una larga lista de «tal vez», primero encuentra el único hecho que hace seguro el cambio.",
+      "why": "Centrarse en un solo hecho cuesta menos que enumerar todas las posibilidades, y la comprobación profundiza más.",
+      "try": "Pregunta: «¿Cuál es la suposición de la que más depende este plan? Comprueba esa primero»."
+    },
+    {
+      "quote": "Listing the callers is not the job.",
+      "quoteTr": "Listar los puntos de llamada no es el trabajo.",
+      "title": "Descarta la salida fácil",
+      "does": "No devuelve una lista de puntos de llamada; rastrea problemas que una búsqueda no puede mostrar.",
+      "why": "Nombrar la respuesta cómoda a la que recurriría la IA, y después lo que pides de verdad, no le deja atajos.",
+      "try": "Descarta primero el atajo: «No te limites a listar resultados de búsqueda. Quiero los problemas que solo encuentras leyendo»."
+    }
+  ],
+  "blocks": [
+    "# Radio de impacto",
+    "Encuentra qué rompe un cambio en otra parte, antes de publicarlo. Úsala para «radio de impacto de X», «qué podría romper esto» o para revisar un diff pequeño en el que todavía no confías.",
+    "Complemento de `how` y `why`. `how` te dice qué hace el código. `why` te dice por qué tiene esa forma. El radio de impacto te dice qué rompe en otra parte.",
+    "Listar los puntos de llamada no es el trabajo. El agente puede encontrarlos con grep en un segundo. El trabajo es lo que se rompe sin que grep te lo muestre.",
+    "## No confíes en tu propio informe",
+    "Un informe de radio de impacto que suena bien no vale nada. Resulta convincente al leerlo tanto si es verdad como si no. Así que no devuelvas el informe. Encuentra el hecho o los dos hechos de los que depende todo y demuéstralos ejecutando código.",
+    "### Cuánta certeza tienes",
+    "Para cada hecho del que depende que el cambio sea seguro, llévalo tan abajo en esta lista como resulte barato y di dónde se detuvo.",
+    "1. Lo dijiste tú. Por sí solo no vale nada.\n2. Señalaste la línea. Un `file:line` real o el propio código fuente de la biblioteca.\n3. Demostraste que el caso malo no puede ocurrir. Recorriste el fallo paso a paso y no llega a producirse.\n4. Lo ejecutaste. Un script o un test que llama al código real y falla de forma evidente si te equivocas.\n5. Lo reprodujiste en la app en ejecución.",
+    "El paso 4 suele ser un script pequeño que importa la misma biblioteca que incluye la app y llama a la función exacta que te preocupa.",
+    "## Pasos",
+    "1. Lee el cambio. El diff, los símbolos que añade, cambia y elimina, y qué hace distinto ahora, incluida la parte que el diff no dice explícitamente. Obtén el PR y sus commits.\n2. Encuentra el único hecho por el que es seguro. La mayoría de los cambios que parecen arriesgados son seguros por un solo hecho, como «esta llamada solo borra entradas de caché ya muertas y no hace nada más». Encuentra ese hecho. Si se cumple, la mayoría de los casos arriesgados quedan descartados de una vez. Dedica tu tiempo aquí, no a una larga lista de «tal vez».\n3. Mira donde grep se detiene. Lee el código fuente de la biblioteca que llamas y comprueba su versión fijada y cualquier parche local. Averigua cuándo se ejecuta cada cosa: microtareas, desmontaje y limpieza, Solid frente a React. Sigue lo que una búsqueda de símbolos pasa por alto: el JSON que devuelve una API, una columna de base de datos, un formato de transmisión, otro lenguaje que lee los mismos bytes, una feature flag, código a tres saltos aguas abajo.\n4. Habla con honestidad sobre cada riesgo. Dale una probabilidad real de ocurrir y un costo real si pasa. Conserva los riesgos que confirmaste. Lista aparte los que comprobaste y descartaste. Cita un `file:line` real; una búsqueda que no encuentra nada sigue siendo una respuesta, y nunca inventes un punto de llamada ni una API.\n5. Demuestra ese único hecho. Escribe un script o un test que ejecute el código real, ejecútalo y pega lo que pasó.\n6. Para un cambio grande o amplio, ejecútalo como una `arena`. Hazle la misma pregunta a más de un modelo y combina las respuestas. Distintos modelos detectan distintos bugs reales.",
+    "## Qué entregar",
+    "- **Qué hace.** Qué cambió, incluida la parte que no es obvia.\n- **El único hecho por el que es seguro.** Indícalo, di hasta qué paso lo llevaste y muestra la evidencia. Si no pudiste demostrarlo, escribe «sin demostrar».\n- **Riesgos.** Cada uno indica cómo se rompe, el `file:line`, su probabilidad y gravedad, y cómo comprobarlo. Pega la evidencia de los que importan.\n- **Descartados.** Qué comprobaste y por qué no hay problema.\n- **Antes de fusionar.** El test o caso de reproducción más barato que detecta el bug real, incluido el script que escribiste.",
+    "Pásalo por `unslop`, cita código real y elimina cualquier dato privado antes de ponerlo en un lugar público.",
+    "**Respuesta:** el informe anterior, con el único hecho por el que es seguro, ya sea demostrado o marcado como sin demostrar."
+  ]
+}

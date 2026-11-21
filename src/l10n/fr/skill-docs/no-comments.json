@@ -1,0 +1,67 @@
+{
+  "description": "Lancer Comment Sicko, corriger les constats acceptés et proposer des encodages pour les contraintes invoquées.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Modifie le code applicatif en supprimant les commentaires.",
+        "with": "Rejette toute modification du code applicatif ou hors périmètre faite par l'IA d'appoint."
+      },
+      {
+        "without": "Laisse les commentaires `do not remove` en place.",
+        "with": "Propose un type, un test ou un lint qui impose la contrainte, puis supprime le commentaire dès que vous validez."
+      },
+      {
+        "without": "Supprime le commentaire, mais garde le contournement qu'il expliquait.",
+        "with": "Corrige la vraie cause et supprime chaque contournement mentionné."
+      }
+    ],
+    "intro": "Il confie les commentaires à une IA d'appoint fraîchement lancée, Comment Sicko, s'en remet à son avis et n'agit que sur les constats qu'il accepte.",
+    "sections": [
+      "Vérifie les fichiers ou le diff que vous indiquez, sinon le diff actuel par rapport à `main`, modifications non commitées incluses.",
+      "Six étapes : lancer l'IA d'appoint, auditer son rapport, corriger les signalements simples, corriger la vraie cause, encoder les commentaires de contrainte, rapporter le décompte."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Do not restate its rules.",
+      "quoteTr": "Ne répétez pas ses règles.",
+      "title": "Garder chaque règle à un seul endroit",
+      "does": "L'IA principale ne transmet que le périmètre, pas les règles de Comment Sicko, afin que les deux ne puissent pas se contredire.",
+      "why": "Une règle écrite à un seul endroit se modifie à un seul endroit, donc deux versions contradictoires n'apparaissent jamais.",
+      "try": "Quand vous déléguez une tâche, écrivez : « Les règles de mise en forme sont dans le modèle ci-joint. Je ne les répète pas ici. »"
+    },
+    {
+      "quote": "A keep survives only with proof it is about something we cannot change.",
+      "quoteTr": "Un commentaire conservé ne survit qu'avec la preuve qu'il porte sur quelque chose que nous ne pouvons pas changer.",
+      "title": "Exiger une preuve pour conserver",
+      "does": "Les commentaires sont supprimés par défaut. Un commentaire ne reste qu'avec la preuve qu'il porte sur quelque chose hors de notre contrôle.",
+      "why": "Exiger une preuve pour conserver fait pencher le choix par défaut vers la suppression, pour que l'IA ne garde pas tout en cas de doute.",
+      "try": "Quand vous rangez des fichiers, dites : « Archive les vieux fichiers par défaut. N'en garde un sur le bureau que si tu peux dire pourquoi il sera utile la semaine prochaine. »"
+    },
+    {
+      "quote": "If a kill is ambiguous, do not restore.",
+      "quoteTr": "Si une suppression est ambiguë, ne restaurez pas.",
+      "title": "Trancher les cas indécis à l'avance",
+      "does": "Quand l'IA ne sait pas si une suppression était justifiée, elle ne tergiverse pas. Elle suit la direction fixée.",
+      "why": "Trancher les cas indécis à l'avance garantit que l'IA ne s'arrête pas pour demander et ne juge pas différemment à chaque fois.",
+      "try": "Quand l'IA trie des retours, écrivez : « Si tu n'arrives pas à distinguer une plainte d'une suggestion, traite-la comme une plainte. »"
+    },
+    {
+      "quote": "Architect shapes. Step 4 implements.",
+      "quoteTr": "L'architecte conçoit. L'étape 4 implémente.",
+      "title": "Séparer les rôles en deux phrases courtes",
+      "does": "L'étape de conception s'arrête à une esquisse. La modification du code attend l'étape suivante.",
+      "why": "Deux toutes petites phrases tracent une frontière nette entre qui fait quoi, pour que l'IA ne modifie pas le code pendant la conception.",
+      "try": "Pour un texte long, dites : « Étape 1 : le plan uniquement. Étape 2 : rédige. »"
+    }
+  ],
+  "blocks": [
+    "# Pas de commentaires",
+    "Lancez Comment Sicko. Agissez sur les constats acceptés.",
+    "Fiez-vous au regard neuf de Comment Sicko.",
+    "## Périmètre",
+    "Utilisez les fichiers ou le diff de l'appelant. Sinon, utilisez le diff actuel par rapport à la branche de base, `main` par défaut, répertoire de travail inclus.",
+    "## Étapes",
+    "1. Lancez `Task` avec `subagent_type: \"comment-sicko\"`. Transmettez le périmètre. Choisissez le niveau de raisonnement de chaque sous-agent adapté à la tâche, selon la section Subagents du skill **poteto-mode**. Ne répétez pas ses règles. Si votre harness n'a pas comment-sicko enregistré comme sous-agent (tout harness autre que Cursor avec le plugin pstack), lancez plutôt un sous-agent générique : `Agent` dans Claude Code (`subagent_type: general-purpose`), `task` dans OpenCode (`subagent_type: general`), `spawn_agent` dans Codex. Son prompt est [`references/comment-sicko.md`](references/comment-sicko.md) tel quel, suivi du périmètre. Si votre harness ne dispose pas d'outil de sous-agent, comme dans Pi sans extension, exécutez ce prompt vous-même lors d'une nouvelle passe sur le périmètre.\n2. Inspectez son rapport et son diff. Rejetez les modifications du code applicatif, les débordements hors périmètre, les suppressions protégées par une exception, les motifs `MUST KILL` inexacts et les signalements qui traitent du code intentionnel conservé comme fautif. Les signalements de restructuration concernant des surprises dans notre propre code restent à traiter. Ne restaurez pas ces commentaires. Un commentaire conservé ne survit qu'avec la preuve qu'il porte sur quelque chose que nous ne pouvons pas changer. Auditez les désactivations de lint et de TypeScript manquées dans le périmètre. Les désactivations touchant à la justesse ou à la sûreté restent des `MUST KILL` à traiter. Ne restaurez des commentaires supprimés qu'avec des exceptions exactes et des preuves dans le périmètre. Avant d'accepter des suppressions ou des maintiens peu étayés pour `IMPORTANT` ou `do not remove`, tracez leur symbole ou lancez `/why` dessus. Si une suppression est ambiguë, ne restaurez pas. Si un commentaire conservé est réfuté ou reste ambigu, supprimez-le, sauf un commentaire conservé `REVIEW` portant sur une règle externe, qui reste jusqu'à ce que quelqu'un vérifie cette règle. Signalez-le comme ouvert. Annulez et relancez une fois un rapport rejeté en nommant l'échec. Si vous rejetez aussi la relance, n'annulez que ses constats rejetés, signalez-les comme ouverts et poursuivez avec ceux qui sont acceptés.\n3. Corrigez directement les signalements simples acceptés en supprimant un chemin mort, en retirant un paramètre ou en utilisant la véritable API. Si un correctif demande une conception, lancez `/architect` une fois pour l'ensemble accepté et le code environnant. Arrêtez-vous à l'esquisse. L'architecte conçoit. L'étape 4 implémente.\n4. Implémentez le plus petit correctif de cause racine dans le périmètre. Supprimez chaque contournement mentionné. Si la cause racine est hors périmètre, intégrez le plus petit correctif dans le périmètre et signalez le reste comme ouvert. Les skills **principle-fix-root-causes** et **principle-redesign-from-first-principles** guident uniquement l'intention. Aucun des deux n'autorise à élargir le périmètre ni à corriger des occurrences en dehors. Ne greffez jamais de garde-fous sur les symptômes.\n5. Les commentaires de contrainte disent `do not remove`, `do not change wording` ou `talk to X before changing`. Laissez les commentaires conservés qui portent sur ce que nous ne pouvons pas changer. Proposez le type, le contrôle à l'exécution, le test ou le lint de CI le moins coûteux dans le périmètre. Attendez une validation interactive. Les exécutions sans surveillance et les évaluations exigent une pré-approbation de l'appelant. En cas d'approbation, encodez puis supprimez. Sinon, supprimez, signalez la contrainte comme ouverte et esquissez le travail hors périmètre.\n6. Présentez le nombre de suppressions, les commentaires restaurés, les commentaires conservés `REVIEW`, les relances, l'esquisse de l'architecte, les correctifs, les propositions d'encodage, les encodages, les contraintes non imposées et tout autre travail resté ouvert."
+  ]
+}

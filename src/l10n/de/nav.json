@@ -15,5 +15,159 @@
       "minutes": "10 Minuten",
       "sum": "Mit einer dreiteiligen Nachricht eine kleine Webseite bauen"
     }
+  },
+  "steps": {
+    "0-what": {
+      "title": "Was pstack ist",
+      "minutes": "5 Minuten Lesezeit",
+      "sum": "Wofür es gut ist, was es kostet, was du brauchst"
+    },
+    "1-install": {
+      "title": "pstack installieren",
+      "minutes": "5 Minuten",
+      "sum": "Je ein Weg für Claude Code, Cursor und Codex"
+    },
+    "2-setup": {
+      "title": "Modelle und Budget wählen (optional)",
+      "minutes": "10 Minuten",
+      "sum": "Klappt auch ohne; lies das, um Geld zu sparen oder Modelle zu wechseln"
+    },
+    "3-first-task": {
+      "title": "Deine erste Aufgabe",
+      "minutes": "15 Minuten",
+      "sum": "Sag alles in einer Nachricht und prüf dann Zusammenfassung und Ergebnisse"
+    },
+    "4-understand": {
+      "title": "Erst verstehen, dann ändern",
+      "minutes": "15 Minuten",
+      "sum": "Lass dir von der KI erklären, wie der Code funktioniert, bevor du über Änderungen entscheidest"
+    },
+    "5-design-build": {
+      "title": "Entwerfen, bauen, aufräumen",
+      "minutes": "20 Minuten",
+      "sum": "Bei großen Änderungen den Plan festlegen, andere Modelle Schwachstellen suchen lassen, Unnötiges streichen"
+    },
+    "6-verify-ship": {
+      "title": "Prüfen und ausliefern",
+      "minutes": "20 Minuten",
+      "sum": "Sicherstellen, dass es wirklich funktioniert, und dann zum Mergen einreichen"
+    },
+    "7-overnight": {
+      "title": "Allein laufen lassen",
+      "minutes": "15 Minuten",
+      "sum": "Vor dem Schlafen den Auftrag geben, morgens das Protokoll lesen"
+    },
+    "8-make-it-yours": {
+      "title": "Wenn du dich sicher fühlst",
+      "minutes": "Nach Bedarf",
+      "sum": "Mit einer Zeile wieder auf Kurs bringen; verhindern, dass derselbe Fehler zweimal passiert"
+    }
+  },
+  "howtoGroups": {
+    "real": "In echten Projekten",
+    "prove": "Lass die KI es beweisen",
+    "tools": "Tools und Einrichtung",
+    "prompts": "Prompts",
+    "others": "Von anderen Nutzern"
+  },
+  "howto": {
+    "fix-bug": "Bug beheben: reproduzieren, beheben, beweisen",
+    "add-feature": "Feature hinzufügen, ohne Bestehendes kaputtzumachen",
+    "refactor": "Refactoring: neuer Code, gleiches Verhalten",
+    "perf": "Zu langsam? Mit Zahlen beweisen, dass es schneller wurde",
+    "new-codebase": "Ein fremdes Projekt übernehmen",
+    "review-branch": "Bevor du abgibst, lass ein paar KIs nach Schwachstellen suchen",
+    "write-docs": "READMEs, Doku und PR-Beschreibungen schreiben",
+    "big-migration": "Große Änderungen: abends übergeben, morgens prüfen",
+    "verify-app": "Gib deinem Projekt einen Prüf-Skill, damit die KI ihre Arbeit selbst prüft",
+    "formal-verify": "Bugs, die Tests nicht erwischen: formale Verifikation",
+    "claude-code": "In Claude Code nutzen",
+    "cursor": "In Cursor nutzen",
+    "codex": "In Codex und anderen Tools nutzen",
+    "pick-skills": "Nur ein paar Skills installieren",
+    "cost": "Kosten niedrig halten",
+    "update-remove": "Aktualisieren, prüfen, deinstallieren",
+    "recipes": "Prompts zum Kopieren",
+    "steer": "Mit einem Satz wieder auf Kurs bringen",
+    "which-skill": "Unsicher, welcher Skill passt",
+    "field-notes": "Was andere Nutzer gelernt haben: Tricks zum Abschauen, Fallen zum Umgehen"
+  },
+  "glossary": {
+    "Agent Skill": {
+      "label": "Agent Skill",
+      "tip": "Ein Ordner mit einer SKILL.md: Anweisungen, die der KI beibringen, wie sie eine bestimmte Art von Aufgabe erledigt."
+    },
+    "技能": {
+      "label": "Skill",
+      "tip": "Kurz für Agent Skill. pstack ist ein Skill-Paket."
+    },
+    "SKILL.md": {
+      "label": "SKILL.md",
+      "tip": "Der Inhalt eines Skills: ein paar Kopfzeilen, die Name und Einsatzzweck nennen, danach die Schritte und Regeln."
+    },
+    "宿主": {
+      "label": "Harness",
+      "tip": "Das Tool, in dem die KI tatsächlich läuft: Claude Code, Cursor, Codex und so weiter. pstack wird darin installiert."
+    },
+    "剧本": {
+      "label": "Playbook",
+      "tip": "Der Standardablauf für eine bestimmte Art von Aufgabe. „Bug beheben“ heißt: reproduzieren, Grundursache finden, beheben, prüfen."
+    },
+    "poteto-mode": {
+      "label": "poteto-mode",
+      "tip": "Der Hauptschalter von pstack. Du sagst, was du willst; es plant die Schritte selbst."
+    },
+    "子代理": {
+      "label": "Subagent",
+      "tip": "Eine Helfer-KI, die der Hauptchat für eine einzelne Teilaufgabe losschickt; sie meldet nur das Fazit zurück."
+    },
+    "worktree": {
+      "label": "Worktree",
+      "tip": "Ein zweiter Arbeitsordner für dasselbe Git-Repo, damit mehrere KIs gleichzeitig Code ändern können, ohne sich in die Quere zu kommen."
+    },
+    "待办清单": {
+      "label": "To-do-Liste",
+      "tip": "Die Liste der Schritte, die /poteto-mode am Anfang aufschreibt. Bei übersprungenen Schritten steht dabei, warum."
+    },
+    "验证技能": {
+      "label": "Prüf-Skill",
+      "tip": "Eine Anleitung, die der KI beibringt, deine App zu öffnen und sie wie ein Nutzer durchzuklicken."
+    },
+    "形式化验证": {
+      "label": "formale Verifikation",
+      "tip": "Statt Beispiele zu testen, wird geprüft, ob eine Regel in jedem möglichen Fall gilt."
+    },
+    "决策日志": {
+      "label": "Entscheidungsprotokoll",
+      "tip": "Eine Zeile pro Entscheidung der KI: Uhrzeit, Entscheidung, Grund, Beleg. Du liest es morgens."
+    },
+    "原则": {
+      "label": "Prinzipien",
+      "tip": "Die 24 Engineering-Prinzipien von pstack. Jedes hat einen Namen; sag den Namen, um die KI zu korrigieren."
+    },
+    "token": {
+      "label": "Tokens",
+      "tip": "Die Einheit, in der KI-Nutzung gemessen und abgerechnet wird. pstack schickt mehr Subagents los und prüft öfter, deshalb verbraucht es mehr."
+    },
+    "推理预算": {
+      "label": "Reasoning-Budget",
+      "tip": "Wie lange das Modell nachdenken darf. Höher heißt gründlicher und teurer. Standardmäßig nutzt pstack xhigh."
+    },
+    "PR": {
+      "label": "PR",
+      "tip": "Pull Request: eine Anfrage, eine Reihe von Änderungen zu prüfen und in den Haupt-Branch zu mergen."
+    },
+    "斜杠命令": {
+      "label": "Slash-Befehl",
+      "tip": "Ein Befehl im Chat, der mit / beginnt, wie /poteto-mode. Er ruft einen Skill beim Namen auf."
+    },
+    "模型角色": {
+      "label": "Modellrollen",
+      "tip": "pstack teilt die Arbeit in Rollen auf (Code schreiben, bewerten, prüfen…); jede Rolle kann ein anderes Modell nutzen."
+    },
+    "Custom Mode": {
+      "label": "Custom Mode",
+      "tip": "Der dauerhafte Modus in Cursor: Der Skill bleibt in jeder Runde aktiv, sodass du nicht jedes Mal /poteto-mode tippen musst."
+    }
   }
 }

@@ -1,0 +1,50 @@
+{
+  "description": "Die letzte Nachricht in einfacher, menschlicher Sprache neu formulieren, ohne Fachjargon.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Füllt die Antwort mit Fachjargon, dem du nicht folgen kannst.",
+        "with": "Formuliert die letzte Nachricht ohne Fachjargon neu."
+      },
+      {
+        "without": "Formuliert sie um, bleibt aber genauso lang.",
+        "with": "Macht sie einfacher und knapper."
+      },
+      {
+        "without": "Antwortet in unzusammenhängenden Bruchstücken.",
+        "with": "Spricht zusammenhängend, wie ein Mensch mit einem anderen."
+      }
+    ],
+    "intro": "Der Skill lässt die KI ihre letzte Nachricht ohne Fachjargon neu formulieren – einfacher und kürzer, so wie ein Mensch mit einem anderen spricht.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate your last message.",
+      "quoteTr": "Formuliere deine letzte Nachricht neu.",
+      "title": "Zeig auf den Text zum Umschreiben",
+      "does": "Die KI gibt einfach ihre letzte Antwort in anderen Worten wieder und fängt keine neue Aufgabe an.",
+      "why": "Wenn du das Ziel – „deine letzte Nachricht“ – direkt am Anfang nennst, muss die KI nicht raten, welchen Teil du meinst.",
+      "try": "Zeig genau, was umgeschrieben werden soll: „Formuliere den zweiten Absatz deiner letzten Antwort noch einmal neu.“"
+    },
+    {
+      "quote": "State it more simply and concisely",
+      "quoteTr": "Drück es einfacher und knapper aus",
+      "title": "Nimm das Original als Maßstab",
+      "does": "Die neue Version ist kürzer und einfacher als die alte, nicht nur umformuliert.",
+      "why": "Mit der letzten Nachricht als Referenz hat „einfacher“ etwas, woran es sich messen lässt.",
+      "try": "Vergleiche mit dem Original: „Halb so lang wie die letzte Version, gleiche Bedeutung.“"
+    },
+    {
+      "quote": "like one human talking to another",
+      "quoteTr": "so wie ein Mensch mit einem anderen spricht",
+      "title": "Wähl eine Szene für den Tonfall",
+      "does": "Die KI klingt nicht mehr wie ein Bericht, sondern wie jemand aus dem Team, der es direkt neben dir erklärt.",
+      "why": "Ein Gespräch, das alle kennen, lässt sich leichter nachahmen als ein Adjektiv wie „verständlicher“.",
+      "try": "Gib eine Szene für den Ton vor: „Erklär diesen Fehler so, wie du ihn jemandem aus der Familie ohne technisches Vorwissen erklären würdest.“"
+    }
+  ],
+  "blocks": [
+    "Formuliere deine letzte Nachricht neu. Hör auf mit dem Fachjargon und sprich zusammenhängend. Drück es einfacher und knapper aus, so wie ein Mensch mit einem anderen spricht."
+  ]
+}

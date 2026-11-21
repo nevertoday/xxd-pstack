@@ -1,0 +1,61 @@
+{
+  "description": "Tire os sinais de IA de qualquer texto.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Escreve frases que soam bem e serviriam na documentação de qualquer projeto.",
+        "with": "Cita o mecanismo ou um número e corta frases que serviriam sem alteração em outro projeto."
+      },
+      {
+        "without": "Diz “especialistas acreditam” sem citar ninguém.",
+        "with": "Cita a fonte ou apaga a afirmação."
+      },
+      {
+        "without": "Abre com elogios ou concordância e fecha com “Me avise se…”.",
+        "with": "Dispensa as gentilezas e a bajulação e responde diretamente."
+      }
+    ],
+    "intro": "A skill procura os padrões abaixo e depois reescreve, mantendo o sentido e o tom pretendido. Os números das regras são IDs fixos que outras skills citam. A lista traz uma linha por regra, de trechos vazios no gerúndio, palavras de IA e travessões até frases de chatbot, substantivos metafóricos e voz passiva.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Rule numbers are stable ids that other skills cite.",
+      "quoteTr": "Os números das regras são IDs estáveis que outras skills citam.",
+      "title": "Dê um número fixo a cada regra",
+      "does": "Outras skills podem simplesmente dizer “aplique a regra 13”, e os números continuam batendo depois que regras são adicionadas ou removidas.",
+      "why": "Números fixos deixam as referências curtas e exatas, e não saem do lugar quando a lista muda.",
+      "try": "Numere as regras de escrita do seu time e diga em uma revisão: “Este parágrafo quebra a regra 4.”"
+    },
+    {
+      "quote": "Name the actor unless it is unknown or doesn't matter.",
+      "quoteTr": "Nomeie quem age, a menos que não se saiba quem é ou isso não importe.",
+      "title": "Escreva a exceção na própria regra",
+      "does": "Reescreve frases na voz passiva para nomear quem age e mantém a passiva só quando não se sabe quem é ou isso não importa.",
+      "why": "Deixar a exceção explícita dentro da regra impede a IA de reescrever todas as frases na passiva, inclusive as que deveriam ficar.",
+      "try": "Coloque a exceção no pedido: “Dê um subtítulo para cada parágrafo, exceto os parágrafos de uma ou duas frases.”"
+    },
+    {
+      "quote": "Cut a sentence that could appear unchanged in another project's docs.",
+      "quoteTr": "Corte qualquer frase que poderia aparecer sem alteração na documentação de outro projeto.",
+      "title": "Teste se é enrolação mudando de lugar",
+      "does": "Frases que serviriam para qualquer projeto são cortadas; o que fica é sobre este projeto.",
+      "why": "“Enrolação” é difícil de julgar, mas “ainda serviria em outro lugar?” é um teste rápido que qualquer pessoa pode fazer.",
+      "try": "Ao pedir para revisar uma introdução, adicione: “Apague qualquer frase que continue verdadeira com o nome de um concorrente.”"
+    },
+    {
+      "quote": "One name per thing. Repeat it.",
+      "quoteTr": "Um nome para cada coisa. Repita.",
+      "title": "Diga que tudo bem repetir",
+      "does": "Chama cada coisa por uma única palavra do começo ao fim, em vez de ficar trocando de sinônimo para variar.",
+      "why": "“Repita” dá permissão explícita, então a IA para de renomear a mesma coisa até os leitores acharem que são várias.",
+      "try": "Ao pedir uma revisão, adicione: “Chame de ‘pedido’ em todo o texto. Não troque para ‘compra’ ou ‘transação’.”"
+    }
+  ],
+  "blocks": [
+    "# Unslop",
+    "Edite o texto para remover padrões de IA. Procure os padrões abaixo e depois reescreva. Preserve o sentido e mantenha o tom pretendido.",
+    "Os números das regras são IDs estáveis que outras skills citam. Uma regra removida deixa uma lacuna.",
+    "3. Sem trechos no gerúndio no fim da frase que não trazem nenhum fato (“destacando…”, “garantindo…”).\n5. Sem atribuições vagas (“especialistas acreditam”). Cite a fonte ou apague.\n7. Sem vocabulário de IA: adicionalmente, crucial, mergulhar, aprimorar, fomentar, cenário, decisivo, destacar, testemunho, ressaltar, vibrante.\n8. Diga “é” ou “tem”, não “serve como”, “figura como”, “ostenta”, “conta com”.\n9. Sem “não apenas X, mas Y”. Vá direto ao ponto.\n10. Não force ideias em grupos de três.\n11. Um nome para cada coisa. Repita.\n12. Sem “de X a Y”, a menos que X e Y estejam em uma escala real.\n13. Sem travessões, meias-riscas ou hifens usados como travessão, nem parênteses no lugar deles. Use ponto ou vírgula.\n14. Dois-pontos vão antes de uma lista ou de um exemplo, nunca no meio da frase como conector.\n15. Não coloque em negrito todo nome próprio ou sigla.\n16. Sem rótulo em negrito com dois-pontos que repete a própria linha (“**Performance:** A performance melhorou…”). Tudo bem usar uma abertura em negrito que termina em ponto e traz um detalhe novo.\n17. Títulos com apenas a primeira letra maiúscula.\n18. Sem emojis decorativos.\n19. Aspas retas.\n20. Sem frases de chatbot (“Espero que ajude!”, “Me avise se…”).\n22. Sem aberturas com elogios ou concordância. Responda diretamente.\n23. Corte a enrolação. “A fim de” vira “para”. Apague “é importante notar que”.\n24. No máximo uma ressalva: “pode”.\n25. Sem conclusões genéricas. Apresente planos ou fatos específicos.\n26. Sem substantivos metafóricos abstratos: substrato, cunha, vetor, nexo, primitiva, harness, superfície, andaime, paradigma, catraca, estrela-guia, volante de inércia. Use a palavra concreta.\n27. Diga o que faz, não a sensação que passa. Cite o mecanismo ou o número. Corte qualquer frase que poderia aparecer sem alteração na documentação de outro projeto.\n28. Uma ideia por frase. Divida qualquer frase que o leitor precise reler.\n29. Voz ativa. Nomeie quem age, a menos que não se saiba quem é ou isso não importe.\n30. Corte advérbios ou use um verbo mais forte. Dê o número.\n31. Use a palavra simples: “usar”, não “utilizar” ou “alavancar”.\n32. Sem metáfora, aforismo, código personificado ou verbo figurado quando existir uma expressão literal.\n33. Escreva frases completas, com seus artigos e verbos. Escreva setas e abreviações por extenso."
+  ]
+}

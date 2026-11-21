@@ -1,0 +1,50 @@
+{
+  "description": "Gib in eigenen Worten wieder, was deiner Einschätzung nach die Ziele des Nutzers sind und welches Problem gelöst werden soll. Für /in-your-own-words verwenden.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Gibt deine Worte eins zu eins wieder, sodass du nicht merkst, ob sie es verstanden hat.",
+        "with": "Formuliert deine Ziele in eigenen Worten."
+      },
+      {
+        "without": "Wiederholt die Aufgabe und übergeht, was dich blockiert.",
+        "with": "Benennt separat, welches Problem du lösen willst."
+      },
+      {
+        "without": "Behandelt ihr Verständnis deiner Anfrage als gesetzt.",
+        "with": "Legt für dich sichtbar offen, was du ihrer Einschätzung nach willst."
+      }
+    ],
+    "intro": "Der Skill lässt die KI in eigenen Worten wiedergeben, was ihrer Einschätzung nach deine Ziele sind und welches Problem du lösen willst.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate in your own words",
+      "quoteTr": "Gib in eigenen Worten wieder",
+      "title": "Um eigene Worte bitten",
+      "does": "Die KI wiederholt nicht deinen Wortlaut, sondern formuliert es so, wie sie es versteht – dadurch fällt ein Missverständnis sofort auf.",
+      "why": "Ein Echo verdeckt, ob sie es verstanden hat; ihre eigenen Worte legen jede Lücke offen.",
+      "try": "Nachdem du eine Aufgabe gestellt hast, frag zuerst: „Bevor du anfängst, sag mir in eigenen Worten, was du ändern willst.“"
+    },
+    {
+      "quote": "what you think the user's goals are",
+      "quoteTr": "was deiner Einschätzung nach die Ziele des Nutzers sind",
+      "title": "Nach einer Vermutung fragen",
+      "does": "Die KI legt ihr Verständnis offen, damit du es korrigieren kannst, statt es als Fakt zu behandeln und loszulegen.",
+      "why": "„Deiner Einschätzung nach“ macht aus dem Verständnis eine Vermutung, die sich widerlegen lässt – leicht für die KI zu sagen und leicht für dich zu korrigieren.",
+      "try": "Formulier es als Vermutung: „Sag mir, was mir deiner Einschätzung nach am wichtigsten ist – Tempo oder Stabilität.“"
+    },
+    {
+      "quote": "what problem they're trying to solve",
+      "quoteTr": "welches Problem gelöst werden soll",
+      "title": "Ziel und Problem getrennt abfragen",
+      "does": "Die KI sagt, was du erreichen willst und was dich blockiert – so siehst du, welche Hälfte sie falsch verstanden hat.",
+      "why": "Das Ziel ist, wohin du willst, und das Problem ist, was im Weg steht; beides abzufragen zeigt, wo die Lücke liegt.",
+      "try": "Frag nach beidem: „Sag mir, was ich erledigen will und was mich gerade aufhält.“"
+    }
+  ],
+  "blocks": [
+    "Gib in eigenen Worten wieder, was deiner Einschätzung nach die Ziele des Nutzers sind und welches Problem gelöst werden soll."
+  ]
+}

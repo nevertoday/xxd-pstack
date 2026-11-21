@@ -1,0 +1,51 @@
+{
+  "description": "Use para “por que X funciona assim”, “por que escolhemos Y”, justificativas de design, regressões, postmortems ou limites baseados em dados. Retorna uma leitura com citações sobre decisões e tradeoffs. Use how para comportamento em tempo de execução.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Chuta um motivo a partir do próprio código.",
+        "with": "Lê os commits e as discussões de PR por trás disso e de cada mudança posterior, e depois outras fontes se houver poucas pistas."
+      },
+      {
+        "without": "Apresenta como fato um motivo que chutou.",
+        "with": "Cita o que os autores escreveram e marca as próprias inferências como inferências."
+      },
+      {
+        "without": "Monta uma resposta mesmo quando os registros não trazem nenhuma.",
+        "with": "Diz o que os registros não respondem."
+      }
+    ],
+    "intro": "Responde o porquê a partir dos registros, não do código: os commits e as discussões de PR, e depois outras fontes se houver poucas pistas. Cita os autores, marca inferências e aponta o que os registros deixam em aberto.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
+      "quoteTr": "Responda a partir dos registros, não do código: leia os commits e as discussões de PR que introduziram o alvo e cada mudança posterior, e outras fontes se houver poucas pistas.",
+      "title": "Aponte onde está a resposta",
+      "does": "Lê os commits originais e as discussões de PR em vez de inventar um motivo plausível a partir do código.",
+      "why": "O código mostra o quê, não o porquê; dizer quais registros ler, passando por cada mudança posterior, não deixa espaço para entregar um palpite.",
+      "try": "Quando você perguntar o porquê, aponte a fonte: “Leia o commit e a discussão que adicionaram essa configuração, e cada mudança desde então, não só o código de hoje.”"
+    },
+    {
+      "quote": "Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer.",
+      "quoteTr": "Cite o que os autores escreveram, marque suas próprias inferências como inferências e diga o que os registros não respondem.",
+      "title": "Peça fatos e palpites separados",
+      "does": "Citações dos autores, as inferências da própria IA e as lacunas em aberto vêm separadas, assim você sabe em quais linhas confiar sem ressalvas.",
+      "why": "É fácil maquiar uma história de “por quê”; rotular inferências e apontar as lacunas mantém os palpites longe dos fatos.",
+      "try": "Quando você perguntar o porquê, acrescente: “Cite o que tem fonte, marque seus próprios palpites como ‘palpite’ e diga claramente o que não conseguiu encontrar.”"
+    },
+    {
+      "quote": "Use how for runtime behavior.",
+      "quoteTr": "Use how para comportamento em tempo de execução.",
+      "title": "Diga o que não é papel dela",
+      "does": "Perguntas sobre comportamento em tempo de execução vão para `how`, em vez de serem respondidas a partir do histórico.",
+      "why": "Só “quando usar” deixa ferramentas vizinhas se atropelarem; acrescentar quem cuida do resto traça o limite.",
+      "try": "Quando você dividir o trabalho, marque a fronteira: “Você cuida do texto; questões de layout vão para design, não altere isso por conta própria.”"
+    }
+  ],
+  "blocks": [
+    "# Why",
+    "Responda a partir dos registros, não do código: leia os commits e as discussões de PR que introduziram o alvo e cada mudança posterior, e outras fontes se houver poucas pistas. Cite o que os autores escreveram, marque suas próprias inferências como inferências e diga o que os registros não respondem."
+  ]
+}

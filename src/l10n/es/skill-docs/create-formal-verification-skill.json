@@ -1,0 +1,80 @@
+{
+  "description": "Genera una skill local del proyecto que verifica formalmente el código donde un bug sale más caro y los tests llegan menos, en cualquier lenguaje y con la herramienta de verificación que mejor encaje. Úsala para /create-formal-verification-skill, «haz model checking de esta condición de carrera», «demuestra este invariante» o cuando la concurrencia, los reintentos, las máquinas de estado, los parsers o el código inseguro necesitan más que tests.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Informa «verificado» sin decir hasta dónde llega.",
+        "with": "Indica qué se verificó, los límites y supuestos, y qué queda fuera."
+      },
+      {
+        "without": "Arregla el código de producto en cuanto encuentra un problema.",
+        "with": "Te explica el contraejemplo con los pasos del código y solo edita código si se lo pides."
+      },
+      {
+        "without": "Entrega una comprobación que nadie ha visto fallar.",
+        "with": "Rompe el código real a propósito y confirma que la comprobación lo detecta."
+      }
+    ],
+    "intro": "Contrasta los tests con comprobar todos los casos dentro de un alcance, y luego dice que la skill verifica una propiedad y deja una skill de verificación para el siguiente agente.",
+    "sections": [
+      "Encuentra una promesa del código que al romperse perjudica a los usuarios y a la que los tests rara vez llegan, empezando por donde indiques.",
+      "Adapta la herramienta a la pregunta: TLA+ para órdenes de pasos incorrectos y un verificador a nivel de código para preguntas sobre todas las entradas.",
+      "Siete estándares: fiel al código, capaz de fallar, hallazgos intactos, alcance honesto, legible, barato de volver a ejecutar y al día con el código.",
+      "Escribe una skill del proyecto con frontmatter, el registro de cobertura y el commit de sincronización, y envía los resultados de TLA+ a `/statechart`.",
+      "Rompe la propiedad con un cambio temporal en el código real. La comprobación debe detectarlo y después volver a su resultado anterior.",
+      "Te dice qué se verificó, qué herramienta se usó y por qué, los límites, los hallazgos, cómo ejecutarla y qué queda fuera."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "A check that you have never seen fail proves nothing.",
+      "quoteTr": "Una comprobación que nunca has visto fallar no demuestra nada.",
+      "title": "Haz que la comprobación falle una vez",
+      "does": "Rompe el código a propósito para ver que la comprobación lo detecta antes de decirte que pasa.",
+      "why": "Una frase corta y tajante define cuándo cuenta que pase una comprobación, para que una que nunca falla no se haga pasar por demostración.",
+      "try": "Después de configurar una alerta, añade: «Crea un registro que deba activarla y muéstrame que se dispara»."
+    },
+    {
+      "quote": "Choose the strongest such target in the repo, not the one that is easiest to verify.",
+      "quoteTr": "Elige el objetivo más importante de ese tipo en el repositorio, no el más fácil de verificar.",
+      "title": "Nombra la salida fácil",
+      "does": "Apunta al código que más importa, no a la parte más fácil de terminar.",
+      "why": "Las IA tienden hacia la opción fácil; nombrar esa inercia en voz alta evita que la elijan.",
+      "try": "Cuando pidas un análisis: «Elige el problema con más probabilidad de hacernos perder clientes, no el más fácil de analizar»."
+    },
+    {
+      "quote": "Do not weaken the property or the model until it passes",
+      "quoteTr": "No debilites la propiedad ni el modelo hasta que pase",
+      "title": "Prohíbe mover la meta",
+      "does": "Cuando el código está realmente mal, informa del problema con un ejemplo en vez de relajar la comprobación en silencio.",
+      "why": "Nombrar la forma más común de hacer trampa funciona mucho mejor que un «sé honesto» genérico.",
+      "try": "Cuando pidas un arreglo, añade: «Si falla un test, dime qué está mal; no edites el test para que pase»."
+    },
+    {
+      "quote": "A pass covers the model or the bound, not the whole system.",
+      "quoteTr": "Una comprobación superada cubre el modelo o el límite, no todo el sistema.",
+      "title": "Di hasta dónde llega una comprobación superada",
+      "does": "El informe dice cuánto se comprobó, para que no lo confundas con un visto bueno para todo el sistema.",
+      "why": "Poner un límite a la conclusión evita que superar una comprobación parcial se lea como una garantía total.",
+      "try": "Cuando pidas resultados de tests: «Dime qué navegadores cubrió esto y enumera los que no»."
+    }
+  ],
+  "blocks": [
+    "# Crea una skill de verificación formal",
+    "Un test comprueba los casos que a alguien se le ocurrió escribir. La verificación formal comprueba todos los casos dentro de un alcance definido: cada orden de pasos en un modelo, cada entrada hasta un límite o todas las entradas. Esta skill encuentra la parte del repositorio donde eso más importa, verifica una de sus propiedades y deja una skill local del proyecto que permite al siguiente agente comprobar un cambio frente a esa propiedad. Escribe esa skill para un agente que la lee en frío, a mitad de un cambio, y nunca ha visto tu trabajo. El usuario debe poder confiar en el resultado y actuar en consecuencia sin aprender el lenguaje de verificación.",
+    "## Elige el objetivo a partir del código",
+    "Responde a partir del código fuente y pregunta al usuario solo lo que no puedas observar. Si el usuario nombró un área o un bug, empieza por ahí.",
+    "Un buen objetivo es una promesa que hace el código, donde romperla perjudica a los usuarios y los tests rara vez llegan al caso que la rompe. Elige el objetivo más importante de ese tipo en el repositorio, no el más fácil de verificar.",
+    "## Deja que la pregunta elija la herramienta",
+    "Elige la herramienta que responda la pregunta al menor costo: un verificador de modelos, un asistente de demostraciones, un verificador respaldado por SMT u otra herramienta. Saber si los eventos pueden ocurrir en un orden incorrecto suele encajar mejor con un verificador de modelos sobre un modelo pequeño del diseño, y TLA+ es la opción por defecto para eso en cualquier lenguaje. Saber si el propio código se comporta bien para todas las entradas, como en la seguridad de memoria, el desbordamiento o un invariante de estructura de datos, suele encajar mejor con un verificador que se ejecuta sobre el código. Si ningún verificador funciona en este lenguaje, dilo y prueba el código real con entradas generadas, no con un modelo a mano de la función. Una propiedad que debe cumplirse para cualquier tamaño, donde un límite no basta, puede necesitar una demostración. Prefiere una herramienta que los desarrolladores del repositorio puedan instalar y ejecutar, y dile al usuario por qué la elegiste.",
+    "## Qué hace que sea buena",
+    "- **Fiel al código.** Cada parte del modelo o de la demostración apunta a código que quien revisa puede abrir. Lo que la verificación trata como un paso indivisible es un paso indivisible en el código. Los nombres vienen de este repositorio.\n- **Capaz de fallar.** Una comprobación que nunca has visto fallar no demuestra nada. Muestra cada propiedad fallando en una variante rota del código que protege, como una comprobación eliminada o un paso reordenado.\n- **Los hallazgos siguen siendo hallazgos.** Cuando el código actual rompe la propiedad, repórtalo con el contraejemplo en los términos del código. No debilites la propiedad ni el modelo hasta que pase, y no cambies el código de producto salvo que el usuario lo pida.\n- **Honesta con el alcance.** Di qué se verifica, bajo qué límites y supuestos, y qué queda fuera. Una comprobación superada cubre el modelo o el límite, no todo el sistema.\n- **Legible sin la herramienta.** Enuncia la propiedad y el daño, cada uno en una frase sencilla. Explica un contraejemplo como una secuencia corta de pasos con las palabras del código.\n- **Barata de volver a ejecutar.** Un solo comando, una versión reproducible de la herramienta y una ejecución lo bastante corta como para que el siguiente agente la use en cada cambio relevante.\n- **Al día con el código.** Registra qué archivos y funciones cubre cada comprobación, y el commit en el que confirmaste por última vez que la verificación los describe. Cuando el código cubierto cambia después de ese commit, el siguiente agente puede ver que la verificación necesita otra revisión.",
+    "## Genera la skill de verificación",
+    "Escribe una skill local del proyecto con un frontmatter que nombre el área y diga cuándo usarla. Sin frontmatter, la skill nunca se registra. Solo con la skill, el siguiente agente debe poder saber si un cambio toca el código verificado, ejecutar la comprobación, distinguir un bug real de un error de modelado y actualizar la verificación cuando el cambio sea intencional. Incluye el registro de cobertura y el commit de sincronización en la skill, e indica al siguiente agente que avance el commit de sincronización solo después de confirmar que la verificación describe el código en el nuevo commit. Usa los comandos, rutas y nombres reales de este repositorio, y no dejes marcadores de posición.",
+    "Si la comprobación es un modelo TLA+, indica al siguiente agente que lea cada resultado con la skill [`/statechart`](../statechart/SKILL.md) de pstack. Muestra cada violación de invariante que encuentra el verificador como su camino más corto en palabras sencillas. Cuando la comprobación pasa, `/statechart` dibuja un diagrama de cómo se mueve el sistema entre estados. Refiérete a `/statechart` por su nombre. Sus comandos, opciones y rutas de archivo cambian entre versiones y máquinas, así que no copies ninguno de ellos en la skill generada ni en sus scripts.",
+    "## Demuéstralo antes de entregar",
+    "Sigue la skill generada una vez, como lo haría el siguiente agente, sobre un cambio temporal que rompa la propiedad en el código real. Debe detectar la ruptura. Luego descarta el cambio temporal y confirma que la comprobación vuelve al punto de partida: pasando, o fallando solo por los hallazgos que vas a reportar. Una skill de verificación que nunca se ejecutó es un borrador. Si la skill no detecta la ruptura o algún paso no se ejecuta, arregla la skill o la verificación, no el cambio temporal.",
+    "## Entrega",
+    "Dile al usuario qué verificaste, qué herramienta usaste y por qué, los límites, qué encontró la comprobación en palabras sencillas, cómo ejecutarla y qué no cubre. Sugiere un segundo objetivo solo si encontraste otro casi igual de bueno. Indícale al usuario `/maintain-formal-verification-skill` para volver a alinear la verificación después de cambios que no volvieron a comprobarla."
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "description": "Úsala solo cuando el usuario pida explícitamente TDD, un test que falle o un test de regresión, O cuando el bug tenga un objetivo de test local obvio y barato. Omítela cuando la ruta de test no esté clara, sea costosa, dependa mucho de integración o no se haya pedido.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Edita el código y simplemente dice que ya está arreglado.",
+        "with": "Escribe primero un test y confirma que falla por este bug."
+      },
+      {
+        "without": "Cambia el test para ajustarlo al código incorrecto.",
+        "with": "Escribe el test a partir del comportamiento previsto y mantiene intactas las aserciones existentes."
+      },
+      {
+        "without": "Mete a la fuerza un test hecho casi solo de mocks.",
+        "with": "Usa un script o comando de reproducción cuando un test no es práctico, y explica por qué."
+      }
+    ],
+    "intro": "Indica que, cuando hay una ruta de test barata, la IA escribe un test que falla antes del arreglo y pasa después. Si no, usa la comprobación más cercana.",
+    "sections": [
+      "Seis pasos: entender el bug, escoger el tipo de test más cercano, escribir un test que falle, confirmar por qué falla, hacer el arreglo mínimo y volver a ejecutarlo.",
+      "Recurre a un script específico, un comando de reproducción o automatización del navegador. Mejor ningún test nuevo que uno malo.",
+      "Los tests reflejan el comportamiento previsto, las aserciones se mantienen, el foco sigue en este bug y los bugs intermitentes tienen tests deterministas cuando es posible.",
+      "Presenta la evidencia: el test que falló antes y su error, la ejecución que pasó después, o por qué no fue posible."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Confirm it fails for the intended reason.",
+      "quoteTr": "Confirma que falla por el motivo esperado.",
+      "title": "Comprueba también por qué falla",
+      "does": "En cuanto el test nuevo se pone en rojo, comprueba que ese rojo sea por este bug y no por una errata o una dependencia que falta.",
+      "why": "«Haz que falle primero» deja pasar cualquier luz roja; «fallar por el motivo correcto» es lo que hace que el paso demuestre algo.",
+      "try": "Cuando la IA reproduzca un problema, añade: «Cuando falle, dime si el error es el mismo que describí»."
+    },
+    {
+      "quote": "Prefer no new test over a bad test.",
+      "quoteTr": "Es mejor no añadir ningún test nuevo que añadir un mal test.",
+      "title": "Permite «sáltatelo esta vez»",
+      "does": "Cuando cuesta escribir un test, verifica de otra forma y explica por qué, en lugar de meter a la fuerza un test de mocks.",
+      "why": "Los pasos rígidos empujan a una IA a rellenarlos con basura; decir que se pueden omitir, y definir qué cuenta como malo, le permite parar.",
+      "try": "Deja una salida en los pasos fijos: «Si ninguna imagen encaja, déjalo en blanco y márcalo; no uses una que no tenga relación»."
+    },
+    {
+      "quote": "The test should encode intended behavior, not mirror the current implementation.",
+      "quoteTr": "El test debe reflejar el comportamiento previsto, no copiar la implementación actual.",
+      "title": "Di cuál es la referencia",
+      "does": "Sus tests comprueban lo que debería hacer la funcionalidad, no una copia del código actual con bugs.",
+      "why": "La referencia más cercana que tiene una IA es el código actual; nombrar el «comportamiento previsto» evita que tome lo incorrecto por correcto.",
+      "try": "Cuando la IA revise un trabajo, dile en qué confiar: «Guíate por el contrato original, no por la última traducción»."
+    },
+    {
+      "quote": "Report the evidence, not just the outcome:",
+      "quoteTr": "Presenta la evidencia, no solo el resultado:",
+      "title": "Enumera qué debe incluir un informe",
+      "does": "Al final te dice qué test falló antes, cómo y qué ejecución pasó después.",
+      "why": "Si le pides un resultado, la IA dice «arreglado»; enumerar la evidencia que debe aportar te permite juzgar sin hacer más preguntas.",
+      "try": "Cuando pidas un informe, detállalo: «Qué archivo cambió, cómo lo probaste y las últimas líneas de salida del test»."
+    }
+  ],
+  "blocks": [
+    "# Arreglo de bugs con TDD",
+    "Al arreglar un bug con una ruta de test clara y barata, haz que el comportamiento roto sea ejecutable antes de cambiar el código de producción. El objetivo es un test de regresión concreto que falle antes del arreglo y pase después.",
+    "No fuerces un test cuando no sea práctico. Si el test disponible requiere una configuración amplia del entorno de tests, mocks frágiles, infraestructura end-to-end lenta, estado que solo existe en producción, pasos de reproducción vagos o grandes cambios en fixtures no relacionados, omite añadir un test nuevo y usa en su lugar la verificación útil más cercana.",
+    "## Flujo de trabajo",
+    "1. **Entiende el bug.** Identifica el comportamiento previsto, el comportamiento actual, la ruta afectada y el caso de reproducción observable más pequeño.\n2. **Escoge la comprobación ejecutable más acotada.** Prioriza el test unitario, de componente, de integración o de regresión más cercano que ya se use para esa ruta de código. Si no hay una ruta de test práctica y obvia, no crees una desde cero solo para cumplir con el flujo de trabajo.\n3. **Escribe primero el test que falla.** Añade el test más pequeño y concreto que habría detectado el bug. El test debe reflejar el comportamiento previsto, no copiar la implementación actual.\n4. **Ejecuta el test nuevo antes del arreglo.** Confirma que falla por el motivo esperado. Si pasa o falla por un motivo no relacionado, corrige el test o el caso de reproducción antes de editar la implementación.\n5. **Arregla el bug.** Haz el cambio mínimo en producción que cumpla el comportamiento previsto respetando los contratos cercanos.\n6. **Vuelve a ejecutar el test de regresión.** Confirma que ahora el test pasa.",
+    "## Si no es práctico escribir un test que falle",
+    "Usa en su lugar la comprobación de regresión ejecutable más cercana: un script específico, un comando de reproducción manual, automatización del navegador, una comparación de snapshots, una aserción sobre logs o una comprobación de integración acotada.",
+    "Es mejor no añadir ningún test nuevo que añadir un mal test. Un mal test es aquel que prueba sobre todo mocks, refleja detalles de la implementación actual, depende de los tiempos de ejecución o de un estado global no relacionado, necesita infraestructura costosa para un arreglo pequeño o se borraría justo después de demostrar el arreglo.",
+    "## Salvaguardas",
+    "- No cambies los tests simplemente para que coincidan con una implementación incorrecta.\n- No debilites las aserciones existentes salvo que el comportamiento esperado haya cambiado de verdad y el motivo esté claro.\n- Mantén el test de regresión centrado en el bug. Evita grandes cambios en fixtures o una ampliación de cobertura no relacionada.\n- Si el bug es intermitente, haz que el test sea determinista siempre que sea posible y documenta la señal que queda fijada.\n- Si el bug revela una clase más amplia de fallos, incorpora primero la ruta de regresión concreta y luego considera añadir cobertura adicional para casos afines.",
+    "## Respuesta final",
+    "Presenta la evidencia, no solo el resultado:",
+    "- Indica el test o la comprobación ejecutable que falló antes y el fallo que produjo.\n- Indica la ejecución del test que pasó después y cualquier validación cercana realizada.\n- Si no se pudo demostrar la evidencia del fallo previo, explica por qué y describe la comprobación de regresión más cercana usada en su lugar."
+  ]
+}

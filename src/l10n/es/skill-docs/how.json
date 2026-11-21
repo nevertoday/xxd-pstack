@@ -1,0 +1,60 @@
+{
+  "description": "Úsala para preguntas de «¿cómo funciona X?», recorridos por el código antes de cambiar algo y dudas de ubicación, propiedad o capas («¿dónde debería vivir esto?», «¿a qué paquete pertenece esto?», «¿es esta la capa correcta?»). Explica la arquitectura de subsistemas, el flujo de ejecución y modelos mentales de incorporación. Usa why para entender la motivación.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Lista archivos y funciones sin mostrar cómo encaja el conjunto.",
+        "with": "Escribe una explicación de arquitectura con la que un ingeniero sénior nuevo en el área podría empezar a trabajar."
+      },
+      {
+        "without": "Edita código mientras explora.",
+        "with": "Envía una IA ayudante de solo lectura, así tu código queda intacto."
+      },
+      {
+        "without": "Adivina sin avisar qué significa una pregunta poco clara.",
+        "with": "Indica cómo interpreta la pregunta y luego explora. Puedes redirigirla en cualquier momento."
+      }
+    ],
+    "intro": "Responde preguntas de «¿cómo funciona X?». Si el alcance no está claro, indica cómo lo interpreta y explora, y puedes redirigirla.",
+    "sections": [
+      "Envía una IA ayudante de solo lectura que explora y escribe la explicación en una sola pasada, pensada para un ingeniero sénior nuevo en el área.",
+      "Te entrega el texto de la IA ayudante con solo ajustes ligeros para darle claridad, nunca una reescritura."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "They should understand the architecture well enough to start working in it confidently.",
+      "quoteTr": "Debería entender la arquitectura lo suficientemente bien como para empezar a trabajar en ella con confianza.",
+      "title": "Define la profundidad según lo que podrá hacer el lector",
+      "does": "Explica hasta que puedas empezar a cambiar este código con confianza, ni más superficial ni un recorrido línea por línea.",
+      "why": "«Más detalle» no tiene medida; nombrar lo que el lector debería poder hacer le da a la IA una regla para medir cuándo es suficiente.",
+      "try": "Di qué necesitas hacer después: «Explícalo lo suficiente para que pueda cambiar esta configuración por mi cuenta»."
+    },
+    {
+      "quote": "Do not substantially rewrite it.",
+      "quoteTr": "No lo reescribas de forma sustancial.",
+      "title": "Indica cuánto puede cambiar en el traspaso",
+      "does": "El chat principal te pasa la explicación de la IA ayudante casi tal como la escribió, con ajustes ligeros para darle claridad.",
+      "why": "Permitir ajustes ligeros y descartar una reescritura evita que la IA comprima una buena explicación en un resumen propio que pierde detalles.",
+      "try": "Cuando la IA arregle el texto de otra persona: «Corrige erratas y saltos, añade una línea de contexto si hace falta, pero no lo reescribas»."
+    },
+    {
+      "quote": "If the scope is ambiguous, state your interpretation and explore.",
+      "quoteTr": "Si el alcance es ambiguo, indica tu interpretación y explora.",
+      "title": "Di cómo lo interpretas y empieza",
+      "does": "Cuando la pregunta es vaga, dice cómo la interpreta y se pone en marcha; puedes redirigirla en cualquier momento.",
+      "why": "Decir su interpretación en voz alta evita que se detenga a esperarte y te deja ver si entendió mal.",
+      "try": "Añade: «Donde no quede claro, escribe una línea sobre cómo lo interpretas y sigue adelante sin esperarme»."
+    }
+  ],
+  "blocks": [
+    "# How",
+    "Explora la base de código para responder preguntas de «¿cómo funciona X?».",
+    "Si el alcance es ambiguo, indica tu interpretación y explora. El usuario puede redirigirte.",
+    "## 1. Explicar",
+    "Lanza un subagente de propósito general de solo lectura que explore y explique en una sola pasada: `Task` con `subagent_type: generalPurpose` y `readonly: true` en Cursor, `Agent` en Claude Code (`subagent_type: general-purpose`), `task` en OpenCode (`subagent_type: general`), `spawn_agent` en Codex. Si tu harness no tiene una herramienta de subagentes, como en Pi sin una extensión, haz la exploración y la redacción por tu cuenta. Dale la pregunta del usuario y estas instrucciones:",
+    "> Estás escribiendo una explicación de arquitectura para un ingeniero sénior. Explora la base de código y escribe una explicación que un ingeniero sénior que no conoce esta área pueda leer para formarse un modelo mental sólido. Debería entender la arquitectura lo suficientemente bien como para empezar a trabajar en ella con confianza. Tienes acceso de solo lectura a la base de código.",
+    "## 2. Presentar",
+    "Presenta el resultado del subagente. Está bien hacer ajustes ligeros para dar claridad o contexto de la conversación. No lo reescribas de forma sustancial."
+  ]
+}

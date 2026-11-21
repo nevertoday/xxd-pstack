@@ -1,0 +1,65 @@
+{
+  "description": "Faire le point pour l'utilisateur comme /ketchup, avec une courte vidéo sous-titrée de diapositives sur ce qui s'est passé et les décisions en attente en texte en dessous. À utiliser pour /ketchup-video.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Transforme les diapositives en listes à puces, tableaux ou listes de statuts.",
+        "with": "Développe une seule idée par diapositive, en faisant évoluer une même image avec des flèches et des mises en évidence."
+      },
+      {
+        "without": "Superpose les sous-titres sur l'image, en masquant ce qu'elle montre.",
+        "with": "Place chaque sous-titre dans une bande de même hauteur sous la diapositive."
+      },
+      {
+        "without": "Envoie la vidéo générée sans la regarder.",
+        "with": "Vérifie une image par diapositive, mesure chaque durée d'affichage et refait le rendu de toute diapositive trop rapide à lire."
+      }
+    ],
+    "intro": "Il suit /ketchup, mais montre ce qui s'est passé sous forme d'une courte vidéo sous-titrée. La réponse contient la phrase d'ouverture, la vidéo, le travail restant et les décisions à prendre.",
+    "sections": [
+      "Planifie une phrase clé à retenir et une ligne par diapositive, utilise 10 diapositives maximum, à partir de vraies captures d'écran, de diffs et de données.",
+      "Donne à chaque diapositive un sous-titre d'environ dix mots qui dit ce qu'elle signifie, dans une bande fixe sous la diapositive.",
+      "Génère une vidéo muette au format paysage avec sous-titres incrustés, au moins une seconde pour trois mots, puis vérifie l'image et la durée d'affichage de chaque diapositive."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Before you draw, write the one sentence the user should leave with and one line per slide.",
+      "quoteTr": "Avant de dessiner, écris l'unique phrase avec laquelle l'utilisateur doit repartir et une ligne par diapositive.",
+      "title": "Écrivez le message clé avant de construire",
+      "does": "Toute la vidéo suit un seul message clé, et chaque diapositive vous aide à le retenir.",
+      "why": "Faire dire à l'IA ce qu'elle veut faire passer avant de commencer évite que le résultat s'éparpille.",
+      "try": "Avant de demander un rapport, ajoutez : « Écris d'abord l'unique phrase que le lecteur doit retenir, puis rédige. »"
+    },
+    {
+      "quote": "at least one second for each three words",
+      "quoteTr": "au moins une seconde pour trois mots",
+      "title": "Transformez « assez longtemps » en formule",
+      "does": "Chaque diapositive reste affichée assez longtemps pour lire ses mots ; rien ne passe en un éclair.",
+      "why": "« Assez longtemps » est une impression ; « une seconde pour trois mots » est une règle que vous pouvez calculer et vérifier.",
+      "try": "Remplacez une impression par une formule : « Adapte la longueur de la réponse aux questions : trois phrases maximum pour chacune. »"
+    },
+    {
+      "quote": "not with a still-frame detector, which counts the faint ends of a fade as still",
+      "quoteTr": "pas avec un détecteur d'images fixes, qui compte les extrémités estompées d'un fondu comme fixes",
+      "title": "Nommez la vérification qui ment",
+      "does": "Il mesure vraiment combien de temps chaque diapositive reste affichée au lieu de faire confiance à un outil qui compte mal.",
+      "why": "Dire exactement où un outil courant se trompe empêche l'IA de se contenter d'un chiffre qui n'a que l'air juste.",
+      "try": "Quand vous demandez une vérification de liens, écrivez : « Ouvre chaque page et lis-la ; un code de statut ne suffit pas, certaines pages d'erreur renvoient 200. »"
+    }
+  ],
+  "blocks": [
+    "# Ketchup vidéo",
+    "Suis [`/ketchup`](../ketchup/SKILL.md), mais montre ce qui s'est passé dans une courte vidéo sous-titrée au lieu de son résumé et de ses visuels. Sa fenêtre commence au dernier message écrit par l'utilisateur avant `/ketchup-video`, pas avant un `/ketchup` précédent. Écrire la vidéo et en faire le rendu, en dehors du dépôt, est la seule exception à sa règle de lecture seule. La réponse contient la phrase d'ouverture de ketchup, la vidéo intégrée, une ligne nommant tout travail restant que tu peux faire toi-même, et les actions à mener. Quand la vidéo montre les options d'une décision, appelle chaque option par le nom que la vidéo lui donne. Si le rendu échoue, dis-le en une ligne et ne donne que les décisions à prendre.",
+    "## Diapositives",
+    "Utilise les captures d'écran, les enregistrements, les diffs et les données produits par le travail, pas la prose du chat à leur sujet. Avant de dessiner, écris l'unique phrase avec laquelle l'utilisateur doit repartir et une ligne par diapositive. Supprime chaque diapositive qui ne change pas ce que sait l'utilisateur. Utilise 10 diapositives maximum, et moins il y en a, mieux c'est. Aucune de ces deux notes ne va dans la réponse.",
+    "Chaque diapositive développe une seule idée. Construis les diapositives sur une même image et fais-la évoluer d'une diapositive à l'autre, plutôt que de couper vers une image sans rapport. Une couleur ou une forme signifie la même chose sur chaque diapositive. Montre le travail en images, par exemple le fonctionnement d'un système, une stack de PR avec l'état de chaque PR, l'avant et l'après d'un correctif, ou des options côte à côte. Indique ce qui a changé avec des flèches, des mises en évidence et du mouvement. Une diapositive n'est jamais une liste à puces, une liste de statuts, un tableau, ni des boîtes sans rien qui les relie.",
+    "Réduis le texte au minimum. Place chaque étiquette sur ce qu'elle nomme, avec des mots simples qu'une personne dirait, pas des tags comme « Tests : OK ». Ne légende jamais ce qu'une image montre, et ne donne jamais un fait deux fois, ni entre diapositives ni dans le texte en dessous.",
+    "Montre ce qu'il est advenu de chaque demande de l'utilisateur, et si c'est terminé, encore en cours, en échec ou non vérifié. Ne montre jamais comme terminé quelque chose qui attend encore l'utilisateur. Montre tout bug trouvé et corrigé en chemin. Si un changement visible n'a pas de capture d'écran, dis-le sur sa diapositive et nomme ce qui a changé à l'écran. Ne dessine qu'à partir des faits dont tu disposes. N'invente jamais un chiffre et ne dessine jamais un écran que tu n'as pas capturé.",
+    "## Sous-titres",
+    "Donne à chaque diapositive une courte ligne de sous-titre, d'environ dix mots, qui exprime son idée comme tu la dirais à l'utilisateur, uniquement à partir de ce que montre cette diapositive. Dis ce que signifie l'image plutôt que de lire ses étiquettes. Place le sous-titre dans une bande sous la diapositive, de même hauteur sur chaque diapositive et vide à part le sous-titre, pour qu'il ne couvre jamais la diapositive. Affiche-le en petit, mais lisible quand la vidéo est lue à la taille du chat.",
+    "## Rendu",
+    "Fais le rendu d'une vidéo muette au format paysage, par exemple un mp4, avec du mouvement entre les diapositives. Chaque image est la diapositive elle-même, bord à bord, au-dessus de sa bande de sous-titre. Génère les images à partir des diapositives, jamais en enregistrant un écran, et incruste chaque sous-titre dans les images de sa diapositive pour qu'il reste à l'écran pendant toute la durée d'affichage de la diapositive. La durée d'affichage est le temps pendant lequel une diapositive est entièrement à l'écran, sans compter le mouvement d'entrée ni de sortie. Maintiens chaque diapositive assez longtemps pour lire les mots qu'elle ajoute, au moins une seconde pour trois mots. Une diapositive ajoute son sous-titre et chaque mot qui ne figurait pas sur la diapositive précédente, y compris une étiquette qu'elle modifie. La première diapositive ajoute tous ses mots. Les mots à l'intérieur d'une capture d'écran ne comptent pas.",
+    "Avant d'intégrer la vidéo, vérifie le fichier généré. Regarde une image de chaque diapositive à la taille du chat, et vérifie que son sous-titre est lisible et ne couvre rien. Mesure chaque durée d'affichage en faisant correspondre les images du fichier à la diapositive, pas avec un détecteur d'images fixes, qui compte les extrémités estompées d'un fondu comme fixes. Compte les mots ajoutés par chaque diapositive par rapport à sa durée d'affichage mesurée. Corrige toute diapositive que tu ne peux pas lire dans ce laps de temps, relance le rendu et vérifie à nouveau."
+  ]
+}

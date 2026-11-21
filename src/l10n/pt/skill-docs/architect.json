@@ -1,0 +1,60 @@
+{
+  "description": "Esboce tipos, assinaturas e estrutura de módulos antes do código e depois continue acompanhando enquanto a implementação toma forma. Use para /architect, “faça a arquitetura disso”, “faça o design disso” ou tarefas não triviais em que pular direto para o código deixaria tudo preso ao formato errado.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Começa a escrever a implementação na hora.",
+        "with": "Rastreia cada sistema que a mudança toca e esboça tipos, assinaturas e fronteiras entre módulos primeiro."
+      },
+      {
+        "without": "Segue com o primeiro design que vem à cabeça.",
+        "with": "Esboça dois formatos diferentes e escolhe o que tem um dono por estado e o mínimo para quem chama saber."
+      },
+      {
+        "without": "Pendura soluções de contorno em um design que não encaixa.",
+        "with": "Redesenha em vez de remendar quando as soluções de contorno se repetem."
+      }
+    ],
+    "intro": "Antes do código, a IA rastreia os sistemas envolvidos, esboça dois formatos e escolhe por um dono por estado, uma forma por tarefa e o mínimo para quem chama saber. Soluções de contorno repetidas significam um redesenho, e designs grandes ou controversos vão para `arena`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least.",
+      "quoteTr": "Antes de escrever código, rastreie cada sistema que a mudança toca, depois esboce dois formatos diferentes para ela (tipos, assinaturas e fronteiras entre módulos) e escolha aquele em que cada parte do estado tem um único dono, cada tarefa tem uma única forma de ser feita e quem chama precisa saber o mínimo.",
+      "title": "Exija um segundo design, depois avalie",
+      "does": "A IA esboça pelo menos dois designs de formatos diferentes e escolhe usando três critérios concretos, em vez de seguir com a primeira ideia.",
+      "why": "Peça um design e você recebe a primeira ideia; peça dois junto com os critérios (um dono, uma forma, o mínimo a saber) e a escolha tem fundamento.",
+      "try": "Quando pedir um plano: “Me dê duas abordagens bem diferentes, compare as duas em custo, facilidade de mudança e passagem de bastão, depois escolha uma.”"
+    },
+    {
+      "quote": "Redesign instead of patching if workarounds repeat.",
+      "quoteTr": "Redesenhe em vez de remendar se as soluções de contorno se repetirem.",
+      "title": "Diga quando começar de novo",
+      "does": "Quando a mesma solução de contorno continua voltando, a IA redesenha em vez de empilhar remendos no formato errado.",
+      "why": "“Quando desistir” é difícil de julgar; usar soluções de contorno repetidas como sinal evita que a IA desista cedo demais ou fique remendando para sempre.",
+      "try": "Defina um critério para um processo: “Se a mesma reclamação continuar voltando, redesenhe o processo em vez de remendar cada caso.”"
+    },
+    {
+      "quote": "For a large or contested design, run the **arena** skill instead of sketching alone.",
+      "quoteTr": "Para um design grande ou controverso, rode a skill **arena** em vez de esboçar por conta própria.",
+      "title": "Ajuste o esforço ao que está em jogo",
+      "does": "A IA esboça designs pequenos por conta própria e, para os grandes ou controversos, faz vários modelos esboçarem uma opção cada para escolher entre elas.",
+      "why": "Dizer quando escalar evita que a IA exagere em tarefas pequenas ou decida as grandes sozinha.",
+      "try": "Dê uma regra para escalar: “Decida mudanças pequenas por conta própria; para qualquer coisa que mexa em três ou mais páginas, me mostre duas ou três opções primeiro.”"
+    },
+    {
+      "quote": "Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+      "quoteTr": "Use para /architect, “faça a arquitetura disso”, “faça o design disso” ou tarefas não triviais em que pular direto para o código deixaria tudo preso ao formato errado.",
+      "title": "Nomeie o custo de pular essa etapa",
+      "does": "Em tarefas em que pular direto para o código deixaria tudo preso ao formato errado, a IA faz o design primeiro em vez de começar a programar.",
+      "why": "“Use para tarefas difíceis” é vago; nomear o custo de pular essa etapa (ficar preso a um formato) permite que a IA saiba quais tarefas precisam de design primeiro.",
+      "try": "Diga a regra junto com o custo: “Me mostre avisos para o grupo antes de enviar; depois que saem, não dá para voltar atrás.”"
+    }
+  ],
+  "blocks": [
+    "# Architect",
+    "Antes de escrever código, rastreie cada sistema que a mudança toca, depois esboce dois formatos diferentes para ela (tipos, assinaturas e fronteiras entre módulos) e escolha aquele em que cada parte do estado tem um único dono, cada tarefa tem uma única forma de ser feita e quem chama precisa saber o mínimo. Redesenhe em vez de remendar se as soluções de contorno se repetirem.",
+    "Para um design grande ou controverso, rode a skill **arena** em vez de esboçar por conta própria."
+  ]
+}

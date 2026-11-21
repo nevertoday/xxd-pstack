@@ -1,0 +1,85 @@
+{
+  "before": {
+    "title": "Bevor du loslegst",
+    "items": [
+      [
+        "Kostet pstack Geld?",
+        "Nein, pstack ist kostenlos und Open Source (MIT). Dein KI-Tool kostet weiterhin so viel wie bisher: Abo oder API-Rechnung wie gewohnt. **Mit pstack verbraucht dieselbe Aufgabe mehr von deinem Kontingent**, weil es mehr Helfer-KIs und Prüfungen laufen lässt. Siehe [Kosten niedrig halten](/de/howto/cost/)."
+      ],
+      [
+        "Muss ich Cursor nutzen?",
+        "Nein. Die offizielle Version ist für Cursor geschrieben. [backnotprop/pstack](https://github.com/backnotprop/pstack) ist eine überarbeitete Kopie (ein Spiegel), die in Claude Code, Codex, OpenCode, Pi und weiteren Tools funktioniert. Andere Tools überspringen die wenigen reinen Cursor-Funktionen (Automations, Bugbot, Cloud-Agents) und hinterlassen einen einzeiligen Hinweis."
+      ],
+      [
+        "Ich kann eigentlich nicht programmieren. Kann ich es trotzdem nutzen?",
+        "Ja, nutz es erst einmal, um Code zu verstehen. Mit `/how`, `/teach` und `/bro` erklärt dir die KI ein Projekt in einfachen Worten. Wenn sie Code ändern soll, musst du die Belege nachvollziehen können, die sie dir zeigt: Befehlsausgaben, Screenshots, Vorher und Nachher. Außerdem sollte dein Projekt am besten in Git liegen."
+      ],
+      [
+        "Wie verhält es sich zum eingebauten Plan-Modus von Claude Code oder Cursor?",
+        "Sie kommen sich nicht in die Quere – nutz einfach, was dir passt. pstack hat keinen Planungs-Skill: Für poteto ist der beste Plan der Code selbst. Wenn du doch einen Plan brauchst, warte, bis das Design steht, und bitte `/poteto-mode` dann um einen Plan in Phasen. In jedem PR sollte stehen, wie er geprüft wird."
+      ],
+      [
+        "Was ist der Unterschied zwischen der offiziellen Version und dem backnotprop-Spiegel?",
+        "In Cursor installierst du die offizielle Version. In allen anderen Tools installierst du den Spiegel. Der Spiegel gleicht sich täglich mit der [offiziellen Version](https://github.com/cursor/plugins/tree/main/pstack) ab und schreibt die reinen Cursor-Teile so um, dass sie überall funktionieren. Außerdem enthält er zwei Community-Fixes. `/no-comments` behält Kommentare zu externen Regeln bei. `watch-pr`, das deine PRs beobachtet, zieht keinen PR aus einem fremden Fork mehr in deinen PR-Stack (mehrere aufeinander aufbauende PRs), sodass die KI dessen Review-Kommentare nicht zu lesen bekommt."
+      ]
+    ]
+  },
+  "using": {
+    "title": "Bei der Nutzung",
+    "items": [
+      [
+        "Tippe ich für alles /poteto-mode ein?",
+        "Nein, nur bei Aufgaben, die Sorgfalt brauchen. Für eine einzeilige Textänderung oder einen offensichtlichen kleinen Fix sag es der KI einfach direkt. Wenn du unsicher bist: ==Wenn ein Fehler bedeutet, dass du es noch mal machen musst, tipp es ein==."
+      ],
+      [
+        "Kann ich Prompts in einer anderen Sprache als Englisch schreiben?",
+        "Ja. Die Skills sind auf Englisch geschrieben, aber das Modell versteht auch andere Sprachen. Lass die Namen von Skills und Prinzipien auf Englisch, etwa `/how` und `prove it works`. Den Rest kannst du in jeder beliebigen Sprache schreiben."
+      ],
+      [
+        "Macht es meinen Code kaputt?",
+        "Nein, und du behältst die Kontrolle. Wenn es erst nur untersuchen soll, sag „ändere noch keinen Code“. Code-Änderungen laufen standardmäßig in einer separaten Kopie (einem Worktree, einem zusätzlichen Arbeitsordner für dasselbe Git-Repo) und landen als PR bei dir zur Prüfung. Bevor es etwas tut, das sich nicht rückgängig machen lässt – etwa Dinge löschen oder force-pushen –, hält es an und fragt nach."
+      ],
+      [
+        "Warum macht es einfach weiter, ohne mich zu fragen?",
+        "Das ist Absicht: Es erledigt erst alles, was sich rückgängig machen lässt, zeigt es dir und lässt dich korrigieren. In der ersten Antwort fasst es noch einmal zusammen, was du willst und was es ändern will. Stimmt das nicht, unterbrich es einfach. Wenn sich eine Frage beantworten lässt, indem es etwas ausführt, probiert es das aus, statt dich zu fragen."
+      ],
+      [
+        "Die Antworten sind zu lang und zu technisch. Was kann ich tun?",
+        "Tipp `/bro` ein. Damit gibt es die letzte Antwort noch einmal in einfachen Worten wieder – kürzer und ohne Fachjargon. Wenn du kurz weg warst und ein Update willst, tipp `/ketchup` ein."
+      ],
+      [
+        "Es passiert nichts, wenn ich in Claude Code einen Befehl eintippe?",
+        "Bei einer Plugin-Installation landet jeder Befehl unter `pstack:`: Du tippst `!/pstack:poteto-mode` ein, und ein einfaches `!/poteto-mode` wird nicht erkannt. Das ist die Regel von Claude Code für alle Plugins, damit sich zwei Plugins nicht über denselben Namen in die Quere kommen. Die Befehle auf dieser Website sind standardmäßig so geschrieben, damit das Kopieren direkt klappt. Wenn du mit `npx skills` installiert hast, gibt es kein Präfix: Öffne oben rechts Darstellung und stell „Ich nutze“ auf „Mit npx installiert“. Starte außerdem nach `/setup-pstack` eine neue Sitzung, damit deine Modellauswahl greift. Siehe [In Claude Code nutzen](/de/howto/claude-code/)."
+      ],
+      [
+        "Ich habe die Standardmodelle nicht. Funktioniert es trotzdem?",
+        "Ja. Standardmäßig schreibt opus 5.5 den Code und trifft die Entscheidungen, und das Review-Panel (mehrere Modelle, die dieselbe Änderung prüfen) holt fable 5.2 und gemini 4 neon dazu. Fehlt ein Modell, wird es ersetzt. Claude Code nutzt das Modell der aktuellen Sitzung, und andere Tools nehmen das ähnlichste, das sie haben. Wenn du selbst wählen willst, führ einmal `/setup-pstack` aus. Es findet die Modelle, die dir zur Verfügung stehen, und lässt dich aussuchen."
+      ],
+      [
+        "Kann ich es nutzen, wenn mein Projekt nicht in Git liegt?",
+        "Zum Code-Lesen und Untersuchen ja; zum Ändern von Code richte erst Git ein. Die meisten Playbooks, die Code ändern, legen Worktrees an, erstellen Commits und öffnen PRs – und dafür ist Git nötig. Führ in deinem Projekt `git init` aus, mach einen Commit, und du bist startklar."
+      ],
+      [
+        "Wie deinstalliere ich es?",
+        "Das hängt davon ab, wie du es installiert hast. Plugin in Claude Code: Tipp `/plugin uninstall pstack@cursor-plugins` ins Chatfeld ein und danach `/reload-plugins`; wenn du es stattdessen nur pausieren willst, nutz `disable` statt `uninstall`. Mit `npx skills` installiert: Führ `npx skills remove` im Terminal aus. Wenn du `/setup-pstack` ausgeführt hast, lösch auch die Einstellungsdatei, die es angelegt hat. Siehe [Aktualisieren, prüfen, deinstallieren](/de/howto/update-remove/)."
+      ]
+    ]
+  },
+  "trust": {
+    "title": "Kann ich pstack vertrauen?",
+    "items": [
+      [
+        "Es sagt, es ist fertig. Woher weiß ich, dass das stimmt?",
+        "Schau dir die echten Ergebnisse an, die es zeigt: Befehlsausgaben, Screenshots, Vorher-nachher-Zahlen. Damit es sie auch wirklich zeigt, gib in deinem Prompt an, was es dir zeigen soll, wenn es fertig ist. Eine gute Antwort markiert alles, was es nicht prüfen konnte, als „nicht sicher“. **Wenn es einfach nur „alles gut“ sagt und nichts zeigt, trau dem nicht.** Antworte mit `apply prove it works`."
+      ],
+      [
+        "Ist es sicher, es über Nacht laufen zu lassen?",
+        "Erst wenn alle vier Punkte erfüllt sind. ① Du hast diese Aufgabe selbst schon erledigt oder einmal dabei zugesehen, wie es sie erledigt. ② Es hat die Werkzeuge, die du selbst nutzen würdest, etwa einen Prüf-Skill, Logs, einen Profiler. ③ Jede Phase lässt sich prüfen, und es stoppt, wenn eine nicht genügt. ④ Du hast ein paar Transkripte gelesen und wiederkehrende Fehler zu Prüfungen gemacht. Siehe [Allein laufen lassen](/de/guide/7-overnight/)."
+      ],
+      [
+        "Warum lässt es mehrere verschiedene Modelle die Arbeit prüfen?",
+        "Weil ein Modell dazu neigt, das abzusegnen, was es selbst geschrieben hat. pstack lässt Modelle anderer Anbieter Schwachstellen aufspüren und die Arbeit bewerten; `/interrogate` und `/arena` machen beide genau das. Es behält nur Probleme, bei denen ein Befehl tatsächlich fehlschlägt. Verschiedene Modelle haben verschiedene blinde Flecken – zusammen übersehen sie weniger."
+      ]
+    ]
+  }
+}

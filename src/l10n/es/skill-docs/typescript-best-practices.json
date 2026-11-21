@@ -1,0 +1,61 @@
+{
+  "description": "Buenas prácticas de TypeScript. Úsala al leer o editar cualquier archivo .ts o .tsx.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Fuerza los tipos con `as` para que el código compile.",
+        "with": "Valida los datos donde entran y solo hace el cast después de esa comprobación."
+      },
+      {
+        "without": "Modela las variantes como una bolsa de campos opcionales.",
+        "with": "Etiqueta cada variante con un literal `kind` para que no puedan existir estados imposibles."
+      },
+      {
+        "without": "Tipa los datos externos como `any`.",
+        "with": "Tipa los datos externos como `unknown` y los analiza con la biblioteca de esquemas del repositorio."
+      }
+    ],
+    "intro": "Aplica primero el principio type-system-discipline y luego ofrece una tabla de 16 reglas: desde uniones con `kind` y `unknown` para datos externos hasta tests reales y nada de `console.log` en el código publicado. Los ejemplos están en `references/patterns.md`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Apply the **type-system-discipline** principle skill first.",
+      "quoteTr": "Aplica primero la skill de principio **type-system-discipline**.",
+      "title": "Señala primero el principio",
+      "does": "Piensa primero con los principios generales de tipos y luego aplica las reglas de TypeScript, así que los casos que la tabla no cubre siguen teniendo una guía.",
+      "why": "Una lista de reglas nunca está completa; una primera línea que nombra el principio detrás de ella le indica a la IA hacia dónde inclinarse fuera de la lista.",
+      "try": "Antes de dar una lista de detalles, indica la meta: «El objetivo es que las personas mayores lo entiendan de un vistazo; por ejemplo, texto grande, pocos botones y nada de inglés»."
+    },
+    {
+      "quote": "Discriminant switch > `in` operator > `typeof`/`instanceof` > user-defined type guard > `as`.",
+      "quoteTr": "Switch por discriminante > operador `in` > `typeof`/`instanceof` > type guard definido por el usuario > `as`.",
+      "title": "Ordena las opciones en una línea",
+      "does": "Cuando tiene que distinguir tipos, empieza por el método más seguro y deja `as` como último recurso.",
+      "why": "Una cadena de signos > alinea las opciones, así que la IA ve cuál probar primero y cuál es la peor, sin necesitar un párrafo para cada una.",
+      "try": "Cuando haya varias formas de hacer algo, ordénalas: «Documentación oficial > issues de GitHub > artículos de blog»."
+    },
+    {
+      "quote": "A lying guard is worse than `as` because the bug hides behind a name that says it's safe.",
+      "quoteTr": "Un type guard que miente es peor que `as` porque el bug se esconde detrás de un nombre que dice ser seguro.",
+      "title": "Destapa la falsa mejora",
+      "does": "Sus funciones `isX` comprueban de verdad cada campo, en lugar de ser un cascarón con buen nombre que no comprueba nada.",
+      "why": "Las IA toman una apariencia más formal como un avance; explicar por qué es más peligroso impide que cumplan solo de nombre.",
+      "try": "Donde la forma pueda sustituir al fondo, señálalo: «Un try/catch vacío es peor que ninguno, porque oculta el error»."
+    },
+    {
+      "quote": "Skip on hot paths (per-frame render, tokenizers, parsers).",
+      "quoteTr": "Omítelo en rutas críticas de rendimiento (renderizado por fotograma, tokenizers, parsers).",
+      "title": "Pon la excepción junto a la regla",
+      "does": "Pasa objetos por defecto, pero no ralentiza el código que se ejecuta en cada fotograma solo por seguir la regla.",
+      "why": "Con la excepción en la misma celda y casos concretos indicados, la IA ni aplica la regla de más ni estira la excepción.",
+      "try": "Cuando pongas una regla, añade la excepción: «Responde en chino, pero mantén los mensajes de error y los comandos en inglés»."
+    }
+  ],
+  "blocks": [
+    "# Buenas prácticas de TypeScript",
+    "Aplica primero la skill de principio **type-system-discipline**.",
+    "| Regla | Resumen |\n|------|---------|\n| Uniones discriminadas | Modela las variantes con un discriminante literal `kind` para que los estados imposibles no se puedan representar. Nada de bolsas de campos opcionales. |\n| Tipos con marca | Marca los tipos primitivos con `& { readonly __brand: \"X\" }` para que no se puedan mezclar. Valida una vez en la frontera. Una marca sale de un type guard que verifica (`input is AgentId`), nunca de `as`. |\n| Modelado constructivo | Diseña la estructura para que un valor inválido no se pueda construir. `[T, ...T[]]` para no vacío, `[T, T][]` para longitud par, `start` más `duration` para un rango. No es una comprobación en tiempo de ejecución ni el deseo de tener tipos de refinamiento. |\n| Tipo total más simple | Mantén `T[]` mientras cada operación sobre él siga siendo total. Refuérzalo a `NonEmpty<T>` solo donde el tipo laxo obligue a usar `!`, un cast o un throw de «nunca debería pasar». |\n| `unknown` en lugar de `any` | Los datos externos son `unknown`. |\n| Esquemas antes que type guards | Antes de escribir a mano un type guard propiedad por propiedad, usa la biblioteca de esquemas en tiempo de ejecución del repositorio e infiere el tipo a partir del esquema, como con `z.infer`. |\n| Sin casts con `as` | Cada `as` es un fallo en tiempo de ejecución en potencia. Haz el cast solo después de validar. |\n| Jerarquía de estrechamiento | Switch por discriminante > operador `in` > `typeof`/`instanceof` > type guard definido por el usuario > `as`. |\n| Type guards | Deben verificar lo que afirman. Un type guard que miente es peor que `as` porque el bug se esconde detrás de un nombre que dice ser seguro. Nómbralos `isX` o `hasX`. |\n| Exhaustividad | Incluye directamente `const _exhaustive: never = x;` en las ramas por defecto para que el compilador dé error cuando se añada una nueva variante. |\n| `satisfies` en lugar de `as` | Valida el valor sin ampliar los tipos literales. |\n| Validación en la frontera | Analiza los datos donde entran para convertirlos en un tipo de dominio con nombre. `Record<string, unknown>` (se escriba como se escriba) se detiene en ese análisis. Dentro, confía en los tipos. Consulta la skill de principio **boundary-discipline**. |\n| Tipos derivados del esquema | Recurre a `Pick`/`Omit`/`Parameters`/`ReturnType`/`Awaited`/`typeof` antes de declarar una nueva interfaz. |\n| Argumentos como objeto | Pasa objetos, no argumentos posicionales, para que el orden se documente por sí solo. Omítelo en rutas críticas de rendimiento (renderizado por fotograma, tokenizers, parsers). |\n| Tests reales | No uses mocks para lo que puedes ejecutar. Prefiere las primitivas de test reales del framework con comprobaciones de fugas y recursos desechables, y verifica la interfaz en una compilación en ejecución. Usa mocks solo para lo que no puedes ejecutar en local. |\n| Telemetría estructurada | Prefiere diagnósticos con un logger estructurado y contexto suficiente para depurar a partir de un id. Nada de `console.log` en el código publicado. |",
+    "Ejemplos: `references/patterns.md`."
+  ]
+}

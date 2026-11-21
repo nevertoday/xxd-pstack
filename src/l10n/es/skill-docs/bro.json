@@ -1,0 +1,50 @@
+{
+  "description": "Reformula el último mensaje en lenguaje humano y sencillo, sin jerga.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Llena la respuesta de jerga que no puedes seguir.",
+        "with": "Reformula el último mensaje sin jerga."
+      },
+      {
+        "without": "Cambia las palabras, pero sigue igual de largo.",
+        "with": "Lo hace más sencillo y conciso."
+      },
+      {
+        "without": "Responde en fragmentos desconectados.",
+        "with": "Habla con coherencia, como una persona hablando con otra."
+      }
+    ],
+    "intro": "Hace que la IA reformule su último mensaje sin jerga, más sencillo y más corto, como una persona hablando con otra.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate your last message.",
+      "quoteTr": "Reformula tu último mensaje.",
+      "title": "Señala el texto que quieres rehacer",
+      "does": "Solo vuelve a decir su última respuesta con otras palabras y no empieza trabajo nuevo.",
+      "why": "Nombrar el objetivo desde el principio, «tu último mensaje», evita que la IA adivine a qué parte te refieres.",
+      "try": "Señala qué rehacer: «Vuelve a decir el segundo párrafo de tu última respuesta»."
+    },
+    {
+      "quote": "State it more simply and concisely",
+      "quoteTr": "Dilo de forma más sencilla y concisa",
+      "title": "Usa el original como vara de medir",
+      "does": "La nueva versión es más corta y fácil que la anterior, no solo redactada con otras palabras.",
+      "why": "Con el último mensaje como referencia, «de forma más sencilla» tiene algo con qué medirse.",
+      "try": "Compara con el original: «La mitad de largo que la última versión, mismo significado»."
+    },
+    {
+      "quote": "like one human talking to another",
+      "quoteTr": "como un ser humano hablando con otro",
+      "title": "Elige una escena para el tono",
+      "does": "Deja de sonar como un informe y suena como un colega que te lo explica a tu lado.",
+      "why": "Una conversación que todo el mundo conoce es más fácil de imitar que un adjetivo como «más claro».",
+      "try": "Propón una escena para el tono: «Explica este error como se lo explicarías a un familiar sin conocimientos técnicos»."
+    }
+  ],
+  "blocks": [
+    "Reformula tu último mensaje. Deja de usar jerga y habla con coherencia. Dilo de forma más sencilla y concisa, como un ser humano hablando con otro."
+  ]
+}

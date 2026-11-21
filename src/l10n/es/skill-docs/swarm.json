@@ -1,0 +1,79 @@
+{
+  "description": "Lanza N workers en paralelo, espera a que terminen y devuelve un solo informe. Úsala para /swarm, «haz un swarm de esto», o para cobertura en paralelo, carreras, pruebas de fuego y exploración.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Te pega la salida en bruto de las IA ayudantes.",
+        "with": "Combina los resultados en una sola tabla, con una línea por problema y las lagunas listadas aparte."
+      },
+      {
+        "without": "Cuenta como un aprobado que una IA ayudante no devuelva nada.",
+        "with": "Relanza una vez si falta un resultado y después registra una laguna. Una laguna no es un aprobado."
+      },
+      {
+        "without": "Se detiene en el primer problema que encuentra.",
+        "with": "Lista todos los problemas que puede demostrar y marca los resultados como `PASS`, `ISSUES` o `BLOCKED`."
+      }
+    ],
+    "intro": "",
+    "sections": [
+      "Abre una lista de tareas con una entrada para cada fase: Plantear, Lanzar en paralelo, Consolidar e Informar.",
+      "Define la condición de finalización, elige si dividir en partes o hacer una carrera, fija primero la regla de la carrera e indica los SHA y el método para las mediciones.",
+      "Lanza todos los workers en un solo mensaje, en la nube por defecto. Cada encargo funciona por sí solo: objetivo, alcance, comprobación y formato del informe.",
+      "Lee los resultados finales, vuelve a lanzar una vez los que omitieron los SHA o el método, después registra una laguna y aplica la regla de la carrera.",
+      "Devuelve un solo informe en el chat: una tabla de resultados, una línea por problema, las lagunas y workers caídos, y la regla de la carrera usada."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Every brief stands alone.",
+      "quoteTr": "Cada encargo funciona por sí solo.",
+      "title": "Haz que cada encargo funcione por sí solo",
+      "does": "Cada IA ayudante recibe el objetivo completo, el alcance y la forma de comprobarlo, para que ninguna se desvíe por falta de contexto.",
+      "why": "Las IA ayudantes no pueden ver tu chat, así que esto obliga a la IA a incluir el contexto por escrito en lugar de darlo por sentado.",
+      "try": "Cuando delegues trabajo, añade: «Escríbelo para que alguien nuevo que no estuvo en nuestra conversación pueda hacerlo»."
+    },
+    {
+      "quote": "A gap does not count as a pass.",
+      "quoteTr": "Una laguna no cuenta como aprobado.",
+      "title": "Di qué significa que falte un resultado",
+      "does": "Cuando una IA ayudante no devuelve nada, el informe señala la laguna en lugar de darla por aprobada.",
+      "why": "Las IA tienden a interpretar «sin errores» como «sin problemas»; decidir de antemano qué significa un resultado en blanco cierra esa puerta.",
+      "try": "Añade a una lista de comprobación: «Las páginas que no comprobaste cuentan como fallidas; lístalas aparte»."
+    },
+    {
+      "quote": "For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.",
+      "quoteTr": "En una carrera o formato mixto, declara `first pass`, `rank all` o `best-of` antes de lanzar los workers.",
+      "title": "Fija primero la regla para elegir ganador",
+      "does": "Cuando varias IA ayudantes compiten en una misma tarea, la forma de elegir al ganador queda fijada antes de empezar, para que no pueda cambiar después.",
+      "why": "Las reglas fijadas antes de los resultados impiden que la IA elija el criterio que mejor se adapte a lo obtenido.",
+      "try": "Di antes de empezar: «De las tres versiones, nos quedamos con la que cargue más rápido». Luego empieza."
+    },
+    {
+      "quote": "lists every issue it can prove, not only the first",
+      "quoteTr": "lista todos los problemas que puede demostrar, no solo el primero",
+      "title": "Pide todos, no solo el primero",
+      "does": "Lista todos los problemas que puede demostrar, en lugar de detenerse en el primero.",
+      "why": "Las IA suelen detenerse en el primer hallazgo; decir «no solo el primero» rompe ese hábito.",
+      "try": "Al revisar un contrato: «Encuentra todas las cláusulas que me perjudiquen, no solo la primera»."
+    }
+  ],
+  "blocks": [
+    "# Swarm",
+    "## Inicio",
+    "Abre una lista de tareas con una entrada por fase antes de lanzar nada.",
+    "1. Plantear\n2. Lanzar en paralelo\n3. Consolidar\n4. Informar",
+    "## Fase A: Plantear",
+    "1. Define la condición de finalización y el artefacto o informe que el swarm debe devolver.\n2. Elige el formato. Divide la tarea en partes, pon a competir a N workers con encargos idénticos o combina ambas opciones. En una carrera o formato mixto, declara `first pass`, `rank all` o `best-of` antes de lanzar los workers.\n3. Elige el modelo de los workers de la línea `swarm workers` del archivo de configuración de pstack (`~/.cursor/rules/pstack-models.mdc` en Cursor, `~/.claude/rules/pstack-models.md` en Claude Code, `~/.agents/pstack-models.md` en otros harnesses). Si falta el archivo o esa línea, usa `claude-opus-5-5-high-fast`. Para `auto` o `inherit-parent`, omite `model` para que los workers usen el modelo padre. Si tu herramienta de subagentes rechaza un slug, usa el valor por defecto e indícalo. Si rechaza el valor por defecto, usa el slug válido más cercano de la misma familia que aparezca en su mensaje de error o en la lista de modelos de tu harness. En una carrera de modelos, indica de antemano el modelo de cada variante. Elige el nivel de razonamiento de cada subagente para la tarea, según la sección Subagentes de la skill **poteto-mode**.\n4. Dale a cada worker su propio destino de salida con permiso de escritura cuando deba escribir. Cuando los workers verifiquen o midan commits, cada encargo indica los SHA exactos. Un encargo de medición también indica el método (número de muestras, qué constituye una muestra y el orden). El worker registra ambos datos en su resultado.",
+    "## Fase B: Lanzar en paralelo",
+    "Lanza los N workers en un solo mensaje con `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true` y el modelo del paso 3, dejándolo sin definir para `auto` o `inherit-parent`. Usa `environment: \"local\"` solo cuando el worker necesite acceder a algo en el equipo del usuario.",
+    "Cuando un worker deba partir de una rama subida que no sea la predeterminada, pasa `cloud_base_branch`.",
+    "**Otros harnesses.** Estos parámetros pertenecen a la herramienta `Task` de Cursor, y `environment: \"cloud\"` ejecuta un agente en la nube de Cursor. En otro harness, usa su herramienta de subagentes: `Agent` en Claude Code (`subagent_type: general-purpose`), `task` en OpenCode (`subagent_type: general`), `spawn_agent` en Codex. Allí los workers se ejecutan en local, así que dale a cada uno su propio worktree o ruta de salida. Conserva el encargo y el modelo. Omite los parámetros que tu herramienta no tenga. Si tu harness no tiene herramienta de subagentes, como en Pi sin una extensión, ejecuta los workers por tu cuenta, uno tras otro.",
+    "Cada encargo funciona por sí solo. Incluye el objetivo, el alcance, la parte exacta o la variante de la carrera, cómo verificarlo y qué informar. Los informes usan `PASS`, `ISSUES` o `BLOCKED` con evidencia. Si un worker puede demostrar un defecto, informa `ISSUES` y lista todos los problemas que puede demostrar, no solo el primero.",
+    "Si un worker se cae, continúa con N-1 y anótalo.",
+    "## Fase C: Consolidar",
+    "Lee los resultados finales. Descarta cualquier resultado que no registre los SHA y el método que indica su encargo, y vuelve a lanzar ese worker una vez. Tras un segundo fallo, registra una laguna. Una laguna no cuenta como aprobado. Para la cobertura, cada parte requerida necesita un resultado. Para una carrera, aplica la regla de selección declarada de antemano. Usa first pass, rank all o best-of. No pegues volcados en bruto de los workers.",
+    "## Fase D: Informar",
+    "Devuelve un único informe consolidado en el chat con una tabla de resultados, una línea por problema, las lagunas o workers caídos y la regla de la carrera cuando se haya usado."
+  ]
+}

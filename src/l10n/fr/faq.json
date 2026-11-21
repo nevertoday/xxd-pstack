@@ -1,0 +1,85 @@
+{
+  "before": {
+    "title": "Avant de commencer",
+    "items": [
+      [
+        "pstack est-il payant ?",
+        "Non, pstack est gratuit et open source (MIT). Votre outil d'IA reste au même prix : abonnement ou facture API, comme d'habitude. **Une même tâche consomme davantage votre quota avec pstack**, car il lance plus d'IA d'appoint et de vérifications. Voir [Maîtriser les coûts](/fr/howto/cost/)."
+      ],
+      [
+        "Dois-je utiliser Cursor ?",
+        "Non. La version officielle est écrite pour Cursor. [backnotprop/pstack](https://github.com/backnotprop/pstack) est une copie adaptée (un miroir) qui fonctionne dans Claude Code, Codex, OpenCode, Pi et d'autres outils. Les autres outils ignorent les quelques fonctionnalités propres à Cursor (Automations, Bugbot, agents cloud) et laissent une note d'une ligne."
+      ],
+      [
+        "Je ne sais pas vraiment coder. Puis-je quand même l'utiliser ?",
+        "Oui, commencez par l'utiliser pour comprendre du code. `/how`, `/teach` et `/bro` demandent à l'IA d'expliquer un projet avec des mots simples. Pour la laisser modifier du code, vous devez pouvoir suivre les preuves qu'elle montre : sorties de commandes, captures d'écran, avant et après. Idéalement, votre projet doit aussi être sous Git."
+      ],
+      [
+        "Quel est le rapport avec le mode plan intégré à Claude Code ou Cursor ?",
+        "Aucun conflit entre les deux : utilisez l'un ou l'autre. pstack n'a pas de skill de planification : pour poteto, le meilleur plan est le code lui-même. Si vous avez besoin d'un plan, attendez que la conception soit arrêtée, puis demandez à `/poteto-mode` un plan par phases. Chaque PR (Pull Request) doit préciser comment elle sera vérifiée."
+      ],
+      [
+        "Quelle est la différence entre la version officielle et le miroir backnotprop ?",
+        "Sur Cursor, installez la version officielle. Sur tout autre outil, installez le miroir. Le miroir se synchronise chaque jour avec la [version officielle](https://github.com/cursor/plugins/tree/main/pstack) et réécrit les parties propres à Cursor pour qu'elles fonctionnent partout. Il inclut aussi deux correctifs de la communauté. `/no-comments` conserve les commentaires portant sur des règles externes. `watch-pr`, qui surveille vos PR, n'intègre plus dans votre stack de PR (série de PR empilées) une PR issue du fork de quelqu'un d'autre : ses commentaires de revue restent ainsi en dehors de ce que lit l'IA."
+      ]
+    ]
+  },
+  "using": {
+    "title": "À l'utilisation",
+    "items": [
+      [
+        "Dois-je taper /poteto-mode pour tout ?",
+        "Non, seulement pour les tâches qui demandent du soin. Pour changer une ligne de texte ou faire un petit correctif évident, demandez simplement à l'IA. En cas de doute : ==si une erreur oblige à recommencer, tapez-le==."
+      ],
+      [
+        "Puis-je écrire mes prompts dans une autre langue que l'anglais ?",
+        "Oui. Les skills sont écrits en anglais, mais le modèle comprend d'autres langues. Gardez les noms de skills et de principes en anglais, comme `/how` et `prove it works`. Écrivez le reste dans la langue de votre choix."
+      ],
+      [
+        "Va-t-il casser mon code ?",
+        "Non, et vous gardez le contrôle. Si vous voulez seulement que l'IA enquête, dites « ne modifie pas encore le code ». Par défaut, les modifications de code se font dans une copie séparée (un worktree) et aboutissent à une PR à relire. Avant toute action qu'elle ne peut pas annuler, comme supprimer des éléments ou faire un force-push, elle s'arrête et demande."
+      ],
+      [
+        "Pourquoi l'IA continue-t-elle sans me demander ?",
+        "C'est voulu : elle fait d'abord ce qui peut être annulé, vous montre le résultat et vous laisse corriger. Sa première réponse reformule ce que vous voulez et ce qu'elle prévoit de modifier. Si ce n'est pas bon, interrompez-la simplement. Si exécuter quelque chose peut répondre à une question, elle essaie plutôt que de vous le demander."
+      ],
+      [
+        "Les réponses sont trop longues et trop techniques. Que faire ?",
+        "Tapez `/bro`. Il reformule la dernière réponse en plus court, avec des mots simples et sans jargon. Si vous vous absentez et voulez faire le point, tapez `/ketchup`."
+      ],
+      [
+        "Rien ne se passe quand je tape une commande dans Claude Code ?",
+        "Une installation en tant que plugin place chaque commande sous `pstack:` : vous tapez `!/pstack:poteto-mode`, tandis que `!/poteto-mode` seul n'est pas reconnu. C'est la règle de Claude Code pour tous les plugins, afin que deux plugins n'entrent pas en conflit sur un nom. Les commandes de ce site sont écrites ainsi par défaut pour que le copier-coller fonctionne. Si vous l'avez installé avec `npx skills`, il n'y a pas de préfixe : ouvrez Apparence en haut à droite et réglez « J'utilise » sur « Installé avec npx ». De plus, après `/setup-pstack`, lancez une nouvelle session pour que vos choix de modèles prennent effet. Voir [L'utiliser dans Claude Code](/fr/howto/claude-code/)."
+      ],
+      [
+        "Je n'ai pas les modèles par défaut. Cela fonctionnera-t-il quand même ?",
+        "Oui. Par défaut, opus 5.5 écrit le code et prend les décisions, et le panel de revue ajoute fable 5.2 et gemini 4 neon. Si un modèle manque, il est remplacé. Claude Code utilise le modèle de la session en cours, et les autres outils prennent le plus proche dont ils disposent. Pour choisir vous-même, lancez `/setup-pstack` une fois. Il trouve les modèles que vous pouvez utiliser et vous laisse choisir."
+      ],
+      [
+        "Puis-je l'utiliser si mon projet n'est pas sous Git ?",
+        "Pour lire du code et enquêter, oui ; pour modifier du code, configurez d'abord Git. La plupart des playbooks (marches à suivre) qui modifient du code créent des worktrees, font des commits et ouvrent des PR, ce qui nécessite Git. Lancez `git init` dans votre projet, faites un commit, et c'est prêt."
+      ],
+      [
+        "Comment le désinstaller ?",
+        "Cela dépend de la façon dont vous l'avez installé. Plugin Claude Code : tapez `/plugin uninstall pstack@cursor-plugins` dans le chat, puis `/reload-plugins` ; pour simplement le mettre en pause, utilisez `disable` à la place de `uninstall`. Installé avec `npx skills` : lancez `npx skills remove` dans votre terminal. Si vous avez lancé `/setup-pstack`, supprimez aussi le fichier de configuration qu'il a créé. Voir [Mettre à jour, inspecter, désinstaller](/fr/howto/update-remove/)."
+      ]
+    ]
+  },
+  "trust": {
+    "title": "Puis-je lui faire confiance ?",
+    "items": [
+      [
+        "L'IA dit que c'est terminé. Comment savoir si c'est vrai ?",
+        "Regardez les résultats concrets qu'elle affiche : sorties de commandes, captures d'écran, chiffres avant et après. Pour vous assurer qu'elle les affiche, précisez dans votre prompt « ce que tu dois me montrer une fois terminé ». Une bonne réponse indique « pas sûr » pour tout ce qu'elle n'a pas pu vérifier. **Si elle dit simplement « tout est bon » sans rien montrer, ne lui faites pas confiance**. Répondez `apply prove it works`."
+      ],
+      [
+        "Est-ce sans risque de laisser l'IA tourner toute la nuit ?",
+        "Seulement lorsque ces quatre conditions sont réunies. ① Vous avez déjà effectué cette tâche vous-même, ou vous avez observé l'IA la faire une fois. ② Elle dispose des outils que vous utiliseriez, comme un skill de vérification, des logs, un profiler. ③ Chaque phase peut être vérifiée, et elle s'arrête quand l'une d'elles ne passe pas. ④ Vous avez relu quelques transcriptions et transformé les échecs récurrents en vérifications. Voir [La laisser tourner toute seule](/fr/guide/7-overnight/)."
+      ],
+      [
+        "Pourquoi pstack fait-il relire le travail par plusieurs modèles différents ?",
+        "Parce qu'un modèle a tendance à approuver ce qu'il a lui-même écrit. pstack demande à des modèles d'autres entreprises de chercher les failles et de noter le travail ; `/interrogate` et `/arena` fonctionnent tous les deux ainsi. Il ne garde que les problèmes qui font vraiment échouer une commande. Des modèles différents ont des angles morts différents ; ensemble, moins de choses leur échappent."
+      ]
+    ]
+  }
+}

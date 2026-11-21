@@ -1,0 +1,71 @@
+{
+  "description": "Reconstruye tu contexto de trabajo reciente a partir de tu propio historial de chats, el estado real y el registro compartido (reportes de usuarios, arreglos anteriores, incidentes) y devuelve un resumen conciso del estado actual. Úsala para «recuerda mi trabajo en X», «ponme al día», «en qué he estado trabajando» o «dónde lo dejé», antes de empezar o retomar el trabajo.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Reconstruye la historia solo a partir de su propio historial de chats.",
+        "with": "También busca en PR, tickets, canales de chat y seguimiento de errores del mismo código."
+      },
+      {
+        "without": "Informa del estado según lo que decían los chats.",
+        "with": "Comprueba cada PR, rama y ticket frente al estado real con `git` y `gh`."
+      },
+      {
+        "without": "También lee chats de otros proyectos.",
+        "with": "Primero indica el alcance. Por defecto son los últimos 7 días del proyecto activo."
+      }
+    ],
+    "intro": "Reconstruye tu contexto reciente a partir de tus chats y del registro compartido en seis pasos: clasificar, fijar el alcance, rastrear chats en paralelo, barrer el registro compartido, comprobar el estado real y redactar el resumen.",
+    "sections": [
+      "En orden: una cápsula de hasta 5 puntos, una línea etiquetada por hilo, hasta 5 problemas recurrentes y un siguiente paso."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "\"recent\" is a real range, default the last 7 days",
+      "quoteTr": "«reciente» es un rango real; por defecto, los últimos 7 días",
+      "title": "Dale un valor por defecto a una palabra vaga",
+      "does": "Si dices «reciente», busca en los últimos 7 días, no en lo que adivine, como ayer o el mes pasado.",
+      "why": "«Reciente» puede significar cualquier cosa; con un número por defecto, la IA no adivina y tú sabes hasta dónde miró.",
+      "try": "Cuando uses una palabra vaga, añade un valor por defecto: «“Pronto” significa antes de que termine hoy, salvo que diga lo contrario»."
+    },
+    {
+      "quote": "Never quietly turn \"all\" into \"recent N\".",
+      "quoteTr": "Nunca conviertas «todos» en «los últimos N» sin avisar.",
+      "title": "Nombra el atajo que tomaría",
+      "does": "Si pides «todos», de verdad comprueba todos y no solo los últimos antes de darlo por terminado.",
+      "why": "Nombrar el paso exacto que la IA suele recortar sin avisar funciona mucho mejor que un «revisa a fondo» genérico.",
+      "try": "Cuando quieras una revisión completa, escribe: «Revisa los 37 archivos; no mires solo una muestra para decir que están todos bien»."
+    },
+    {
+      "quote": "A thread with no tag is not done yet, so tag it.",
+      "quoteTr": "Un hilo sin etiqueta todavía no está listo, así que etiquétalo.",
+      "title": "Ofrece un conjunto fijo de estados",
+      "does": "Cada hilo queda marcado como fusionado, abierto, en curso o sin empezar; nada de «casi listo».",
+      "why": "Con solo unas pocas etiquetas fijas para elegir, la IA no puede difuminar el estado real con palabras vagas.",
+      "try": "Cuando pidas el estado, enumera las opciones: «Etiqueta cada tarea como “hecha”, “en curso” o “sin empezar”»."
+    },
+    {
+      "quote": "Lead with the capsule, then the thread status, then the problems, then the next move.",
+      "quoteTr": "Empieza por la cápsula, luego el estado de los hilos, luego los problemas y luego el siguiente paso.",
+      "title": "Fija qué va primero",
+      "does": "El resumen empieza diciendo cómo están las cosas y deja los detalles para después, así en dos líneas sabes el estado.",
+      "why": "Un orden fijo evita que lo más importante quede enterrado entre detalles.",
+      "try": "Cuando pidas un informe, marca el orden: «Primero la conclusión, luego las razones y luego el siguiente paso»."
+    }
+  ],
+  "blocks": [
+    "# Recall",
+    "**Antes de empezar o retomar el trabajo, reconstruyes el contexto de trabajo reciente del usuario y devuelves una cápsula concisa de cómo están las cosas ahora y qué hacer a continuación.**",
+    "Mantenlo conciso y centrado en el tema. Lee solo lo que necesiten los hilos dentro del alcance y luego detente.",
+    "Tu contexto vive en dos registros. Tu propio historial de chats guarda lo que hiciste y decidiste. El registro compartido guarda todo lo que pasó en torno al mismo código bajo otros nombres: los síntomas que los usuarios siguen reportando, los arreglos que se publicaron y se revirtieron, y los errores que siguen saltando en producción. Ese segundo registro vive en el control de versiones, el gestor de incidencias, los canales de chat e incidencias, los documentos extensos y el seguimiento de errores. Una funcionalidad con una larga cola de bugs guarda ahí la mayor parte de su historia, así que no la reconstruyas solo a partir de tus transcripciones.",
+    "Las transcripciones viven donde las guarda tu harness. Cada archivo es JSONL. Busca el directorio del espacio de trabajo activo para tu harness. Si no puedes saber qué harness eres, comprueba cuál de estos existe para este espacio de trabajo:",
+    "- **Cursor:** `~/.cursor/projects/<slug>/agent-transcripts/<uuid>/<uuid>.jsonl`. `<slug>` es la ruta del espacio de trabajo sin la barra inicial y cambiando cada «/» por «-» (`/Users/you/proj` pasa a ser `Users-you-proj`).\n- **Claude Code:** `~/.claude/projects/<slug>/<session-id>.jsonl`. `<slug>` es la ruta del espacio de trabajo con cada carácter que no sea letra ni dígito convertido en «-» (`/Users/you/proj` pasa a ser `-Users-you-proj`).\n- **Pi:** `~/.pi/agent/sessions/--<slug>--/<timestamp>_<id>.jsonl`. `<slug>` es la ruta del espacio de trabajo sin la barra inicial y cambiando cada «/» por «-» (`--Users-you-proj--`).\n- **Codex:** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`, sin agrupar por espacio de trabajo. Quédate solo con los archivos cuya primera línea tenga `payload.cwd` igual a la ruta del espacio de trabajo.\n- **OpenCode:** `~/.local/share/opencode/storage/`. Las sesiones son archivos JSON en `session/<project-id>/`, con sus mensajes en `message/` y `part/`.",
+    "1. Clasifica y luego redirige. Retomar un chat anterior concreto corresponde al playbook `session-pickup`, no a esta skill. Convertir hábitos en una skill duradera es `automate-me`. Un resumen de tu trabajo para lectura humana es una tarea distinta. Recall carga el contexto de trabajo de los chats recientes antes de que actúes. Si el usuario ya te dio una cápsula de estado completa (rutas, rama, el cambio), úsala y sáltate el rastreo.\n2. Fija el alcance antes de buscar. Concreta la ventana de tiempo («reciente» es un rango real; por defecto, los últimos 7 días), el tema si se nombró y el espacio de trabajo (por defecto, el activo. Nunca leas las transcripciones de otro proyecto sin que te lo pidan). Indica el alcance al usuario. Nunca conviertas «todos» en «los últimos N» sin avisar.\n3. Reparte la búsqueda por tu historial de chats. Lanza subagentes en paralelo con un modelo rápido y barato, cada uno a cargo de una parte del corpus. Indica a cada subagente que ordene los candidatos por fecha real de modificación (`ls -t`) y nunca por nombre UUID, que busque primero el tema con grep y después lea solo los chats coincidentes y solo sus fragmentos relevantes, y que omita el chat actual y el ruido obvio (chats de subagentes, de evaluación y de test). Cada uno devuelve el mismo esquema, un bloque por chat: tema, objetivo del usuario, decisiones, hilos abiertos, dificultades y correcciones, y artefactos (PR, tickets, ramas), citando en cada caso el UUID del chat. Si son uno o dos chats, sáltate el reparto y busca directamente. Las transcripciones en bruto se quedan en los subagentes. El hilo principal solo recibe sus hallazgos. Elige el nivel de razonamiento de cada subagente según la tarea, conforme a la sección Subagentes de la skill **poteto-mode**.\n4. Barre el registro compartido siempre que el tema nombre una funcionalidad, un archivo, un subsistema, un área o un bug. Esto se hace por defecto, no queda a tu criterio, y «mi trabajo en X» no lo excluye. Lanza un subagente investigador por fuente, en modo agente porque el modo de solo lectura quita el acceso a MCP, y pregúntale a cada uno «cuál es el estado actual, qué se probó y no aguantó, y qué siguen reportando los usuarios». Ejecútalos en paralelo con el rastreo del historial de chats. Los resultados vacíos son hallazgos. Si un MCP no está disponible, sáltalo e indícalo. Integra lo que vuelva en el resumen. Omite este paso solo para recordar actividad pura sin un objetivo concreto («qué hice esta semana»), donde tu propio historial y el estado real son toda la respuesta.\n5. Verifica frente al estado real. Toma los PR, las ramas y los tickets que sacaron a la luz el rastreo y el barrido y compruébalos con `git` y `gh`. Cuando la respuesta dependa de lo que hizo realmente un agente (las herramientas que ejecutó, los archivos que leyó, los errores que encontró), lee la transcripción completa y no solo una copia local recortada.\n6. Redacta el resumen según el contrato de abajo. Agrupa por hilo. Mantente en el tema indicado.",
+    "## Contrato de salida",
+    "Empieza por la cápsula, luego el estado de los hilos, luego los problemas y luego el siguiente paso. Los detalles más a fondo van debajo o se recortan.",
+    "- **Cápsula.** Como máximo 5 puntos. En qué consiste este trabajo y en qué punto está en general.\n- **Hilos.** Una línea cada uno, precedida exactamente por una etiqueta de estado: `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]` o `[planned, not started]`. Un hilo sin etiqueta todavía no está listo, así que etiquétalo.\n- **Problemas.** Como máximo 5, los recurrentes. Incluye los síntomas que los usuarios siguen reportando y cualquier arreglo que se publicó y se revirtió, para que el siguiente intento parta de donde falló el último.\n- **Siguiente paso.** La siguiente acción más útil, una sola y concreta.",
+    "Cualquier funcionalidad o ticket adyacente queda fuera, salvo que lo bloquee. Cuando la cápsula y las líneas de hilos superen una pantalla, recorta detalles antes de recortar hilos. Redacta el resumen pasando por la skill **unslop**, cita los hallazgos de chats por UUID y los del registro compartido por su fuente (número de PR, ID de ticket, enlace permanente de chat, incidencia del seguimiento de errores), y limpia el contexto privado antes de cualquier salida pública.",
+    "**Respuesta:** el resumen, según el contrato de arriba."
+  ]
+}

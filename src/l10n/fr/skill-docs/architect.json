@@ -1,0 +1,60 @@
+{
+  "description": "Esquisser les types, les signatures et la structure des modules avant de coder, puis rester dans la boucle pendant que l'implémentation se complète. À utiliser pour /architect, « définis l'architecture », « conçois ça » ou tout travail non trivial où se lancer directement dans le code figerait une mauvaise structure.",
+  "brief": {
+    "compare": [
+      {
+        "without": "L'IA commence à écrire l'implémentation tout de suite.",
+        "with": "Elle recense d'abord chaque système touché par le changement et esquisse les types, les signatures et les frontières des modules."
+      },
+      {
+        "without": "L'IA part sur la première conception qui lui vient.",
+        "with": "Elle esquisse deux structures différentes et choisit celle où chaque état a un seul propriétaire et où les appelants doivent en savoir le moins possible."
+      },
+      {
+        "without": "L'IA greffe des contournements sur une conception qui ne convient pas.",
+        "with": "Elle revoit la conception au lieu de rapiécer quand les contournements se répètent."
+      }
+    ],
+    "intro": "Avant de coder, l'IA recense les systèmes concernés, esquisse deux structures et choisit celle qui assure un seul propriétaire par état, une seule façon de faire par tâche et le minimum à savoir pour les appelants. Des contournements répétés imposent une refonte, et les conceptions vastes ou qui font débat passent par `arena`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least.",
+      "quoteTr": "Avant d'écrire du code, recenser chaque système touché par le changement, puis esquisser deux structures différentes (types, signatures, frontières des modules) et choisir celle où chaque élément d'état a un seul propriétaire, où chaque tâche n'a qu'une seule façon d'être faite et où les appelants doivent en savoir le moins possible.",
+      "title": "Exiger une deuxième conception, puis trancher",
+      "does": "L'IA esquisse au moins deux conceptions aux structures différentes et choisit selon trois critères concrets, au lieu de partir sur sa première idée.",
+      "why": "Demandez une conception et vous obtenez la première idée ; demandez-en deux avec les critères (un propriétaire, une seule façon, le minimum à savoir) et le choix est fondé.",
+      "try": "Quand vous demandez un plan : « Donne-moi deux approches très différentes, compare-les sur le coût, la facilité de modification et la passation, puis choisis-en une. »"
+    },
+    {
+      "quote": "Redesign instead of patching if workarounds repeat.",
+      "quoteTr": "Revoir la conception au lieu de rapiécer si les contournements se répètent.",
+      "title": "Dire quand repartir de zéro",
+      "does": "Quand le même contournement revient sans cesse, l'IA revoit la conception au lieu d'empiler des rustines sur une mauvaise structure.",
+      "why": "« Quand abandonner » est difficile à juger ; prendre les contournements répétés comme signal évite à l'IA d'abandonner trop tôt ou de rapiécer indéfiniment.",
+      "try": "Fixez un seuil pour un processus : « Si la même plainte revient sans cesse, repense le processus au lieu de colmater chaque cas. »"
+    },
+    {
+      "quote": "For a large or contested design, run the **arena** skill instead of sketching alone.",
+      "quoteTr": "Pour une conception vaste ou qui fait débat, lancer le skill **arena** au lieu d'esquisser en solitaire.",
+      "title": "Adapter l'effort aux enjeux",
+      "does": "L'IA esquisse elle-même les petites conceptions ; pour celles qui sont vastes ou font débat, elle demande à plusieurs modèles d'en esquisser chacun une pour faire son choix.",
+      "why": "Indiquer quand passer au niveau supérieur évite à l'IA d'en faire trop sur les petites tâches ou de décider seule sur les grandes.",
+      "try": "Donnez une règle d'escalade : « Décide toi-même des petits changements ; pour tout ce qui touche trois pages ou plus, montre-moi d'abord deux ou trois options. »"
+    },
+    {
+      "quote": "Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+      "quoteTr": "À utiliser pour /architect, « définis l'architecture », « conçois ça » ou tout travail non trivial où se lancer directement dans le code figerait une mauvaise structure.",
+      "title": "Nommer le coût de s'en passer",
+      "does": "Sur un travail où se lancer directement dans le code figerait une mauvaise structure, l'IA passe d'abord par la conception au lieu de se mettre à coder.",
+      "why": "« À utiliser pour les tâches difficiles » est vague ; nommer le coût de s'en passer (une structure figée) permet à l'IA de savoir quelles tâches demandent d'abord une conception.",
+      "try": "Énoncez la règle avec son coût : « Montre-moi les annonces de groupe avant de les envoyer ; une fois parties, on ne peut plus les retirer. »"
+    }
+  ],
+  "blocks": [
+    "# Architect",
+    "Avant d'écrire du code, recenser chaque système touché par le changement, puis esquisser deux structures différentes (types, signatures, frontières des modules) et choisir celle où chaque élément d'état a un seul propriétaire, où chaque tâche n'a qu'une seule façon d'être faite et où les appelants doivent en savoir le moins possible. Revoir la conception au lieu de rapiécer si les contournements se répètent.",
+    "Pour une conception vaste ou qui fait débat, lancer le skill **arena** au lieu d'esquisser en solitaire."
+  ]
+}

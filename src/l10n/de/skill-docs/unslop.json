@@ -1,0 +1,61 @@
+{
+  "description": "Typische KI-Muster aus jedem Text entfernen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Schreibt Wohlfühlsätze, die in die Doku jedes Projekts passen würden.",
+        "with": "Nennt den Mechanismus oder eine Zahl und streicht Sätze, die unverändert zu einem anderen Projekt passen würden."
+      },
+      {
+        "without": "Schreibt „Experten glauben“, ohne jemanden zu nennen.",
+        "with": "Nennt die Quelle oder streicht die Behauptung."
+      },
+      {
+        "without": "Beginnt mit Lob oder Zustimmung und endet mit „Lass mich wissen, wenn…“.",
+        "with": "Lässt Floskeln und Schmeicheleien weg und antwortet direkt."
+      }
+    ],
+    "intro": "Der Skill sucht nach den Mustern unten und schreibt den Text dann um. Bedeutung und gewünschter Ton bleiben erhalten. Die Regelnummern sind feste IDs, auf die andere Skills verweisen. Die Liste enthält eine Zeile pro Regel: von leeren „-ing“-Phrasen, KI-Wörtern und Gedankenstrichen bis zu Chatbot-Floskeln, Metaphern-Substantiven und Passiv.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Rule numbers are stable ids that other skills cite.",
+      "quoteTr": "Regelnummern sind stabile IDs, auf die andere Skills verweisen.",
+      "title": "Gib jeder Regel eine feste Nummer",
+      "does": "Andere Skills können einfach „Wende Regel 13 an“ sagen, und die Nummern stimmen auch dann noch, wenn Regeln dazukommen oder wegfallen.",
+      "why": "Feste Nummern machen Verweise kurz und eindeutig, und sie verschieben sich nicht, wenn sich die Liste ändert.",
+      "try": "Nummeriere die Schreibregeln deines Teams und sag im Review: „Dieser Absatz verstößt gegen Regel 4.“"
+    },
+    {
+      "quote": "Name the actor unless it is unknown or doesn't matter.",
+      "quoteTr": "Nenne den Akteur, es sei denn, er ist unbekannt oder spielt keine Rolle.",
+      "title": "Schreib die Ausnahme in die Regel",
+      "does": "Der Skill schreibt Passivsätze um und nennt, wer handelt. Das Passiv bleibt nur stehen, wenn der Akteur unbekannt ist oder keine Rolle spielt.",
+      "why": "Steht die Ausnahme in der Regel, hält das die KI davon ab, jeden Passivsatz umzuschreiben – auch die Sätze, die stehen bleiben sollten.",
+      "try": "Pack die Ausnahme in deine Anfrage: „Gib jedem Absatz eine Zwischenüberschrift, außer Absätzen mit ein oder zwei Sätzen.“"
+    },
+    {
+      "quote": "Cut a sentence that could appear unchanged in another project's docs.",
+      "quoteTr": "Streich jeden Satz, der unverändert in der Doku eines anderen Projekts stehen könnte.",
+      "title": "Teste Fülltext, indem du ihn verschiebst",
+      "does": "Sätze, die zu jedem Projekt passen würden, werden gestrichen; was bleibt, handelt von diesem Projekt.",
+      "why": "„Fülltext“ lässt sich schwer beurteilen, aber „Würde das auch woanders passen?“ ist ein schneller Test, den jeder machen kann.",
+      "try": "Wenn du eine Einleitung überarbeiten lässt, ergänze: „Streich jeden Satz, der auch mit dem Namen eines Konkurrenten noch stimmt.“"
+    },
+    {
+      "quote": "One name per thing. Repeat it.",
+      "quoteTr": "Ein Name pro Sache. Wiederhole ihn.",
+      "title": "Sag, dass Wiederholung okay ist",
+      "does": "Der Skill nennt eine Sache von Anfang bis Ende mit demselben Wort, statt für Abwechslung zwischen Synonymen zu wechseln.",
+      "why": "„Wiederhole ihn“ erlaubt es ausdrücklich. So hört die KI auf, eine Sache immer wieder umzubenennen, bis Leser denken, es seien mehrere.",
+      "try": "Wenn du einen Text überarbeiten lässt, ergänze: „Nenn es überall ‚Bestellung‘. Wechsle nicht zu ‚Kauf‘ oder ‚Transaktion‘.“"
+    }
+  ],
+  "blocks": [
+    "# Unslop",
+    "Überarbeite den Text, um KI-Muster zu entfernen. Such nach den Mustern unten und schreib den Text dann um. Bewahre die Bedeutung und triff den gewünschten Ton.",
+    "Regelnummern sind stabile IDs, auf die andere Skills verweisen. Eine entfernte Regel hinterlässt eine Lücke.",
+    "3. Keine angehängten „-ing“-Phrasen ohne neuen Fakt („highlighting…“, „ensuring…“).\n5. Keine vagen Zuschreibungen („Experten glauben“). Nenne die Quelle oder lass es weg.\n7. Keine KI-Vokabeln: darüber hinaus, entscheidend, eintauchen, aufwerten, fördern, Landschaft, maßgeblich, präsentieren, Zeugnis, unterstreichen, lebendig.\n8. Sag „ist“ oder „hat“, nicht „dient als“, „steht für“, „besticht durch“, „verfügt über“.\n9. Kein „nicht nur X, sondern Y“. Komm auf den Punkt.\n10. Zwänge Ideen nicht in Dreiergruppen.\n11. Ein Name pro Sache. Wiederhole ihn.\n12. Kein „von X bis Y“, es sei denn, X und Y liegen auf einer echten Skala.\n13. Keine langen oder kurzen Gedankenstriche, keine Bindestriche als Gedankenstriche und keine Klammern als Ersatz. Nimm einen Punkt oder ein Komma.\n14. Ein Doppelpunkt steht vor einer Liste oder einem Beispiel, nie mitten im Satz als Bindeglied.\n15. Setz nicht jeden Eigennamen und jedes Akronym fett.\n16. Kein fettes Label mit Doppelpunkt, das die eigene Zeile wiederholt („**Performance:** Die Performance hat sich verbessert…“). Ein fetter Einstieg, der mit einem Punkt endet und ein neues Detail ergänzt, ist in Ordnung.\n17. Überschriften in normaler Satzschreibung.\n18. Keine dekorativen Emojis.\n19. Gerade Anführungszeichen.\n20. Keine Chatbot-Floskeln („Ich hoffe, das hilft!“, „Lass mich wissen, wenn…“).\n22. Keine Einstiege mit Lob oder Zustimmung. Antworte direkt.\n23. Streich Füllwörter. Aus „mit dem Ziel, zu“ wird „um zu“. Entferne „es ist wichtig zu beachten, dass“.\n24. Höchstens eine Abschwächung: „kann“.\n25. Kein pauschales Fazit. Nenne konkrete Pläne oder Fakten.\n26. Keine abstrakten Metaphern-Substantive: Substrat, Keil, Vektor, Nexus, Primitiv, Harness, Oberfläche, Gerüst, Paradigma, Ratsche, Nordstern, Schwungrad. Nimm das konkrete Wort.\n27. Sag, was es tut, nicht, wie es sich anfühlt. Nenne den Mechanismus oder die Zahl. Streich jeden Satz, der unverändert in der Doku eines anderen Projekts stehen könnte.\n28. Ein Gedanke pro Satz. Teile jeden Satz, den man zweimal lesen muss.\n29. Aktiv. Nenne den Akteur, es sei denn, er ist unbekannt oder spielt keine Rolle.\n30. Streich Adverbien oder nimm ein stärkeres Verb. Nenne die Zahl.\n31. Nimm das einfache Wort: „nutzen“, nicht „zum Einsatz bringen“ oder „hebeln“.\n32. Keine Metapher, kein Aphorismus, kein vermenschlichter Code und kein bildliches Verb, wo es einen wörtlichen Ausdruck gibt.\n33. Schreib ganze Sätze mit Artikeln und Verben. Schreib Pfeile und Abkürzungen aus."
+  ]
+}

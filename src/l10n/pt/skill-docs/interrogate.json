@@ -1,0 +1,74 @@
+{
+  "description": "Use para “interrogate”, “revisão adversarial”, “revisão multimodelo”, “questione isso”, “faça um teste de estresse neste código”, “encontre pontos cegos” ou “desmonte isso”. Adversários tentam quebrar uma mudança ou um design, e só sobrevivem os achados provados por uma execução.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Enche a lista com opiniões de estilo e nomenclatura.",
+        "with": "Traz cada achado com o comando, a saída real e a saída esperada."
+      },
+      {
+        "without": "Aceita tudo o que um revisor diz estar quebrado.",
+        "with": "Roda de novo o comando de cada achado e descarta os que não mostrarem a falha."
+      },
+      {
+        "without": "Corrige o código assim que encontra um problema.",
+        "with": "Devolve apenas um relatório. Você decide o que corrigir."
+      }
+    ],
+    "intro": "Diz que adversários tentam quebrar a mudança, que só contam achados provados por uma execução e que ela relata sem corrigir.",
+    "sections": [
+      "Usa por padrão o diff inteiro da branch, reformula a intenção com `in-your-own-words` e pergunta a você quando a intenção não está clara.",
+      "Reaproveita os passos de inicialização da `arena`, dando a cada adversário seu próprio worktree (uma segunda pasta de trabalho ligada ao mesmo repositório Git) e a mesma instrução de “quebre esta mudança”.",
+      "Roda de novo o comando de cada achado, mantém o achado só se falhar e quebrar a intenção, e agrupa os que têm a mesma causa raiz.",
+      "Entrega um relatório em três partes: a intenção reformulada, cada achado verificado com quem o encontrou e, para cada adversário, a contagem de descartados e os motivos."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Adversaries try to break a change or a design.",
+      "quoteTr": "Adversários tentam quebrar uma mudança ou um design.",
+      "title": "Coloque a IA como oponente",
+      "does": "As IAs ajudantes não estão ali para dar aval ao código. O trabalho delas é quebrá-lo.",
+      "why": "“Adversário” e “quebrar” transformam “dê uma olhada” em “derrote isso”, então a IA procura bem mais a fundo.",
+      "try": "Quando a IA revisar um plano, diga: “Você é o concorrente mais implacável. Prove que este plano não vai funcionar.”"
+    },
+    {
+      "quote": "Report each finding with a title, the exact command, the output it printed, and the output the intent requires.",
+      "quoteTr": "Relate cada achado com um título, o comando exato, a saída que ele imprimiu e a saída que a intenção exige.",
+      "title": "Coloque o real ao lado do esperado",
+      "does": "Cada problema vem com o comando, o que ele imprimiu e o que deveria imprimir, para você poder rodar de novo.",
+      "why": "Escrever “o que aconteceu” ao lado de “o que deveria acontecer” mostra a diferença na hora e não deixa espaço para enrolação.",
+      "try": "Quando a IA relatar bugs, escreva: “Para cada um: o que você fez, o que viu, o que esperava ver.”"
+    },
+    {
+      "quote": "Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter.",
+      "quoteTr": "Deixe de fora tudo o que você não rodou. Isso inclui estilo, nomenclatura, estrutura e riscos que precisam de uma mudança futura para fazer diferença.",
+      "title": "Nomeie o que a regra cobre",
+      "does": "Não vai encher a lista com nomenclatura, estilo ou “pode quebrar depois”. Todo achado foi rodado de verdade.",
+      "why": "“Deixe de fora o que você não rodou” deixa brechas. Nomear os tipos que têm mais chance de entrar de fininho fecha essas brechas.",
+      "try": "Quando a IA procurar problemas, escreva: “Relate só o que impede um cliente de pagar. Cores, redação e riscos futuros não contam.”"
+    },
+    {
+      "quote": "No findings is a valid result.",
+      "quoteTr": "Nenhum achado é um resultado válido.",
+      "title": "Diga que “nada” é uma boa resposta",
+      "does": "Quando o código está bom, ela diz isso em vez de inventar problemas para parecer ocupada.",
+      "why": "Quando você pede para a IA encontrar problemas, ela sente que precisa achar algum. Dizer que um resultado vazio conta tira essa pressão.",
+      "try": "Quando a IA revisar seu trabalho, acrescente: “Se não encontrar erros de digitação, responda apenas ‘nenhum encontrado’.”"
+    }
+  ],
+  "blocks": [
+    "# Interrogate",
+    "Adversários tentam quebrar uma mudança ou um design. Um achado só sobrevive quando uma execução o prova. Relate os achados. Não aplique correções.",
+    "## Delimitar",
+    "O escopo é o que o usuário indicar. Caso contrário, é o diff da branch a partir do merge base com a branch base até a árvore de trabalho. Descreva a intenção com a skill **in-your-own-words**, com base na mensagem do usuário, nos commits e na descrição do PR. Pergunte ao usuário quando a intenção não estiver clara.",
+    "## Distribuir",
+    "Rode os passos 3 e 4 da Fase A e a Fase B da skill **arena**, com quatro alterações. Leia a linha `interrogate reviewers` no lugar de `arena runners`. Copie as mudanças sem commit do escopo para cada worktree. Inicie cada adversário como um subagente de propósito geral (`generalPurpose` no Cursor). No lugar da tarefa e da justificativa da arena, passe para cada adversário o escopo, a intenção e esta instrução:",
+    "> Quebre esta mudança. Prove cada achado com uma execução no código real, como um teste que falha, um script de repro (reprodução mínima do bug) ou a saída de um comando que mostre o comportamento errado. Para um design ou plano, rode um protótipo ou sonde a árvore atual. Mantenha as repros no seu próprio worktree. Relate cada achado com um título, o comando exato, a saída que ele imprimiu e a saída que a intenção exige. Deixe de fora tudo o que você não rodou. Isso inclui estilo, nomenclatura, estrutura e riscos que precisam de uma mudança futura para fazer diferença. Nenhum achado é um resultado válido.",
+    "## Verificar",
+    "Verifique cada achado conforme a Fase F da arena, rodando de novo o comando dele. Mantenha um achado quando a saída mostrar a falha e a falha quebrar a intenção. Descarte o resto. Agrupe os achados que têm a mesma causa raiz.",
+    "Pule as Fases C, D e E da arena. Adversários encontram falhas diferentes, então o veredito mantém todos os achados verificados, e não a lista de um só adversário.",
+    "## Saída",
+    "- **Intenção**: a reformulação.\n- **Achados**: para cada achado verificado, o comando, a saída dele, como quebra a intenção e os adversários que o encontraram. Diga “nenhum achado verificado” quando nenhum sobreviver.\n- **Descartados**: para cada adversário, a quantidade de achados descartados e o motivo."
+  ]
+}

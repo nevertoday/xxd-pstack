@@ -1,0 +1,85 @@
+{
+  "description": "Startet N parallele Kandidaten für dieselbe Aufgabe, wählt eine Basis und arbeitet die stärksten Teile der unterlegenen Kandidaten darin ein. Für /arena, „arena this“, „throw it in the arena“ oder wenn ein einzelner Versuch bei einem nicht-trivialen Artefakt die falsche Form festschreiben würde.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Wählt die Version, die sich insgesamt am besten anfühlt.",
+        "with": "Legt 3 bis 6 bewertbare Kriterien fest und bewertet jeden Kandidaten anhand jedes einzelnen."
+      },
+      {
+        "without": "Lässt dasselbe Modell die Arbeit bewerten, das sie geschrieben hat.",
+        "with": "Lässt ein Modell eines anderen Anbieters die Kandidaten bewerten und eine Basis empfehlen."
+      },
+      {
+        "without": "Klebt Stücke aus mehreren Versionen zusammen.",
+        "with": "Wählt eine Basis und arbeitet ein oder zwei Ideen aus den anderen von Hand ein."
+      }
+    ],
+    "intro": "Es legt eine To-do-Liste mit einem Eintrag pro Phase an, bevor es irgendetwas startet.",
+    "sections": [
+      "Legt fest, was jeder Kandidat erzeugt, erstellt ein Bewertungsraster mit 3 bis 6 Punkten, wählt die Runner aus und gibt jedem seinen eigenen Worktree (einen zusätzlichen Arbeitsordner für dasselbe Git-Repo).",
+      "Startet alle Runner in einer Nachricht. Jeder liefert seine Arbeit und eine Begründung, die nennt, was er verworfen hat.",
+      "Wenn alle fertig sind, bewertet ein Prüfer eines anderen Anbieters jedes Kriterium, ohne etwas zu ändern, und empfiehlt eine Basis.",
+      "Liest jeden Kandidaten von Anfang bis Ende, bewertet jedes Kriterium und vergleicht mit dem Prüfer. Bei Uneinigkeit werden beide Begründungen noch einmal gelesen.",
+      "Überträgt ein oder zwei gute Ideen von jedem unterlegenen Kandidaten von Hand in die Basis. Weichen die Ergebnisse stark voneinander ab, wird die Aufgabe neu gefasst und erneut gestartet.",
+      "Prüft das Ergebnis gemäß prove-it-works. Bei einem Fehler geht es zurück zu „Rahmen setzen“ oder „Einarbeiten“.",
+      "Liefert ein Artefakt samt Notiz: die Basis und warum, das Urteil des Prüfers, die Quelle jeder Übernahme, was verworfen wurde, und das Prüfergebnis."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Every candidate gets the same prompt, so the prompt is the contract.",
+      "quoteTr": "Jeder Kandidat bekommt denselben Prompt, also ist der Prompt der Vertrag.",
+      "title": "Schreib den Prompt als Vertrag",
+      "does": "Es schreibt Aufgabe und Bewertungsregeln auf, bevor es jemanden losschickt, damit sich die Versionen fair vergleichen lassen.",
+      "why": "Das Wort „Vertrag“ erinnert die KI daran, dass sie einem Kandidaten später nichts ankreiden darf, was vorher fehlte – also schreibt sie alles auf.",
+      "try": "Wenn mehrere KIs oder Menschen dieselbe Aufgabe übernehmen, gib eine gemeinsame Vorgabe: „Eine Seite, unter 800 Wörter, drei echte Beispiele.“"
+    },
+    {
+      "quote": "Score each against the rubric criterion by criterion, not on holistic feel",
+      "quoteTr": "Bewerte jeden Kandidaten Kriterium für Kriterium anhand des Bewertungsrasters, nicht nach dem Gesamteindruck",
+      "title": "Bewerte nach einem Bewertungsraster",
+      "does": "Bei der Wahl der Basis zeigt es für jeden Punkt die Wertung jeder Version, damit du siehst, warum es sich für eine entschieden hat.",
+      "why": "Der Gesamteindruck lässt sich von Feinschliff oder Länge beeinflussen; Punkt für Punkt zu bewerten teilt eine schwammige Entscheidung in kleine, prüfbare auf.",
+      "try": "Wenn du Optionen vergleichst, gib das Bewertungsraster vor: „Bewerte Tempo, Kosten und Änderbarkeit jeweils von 1 bis 5 und wähle dann aus.“"
+    },
+    {
+      "quote": "The judge is never from the parent's vendor, and Fable counts as Claude for that check, so use the first entry from another vendor.",
+      "quoteTr": "Der Prüfer stammt niemals vom Anbieter des übergeordneten Modells, und Fable zählt bei diesem Abgleich als Claude; nimm also den ersten Eintrag eines anderen Anbieters.",
+      "title": "Hol einen externen Prüfer dazu",
+      "does": "Die Kandidaten werden von einem Modell eines anderen Anbieters bewertet, sodass kein Modell seinen eigenen Stil bevorzugen kann.",
+      "why": "Zu benennen, woher Voreingenommenheit kommt, und sie mit einer harten Regel auszuschließen, wirkt besser, als um Objektivität zu bitten.",
+      "try": "Wenn du KI-Arbeit prüfst, wechsle den Prüfer: „Claude hat das geschrieben; lass GPT es aus Lesersicht kritisieren.“"
+    },
+    {
+      "quote": "Reframe and re-run rather than averaging the divergence.",
+      "quoteTr": "Fass die Aufgabe neu und starte erneut, statt die Abweichungen zu mitteln.",
+      "title": "Führ schlechte Ergebnisse auf die Frage zurück",
+      "does": "Weichen die Versionen stark voneinander ab, formuliert es die Aufgabe neu und startet noch einmal, statt sie zu einem Flickwerk zusammenzunähen.",
+      "why": "Es wertet wirre Ergebnisse als schlecht gestellte Frage, sodass die KI die Ursache behebt, statt einen Mittelweg zu suchen.",
+      "try": "Wenn sich KI-Antworten widersprechen, bitte nicht um einen Kompromiss, sondern frag: „Was war an meiner Anfrage unklar, sodass so unterschiedliche Antworten herauskamen?“"
+    }
+  ],
+  "blocks": [
+    "# Arena",
+    "Leg eine To-do-Liste mit einem Eintrag pro Phase an (Rahmen setzen, Parallel starten, Fremdbewertung, Wählen, Einarbeiten, Prüfen), bevor du irgendetwas startest.",
+    "## Phase A: Rahmen setzen",
+    "Jeder Kandidat bekommt denselben Prompt, also ist der Prompt der Vertrag.",
+    "1. Benenne das Artefakt, das jeder Kandidat erzeugt.\n2. Leite das Bewertungsraster ab: 3–6 konkrete, bewertbare Kriterien dafür, wie Erfolg bei *dieser* Aufgabe aussieht. Es ist das Werkzeug für die Auswahl in Phase D. Die Kandidaten sehen nur die Aufgabe.\n3. Wähle die Runner aus der Zeile `arena runners` in der pstack-Einstellungsdatei (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in anderen Harnesses), standardmäßig `claude-fable-5-2-high`, `claude-opus-5-5-high-fast` und `gemini-4-neon-xhigh`. Ein Eintrag `auto` oder `inherit-parent` steht für das übergeordnete Modell; lass also `model` weg und starte einen allgemeinen Subagent (`generalPurpose` in Cursor). Wenn dein Subagent-Tool einen Slug ablehnt, verwende den nächstgelegenen gültigen Slug derselben Familie aus dessen Fehlermeldung oder der Modellliste deines Harness – oder streiche diesen Platz, behalte mindestens zwei Runner und weise darauf hin. Familien richten sich nach dem Präfix, wobei der längste Treffer gewinnt: `claude-fable-*`, `claude-*` und `gemini-*`, nachdem ein vorangestelltes `cursor-` entfernt wurde. Bei jedem anderen Slug ist der Text vor dem ersten Bindestrich die Familie. Starte mehr Kandidaten für mehrere Designrichtungen und setze ein Modell mehrfach ein, wenn es bei der Arbeit eher ums Generieren geht als um Urteilsvermögen. Wähle die Reasoning-Stufe jedes Subagents gemäß dem Abschnitt „Subagents“ im Skill **poteto-mode**.\n4. Gib jedem Kandidaten seinen eigenen Ausgabeort (wo möglich einen Git-Worktree, sonst `/tmp/arena-<slug>/candidate-<n>/`), gemäß dem Prinzip-Skill **separate-before-serializing-shared-state**.",
+    "## Phase B: Parallel starten",
+    "Starte alle N Subagents in einer Nachricht mit `run_in_background: true` – jeden mit der Aufgabe, dem Pfad zur gemeinsamen Arbeitsgrundlage, seinem eigenen Ausgabepfad und der Anweisung, das Artefakt sowie eine kurze Begründung zu liefern, die nennt, welche Alternativen er erwogen und was er verworfen hat.",
+    "Wenn ein Kandidat keine Ausgabe liefert, mach mit N-1 weiter und vermerke den Ausfall.",
+    "## Phase C: Fremdbewertung",
+    "Nachdem alle Kandidaten aus Phase B fertig sind, starte einen Prüfer mit reinem Lesezugriff aus der Zeile `arena cross-judge pool` in der pstack-Einstellungsdatei (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in anderen Harnesses), standardmäßig `claude-opus-5-5-high-fast`, `gemini-4-neon-xhigh`. Der Prüfer stammt niemals vom Anbieter des übergeordneten Modells, und Fable zählt bei diesem Abgleich als Claude; nimm also den ersten Eintrag eines anderen Anbieters. Ein Eintrag `auto` oder `inherit-parent` steht für das übergeordnete Modell. Wenn du das übergeordnete Modell nicht kennst, verwende den ersten echten Slug und weise darauf hin, dass der Anbieter-Abgleich nicht stattgefunden hat. Wenn dein Subagent-Tool einen Slug ablehnt, verwende den nächstgelegenen gültigen Slug derselben Familie aus dessen Fehlermeldung oder der Modellliste deines Harness, dann den nächsten solchen Eintrag, oder überspringe den Prüfer und weise darauf hin. Während du in Phase D liest, bewertet der Prüfer jeden Kandidaten anhand seines Pfad-Labels nach jedem Kriterium des Bewertungsrasters und empfiehlt eine Basis.",
+    "## Phase D: Basis wählen",
+    "Lies jeden Kandidaten von Anfang bis Ende, bevor du wählst. Bewerte jeden Kandidaten Kriterium für Kriterium anhand des Bewertungsrasters, nicht nach dem Gesamteindruck, und vergleiche das Ergebnis mit dem Fremdprüfer, sofern Phase C einen eingesetzt hat. Einigkeit bei der Basis bestätigt die Wahl. Uneinigkeit bedeutet, dass eine Seite voreingenommen ist oder das Bewertungsraster mehrdeutig war. Lies beide Begründungen, bevor du entscheidest.",
+    "Wähle die Basis, die sich bei der künftigen Wartung am leichtesten erweitern lässt, ohne Invarianten zu verletzen. Wenn zwei gleichauf wirken, bevorzuge die sauberere Abgrenzung oder die kleinere API – gemäß dem Laziness Protocol.",
+    "## Phase E: Einarbeiten",
+    "Geh jeden unterlegenen Kandidaten noch einmal daraufhin durch, was es wert ist, in die Basis übernommen zu werden – meistens ein oder zwei Dinge pro Kandidat, nicht den Großteil. Arbeite jede Übernahme von Hand ein, gemäß dem Prinzip-Skill **redesign-from-first-principles**, damit das Ergebnis unter einem einzigen gedanklichen Modell stimmig bleibt. Füge nichts mechanisch ein.",
+    "Wenn die Kandidaten auf eine gemeinsame Form hinauslaufen, ist das eine starke Übereinstimmung. Vermerke es und liefere diese Konsensform aus. Eine Übernahme ist nicht nötig. Weichen sie stark voneinander ab, war Phase A zu ungenau festgelegt. Fass die Aufgabe neu und starte erneut, statt die Abweichungen zu mitteln.",
+    "## Phase F: Prüfen",
+    "Prüfe das zusammengeführte Artefakt wie jede andere Ausgabe, gemäß dem Prinzip-Skill **prove-it-works**. Wenn die Prüfung ein Problem findet, das die Arena übersehen hat, war entweder Phase A falsch (Aufgabe neu fassen und erneut starten) oder ein Kandidat hat es erkannt und du hast die Übernahme verpasst (geh zurück zu Phase E). Kaschiere es nicht.",
+    "## Ausgaben",
+    "Ein zusammengeführtes Artefakt samt einer kurzen Notiz zur Zusammenführung, die Folgendes nennt: die Basis und warum sie gewählt wurde, das Urteil des Fremdprüfers oder den Hinweis, dass Phase C den Prüfer übersprungen hat, jede Übernahme samt Ursprungskandidat, was verworfen wurde und warum, eventuelle Konvergenz oder Ausfälle sowie das Prüfergebnis."
+  ]
+}

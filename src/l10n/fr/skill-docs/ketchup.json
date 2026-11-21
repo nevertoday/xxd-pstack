@@ -1,0 +1,88 @@
+{
+  "description": "Faire le point pour l'utilisateur sur ce qui a changé dans ce chat depuis son dernier message, avec des mots simples et de petits visuels. Lister chaque point en attente de sa part avec ce qu'il lui faut pour trancher à la seule lecture de la réponse. À utiliser pour /ketchup.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Fait un long récit et noie ce qui attend votre décision.",
+        "with": "Commence par nommer ce qui est en attente de votre part et donne sa recommandation pour chaque décision."
+      },
+      {
+        "without": "Remplit le compte rendu de hashes, de chemins de fichiers et de numéros de build.",
+        "with": "Dit ce qui a changé pour vous avec des mots simples, sans les identifiants dont vous n'avez pas besoin."
+      },
+      {
+        "without": "Invente des chiffres ou des images d'écrans jamais capturés.",
+        "with": "Vérifie chaque chiffre par rapport à sa source et n'intègre que de vraies captures d'écran et vidéos."
+      }
+    ],
+    "intro": "Il fait le point depuis votre dernier message avant /ketchup, explique chaque changement et liste chaque décision que vous devez prendre, avec le ton simple de /bro.",
+    "sections": [
+      "Ne modifie rien pendant ce tour, vérifie chaque PR, exécution de CI et agent touché dans ce chat, et ne liste que les décisions qui ne reviennent qu'à vous.",
+      "Commence par ce qui est en attente de votre part, garde le récit sous les 100 mots et donne pour chaque point sa recommandation, ses preuves et son risque.",
+      "Ne dessine que lorsqu'une image explique mieux : six cases maximum, huit mots chacune. Les tableaux et les listes de statuts ne comptent pas."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Assume the user remembers their last message and nothing after it.",
+      "quoteTr": "Pars du principe que l'utilisateur se souvient de son dernier message et de rien après.",
+      "title": "Tracer la ligne de départ du lecteur",
+      "does": "Part de votre dernier message : rien de ce que vous savez déjà, rien de ce que vous avez manqué.",
+      "why": "« Ce que le lecteur sait » devient un point précis dans le temps, donc l'IA n'a pas à deviner par où commencer.",
+      "try": "Quand vous demandez une note de passation, ajoutez : « Pars du principe que le lecteur a vu le point de vendredi dernier et rien après. »"
+    },
+    {
+      "quote": "Say \"the tests pass\", not \"CI is green\".",
+      "quoteTr": "Dis « les tests passent », pas « la CI est verte ».",
+      "title": "Fixer le ton avec une paire d'exemples",
+      "does": "Rapporte les résultats avec des mots que vous comprenez, pas du jargon.",
+      "why": "« Mots simples » est vague. Une paire « dis ceci, pas cela » est bien plus précise qu'une suite d'adjectifs.",
+      "try": "Pour obtenir le ton voulu, donnez une paire d'exemples : « Écris “sort demain”, pas “ETA T+1”. »"
+    },
+    {
+      "quote": "An action item is a call or step only the user can take",
+      "quoteTr": "Un point d'action est une décision ou une étape qui ne revient qu'à l'utilisateur",
+      "title": "Définir le mot clé en premier",
+      "does": "Ne liste que les décisions que vous devez vraiment prendre ; il ne se décharge pas de son propre travail sur vous.",
+      "why": "Chacun comprend « point d'action » différemment. Définissez-le, puis précisez ce qui compte et ce qui ne compte pas.",
+      "try": "Si un mot compte dans votre prompt, définissez-le tout de suite : « Ici, “terminé” veut dire que ça fonctionne quand on l'ouvre sur téléphone. »"
+    },
+    {
+      "quote": "Never cut items or shrink them to stay under a word count",
+      "quoteTr": "Ne supprime jamais de points et ne les raccourcis pas pour rester sous une limite de mots",
+      "title": "Dire quelle règle prime",
+      "does": "Garde la réponse courte, mais n'omet jamais une décision que vous devez prendre.",
+      "why": "« Court » et « complet » peuvent entrer en conflit. Dire lequel prime empêche l'IA de couper l'essentiel pour faire court.",
+      "try": "Quand vous donnez deux objectifs, précisez lequel passe en premier : « Fais court, mais indique le risque de chaque changement, même si ça allonge la réponse. »"
+    },
+    {
+      "quote": "Each line must stay true when read alone.",
+      "quoteTr": "Chaque ligne doit rester vraie quand on la lit seule.",
+      "title": "Donner un critère que l'IA peut vérifier",
+      "does": "Chaque ligne du résumé se suffit à elle-même et ne peut pas être sortie de son contexte.",
+      "why": "C'est une règle que l'IA peut vérifier ligne par ligne, plus facile à suivre que « sois clair ».",
+      "try": "Quand vous demandez un résumé, ajoutez : « Chaque ligne doit garder son sens si on la transfère seule. »"
+    }
+  ],
+  "blocks": [
+    "# Ketchup",
+    "Fais le point pour l'utilisateur sur ce qui a changé dans ce chat depuis le dernier message qu'il a écrit avant `/ketchup`, et aide-le à comprendre chaque changement, pas seulement son état d'avancement. Présente ensuite chaque décision en attente de sa part afin qu'il puisse trancher à la seule lecture de ta réponse. Les notifications et les résultats des sous-agents ne sont pas ses messages. Pars du principe que l'utilisateur se souvient de son dernier message et de rien après.",
+    "Utilise la voix de [`/bro`](../bro/SKILL.md), pas sa tâche : des mots simples, des phrases courtes, pas de jargon, comme quelqu'un qui met une autre personne au courant. Dis ce qui a changé pour l'utilisateur, pas comment tu l'as fait. Dis « les tests passent », pas « la CI est verte ». Laisse de côté les hashes, les chemins de fichiers, les commandes, les numéros de build et les nombres de tests, sauf si l'utilisateur en a besoin pour agir. Appelle chaque PR, branche ou agent par un nom que l'utilisateur connaît, pas par une étiquette que tu as inventée. Si un fait a besoin de contexte pour avoir du sens, donne ce contexte ou laisse le fait de côté.",
+    "## Rassembler ce qui a changé",
+    "Garde ce tour en lecture seule. Crée des visuels uniquement à partir de ce que tu as déjà : ne modifie pas le code, ne lance pas d'application ni de tâche, et ne publie rien. Rassemble ton propre travail depuis ce message, les rapports des sous-agents et les messages de toute autre personne dans ce chat. Vérifie l'état actuel de chaque PR, exécution de CI ou agent touché dans ce chat. Vérifie chaque chiffre que tu vas montrer par rapport aux faits dont il provient, et précise-le quand tu en corriges un.",
+    "Un point d'action est une décision ou une étape qui ne revient qu'à l'utilisateur, comme un choix produit, une validation, une action irréversible ou un accès que tu n'as pas. Inclus tout point encore en attente de sa part, même s'il a été soulevé avant son dernier message. Le travail que tu peux encore faire toi-même n'est pas un point d'action. N'invente jamais une décision pour remplir la réponse. Une étape que l'utilisateur n'a pas demandée et dont le travail n'a pas besoin n'est pas un point d'action, sauf si elle est irréversible et en attente de sa part : consacre-lui une ligne et aucun visuel.",
+    "Une même décision peut couvrir plusieurs points, comme chaque PR d'un ensemble en attente de fusion. Pour chaque point, recueille son lien, ce qu'il change pour les utilisateurs, les preuves qui appuient ta recommandation, son risque et ta recommandation. Écris « inconnu » pour un fait nécessaire à la décision que tu ne connais pas. Omets tout lien que tu n'as pas.",
+    "## Rédiger la réponse",
+    "Consacre tes mots aux décisions, pas au récit. Garde ce qui s'est passé sous les 100 mots, hors images, et encore plus court quand il s'est passé moins de choses. Laisse de côté le travail qui n'a rien changé pour l'utilisateur. Consacre environ 30 mots à chaque point. La réponse s'allonge avec le nombre de points : deux points demandent bien moins de 150 mots en tout, hors images, et trente en demandent beaucoup plus. Ne supprime jamais de points et ne les raccourcis pas pour rester sous une limite de mots : pas de chiffre à la place d'une liste, et pas de lien à la place d'un point. Un lien peut permettre d'approfondir, mais la réponse seule doit suffire pour décider.",
+    "Commence par une phrase courte qui nomme ce qui est en attente de la part de l'utilisateur, ou qui dit que rien ne l'est. Les points d'action donnent le détail. S'il ne s'est rien passé et que rien n'est en attente de sa part, dis-le et arrête-toi là.",
+    "Montre ensuite ce qui s'est passé, images d'abord. Intègre directement les captures d'écran et les vidéos produites par le travail, puis tout diagramme qui explique un changement. Résume ensuite en une puce courte par demande de l'utilisateur : ce qu'il en est ressorti, et si c'est terminé, encore en cours, en échec ou non vérifié. Écris chaque ligne comme tu la dirais à voix haute : « La recherche était lente à cause d'un index manquant », pas « Revue de la recherche : terminé » ni « Recherche lente : index manquant ». Mentionne tout bug trouvé et corrigé en chemin. Chaque ligne doit rester vraie quand on la lit seule. Ne marque jamais comme terminé quelque chose qui reste en attente de la part de l'utilisateur, et laisse de côté tout ce que disent les points d'action. Sous le résumé, donne au plus trois lignes courtes qui changent ce que l'utilisateur sait ou doit faire. Indique ensuite en une ligne tout travail restant que tu peux faire toi-même.",
+    "Liste ensuite les points d'action. Demande la décision qui revient à l'utilisateur, comme fusionner, approuver ou choisir, et donne ta recommandation. Une étape que tu ferais en premier va dans ta recommandation. Même chose pour tout ce qui doit arriver en premier, et pour tout ce qui ne peut pas être annulé. Donne le numéro ou le lien de chaque PR, issue ou agent concerné par une décision, y compris dans une décision entre plusieurs options.",
+    "Adapte la forme à la décision. Une décision portant sur un seul point tient en une puce : la décision, ta recommandation, ce que cela change pour les utilisateurs, les preuves qui appuient ta recommandation et son risque, en ne nommant le point qu'une seule fois. Quand plusieurs points partagent la même décision, écris la décision et ta recommandation une seule fois, puis donne à chaque point sa propre puce, le plus risqué en premier : son lien et son nom, ce qu'il change pour les utilisateurs, les preuves qui appuient ta recommandation et son risque. N'indique la recommandation d'un point que si elle diffère de celle de la décision. Indique le risque de chaque point même quand il est faible, par exemple « Risque faible : seules les couleurs changent. » Ne dis ce que coûte l'attente que lorsqu'il s'agit de plus qu'un simple délai, comme une échéance ou une perte de données.",
+    "Pour une décision entre plusieurs options, donne chaque option envisagée pendant le travail, avec pour chacune ce qu'elle apporte à l'utilisateur et ce qu'elle coûte, ainsi que l'état actuel quand il y en a un. Ces coûts sont le risque de la décision, donc n'ajoute pas de ligne de risque séparée. Quand les captures d'écran ci-dessus montrent les options, écris le gain et le coût de chaque option sous sa capture d'écran.",
+    "## Visuels",
+    "Un visuel est une image : une capture d'écran, une vidéo, un diagramme Mermaid, un graphique ou un diagramme produit par `/visualize` (Cursor) ou l'outil de graphiques de ton harness, ou encore une image générée. Un tableau Markdown n'est pas un visuel, même avec des colonnes avant et après.",
+    "Quand quelque chose est plus facile à saisir en image qu'en phrases, dessine-le : le fonctionnement d'un design ou d'un système, une stack de PR ou une chaîne de dépendances avec l'état de chaque PR, l'avant et l'après d'un correctif, ou des options côte à côte. Ne dessine jamais une liste de statuts, une liste de points d'action ou des cases sans rien qui les relie. Ne donne jamais deux fois le même fait, ni dans le texte ni d'un visuel à l'autre.",
+    "Garde chaque visuel assez petit pour se lire d'un coup d'œil : au plus six cases, avec au plus huit mots dans chacune. Écris les libellés avec des mots simples qu'une personne dirait, pas des étiquettes comme « Tests : OK ». Un fait qui a besoin d'une phrase a sa place dans le texte, ou nulle part.",
+    "Intègre directement les captures d'écran et les vidéos quand le changement est visible, pas seulement sous forme de liens. Si un changement visible n'en a pas, indique « Pas encore de capture d'écran, » sur sa ligne de résumé et précise ce qui a changé à l'écran. Dessine les diagrammes et les graphiques à partir des faits dont tu disposes : un diagramme Mermaid pour montrer comment les éléments se relient, et un graphique pour les chiffres (`/visualize` dans Cursor, ou l'outil de graphiques de ton harness). N'invente jamais un chiffre, et ne dessine ni ne génère jamais l'image d'un écran que tu n'as pas capturé. Ne mets de lien que vers des artefacts qui existent."
+  ]
+}

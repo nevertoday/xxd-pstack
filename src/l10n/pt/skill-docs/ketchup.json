@@ -1,0 +1,88 @@
+{
+  "description": "Coloque o usuário a par do que mudou neste chat desde a última mensagem dele, em palavras simples e com pequenos recursos visuais. Liste cada item que espera pelo usuário com o que ele precisa para decidir só pela resposta. Use para /ketchup.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Conta uma história longa e enterra o que precisa da sua decisão.",
+        "with": "Começa dizendo o que espera por você e dá sua recomendação para cada decisão."
+      },
+      {
+        "without": "Enche a atualização de hashes, caminhos de arquivo e números de build.",
+        "with": "Diz o que mudou para você em palavras simples, deixando de fora IDs de que você não precisa."
+      },
+      {
+        "without": "Inventa números ou imagens de telas que nunca capturou.",
+        "with": "Confere cada número na fonte e incorpora apenas capturas de tela e vídeos reais."
+      }
+    ],
+    "intro": "Coloca você a par do que aconteceu desde a sua última mensagem antes do /ketchup, explica cada mudança e lista cada decisão que você precisa tomar, no tom simples do /bro.",
+    "sections": [
+      "Não altera nada neste turno, confere cada PR, execução de CI e agente com que este chat lidou e lista apenas decisões que só você pode tomar.",
+      "Começa com o que espera por você, mantém a história abaixo de 100 palavras e traz recomendação, evidências e risco para cada item.",
+      "Só desenha quando uma imagem explica melhor: no máximo seis caixas, oito palavras cada. Tabelas e listas de status não contam."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Assume the user remembers their last message and nothing after it.",
+      "quoteTr": "Considere que o usuário se lembra da última mensagem dele e de nada depois dela.",
+      "title": "Trace a linha de partida do leitor",
+      "does": "Começa da sua última mensagem: sem repetir o que você já sabe nem deixar passar o que você perdeu.",
+      "why": "“O que o leitor sabe” vira um único ponto no tempo, assim a IA não precisa adivinhar por onde começar.",
+      "try": "Quando pedir um resumo de passagem de bastão, acrescente: “Considere que o leitor viu a atualização da sexta passada e nada depois dela.”"
+    },
+    {
+      "quote": "Say \"the tests pass\", not \"CI is green\".",
+      "quoteTr": "Diga “os testes passam”, não “o CI está verde”.",
+      "title": "Defina o tom com um par de exemplos",
+      "does": "Relata os resultados em palavras que você entende, sem jargão.",
+      "why": "“Palavras simples” é vago. Um par do tipo “diga isto, não aquilo” é bem mais preciso do que uma lista de adjetivos.",
+      "try": "Para acertar o tom, dê um par: “Escreva ‘sai amanhã’, não ‘ETA T+1’.”"
+    },
+    {
+      "quote": "An action item is a call or step only the user can take",
+      "quoteTr": "Um item de ação é uma decisão ou passo que só cabe ao usuário",
+      "title": "Defina primeiro a palavra-chave",
+      "does": "Lista apenas as decisões que você realmente precisa tomar; não joga o próprio trabalho para você.",
+      "why": "Cada pessoa entende “item de ação” de um jeito. Defina o termo e depois diga o que conta e o que não conta.",
+      "try": "Se uma palavra no seu prompt importa, defina na hora: “Aqui, ‘pronto’ significa que funciona quando aberto no celular.”"
+    },
+    {
+      "quote": "Never cut items or shrink them to stay under a word count",
+      "quoteTr": "Nunca corte itens nem os encurte para ficar abaixo de um limite de palavras",
+      "title": "Diga qual regra vence",
+      "does": "Mantém a resposta curta, mas nunca deixa de fora uma decisão que você precisa tomar.",
+      "why": "“Curto” e “completo” podem entrar em conflito. Dizer qual vence impede que a IA corte o que importa para encurtar.",
+      "try": "Quando der dois objetivos, diga qual vem primeiro: “Mantenha curto, mas informe o risco de cada mudança, mesmo que fique mais longo.”"
+    },
+    {
+      "quote": "Each line must stay true when read alone.",
+      "quoteTr": "Cada linha precisa continuar verdadeira quando lida sozinha.",
+      "title": "Dê um critério que a IA possa conferir",
+      "does": "Cada linha do resumo é completa por si só e não pode ser tirada de contexto.",
+      "why": "É uma regra que a IA consegue conferir linha por linha, mais fácil de seguir do que “seja claro”.",
+      "try": "Quando pedir um resumo, acrescente: “Cada linha precisa continuar fazendo sentido se for encaminhada sozinha.”"
+    }
+  ],
+  "blocks": [
+    "# Ketchup",
+    "Coloque o usuário a par do que mudou neste chat desde a última mensagem que ele escreveu antes do `/ketchup` e ajude-o a entender cada mudança, não só em que pé ela está. Depois, apresente cada decisão que espera por ele para que possa decidir só pela sua resposta. Notificações e resultados de subagentes não são mensagens do usuário. Considere que o usuário se lembra da última mensagem dele e de nada depois dela.",
+    "Use o tom do [`/bro`](../bro/SKILL.md), não a tarefa dele: palavras simples, frases curtas, sem jargão, como uma pessoa colocando outra a par. Diga o que mudou para o usuário, não como você fez. Diga “os testes passam”, não “o CI está verde”. Deixe de fora hashes, caminhos de arquivo, comandos, números de build e contagens de testes, a menos que o usuário precise de algum deles para agir. Chame cada PR, branch ou agente por um nome que o usuário reconheceria, não por um rótulo que você inventou. Se um fato precisar de contexto para fazer sentido, dê o contexto ou deixe o fato de fora.",
+    "## Reúna o que mudou",
+    "Mantenha este turno somente leitura. Crie recursos visuais apenas com o que você já tem: não altere código, não inicie um app ou um job nem publique nada. Reúna o seu próprio trabalho desde aquela mensagem, os relatos de subagentes e as mensagens de qualquer outra pessoa neste chat. Confira o estado atual de cada PR, execução de CI ou agente com que este chat lidou. Confira cada número que você vai mostrar com os fatos de onde ele vem e avise quando corrigir algum.",
+    "Um item de ação é uma decisão ou passo que só cabe ao usuário, como uma escolha de produto, uma aprovação, uma ação irreversível ou um acesso que você não tem. Inclua qualquer um que ainda esteja esperando pelo usuário, mesmo que tenha surgido antes da última mensagem dele. Trabalho que você ainda pode fazer por conta própria não é um item de ação. Nunca invente uma decisão para preencher a resposta. Um passo que o usuário não pediu e de que o trabalho não precisa não é um item de ação, a menos que seja irreversível e esteja esperando pelo usuário: dê a ele uma linha e nenhum recurso visual.",
+    "Uma decisão pode cobrir vários itens, como cada PR de um conjunto aguardando merge. Para cada item, reúna o link, o que ele muda para os usuários, as evidências por trás da sua recomendação, o risco e a sua recomendação. Escreva “desconhecido” para um fato de que a decisão precisa e que você não sabe. Deixe de fora qualquer link que você não tenha.",
+    "## Escreva a resposta",
+    "Gaste palavras nas decisões, não na história. Mantenha o que aconteceu abaixo de 100 palavras, sem contar imagens, e mais curto quando menos coisa tiver acontecido. Deixe de fora trabalho que não mudou nada para o usuário. Reserve cerca de 30 palavras para cada item. A resposta cresce conforme o número de itens: dois itens precisam de bem menos de 150 palavras no total, sem contar imagens, e trinta precisam de muito mais. Nunca corte itens nem os encurte para ficar abaixo de um limite de palavras: nada de colocar uma contagem no lugar de uma lista, nem um link no lugar de um item. Um link pode aprofundar, mas a resposta sozinha precisa bastar para decidir.",
+    "Comece com uma frase curta dizendo o que espera pelo usuário, ou diga que nada espera. Os itens de ação trazem os detalhes. Se nada aconteceu e nada espera pelo usuário, diga isso e pare.",
+    "Depois, mostre o que aconteceu, primeiro as imagens. Incorpore diretamente na resposta as capturas de tela e os vídeos gerados pelo trabalho e, em seguida, qualquer diagrama que explique uma mudança. Depois, resuma em um tópico curto para cada coisa que o usuário pediu: o que resultou dela e se está pronta, ainda rodando, falhou ou não foi verificada. Escreva cada linha do jeito que você falaria em voz alta: “A busca estava lenta por causa de um índice faltando”, não “Revisão da busca: pronto” nem “Busca lenta: índice faltando”. Cite qualquer bug encontrado e corrigido no caminho. Cada linha precisa continuar verdadeira quando lida sozinha. Nunca marque como pronto algo que ainda espera pelo usuário e deixe de fora qualquer coisa que os itens de ação já digam. Abaixo do resumo, inclua no máximo três linhas curtas que mudem o que o usuário sabe ou precisa fazer. Depois, cite em uma linha qualquer trabalho restante que você pode fazer por conta própria.",
+    "Depois, liste os itens de ação. Peça a decisão que cabe ao usuário, como fazer merge, aprovar ou escolher, e dê sua recomendação. Um passo que você daria primeiro entra na sua recomendação. O mesmo vale para qualquer coisa que precise acontecer antes e para qualquer coisa que não possa ser desfeita. Informe o número ou o link de cada PR, issue ou agente envolvido na decisão, inclusive em uma decisão entre opções.",
+    "Adapte o formato à decisão. Uma decisão sobre um item é um tópico: a decisão, sua recomendação, o que muda para os usuários, as evidências por trás da sua recomendação e o risco, citando o item uma única vez. Quando itens compartilham uma decisão, escreva a decisão e sua recomendação uma vez e depois dê a cada item seu próprio tópico, do mais arriscado para o menos arriscado: link e nome, o que muda para os usuários, as evidências por trás da sua recomendação e o risco. Cite a recomendação de um item apenas quando ela diferir da recomendação da decisão. Informe o risco de cada item mesmo quando for baixo, como “Risco baixo: só as cores mudam.” Diga qual é o custo de esperar apenas quando for mais do que um atraso, como um prazo ou perda de dados.",
+    "Para uma decisão entre opções, apresente todas as opções que o trabalho considerou, cada uma com o que o usuário ganha e o que custa, além do estado atual quando houver um. Esses custos são o risco da decisão, então não adicione uma linha separada de risco. Quando as capturas de tela acima mostrarem as opções, escreva o ganho e o custo de cada opção abaixo da captura de tela correspondente.",
+    "## Recursos visuais",
+    "Um recurso visual é uma imagem: uma captura de tela, um vídeo, um diagrama Mermaid, um gráfico ou diagrama do `/visualize` (Cursor) ou da ferramenta de gráficos do seu harness, ou uma imagem gerada. Uma tabela Markdown não é um recurso visual, mesmo com colunas de antes e depois.",
+    "Quando algo for mais fácil de entender como imagem do que em frases, desenhe: como um design ou sistema funciona, uma stack de PRs ou cadeia de dependências com o estado de cada PR, o antes e depois de uma correção ou opções lado a lado. Nunca desenhe uma lista de status, uma lista de itens de ação ou caixas sem nada ligando umas às outras. Nunca repita um fato, nem no texto nem entre recursos visuais.",
+    "Mantenha cada recurso visual pequeno o bastante para ler de relance: no máximo seis caixas, com no máximo oito palavras em cada. Escreva os rótulos com palavras simples que uma pessoa falaria, não etiquetas como “Testes: passou”. Um fato que precisa de uma frase vai no texto, ou em lugar nenhum.",
+    "Incorpore capturas de tela e vídeos diretamente quando a mudança for visível, não apenas como links. Se uma mudança visível não tiver nenhum deles, marque a linha dela no resumo com “Sem captura de tela ainda,” e diga ali o que mudou na tela. Desenhe diagramas e gráficos a partir de fatos que você tem: um diagrama Mermaid para mostrar como as coisas se conectam e um gráfico para números (`/visualize` no Cursor ou a ferramenta de gráficos do seu harness). Nunca invente um número e nunca desenhe nem gere uma imagem de uma tela que você não capturou. Inclua links apenas para artefatos que existem."
+  ]
+}

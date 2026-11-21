@@ -1,0 +1,65 @@
+{
+  "description": "Coloque o usuário a par como no /ketchup, com um vídeo curto de slides com legendas sobre o que aconteceu e as decisões pendentes em texto abaixo dele. Use para /ketchup-video.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Transforma os slides em listas com marcadores, tabelas ou listas de status.",
+        "with": "Apresenta um ponto por slide, alterando uma mesma imagem com setas e destaques."
+      },
+      {
+        "without": "Põe as legendas por cima da imagem, cobrindo o que ela mostra.",
+        "with": "Coloca cada legenda em uma faixa da mesma altura abaixo do slide."
+      },
+      {
+        "without": "Envia o vídeo renderizado sem ver como ficou.",
+        "with": "Confere um quadro por slide, mede o tempo de permanência de cada um e renderiza de novo qualquer slide rápido demais para ler."
+      }
+    ],
+    "intro": "Segue o /ketchup, mas mostra o que aconteceu em um vídeo curto com legendas. A resposta traz a frase de abertura, o vídeo, o trabalho restante e as decisões.",
+    "sections": [
+      "Planeja uma frase com a mensagem central e uma linha por slide, usa no máximo 10 slides, feitos com capturas de tela, diffs e dados reais.",
+      "Dá a cada slide uma legenda de cerca de dez palavras dizendo o que ele significa, em uma faixa fixa abaixo do slide.",
+      "Renderiza um vídeo sem áudio em formato paisagem, com legendas gravadas na imagem e pelo menos um segundo para cada três palavras, e depois confere o quadro e o tempo de permanência de cada slide."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Before you draw, write the one sentence the user should leave with and one line per slide.",
+      "quoteTr": "Antes de desenhar, escreva a única frase que o usuário deve guardar e uma linha por slide.",
+      "title": "Escreva a mensagem central antes de construir",
+      "does": "O vídeo inteiro segue uma única mensagem central, e cada slide ajuda você a lembrar dela.",
+      "why": "Fazer a IA dizer o que quer transmitir antes de começar impede que o resultado se disperse.",
+      "try": "Antes de pedir um relatório, acrescente: “Primeiro escreva a única frase que o leitor deve lembrar, depois escreva o texto.”"
+    },
+    {
+      "quote": "at least one second for each three words",
+      "quoteTr": "pelo menos um segundo para cada três palavras",
+      "title": "Transforme “tempo suficiente” em uma fórmula",
+      "does": "Cada slide fica na tela tempo suficiente para ler as palavras; nada passa rápido demais.",
+      "why": "“Tempo suficiente” é uma sensação; “um segundo para cada três palavras” é uma regra que você pode calcular e conferir.",
+      "try": "Troque uma sensação por uma fórmula: “Ajuste o tamanho da resposta às perguntas: no máximo três frases para cada uma.”"
+    },
+    {
+      "quote": "not with a still-frame detector, which counts the faint ends of a fade as still",
+      "quoteTr": "não com um detector de quadros estáticos, que conta os extremos sutis de um fade como estáticos",
+      "title": "Cite a verificação que mente",
+      "does": "Mede de verdade quanto tempo cada slide fica na tela, em vez de confiar em uma ferramenta que conta errado.",
+      "why": "Dizer exatamente onde uma ferramenta comum erra impede que a IA se contente com um número que só parece certo.",
+      "try": "Quando pedir para verificar links, escreva: “Abra e leia cada página; o código de status não basta, algumas páginas de erro retornam 200.”"
+    }
+  ],
+  "blocks": [
+    "# Ketchup em vídeo",
+    "Siga [`/ketchup`](../ketchup/SKILL.md), mas mostre o que aconteceu em um vídeo curto com legendas em vez do resumo e dos elementos visuais dele. O intervalo começa na última mensagem que o usuário escreveu antes de `/ketchup-video`, não antes de qualquer `/ketchup` anterior. Escrever e renderizar o vídeo, fora do repositório, é a única exceção à regra de somente leitura dele. A resposta é a frase de abertura do ketchup, o vídeo incorporado, uma linha citando qualquer trabalho restante que você pode fazer por conta própria e os itens de ação. Quando o vídeo mostrar as opções de uma decisão, chame cada opção pelo nome que o vídeo dá a ela. Se a renderização falhar, diga isso em uma linha e traga apenas as decisões.",
+    "## Slides",
+    "Use as capturas de tela, gravações, diffs e dados que o trabalho produziu, não o texto do chat sobre eles. Antes de desenhar, escreva a única frase que o usuário deve guardar e uma linha por slide. Descarte cada slide que não mude o que o usuário sabe. Use no máximo 10 slides, e quanto menos, melhor. Nenhuma dessas anotações entra na resposta.",
+    "Cada slide apresenta um ponto. Monte os slides sobre uma mesma imagem e mude essa imagem de slide para slide, em vez de cortar para outra sem relação. Uma cor ou forma significa a mesma coisa em todos os slides. Mostre o trabalho em imagens, como o funcionamento de um sistema, uma stack de PRs com o estado de cada PR, o antes e depois de uma correção ou opções lado a lado. Aponte o que mudou com setas, destaques e movimento. Um slide nunca é uma lista com marcadores, uma lista de status, uma tabela ou caixas sem nada que as conecte.",
+    "Mantenha o texto no mínimo. Coloque cada rótulo em cima do que ele nomeia, com palavras simples que uma pessoa diria, não tags como “Testes: passou”. Nunca coloque legenda descrevendo o que uma imagem mostra e nunca repita um fato, seja entre slides ou no texto abaixo deles.",
+    "Mostre o resultado de cada coisa que o usuário pediu e se está pronta, ainda está rodando, falhou ou não foi verificada. Nunca mostre como concluído algo que ainda aguarda o usuário. Mostre qualquer bug encontrado e corrigido no caminho. Se uma mudança visível não tiver captura de tela, diga isso no slide dela e cite o que mudou na tela. Desenhe apenas a partir dos fatos que você tem. Nunca invente um número e nunca desenhe uma tela que você não capturou.",
+    "## Legendas",
+    "Dê a cada slide uma linha curta de legenda, de cerca de dez palavras, que passe o ponto dele do jeito que você contaria ao usuário, usando apenas o que aquele slide mostra. Diga o que a imagem significa em vez de ler os rótulos dela. Coloque a legenda em uma faixa abaixo do slide, com a mesma altura em todos os slides e vazia exceto pela legenda, para que ela nunca cubra o slide. Deixe o texto pequeno, mas legível quando o vídeo rodar no tamanho do chat.",
+    "## Renderização",
+    "Renderize um único vídeo sem áudio em formato paisagem, como um mp4, com movimento entre os slides. Cada quadro é o próprio slide, de borda a borda, acima da sua faixa de legenda. Gere os quadros a partir dos slides, nunca gravando uma tela, e fixe cada legenda nos quadros do respectivo slide para que ela fique na tela durante toda a permanência dele. A permanência é o tempo em que um slide fica totalmente na tela, sem contar o movimento de entrada nem de saída. Mantenha cada slide na tela tempo suficiente para ler as palavras que ele adiciona, pelo menos um segundo para cada três palavras. Um slide adiciona a própria legenda e cada palavra que não estava no slide anterior, incluindo um rótulo que ele mude. O primeiro slide adiciona todas as suas palavras. Palavras dentro de uma captura de tela não contam.",
+    "Antes de incorporar o vídeo, confira o arquivo renderizado. Olhe um quadro de cada slide no tamanho do chat e confira se a legenda dele está legível e não cobre nada. Meça cada permanência comparando os quadros do arquivo com o slide, não com um detector de quadros estáticos, que conta os extremos sutis de um fade como estáticos. Conte as palavras que cada slide adiciona e compare com a permanência medida. Corrija qualquer slide que não dê para ler nesse tempo, renderize de novo e confira de novo."
+  ]
+}

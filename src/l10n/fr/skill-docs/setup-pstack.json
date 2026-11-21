@@ -1,0 +1,96 @@
+{
+  "description": "Configure les modèles utilisés par pstack pour chaque rôle et leur budget de raisonnement. Détecte vos modèles disponibles et écrit une règle toujours appliquée qui remplace les valeurs par défaut des skills. À utiliser pour /setup-pstack, « configurer les modèles de pstack », « budget pstack » ou pour modifier les choix de modèles de pstack.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Écrit un nom de modèle que vous ne pouvez pas vraiment utiliser.",
+        "with": "Liste les modèles qu'il peut appeler durant cette session et n'écrit que ceux-là."
+      },
+      {
+        "without": "Écrit les réglages sans vous demander.",
+        "with": "Demande de choisir parmi trois budgets, affiche le modèle de chaque rôle et attend votre accord."
+      },
+      {
+        "without": "Laisse les lignes des rôles retirés dans le fichier lors d'une relance.",
+        "with": "Supprime les rôles retirés et écrase tout le fichier, pour que chaque relance donne le même résultat."
+      }
+    ],
+    "intro": "Il indique où va le fichier de réglages dans Cursor, Claude Code et tout autre harness (l'outil qui exécute l'IA).",
+    "sections": [
+      "Huit étapes, de la recherche des modèles utilisables à l'écriture du fichier, pour finir par deux propositions facultatives.",
+      "Liste les noms de modèles qu'il peut transmettre aux IA d'appoint durant cette session. S'il n'en trouve aucun, il vous demande de coller les vôtres.",
+      "Lit le budget et les choix de rôles d'un fichier existant comme point de départ, supprime les rôles retirés et remplace les valeurs par défaut d'anciennes configurations par les nouvelles, en indiquant lesquelles.",
+      "Demande de choisir entre large, medium ou small, baisse l'effort de chaque rôle de zéro à deux crans (jamais au-dessus de xhigh), puis affiche les rôles à accepter ou modifier.",
+      "Vérifie que chaque modèle choisi figure dans la liste détectée et reste à xhigh ou en dessous. Si ce n'est pas le cas, il s'arrête et redemande.",
+      "Écrit une ligne `# defaults: 3`, une ligne de budget et une ligne par rôle en écrasant tout le fichier. La version Cursor ajoute `alwaysApply: true`.",
+      "Vous indique quel fichier il a écrit. Dans Cursor et Claude Code, les nouvelles sessions le prennent en compte.",
+      "Si le projet n'a aucun moyen de piloter l'application, il propose une fois d'en générer un avec `/create-verification-skill`.",
+      "S'il n'y a pas de skill de vérification formelle, il propose une fois de lancer `/create-formal-verification-skill`. Si vous dites non, il passe à la suite."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Never write a real slug you have not confirmed is available.",
+      "quoteTr": "N'écrivez jamais un vrai slug dont vous n'avez pas confirmé la disponibilité.",
+      "title": "N'écrire que ce qui est confirmé",
+      "does": "Seuls des modèles que vous pouvez vraiment utiliser finissent dans les réglages, jamais un nom inventé qui ferait échouer une exécution.",
+      "why": "Un « jamais » lié à une étape concrète, la confirmation, est bien plus difficile à contourner qu'un simple « sois précis ».",
+      "try": "Quand vous demandez une liste de prix : « Ne liste que les prix que tu as confirmés sur le site officiel ; marque les autres comme “non confirmé”. »"
+    },
+    {
+      "quote": "Offer these three options with these exact labels, and name the current budget when the rule records one.",
+      "quoteTr": "Proposez ces trois options avec ces libellés exacts, et indiquez le budget actuel lorsque la règle en enregistre un.",
+      "title": "Énoncer les options exactes",
+      "does": "Il demande le budget avec toujours les trois mêmes options, formulées à l'identique, et indique votre budget actuel.",
+      "why": "Écrire les options dans le prompt et demander de les reprendre mot pour mot empêche l'IA d'en reformuler, d'en ajouter ou d'en oublier une.",
+      "try": "Pour un sondage : « Demande le niveau de satisfaction avec exactement ces options : “Satisfait”, “Correct”, “Pas satisfait”. »"
+    },
+    {
+      "quote": "So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`.",
+      "quoteTr": "Ainsi, `medium` transforme `claude-opus-5-5-xhigh-fast` en `claude-opus-5-5-high-fast` et `claude-opus-5-5-high-fast` en `claude-opus-5-5-medium-fast`, tandis que `small` les transforme en `claude-opus-5-5-medium-fast` et `claude-opus-5-5-low-fast`.",
+      "title": "Faire suivre une règle d'un exemple",
+      "does": "Il adapte correctement les modèles à votre budget, par exemple en baissant chaque modèle d'un cran, de xhigh à high, pour le budget medium.",
+      "why": "Une règle de conversion abstraite se comprend vite de travers ; un exemple concret juste après permet à l'IA de vérifier sa propre réponse.",
+      "try": "Donnez un exemple avec la règle : « Arrondis les montants à la centaine la plus proche, donc 1 260 devient 1 300. »"
+    },
+    {
+      "quote": "On no, move on without pushing.",
+      "quoteTr": "En cas de refus, passez à la suite sans insister.",
+      "title": "Demander une fois, abandonner sur un non",
+      "does": "Il propose un skill de vérification une seule fois, et laisse tomber si vous dites non.",
+      "why": "Préciser combien de fois demander et quoi faire en cas de refus évite que l'IA propose sans cesse des ajouts.",
+      "try": "Quand l'IA écrit pour vous : « Tu peux demander une seule fois à la fin si je veux des images ; si je dis non, laisse tomber. »"
+    }
+  ],
+  "blocks": [
+    "# Configurer pstack",
+    "Écrivez les réglages de modèles de pstack, un modèle par rôle :",
+    "- **Cursor** : `~/.cursor/rules/pstack-models.mdc`, une règle toujours appliquée.\n- **Claude Code** : `~/.claude/rules/pstack-models.md`. Claude Code charge chaque fichier de `~/.claude/rules/` dans chaque nouvelle session.\n- **Tous les autres harness** (Codex, Pi, OpenCode et autres) : `~/.agents/pstack-models.md`. Ces harness ne le chargent pas d'eux-mêmes, donc les skills pstack lisent ce fichier lorsqu'ils choisissent un modèle.",
+    "« Le fichier de réglages » ci-dessous désigne le fichier correspondant à votre harness. Dans Claude Code, si ce fichier est absent, lisez plutôt `~/.agents/pstack-models.md`, où les anciennes versions de ce skill l'écrivaient.",
+    "## Étapes",
+    "### 1. Détecter les modèles disponibles",
+    "Énumérez les slugs de modèles que vous pouvez transmettre à un sous-agent dans cette session (Cursor `Task`, Claude Code `Agent`, OpenCode `task`, Codex `spawn_agent`). C'est la source fiable. Si votre harness dispose aussi d'une commande listant les modèles de l'utilisateur, privilégiez-la par souci d'exhaustivité (par exemple `opencode models` ou `pi --list-models`). Si vous n'en détectez aucun, demandez à l'utilisateur de coller les slugs auxquels il a accès. N'écrivez jamais un vrai slug dont vous n'avez pas confirmé la disponibilité. Les alias `inherit-parent` et `auto` sont toujours valides même si ce ne sont pas des slugs détectés.",
+    "### 2. Charger l'état actuel",
+    "L'association par défaut entre rôles et modèles suit le format de règle présenté à l'étape 5 ci-dessous. Si le fichier de réglages existe déjà, lisez-le et considérez sa ligne `# budget` et les valeurs de ses rôles comme les choix actuels. Sinon, partez de ces valeurs par défaut. Une ligne dont le rôle ne figure pas à l'étape 5, comme `hardest tasks`, `architect runners`, `reflect tooling` ou `why investigators`, provient d'un rôle retiré. Supprimez-la.",
+    "Les anciennes valeurs par défaut plaçaient un autre modèle Gemini, puis `gemini-4-neon-high`, dans le siège du panel. Dans n'importe quel fichier de réglages, une entrée `gemini-4-neon-high`, ou une entrée `gemini-4-*` autre que `gemini-4-neon-*`, dans un rôle de panel (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`) est donc une ancienne valeur par défaut. Chacune devient `gemini-4-neon-xhigh`. Une entrée Gemini 4 Neon à tout autre niveau relève du choix de l'utilisateur et reste en place. Indiquez à l'utilisateur quelles entrées vous avez remplacées.",
+    "Un fichier de réglages sans la ligne `# defaults: 3` provient d'une ancienne configuration. Cette configuration écrivait une ligne pour chaque rôle ; certaines de ses valeurs sont donc d'anciennes valeurs par défaut, et non des choix. Avant l'étape 3, remplacez ces valeurs :",
+    "- Une liste `arena cross-judge pool` contenant exactement une entrée `claude-fable-*`, une entrée `claude-opus-*` et une entrée `gemini-*`, dans n'importe quel ordre, prend la liste de ce rôle à l'étape 5. Fable et Opus proviennent d'un même fournisseur, si bien que l'entrée Fable ne pouvait juger que là où l'entrée Opus le pouvait aussi.\n- Une ligne `# budget: unlimited` devient `large`, car aucun rôle ne tourne au-dessus de `xhigh`.\n- Si le fichier de réglages ne contient pas non plus de ligne `# defaults: 2`, un ancien slug est un slug correspondant à `grok-*`. Un ancien slug dans `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb` ou `swarm workers` prend la valeur par défaut de ce rôle à l'étape 5. Dans un rôle de panel (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`), une liste composée exactement d'une entrée `claude-opus-*` et d'un ancien slug, dans un ordre ou dans l'autre, prend la liste de ce rôle à l'étape 5. Dans toute autre liste, chaque ancien slug devient `claude-opus-5-5-high-fast`.",
+    "Toute autre valeur relève du choix de l'utilisateur et reste en place, y compris un ancien slug dans tout autre rôle et chaque valeur `inherit-parent` ou `auto`. Indiquez à l'utilisateur quelles valeurs vous avez remplacées.",
+    "### 3. Budget, attribution et confirmation",
+    "**(a) Demandez un budget.** Préférez votre outil de question structurée (`AskQuestion` dans Cursor, `AskUserQuestion` dans Claude Code, `question` dans OpenCode) au texte libre. Proposez ces trois options avec ces libellés exacts, et indiquez le budget actuel lorsque la règle en enregistre un. S'il n'y a pas de règle, précisez que `large` correspond aux valeurs par défaut des skills.",
+    "- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`",
+    "**(b) Appliquez-le.** Construisez le tableau de travail à partir des valeurs par défaut des skills et, lors d'une relance, conservez tout rôle que vous avez modifié par famille, liste ou alias (`inherit-parent`, `auto`). Les familles sont celles que définit la phase A du skill **arena** ; Fable constitue donc sa propre famille. Chaque rôle a un effort cible, qui est l'effort de sa valeur par défaut ajusté selon le budget. `large` le conserve, `medium` le baisse d'un cran et `small` le baisse de deux crans, sur l'échelle `xhigh` > `high` > `medium` > `low`. Aucun rôle ne tourne au-dessus de `xhigh`, et une cible située au bas de l'échelle y reste. La plupart des valeurs par défaut sont à `xhigh`, et chaque libellé de budget indique où celles-ci atterrissent. Définissez le segment d'effort de chaque vrai slug du rôle, entrées de panel comprises, sur la cible du rôle. Le segment d'effort est le dernier segment, ou celui qui précède un `fast` final. Si le résultat n'est pas un slug détecté, utilisez le slug détecté de la même famille ayant l'effort le plus élevé à la cible ou en dessous ; sinon, marquez le rôle comme nécessitant un choix. `inherit-parent` et `auto` ne changent pas. Ainsi, `medium` transforme `claude-opus-5-5-xhigh-fast` en `claude-opus-5-5-high-fast` et `claude-opus-5-5-high-fast` en `claude-opus-5-5-medium-fast`, tandis que `small` les transforme en `claude-opus-5-5-medium-fast` et `claude-opus-5-5-low-fast`. Opus 5.5 utilise toujours son slug `-fast`, donc chaque valeur Opus 5.5 se termine par `-fast`. Fable 5.2 et Gemini n'ont pas de slug fast, donc n'en écrivez jamais. Les slugs Gemini 4 Neon vont de `low` à `xhigh` sans slug `max` ni `fast`, si bien que son siège tourne sur `gemini-4-neon-xhigh`, son slug le plus élevé. Une entrée Gemini 4 Neon dans un rôle de panel prend sa propre cible, `xhigh` ajusté selon le budget : `large` conserve donc `gemini-4-neon-xhigh`, `medium` écrit `gemini-4-neon-high` et `small` écrit `gemini-4-neon-medium`.",
+    "**(c) Affichez les rôles et confirmez.** Affichez chaque rôle avec son modèle, en marquant tout vrai slug absent de l'ensemble détecté comme nécessitant un choix. Listez aussi chaque ligne supprimée à l'étape 2. Demandez s'il faut accepter tel quel ou modifier certains rôles, en proposant comme options les modèles détectés à `xhigh` ou en dessous ainsi que `inherit-parent` et `auto` (les deux signifient : ce rôle tourne sur le modèle du chat parent, ce qui permet aux utilisateurs d'Auto de rester sur Auto). Préférez votre outil de question structurée au texte libre. Pour les rôles de panel (arena runners, interrogate reviewers), la valeur est une liste, et un sous-agent tourne par entrée, entrées d'alias comprises, de sorte que la longueur de la liste fixe le nombre de sous-agents. `arena cross-judge pool` est aussi une liste, mais Arena n'exécute qu'un seul juge. Il n'essaie que les valeurs provenant d'un autre fournisseur que celui du parent, dans l'ordre de la liste ; classez-la donc par ordre de préférence. Fable et les autres modèles Claude appartiennent à un même fournisseur. Une valeur `inherit-parent` ou `auto` ne juge jamais. `swarm workers` est le modèle par défaut de chaque worker, sauf si une course ou une comparaison attribue un autre modèle par variante.",
+    "### 4. Valider",
+    "Chaque vrai slug écrit doit figurer dans l'ensemble détecté et être à `xhigh` ou en dessous. `inherit-parent` et `auto` passent toujours. Si un vrai slug choisi n'est pas disponible, arrêtez-vous et redemandez.",
+    "### 5. Écrire la règle",
+    "Écrivez le fichier de réglages avec la ligne `# defaults: 3`, une ligne `# budget` indiquant le libellé choisi et l'effort que ce libellé désigne, ainsi qu'une ligne par rôle, en reprenant les mêmes libellés que ceux utilisés par poteto-mode. Dans Cursor, incluez l'en-tête frontmatter ci-dessous avec `alwaysApply: true`. Dans les autres harness, écrivez le fichier de réglages sans cet en-tête (commencez à la première ligne `#`). Écrasez tout le fichier afin que les relances restent idempotentes. Format :",
+    "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model` and spawn a general-purpose subagent). Alias entries in a panel list still count toward its fan-out.\n# defaults: 3\n# budget: large (xhigh)\nfeature, refactoring: claude-opus-5-5-xhigh-fast\nbug-fix: claude-opus-5-5-xhigh-fast\nperf-issue: claude-opus-5-5-xhigh-fast\nhillclimb: claude-opus-5-5-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh-fast\narena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh\narena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-neon-xhigh\nswarm workers: claude-opus-5-5-high-fast\ninterrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh\n```",
+    "### 6. Confirmer",
+    "Indiquez à l'utilisateur quel fichier a été écrit. Dans Cursor et Claude Code, il s'applique aux nouvelles sessions. Dans les autres harness, les skills pstack lisent `~/.agents/pstack-models.md` lorsqu'ils choisissent un modèle. Relancer ce skill met le fichier à jour.",
+    "### 7. Proposer un skill de vérification (facultatif)",
+    "Vérifiez si le projet dispose d'un moyen de piloter la véritable application pour obtenir des preuves (un skill `verify-*` ou un harness existant). Sinon, proposez une fois : « Voulez-vous un skill de vérification local au projet, pour que les agents puissent piloter l'application comme un utilisateur et prouver que les modifications fonctionnent ? Je peux en générer un avec /create-verification-skill. » Si oui, invoquez `/create-verification-skill` (résolu où que pstack soit installé : espace de travail, utilisateur ou plugin). En cas de refus, passez à la suite sans insister.",
+    "### 8. Proposer un skill de vérification formelle (facultatif)",
+    "Vérifiez si le projet dispose déjà d'un skill de vérification formelle (un skill de projet qui exécute un model checker, une preuve ou un autre vérificateur sur le code). Sinon, proposez une fois : « Voulez-vous un skill de vérification formelle, pour que les agents puissent prouver qu'une propriété clé de votre code reste vraie dans tous les cas du périmètre, et pas seulement dans ceux que les tests atteignent ? Je peux en générer un avec /create-formal-verification-skill. » Si oui, invoquez `/create-formal-verification-skill` (résolu où que pstack soit installé : espace de travail, utilisateur ou plugin). En cas de refus, passez à la suite sans insister."
+  ]
+}

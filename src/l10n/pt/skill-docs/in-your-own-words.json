@@ -1,0 +1,50 @@
+{
+  "description": "Reformule com suas próprias palavras o que você acha que são os objetivos do usuário e qual problema ele está tentando resolver. Use para /in-your-own-words.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Repete as suas palavras, então não dá para saber se entendeu.",
+        "with": "Reformula os seus objetivos com as próprias palavras."
+      },
+      {
+        "without": "Repete a tarefa e pula o que está bloqueando você.",
+        "with": "Nomeia o problema que você está tentando resolver, separadamente."
+      },
+      {
+        "without": "Trata a própria leitura do seu pedido como definitiva.",
+        "with": "Expõe o que acha que você quer, para você ver."
+      }
+    ],
+    "intro": "Faz a IA reformular, com as próprias palavras, o que ela acha que são os seus objetivos e qual problema você está resolvendo.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate in your own words",
+      "quoteTr": "Reformule com suas próprias palavras",
+      "title": "Peça com as palavras da IA",
+      "does": "A IA não repete as suas palavras; ela reconta tudo do jeito que entendeu, assim um mal-entendido aparece na hora.",
+      "why": "Repetir como eco esconde se a IA entendeu; as próprias palavras dela expõem qualquer lacuna.",
+      "try": "Depois de passar uma tarefa, pergunte primeiro: “Antes de começar, diga com suas próprias palavras o que você planeja mudar.”"
+    },
+    {
+      "quote": "what you think the user's goals are",
+      "quoteTr": "o que você acha que são os objetivos do usuário",
+      "title": "Peça o palpite da IA",
+      "does": "A IA expõe o que entendeu para você corrigir, em vez de tratar isso como fato e começar a trabalhar.",
+      "why": "“O que você acha” transforma o entendimento em um palpite que pode ser derrubado, fácil para a IA dizer e para você corrigir.",
+      "try": "Formule como um palpite: “Diga o que você acha que importa mais para mim, velocidade ou estabilidade.”"
+    },
+    {
+      "quote": "what problem they're trying to solve",
+      "quoteTr": "qual problema ele está tentando resolver",
+      "title": "Peça objetivo e problema separados",
+      "does": "A IA diz o que você quer alcançar e o que está bloqueando você, assim você vê qual metade ela entendeu errado.",
+      "why": "O objetivo é aonde você quer chegar e o problema é o que está no caminho; pedir os dois mostra onde está a lacuna.",
+      "try": "Peça os dois: “Diga o que estou tentando concluir e o que está me impedindo agora.”"
+    }
+  ],
+  "blocks": [
+    "Reformule com suas próprias palavras o que você acha que são os objetivos do usuário e qual problema ele está tentando resolver."
+  ]
+}

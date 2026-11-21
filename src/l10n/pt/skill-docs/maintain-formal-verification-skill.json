@@ -1,0 +1,90 @@
+{
+  "description": "Volte a alinhar a verificação formal de um projeto com o código depois que o código mudar: encontre os commits que mexeram em código verificado, atualize o modelo, o harness ou as propriedades para descrever o código como ele está agora, rode novamente e diga se cada falha é defasagem na verificação ou um bug no código. Use para /maintain-formal-verification-skill, “o modelo ainda reflete o código” ou depois de merges e refatorações que mexeram em código verificado sem checar de novo.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Trata uma checagem que passou como prova de que o código está certo.",
+        "with": "Quebra o código novo de propósito depois que a checagem passa e confirma que ela pega o erro."
+      },
+      {
+        "without": "Não diferencia uma verificação desatualizada de um bug real.",
+        "with": "Reproduz o contraexemplo no código real. Só é um bug se cada passo puder acontecer."
+      },
+      {
+        "without": "Ajusta o modelo até a checagem que falhou passar.",
+        "with": "Escreve a atualização a partir do código antes de rodar de novo, nunca moldada pelo resultado."
+      }
+    ],
+    "intro": "Aponta o perigo de uma checagem que continua passando em código que mudou e cobre mudanças que pularam a skill de verificação, como merges.",
+    "sections": [
+      "Cada checagem recebe um de quatro resultados: em sincronia, atualizada, bug ou bloqueada. Atualizada e bug podem se aplicar ao mesmo tempo.",
+      "Edita apenas modelos, harnesses, arquivos de propriedades e a skill de verificação. O código do produto fica intacto, e as falhas são relatadas.",
+      "Seis passos: encontrar as checagens, rodar como está, classificar as mudanças em quatro tipos, atualizar a partir do código, rodar de novo e julgar, mover o commit de sincronização.",
+      "Relata, para cada checagem, o resultado, os commits lidos, o motivo de cada mudança, a quebra intencional e quais falhas foram defasagem e quais foram bugs."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "That pass is the dangerous case, because it looks like a proof.",
+      "quoteTr": "Esse “passou” é o caso perigoso, porque parece uma prova.",
+      "title": "Exponha a ilusão mais reconfortante",
+      "does": "Quando uma checagem passa, a skill não relaxa. Primeiro pergunta se passar ainda significa alguma coisa.",
+      "why": "Ver que passou costuma dar sensação de segurança. Chamar isso de caso perigoso faz a IA investigar em vez de só marcar como feito.",
+      "try": "Para evitar que a IA confie em boas notícias, diga: “Nenhuma reclamação não significa que os clientes estão felizes. Trate isso como um sinal de alerta e verifique.”"
+    },
+    {
+      "quote": "Write the update from the code before you rerun, and do not shape it by what makes the check pass.",
+      "quoteTr": "Escreva a atualização a partir do código antes de rodar novamente e não a molde pelo que faz a checagem passar.",
+      "title": "Ordene o trabalho antes do resultado",
+      "does": "Atualiza a verificação a partir do código, sem ficar mexendo até a checagem passar.",
+      "why": "Tornar “escreva antes de ver o resultado” uma ordem fixa não deixa espaço para trabalhar de trás para frente a partir do resultado.",
+      "try": "Para uma análise, escreva: “Anote sua previsão primeiro e então olhe os dados. Não mude a previsão depois.”"
+    },
+    {
+      "quote": "Break the new code the way the property guards against",
+      "quoteTr": "Quebre o código novo de um jeito que a propriedade impede",
+      "title": "Peça uma quebra intencional",
+      "does": "Depois que uma checagem passa, a skill quebra o código de propósito para confirmar que a checagem realmente falha.",
+      "why": "Uma quebra que mostra que a checagem consegue falhar convence muito mais do que “acho que a checagem funciona”.",
+      "try": "Depois que a IA escrever a validação de um formulário, adicione: “Digite um número de telefone errado de propósito e confirme que ele é rejeitado.”"
+    },
+    {
+      "quote": "Give each check one outcome, and say which:",
+      "quoteTr": "Dê um resultado a cada checagem e diga qual:",
+      "title": "Permita apenas vereditos fixos",
+      "does": "Cada checagem termina em um de quatro resultados, para você ver na hora com quais precisa se preocupar.",
+      "why": "Listar e definir de antemão cada veredito possível não deixa espaço para “quase tudo certo”.",
+      "try": "Quando a IA revisar rascunhos, defina: “Cada veredito é um destes: ‘publicar’, ‘publicar após ajustes’ ou ‘não publicar’. Diga qual.”"
+    },
+    {
+      "quote": "If the skill does not record a sync commit, use the last commit that changed the verification files, and say that you did.",
+      "quoteTr": "Se a skill não registrar um commit de sincronização, use o último commit que alterou os arquivos de verificação e diga que fez isso.",
+      "title": "Planeje a alternativa para dados ausentes",
+      "does": "Quando falta um registro, a skill tem um substituto e avisa que o usou.",
+      "why": "Dizer o que fazer quando faltam dados, junto com “avise”, faz com que a IA não trave nem chute em silêncio.",
+      "try": "Para classificar despesas, escreva: “Se faltar a data da nota fiscal, use a data do pedido e marque como ‘data do pedido’.”"
+    }
+  ],
+  "blocks": [
+    "# Manter uma skill de verificação formal",
+    "Uma checagem formal prova uma propriedade daquilo que descreve. Quando o código muda e a verificação não, a checagem pode continuar passando enquanto descreve um código que não existe mais. Esse “passou” é o caso perigoso, porque parece uma prova. Esta skill é o ciclo de manutenção de uma skill de verificação gerada por `/create-formal-verification-skill`, ou de qualquer skill local do projeto que rode um verificador de modelos, provador ou verificador no nível do código sobre um código especificado. A skill local do projeto cuida de uma mudança que um agente faz enquanto usa essa skill. Esta skill cuida das mudanças que a pularam: merges, edições feitas sem a skill e a defasagem que se acumula ao longo de muitos commits.",
+    "## Resultados",
+    "Dê um resultado a cada checagem e diga qual:",
+    "- **em sincronia**: nenhuma mudança desde a última sincronização altera o que a checagem descreve, e a checagem passa.\n- **atualizada**: o código mudou, a verificação agora descreve o código novo, e a checagem passa.\n- **bug**: a verificação descreve o código atual, e o código viola a propriedade. Isso é uma descoberta sobre o código. Não é defasagem.\n- **bloqueada**: não foi possível realinhar a checagem ou não foi possível rodá-la. Diga exatamente por quê.",
+    "Uma checagem pode ser tanto atualizada quanto bug: a atualização faz a verificação descrever o código novamente e, então, a propriedade falha nele.",
+    "## Escopo de edição",
+    "Edite apenas a verificação: modelos, harnesses, arquivos de propriedades e a própria skill de verificação. Nunca edite o código do produto durante uma execução, a menos que o usuário peça. Quando uma propriedade falhar no código atual, não enfraqueça a propriedade nem o modelo para fazê-la passar. Relate a falha.",
+    "## Etapas",
+    "1. **Encontre as checagens.** Uma skill de verificação não tem nome fixo, então encontre-a pelo que ela faz: uma skill do projeto que roda um verificador de modelos, um provador ou outro verificador sobre um código especificado. Leia cada uma que encontrar, ou a que o usuário indicou. Para cada checagem, colete a propriedade, o código que ela cobre, os limites e premissas, o comando que a roda e o commit em que foi confirmado pela última vez que ela descreve o código. Se não existir nenhuma skill de verificação, pare e aponte para `/create-formal-verification-skill`. Se a skill não registrar um commit de sincronização, use o último commit que alterou os arquivos de verificação e diga que fez isso.",
+    "2. **Rode como está.** Rode cada checagem uma vez antes de mudar qualquer coisa e registre o resultado. Passar aqui não diz que o código está correto. Diz que a descrição antiga ainda vale. Uma falha aqui pode ser defasagem ou um bug. Não decida qual dos dois até o passo 5.",
+    "3. **Leia cada mudança no código coberto.** Compare o diff dos arquivos cobertos do commit de sincronização até o commit atual e leia cada mensagem de commit. Procure também por código que mudou de lugar: uma função coberta que foi renomeada, dividida ou movida para outro arquivo continua sendo código coberto. Procure também por código novo que mexe no estado protegido por uma checagem, como uma função nova que escreve nos mesmos campos. Para cada mudança, decida em qual destes casos ela entra:\n   - **Sem efeito.** A mudança não altera nada do que a verificação descreve, como formatação, comentários ou caminhos de código que a verificação não cobre. Verifique isso no modelo ou no harness, e não na mensagem de commit.\n   - **A verificação não descreve mais o código.** Um passo que era uma ação indivisível agora virou dois, uma ramificação foi adicionada ou removida, uma verificação no código mudou de lugar, um novo caminho alcança o estado protegido ou um valor agora tem outro intervalo. O modelo ou o harness precisa mudar.\n   - **A promessa mudou de propósito.** A mudança altera o que o código promete, e evidências na mudança indicam que isso é intencional: o comentário de documentação, os testes, o changelog ou a mensagem de commit. A propriedade precisa mudar, e você precisa citar essas evidências.\n   - **A promessa pode ter sido quebrada.** O código mudou, e nenhuma evidência indica que a promessa mudou. Trate uma falha que vier em seguida como candidata a bug.",
+    "4. **Atualize a partir do código, não a partir do resultado.** Altere o modelo ou o harness para que cada parte modificada volte a apontar para um código que quem revisa possa abrir, e mantenha um passo indivisível no código como um passo na verificação. Escreva a atualização a partir do código antes de rodar novamente e não a molde pelo que faz a checagem passar. Altere uma propriedade apenas para uma promessa que mudou de propósito. Anote o texto antigo, o texto novo e as evidências. Mantenha os limites, a menos que a mudança os torne errados. Se precisar reduzir um limite, diga isso no relatório.",
+    "5. **Rode de novo e julgue cada resultado.**\n   - **Passou:** a checagem agora pode passar sobre uma descrição que perdeu a capacidade de falhar. Quebre o código novo de um jeito que a propriedade impede, como removendo uma verificação nova ou reordenando um passo novo, e confirme que a checagem pega o erro. Depois, descarte a quebra.\n   - **Falhou:** reproduza o contraexemplo no código real, passo a passo. Se um passo não puder acontecer no código, a verificação está errada. Corrija a verificação e diga o que estava errado. Se todos os passos puderem acontecer, é um bug. Indique o commit que o introduziu, descreva o contraexemplo como uma sequência de passos nos próprios termos do código e diga o dano em uma frase. Se um teste barato ou uma reprodução no código real mostrar o bug, adicione isso ao relatório como evidência. Não faça commit disso no código do produto.",
+    "6. **Atualize a skill de verificação.** Atualize o código que cada checagem cobre, os comandos, os limites, as premissas e o commit de sincronização. Defina o commit de sincronização como o commit que você verificou. Não mova o commit de sincronização para uma checagem bloqueada e diga isso no relatório. Depois, siga a skill de verificação uma vez como o próximo agente faria, para saber que os passos dela ainda rodam.",
+    "## Relatório",
+    "Diga ao usuário, para cada checagem:",
+    "- o resultado e os commits que você leu;\n- o que mudou na verificação e por quê, com um motivo curto para cada mudança: o código mudou de forma ou a promessa mudou de propósito (com as evidências);\n- o resultado da nova execução e a quebra que você usou para mostrar que a checagem atualizada ainda consegue falhar;\n- cada bug, em palavras simples: o contraexemplo como passos nos termos do código, o dano e o commit que o introduziu;\n- o que a verificação ainda não cobre, incluindo código novo que ela deveria cobrir e não cobre.",
+    "Diga claramente quais falhas foram defasagem na verificação e quais foram bugs no código. Para uma checagem que passava antes de você atualizá-la e falha depois, diga que o “passou” antigo foi sobre uma descrição desatualizada.",
+    "Coloque as atualizações da verificação em uma mudança própria, separada de qualquer correção do produto."
+  ]
+}

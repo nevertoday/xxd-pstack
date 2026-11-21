@@ -1,0 +1,80 @@
+{
+  "description": "Erstelle einen projektlokalen Skill, der den Code formal verifiziert, wo ein Bug am meisten kostet und Tests am wenigsten erreichen – in jeder Sprache und mit dem jeweils passenden Verifikationswerkzeug. Nutze ihn für /create-formal-verification-skill, „prüfe diese Race-Condition per Model-Checking“, „beweise diese Invariante“ oder wenn Nebenläufigkeit, Retries, Zustandsautomaten, Parser oder unsicherer Code mehr als Tests brauchen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Meldet „verifiziert“, ohne zu sagen, wie weit das reicht.",
+        "with": "Nennt, was verifiziert ist, welche Grenzen und Annahmen gelten und was außen vor bleibt."
+      },
+      {
+        "without": "Korrigiert sofort den Produktcode, sobald ein Problem auftaucht.",
+        "with": "Nennt dir das Gegenbeispiel in den Schritten des Codes und bearbeitet Code nur, wenn du darum bittest."
+      },
+      {
+        "without": "Übergibt eine Prüfung, die noch niemand fehlschlagen gesehen hat.",
+        "with": "Macht den echten Code absichtlich kaputt und bestätigt, dass die Prüfung das abfängt."
+      }
+    ],
+    "intro": "Der Einstieg stellt Tests dem Prüfen aller Fälle in einem Umfang gegenüber und erklärt dann, dass der Skill eine Eigenschaft verifiziert und einen Prüf-Skill für den nächsten Agenten hinterlässt.",
+    "sections": [
+      "Findet ein Versprechen im Code, dessen Bruch Nutzern schadet und das Tests selten erreichen – beginnend dort, wohin du zeigst.",
+      "Wählt das passende Werkzeug zur Frage: TLA+ für falsche Schrittfolgen, einen Verifizierer auf Code-Ebene für Fragen zu allen Eingaben.",
+      "Sieben Standards: codegetreu, kann fehlschlagen, Funde bleiben bestehen, ehrlicher Umfang, lesbar, günstig wiederholbar, synchron gehalten.",
+      "Schreibt einen Projekt-Skill mit Frontmatter, der Abdeckungsübersicht und dem Sync-Commit und schickt TLA+-Ergebnisse an `/statechart`.",
+      "Bricht die Eigenschaft mit einer Probeänderung im echten Code. Die Prüfung muss den Bruch abfangen und danach wieder ihr altes Ergebnis liefern.",
+      "Nennt dir, was verifiziert wurde, Werkzeug und Begründung, die Grenzen, die Funde, wie du es ausführst und was außen vor bleibt."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "A check that you have never seen fail proves nothing.",
+      "quoteTr": "Eine Prüfung, die du noch nie fehlschlagen gesehen hast, beweist nichts.",
+      "title": "Lass die Prüfung einmal fehlschlagen",
+      "does": "Der Skill macht den Code absichtlich kaputt, um zu sehen, dass die Prüfung das abfängt, bevor er dir meldet, dass sie besteht.",
+      "why": "Ein kurzer, kompromissloser Satz legt fest, wann ein Bestehen zählt – so lässt sich eine Prüfung, die nie fehlschlägt, nicht als Beweis verkaufen.",
+      "try": "Ergänze nach dem Einrichten eines Alerts: „Erstelle einen Datensatz, der ihn auslösen sollte, und zeig mir, dass er anschlägt.“"
+    },
+    {
+      "quote": "Choose the strongest such target in the repo, not the one that is easiest to verify.",
+      "quoteTr": "Wähle das stärkste Ziel dieser Art im Repo, nicht das am leichtesten zu verifizierende.",
+      "title": "Nenn den bequemen Ausweg",
+      "does": "Der Skill nimmt sich den Code vor, der am meisten zählt, nicht den Teil, der am leichtesten zu erledigen ist.",
+      "why": "KIs neigen zur einfachen Option; diesen Sog klar zu benennen, hält sie davon ab, ihr nachzugeben.",
+      "try": "Wenn du um eine Analyse bittest: „Nimm das Problem, das am ehesten Kunden kostet – nicht das, was sich am leichtesten analysieren lässt.“"
+    },
+    {
+      "quote": "Do not weaken the property or the model until it passes",
+      "quoteTr": "Schwäche weder die Eigenschaft noch das Modell ab, bis die Prüfung besteht",
+      "title": "Verbiete, die Messlatte zu senken",
+      "does": "Wenn der Code wirklich falsch ist, meldet der Skill das Problem mit einem Beispiel, statt die Prüfung stillschweigend aufzuweichen.",
+      "why": "Die häufigste Art zu schummeln klar zu benennen, wirkt viel besser als ein allgemeines „sei ehrlich“.",
+      "try": "Wenn du um einen Fix bittest, ergänze: „Wenn ein Test fehlschlägt, sag mir, was falsch ist; ändere nicht den Test, damit er besteht.“"
+    },
+    {
+      "quote": "A pass covers the model or the bound, not the whole system.",
+      "quoteTr": "Ein Bestehen gilt für das Modell oder die Grenze, nicht für das ganze System.",
+      "title": "Sag, wie weit ein Bestehen reicht",
+      "does": "Der Bericht nennt, wie viel geprüft wurde, damit du das nicht als Entwarnung für das ganze System missverstehst.",
+      "why": "Das Fazit klar einzugrenzen, verhindert, dass ein teilweises Bestehen wie eine volle Garantie klingt.",
+      "try": "Wenn du nach Testergebnissen fragst: „Sag mir, welche Browser das abgedeckt hat, und liste die auf, die nicht dabei waren.“"
+    }
+  ],
+  "blocks": [
+    "# Einen Skill für formale Verifikation erstellen",
+    "Ein Test prüft die Fälle, an die jemand beim Schreiben gedacht hat. Formale Verifikation prüft jeden Fall in einem festgelegten Umfang: jede Reihenfolge von Schritten in einem Modell, jede Eingabe bis zu einer Grenze oder jede Eingabe überhaupt. Dieser Skill findet den Teil des Repos, in dem das am meisten zählt, verifiziert eine seiner Eigenschaften und hinterlässt einen projektlokalen Skill, mit dem der nächste Agent eine Änderung gegen diese Eigenschaft prüfen kann. Schreibe diesen Skill für einen Agenten, der ihn unvorbereitet mitten in einer Änderung liest und deine Arbeit nie gesehen hat. Der Nutzer muss dem Ergebnis vertrauen und danach handeln können, ohne die Verifikationssprache zu lernen.",
+    "## Das Ziel aus dem Code wählen",
+    "Antworte aus der Codebasis und frag den Nutzer nur nach dem, was du nicht selbst beobachten kannst. Wenn der Nutzer einen Bereich oder einen Bug genannt hat, beginne dort.",
+    "Ein gutes Ziel ist ein Versprechen des Codes: Ein Bruch schadet Nutzern, und Tests erreichen den Fall, der es bricht, selten. Wähle das stärkste Ziel dieser Art im Repo, nicht das am leichtesten zu verifizierende.",
+    "## Die Frage das Werkzeug wählen lassen",
+    "Wähle das Werkzeug, das die Frage mit dem geringsten Aufwand beantwortet: einen Model-Checker, einen Beweisassistenten, einen SMT-gestützten Verifizierer oder ein anderes Werkzeug. Für die Frage, ob Ereignisse in einer falschen Reihenfolge auftreten können, passt meist ein Model-Checker über ein kleines Modell des Entwurfs, und TLA+ ist dafür in jeder Sprache der Standard. Für die Frage, ob sich der Code selbst bei jeder Eingabe richtig verhält, etwa bei Speichersicherheit, Überlauf oder einer Datenstruktur-Invariante, passt meist ein Verifizierer, der direkt auf dem Code läuft. Wenn kein Verifizierer für diese Sprache läuft, sag das und teste den echten Code mit generierten Eingaben, nicht ein von Hand erstelltes Modell der Funktion. Eine Eigenschaft, die für jede Größe gelten muss, bei der eine Grenze nicht ausreicht, kann einen Beweis erfordern. Bevorzuge ein Werkzeug, das die Entwickler des Repos installieren und ausführen können, und erkläre dem Nutzer, warum du es gewählt hast.",
+    "## Was eine gute Verifikation ausmacht",
+    "- **Codegetreu.** Jeder Teil des Modells oder Beweises verweist auf Code, den ein Reviewer öffnen kann. Was die Verifikation als einen unteilbaren Schritt behandelt, ist auch im Code ein unteilbarer Schritt. Namen stammen aus diesem Repo.\n- **Kann fehlschlagen.** Eine Prüfung, die du noch nie fehlschlagen gesehen hast, beweist nichts. Zeige für jede Eigenschaft, wie sie an einer kaputten Variante des geschützten Codes scheitert, etwa durch eine entfernte Prüfung oder einen umgestellten Schritt.\n- **Funde bleiben Funde.** Wenn der aktuelle Code die Eigenschaft bricht, melde es mit dem Gegenbeispiel in den Begriffen des Codes. Schwäche weder die Eigenschaft noch das Modell ab, bis die Prüfung besteht, und ändere keinen Produktcode, es sei denn, der Nutzer bittet darum.\n- **Ehrlich beim Umfang.** Sag, was verifiziert ist, unter welchen Grenzen und Annahmen und was außen vor bleibt. Ein Bestehen gilt für das Modell oder die Grenze, nicht für das ganze System.\n- **Ohne Werkzeug lesbar.** Formuliere die Eigenschaft und den Schaden in jeweils einem klaren Satz. Schildere ein Gegenbeispiel als kurze Abfolge von Schritten in den Worten des Codes.\n- **Günstig wiederholbar.** Ein Befehl, eine reproduzierbare Werkzeugversion und eine Laufzeit, die kurz genug ist, dass der nächste Agent die Prüfung bei jeder relevanten Änderung nutzt.\n- **Im Gleichschritt mit dem Code.** Halte fest, welche Dateien und Funktionen jede Prüfung abdeckt, und den Commit, bei dem du zuletzt bestätigt hast, dass die Verifikation sie beschreibt. Wenn sich der abgedeckte Code nach diesem Commit ändert, erkennt der nächste Agent, dass die Verifikation noch einmal angeschaut werden muss.",
+    "## Den Prüf-Skill erstellen",
+    "Schreibe einen projektlokalen Skill mit Frontmatter, das den Bereich benennt und angibt, wann er zu nutzen ist. Ohne Frontmatter wird der Skill nie registriert. Allein anhand des Skills muss der nächste Agent erkennen, ob eine Änderung den verifizierten Code berührt, die Prüfung ausführen, einen echten Bug von einem Modellierungsfehler unterscheiden und die Verifikation aktualisieren können, wenn eine Änderung beabsichtigt ist. Nimm die Abdeckungsübersicht und den Sync-Commit in den Skill auf und weise den nächsten Agenten an, den Sync-Commit erst vorzurücken, nachdem er bestätigt hat, dass die Verifikation den Code auf dem Stand des neuen Commits beschreibt. Verwende die echten Befehle, Pfade und Bezeichnungen dieses Repos und hinterlasse keine Platzhalter.",
+    "Wenn die Prüfung ein TLA+-Modell ist, weise den nächsten Agenten an, jedes Ergebnis mit dem pstack-Skill [`/statechart`](../statechart/SKILL.md) zu lesen. Er zeigt jede Invariantenverletzung, die der Checker findet, als kürzesten Pfad in einfachen Worten. Wenn die Prüfung besteht, zeichnet `/statechart` ein Diagramm dazu, wie das System zwischen Zuständen wechselt. Verweise namentlich auf `/statechart`. Seine Befehle, Optionen und Dateipfade ändern sich zwischen Releases und Rechnern – kopiere also nichts davon in den erstellten Skill oder seine Skripte.",
+    "## Vor der Übergabe beweisen",
+    "Folge dem erstellten Skill einmal, wie es der nächste Agent tun würde, bei einer Probeänderung, die die Eigenschaft im echten Code bricht. Er muss den Bruch abfangen. Verwirf dann die Probeänderung und bestätige, dass die Prüfung wieder am Ausgangspunkt ist: Sie besteht oder schlägt nur bei den Funden fehl, die du melden wirst. Ein Prüf-Skill, der nie ausgeführt wurde, ist ein Entwurf. Wenn der Skill den Bruch verpasst oder ein Schritt nicht läuft, korrigiere den Skill oder die Verifikation, nicht die Probeänderung.",
+    "## Übergabe",
+    "Erkläre dem Nutzer, was du verifiziert hast, welches Werkzeug du warum genutzt hast, die Grenzen, die Funde der Prüfung in einfachen Worten, wie sie ausgeführt wird und was sie nicht abdeckt. Schlage ein zweites Ziel nur vor, wenn du ein ähnlich starkes gefunden hast. Verweise den Nutzer auf `/maintain-formal-verification-skill`, um die Verifikation nach Änderungen, die sie nicht neu geprüft haben, wieder in Einklang zu bringen."
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "description": "Gera uma skill de verificação local ao projeto que opera o seu app do jeito que um usuário faria — em qualquer linguagem, framework ou plataforma. Use para /create-verification-skill, “crie uma skill de controle para este repositório” ou quando um projeto não tem uma forma automatizada de provar o comportamento de UI/CLI/serviço.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Prova uma funcionalidade usando setters internos ou endpoints exclusivos de teste.",
+        "with": "Segue o caminho real do usuário e confere os arquivos e registros gravados."
+      },
+      {
+        "without": "Apaga as capturas de tela e os logs junto com a limpeza.",
+        "with": "Confirma que as evidências continuam no local indicado depois da limpeza."
+      },
+      {
+        "without": "Mata processos pelo nome, incluindo a instância que você está usando.",
+        "with": "Encerra apenas as instâncias iniciadas por esta execução."
+      }
+    ],
+    "intro": "Gera uma skill `verify-<app>` local ao projeto que inicia o app real, o opera como um usuário e captura evidências, escrita para um agente que nunca viu o app.",
+    "sections": [
+      "Responde a cinco perguntas direto do código: superfície, comando de execução, como operar o app, quais evidências existem e isolamento.",
+      "Escreve o `SKILL.md` com frontmatter e seis seções — Inicialização, Diagnóstico, Operação, Evidências, Limpeza e Auxiliares — usando os comandos reais do repositório.",
+      "Escreve arquivos em `features/` para as 3 a 5 principais funcionalidades: como chegar a cada uma, como operá-la e o que prova que funciona.",
+      "Segue a skill de ponta a ponta em uma funcionalidade mapeada. Só passa se as evidências sobreviverem à limpeza.",
+      "Aponta para `/maintain-verification-skill` para manter o mapa atualizado e só sugere uma frequência se você pedir."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "it will be read cold, mid-task, by an agent that has never seen the app.",
+      "quoteTr": "ela será lida sem contexto, no meio de uma tarefa, por um agente que nunca viu o app.",
+      "title": "Descreva a situação do leitor",
+      "does": "A skill gerada detalha comandos, portas e configuração, para que uma IA que nunca viu o seu projeto possa rodá-la exatamente como está escrita.",
+      "why": "Dizer que o leitor não sabe nada e está ocupado faz a IA preencher o que ela dá como óbvio, mas que os outros não sabem.",
+      "try": "Em um documento de passagem de bastão, adicione: “Quem vai ler entra amanhã, nunca mexeu neste projeto e está lidando com algo urgente ao mesmo tempo.”"
+    },
+    {
+      "quote": "Answer these from the codebase and only ask the user what you cannot observe",
+      "quoteTr": "Responda a estas perguntas a partir do código e só pergunte ao usuário o que você não conseguir observar",
+      "title": "Procure antes de perguntar",
+      "does": "Ela lê o código para achar comandos de inicialização, portas e ferramentas de teste, e só pergunta o que realmente não consegue encontrar.",
+      "why": "Uma frase clara de “procure primeiro, pergunte depois” evita que a IA chute e que devolva para você um trabalho que ela mesma poderia fazer.",
+      "try": "Ao passar uma tarefa, adicione: “Encontre o que puder no projeto primeiro e depois me pergunte o resto em uma única mensagem.”"
+    },
+    {
+      "quote": "Never weaken the journey to make it pass.",
+      "quoteTr": "Nunca enfraqueça a jornada para fazê-la passar.",
+      "title": "Bloqueie o atalho da trapaça",
+      "does": "Quando uma verificação não consegue passar, você vê a falha e o motivo, não um teste discretamente enfraquecido que “passa”.",
+      "why": "Quando você pede para algo passar, o caminho mais barato da IA é baixar a régua; nomear esse truque já o descarta.",
+      "try": "Ao pedir para corrigir uma verificação que falhou, adicione: “Não edite o teste nem afrouxe os asserts; mude apenas o código testado.”"
+    },
+    {
+      "quote": "A generated skill that was never executed is a draft, not a deliverable.",
+      "quoteTr": "Uma skill gerada que nunca foi executada é um rascunho, não uma entrega.",
+      "title": "Dê outro nome ao que não está pronto",
+      "does": "Antes de entregar, ela roda a nova skill de ponta a ponta, assim você recebe uma que já rodou, não uma que foi só escrita.",
+      "why": "Chamar trabalho não testado de “rascunho” impede a IA de tratar o que foi escrito como pronto.",
+      "try": "Defina uma régua para a entrega: “Uma página que você não abriu no celular é um rascunho; não me mande.”"
+    }
+  ],
+  "blocks": [
+    "# Criar uma skill de verificação",
+    "Todo projeto sério precisa de uma forma automatizada de operar o app real e provar seu comportamento: iniciá-lo, exercitar uma funcionalidade do jeito que um usuário faria e capturar evidências. Esta skill gera isso como uma skill local ao projeto (`<skills>/verify-<app>/`) sob medida para o repositório. `<skills>` é a pasta de skills do projeto no seu harness (a ferramenta que roda a IA): `.cursor/skills/` no Cursor, `.claude/skills/` no Claude Code, `.pi/skills/` no Pi, `.agents/skills/` no Codex, no OpenCode e em outros. Se o repositório já guarda skills em uma dessas pastas, use essa. Você escreve a saída do gerador para o próximo agente, não para um humano: ela será lida sem contexto, no meio de uma tarefa, por um agente que nunca viu o app.",
+    "## 1. Entreviste o repositório, não o usuário",
+    "Responda a estas perguntas a partir do código e só pergunte ao usuário o que você não conseguir observar:",
+    "- **Superfície:** no que o usuário realmente mexe? Uma interface web, uma CLI/TUI, um app desktop, uma API, um app mobile, uma biblioteca? Um repositório pode ter vários; escolha o principal e anote o restante.\n- **Execução:** como o app inicia localmente? Dê preferência ao comando de desenvolvimento documentado no próprio repositório (scripts de pacote, Makefile, guia rápido do README). Anote portas, variáveis de ambiente, dados de seed e autenticação.\n- **Operação:** como um agente pode interagir com ele de forma programática? Primeiro os harnesses já existentes — specs de Playwright/Cypress, scripts expect, utilitários de PTY, endpoints acessíveis via curl, uma porta de debug. Só depois escolha uma receita genérica: navegador/CDP para web e Electron, um harness de tmux/PTY para CLI/TUI, HTTP puro para serviços.\n- **Observação:** quais evidências podem ser capturadas? Capturas de tela, transcrições de terminal, corpos de resposta, logs, códigos de saída, estado do banco de dados.\n- **Isolamento:** duas instâncias conseguem rodar lado a lado (portas, diretórios de dados, perfis)? Se não, diga isso na skill gerada: recusar operar em paralelo uma instância compartilhada é melhor do que corromper a sessão do usuário.",
+    "Se o checkout não fizer build nem iniciar do jeito que está, corrija isso primeiro (ou relate com precisão) antes de gerar; uma skill escrita sobre uma base quebrada ensina passos errados. Quando um recurso irrelevante que está faltando bloqueia a inicialização (um diretório estático que a API nunca serve, uma configuração de exemplo), a skill gerada pode criá-lo, claramente marcado como estrutura auxiliar de verificação, e removê-lo na limpeza.",
+    "## 2. Gere a skill",
+    "Escreva `<skills>/verify-<app>/SKILL.md` com frontmatter YAML (`name: verify-<app>` e uma `description` que diga o nome do app, a superfície e quando usar a skill — sem frontmatter a skill nunca é registrada) e estas seções, cada uma baseada no que a entrevista realmente encontrou (sem deixar placeholders):",
+    "- **Inicialização:** o comando exato que inicia o app para verificação e como saber que ele está pronto (uma linha de log, um prompt). A inicialização precisa chegar a um estado utilizável a partir de um diretório de dados vazio, incluindo quaisquer migrações e dados de seed. Pronto significa utilizável, não apenas que um processo responde. Um health check de banco de dados pode passar enquanto os scripts de inicialização ainda estão rodando. Inclua o encerramento. Para uma CLI ou TUI de curta duração não há servidor para manter no ar: inicializar significa compilar o binário (ou instalar dependências) uma vez e depois iniciar cada execução em sua própria sessão isolada de PTY ou tmux.\n- **Diagnóstico:** uma verificação somente leitura que responde “vale a pena operar esta instância?” — processo no ar, versão/build certa, porta nossa, autenticação válida. Um agente roda isso primeiro sempre que algo parecer estranho.\n- **Operação:** a receita do harness com seletores/comandos reais deste repositório, não exemplos. Prefira referências estáveis (rótulos ARIA, atributos data, textos de prompt, caminhos de rota) em vez de coordenadas e ordem de Tab.\n- **Evidências:** o que capturar como prova e onde salvar. Deixe claros os padrões de prova: exercite o caminho real do usuário, não setters internos ou endpoints exclusivos de teste; capture a ação e o estado resultante, não apenas a tela final; verifique efeitos colaterais (arquivos gravados, linhas inseridas, mensagens enviadas) junto com o que está visível; use mocks apenas onde uma fronteira de produção já isola o sistema externo. Quando o caminho seguro for um dry-run ou modo de teste, verifique o que ele realmente pula observando (arquivos, rede, refs do Git) em vez de confiar no nome: alguns dry-runs ainda acessam a rede ou abrem o navegador.\n- **Limpeza:** como encerrar as instâncias que a execução criou. Nunca mate pelo nome do processo; mate o que você iniciou. A limpeza remove instâncias e estado temporário, nunca as evidências: os artefatos de prova sobrevivem ao encerramento, em um local indicado pela skill.\n- **Auxiliares:** qualquer script entregue com a skill é executável e sua chamada aparece no corpo da skill. Um auxiliar que o leitor precisa decifrar por engenharia reversa não é um auxiliar.",
+    "## 3. Crie o mapa inicial de funcionalidades",
+    "Crie `<skills>/verify-<app>/features/README.md` mais um arquivo para cada funcionalidade visível ao usuário que você conseguir identificar (mire nas 3 a 5 principais para começar, a partir de rotas, comandos, menus ou documentação). Siga o formato de [`references/feature-map-example/`](references/feature-map-example/), com um índice no README e um arquivo por funcionalidade. Cada arquivo responde, do ponto de vista do usuário: o que é a funcionalidade, como chegar até ela, como operá-la com o harness e qual estado final observável prova que ela funciona. Os quatro títulos H2 são `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>` e `Gotchas`. Se os dados de seed não tiverem uma pré-condição que a jornada exige, a jornada relata uma falha e o motivo entra no `Gotchas` daquela funcionalidade. Nunca enfraqueça a jornada para fazê-la passar. O mapa é a fonte de verificação mantida pelo repositório; uma prova que opera apenas um ponto de entrada conveniente fica incompleta quando o mapa lista outros.",
+    "## 4. Prove a skill gerada antes de entregá-la",
+    "Rode as próprias instruções dela de ponta a ponta uma vez: inicie, rode o diagnóstico, opere UMA funcionalidade mapeada (uma basta; o mapa existe para que execuções futuras cubram o restante), capture evidências e faça a limpeza. Depois da limpeza, confirme que as evidências continuam no local indicado — uma limpeza que apaga a prova falha nesta etapa. Corrija o que falhar e rode também a limpeza gerada depois de cada tentativa com falha, para que tentativas quebradas não deixem processos e portas presos. Uma skill gerada que nunca foi executada é um rascunho, não uma entrega. Se você provou a skill em um substituto do ambiente real (um contêiner no lugar de uma VM limpa, uma stack local no lugar de uma remota), liste cada passo de configuração que o substituto fez e que o ambiente real não fará. Esses passos continuam sem verificação até que uma execução no ambiente real os cubra.",
+    "## 5. Ofereça o ciclo de manutenção",
+    "Aponte o usuário para `/maintain-verification-skill` para manter o mapa fiel conforme o app muda. Só sugira uma frequência se o usuário pedir."
+  ]
+}

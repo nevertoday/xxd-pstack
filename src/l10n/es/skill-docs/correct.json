@@ -1,0 +1,74 @@
+{
+  "description": "Encuentra los errores que los agentes siguen repitiendo en este repositorio y haz que cada uno sea imposible. Prueba primero con la arquitectura, luego con tipos, después con un lint cuyo error indique la solución, luego con un test y escribe documentación al final. Demuestra que cada comprobación falla ante un error real del pasado. Repite esto cada vez que el operador te corrija. Úsala para /correct.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Añade otra regla al archivo de instrucciones después de cada corrección.",
+        "with": "Cambia primero la arquitectura o los tipos para que no se pueda escribir código incorrecto."
+      },
+      {
+        "without": "Da por hecho que una comprobación nueva funciona en cuanto se añade.",
+        "with": "Demuestra que cada comprobación nueva falla ante un error real del pasado."
+      },
+      {
+        "without": "Solo arregla el punto que tiene delante cuando un error se repite.",
+        "with": "Trata una regla que nada hace cumplir como un error repetido y lo arregla en un nivel superior."
+      }
+    ],
+    "intro": "El objetivo es cambiar el repositorio para que el siguiente agente, que solo ve sus archivos abiertos y copia el ejemplo más cercano, no pueda repetir el error.",
+    "sections": [
+      "Lee commits recientes, reversiones, comentarios de revisión y archivos de instrucciones para agentes, y agrupa los errores repetidos en categorías.",
+      "Arregla cada categoría en el más alto de cuatro niveles: arquitectura, tipos y lint, tests de comportamiento y, por último, documentación.",
+      "Arregla las categorías más frecuentes, un commit por cada una, demostrando que cada comprobación falla ante un error real del pasado, en local y en CI.",
+      "Mantiene en el archivo de instrucciones una tabla que asocia cada regla con lo que la hace cumplir. La respuesta indica la evidencia de cada categoría, su nivel y por qué."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles.",
+      "quoteTr": "Supón que cualquiera que contribuya es un agente que solo ve los archivos que abrió, copia el ejemplo más cercano y toma el camino más corto que compile.",
+      "title": "Imagina al usuario más perezoso",
+      "does": "Adapta el repositorio para una IA que lee un solo archivo y copia el ejemplo más cercano, para que hasta los atajos salgan bien.",
+      "why": "Detallar uno a uno los malos hábitos del usuario permite que la IA cierre cada hueco.",
+      "try": "Cuando la IA escriba instrucciones, añade: «Supón que el lector solo lee el primer párrafo y copia el primer ejemplo»."
+    },
+    {
+      "quote": "Fix each class at the highest level that works",
+      "quoteTr": "Arregla cada categoría en el nivel más alto que funcione",
+      "title": "Ordena las soluciones: la más fuerte primero",
+      "does": "Primero intenta hacer que el error sea imposible y solo escribe un documento de recordatorio cuando nada más fuerte funciona.",
+      "why": "Ordenar las opciones por fuerza evita que la IA escoja primero la más fácil y débil.",
+      "try": "Ordena las opciones: «Prueba primero con un campo obligatorio para bloquear datos incorrectos, luego con una indicación y solo después con una nota escrita»."
+    },
+    {
+      "quote": "Nothing fails when an agent skips them.",
+      "quoteTr": "Nada falla cuando un agente se las salta.",
+      "title": "Explica por qué falla la solución débil",
+      "does": "Sabe que la documentación no puede impedir un error, así que la reserva para decisiones de criterio.",
+      "why": "Señalar el punto débil de esa solución en una línea convence más que «escribe menos documentación», así que la IA la evita por su cuenta.",
+      "try": "Da el motivo junto con la regla: «Nadie recibe un error por saltarse un correo de recordatorio, así que convierte el paso clave en un campo obligatorio»."
+    },
+    {
+      "quote": "A class counts once it has happened twice.",
+      "quoteTr": "Una categoría cuenta en cuanto ha ocurrido dos veces.",
+      "title": "Pon un número como umbral",
+      "does": "Un error visto una vez no provoca un gran cambio; uno visto dos veces, sí.",
+      "why": "Una cifra concreta convierte «sigue pasando» en algo que la IA puede contar en lugar de juzgar.",
+      "try": "Fija un número: «Cuando la misma pregunta surja por segunda vez, añade la respuesta a las preguntas frecuentes»."
+    }
+  ],
+  "blocks": [
+    "# Corregir",
+    "El operador sigue corrigiendo a los agentes en este repositorio por los mismos errores. Cambia el repositorio para que el siguiente agente no pueda cometerlos.",
+    "Supón que cualquiera que contribuya es un agente que solo ve los archivos que abrió, copia el ejemplo más cercano y toma el camino más corto que compile. Diseña el repositorio de modo que un cambio que parezca correcto desde un solo archivo sea correcto para todo el repositorio.",
+    "## Encuentra las categorías de errores",
+    "Primero, lee los commits recientes, las reversiones, los comentarios de revisión, los archivos de instrucciones para agentes y los comentarios que explican soluciones temporales. Agrupa los errores en categorías. Una categoría cuenta en cuanto ha ocurrido dos veces.",
+    "## Arregla cada categoría en el nivel más alto que funcione",
+    "1. **Elimínala con la arquitectura.** Dale a cada parte del estado un único dueño y a cada tarea una única forma admitida. Oculta los detalles internos para que una importación incorrecta falle. Reemplaza las listas sincronizadas a mano por una única fuente de verdad. Borra las formas antiguas y el código muerto que un agente podría copiar.\n2. **Hazlo cumplir con tipos para que no se pueda escribir el estado incorrecto.** Si el código incorrecto sigue compilando, añade una comprobación de lint o de CI cuyo error indique el archivo, el tipo o la función que hay que usar en su lugar. Si el patrón ya es común, haz que falle solo cuando un cambio añada más.\n3. **Prueba el comportamiento.** Arregla o borra cualquier test que siga pasando cuando se rompe el comportamiento que comprueba, o que falle cuando solo cambian los detalles internos.\n4. **Escribe documentación o reglas para agentes al final, solo para decisiones de criterio.** Nada falla cuando un agente se las salta.",
+    "## Arregla y demuestra",
+    "Después, arregla ahora las categorías más frecuentes, un commit por cada una. Demuestra que cada comprobación nueva falla ante un error real del pasado. Ejecuta el mismo comando en local y en CI. Las excepciones van en la línea afectada con un motivo, una fecha de vencimiento y la aprobación de una persona.",
+    "## Mantén la tabla de reglas",
+    "Por último, mantén en el archivo de instrucciones para agentes una tabla que asocie cada regla con lo que la hace cumplir. Cuando el operador te corrija, arregla el error y añade la regla. Si la regla ya estaba ahí y nada la hace cumplir, es un error repetido, así que arréglalo en el nivel más alto en el mismo cambio. Elimina una regla en cuanto su error ya no pueda ocurrir.",
+    "**Respuesta:** cada categoría con su evidencia, el nivel que escogiste y por qué no funcionó un nivel más alto."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "description": "Explica um trabalho de forma simples para a pessoa entender de verdade. Roda as skills `how` e `why` e junta o que elas encontram em uma única explicação clara. Use para “me ensine isso”, “me ajude a entender X de verdade”, “me explique essa mudança ou subsistema”.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Lista nomes de funções e constantes e dá por explicado.",
+        "with": "Dá o nome comum e uma definição simples, depois o problema e o mecanismo."
+      },
+      {
+        "without": "Escreve um bloco denso com rótulos como “ponto-chave” ou “TL;DR”.",
+        "with": "Dá uma resposta completa em uma ou duas frases e para. Sem rótulos de enquadramento."
+      },
+      {
+        "without": "Dá aula com quizzes, escreve “Pausa” e pede para você repetir com suas palavras.",
+        "with": "Conversa como colega, oferece aprofundar e deixa você conduzir."
+      }
+    ],
+    "intro": "O Teach roda `how` e `why`, escolhe os poucos pontos que importam para o motivo da sua pergunta e junta tudo em uma explicação em tom de conversa. Começa com uma definição simples e uma resposta curta, monta diagramas uma parte por vez e escreve passando pelo `unslop` (para tirar o jeito de texto gerado por IA).",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Give the smallest complete answer first, a sentence or two, not a dense paragraph, then stop.",
+      "quoteTr": "Dê primeiro a menor resposta completa, uma ou duas frases, não um parágrafo denso, e pare.",
+      "title": "Responda curto e pare",
+      "does": "Responde em uma ou duas frases e só aprofunda quando você pede.",
+      "why": "“Menor”, “completa” e “pare”, juntos, limitam o tamanho sem deixar a resposta pela metade.",
+      "try": "Quando perguntar sobre uma ideia nova, acrescente: “Responda em duas frases primeiro. Aprofunde quando eu pedir.”"
+    },
+    {
+      "quote": "Concretely, to teach a flow from A to B to C, draw it three times.",
+      "quoteTr": "Na prática, para ensinar um fluxo de A para B para C, desenhe três vezes.",
+      "title": "Mostre com A, B, C",
+      "does": "Para um fluxo complexo, desenha uma sequência de diagramas que vão crescendo, em vez de um só diagrama grande.",
+      "why": "“Monte passo a passo” é abstrato. “De A para B para C, desenhado três vezes” mostra exatamente o que cada etapa acrescenta.",
+      "try": "Em vez de “vá passo a passo”, escreva: “Explique A, depois adicione B, depois adicione C, uma novidade de cada vez.”"
+    },
+    {
+      "quote": "Keep `why`'s confidence language intact (its hedges are findings, not style).",
+      "quoteTr": "Mantenha intactas as expressões de grau de certeza do `why` (suas ressalvas são descobertas, não estilo).",
+      "title": "Dê o motivo da exceção",
+      "does": "Reescreve com liberdade, mas mantém expressões como “provavelmente” e “não tenho certeza”.",
+      "why": "O motivo entre parênteses mostra à IA que essas ressalvas carregam informação, então ela não as corta como enrolação.",
+      "try": "Quando a IA polir o seu texto, diga: “Mantenha todos os ‘cerca de’ e ‘acho que’. Eles mostram o quanto tenho certeza, não são vício de linguagem.”"
+    },
+    {
+      "quote": "The words in these steps are directions to you, not labels to print.",
+      "quoteTr": "As palavras nestes passos são instruções para você, não rótulos para exibir.",
+      "title": "Separe instruções da saída",
+      "does": "Não exibe os nomes dos passos da skill como títulos na resposta.",
+      "why": "IAs costumam copiar as palavras do prompt para a saída. Dizer que são apenas instruções evita isso.",
+      "try": "Ao enviar um roteiro, acrescente: “‘Contexto’ e ‘Objetivo’ abaixo são notas para você. Não use como títulos.”"
+    }
+  ],
+  "blocks": [
+    "# Teach",
+    "**Você explica o que algo é, como funciona e por que foi construído assim, em um relato simples e no ritmo da pessoa. O objetivo é que ela entenda, não que você mude nada.**",
+    "O Teach fica por cima de `how` e `why`. Situe-se sobre o que é o trabalho e no que ele mexe, depois rode `how` para ver como funciona e `why` para ver por que é assim. Essas são chamadas reais de skills que fazem a própria investigação. Junte o que elas encontrarem em uma única explicação simples, comece pelo que importa para a pessoa e aprofunde quando ela pedir. Reescreva com liberdade para ensinar, com uma exceção. Mantenha intactas as expressões de grau de certeza do `why` (suas ressalvas são descobertas, não estilo).",
+    "1. Defina as poucas coisas que a pessoa deve sair entendendo. Escolha com base no motivo da pergunta (está prestes a mudar, revisando, depurando ou chegando agora) e no que ela já sabe, percebendo ambos pela conversa, sem ficar testando com perguntas. Pule o que ela claramente já sabe. Coloque a profundidade onde está a pergunta dela.\n2. Deixe `how` e `why` fazerem o trabalho, não refaça. Leia o código por conta própria para se situar, depois rode `how` para saber como funciona e `why` para saber o porquê. Rode os dois em paralelo e combine os resultados. Ajuste o tamanho à pergunta. Rode ambos para um subsistema; talvez um só baste para uma mudança pequena.\n3. Comece com uma definição simples. Diga o nome da coisa e o que ela é em termos gerais, do jeito que um engenheiro sênior falaria em voz alta, com o nome comum se ela tiver um. Depois ligue isso ao caso que está na sua frente (“em X, usamos isso para …”) e construa a partir daí: como funciona, os motivos mais profundos, os casos de borda. Para cada parte, explique a ideia para a ficha cair: o problema que ela resolve e como realmente funciona. Percorra o que acontece enquanto a pessoa faz a ação (abre um chat longo, rola para cima) quando for isso que faz a explicação encaixar. Listar funções e constantes é referência, não ensino. Não exiba rótulos de enquadramento (“a única ideia para guardar”, “o que levar disso”, “o ponto-chave”, “na essência”, “TL;DR”). Dê primeiro a menor resposta completa, uma ou duas frases, não um parágrafo denso, e pare. Adicione camadas quando a pessoa pedir. Nunca uma parede de texto.\n4. Mantenha o tom de conversa, não de aula ou encenação. Ofereça aprofundar ou seguir em frente e deixe a pessoa conduzir. Sem quizzes. Sem teatro de ritmo. Não escreva “Pausa”, não peça para a pessoa repetir com as próprias palavras, não anuncie “a frase para fixar” e não marque uma parte como importante ou difícil (“aqui é a parte em que vale desacelerar”, “essa é a parte complicada”, “é aqui que fica interessante”). Apenas diga. Quando fosse fazer uma pausa, pare e deixe a pessoa responder. Se estiver rodando de uma vez só, sem uma pessoa ao vivo, entregue tudo de forma limpa e deixe qualquer oferta para aprofundar no final.\n5. Mostre, não apenas fale, e monte o quadro diagrama por diagrama. Abra o diff, o código ou o debugger quando esse for o jeito mais rápido de fazer entender. Desenhe quando uma imagem explicar mais rápido do que palavras. Para qualquer coisa com três ou mais peças em movimento, não desenhe um único diagrama com todas de uma vez. Em vez disso, desenhe uma série curta, em que cada diagrama redesenha o anterior e acrescenta uma única peça, para quem lê ver o sistema se montar. Um único diagrama com tudo de uma vez, especialmente guardado para o final, é referência, não ensino. Na prática, para ensinar um fluxo de A para B para C, desenhe três vezes. Primeiro A para B. Depois redesenhe e adicione C. Depois redesenhe e adicione a seta de retorno ou a próxima peça. Escolha o formato certo para a ideia e use os dois tipos quando ambos ajudarem. Um diagrama mermaid serve bem para um fluxo ou estrutura em que os rótulos carregam o sentido. Quando a ideia for espacial, como layout, sobreposição, posição de rolagem ou um antes e depois, use a ferramenta de geração de imagens e desenhe no estilo canetão em quadro branco com poucos rótulos curtos, já que modelos de imagem embaralham textos longos. Gere essa imagem, não se contente em descrevê-la com palavras. A regra de montar aos poucos vale para imagens geradas também. Um único ponto simples não precisa de figura.",
+    "Escreva toda resposta passando pela skill **unslop**, em inglês falado simples, do jeito que você explicaria a um colega. Mantenha o texto enxuto, não seco. Corte enrolação e rodeios, mantenha a parte que faz a ficha cair. Diga o mecanismo concreto, não uma metáfora, um enquadramento ou uma prévia do que vem a seguir. Esta é a densidade-alvo: “A virtualização roda em duas partes, uma para renderização e outra para carregamento do disco. Quando um item rola para fora do buffer, tanto seu nó DOM quanto seus dados em memória são descartados.” Maiúsculas e minúsculas normais de frase, não tudo em minúsculas. Sem travessões. Prefira pontos finais a vírgulas. Mantenha cada frase com uma ou duas vírgulas. Se as orações se acumularem, divida em frases separadas. Dê um único nome a cada conceito e mantenha esse nome. Evite frases espelhadas (“A sem B, ou B sem A”) e fechamentos arrumadinhos (“o resto decorre disso”, “tudo sai daí”). As palavras nestes passos são instruções para você, não rótulos para exibir. Não repita a estrutura como títulos ou frases prontas.",
+    "**Resposta:** a própria explicação, nunca um relatório sobre o que você fez ou entregou. Comece pelo ponto principal, depois o relato simples do que é, como funciona e por quê, e os fios que vale a pena puxar com `how` ou `why`."
+  ]
+}

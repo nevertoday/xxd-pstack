@@ -1,0 +1,85 @@
+{
+  "before": {
+    "title": "Antes de empezar",
+    "items": [
+      [
+        "¿Cuesta dinero pstack?",
+        "No, pstack es gratis y de código abierto (MIT). Tu herramienta de IA sigue costando lo mismo: suscripción o factura de API, como siempre. **El mismo trabajo consume más de tu cuota con pstack**, porque ejecuta más IA ayudantes y comprobaciones. Consulta [Mantener los costos bajos](/es/howto/cost/)."
+      ],
+      [
+        "¿Tengo que usar Cursor?",
+        "No. La versión oficial está escrita para Cursor. [backnotprop/pstack](https://github.com/backnotprop/pstack) es una copia adaptada (mirror) que funciona en Claude Code, Codex, OpenCode, Pi y más. Las demás herramientas omiten las pocas funciones exclusivas de Cursor (Automations, Bugbot, agentes en la nube) y dejan una nota de una línea."
+      ],
+      [
+        "Casi no sé programar. ¿Puedo usarlo de todos modos?",
+        "Sí, empieza usándolo para entender código. `/how`, `/teach` y `/bro` hacen que la IA explique un proyecto con palabras sencillas. Para dejar que cambie código, tienes que seguir la evidencia que muestra: salida de comandos, capturas de pantalla, el antes y el después. Lo ideal es que tu proyecto también esté en Git."
+      ],
+      [
+        "¿Qué relación tiene con el modo plan integrado en Claude Code o Cursor?",
+        "No chocan entre sí, así que usa cualquiera de los dos. pstack no tiene ninguna skill de planificación: poteto cree que el mejor plan es el propio código. Si necesitas un plan, espera a que el diseño esté definido y luego pídele a `/poteto-mode` un plan por fases. Cada PR debe indicar cómo se comprobará."
+      ],
+      [
+        "¿Cuál es la diferencia entre la versión oficial y la copia de backnotprop?",
+        "En Cursor, instala la versión oficial. En cualquier otra herramienta, instala la copia. La copia se sincroniza a diario con la [versión oficial](https://github.com/cursor/plugins/tree/main/pstack) y reescribe las partes exclusivas de Cursor para que funcionen en cualquier entorno. También incluye dos correcciones de la comunidad. `/no-comments` mantiene los comentarios sobre reglas externas. `watch-pr`, que vigila tus PR, ya no añade a tu stack de PR (cadena de PR encadenados uno sobre otro) un PR del fork de otra persona, así que sus comentarios de revisión quedan fuera de lo que lee la IA."
+      ]
+    ]
+  },
+  "using": {
+    "title": "Cómo usarlo",
+    "items": [
+      [
+        "¿Escribo /poteto-mode para todo?",
+        "No, solo para tareas que requieren cuidado. Para cambiar una línea de texto o hacer un arreglo pequeño y obvio, díselo directamente a la IA. Cuando tengas dudas: ==si equivocarse implica rehacerlo, escríbelo==."
+      ],
+      [
+        "¿Puedo escribir prompts en un idioma que no sea inglés?",
+        "Sí. Las skills están escritas en inglés, pero el modelo entiende otros idiomas. Mantén en inglés los nombres de las skills y de los principios, como `/how` y `prove it works`. Escribe el resto en cualquier idioma."
+      ],
+      [
+        "¿Va a estropear mi código?",
+        "No, y tú mantienes el control. Si solo quieres que investigue, dile «no cambies nada de código todavía». Los cambios de código se hacen por defecto en una copia aparte (un worktree, carpeta de trabajo adicional del mismo repositorio Git) y terminan como un PR para que lo revises. Antes de hacer algo que no pueda deshacer, como borrar cosas o hacer un push forzado, se detiene y te pregunta."
+      ],
+      [
+        "¿Por qué sigue adelante sin preguntarme?",
+        "Es a propósito: primero hace lo que se puede deshacer, te lo muestra y te deja corregirlo. En su primera respuesta reformula lo que quieres y lo que planea cambiar. Si no es correcto, simplemente interrumpe. Si ejecutar algo puede responder una duda, prueba eso en lugar de preguntarte."
+      ],
+      [
+        "Las respuestas son demasiado largas y técnicas. ¿Qué hago?",
+        "Escribe `/bro`. Repite la última respuesta con palabras sencillas, más corta y sin jerga. Si te ausentas un rato y quieres ponerte al día, escribe `/ketchup`."
+      ],
+      [
+        "¿No pasa nada cuando escribo un comando en Claude Code?",
+        "Al instalarlo como plugin, cada comando queda bajo `pstack:`: escribes `!/pstack:poteto-mode`, y `!/poteto-mode` a secas no se reconoce. Es la regla de Claude Code para todos los plugins, para que dos plugins no choquen por un mismo nombre. Los comandos de este sitio están escritos así por defecto, para que funcionen al copiarlos. Si lo instalaste con `npx skills`, no hay prefijo: abre Apariencia arriba a la derecha y cambia «Uso» a «Instalado con npx». Además, después de `/setup-pstack`, inicia una sesión nueva para que los modelos que elegiste se apliquen. Consulta [Usarlo en Claude Code](/es/howto/claude-code/)."
+      ],
+      [
+        "No tengo los modelos por defecto. ¿Funcionará de todos modos?",
+        "Sí. Por defecto, opus 5.5 escribe el código y toma las decisiones, y el panel de revisión añade fable 5.2 y gemini 4 neon. Si falta algún modelo, se reemplaza. Claude Code usa el modelo de la sesión actual, y las demás herramientas usan el más parecido que tengan. Para elegir tú, ejecuta `/setup-pstack` una vez. Detecta los modelos que puedes usar y te deja escoger."
+      ],
+      [
+        "¿Puedo usarlo si mi proyecto no está en Git?",
+        "Para leer código e investigar, sí; para cambiar código, configura Git primero. La mayoría de los playbooks (guías de pasos estándar) que cambian código crean worktrees, hacen commits y abren PR, y todo eso necesita Git. Ejecuta `git init` en tu proyecto, haz un commit y ya está todo listo."
+      ],
+      [
+        "¿Cómo lo desinstalo?",
+        "Depende de cómo lo hayas instalado. Plugin de Claude Code: escribe `/plugin uninstall pstack@cursor-plugins` en el cuadro de chat y luego `/reload-plugins`; si prefieres pausarlo, usa `disable` en lugar de `uninstall`. Instalado con `npx skills`: ejecuta `npx skills remove` en tu terminal. Si ejecutaste `/setup-pstack`, borra también el archivo de configuración que creó. Consulta [Actualizar, revisar y desinstalar](/es/howto/update-remove/)."
+      ]
+    ]
+  },
+  "trust": {
+    "title": "¿Puedo confiar en pstack?",
+    "items": [
+      [
+        "Dice que ya terminó. ¿Cómo sé que es verdad?",
+        "Fíjate en los resultados reales que publica: salida de comandos, capturas de pantalla, cifras de antes y después. Para asegurarte de que los incluya, indica «qué mostrarme al terminar» en tu prompt. Una buena respuesta marca lo que no pudo comprobar como «sin certeza». **Si solo dice «todo bien» y no muestra nada, no confíes.** Responde `apply prove it works`."
+      ],
+      [
+        "¿Es seguro dejar que trabaje toda la noche?",
+        "Solo cuando se cumplen estas cuatro condiciones. ① Ya hiciste este trabajo por tu cuenta o viste cómo lo hacía una vez. ② Tiene las herramientas que tú usarías, como una skill de verificación, logs, un profiler. ③ Cada fase se puede comprobar, y se detiene cuando alguna se queda corta. ④ Ya leíste algunas transcripciones y convertiste los errores repetidos en comprobaciones. Consulta [Dejar que trabaje por su cuenta](/es/guide/7-overnight/)."
+      ],
+      [
+        "¿Por qué hace que varios modelos distintos revisen el trabajo?",
+        "Porque un modelo tiende a aprobar lo que él mismo escribió. pstack hace que modelos de otras empresas busquen puntos débiles y puntúen el trabajo; tanto `/interrogate` como `/arena` hacen esto. Solo conserva los problemas que un comando realmente logra hacer fallar. Cada modelo tiene puntos ciegos distintos, así que juntos dejan pasar menos cosas."
+      ]
+    ]
+  }
+}

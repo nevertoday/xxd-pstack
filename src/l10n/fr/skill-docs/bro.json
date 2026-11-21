@@ -1,0 +1,50 @@
+{
+  "description": "Reformuler le dernier message dans un langage humain simple, sans jargon.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Remplit la réponse d'un jargon que vous n'arrivez pas à suivre.",
+        "with": "Reformule le dernier message sans jargon."
+      },
+      {
+        "without": "Le reformule en gardant la même longueur.",
+        "with": "Le rend plus simple et plus concis."
+      },
+      {
+        "without": "Répond par bribes décousues.",
+        "with": "S'exprime de manière cohérente, comme une personne qui parle à une autre."
+      }
+    ],
+    "intro": "Il demande à l'IA de reformuler son dernier message sans jargon, en plus simple et plus court, comme une personne qui parle à une autre.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate your last message.",
+      "quoteTr": "Reformule ton dernier message.",
+      "title": "Désigner le texte à refaire",
+      "does": "Elle redit simplement sa dernière réponse avec d'autres mots, sans entamer un nouveau travail.",
+      "why": "Nommer la cible dès le départ, « ton dernier message », évite à l'IA de deviner de quelle partie vous parlez.",
+      "try": "Désignez ce qu'il faut refaire : « Reformule le deuxième paragraphe de ta dernière réponse. »"
+    },
+    {
+      "quote": "State it more simply and concisely",
+      "quoteTr": "Dis-le de façon plus simple et plus concise",
+      "title": "Prendre l'original comme point de repère",
+      "does": "La nouvelle version est plus courte et plus facile à comprendre que la précédente, pas seulement reformulée.",
+      "why": "Avec le dernier message comme référence, « plus simple » a un point de comparaison.",
+      "try": "Comparez à l'original : « Deux fois plus court que la dernière version, même sens. »"
+    },
+    {
+      "quote": "like one human talking to another",
+      "quoteTr": "comme un humain qui parle à un autre",
+      "title": "Choisir une scène pour le ton",
+      "does": "Elle n'a plus le ton d'un rapport et parle comme un collègue qui vous explique les choses à côté de vous.",
+      "why": "Une conversation que tout le monde connaît est plus facile à imiter qu'un adjectif comme « plus clair ».",
+      "try": "Donnez une scène pour le ton : « Explique cette erreur comme tu l'expliquerais à un proche non technique. »"
+    }
+  ],
+  "blocks": [
+    "Reformule ton dernier message. Arrête d'utiliser du jargon et exprime-toi de manière cohérente. Dis-le de façon plus simple et plus concise, comme un humain qui parle à un autre."
+  ]
+}

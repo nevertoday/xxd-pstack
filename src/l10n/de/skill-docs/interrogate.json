@@ -1,0 +1,74 @@
+{
+  "description": "Für „interrogate“, „Adversarial Review“, „Multi-Modell-Review“, „stell das infrage“, „mach einen Stresstest für diesen Code“, „finde blinde Flecken“ oder „nimm das auseinander“. Gegner versuchen, eine Änderung oder ein Design kaputtzumachen, und nur Befunde, die ein Lauf belegt, bleiben bestehen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Bläht die Liste mit Meinungen zu Stil und Benennung auf.",
+        "with": "Liefert zu jedem Befund den Befehl, seine tatsächliche Ausgabe und die erwartete Ausgabe."
+      },
+      {
+        "without": "Akzeptiert alles, was ein Reviewer für kaputt erklärt.",
+        "with": "Führt den Befehl jedes Befunds erneut aus und verwirft alle, die den Fehler nicht zeigen."
+      },
+      {
+        "without": "Repariert den Code sofort, sobald sie ein Problem entdeckt.",
+        "with": "Gibt nur einen Bericht zurück. Du entscheidest, was behoben wird."
+      }
+    ],
+    "intro": "Der Skill sagt: Gegner versuchen, die Änderung kaputtzumachen, nur durch einen Lauf belegte Befunde zählen – und er berichtet nur, ohne etwas zu beheben.",
+    "sections": [
+      "Nimmt standardmäßig den gesamten Branch-Diff, formuliert die Absicht mit `in-your-own-words` neu und fragt dich, wenn die Absicht unklar ist.",
+      "Nutzt die Startschritte von `arena` wieder und gibt jedem Gegner einen eigenen Worktree (einen zusätzlichen Arbeitsordner für dasselbe Git-Repo) sowie denselben Auftrag „Mach diese Änderung kaputt“.",
+      "Führt den Befehl jedes Befunds erneut aus, behält den Befund nur, wenn der Lauf fehlschlägt und der Absicht widerspricht, und fasst gemeinsame Grundursachen zusammen.",
+      "Liefert drei Teile: die neu formulierte Absicht, jeden geprüften Befund samt Angabe, wer ihn gefunden hat, und für jeden Gegner die Anzahl der verworfenen Befunde und die Gründe."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Adversaries try to break a change or a design.",
+      "quoteTr": "Gegner versuchen, eine Änderung oder ein Design kaputtzumachen.",
+      "title": "Mach die KI zum Gegner",
+      "does": "Die Helfer-KIs sind nicht da, um den Code abzusegnen. Ihr Job ist es, ihn kaputtzumachen.",
+      "why": "„Gegner“ und „kaputtmachen“ machen aus „schau mal drüber“ ein „besieg es“ – dadurch sucht die KI viel verbissener.",
+      "try": "Wenn die KI einen Plan prüft, sag ihr: „Du bist die härteste Konkurrenz. Beweis, dass dieser Plan nicht funktioniert.“"
+    },
+    {
+      "quote": "Report each finding with a title, the exact command, the output it printed, and the output the intent requires.",
+      "quoteTr": "Melde jeden Befund mit einem Titel, dem genauen Befehl, seiner Ausgabe und der Ausgabe, die laut Absicht erforderlich ist.",
+      "title": "Stell Ist neben Soll",
+      "does": "Zu jedem Problem bekommst du den Befehl, was er ausgegeben hat und was er ausgeben sollte – so kannst du es selbst noch einmal laufen lassen.",
+      "why": "Wenn „was passiert ist“ direkt neben „was passieren sollte“ steht, wird die Abweichung sofort klar – ohne Raum für vages Gerede.",
+      "try": "Wenn die KI Bugs meldet, schreib: „Zu jedem: was du gemacht hast, was du gesehen hast, was du erwartet hast.“"
+    },
+    {
+      "quote": "Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter.",
+      "quoteTr": "Lass alles weg, was du nicht ausgeführt hast. Das gilt für Stil, Benennung, Struktur und Risiken, die erst bei einer künftigen Änderung relevant werden.",
+      "title": "Benenne, was die Regel abdeckt",
+      "does": "Sie bläht die Liste nicht mit Benennung, Stil oder „könnte später kaputtgehen“ auf. Jeder Befund wurde tatsächlich ausgeführt.",
+      "why": "„Lass weg, was du nicht ausgeführt hast“ lässt Lücken. Wenn du die Fälle benennst, die sich am ehesten einschleichen, schließt du sie.",
+      "try": "Wenn die KI nach Problemen sucht, schreib: „Melde nur, was Kunden am Bezahlen hindert. Farben, Formulierungen und künftige Risiken zählen nicht.“"
+    },
+    {
+      "quote": "No findings is a valid result.",
+      "quoteTr": "Keine Befunde ist ein gültiges Ergebnis.",
+      "title": "Sag, dass „nichts“ eine gute Antwort ist",
+      "does": "Wenn der Code in Ordnung ist, sagt sie das auch – statt Probleme zu erfinden, um beschäftigt zu wirken.",
+      "why": "Eine KI, die Probleme suchen soll, fühlt sich verpflichtet, welche zu finden. Wenn du sagst, dass auch ein leeres Ergebnis zählt, nimmst du diesen Druck raus.",
+      "try": "Wenn die KI deine Arbeit prüft, schreib dazu: „Wenn du keine Tippfehler findest, antworte einfach mit ‚nichts gefunden‘.“"
+    }
+  ],
+  "blocks": [
+    "# Interrogate",
+    "Gegner versuchen, eine Änderung oder ein Design kaputtzumachen. Ein Befund bleibt nur bestehen, wenn ein Lauf ihn belegt. Melde die Befunde. Nimm keine Korrekturen vor.",
+    "## Rahmen abstecken",
+    "Der Umfang ist das, was der Nutzer angibt. Andernfalls ist es der Branch-Diff von seiner Merge-Basis mit dem Basis-Branch bis einschließlich Arbeitsverzeichnis. Formuliere die Absicht mit dem Skill **in-your-own-words** anhand der Nachricht des Nutzers, der Commits und der PR-Beschreibung. Frag beim Nutzer nach, wenn die Absicht unklar ist.",
+    "## Verteilen",
+    "Führe Schritte 3 und 4 von Phase A sowie Phase B des Skills **arena** mit vier Änderungen aus. Lies die Zeile `interrogate reviewers` statt `arena runners`. Kopiere die nicht committeten Änderungen des Umfangs in jeden Worktree. Starte jeden Gegner als Allzweck-Subagent (`generalPurpose` in Cursor). Gib jedem Gegner statt Aufgabe und Begründung aus arena den Umfang, die Absicht und diesen Auftrag:",
+    "> Mach diese Änderung kaputt. Belege jeden Befund durch einen Lauf gegen den echten Code – etwa einen fehlschlagenden Test, ein Repro-Skript oder die Ausgabe eines Befehls, die das falsche Verhalten zeigt. Lass bei einem Design oder Plan einen Prototyp laufen oder untersuche den aktuellen Codebaum. Behalte Repros in deinem eigenen Worktree. Melde jeden Befund mit einem Titel, dem genauen Befehl, seiner Ausgabe und der Ausgabe, die laut Absicht erforderlich ist. Lass alles weg, was du nicht ausgeführt hast. Das gilt für Stil, Benennung, Struktur und Risiken, die erst bei einer künftigen Änderung relevant werden. Keine Befunde ist ein gültiges Ergebnis.",
+    "## Prüfen",
+    "Prüfe jeden Befund gemäß Phase F von arena, indem du seinen Befehl erneut ausführst. Behalte einen Befund, wenn die Ausgabe den Fehler zeigt und der Fehler der Absicht widerspricht. Verwirf den Rest. Fasse Befunde mit derselben Grundursache zusammen.",
+    "Überspringe die Phasen C, D und E von arena. Gegner finden unterschiedliche Fehler – deshalb behält das Urteil jeden geprüften Befund, nicht die Liste eines einzelnen Gegners.",
+    "## Ausgabe",
+    "- **Absicht**: die Neuformulierung.\n- **Befunde**: für jeden geprüften Befund der Befehl, seine Ausgabe, wie der Befund der Absicht widerspricht und welche Gegner ihn gefunden haben. Schreib „keine geprüften Befunde“, wenn keiner übrig bleibt.\n- **Verworfen**: für jeden Gegner die Anzahl der verworfenen Befunde und warum."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "description": "Approfondir une tâche sans l'élargir, puis réécrire le prompt. À utiliser pour /sharpen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Élargit la tâche en empilant plus de travail.",
+        "with": "Indique d'abord ce qu'un professionnel de haut niveau ferait sans que vous l'ayez demandé."
+      },
+      {
+        "without": "Part d'une matière que quelqu'un a déjà digérée pour vous.",
+        "with": "Nomme la matière la plus brute dont partirait un professionnel."
+      },
+      {
+        "without": "Juge le résultat bon parce qu'il vous plaît, à vous et à l'IA.",
+        "with": "Nomme quelque chose d'extérieur à vous et à l'IA qui montrerait que le résultat est bon."
+      }
+    ],
+    "intro": "Avant de réécrire votre prompt, l'IA nomme ce qu'un professionnel de haut niveau ajouterait, la matière la plus brute, les méthodes et les outils, ainsi qu'une vérification extérieure. Ensuite, elle réécrit le prompt pour demander exactement cela : prototyper les choix qu'une expérience peut trancher, et vous laisser les questions de goût.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "I want a deeper version of this task, not a bigger one.",
+      "quoteTr": "Je veux une version plus approfondie de cette tâche, pas plus vaste.",
+      "title": "Nommez la direction dont vous ne voulez pas",
+      "does": "L'IA réécrit votre prompt pour aller plus en profondeur, au lieu d'y empiler plus de travail.",
+      "why": "« Plus approfondie » et « plus vaste » veulent tous les deux dire « plus » ; les mettre côte à côte indique à l'IA dans quelle direction ajouter.",
+      "try": "Quand vous demandez une amélioration, nommez la direction : « Je veux que cet article soit plus percutant, pas plus long. »"
+    },
+    {
+      "quote": "Say what a top professional in this field would do here that I'm not asking for.",
+      "quoteTr": "Dis ce qu'un professionnel de haut niveau dans ce domaine ferait ici et que je ne demande pas.",
+      "title": "Empruntez le regard d'un expert",
+      "does": "L'IA ajoute les étapes auxquelles vous n'avez pas pensé, mais qu'un expert ne sauterait jamais.",
+      "why": "« Fais mieux » n'a aucune direction ; « que ferait un professionnel de haut niveau » donne à l'IA quelqu'un de concret à imiter.",
+      "try": "Avant une révision, demandez : « Qu'est-ce qu'un rédacteur expérimenté ferait sur ce brouillon et que je n'ai pas demandé ? »"
+    },
+    {
+      "quote": "Say what, other than you or me, would show the result is right.",
+      "quoteTr": "Dis ce qui, en dehors de toi ou de moi, montrerait que le résultat est bon.",
+      "title": "Demandez un juge extérieur",
+      "does": "Le prompt réécrit inclut une vérification extérieure, comme des données réelles, un test ou le fait de le suivre concrètement.",
+      "why": "Celui qui écrit et celui qui demande ont tous les deux tendance à aimer le résultat ; c'est en nommant quelque chose d'extérieur à eux qu'on le rend convaincant.",
+      "try": "Ajoutez : « À part le fait que ce guide de migration nous plaise à toi et moi, qu'est-ce qui prouverait qu'il est bon ? »"
+    },
+    {
+      "quote": "Leave product or preference choices that no experiment can settle for me to make.",
+      "quoteTr": "Laisse-moi faire les choix de produit ou de préférence qu'aucune expérience ne peut trancher.",
+      "title": "Indiquez quelles décisions vous reviennent",
+      "does": "L'IA prototype les choix qu'une expérience peut trancher et en recommande un ; pour les questions de goût, comme le style, elle vous laisse décider.",
+      "why": "Séparer ce à quoi un test peut répondre de ce qui relève uniquement de votre décision empêche l'IA de décider à votre place pour paraître rigoureuse.",
+      "try": "Écrivez : « Prototype les deux mises en page et recommande-en une ; je choisirai les couleurs, donc liste juste deux ou trois options. »"
+    }
+  ],
+  "blocks": [
+    "Je veux une version plus approfondie de cette tâche, pas plus vaste. Avant de la réécrire, fais quatre choses :",
+    "1. Dis ce qu'un professionnel de haut niveau dans ce domaine ferait ici et que je ne demande pas.\n2. Nomme la matière la plus brute dont il partirait au lieu de ce qui a déjà été digéré pour moi.\n3. Nomme les méthodes et les outils précis qu'il utiliserait.\n4. Dis ce qui, en dehors de toi ou de moi, montrerait que le résultat est bon.",
+    "Ensuite, réécris mon prompt pour demander exactement cela.",
+    "Fais en sorte que le prompt réécrit demande à l'agent de prototyper tout choix qu'une expérience peut trancher et de recommander une option d'après ce qu'il a observé. Laisse-moi faire les choix de produit ou de préférence qu'aucune expérience ne peut trancher."
+  ]
+}

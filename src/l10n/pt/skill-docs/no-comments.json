@@ -1,0 +1,67 @@
+{
+  "description": "Inicia o Comment Sicko, corrige os apontamentos aceitos e oferece formas de codificar restrições alegadas.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Edita código da aplicação enquanto remove comentários.",
+        "with": "Rejeita qualquer edição da IA ajudante no código da aplicação ou fora do escopo."
+      },
+      {
+        "without": "Deixa comentários de `do not remove` no lugar.",
+        "with": "Oferece um tipo, teste ou lint que garanta isso e apaga o comentário quando você aprovar."
+      },
+      {
+        "without": "Apaga o comentário, mas mantém a solução de contorno que ele explicava.",
+        "with": "Corrige a causa real e remove todas as soluções de contorno citadas."
+      }
+    ],
+    "intro": "Entrega os comentários a uma nova IA ajudante, o Comment Sicko, dá preferência à visão dele e age só nos apontamentos que aceitar.",
+    "sections": [
+      "Verifica os arquivos ou o diff que você indicar; senão, usa o diff atual em relação à `main`, incluindo alterações sem commit.",
+      "Seis passos: iniciar a IA ajudante, auditar o relatório dela, corrigir alertas triviais, corrigir a causa real, codificar comentários de restrição e reportar as contagens."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Do not restate its rules.",
+      "quoteTr": "Não repita as regras dele.",
+      "title": "Mantenha cada regra em um só lugar",
+      "does": "A IA principal passa só o escopo, não as regras do Comment Sicko, assim os dois não têm como se contradizer.",
+      "why": "Uma regra escrita em um só lugar muda em um só lugar, então nunca surgem duas versões conflitantes.",
+      "try": "Quando delegar uma tarefa, escreva: “As regras de formatação estão no modelo anexo. Não vou repeti-las aqui.”"
+    },
+    {
+      "quote": "A keep survives only with proof it is about something we cannot change.",
+      "quoteTr": "Um comentário mantido só sobrevive com prova de que trata de algo que não podemos mudar.",
+      "title": "Exija prova para manter",
+      "does": "Comentários são apagados por padrão. Um só fica com prova de que trata de algo fora do nosso controle.",
+      "why": "Exigir prova para manter puxa o padrão para apagar, assim a IA não guarda tudo na dúvida.",
+      "try": "Ao organizar arquivos, diga: “Arquive arquivos antigos por padrão. Deixe um na área de trabalho só se puder dizer por que vai precisar dele na semana que vem.”"
+    },
+    {
+      "quote": "If a kill is ambiguous, do not restore.",
+      "quoteTr": "Se uma remoção for ambígua, não restaure.",
+      "title": "Defina o desempate antes",
+      "does": "Quando não sabe se uma remoção foi certa, ela não fica hesitando. Segue a direção definida.",
+      "why": "Resolver empates antes faz com que a IA nem pare para perguntar nem julgue de um jeito diferente a cada vez.",
+      "try": "Quando a IA classificar feedbacks, escreva: “Se não der para saber se é reclamação ou sugestão, trate como reclamação.”"
+    },
+    {
+      "quote": "Architect shapes. Step 4 implements.",
+      "quoteTr": "O arquiteto define a forma. O passo 4 implementa.",
+      "title": "Separe os papéis em duas frases curtas",
+      "does": "A etapa de desenho para no esboço. Alterar o código espera o passo seguinte.",
+      "why": "Duas frases curtinhas traçam uma linha clara entre quem faz o quê, assim a IA não edita código enquanto desenha.",
+      "try": "Para um texto longo, diga: “Passo um: só a estrutura. Passo dois: escrever.”"
+    }
+  ],
+  "blocks": [
+    "# Sem comentários",
+    "Inicie o Comment Sicko. Aja sobre os apontamentos aceitos.",
+    "Dê preferência à perspectiva nova do Comment Sicko.",
+    "## Escopo",
+    "Use os arquivos ou o diff informados por quem chamou. Caso contrário, use o diff atual em relação à branch base, padrão `main`, incluindo a árvore de trabalho.",
+    "## Passos",
+    "1. Inicie `Task` com `subagent_type: \"comment-sicko\"`. Passe o escopo. Escolha o nível de raciocínio de cada subagente conforme a tarefa, de acordo com a seção Subagentes da skill **poteto-mode**. Não repita as regras dele. Se o seu harness não tiver o comment-sicko registrado como subagente (qualquer harness que não seja o Cursor com o plugin do pstack), inicie um subagente geral em vez disso: `Agent` no Claude Code (`subagent_type: general-purpose`), `task` no OpenCode (`subagent_type: general`), `spawn_agent` no Codex. O prompt dele é [`references/comment-sicko.md`](references/comment-sicko.md) na íntegra, seguido do escopo. Se o seu harness não tiver ferramenta de subagente, como no Pi sem extensão, rode esse prompt por conta própria em uma nova passada pelo escopo.\n2. Inspecione o relatório e o diff dele. Rejeite edições no código da aplicação, fugas de escopo, remoções protegidas por exceção, motivos incorretos de `MUST KILL` e alertas que tratam código intencional mantido como culpado. Alertas de reestruturação sobre surpresas no nosso código continuam acionáveis. Não restaure esses comentários. Um comentário mantido só sobrevive com prova de que trata de algo que não podemos mudar. Audite supressões de lint e TypeScript dentro do escopo que passaram despercebidas. Supressões ligadas a corretude ou segurança continuam como `MUST KILL` acionáveis. Restaure remoções apenas com exceções exatas e prova dentro do escopo. Antes de aceitar remoções ou comentários mantidos pouco fundamentados de `IMPORTANT` ou `do not remove`, rastreie o símbolo associado ou rode `/why` nele. Se uma remoção for ambígua, não restaure. Se um comentário mantido for refutado ou continuar ambíguo, apague-o, exceto um comentário mantido como `REVIEW` sobre uma regra externa, que fica até alguém verificar essa regra. Reporte-o em aberto. Reverta e rode mais uma vez um relatório rejeitado, apontando a falha. Se você rejeitar a nova execução também, reverta apenas os apontamentos rejeitados dela, reporte-os em aberto e siga com os aceitos.\n3. Corrija diretamente os alertas triviais aceitos apagando um caminho morto, removendo um parâmetro ou usando a API real. Se alguma correção precisar de desenho, rode `/architect` uma vez para o conjunto aceito e o código ao redor. Pare no esboço. O arquiteto define a forma. O passo 4 implementa.\n4. Implemente a menor correção de causa raiz dentro do escopo. Remova todas as soluções de contorno citadas. Se a causa raiz estiver fora do escopo, aplique a menor correção dentro do escopo e reporte o restante em aberto. As skills **principle-fix-root-causes** e **principle-redesign-from-first-principles** guiam apenas a intenção. Nenhuma das duas autoriza ampliar a cerca nem corrigir ocorrências fora dela. Nunca pendure proteções para sintomas.\n5. Comentários de restrição dizem `do not remove`, `do not change wording` ou `talk to X before changing`. Deixe os comentários mantidos sobre coisas que não podemos mudar. Ofereça o mais barato dentro do escopo entre tipo, runtime, teste ou lint de CI. Aguarde aprovação interativa. Execuções sem supervisão e de eval exigem aprovação prévia de quem chamou. Se aprovado, codifique e depois apague. Caso contrário, apague, reporte a restrição em aberto e esboce o trabalho fora do escopo.\n6. Reporte a contagem de remoções, os comentários restaurados, os comentários mantidos como `REVIEW`, as novas execuções, o esboço do arquiteto, as correções, as ofertas de codificação, as codificações, as restrições não garantidas e outros trabalhos em aberto."
+  ]
+}

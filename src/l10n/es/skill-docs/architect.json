@@ -1,0 +1,60 @@
+{
+  "description": "Esboza tipos, firmas y estructura de módulos antes de escribir código, y sigue participando mientras se completa la implementación. Úsala para /architect, «diseña la arquitectura de esto», «diseña esto» o trabajos no triviales donde pasar directo al código fijaría una estructura equivocada.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Empieza a escribir la implementación de inmediato.",
+        "with": "Rastrea cada sistema que toca el cambio y esboza primero tipos, firmas y límites de módulos."
+      },
+      {
+        "without": "Avanza con el primer diseño que se le ocurre.",
+        "with": "Esboza dos estructuras distintas y elige la que tiene un solo dueño por estado y menos exige saber al código que llama."
+      },
+      {
+        "without": "Pega soluciones temporales sobre un diseño que no encaja.",
+        "with": "Rediseña en vez de parchear cuando se repiten las soluciones temporales."
+      }
+    ],
+    "intro": "Antes de escribir código, rastrea los sistemas implicados, esboza dos estructuras y elige buscando un solo dueño por estado, una sola manera por tarea y lo mínimo que deba saber el código que llama. Si se repiten las soluciones temporales, toca rediseñar; los diseños grandes o discutidos pasan a `arena`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least.",
+      "quoteTr": "Antes de escribir código, rastrea cada sistema que toca el cambio, luego esboza dos estructuras distintas (tipos, firmas, límites de módulos) y elige aquella donde cada pieza de estado tiene un solo dueño, cada tarea tiene una sola manera de hacerse y el código que llama necesita saber lo mínimo.",
+      "title": "Exige un segundo diseño y luego evalúa",
+      "does": "Esboza al menos dos diseños con distinta estructura y elige según tres criterios concretos, en vez de quedarse con su primera idea.",
+      "why": "Si pides un diseño, obtienes la primera idea; si pides dos junto con los criterios (un solo dueño, una sola manera, lo mínimo por saber), la elección tiene fundamento.",
+      "try": "Cuando pidas un plan: «Dame dos enfoques muy distintos, compáralos en costo, facilidad de cambio y traspaso, y luego elige uno»."
+    },
+    {
+      "quote": "Redesign instead of patching if workarounds repeat.",
+      "quoteTr": "Rediseña en vez de parchear si se repiten las soluciones temporales.",
+      "title": "Di cuándo volver a empezar",
+      "does": "Cuando la misma solución temporal vuelve a aparecer, rediseña en vez de acumular parches sobre una estructura equivocada.",
+      "why": "«Cuándo rendirse» es difícil de juzgar; usar las soluciones temporales repetidas como señal evita que abandone demasiado pronto o que siga parcheando sin fin.",
+      "try": "Fija un umbral para un proceso: «Si la misma queja vuelve a aparecer, rediseña el proceso en vez de parchear cada caso»."
+    },
+    {
+      "quote": "For a large or contested design, run the **arena** skill instead of sketching alone.",
+      "quoteTr": "Para un diseño grande o discutido, ejecuta la skill **arena** en vez de esbozarlo en solitario.",
+      "title": "Ajusta el esfuerzo a lo que está en juego",
+      "does": "Esboza por su cuenta los diseños pequeños y, para los grandes o discutidos, hace que varios modelos esbocen un diseño cada uno para elegir.",
+      "why": "Indicar cuándo escalar evita que la IA complique de más las tareas pequeñas o decida en solitario las grandes.",
+      "try": "Da una regla para escalar: «Decide tú los cambios pequeños; si algo toca tres o más páginas, muéstrame primero dos o tres opciones»."
+    },
+    {
+      "quote": "Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+      "quoteTr": "Úsala para /architect, «diseña la arquitectura de esto», «diseña esto» o trabajos no triviales donde pasar directo al código fijaría una estructura equivocada.",
+      "title": "Nombra el costo de saltársela",
+      "does": "En trabajos donde pasar directo al código fijaría una estructura equivocada, diseña primero en vez de empezar a programar.",
+      "why": "«Úsala para trabajo difícil» es vago; nombrar el costo de saltársela (una estructura ya fijada) permite a la IA distinguir qué tareas necesitan diseño primero.",
+      "try": "Indica la regla junto con su costo: «Muéstrame los avisos grupales antes de enviarlos; una vez que salen, no se pueden retirar»."
+    }
+  ],
+  "blocks": [
+    "# Architect",
+    "Antes de escribir código, rastrea cada sistema que toca el cambio, luego esboza dos estructuras distintas (tipos, firmas, límites de módulos) y elige aquella donde cada pieza de estado tiene un solo dueño, cada tarea tiene una sola manera de hacerse y el código que llama necesita saber lo mínimo. Rediseña en vez de parchear si se repiten las soluciones temporales.",
+    "Para un diseño grande o discutido, ejecuta la skill **arena** en vez de esbozarlo en solitario."
+  ]
+}

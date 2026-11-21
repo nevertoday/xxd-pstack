@@ -63,5 +63,319 @@
       }
     ],
     "cap": "Primeiro o interruptor; cada uma das três partes cuida de uma coisa."
+  },
+  "g0-layers": {
+    "layers": [
+      {
+        "t": "Você",
+        "d": "Diz o objetivo, ex.: “corrija este bug e me mostre evidências”"
+      },
+      {
+        "t": "pstack",
+        "d": "As regras de trabalho que você instala: 22 playbooks, 34 skills, 24 princípios"
+      },
+      {
+        "t": "Sua ferramenta de código com IA",
+        "d": "Claude Code, Cursor, Codex…"
+      },
+      {
+        "t": "O modelo",
+        "d": "O mesmo de antes; o pstack não troca o modelo"
+      }
+    ],
+    "cap": "O pstack fica dentro da sua ferramenta, entre você e o modelo. O modelo continua o mesmo; mudam a ordem e o padrão do trabalho."
+  },
+  "g5-arc": {
+    "steps": [
+      {
+        "t": "Fechar o design",
+        "d": "/architect, /arena, protótipos"
+      },
+      {
+        "t": "Construir",
+        "d": "Diga o que você vê; /tdd se um teste for fácil"
+      },
+      {
+        "t": "Achar furos",
+        "d": "O /interrogate só mantém problemas que consegue rodar"
+      },
+      {
+        "t": "Limpar",
+        "d": "/unslop, /no-comments"
+      }
+    ],
+    "cap": "O passo tracejado é opcional: na maioria das mudanças, o /poteto-mode resolve o design sozinho; cite essas skills só quando tiver dúvida."
+  },
+  "g6-ship": {
+    "steps": [
+      {
+        "t": "Dizer o que significa pronto",
+        "d": "Na primeira frase"
+      },
+      {
+        "t": "Ela mesma verifica",
+        "d": "Comandos reais, UI real, evidências"
+      },
+      {
+        "t": "Abrir um PR",
+        "d": "Commits pequenos e ordenados"
+      },
+      {
+        "t": "Babysit até ficar verde",
+        "d": "Conflitos, comentários de revisão, CI"
+      },
+      {
+        "t": "Fazer merge",
+        "d": "Você diz para fazer merge da stack"
+      }
+    ],
+    "gate": "Precisa de você",
+    "cap": "Ela vai até “pronto para merge” e para ali. Fazer o merge é decisão sua."
+  },
+  "g7-night": {
+    "eve": {
+      "t": "Antes de dormir",
+      "items": [
+        "Escrever uma condição de pronto",
+        "Um novo worktree a partir da main",
+        "Manter um log de decisões",
+        "Se travar, parar e dizer o porquê"
+      ]
+    },
+    "night": {
+      "t": "Durante a noite, a cada rodada",
+      "loop": [
+        "Conferir se já está pronto",
+        "Fazer uma mudança pequena",
+        "Verificar",
+        "Fazer commit se ajudou; descartar se não ajudou"
+      ],
+      "log": "Uma linha no log de decisões por rodada"
+    },
+    "morn": {
+      "t": "De manhã",
+      "items": [
+        "/show-me-your-work",
+        "Ler primeiro “precisa de atenção”",
+        "Depois, as linhas que ele aponta"
+      ]
+    },
+    "cap": "Você não relê toda a conversa da noite. O log e “precisa de atenção” bastam."
+  },
+  "g8-guard": {
+    "rungs": [
+      {
+        "t": "Tornar o erro impossível",
+        "d": "Mudar a estrutura ou o formato dos dados"
+      },
+      {
+        "t": "Fazer falhar de forma explícita",
+        "d": "Tipos, lint, verificações de CI"
+      },
+      {
+        "t": "Pegar nos testes",
+        "d": "Aparece quando os testes rodam"
+      },
+      {
+        "t": "Escrever uma regra para a IA",
+        "d": "Pular uma regra não gera erro, por isso fica por último"
+      }
+    ],
+    "high": "Mais forte",
+    "low": "Último recurso",
+    "cap": "O /correct começa de cima. Se um degrau mais alto resolver, ele não usa um mais baixo."
+  },
+  "h-bug": {
+    "steps": [
+      {
+        "t": "Reproduzir",
+        "d": "Fazer o problema acontecer de novo"
+      },
+      {
+        "t": "Encontrar a causa real",
+        "d": "O primeiro lugar onde dá errado"
+      },
+      {
+        "t": "Corrigir nesse ponto",
+        "d": "Não com uma verificação mais à frente"
+      },
+      {
+        "t": "Rodar os mesmos passos de novo",
+        "d": "O problema sumiu"
+      }
+    ],
+    "cap": "O primeiro e o último passo são a mesma reprodução, para o antes e o depois baterem. Se a IA não conseguir reproduzir o problema, ela não mexe no código."
+  },
+  "h-perf": {
+    "steps": [
+      {
+        "t": "Medir a linha de base",
+        "d": "p50 perto de 900ms"
+      },
+      {
+        "t": "Ver para onde vai o tempo",
+        "d": "Capturar um trace"
+      },
+      {
+        "t": "Corrigir a causa medida",
+        "d": "Não a do palpite"
+      },
+      {
+        "t": "Medir de novo, mesmos dados",
+        "d": "p50 abaixo de 200ms, mesmos resultados"
+      }
+    ],
+    "loop": "Não ficou mais rápido? Reverta e tente de novo",
+    "cap": "Os dois números usam os mesmos dados, alternando várias execuções de cada vez, e comparam as medianas."
+  },
+  "h-refactor": {
+    "steps": [
+      {
+        "t": "Salvar a saída atual",
+        "d": "Linha de base: faça o build uma vez, copie dist"
+      },
+      {
+        "t": "Mudar a estrutura",
+        "d": "Subtraia antes de adicionar"
+      },
+      {
+        "t": "Gerar a saída de novo",
+        "d": "Mesmo comando"
+      },
+      {
+        "t": "Comparar as duas",
+        "d": "Um diff vazio significa que nada mudou"
+      }
+    ],
+    "cap": "Você não precisa ler cada linha de código. A saída desse último diff basta."
+  },
+  "h-review": {
+    "from": "Sua mudança",
+    "by": [
+      "Modelo 1",
+      "Modelo 2",
+      "Modelo 3"
+    ],
+    "act": "cada um tenta quebrar",
+    "keep": {
+      "t": "Achados",
+      "d": "Falhou de verdade ao rodar, com comando e saída"
+    },
+    "drop": {
+      "t": "Descartados",
+      "d": "Não deu para provar rodando, com os motivos; passe o olho aqui também"
+    },
+    "cap": "O /interrogate só relata; ele não altera seu código. Um problema só conta se aparecer ao rodar."
+  },
+  "h-cost": {
+    "root": {
+      "t": "Conversa principal",
+      "d": "Entende você, revisa as mudanças",
+      "tag": "Modelo forte"
+    },
+    "kids": [
+      {
+        "t": "feature, refactoring",
+        "tag": "Modelo mais barato"
+      },
+      {
+        "t": "bug-fix",
+        "tag": "Modelo mais barato"
+      },
+      {
+        "t": "perf-issue",
+        "tag": "Modelo mais barato"
+      }
+    ],
+    "note": "As IAs ajudantes recebem tarefas bem definidas, e modelos mais baratos dão conta bem",
+    "cap": "Mude essas três linhas no fim do /setup-pstack, quando ele pedir para você confirmar os papéis."
+  },
+  "h-steer": {
+    "parts": [
+      {
+        "text": "apply prove it works.",
+        "label": "Nome do princípio, escrito assim mesmo"
+      },
+      {
+        "text": "Rode o fluxo real de importação",
+        "label": "O que fazer desta vez"
+      },
+      {
+        "text": "e me mostre os registros que ele gravou.",
+        "label": "O resultado real que você quer"
+      }
+    ],
+    "cap": "O nome diz qual regra usar; o resto diz o que fazer desta vez e o que você quer ver."
+  },
+  "h-verify": {
+    "steps": [
+      {
+        "t": "Iniciar",
+        "d": "De dados vazios até funcionar de verdade"
+      },
+      {
+        "t": "Diagnóstico",
+        "d": "Vale a pena usar esta instância?"
+      },
+      {
+        "t": "Usar como um usuário",
+        "d": "Botões reais, comandos reais"
+      },
+      {
+        "t": "Capturar evidências",
+        "d": "Capturas de tela, vídeo, dados gravados"
+      },
+      {
+        "t": "Limpar",
+        "d": "Parar só o que iniciou; manter as evidências"
+      }
+    ],
+    "cap": "O verify-<app> gerado tem essas seções. Antes de entregar, a IA roda todas de ponta a ponta uma vez e confere se as evidências sobreviveram à limpeza."
+  },
+  "h-formal": {
+    "a": {
+      "who": "Testes",
+      "steps": [
+        "A pega um job e termina",
+        "B pega o próximo e termina",
+        "Uma nova tentativa, tudo certo também"
+      ],
+      "end": "Tudo verde. Em produção, A trava uma vez e o mesmo job roda duas vezes"
+    },
+    "b": {
+      "who": "Verificação formal",
+      "steps": [
+        "Modela pegar um job, renovar o lease, dar timeout e tentar de novo",
+        "Percorre todas as ordens possíveis",
+        "Encontra uma ordem ruim"
+      ],
+      "end": "Entrega um contraexemplo curto com os próprios nomes do seu código"
+    },
+    "cap": "Os testes verificam as ordens em que alguém pensou. A verificação formal verifica todas as ordens dentro do escopo definido e encontra aquela em que ninguém pensou."
+  },
+  "h-formal-cex": {
+    "steps": [
+      {
+        "t": "A pega o job 42",
+        "d": "Lease de 30 segundos"
+      },
+      {
+        "t": "A trava por 31 s",
+        "d": "Uma pausa longa de GC, por exemplo"
+      },
+      {
+        "t": "O lease expira",
+        "d": "B pega o mesmo job 42"
+      },
+      {
+        "t": "A acorda e grava",
+        "d": "Sem verificar se ainda tem o lease"
+      },
+      {
+        "t": "O job 42 rodou duas vezes",
+        "d": "A regra foi quebrada"
+      }
+    ],
+    "cap": "Um contraexemplo é uma lista de passos como esta. Cada passo corresponde a uma função no seu código, então você consegue acompanhar tudo no código real."
   }
 }

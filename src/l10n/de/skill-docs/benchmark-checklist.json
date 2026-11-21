@@ -1,0 +1,73 @@
+{
+  "description": "Prüf eine Performance-Messung (Engpass, Tuning, Grenzen, Fehler, Wiederholbarkeit, Relevanz und ob die Arbeit überhaupt stattfand), bevor du darüber berichtest oder danach handelst. Nutz diesen Skill, wenn du einen Benchmark ausführst oder eine Beschleunigung oder Regression meldest, die du gemessen hast.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Meldet eine Beschleunigung nach einem einzigen Lauf.",
+        "with": "Führt jede Seite mindestens 5-mal im Wechsel aus und nennt Median und Spannweite."
+      },
+      {
+        "without": "Kürt einen Sieger, während eine Seite mit Standardeinstellungen läuft.",
+        "with": "Tunt beide Seiten erst wie in der Produktion. Kann sie das nicht, kürt sie keinen Sieger."
+      },
+      {
+        "without": "Rät anhand des Codes, warum etwas langsam ist.",
+        "with": "Erstellt in einem separaten Lauf ein Profil, um den Engpass zu finden, und ordnet ihn dem Quellcode zu."
+      }
+    ],
+    "intro": "Nutz ihn immer dann, wenn du einen Performance-Wert meldest. Für eine grobe Schätzung, um die du gebeten hast, reicht ein Lauf – die Fragen 4 und 7 werden aber trotzdem geprüft.",
+    "sections": [
+      "Schreibt die zu testende Behauptung auf, liest das Mess-Skript und prüft die Systemlast mit uptime und nproc.",
+      "Beantwortet 7 Fragen: Was begrenzt es, war es getunt, hat es Grenzen gesprengt, gab es Fehler, lässt es sich reproduzieren, spielt es eine Rolle, ist es überhaupt passiert?",
+      "Beginnt mit dem Urteil sowie Wert, Anzahl der Läufe, Spannweite und Engpass. Kein benannter Engpass heißt: nicht eindeutig.",
+      "Prüft die Baseline des Playbooks „Performance-Problem“ und das Hillclimb-Harness mit dieser Checkliste, bevor sie genutzt werden."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Write down the claim you expect to make, in the words you would ship",
+      "quoteTr": "Schreib die Behauptung auf, die du voraussichtlich aufstellst, in genau den Worten, die du ausliefern würdest",
+      "title": "Behauptung vor dem Testen aufschreiben",
+      "does": "Vor dem Messen schreibt die KI den Satz auf, den sie berichten will – und jede Frage prüft dann genau diesen Satz.",
+      "why": "Eine konkrete Behauptung gibt den Prüfungen ein Ziel: So kann die KI nicht erst messen und sich danach die Geschichte ausdenken.",
+      "try": "Ergänz vor einer Recherche: „Schreib zuerst das einzeilige Fazit auf, das du mir voraussichtlich liefern wirst, etwa ‚Die Startseite lädt doppelt so schnell‘, und prüf dann, ob es standhält.“"
+    },
+    {
+      "quote": "Removing a piece that takes 10% of the run can make the run at most about 11% faster.",
+      "quoteTr": "Entfernst du einen Teil, der 10 % der Laufzeit ausmacht, kann der Lauf höchstens rund 11 % schneller werden.",
+      "title": "Nachrechnen als Leitplanke nutzen",
+      "does": "Sieht eine Beschleunigung zu gut aus, prüft die KI, ob sie überhaupt möglich ist – und gibt eine fehlerhafte Messung zu, wenn nicht.",
+      "why": "Ein durchgerechnetes Beispiel schlägt „übertreib nicht“, weil die KI selbst nachrechnen kann.",
+      "try": "Gib eine Grenze vor, die die KI selbst ausrechnen kann: „Dieser Abschnitt macht ein Zehntel des Texts aus, ihn zu streichen spart also höchstens ein Zehntel der Lesezeit.“"
+    },
+    {
+      "quote": "Lead with the verdict: faster, slower, no measurable difference, or inconclusive.",
+      "quoteTr": "Starte mit dem Urteil: schneller, langsamer, kein messbarer Unterschied oder nicht eindeutig.",
+      "title": "Urteil auf wenige Optionen begrenzen",
+      "does": "Der Bericht beginnt mit einem von vier Urteilen, und „nicht eindeutig“ ist eine echte Antwort.",
+      "why": "Eine kurze, feste Liste mit „nicht eindeutig“ verhindert, dass die KI ein geschöntes Ergebnis erzwingt.",
+      "try": "Wenn du ein Urteil willst, zähl die Optionen auf: „Starte mit einer dieser Antworten: bereit zum Ausliefern, noch nicht bereit, lässt sich noch nicht sagen.“"
+    },
+    {
+      "quote": "Why not double?",
+      "quoteTr": "Warum nicht doppelt so schnell?",
+      "title": "Prüfungen als kurze Fragen formulieren",
+      "does": "Jede Zahl muss sieben Fragen beantworten, etwa „Warum nicht doppelt so schnell?“ – dadurch findet die KI heraus, was das Tempo begrenzt.",
+      "why": "Eine kurze Frage bleibt leicht hängen und verlangt eine Antwort – sie lässt sich schwerer übergehen als eine Regel.",
+      "try": "Lass die KI vor dem Abschluss eines Entwurfs beantworten: „Wer liest das? Was macht die Person als Nächstes? Welche Zeile kann weg?“"
+    }
+  ],
+  "blocks": [
+    "# Benchmark-Checkliste",
+    "Nutz diese Checkliste, wenn du einen Performance-Wert ermittelst: Vorher und Nachher in einem PR, eine behauptete Regression, ein Hillclimb-Harness oder die Wahl einer Bibliothek oder Konfiguration. Beantworte jede Frage mit Belegen aus einem Lauf, nicht mit einer Vermutung über den Code.",
+    "Für eine schnelle grobe Schätzung, um die der Nutzer gebeten hat, reicht ein Lauf. Prüf trotzdem die Fragen 4 und 7 und sag dazu, dass es ein einzelner Lauf ist. Überspring den Rest, es sei denn, dieser Lauf sieht nicht richtig aus. Eine Wahl zwischen Optionen ist nie eine grobe Schätzung.",
+    "## Bevor du überhaupt etwas ausführst",
+    "- Schreib die Behauptung auf, die du voraussichtlich aufstellst, in genau den Worten, die du ausliefern würdest („Export ist bei p50 auf dem Datensatz mit 60k Zeilen 30 % schneller“). Die Fragen testen genau diesen Satz.\n- Lies das Mess-Skript. Notier dir, was es zeitlich misst, zählt und ignoriert.\n- Prüf die durchschnittliche Systemlast mit `uptime` und die Anzahl der Kerne mit `nproc`. Ist der Rechner ausgelastet, find heraus, was dort läuft. Wenn du es nicht stoppen kannst, führ die Seiten im Wechsel aus, damit beide dasselbe Rauschen abbekommen, und erwähn das im Bericht.",
+    "## Die Fragen",
+    "1. **Warum nicht doppelt so schnell?** Nenn den Engpass. Mach das Profiling in einem Lauf, den du nicht berichtest, denn Profiler und Tracer verlangsamen die Arbeit. Nutz die CPU-Auslastung pro Prozess (`top`, `pidstat`), einen Runtime-Profiler (`node --cpu-prof`, `py-spy`, `perf`), I/O-Wait und Syscall-Zahlen (`strace -c` unter Linux) und ordne den Hotspot dann dem Quellcode zu. Behalt auch den Lastgenerator im Blick: Wenn er zuerst am Limit ist, hast du den Lastgenerator gemessen. Hat eine Änderung den Wert nicht bewegt, erklärt der Engpass, warum – find ihn also, bevor du die Änderung für nutzlos erklärst.\n2. **War es getunt?** Führ jede Seite so aus, wie sie in der Produktion läuft: Release-Builds, Produktions-Flags und -Umgebung, Batching- und Transaktionseinstellungen, Connection-Pools, Caches genauso warm oder kalt, wie sie in der Produktion vorkommen, sowie dieselben Versionen und Daten. Läuft eine Seite mit Standardeinstellungen, hast du Konfigurationen verglichen, nicht Implementierungen. Ist der Engpass eine Einstellung (ein Commit pro Zeile, ein Debug-Build, ein fehlender Index), ist diese Seite nicht getunt. Tune sie und miss noch einmal, bevor du einen Sieger kürst. Kannst du sie nicht tunen, küre aus diesem Lauf keinen Sieger. Wenn der Nutzer entscheidet, was übernommen wird, löst es das Problem nicht, die Behauptung auf den heute ausgelieferten Code einzugrenzen – denn übernommen wird die Option, nicht die heutigen Einstellungen.\n3. **Hat es Grenzen gesprengt?** Rechne nach. Vergleich Bytes pro Sekunde mit der Festplatten- und Netzwerkbandbreite, Operationen pro Sekunde mal Kosten pro Operation mit deinen Kernen und die eingesparte Zeit mit der Zeit, die der geänderte Teil gebraucht hat. Entfernst du einen Teil, der 10 % der Laufzeit ausmacht, kann der Lauf höchstens rund 11 % schneller werden. Ein Ergebnis jenseits einer Grenze hat etwas anderes gemessen als die eigentliche Arbeit – etwa einen Cache, ein No-op oder einen Bug.\n4. **Gab es Fehler?** Zähl Fehlschläge und nicht erfolgreiche Antworten und prüf, ob die Ausgaben korrekt sind – nicht nur vorhanden. Ablehnungen sind oft schnell, Timeouts und Retries dagegen langsam. Zählt das Skript keine Fehler, ergänz die Zählung.\n5. **Lässt es sich reproduzieren?** Führ jede Seite mindestens 5-mal im Wechsel aus (A, B, A, B und so weiter), damit Warmup, verzögerte Initialisierung, Caches und Drift keine Seite bevorzugen. Nenn Median und Spannweite. Ein Abstand, der kleiner ist als die Schwankung von Lauf zu Lauf, ist kein messbarer Unterschied. Ist die Entscheidung knapp, nutz einen Rangsummentest oder die eigene Statistik des Harness.\n6. **Spielt es eine Rolle?** Miss neben jedem Mikro-Ergebnis auch den End-to-End-Pfad, auf den ein Nutzer wartet – mit realistischen Datenmengen und realistischer Nebenläufigkeit – und gib das Mikro-Ergebnis als Anteil am Ganzen an. Eine Hilfsfunktion, die 1 % einer Anfrage ausmacht, kann die Anfrage höchstens 1 % schneller machen – egal, wie schnell die Hilfsfunktion wird.\n7. **Ist es überhaupt passiert?** Bestätige, dass die Arbeit innerhalb des gemessenen Bereichs gelaufen ist: Die Anfrage hat den Server erreicht, die Zeilen wurden geschrieben, die Bytes wurden gelesen und der Code hat das Ergebnis genutzt. Lazy Code (Generatoren, über die niemand iteriert; Promises, auf die niemand wartet; Ergebnisse, die der JIT verwerfen kann) und Timeouts liefern Zahlen für Arbeit, die nie stattgefunden hat.",
+    "## Bericht",
+    "- Starte mit dem Urteil: schneller, langsamer, kein messbarer Unterschied oder nicht eindeutig.\n- Nenn den Wert samt Einheit, die Anzahl der Läufe, die Spannweite und den Engpass. Zum Beispiel: „p50 41 ms → 33 ms, Median aus 7 Läufen pro Seite, Spannweite danach 32 bis 35 ms, begrenzt durch JSON-Parsing auf einem Kern.“\n- Stuf das Urteil als nicht eindeutig ein, wenn du einen Unterschied behauptest, aber keinen Engpass nennen kannst, wenn eine Seite nicht getunt lief oder wenn du die Fragen 4 und 7 nicht prüfen konntest. Nenn die Lücke.\n- Beschränk die PR-Beschreibung auf einen zentralen Wert. Pack die Läufe, die Spannweite und die Belege für den Engpass in ein verlinktes Artefakt oder eine Notizdatei.",
+    "## Weiteres Performance-Material",
+    "- Prüf die Baseline des Playbooks **Performance-Problem**, bevor das Playbook darauf aufbauend plant – und danach jede weitere Zahl.\n- Prüf das Harness des Playbooks **Hillclimb**, bevor es eingefroren wird. Das eingefrorene Harness gibt dann Zähler für Fehler und erledigte Arbeit aus, sodass jedes Behalten oder Zurücksetzen die Fragen 4 und 7 ohne Mehraufwand mitprüft."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "description": "Erklärt eine Umsetzung einfach und verständlich, sodass man sie wirklich begreift. Führt die Skills `how` und `why` aus und verwebt ihre Ergebnisse zu einer klaren Erklärung. Nutz den Skill für „Bring mir das bei“, „Hilf mir, X wirklich zu verstehen“ oder „Erklär mir diese Änderung oder dieses Subsystem“.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Zählt Funktionsnamen und Konstanten auf und hält das für eine Erklärung.",
+        "with": "Nennt den geläufigen Namen und eine einfache Definition, dann das Problem und den Mechanismus."
+      },
+      {
+        "without": "Schreibt einen dichten Textblock mit Labels wie „Kernaussage“ oder „TL;DR“.",
+        "with": "Gibt in ein, zwei Sätzen eine vollständige Antwort und hört dann auf. Keine Einordnungs-Labels."
+      },
+      {
+        "without": "Hält Vorträge mit Quizfragen, schreibt „Pause“ und fordert dich auf, es wiederzugeben.",
+        "with": "Spricht wie jemand aus dem Team, bietet an, tiefer einzusteigen, und richtet sich nach dir."
+      }
+    ],
+    "intro": "Teach führt `how` und `why` aus, wählt die wenigen Punkte aus, die dazu passen, warum du fragst, und verbindet sie zu einer Erklärung im Gesprächston. Der Skill beginnt mit einer einfachen Definition und einer kurzen Antwort, baut Diagramme Teil für Teil auf und schreibt mithilfe von `unslop`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Give the smallest complete answer first, a sentence or two, not a dense paragraph, then stop.",
+      "quoteTr": "Gib zuerst die kleinste vollständige Antwort, ein oder zwei Sätze, keinen dichten Absatz, dann hör auf.",
+      "title": "Kurz antworten, dann aufhören",
+      "does": "Die KI antwortet in ein oder zwei Sätzen und geht erst in die Tiefe, wenn du nachfragst.",
+      "why": "„Kleinste“, „vollständige“ und „hör auf“ begrenzen zusammen die Länge, ohne eine halbe Antwort zuzulassen.",
+      "try": "Wenn du nach einer neuen Idee fragst, füg hinzu: „Antworte zuerst in zwei Sätzen. Geh erst ins Detail, wenn ich nachfrage.“"
+    },
+    {
+      "quote": "Concretely, to teach a flow from A to B to C, draw it three times.",
+      "quoteTr": "Konkret: Um einen Ablauf von A über B nach C zu erklären, zeichne ihn dreimal.",
+      "title": "Mit A, B, C vormachen",
+      "does": "Bei einem komplexen Ablauf zeichnet die KI eine Reihe wachsender Diagramme statt eines einzigen großen.",
+      "why": "„Bau es Schritt für Schritt auf“ ist abstrakt. „A über B nach C, dreimal gezeichnet“ zeigt genau, was jeder Schritt ergänzt.",
+      "try": "Statt „geh Schritt für Schritt vor“ schreib: „Erklär zuerst A, ergänz dann B und dann C – jedes Mal nur eine neue Sache.“"
+    },
+    {
+      "quote": "Keep `why`'s confidence language intact (its hedges are findings, not style).",
+      "quoteTr": "Lass die Formulierungen zur Gewissheit aus `why` unverändert (dessen Einschränkungen sind Befunde, kein Stil).",
+      "title": "Die Ausnahme begründen",
+      "does": "Die KI formuliert frei um, behält aber Wendungen wie „wahrscheinlich“ und „nicht sicher“ bei.",
+      "why": "Der Grund in Klammern macht der KI klar, dass diese Einschränkungen Informationen tragen, damit sie diese nicht als Füllwörter streicht.",
+      "try": "Wenn die KI deinen Text glättet, sag ihr: „Lass jedes ‚ungefähr‘ und ‚ich glaube‘ stehen. Das zeigt, wie sicher ich mir bin, keine Angewohnheit.“"
+    },
+    {
+      "quote": "The words in these steps are directions to you, not labels to print.",
+      "quoteTr": "Die Wörter in diesen Schritten sind Anweisungen für dich, keine Labels für die Ausgabe.",
+      "title": "Anweisungen von der Ausgabe trennen",
+      "does": "Die KI gibt die Schrittnamen des Skills nicht als Überschriften in ihrer Antwort aus.",
+      "why": "KIs übernehmen oft Wörter aus dem Prompt in die Ausgabe. Der Hinweis, dass es nur Anweisungen sind, verhindert das.",
+      "try": "Bei einer Gliederung füg hinzu: „‚Hintergrund‘ und ‚Ziel‘ unten sind Notizen für dich. Nutz sie nicht als Überschriften.“"
+    }
+  ],
+  "blocks": [
+    "# Teach",
+    "**Du erklärst, was etwas ist, wie es funktioniert und warum es so gebaut ist – in einer einfachen, klaren Darstellung im Tempo der Person. Das Ziel ist, dass sie es versteht, nicht dass du etwas änderst.**",
+    "Teach baut auf `how` und `why` auf. Verschaff dir einen Überblick, worum es bei der Arbeit geht und was sie berührt, und führ dann `how` dafür aus, wie es funktioniert, und `why` dafür, warum es so ist. Das sind echte Skill-Aufrufe, die selbst nachforschen. Verbinde ihre Ergebnisse zu einer einfachen Erklärung, beginn mit dem, was für die Person zählt, und geh tiefer, wenn sie nachfragt. Formulier zum Erklären frei um, mit einer Ausnahme. Lass die Formulierungen zur Gewissheit aus `why` unverändert (dessen Einschränkungen sind Befunde, kein Stil).",
+    "1. Entscheide, welche wenigen Dinge die Person am Ende verstanden haben soll. Wähl diese danach aus, warum die Person fragt (kurz vor einer Änderung, beim Review, beim Debuggen, neu im Thema) und was sie schon weiß – beides liest du aus dem Gespräch ab, statt es abzufragen. Überspring, was sie offensichtlich schon weiß. Geh dort in die Tiefe, wo ihre Frage liegt.\n2. Lass `how` und `why` die Arbeit machen, mach sie nicht doppelt. Lies den Code selbst, um dich zu orientieren, und führ dann `how` dafür aus, wie es funktioniert, und `why` für das Warum. Führ beide parallel aus und füg die Ergebnisse zusammen. Pass den Umfang an die Frage an. Führ bei einem Subsystem beide aus, bei einer kleinen Änderung reicht vielleicht einer.\n3. Beginn mit einer einfachen Definition. Benenn die Sache und sag allgemein, was sie ist, so wie ein Senior Engineer es laut sagen würde, inklusive des geläufigen Namens, falls es einen gibt. Verknüpf das dann mit dem Fall vor dir („in X nutzen wir das für…“) und bau darauf auf: wie es funktioniert, die tieferen Gründe, die Randfälle. Erklär bei jedem Teil die Idee so, dass es Klick macht: welches Problem er löst und wie er tatsächlich funktioniert. Geh durch, was passiert, während die Person die Aktion ausführt (einen langen Chat öffnet, hochscrollt), wenn es genau dadurch klar wird. Funktionen und Konstanten aufzuzählen ist Referenz, kein Erklären. Gib keine Einordnungs-Labels aus („der eine Gedanke zum Merken“, „was du mitnehmen solltest“, „die wichtigste Erkenntnis“, „im Kern“, „TL;DR“). Gib zuerst die kleinste vollständige Antwort, ein oder zwei Sätze, keinen dichten Absatz, dann hör auf. Ergänz weitere Schichten, wenn die Person nachfragt. Niemals eine Textwand.\n4. Halt es wie ein Gespräch, nicht wie einen Vortrag oder eine Show. Biete an, tiefer einzusteigen oder weiterzugehen, und richte dich nach der Person. Keine Quizfragen. Kein Tempo-Theater. Schreib nicht „Pause“, fordere sie nicht auf, es wiederzugeben, kündige nicht „den Satz, der sitzen muss“ an und markier keinen Teil als wichtig oder schwer („hier lohnt es sich, langsamer zu machen“, „das ist der knifflige Teil“, „hier wird es spannend“). Sag es einfach. Wo du pausieren würdest, hör auf und lass sie antworten. Wenn du in einem Durchgang ohne direktes menschliches Gegenüber arbeitest, liefere es sauber ab und setz jedes Angebot zum Vertiefen ans Ende.\n5. Zeig es, statt nur davon zu erzählen, und bau das Bild Diagramm für Diagramm auf. Öffne den Diff, den Code oder den Debugger, wenn es so am schnellsten klar wird. Zeichne, wenn ein Bild schneller ankommt als Worte. Bei allem mit drei oder mehr zusammenspielenden Teilen zeichne nicht ein einzelnes Diagramm mit allen auf einmal. Zeichne stattdessen eine kurze Reihe, bei der jedes Diagramm das vorige neu zeichnet und genau ein Teil ergänzt, sodass man beim Lesen sieht, wie sich das System zusammensetzt. Ein einzelnes Diagramm mit allem auf einmal, besonders eines erst am Schluss, ist Referenz, kein Erklären. Konkret: Um einen Ablauf von A über B nach C zu erklären, zeichne ihn dreimal. Erst A nach B. Dann neu zeichnen und C ergänzen. Dann neu zeichnen und den Rückpfeil oder das nächste Stück ergänzen. Pass das Medium an die Idee an und nutz beide Arten, wenn beide helfen. Ein Mermaid-Diagramm passt zu einem Ablauf oder einer Struktur, bei der die Beschriftungen die Bedeutung tragen. Wenn die Idee räumlich ist (etwa Layout, Überlappung, Scroll-Position oder ein Vorher-Nachher), greif zum Bildgenerierungs-Tool und zeichne sie im Marker-auf-Whiteboard-Stil mit wenigen kurzen Beschriftungen, da Bildmodelle langen Text verstümmeln. Generier dieses Bild, gib dich nicht damit zufrieden, es in Worten zu beschreiben. Die Aufbau-Regel gilt auch für generierte Bilder. Ein einzelner einfacher Punkt braucht keine Abbildung.",
+    "Schreib jede Antwort mithilfe des Skills **unslop**, in einfachem, gesprochenem Englisch, so wie du es jemandem aus dem Team erklären würdest. Bleib kompakt, nicht abgehackt. Streich Füllwörter und Abschwächungen, behalt den Teil, bei dem es Klick macht. Nenn den konkreten Mechanismus, keine Metapher, keine Einordnung und keine Vorschau auf das, was kommt. Das ist die gewünschte Dichte: „Die Virtualisierung läuft in zwei Teilen, einem fürs Rendern und einem fürs Laden von der Festplatte. Scrollt ein Element über den Puffer hinaus, werden sowohl sein DOM-Knoten als auch seine Daten im Arbeitsspeicher entfernt.“ Normale Groß- und Kleinschreibung, nicht alles kleingeschrieben. Keine Geviertstriche. Nimm lieber Punkte statt Kommas. Beschränk jeden Satz auf ein oder zwei Kommas. Häufen sich die Nebensätze, teil sie in eigene Sätze auf. Gib jedem Konzept einen Namen und bleib dabei. Vermeide Spiegelsätze („A ohne B, oder B ohne A“) und glatte Schlussfloskeln („der Rest folgt von selbst“, „es ergibt sich alles daraus“). Die Wörter in diesen Schritten sind Anweisungen für dich, keine Labels für die Ausgabe. Wiederhol die Struktur nicht als Überschriften oder Standardfloskeln.",
+    "**Antwort:** die Erklärung selbst, niemals ein Bericht darüber, was du getan oder geliefert hast. Beginn mit dem Hauptpunkt, dann die einfache Darstellung, was es ist, wie es funktioniert und warum, und die Fäden, bei denen sich ein Nachhaken mit `how` oder `why` lohnt."
+  ]
+}

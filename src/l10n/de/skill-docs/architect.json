@@ -1,0 +1,60 @@
+{
+  "description": "Skizziere vor dem Code Typen, Signaturen und Modulstruktur und bleib eingebunden, während die Implementierung entsteht. Nutze diesen Skill bei /architect, „plane die Architektur“, „entwirf das“ oder nicht-trivialer Arbeit, bei der direktes Coden die falsche Struktur festschreiben würde.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Fängt direkt an, die Implementierung zu schreiben.",
+        "with": "Verfolgt zuerst nach, welche Systeme die Änderung berührt, und skizziert Typen, Signaturen und Modulgrenzen."
+      },
+      {
+        "without": "Setzt einfach den ersten Entwurf um, der in den Sinn kommt.",
+        "with": "Skizziert zwei verschiedene Strukturen und wählt diejenige, bei der jeder Zustand genau einen Besitzer hat und Aufrufer am wenigsten wissen müssen."
+      },
+      {
+        "without": "Schraubt Workarounds an einen Entwurf, der nicht passt.",
+        "with": "Entwirft neu statt zu flicken, wenn sich Workarounds wiederholen."
+      }
+    ],
+    "intro": "Vor dem Code verfolgt die KI nach, welche Systeme beteiligt sind, skizziert zwei Strukturen und wählt danach aus: ein Besitzer pro Zustand, ein Weg pro Aufgabe und möglichst wenig nötiges Wissen für Aufrufer. Wiederholte Workarounds bedeuten einen Neuentwurf, und große oder umstrittene Entwürfe gehen an `arena`.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least.",
+      "quoteTr": "Bevor du Code schreibst, verfolge nach, welche Systeme die Änderung berührt, skizziere dann zwei verschiedene Strukturen dafür (Typen, Signaturen, Modulgrenzen) und wähle diejenige, bei der jeder Zustand genau einen Besitzer hat, es für jede Aufgabe genau einen Weg gibt und Aufrufer am wenigsten wissen müssen.",
+      "title": "Fordere einen zweiten Entwurf, dann entscheide",
+      "does": "Die KI skizziert mindestens zwei unterschiedlich aufgebaute Entwürfe und entscheidet nach drei konkreten Kriterien, statt einfach ihre erste Idee umzusetzen.",
+      "why": "Frag nach einem Entwurf, und du bekommst die erste Idee; frag nach zwei Entwürfen samt Kriterien (ein Besitzer, ein Weg, möglichst wenig Wissen), und die Wahl hat eine Grundlage.",
+      "try": "Wenn du nach einem Plan fragst: „Gib mir zwei ganz unterschiedliche Ansätze, vergleiche sie nach Kosten, Änderbarkeit und Übergabe und wähle dann einen aus.“"
+    },
+    {
+      "quote": "Redesign instead of patching if workarounds repeat.",
+      "quoteTr": "Entwirf neu statt zu flicken, wenn sich Workarounds wiederholen.",
+      "title": "Sag klar, wann neu angefangen wird",
+      "does": "Wenn derselbe Workaround immer wieder auftaucht, entwirft die KI neu, statt immer neue Flicken auf die falsche Struktur zu kleben.",
+      "why": "„Wann aufgeben?“ ist schwer einzuschätzen; legst du wiederholte Workarounds als Signal fest, bricht die KI weder zu früh ab noch flickt sie endlos weiter.",
+      "try": "Setz eine Grenze für einen Prozess: „Wenn dieselbe Beschwerde immer wieder kommt, gestalte den Prozess neu, statt jeden Fall einzeln zu flicken.“"
+    },
+    {
+      "quote": "For a large or contested design, run the **arena** skill instead of sketching alone.",
+      "quoteTr": "Führe bei einem großen oder umstrittenen Entwurf den Skill **arena** aus, statt allein zu skizzieren.",
+      "title": "Pass den Aufwand an die Tragweite an",
+      "does": "Kleine Entwürfe skizziert die KI selbst; bei großen oder umstrittenen lässt sie mehrere Modelle jeweils einen zur Auswahl entwerfen.",
+      "why": "Wenn du benennst, wann eskaliert wird, übertreibt die KI es bei kleinen Aufgaben nicht und entscheidet große nicht allein.",
+      "try": "Gib eine Eskalationsregel vor: „Entscheide kleine Änderungen selbst; bei allem, was drei oder mehr Seiten betrifft, zeig mir zuerst zwei oder drei Optionen.“"
+    },
+    {
+      "quote": "Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape.",
+      "quoteTr": "Nutze diesen Skill bei /architect, „plane die Architektur“, „entwirf das“ oder nicht-trivialer Arbeit, bei der direktes Coden die falsche Struktur festschreiben würde.",
+      "title": "Benenne, was das Überspringen kostet",
+      "does": "Bei Aufgaben, bei denen direktes Coden die falsche Struktur festschreiben würde, entwirft die KI zuerst, statt sofort Code zu schreiben.",
+      "why": "„Für schwierige Aufgaben nutzen“ ist vage; wenn du benennst, was das Überspringen kostet (eine festgeschriebene Struktur), erkennt die KI, welche Aufgaben zuerst einen Entwurf brauchen.",
+      "try": "Formuliere die Regel mit dem Preis dafür: „Zeig mir Gruppenankündigungen vor dem Abschicken; sind sie erst raus, lassen sie sich nicht mehr zurückholen.“"
+    }
+  ],
+  "blocks": [
+    "# Architect",
+    "Bevor du Code schreibst, verfolge nach, welche Systeme die Änderung berührt, skizziere dann zwei verschiedene Strukturen dafür (Typen, Signaturen, Modulgrenzen) und wähle diejenige, bei der jeder Zustand genau einen Besitzer hat, es für jede Aufgabe genau einen Weg gibt und Aufrufer am wenigsten wissen müssen. Entwirf neu statt zu flicken, wenn sich Workarounds wiederholen.",
+    "Führe bei einem großen oder umstrittenen Entwurf den Skill **arena** aus, statt allein zu skizzieren."
+  ]
+}

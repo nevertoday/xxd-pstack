@@ -1,0 +1,75 @@
+{
+  "description": "Use apenas quando o usuário pedir explicitamente TDD, um teste que falhe ou um teste de regressão, OU quando o bug tiver um alvo de teste local óbvio e barato. Pule quando o caminho de teste não estiver claro, for caro, depender muito de integração ou não tiver sido pedido.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Edita o código e só diz que corrigiu.",
+        "with": "Escreve um teste primeiro e confirma que ele falha por causa deste bug."
+      },
+      {
+        "without": "Muda o teste para bater com o código errado.",
+        "with": "Escreve o teste a partir do comportamento esperado e mantém as asserções existentes intactas."
+      },
+      {
+        "without": "Força um teste feito quase só de mocks.",
+        "with": "Usa um script ou comando de reprodução quando um teste é inviável e explica o porquê."
+      }
+    ],
+    "intro": "Ela diz que, com um caminho de teste barato, a IA escreve um teste que falha antes da correção e passa depois. Caso contrário, usa a verificação mais próxima.",
+    "sections": [
+      "Seis passos: entender o bug, escolher o tipo de teste mais próximo, escrever um teste que falhe, confirmar por que ele falha, fazer a correção mínima e rodar de novo.",
+      "Recorre a um script específico, comando de reprodução ou automação de navegador. Melhor nenhum teste novo do que um teste ruim.",
+      "Os testes expressam o comportamento esperado, as asserções permanecem, o foco continua neste bug e bugs intermitentes ganham testes determinísticos quando possível.",
+      "Relata as evidências: o teste que falhou antes e o erro gerado, a execução que passou depois ou por que isso não foi possível."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Confirm it fails for the intended reason.",
+      "quoteTr": "Confirme que ele falha pelo motivo esperado.",
+      "title": "Verifique também por que falha",
+      "does": "Assim que o novo teste fica vermelho, ela verifica se esse vermelho é mesmo deste bug, e não um erro de digitação ou uma dependência faltando.",
+      "why": "“Faça falhar primeiro” deixa passar qualquer sinal vermelho; “falhar pelo motivo certo” é o que faz o passo provar alguma coisa.",
+      "try": "Quando a IA reproduzir um problema, acrescente: “Assim que falhar, me diga se o erro é o mesmo que eu descrevi.”"
+    },
+    {
+      "quote": "Prefer no new test over a bad test.",
+      "quoteTr": "Prefira nenhum teste novo a um teste ruim.",
+      "title": "Permita “pular desta vez”",
+      "does": "Quando um teste é difícil de escrever, ela verifica de outro jeito e explica o porquê, em vez de forçar um teste feito de mocks.",
+      "why": "Passos rígidos empurram a IA a preenchê-los com lixo; dizer que pode pular, e definir o que é ruim, permite que ela pare.",
+      "try": "Deixe uma saída em passos fixos: “Se nenhuma imagem servir, deixe em branco e marque; não use uma sem relação.”"
+    },
+    {
+      "quote": "The test should encode intended behavior, not mirror the current implementation.",
+      "quoteTr": "O teste deve expressar o comportamento esperado, não espelhar a implementação atual.",
+      "title": "Diga qual é a referência",
+      "does": "Os testes dela verificam o que a funcionalidade deve fazer, não uma cópia do código atual com bug.",
+      "why": "A referência mais próxima que a IA tem é o código atual; nomear “comportamento esperado” impede que ela trate o errado como certo.",
+      "try": "Quando a IA verificar um trabalho, diga em que confiar: “Siga o contrato original, não a última tradução.”"
+    },
+    {
+      "quote": "Report the evidence, not just the outcome:",
+      "quoteTr": "Relate as evidências, não apenas o resultado:",
+      "title": "Liste o que o relatório precisa trazer",
+      "does": "No final, ela diz qual teste falhou antes, como falhou e qual execução passou depois.",
+      "why": "Quando você pede um resultado, a IA diz “corrigido”; listar as evidências que ela precisa trazer deixa você julgar sem perguntas extras.",
+      "try": "Quando pedir um relatório, liste os itens: “Qual arquivo mudou, como você testou e as últimas linhas da saída do teste.”"
+    }
+  ],
+  "blocks": [
+    "# Correção de bug com TDD",
+    "Ao corrigir um bug com um caminho de teste claro e barato, torne o comportamento quebrado executável antes de alterar o código de produção. O objetivo é um teste de regressão focado que falhe antes da correção e passe depois dela.",
+    "Não force um teste quando isso for inviável. Se o teste disponível exigir uma configuração extensa de estrutura de testes, mocks frágeis, infraestrutura end-to-end lenta, estado exclusivo de produção, passos vagos de reprodução ou muitas alterações irrelevantes em fixtures, pule a criação de um novo teste e use a verificação útil mais próxima.",
+    "## Fluxo de trabalho",
+    "1. **Entenda o bug.** Identifique o comportamento esperado, o comportamento atual, o caminho afetado e a menor reprodução observável.\n2. **Escolha a verificação executável mais específica.** Prefira o teste unitário, de componente, de integração ou de regressão mais próximo já usado para esse caminho de código. Se nenhum caminho de teste prático for óbvio, não crie um do zero apenas para cumprir o fluxo de trabalho.\n3. **Escreva primeiro o teste que falha.** Adicione o menor teste focado que teria pego o bug. O teste deve expressar o comportamento esperado, não espelhar a implementação atual.\n4. **Rode o novo teste antes de corrigir.** Confirme que ele falha pelo motivo esperado. Se ele passar ou falhar por um motivo sem relação, corrija o teste ou a reprodução antes de editar a implementação.\n5. **Corrija o bug.** Faça a menor alteração no código de produção que atenda ao comportamento esperado, preservando os contratos próximos.\n6. **Rode novamente o teste de regressão.** Confirme que o teste agora passa.",
+    "## Se um teste que falha for inviável",
+    "Em vez disso, use a verificação executável de regressão mais próxima: um script específico, comando manual de reprodução, automação de navegador, comparação de snapshot, asserção de log ou verificação de integração focada.",
+    "Prefira nenhum teste novo a um teste ruim. Um teste ruim é aquele que testa principalmente mocks, embute detalhes da implementação atual, depende de timing ou de estado global sem relação, precisa de infraestrutura cara para uma correção pequena ou seria apagado logo depois de provar a correção.",
+    "## Limites",
+    "- Não altere testes apenas para bater com uma implementação errada.\n- Não enfraqueça asserções existentes, a menos que o comportamento esperado tenha mudado de verdade e o motivo esteja claro.\n- Mantenha o teste de regressão focado no bug. Evite grandes alterações em fixtures ou expandir a cobertura para áreas sem relação.\n- Se o bug for intermitente, torne o teste determinístico quando possível e documente o sinal que está sendo fixado.\n- Se o bug expuser uma classe mais ampla de falhas, primeiro conclua o caminho de regressão focado e depois considere cobertura adicional para casos semelhantes.",
+    "## Resposta final",
+    "Relate as evidências, não apenas o resultado:",
+    "- Informe o teste ou a verificação executável que falhou antes e a falha produzida.\n- Informe a execução do teste que passou depois e qualquer verificação próxima feita.\n- Se não foi possível demonstrar a evidência de falha antes da correção, diga o motivo e descreva a verificação de regressão mais próxima usada no lugar."
+  ]
+}

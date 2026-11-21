@@ -1,0 +1,61 @@
+{
+  "description": "Quita las huellas de IA de cualquier texto.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Escribe frases que suenan bien y encajarían en la documentación de cualquier proyecto.",
+        "with": "Nombra el mecanismo o da una cifra, y elimina las frases que encajarían sin cambios en otro proyecto."
+      },
+      {
+        "without": "Dice «los expertos creen» sin nombrar a nadie.",
+        "with": "Nombra la fuente o elimina la afirmación."
+      },
+      {
+        "without": "Empieza con elogios o dándote la razón y cierra con «Avísame si…».",
+        "with": "Quita las cortesías y los halagos, y responde directamente."
+      }
+    ],
+    "intro": "Busca los patrones de abajo y luego reescribe el texto, conservando el significado y el tono buscado. Los números de las reglas son identificadores fijos que citan otras skills. La lista dedica una línea a cada regla, desde gerundios vacíos, palabras de IA y rayas hasta frases de chatbot, sustantivos metafóricos y voz pasiva.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Rule numbers are stable ids that other skills cite.",
+      "quoteTr": "Los números de las reglas son identificadores estables que citan otras skills.",
+      "title": "Dale un número fijo a cada regla",
+      "does": "Otras skills pueden decir simplemente «aplica la regla 13», y los números siguen coincidiendo aunque se añadan o eliminen reglas.",
+      "why": "Los números fijos hacen que las referencias sean cortas y exactas, y no se desplazan cuando cambia la lista.",
+      "try": "Numera las reglas de redacción de tu equipo y luego di en una revisión: «Este párrafo incumple la regla 4»."
+    },
+    {
+      "quote": "Name the actor unless it is unknown or doesn't matter.",
+      "quoteTr": "Nombra a quien actúa, salvo que se desconozca o no importe.",
+      "title": "Escribe la excepción dentro de la regla",
+      "does": "Reescribe las frases en pasiva para nombrar a quien actúa, y mantiene la pasiva solo cuando no se sabe quién es o no importa.",
+      "why": "Indicar la excepción dentro de la regla evita que la IA reescriba todas las frases en pasiva, incluidas las que deberían quedarse así.",
+      "try": "Incluye la excepción en la petición: «Pon un subtítulo a cada párrafo, salvo a los de una o dos frases»."
+    },
+    {
+      "quote": "Cut a sentence that could appear unchanged in another project's docs.",
+      "quoteTr": "Elimina cualquier frase que pueda aparecer sin cambios en la documentación de otro proyecto.",
+      "title": "Comprueba si es relleno cambiándolo de sitio",
+      "does": "Las frases que encajarían en cualquier proyecto se eliminan; lo que queda habla de este proyecto.",
+      "why": "Es difícil juzgar qué es «relleno», pero «¿seguiría encajando en otro sitio?» es una comprobación rápida que cualquiera puede hacer.",
+      "try": "Cuando pidas editar una introducción, añade: «Elimina cualquier frase que siga siendo cierta con el nombre de un competidor»."
+    },
+    {
+      "quote": "One name per thing. Repeat it.",
+      "quoteTr": "Un nombre para cada cosa. Repítelo.",
+      "title": "Di que repetir está bien",
+      "does": "Llama a una misma cosa con una sola palabra de principio a fin, en lugar de ir alternando sinónimos para variar.",
+      "why": "«Repítelo» da permiso explícito, así que la IA deja de cambiarle el nombre a una misma cosa hasta que los lectores creen que son varias.",
+      "try": "Cuando pidas una edición, añade: «Llámalo “pedido” en todas partes. No cambies a “compra” ni a “transacción”»."
+    }
+  ],
+  "blocks": [
+    "# Unslop",
+    "Edita el texto para eliminar los patrones de IA. Busca los patrones de abajo y luego reescribe. Conserva el significado y ajústate al tono buscado.",
+    "Los números de las reglas son identificadores estables que citan otras skills. Una regla eliminada deja un hueco.",
+    "3. Sin frases finales en gerundio que no aporten ningún dato («destacando…», «garantizando…»).\n5. Sin atribuciones vagas («los expertos creen»). Nombra la fuente o elimínalo.\n7. Sin vocabulario de IA: adicionalmente, crucial, profundizar, potenciar, fomentar, panorama, fundamental, exhibir, testimonio, subrayar, vibrante.\n8. Di «es» o «tiene», no «sirve como», «se erige como», «presume de», «cuenta con».\n9. Nada de «no solo X, sino Y». Ve directo al punto.\n10. No fuerces las ideas en grupos de tres.\n11. Un nombre para cada cosa. Repítelo.\n12. Nada de «de X a Y» salvo que X e Y estén en una escala real.\n13. Sin rayas, semirrayas ni guiones usados como rayas, y sin paréntesis en su lugar. Usa un punto o una coma.\n14. Los dos puntos van antes de una lista o un ejemplo, nunca a mitad de frase como conector.\n15. No pongas en negrita cada nombre propio o sigla.\n16. Sin etiquetas en negrita con dos puntos que repitan la frase («**Rendimiento:** El rendimiento mejoró…»). Una entrada en negrita que termine en punto y añada un detalle nuevo está bien.\n17. Encabezados solo con mayúscula inicial.\n18. Sin emojis decorativos.\n19. Comillas rectas.\n20. Sin frases de chatbot («¡Espero que esto ayude!», «Avísame si…»).\n22. Sin empezar con elogios ni dando la razón. Responde directamente.\n23. Elimina el relleno. «Con el fin de» pasa a ser «para». Borra «es importante señalar que».\n24. Un matiz de cautela como máximo: «puede».\n25. Sin conclusiones genéricas. Indica planes o hechos concretos.\n26. Sin sustantivos metafóricos abstractos: sustrato, cuña, vector, nexo, primitiva, arnés, superficie, andamiaje, paradigma, trinquete, estrella polar, volante de inercia. Usa la palabra concreta.\n27. Di qué hace, no qué sensación da. Nombra el mecanismo o la cifra. Elimina cualquier frase que pueda aparecer sin cambios en la documentación de otro proyecto.\n28. Una idea por frase. Divide cualquier frase que el lector tenga que releer.\n29. Voz activa. Nombra a quien actúa, salvo que se desconozca o no importe.\n30. Elimina adverbios o usa un verbo más fuerte. Da la cifra.\n31. Usa la palabra sencilla: «usar», no «utilizar» ni «apalancar».\n32. Sin metáforas, aforismos, código personificado ni verbos figurados cuando exista una expresión literal.\n33. Escribe frases completas con sus artículos y verbos. Escribe con palabras las flechas y las abreviaturas."
+  ]
+}

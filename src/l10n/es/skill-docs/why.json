@@ -1,0 +1,51 @@
+{
+  "description": "Úsala para «por qué X funciona así», «por qué elegimos Y», justificación de diseño, regresiones, análisis postmortem o umbrales respaldados por datos. Devuelve una lectura con citas sobre decisiones y contrapartidas. Usa how para el comportamiento en tiempo de ejecución.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Adivina una razón a partir del propio código.",
+        "with": "Lee los commits y las discusiones de PR que hay detrás y los de cada cambio posterior, y luego otras fuentes si el rastro es escaso."
+      },
+      {
+        "without": "Presenta una razón supuesta como si fuera un hecho.",
+        "with": "Cita lo que escribieron los autores y marca sus propias inferencias como inferencias."
+      },
+      {
+        "without": "Arma una respuesta incluso cuando el registro no tiene ninguna.",
+        "with": "Dice lo que el registro no responde."
+      }
+    ],
+    "intro": "Responde al porqué a partir del registro, no del código: los commits y las discusiones de PR, y luego otras fuentes si el rastro es escaso. Cita a los autores, marca las inferencias y señala lo que el registro deja abierto.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
+      "quoteTr": "Responde a partir del registro, no del código: lee los commits y las discusiones de PR que introdujeron el elemento en cuestión y cada cambio posterior, así como otras fuentes si el rastro es escaso.",
+      "title": "Indica dónde está la respuesta",
+      "does": "Lee los commits y las discusiones de PR originales en lugar de inventar una razón creíble a partir del código.",
+      "why": "El código muestra el qué, no el porqué; indicar qué registro leer, pasando por cada cambio posterior, no deja margen para presentar una suposición.",
+      "try": "Cuando preguntes por qué, señala la fuente: «Lee el commit y la discusión que añadieron este ajuste, y cada cambio desde entonces, no solo el código actual»."
+    },
+    {
+      "quote": "Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer.",
+      "quoteTr": "Cita lo que escribieron los autores, marca tus propias inferencias como inferencias y di lo que el registro no responde.",
+      "title": "Pide hechos y suposiciones por separado",
+      "does": "Las citas de los autores, sus propias inferencias y las lagunas sin resolver aparecen por separado, para que sepas en qué líneas confiar sin reservas.",
+      "why": "Es fácil redondear un relato de «por qué»; etiquetar las inferencias y señalar las lagunas evita mezclar suposiciones con hechos.",
+      "try": "Cuando preguntes por qué, añade: «Cita lo que tenga fuente, marca tus propias suposiciones como “suposición” y di con claridad qué no pudiste encontrar»."
+    },
+    {
+      "quote": "Use how for runtime behavior.",
+      "quoteTr": "Usa how para el comportamiento en tiempo de ejecución.",
+      "title": "Di qué no es su trabajo",
+      "does": "Las preguntas sobre el comportamiento en tiempo de ejecución van a `how`, en lugar de responderse a partir del historial.",
+      "why": "Decir solo «cuándo usarla» deja que herramientas cercanas se pisen entre sí; añadir quién se encarga del resto traza la línea.",
+      "try": "Cuando repartas el trabajo, marca el límite: «Tú te encargas de los textos; las preguntas sobre la maquetación van a diseño, no la cambies por tu cuenta»."
+    }
+  ],
+  "blocks": [
+    "# Por qué",
+    "Responde a partir del registro, no del código: lee los commits y las discusiones de PR que introdujeron el elemento en cuestión y cada cambio posterior, así como otras fuentes si el rastro es escaso. Cita lo que escribieron los autores, marca tus propias inferencias como inferencias y di lo que el registro no responde."
+  ]
+}

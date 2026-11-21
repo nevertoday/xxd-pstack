@@ -1,0 +1,96 @@
+{
+  "description": "Mantenha um rastro de decisões revisável para trabalhos longos ou sem supervisão: um log em TSV com uma linha por decisão (o quê, por quê, evidência, resultado). Local por padrão; faça commit quando quem revisa precisar do rastro para confiar no resultado. Use para /show-me-your-work, execuções autônomas ou em várias fases, ou trabalho que uma pessoa revisa depois de se afastar.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Sustenta o que afirma com parágrafos de prosa.",
+        "with": "Registra uma linha em TSV por decisão, com um commit, PR ou file:line como evidência."
+      },
+      {
+        "without": "Revisa o próprio trabalho e diz que está tudo bem.",
+        "with": "Faz um modelo de outro fornecedor revisar o rastro e termina com uma seção Atenção."
+      },
+      {
+        "without": "Confia no próprio log do jeito que foi escrito.",
+        "with": "Confere cada linha com a transcrição da execução antes de devolver o trabalho, adicionando linhas para as lacunas."
+      }
+    ],
+    "intro": "Começa com uma linha: mantenha um único log.",
+    "sections": [
+      "Um único arquivo TSV, uma linha por decisão, com seis colunas: ts, phase, decision, why, evidence, result. Em seguida vem um exemplo.",
+      "Adiciona linhas em linguagem simples com scripts/log.sh para bifurcações, unidades concluídas e reversões. Cada nova execução abre com uma linha start.",
+      "Mantém o log em decisions.tsv no diretório de trabalho, fora do git, fazendo commit só quando quem revisa precisa do rastro.",
+      "Somente adição: uma nova linha substitui uma errada. Evidências de scripts com commit valem mais do que checagens avulsas.",
+      "Antes de devolver o trabalho, lê a transcrição desta execução, confere cada linha e sua evidência e adiciona linhas para lacunas e erros.",
+      "Uma IA ajudante em um modelo de outro fornecedor revisa o rastro. A resposta termina com uma seção Atenção indicando esse modelo.",
+      "Orienta você a ler de cima para baixo, seguir os ponteiros de evidência e exibir o TSV com column no terminal.",
+      "Outras skills encaminham seu rastro de auditoria para esta e deixam o formato a cargo dela."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Evidence is a pointer, not prose.",
+      "quoteTr": "Evidência é um ponteiro, não prosa.",
+      "title": "Pergunte onde está a prova",
+      "does": "Cada linha vem com um commit, arquivo ou captura de tela que você pode abrir, não um parágrafo dizendo “eu verifiquei”.",
+      "why": "Definir o formato da evidência não deixa espaço para a IA trocar provas por texto bonito.",
+      "try": "Quando pedir conclusões, acrescente: “Coloque o nome do arquivo e o número da linha depois de cada uma; não precisa explicar.”"
+    },
+    {
+      "quote": "A wrong call gets a new row that supersedes it.",
+      "quoteTr": "Uma decisão errada ganha uma nova linha que a substitui.",
+      "title": "Dê uma alternativa para cada proibição",
+      "does": "Quando uma linha anterior estava errada, a IA adiciona uma correção abaixo e mantém a linha antiga, para você ver que mudou de ideia.",
+      "why": "Um simples “não edite o histórico” deixa a IA travada ou tentada a burlar a regra; dizer o que fazer no lugar dá um caminho para seguir.",
+      "try": "Quando proibir algo, dê a alternativa: “Não apague entradas antigas; marque as desatualizadas com uma nova linha ‘sem efeito, ver #5’.”"
+    },
+    {
+      "quote": "Correct the log, not the story.",
+      "quoteTr": "Corrija o log, não a história.",
+      "title": "Resuma regras em contrastes curtos",
+      "does": "Quando a checagem encontra uma divergência, a IA adiciona uma linha com o que realmente aconteceu em vez de enfeitar a história.",
+      "why": "“Corrija isto, não aquilo” é curto o bastante para lembrar, então a IA mantém a regra mesmo no fim de uma execução longa.",
+      "try": "Escreva sua regra mais importante como um contraste curto: “Corrija o bug, não a mensagem de erro.”"
+    },
+    {
+      "quote": "\"No flags\" is a valid value.",
+      "quoteTr": "“Sem alertas” é um valor válido.",
+      "title": "Diga que “nenhum” é uma resposta",
+      "does": "Quando a revisão não encontra nada, a IA escreve “Sem alertas” em vez de inventar alguns só para parecer útil.",
+      "why": "Quando uma resposta vazia vale, a IA não tem motivo para inventar problemas.",
+      "try": "Quando pedir para apontar problemas, acrescente: “Se não encontrar riscos, diga ‘nenhum’; não encha a lista.”"
+    }
+  ],
+  "blocks": [
+    "# Mostre seu trabalho",
+    "Mantenha um único log canônico.",
+    "## O formato",
+    "Um único arquivo TSV, uma linha por decisão. As células ficam em uma única linha. Evidência é um ponteiro, não prosa.",
+    "Copie `references/decision-log-template.tsv` (a linha de cabeçalho) para começar um log limpo. Colunas:",
+    "- **ts.** Timestamp ISO8601.\n- **phase.** A fase ou frente de trabalho.\n- **decision.** O que foi escolhido ou feito, em uma linha.\n- **why.** O motivo em palavras simples. Se um princípio guiou a decisão, diga isso de forma direta, não como uma etiqueta de jargão.\n- **evidence.** Um link ou caminho que prova o que foi feito: SHA do commit, número do PR, `file:line`, ou caminho de um artefato, trace ou captura de tela. Nunca um parágrafo.\n- **result.** O resultado ou estado verificável: `tests green`, `reverted`, `pixel-diff 0`, `INCONCLUSIVE`, `open`.",
+    "Um exemplo, em linguagem direta para quem revisa ler de relance.",
+    "```\nts\tphase\tdecision\twhy\tevidence\tresult\n2026-05-24T09:02:00Z\tframe\tcounted the work first, about 100 components and roughly 75 hours\twanted to know the size before starting a long run\tcommit 3a9f1c2\tfound 5 things to sort out before starting\n2026-05-24T09:40:00Z\tharness\ttook screenshots of the old version before changing anything\tso we can compare old against new and catch any visual change\tscripts/snapshot.sh, baseline/\tsaved 120 reference screenshots\n2026-05-24T11:15:00Z\twidget\tmoved the widget styles over without changing how it looks\tkeep the change small and the result identical\tcommit 7c21e0a, pixel-diff 0\tlooks identical, tests pass\n2026-05-24T12:30:00Z\twidget\tthrew out a helper's work because its screenshots were blank\tchecked the real files instead of trusting its summary\tworktree reset\treverted, tightened the instructions for next time\n```",
+    "## Registrando uma linha",
+    "Escreva cada entrada do jeito que você contaria para um colega de equipe o que fez. Palavras simples, ações concretas, sem jeito de IA nem jargão abstrato (a skill **unslop** também vale para o texto do log).",
+    "Use o script auxiliar `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>`. Ele preenche `ts`, escreve o cabeçalho no primeiro uso, remove tabs e quebras de linha soltos e coloca uma aspa simples na frente de qualquer célula que comece com `=`, `+`, `-` ou `@`. Um `printf` puro adicionando uma linha também funciona, mas tome cuidado com esses mesmos bytes se as células vierem de texto gerado ou fornecido pelo usuário.",
+    "Registre pontos de decisão e checkpoints, não cada ação: uma bifurcação escolhida, uma unidade concluída com o resultado da verificação, uma mudança de direção ou reversão com seu gatilho, um bloqueio que surgiu, um gate corrigido. Em execuções em loop, uma linha por iteração. Pule o trivial e o óbvio.",
+    "Uma execução é uma conversa do agente, incluindo seus turnos posteriores e qualquer resumo dela. Uma retomada, um agente substituto ou um novo chat inicia uma nova execução. Quando uma execução adiciona entradas a um log que já tem linhas, sua primeira linha usa a fase `start`, e o mesmo vale para sua primeira linha depois de uma linha `start` de outra execução. Por isso, uma execução que volta a um log em um turno posterior primeiro lê as últimas linhas do log para ver se outra execução escreveu desde então. Uma linha `start` indica o intervalo de `ts` das linhas anteriores que esta execução não escreveu, e sua evidência identifica esta execução, como o ID do agente. Não use a fase `start` para mais nada.",
+    "## Onde fica",
+    "Por padrão, o log é um artefato de trabalho, sem commit. Deixe em `decisions.tsv` no diretório de trabalho, ou em `.audit/<task-slug>.tsv` quando várias frentes rodarem ao mesmo tempo, e mantenha fora do git.",
+    "Faça commit do log só quando o trabalho for ambicioso o bastante para que quem revisa precise do rastro para confiar no resultado.",
+    "## Regras",
+    "- Somente adição. Uma decisão errada ganha uma nova linha que a substitui. Nunca edite nem apague o histórico.\n- Prefira evidências produzidas por scripts com commit a checagens avulsas feitas à mão (a skill de princípio **encode-lessons-in-structure**).",
+    "## Audite o log com base na transcrição",
+    "No fim da execução, antes de devolver o trabalho, verifique se o log contou a verdade. Leia a transcrição desta execução no diretório de sessões do workspace ativo: no Cursor, o diretório `agent-transcripts/` indicado no prompt de sistema. No Claude Code, `~/.claude/projects/<slug>/` (o caminho do workspace com todo caractere que não seja letra ou dígito trocado por “-”). No Pi, `~/.pi/agent/sessions/--<slug>--/`. No Codex, o arquivo em `~/.codex/sessions/` cuja primeira linha tem `payload.cwd` igual ao caminho do workspace. Não faça glob pelos diretórios de todos os projetos. Isso lê chats privados que não têm relação com a tarefa. Compare as linhas desta execução com o que realmente aconteceu. Cada trecho dessas linhas começa em uma linha `start` desta execução, ou na primeira linha se esta execução criou o log, e termina na próxima linha `start` de outra execução:",
+    "- Verifique se cada linha corresponde a uma decisão ou ação real.\n- Verifique se a evidência de cada linha existe e mostra o que a linha afirma.\n- Uma bifurcação, mudança de direção ou abordagem abandonada que moldou o trabalho mas não está no log é uma lacuna. Adicione-a.",
+    "Corrija o log, não a história. A auditoria nunca edita nem remove uma linha, nem mesmo uma inventada. Quando uma linha não registra nem uma decisão real nem uma ação real, ou quando sua afirmação ou evidência está errada, adicione uma linha que a substitua com o que realmente aconteceu e um ponteiro válido. Esta auditoria não verifica linhas fora dos trechos desta execução. Se o próprio trabalho desta execução mostrar que uma delas está errada, substitua essa linha como qualquer decisão errada.",
+    "## Revisão do rastro entre modelos",
+    "Antes de devolver o trabalho, inicie um subagente em um modelo de um fornecedor diferente do que fez o trabalho. Autorrevisão não substitui isso. O subagente lê o rastro de auditoria e a transcrição da execução e sinaliza o que merece atenção do usuário. Não é para refazer o trabalho, mas uma varredura em busca do que está abaixo do ideal ou arriscado. Escolha o nível de raciocínio de cada subagente conforme a tarefa, de acordo com a seção Subagentes da skill **poteto-mode**.",
+    "- Decisões registradas com evidência fraca ou ausente.\n- Etapas de verificação puladas ou declaradas sem prova na transcrição.\n- Escolhas que parecem arriscadas em retrospecto (prematuras, que ampliam o escopo, que mascaram um sintoma).\n- Lacunas que o usuário deixaria passar numa leitura rápida.",
+    "Toda resposta de uma execução que gerou um rastro termina com uma seção “Atenção”. Comece com o modelo revisor em uma linha própria (`reviewed by <model>`) e depois liste cada alerta apontando para linhas ou momentos específicos. “Sem alertas” é um valor válido. O nome do modelo não é opcional.",
+    "## Revisando o rastro",
+    "Leia de cima para baixo, siga os ponteiros de evidência e faça verificações pontuais. O GitHub exibe um TSV com commit como tabela. `column -s$'\\t' -t decisions.tsv` exibe o arquivo no terminal.",
+    "## Compondo esta skill",
+    "Outras skills encaminham seu rastro de auditoria para cá em vez de inventar um. Referencie esta skill pelo nome e deixe o formato com ela. Não repita as colunas."
+  ]
+}

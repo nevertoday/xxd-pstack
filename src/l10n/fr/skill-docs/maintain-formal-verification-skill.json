@@ -1,0 +1,90 @@
+{
+  "description": "Remettre la vérification formelle d'un projet en phase avec le code après des modifications : repérer les commits qui ont touché du code vérifié, mettre à jour le modèle, le harnais ou les propriétés pour décrire le code tel qu'il est maintenant, relancer la vérification et indiquer si chaque échec vient d'une dérive de la vérification ou d'un bug dans le code. À utiliser pour /maintain-formal-verification-skill, « le modèle est-il toujours fidèle au code ? », ou après des fusions et des refactorings qui ont touché du code vérifié sans le revérifier.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Considère une vérification qui passe comme la preuve que le code va bien.",
+        "with": "Casse exprès le nouveau code après un succès et confirme que la vérification le détecte."
+      },
+      {
+        "without": "Ne sait pas distinguer une vérification obsolète d'un vrai bug.",
+        "with": "Rejoue le contre-exemple sur le vrai code. Ce n'est un bug que si chaque étape peut se produire."
+      },
+      {
+        "without": "Retouche le modèle jusqu'à ce qu'une vérification en échec passe.",
+        "with": "Rédige la mise à jour à partir du code avant de relancer, sans jamais la façonner en fonction du résultat."
+      }
+    ],
+    "intro": "Il pointe le danger d'une vérification qui continue à passer sur un code qui a changé, et couvre les changements qui ont contourné le skill de vérification, comme les fusions.",
+    "sections": [
+      "Chaque vérification reçoit l'un de quatre résultats : en phase, mis à jour, bug ou bloqué. « Mis à jour » et « bug » peuvent s'appliquer ensemble.",
+      "Ne modifie que les modèles, les harnais, les fichiers de propriétés et le skill de vérification. Le code produit reste intact, et les échecs sont signalés.",
+      "Six étapes : trouver les vérifications, les lancer telles quelles, classer les changements en quatre catégories, mettre à jour d'après le code, relancer et trancher, avancer le commit de synchronisation.",
+      "Indique pour chaque vérification le résultat, les commits lus, la raison de chaque changement, la casse volontaire, et précise quels échecs venaient d'une dérive et lesquels étaient des bugs."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "That pass is the dangerous case, because it looks like a proof.",
+      "quoteTr": "Ce succès est le cas dangereux, car il ressemble à une preuve.",
+      "title": "Démasquer l'illusion la plus rassurante",
+      "does": "Quand une vérification passe, il ne baisse pas la garde. Il se demande d'abord si ce succès veut encore dire quelque chose.",
+      "why": "Un succès donne en général un sentiment de sécurité. Le qualifier de cas dangereux pousse l'IA à creuser au lieu de simplement cocher la case.",
+      "try": "Pour empêcher l'IA de se fier aux bonnes nouvelles, dites : « Aucune plainte ne veut pas dire que les clients sont satisfaits. Prends-le comme un signal d'alerte et vérifie. »"
+    },
+    {
+      "quote": "Write the update from the code before you rerun, and do not shape it by what makes the check pass.",
+      "quoteTr": "Rédigez la mise à jour à partir du code avant de relancer, et ne la façonnez pas en fonction de ce qui fait passer la vérification.",
+      "title": "Placer le travail avant le résultat",
+      "does": "Il met à jour la vérification à partir du code, et non en tâtonnant jusqu'à ce qu'elle passe.",
+      "why": "Imposer l'ordre fixe « rédiger avant de voir le résultat » ne laisse aucune marge pour travailler à rebours à partir du résultat.",
+      "try": "Pour une analyse, écrivez : « Note d'abord ta prédiction, puis regarde les données. Ne change pas la prédiction ensuite. »"
+    },
+    {
+      "quote": "Break the new code the way the property guards against",
+      "quoteTr": "Cassez le nouveau code de la manière contre laquelle la propriété protège",
+      "title": "Demander une casse volontaire",
+      "does": "Une fois qu'une vérification passe, il casse le code exprès pour confirmer qu'elle échoue vraiment.",
+      "why": "Une casse qui montre que la vérification peut échouer convainc bien plus que « je pense que la vérification marche ».",
+      "try": "Une fois que l'IA a écrit la validation d'un formulaire, ajoutez : « Saisis exprès un mauvais numéro de téléphone et confirme qu'il est rejeté. »"
+    },
+    {
+      "quote": "Give each check one outcome, and say which:",
+      "quoteTr": "Attribuez un résultat à chaque vérification et indiquez lequel :",
+      "title": "N'autoriser que des verdicts fixes",
+      "does": "Toutes les vérifications aboutissent à l'un des quatre résultats, vous voyez donc tout de suite lesquelles doivent vous inquiéter.",
+      "why": "Lister et définir d'avance tous les verdicts possibles ne laisse aucune place au « globalement bon ».",
+      "try": "Quand l'IA relit des brouillons, fixez la règle : « Chaque verdict est l'un de ces trois choix : “publier”, “publier après retouches” ou “ne pas publier”. Dis lequel. »"
+    },
+    {
+      "quote": "If the skill does not record a sync commit, use the last commit that changed the verification files, and say that you did.",
+      "quoteTr": "Si le skill n'enregistre pas de commit de synchronisation, utilisez le dernier commit qui a modifié les fichiers de vérification, et précisez que vous l'avez fait.",
+      "title": "Prévoir une solution de repli en cas de donnée manquante",
+      "does": "Quand une donnée manque, il a un substitut et vous prévient qu'il l'a utilisé.",
+      "why": "Indiquer quoi faire quand une donnée manque, en ajoutant « dis-le », évite que l'IA ne se bloque ou ne devine en silence.",
+      "try": "Pour trier des notes de frais, écrivez : « Si la date de facture manque, utilise la date de commande et indique “date de commande”. »"
+    }
+  ],
+  "blocks": [
+    "# Maintenir un skill de vérification formelle",
+    "Une vérification formelle prouve une propriété de ce qu'elle décrit. Quand le code change mais pas la vérification, celle-ci peut continuer à passer alors qu'elle décrit un code qui n'existe plus. Ce succès est le cas dangereux, car il ressemble à une preuve. Ce skill est la boucle d'entretien d'un skill de vérification généré par `/create-formal-verification-skill`, ou de tout skill local au projet qui lance un vérificateur de modèles, un prouveur ou un vérificateur au niveau du code sur du code désigné. Le skill local au projet prend en charge une modification qu'un agent fait tout en utilisant ce skill. Ce skill prend en charge les changements qui l'ont contourné : les fusions, les modifications faites sans le skill et la dérive qui s'accumule au fil de nombreux commits.",
+    "## Résultats",
+    "Attribuez un résultat à chaque vérification et indiquez lequel :",
+    "- **en phase** : aucun changement depuis la dernière synchronisation n'altère ce que décrit la vérification, et la vérification passe.\n- **mis à jour** : le code a changé, la vérification décrit maintenant le nouveau code, et la vérification passe.\n- **bug** : la vérification décrit le code actuel, et le code enfreint la propriété. C'est un constat sur le code. Ce n'est pas une dérive.\n- **bloqué** : la vérification n'a pas pu être remise en phase ou n'a pas pu s'exécuter. Indiquez exactement pourquoi.",
+    "Une vérification peut cumuler « mis à jour » et « bug » : la mise à jour permet à la vérification de décrire de nouveau le code, puis la propriété échoue sur ce code.",
+    "## Périmètre des modifications",
+    "Ne modifiez que la vérification : les modèles, les harnais, les fichiers de propriétés et le skill de vérification lui-même. Ne modifiez jamais le code produit pendant une exécution, sauf si l'utilisateur vous le demande. Quand une propriété échoue sur le code actuel, n'affaiblissez ni la propriété ni le modèle pour la faire passer. Signalez l'échec.",
+    "## Déroulement",
+    "1. **Trouvez les vérifications.** Un skill de vérification n'a pas de nom fixe, repérez-le donc à ce qu'il fait : un skill du projet qui lance un vérificateur de modèles, un prouveur ou un autre vérificateur sur du code désigné. Lisez chacun de ceux que vous trouvez, ou celui que l'utilisateur a indiqué. Pour chaque vérification, relevez la propriété, le code qu'elle couvre, les bornes et les hypothèses, la commande qui la lance et le commit où il a été confirmé pour la dernière fois qu'elle décrivait le code. S'il n'existe aucun skill de vérification, arrêtez-vous et orientez vers `/create-formal-verification-skill`. Si le skill n'enregistre pas de commit de synchronisation, utilisez le dernier commit qui a modifié les fichiers de vérification, et précisez que vous l'avez fait.",
+    "2. **Lancez-la telle quelle.** Lancez chaque vérification une fois avant de rien changer, et notez le résultat. Un succès ici ne vous dit pas que le code est correct. Il vous dit que l'ancienne description tient toujours. Un échec ici peut venir d'une dérive ou d'un bug. Ne tranchez pas avant l'étape 5.",
+    "3. **Lisez chaque changement du code couvert.** Faites le diff des fichiers couverts entre le commit de synchronisation et le commit actuel, et lisez chaque message de commit. Cherchez aussi le code qui a bougé : une fonction couverte qui est renommée, découpée ou déplacée vers un autre fichier reste du code couvert. Cherchez aussi du nouveau code qui touche à l'état protégé par une vérification, comme une nouvelle fonction qui écrit dans les mêmes champs. Pour chaque changement, déterminez dans quel cas il se trouve :\n   - **Aucun effet.** Le changement n'altère rien de ce que décrit la vérification, comme le formatage, les commentaires ou des chemins de code que la vérification ne couvre pas. Vérifiez-le dans le modèle ou le harnais, pas dans le message de commit.\n   - **La vérification ne décrit plus le code.** Une étape qui était une seule action indivisible en forme maintenant deux, une branche a été ajoutée ou supprimée, un contrôle a été déplacé, un nouveau chemin atteint l'état protégé, ou une valeur a maintenant une plage différente. Le modèle ou le harnais doit changer.\n   - **La promesse a changé volontairement.** Le changement modifie ce que le code promet, et des preuves dans le changement indiquent que c'est voulu : le commentaire de documentation, les tests, le changelog ou le message de commit. La propriété doit changer, et vous devez citer ces preuves.\n   - **La promesse est peut-être rompue.** Le code a changé, et aucune preuve n'indique que la promesse a changé. Traitez tout échec qui suit comme un bug potentiel.",
+    "4. **Mettez à jour à partir du code, pas du résultat.** Modifiez le modèle ou le harnais afin que chaque partie modifiée pointe de nouveau vers du code qu'un relecteur peut ouvrir, et conservez une étape indivisible du code comme une seule étape dans la vérification. Rédigez la mise à jour à partir du code avant de relancer, et ne la façonnez pas en fonction de ce qui fait passer la vérification. Ne changez une propriété que pour une promesse qui a changé volontairement. Notez l'ancienne formulation, la nouvelle formulation et les preuves. Gardez les bornes sauf si le changement les rend fausses. Si vous devez réduire une borne, signalez-le dans le rapport.",
+    "5. **Relancez et jugez chaque résultat.**\n   - **Succès** : la vérification peut maintenant passer sur une description qui a perdu sa capacité à échouer. Cassez le nouveau code de la manière contre laquelle la propriété protège, par exemple en supprimant un nouveau contrôle ou en réordonnant une nouvelle étape, et confirmez que la vérification le détecte. Annulez ensuite cette casse.\n   - **Échec** : rejouez le contre-exemple sur le vrai code, étape par étape. Si une étape ne peut pas se produire dans le code, c'est la vérification qui est fausse. Corrigez la vérification et indiquez ce qui n'allait pas. Si chaque étape peut se produire, c'est un bug. Nommez le commit qui l'a introduit, racontez le contre-exemple comme une suite d'étapes dans les termes mêmes du code et énoncez le préjudice en une phrase. Si un test léger ou un cas de reproduction sur le vrai code montre le bug, ajoutez-le au rapport comme preuve. Ne le commitez pas dans le code produit.",
+    "6. **Mettez à jour le skill de vérification.** Mettez à jour le code couvert par chaque vérification, les commandes, les bornes, les hypothèses et le commit de synchronisation. Fixez le commit de synchronisation sur le commit que vous avez vérifié. Ne déplacez pas le commit de synchronisation pour une vérification bloquée, et précisez-le dans le rapport. Suivez ensuite le skill de vérification une fois comme le ferait l'agent suivant, pour savoir que ses étapes s'exécutent toujours.",
+    "## Rapport",
+    "Indiquez à l'utilisateur, pour chaque vérification :",
+    "- le résultat et les commits que vous avez lus ;\n- ce qui a changé dans la vérification et pourquoi, avec une courte raison pour chaque changement : le code a changé de forme, ou la promesse a changé volontairement (avec les preuves) ;\n- le résultat de la relance et la casse utilisée pour montrer que la vérification mise à jour peut encore échouer ;\n- chaque bug, en termes simples : le contre-exemple présenté étape par étape dans les termes du code, le préjudice et le commit qui l'a introduit ;\n- ce que la vérification ne couvre toujours pas, y compris le nouveau code qu'elle devrait couvrir et qu'elle ne couvre pas.",
+    "Dites sans détour quels échecs venaient d'une dérive de la vérification et lesquels étaient des bugs dans le code. Pour une vérification qui passait avant votre mise à jour et échoue après, précisez que l'ancien succès portait sur une description obsolète.",
+    "Placez les mises à jour de la vérification dans un changement à part, séparé de tout correctif produit."
+  ]
+}

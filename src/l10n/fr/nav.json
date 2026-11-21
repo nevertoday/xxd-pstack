@@ -15,5 +15,159 @@
       "minutes": "10 minutes",
       "sum": "Créez une petite page web avec un seul message en trois parties"
     }
+  },
+  "steps": {
+    "0-what": {
+      "title": "Ce qu'est pstack",
+      "minutes": "5 minutes de lecture",
+      "sum": "À quoi il sert, ce que ça coûte, ce qu'il vous faut"
+    },
+    "1-install": {
+      "title": "Installer pstack",
+      "minutes": "5 minutes",
+      "sum": "Une méthode par outil : Claude Code, Cursor et Codex"
+    },
+    "2-setup": {
+      "title": "Choisir les modèles et le budget (facultatif)",
+      "minutes": "10 minutes",
+      "sum": "Ça fonctionne sans ; lisez cette étape pour dépenser moins ou changer de modèle"
+    },
+    "3-first-task": {
+      "title": "Votre première tâche",
+      "minutes": "15 minutes",
+      "sum": "Décrivez votre tâche en un message, puis vérifiez sa reformulation et ses résultats"
+    },
+    "4-understand": {
+      "title": "Comprendre avant de modifier",
+      "minutes": "15 minutes",
+      "sum": "Demandez à l'IA d'expliquer comment le code fonctionne avant de décider de le modifier"
+    },
+    "5-design-build": {
+      "title": "Concevoir, construire, nettoyer",
+      "minutes": "20 minutes",
+      "sum": "Fixez le plan pour les gros changements, demandez à d'autres modèles de chercher les failles, retirez ce qui est inutile"
+    },
+    "6-verify-ship": {
+      "title": "Vérifier et livrer",
+      "minutes": "20 minutes",
+      "sum": "Assurez-vous que ça fonctionne vraiment, puis soumettez le tout pour fusion"
+    },
+    "7-overnight": {
+      "title": "La laisser tourner toute seule",
+      "minutes": "15 minutes",
+      "sum": "Donnez-lui vos consignes avant de dormir, lisez son journal le matin"
+    },
+    "8-make-it-yours": {
+      "title": "Une fois à l'aise",
+      "minutes": "Selon vos besoins",
+      "sum": "Recadrez-la en une ligne ; empêchez la même erreur de se reproduire"
+    }
+  },
+  "howtoGroups": {
+    "real": "Sur de vrais projets",
+    "prove": "Laisser l'IA le prouver",
+    "tools": "Outils et configuration",
+    "prompts": "Prompts",
+    "others": "Retours d'autres utilisateurs"
+  },
+  "howto": {
+    "fix-bug": "Corriger un bug : reproduire, corriger, le prouver",
+    "add-feature": "Ajouter une fonctionnalité sans casser l'existant",
+    "refactor": "Refactorer : nouveau code, même comportement",
+    "perf": "Trop lent ? Prouvez que c'est plus rapide, chiffres à l'appui",
+    "new-codebase": "Reprendre un projet inconnu",
+    "review-branch": "Avant de soumettre vos changements, laissez plusieurs IA chercher les failles",
+    "write-docs": "Rédiger des README, de la documentation et des descriptions de PR",
+    "big-migration": "Gros changements : confiez-les le soir, vérifiez le matin",
+    "verify-app": "Donner un skill de vérification à votre projet pour que l'IA vérifie son propre travail",
+    "formal-verify": "Les bugs qui échappent aux tests : la vérification formelle",
+    "claude-code": "L'utiliser dans Claude Code",
+    "cursor": "L'utiliser dans Cursor",
+    "codex": "L'utiliser dans Codex et d'autres outils",
+    "pick-skills": "N'installer que quelques skills",
+    "cost": "Limiter les coûts",
+    "update-remove": "Mettre à jour, inspecter, désinstaller",
+    "recipes": "Prompts à copier-coller",
+    "steer": "La remettre sur les rails en une phrase",
+    "which-skill": "Vous ne savez pas quel skill utiliser",
+    "field-notes": "Ce que d'autres utilisateurs ont appris : astuces à copier, pièges à éviter"
+  },
+  "glossary": {
+    "Agent Skill": {
+      "label": "Agent Skill",
+      "tip": "Un dossier contenant un fichier SKILL.md : des instructions qui apprennent à l'IA comment gérer un type de tâche."
+    },
+    "技能": {
+      "label": "skill",
+      "tip": "Abréviation d'Agent Skill. pstack est un pack de skills."
+    },
+    "SKILL.md": {
+      "label": "SKILL.md",
+      "tip": "Le corps d'un skill : quelques lignes d'en-tête avec son nom et quand l'utiliser, puis les étapes et les règles."
+    },
+    "宿主": {
+      "label": "harness",
+      "tip": "L'outil qui exécute réellement l'IA : Claude Code, Cursor, Codex, etc. pstack s'installe dedans."
+    },
+    "剧本": {
+      "label": "playbook",
+      "tip": "La marche à suivre standard pour un type de tâche. « Corriger un bug » signifie reproduire, trouver la cause racine, corriger, vérifier."
+    },
+    "poteto-mode": {
+      "label": "poteto-mode",
+      "tip": "L'interrupteur principal de pstack. Vous dites ce que vous voulez ; il planifie les étapes lui-même."
+    },
+    "子代理": {
+      "label": "sous-agent",
+      "tip": "Une IA d'appoint que la conversation principale envoie faire une partie du travail ; elle ne renvoie que la conclusion."
+    },
+    "worktree": {
+      "label": "worktree",
+      "tip": "Un second dossier de travail pour le même dépôt Git, afin que plusieurs IA puissent modifier le code en même temps sans entrer en conflit."
+    },
+    "待办清单": {
+      "label": "liste de tâches",
+      "tip": "La liste des étapes que /poteto-mode écrit au départ. Les étapes sautées indiquent pourquoi."
+    },
+    "验证技能": {
+      "label": "skill de vérification",
+      "tip": "Un guide qui apprend à l'IA à ouvrir votre application et à la parcourir en cliquant comme un utilisateur."
+    },
+    "形式化验证": {
+      "label": "vérification formelle",
+      "tip": "Au lieu de tester des exemples, vérifie qu'une règle reste vraie dans tous les cas possibles."
+    },
+    "决策日志": {
+      "label": "journal de décisions",
+      "tip": "Une ligne par décision prise par l'IA : heure, décision, raison, preuve. Vous le lisez le matin."
+    },
+    "原则": {
+      "label": "principes",
+      "tip": "Les 24 principes d'ingénierie de pstack. Chacun a un nom ; dites ce nom pour corriger l'IA."
+    },
+    "token": {
+      "label": "tokens",
+      "tip": "L'unité dans laquelle l'usage de l'IA est mesuré et facturé. pstack envoie plus de sous-agents et lance plus de vérifications, il en consomme donc davantage."
+    },
+    "推理预算": {
+      "label": "budget de raisonnement",
+      "tip": "Le temps que le modèle a le droit de passer à réfléchir. Plus il est élevé, plus c'est rigoureux et plus c'est cher. Par défaut, pstack utilise xhigh."
+    },
+    "PR": {
+      "label": "PR",
+      "tip": "Pull Request : une demande de revue et de fusion d'un ensemble de modifications dans la branche principale."
+    },
+    "斜杠命令": {
+      "label": "commande slash",
+      "tip": "Une commande tapée dans le chat et commençant par /, comme /poteto-mode. Elle appelle un skill par son nom."
+    },
+    "模型角色": {
+      "label": "rôles de modèle",
+      "tip": "pstack découpe le travail en rôles (écrire du code, juger, relire…) ; chaque rôle peut utiliser un modèle différent."
+    },
+    "Custom Mode": {
+      "label": "Custom Mode",
+      "tip": "Le mode persistant de Cursor : le skill reste actif à chaque tour, vous n'avez donc pas à taper /poteto-mode à chaque fois."
+    }
   }
 }

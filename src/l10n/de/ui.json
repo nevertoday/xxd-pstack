@@ -30,13 +30,19 @@
     "start": "Start",
     "home": "Startseite",
     "lessons": "Einsteigerkurs: hier anfangen",
+    "main": "Vollständige Anleitung: wenn du programmierst",
+    "pending": "In Arbeit",
+    "ref": "Nachschlagen",
     "howto": "Kurzanleitungen: wie genau",
     "skills": "Alle 34 Skills im Überblick",
     "wiki": "Wiki: was ist das?",
     "faq": "Häufige Fragen",
     "toc": "Auf dieser Seite",
     "tocLabel": "Auf dieser Seite",
+    "hintMain": "Vollständige Anleitung",
     "hintLesson": "Einsteigerkurs",
+    "hintFaq": "Häufige Fragen",
+    "hintSkill": "Skill",
     "section": "Abschnitt",
     "foot": "Eine inoffizielle Einsteiger-Anleitung zu {pstack}, nicht die offizielle Doku. pstack stammt von poteto (MIT); bei Befehlen und Verhalten gilt, was im offiziellen Repo steht. Quelltext und Feedback zu dieser Anleitung findest du auf {github}.",
     "appearance": {
@@ -66,6 +72,7 @@
       "."
     ],
     "cta": "Neu hier? Fang hier an",
+    "ctaFull": "Ich programmiere: die vollständige Anleitung",
     "ctaNote": "Der Einsteigerkurs: drei Lektionen, 20 Minuten.",
     "painH": "Kennst du das?",
     "PAIN": [
@@ -146,11 +153,157 @@
     "title": "Lektion {n}: {title}",
     "tldr": "In einem Satz"
   },
+  "guide": {
+    "head": "Schritt {n}: {title}",
+    "eyebrow": "Vollständige Anleitung · Schritt {n} von {last}",
+    "prog": "Fortschritt: Schritt {n} von {last}",
+    "need": "Du brauchst: ",
+    "nav": "Vorheriger und nächster Schritt",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "pending": "Weiter (in Arbeit)",
+    "tldr": "In einem Satz"
+  },
+  "howto": {
+    "tldr": "In einem Satz",
+    "for": "Für: ",
+    "step": "Vollständige Anleitung, Schritt {n}: ",
+    "related": "Verwandte Artikel",
+    "more": "Mehr in „{group}“"
+  },
+  "howtoIndex": {
+    "h": "Kurzanleitungen: wie genau",
+    "p": "Eine Aufgabe pro Artikel: Such dir den Artikel, der zu deiner Arbeit passt, kopier den Prompt und pass ihn an."
+  },
+  "faq": {
+    "h": "Häufige Fragen",
+    "p": [
+      "Die Fragen, die beim Einstieg in pstack am häufigsten auftauchen. Deine ist nicht dabei? Stell sie auf ",
+      ", oder drück ",
+      ", um die ganze Seite zu durchsuchen."
+    ]
+  },
+  "notFound": {
+    "h": "Seite nicht gefunden",
+    "p": [
+      "Der Link stimmt vielleicht nicht oder die Seite ist umgezogen. Drück ",
+      " zum Suchen, oder fang hier noch einmal an:"
+    ],
+    "home": "Startseite",
+    "step0": "Einsteigerkurs: Lektion 1",
+    "skills": "Skill-Übersicht",
+    "faq": "Häufige Fragen"
+  },
+  "wikiIndex": {
+    "h": "Wiki: was ist das?",
+    "p1": "Alle Begriffe aus der Anleitung in einfachen Worten erklärt. Jeder Eintrag beginnt mit einem einzigen Satz; lies nur weiter, wenn du mehr wissen willst.",
+    "p2": [
+      "Keine Lust auf den ganzen Artikel? Fahr in der Anleitung mit der Maus über ein gepunktet unterstrichenes Wort für eine Erklärung in einem Satz; ein Klick bringt dich hierher. Wenn du einen Skill beim Namen nachschlagen willst, schau in die ",
+      "Skill-Übersicht",
+      "."
+    ]
+  },
+  "wikiEntry": {
+    "like": "Ein Vergleich",
+    "here": "In pstack",
+    "list": "Liste",
+    "head": [
+      "Name",
+      "In einfachen Worten"
+    ],
+    "myths": "Häufige Missverständnisse",
+    "try": "Probier es aus: ",
+    "step": "Vollständige Anleitung, Schritt {n}: ",
+    "see": "Siehe auch: ",
+    "sep": ", "
+  },
+  "skills": {
+    "h": "Skill-Übersicht",
+    "desc": "Alle {n} pstack-Skills, jeder in einem einfachen Satz: was er tut und wann du ihn nutzt.",
+    "intro": [
+      "{n} Skills, plus ",
+      "24 Prinzipien",
+      ". ",
+      "Du musst sie nicht auswendig lernen.",
+      " Im Alltag tippst du ",
+      " ein, und es ruft die mit „Automatisch“ selbst auf. Komm hierher, um einen gezielt beim Namen aufzurufen oder einen Namen nachzuschlagen, den die KI erwähnt hat. Klick auf eine Karte: Dort siehst du den Unterschied zum einfachen Fragen, den Inhalt des Dokuments und den Volltext."
+    ],
+    "all": "Alle",
+    "auto": "Automatisch",
+    "manual": "Selbst eintippen",
+    "named": "Bei Bedarf aufrufen",
+    "use": "Wann nutzen",
+    "search": "Nach Name oder Aufgabe filtern, z. B. review, langsam, why",
+    "filterLabel": "Wer ihn aufruft",
+    "empty": "Kein Skill passt. Probier weniger Wörter oder wähl „Alle“.",
+    "legend": {
+      "auto": "/poteto-mode nutzt ihn, wenn ein Schritt ihn braucht",
+      "manual": "Läuft nur, wenn du ihn selbst eintippst",
+      "named": "Tipp ihn ein, wenn du ihn brauchst"
+    },
+    "shown": "{n} angezeigt"
+  },
+  "skillDoc": {
+    "ex": "So sagst du es",
+    "needs": "Installieren mit",
+    "guide": "Ausführliche Anleitung",
+    "sep": ", ",
+    "oneLine": "In einem Satz",
+    "tabs": [
+      "Überblick",
+      "Formulierungen zum Abschauen",
+      "Volltext"
+    ],
+    "tabsLabel": "Abschnitte dieser Seite",
+    "vsH": "Einfach fragen vs. Skill nutzen",
+    "vsP": "Dieselbe Bitte, einfach so getippt oder mit /{name}. Das ändert sich.",
+    "without": "Einfach fragen",
+    "with": "Mit /{name}",
+    "outH": "Was im Dokument steht",
+    "outP": "{secs} Abschnitte, etwa {words} Wörter, {min} Min. Lesezeit. Klick auf einen Abschnitt, um ihn zu lesen.",
+    "outPNoSec": "Etwa {words} Wörter, {min} Min. Lesezeit.",
+    "intro": "Einleitung",
+    "toLearn": "Formulierungen zum Abschauen ansehen",
+    "toFull": "Volltext lesen",
+    "learnH": "Formulierungen zum Abschauen",
+    "learnP": "Ein paar Sätze aus dem Original: was jeder bei der KI bewirkt, warum es funktioniert und wie du ihn übernehmen kannst.",
+    "does": "Bringt die KI dazu",
+    "why": "Warum es funktioniert",
+    "try": "Zum Übernehmen",
+    "fullH": "Volltext",
+    "fullP": "Die SKILL.md, die die KI liest – genau so, wie sie geschrieben ist.",
+    "modes": {
+      "tr": "Übersetzung",
+      "en": "Original",
+      "both": "Nebeneinander"
+    },
+    "jump": "Springen zu",
+    "jumpTop": "Nach oben",
+    "credit": [
+      "Original von Lauren Tan (poteto), MIT-Lizenz. Abgeglichen mit dem pstack-Spiegel, Stand",
+      "."
+    ],
+    "open": "Auf GitHub ansehen",
+    "moreH": "Mehr in „{group}“",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "tr": {
+      "fullP": "Die SKILL.md, die die KI liest. Lies die Übersetzung, das Original oder beides nebeneinander.",
+      "credit": [
+        "Original von Lauren Tan (poteto), MIT-Lizenz. Übersetzt von dieser Seite; abgeglichen mit dem pstack-Spiegel, Stand",
+        "."
+      ]
+    }
+  },
   "callout": {
     "ok": "Das solltest du sehen",
     "warn": "Achtung",
     "no": "Lieber nicht",
     "tip": "Tipp"
+  },
+  "checkpoint": {
+    "title": "Bevor du weitergehst, prüf kurz",
+    "done": "Alles abgehakt – auf zum nächsten Schritt."
   },
   "copy": {
     "title": "Zum Kopieren",
@@ -163,13 +316,29 @@
   "reply": {
     "title": "Illustration: So ungefähr sieht die Antwort aus"
   },
+  "tabs": {
+    "label": "Auswählen"
+  },
+  "shot": {
+    "stamp": "Screenshot {date}; die Oberfläche kann sich seitdem geändert haben."
+  },
   "feedback": {
     "lead": "Ist auf dieser Seite etwas unklar, oder hat etwas nicht wie beschrieben geklappt?",
-    "gh": "Sag es auf GitHub"
+    "gh": "Sag es auf GitHub",
+    "faq": [
+      ". Oder schau zuerst in die ",
+      "FAQ",
+      "."
+    ]
   },
   "contact": {
     "h": "Fragen und Austausch",
     "p": "Bei einem Schritt hängen geblieben, etwas Unklares gefunden oder mit pstack etwas gebaut, das du zeigen willst? Bring es auf GitHub. Fragen, die oft kommen, landen in der Anleitung. Du kannst gern auf Deutsch schreiben.",
+    "faq": [
+      "Bevor du fragst, schau in die ",
+      "FAQ",
+      ": Viele Antworten stehen schon dort."
+    ],
     "btn": "Auf GitHub fragen oder diskutieren",
     "x": "Der Autor auf X",
     "privacy": "Bevor du Screenshots schickst: Mach API-Schlüssel, Firmencode und Kontodaten unkenntlich."

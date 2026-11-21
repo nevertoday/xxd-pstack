@@ -1,0 +1,50 @@
+{
+  "description": "Reformula con tus propias palabras cuáles crees que son los objetivos del usuario y qué problema intenta resolver. Úsala para /in-your-own-words.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Repite tus mismas palabras, así que no sabes si entendió.",
+        "with": "Reformula tus objetivos con sus propias palabras."
+      },
+      {
+        "without": "Repite la tarea y pasa por alto lo que te bloquea.",
+        "with": "Nombra por separado el problema que intentas resolver."
+      },
+      {
+        "without": "Da por sentada su interpretación de lo que pediste.",
+        "with": "Expone lo que cree que quieres para que lo veas."
+      }
+    ],
+    "intro": "Hace que la IA reformule, con sus propias palabras, cuáles cree que son tus objetivos y qué problema estás resolviendo.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate in your own words",
+      "quoteTr": "Reformula con tus propias palabras",
+      "title": "Pídele sus propias palabras",
+      "does": "La IA no repite tus palabras; lo cuenta tal como lo entiende, así que cualquier malentendido se nota al instante.",
+      "why": "Repetir lo que dices oculta si entendió; sus propias palabras dejan ver cualquier desajuste.",
+      "try": "Después de darle una tarea, pregunta primero: «Antes de empezar, dime con tus propias palabras qué planeas cambiar»."
+    },
+    {
+      "quote": "what you think the user's goals are",
+      "quoteTr": "cuáles crees que son los objetivos del usuario",
+      "title": "Pídele su suposición",
+      "does": "Expone lo que entendió para que lo corrijas, en lugar de darlo por hecho y ponerse a trabajar.",
+      "why": "«Cuáles crees» convierte lo que entendió en una suposición que se puede descartar, fácil de decir para la IA y de corregir para ti.",
+      "try": "Plantéalo como una suposición: «Dime qué crees que me importa más, la velocidad o la estabilidad»."
+    },
+    {
+      "quote": "what problem they're trying to solve",
+      "quoteTr": "qué problema intenta resolver",
+      "title": "Pídele el objetivo y el problema por separado",
+      "does": "Dice qué quieres lograr y qué te bloquea, así que ves en qué mitad se equivocó.",
+      "why": "El objetivo es adónde quieres llegar y el problema es lo que se interpone; pedir ambos muestra dónde está el desajuste.",
+      "try": "Pide ambos: «Dime qué intento lograr y qué me frena ahora mismo»."
+    }
+  ],
+  "blocks": [
+    "Reformula con tus propias palabras cuáles crees que son los objetivos del usuario y qué problema intenta resolver."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "description": "Passe périodique qui garde fidèles à la réalité le skill de vérification et la carte des fonctionnalités d'un projet : des lecteurs de code source en parallèle par fonctionnalité, une session en conditions réelles qui pilote chaque fonctionnalité, et au plus une PR de corrections prouvées. À utiliser pour /maintain-verification-skill ou « auditer le skill de vérification ».",
+  "brief": {
+    "compare": [
+      {
+        "without": "Réécrit la documentation pour masquer une fonctionnalité cassée.",
+        "with": "Modifie uniquement les fichiers du skill de vérification et vous signale les bugs produit."
+      },
+      {
+        "without": "Continue de piloter une instance dans un état inconnu.",
+        "with": "Lance Doctor après tout échec de pilotage avant de piloter à nouveau."
+      },
+      {
+        "without": "Ouvre une PR même quand rien n'a changé.",
+        "with": "Ouvre une seule PR, uniquement pour des modifications prouvées, et nomme le résultat."
+      }
+    ],
+    "intro": "Une carte des fonctionnalités devient obsolète quand l'application change ; cette passe vérifie donc chaque fonctionnalité dans le code source et exécute chaque fonctionnalité en conditions réelles.",
+    "sections": [
+      "Aboutit à l'un des trois résultats suivants : « clean » sans PR, « changed » avec une PR, ou « blocked » avec la raison exacte.",
+      "Modifie uniquement le dossier du skill de vérification. Le code produit reste intact, et ce qui est vraiment cassé vous est signalé.",
+      "Sept étapes : trouver le skill, nettoyer l'index, lire le code source par fonctionnalité, fusionner, exécuter chaque fonctionnalité en conditions réelles, faire le triage, puis livrer ou s'arrêter."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "The unit of rigor is the feature, not every sentence",
+      "quoteTr": "L'unité de rigueur est la fonctionnalité, pas chaque phrase",
+      "title": "Préciser où s'applique la rigueur",
+      "does": "L'IA vérifie chaque fonctionnalité sans décortiquer chaque phrase ni bloquer la passe.",
+      "why": "Nommer l'unité qui exige de la rigueur indique à l'IA ce qui doit être couvert à fond et ce qui peut passer.",
+      "try": "Quand l'IA relit un long document, écrivez : « Vérifie chaque chapitre, mais ne pinaille pas sur chaque mot. »"
+    },
+    {
+      "quote": "Required even when source looks clean.",
+      "quoteTr": "Obligatoire même quand le code source semble propre.",
+      "title": "Bloquer le raccourci tentant",
+      "does": "Même quand le code a l'air bon, l'IA ouvre l'application et utilise chaque fonctionnalité.",
+      "why": "Nommer le cas précis dont l'IA se servirait comme excuse marche mieux que de dire simplement « obligatoire ».",
+      "try": "Quand l'IA vérifie des données, ajoutez : « Même si tout a l'air juste, vérifie à la main 5 lignes prises au hasard. »"
+    },
+    {
+      "quote": "Several candidates → ask which one; none → stop and point at `/create-verification-skill` instead of inventing a target.",
+      "quoteTr": "Plusieurs candidats → demandez lequel ; aucun → arrêtez-vous et renvoyez vers `/create-verification-skill` au lieu d'inventer une cible.",
+      "title": "Relier chaque cas par une flèche",
+      "does": "S'il y a plusieurs correspondances, l'IA vous demande ; s'il n'y en a aucune, elle s'arrête. Elle n'en choisit pas une elle-même et n'en invente pas.",
+      "why": "Chaque cas pointe vers son action par une flèche, et tous les cas sont listés, donc aucun ne passe à la trappe.",
+      "try": "Pour nettoyer des fichiers, écrivez : « Plus de 10 → demande-moi d'abord ; aucun → dis-le-moi, n'en crée pas. »"
+    },
+    {
+      "quote": "require a concrete source path before calling one missing",
+      "quoteTr": "exigez un chemin concret dans le code source avant d'en déclarer une manquante",
+      "title": "Fixer une exigence pour chaque conclusion",
+      "does": "Quand l'IA dit qu'une fonctionnalité manque à la carte, elle indique toujours où elle se trouve dans le code.",
+      "why": "Dire quelles preuves une conclusion exige empêche l'IA de signaler des problèmes sur une simple intuition.",
+      "try": "Quand l'IA vérifie un site, écrivez : « Avant de dire qu'un lien est cassé, colle l'erreur obtenue en l'ouvrant. »"
+    }
+  ],
+  "blocks": [
+    "# Maintenir un skill de vérification",
+    "Une carte des fonctionnalités se périme dès que l'application change. Ce skill est la boucle d'entretien d'un skill généré par `/create-verification-skill` (ou de tout skill de vérification local au projet doté d'une carte des fonctionnalités). L'unité de rigueur est la fonctionnalité, pas chaque phrase : couvrez chaque fichier de fonctionnalité à partir du code source et testez chaque fonctionnalité en conditions réelles, sans vous acharner sur chaque puce.",
+    "## Résultats",
+    "Choisissez-en un et dites lequel :",
+    "- **clean** — chaque fonctionnalité a été couverte dans le code source et en conditions réelles ; rien ne mérite d'être livré. Pas de branche, pas de PR.\n- **changed** — une seule PR livre des corrections prouvées de la documentation, du harness ou de la carte.\n- **blocked** — la couverture n'a pas pu se terminer ou un correctif prouvé n'a pas pu être livré en toute sécurité. Dites exactement ce qui a bloqué.",
+    "## Périmètre de modification",
+    "Ne modifiez que le répertoire du skill de vérification (son SKILL.md, features/ et tout script de harness qui lui appartient). Ne modifiez jamais le code produit pendant une exécution : un comportement décrit par la carte que l'application n'a plus est soit une dérive de la documentation (corrigez la carte), soit une régression produit (signalez-la, ne la masquez pas dans la documentation).",
+    "## Passe",
+    "0. **Localiser la cible.** Trouvez le skill de vérification à maintenir : le skill local au projet dont le corps comporte des sections de lancement/pilotage et une carte des fonctionnalités (en général `verify-*/` dans le dossier des skills du projet : `.cursor/skills/`, `.claude/skills/`, `.pi/skills/` ou `.agents/skills/`). Plusieurs candidats → demandez lequel ; aucun → arrêtez-vous et renvoyez vers `/create-verification-skill` au lieu d'inventer une cible.",
+    "1. **Hygiène de l'index.** Lisez le README de la carte des fonctionnalités et listez par glob ses fichiers voisins. Corrigez les entrées manquantes, en trop, en doublon ou mortes. Léger ; pas d'inventaire généré.",
+    "2. **Vague d'analyse du code source.** Un sous-agent en lecture seule par fichier de fonctionnalité, tous lancés en parallèle. Chacun explique « comment fonctionne cette fonctionnalité côté utilisateur ? » à partir du code source, signale les dérives probables de la documentation avec références à l'appui, et renvoie un scénario concis de vérification en conditions réelles. Les sous-agents enfants ne pilotent jamais l'application et ne modifient jamais de fichiers. Format de retour : résumé de la fonctionnalité / points d'entrée dans le code source / dérive probable ou aucune / un scénario.",
+    "3. **Réconcilier.** Chaque fichier de fonctionnalité dispose d'un résumé retourné. Fusionnez les scénarios qui se recoupent en aussi peu d'états d'application que raisonnable. Vérifiez par sondage les dérives signalées ; ne prouvez pas de nouveau ce qui est annoncé conforme. Passez en revue les modifications récentes pour repérer les surfaces côté utilisateur qui manquent à la carte — exigez un chemin concret dans le code source avant d'en déclarer une manquante.",
+    "4. **Passe en conditions réelles.** Obligatoire même quand le code source semble propre. Le coordinateur assure tout le pilotage ; suivez le modèle de lancement propre au skill de vérification — une instance persistante pilotée de façon séquentielle pour les serveurs et les interfaces utilisateur, ou une nouvelle session isolée par pilotage pour les CLI de courte durée (c'est la section Launch du skill qui décide, pas celle-ci). Testez chaque fonctionnalité au moins une fois et maintenez trois invariants pendant toute la passe, quel que soit l'échec : (1) ne pilotez jamais une instance dont vous n'avez pas vérifié l'état de santé depuis son dernier comportement surprenant — lancez doctor avant le premier pilotage, doctor sur chaque nouvelle session lorsque la session est l'unité, doctor à nouveau après tout échec de pilotage, et là où doctor ne peut pas voir la défaillance (un état d'interface bloqué sur un processus sain), réinitialisez vers un état connu ou relancez plutôt que de croiser les doigts ; (2) les preuves collectées jusque-là survivent à chaque nettoyage, ce qui doit être vérifié à leur emplacement nommé et non supposé ; (3) rien de ce qu'un pilotage a lancé ne survit au-delà de l'utilité de ce pilotage — les résidus d'une itération échouée sont nettoyés que la session soit bloquée, terminée ou partagée (pour une instance partagée, nettoyez les résidus, pas l'instance). Un échec de doctor causé par une dérive du skill est une dérive : corrigez-la dans le périmètre de modification et réessayez une fois — redémarrez ce que le correctif a invalidé, rien de plus — avant de déclarer la passe `blocked`. Une fonctionnalité inatteignable n'est `verified-unreachable` qu'avec le prérequis concret (authentification, droits d'accès, OS, état externe) et le parcours tenté ; si la carte omet ce prérequis, c'est une dérive. Tout correctif du harness issu du triage est piloté de nouveau en conditions réelles avant d'être livré. Le nettoyage final a lieu après le dernier pilotage de l'exécution — y compris ces nouvelles vérifications — afin que rien ne survive à l'exécution (les preuves restent en place, conformément au skill).",
+    "5. **Triage.** Description du point de vue utilisateur erronée ou manquante → dérive de la documentation, corrigez-la. Comportement qui fonctionne mais que le harness ne parvient pas à piloter → lacune du harness, corrigez-la ; un correctif du harness suit la même règle sur les scripts auxiliaires qu'à la génération (scripts exécutables, appel documenté dans le corps du skill). Comportement de l'application vraiment cassé → lacune produit ; notez-la pour l'utilisateur et gardez-la hors de cette PR.",
+    "6. **Livrer ou s'arrêter.** Pour « changed » : une seule PR de corrections prouvées ; relisez d'abord chaque fichier modifié. Pour « clean » ou « blocked » : pas de PR, rendez compte honnêtement du résultat et de la couverture.",
+    "Conservez des notes d'exécution concises (fonctionnalités couvertes, prérequis des fonctionnalités inatteignables, dérives confirmées, résultat) dans un emplacement temporaire ; ne les commitez pas."
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "description": "Úsala para «interrogate», «revisión adversarial», «revisión multimodelo», «cuestiona esto», «haz una prueba de estrés a este código», «busca puntos ciegos» o «destroza esto». Los adversarios intentan romper un cambio o un diseño, y solo sobreviven los hallazgos demostrados con una ejecución.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Rellena la lista con opiniones sobre estilo y nombres.",
+        "with": "Muestra cada hallazgo con el comando, su salida real y la salida esperada."
+      },
+      {
+        "without": "Acepta todo lo que un revisor afirme que está roto.",
+        "with": "Vuelve a ejecutar el comando de cada hallazgo y descarta los que no muestren el fallo."
+      },
+      {
+        "without": "Arregla el código en cuanto detecta un problema.",
+        "with": "Solo devuelve un informe. Tú decides qué arreglar."
+      }
+    ],
+    "intro": "Dice que los adversarios intentan romper el cambio, que solo cuentan los hallazgos demostrados con una ejecución y que informa sin arreglar nada.",
+    "sections": [
+      "Toma por defecto el diff de toda la rama, reformula la intención con `in-your-own-words` y te pregunta cuando la intención no está clara.",
+      "Reutiliza los pasos de lanzamiento de `arena` y le da a cada adversario su propio worktree (carpeta de trabajo adicional del mismo repositorio Git) y la misma consigna de «rompe este cambio».",
+      "Vuelve a ejecutar el comando de cada hallazgo, lo conserva solo si falla y rompe la intención, y fusiona las causas raíz compartidas.",
+      "Presenta tres partes: la intención reformulada, cada hallazgo verificado con quién lo encontró y la cantidad de hallazgos descartados de cada adversario con sus motivos."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Adversaries try to break a change or a design.",
+      "quoteTr": "Los adversarios intentan romper un cambio o un diseño.",
+      "title": "Dale a la IA el papel de oponente",
+      "does": "Las IA ayudantes no están ahí para avalar el código. Su trabajo es romperlo.",
+      "why": "«Adversario» y «romper» convierten «échale un vistazo» en «derrótalo», así que la IA busca más a fondo.",
+      "try": "Cuando la IA revise un plan, dile: «Eres el competidor más duro. Demuestra que este plan no va a funcionar»."
+    },
+    {
+      "quote": "Report each finding with a title, the exact command, the output it printed, and the output the intent requires.",
+      "quoteTr": "Informa de cada hallazgo con un título, el comando exacto, la salida que imprimió y la salida que exige la intención.",
+      "title": "Pon lo real junto a lo esperado",
+      "does": "Cada problema viene con el comando, lo que imprimió y lo que debería imprimir, para que puedas volver a ejecutarlo.",
+      "why": "Escribir «qué pasó» junto a «qué debería pasar» muestra la diferencia al instante y no deja margen para rodeos.",
+      "try": "Cuando la IA informe de bugs, escribe: «Para cada uno: qué hiciste, qué viste, qué esperabas ver»."
+    },
+    {
+      "quote": "Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter.",
+      "quoteTr": "Deja fuera todo lo que no hayas ejecutado. Eso incluye estilo, nombres, estructura y riesgos que necesiten un cambio futuro para importar.",
+      "title": "Nombra qué abarca la regla",
+      "does": "No rellenará la lista con nombres, estilo ni «podría romperse más adelante». Cada hallazgo se ejecutó de verdad.",
+      "why": "«Deja fuera lo que no ejecutaste» deja huecos. Nombrar los tipos que más suelen colarse los cierra.",
+      "try": "Cuando la IA busque problemas, escribe: «Informa solo de lo que impida que un cliente pague. Colores, redacción y riesgos futuros no cuentan»."
+    },
+    {
+      "quote": "No findings is a valid result.",
+      "quoteTr": "Que no haya hallazgos es un resultado válido.",
+      "title": "Di que «nada» es una buena respuesta",
+      "does": "Cuando el código está bien, lo dice en lugar de inventar problemas para aparentar que trabaja.",
+      "why": "Una IA a la que se le pide buscar problemas siente que debe encontrar algunos. Decirle que un resultado vacío cuenta le quita esa presión.",
+      "try": "Cuando la IA revise tu trabajo, añade: «Si no encuentras errores tipográficos, responde simplemente “ninguno encontrado”»."
+    }
+  ],
+  "blocks": [
+    "# Interrogate",
+    "Los adversarios intentan romper un cambio o un diseño. Un hallazgo solo sobrevive cuando una ejecución lo demuestra. Informa de los hallazgos. No apliques correcciones.",
+    "## Encuadre",
+    "El alcance es lo que indique el usuario. De lo contrario, es el diff de la rama desde su base de fusión con la rama base hasta el árbol de trabajo. Formula la intención con la skill **in-your-own-words**, a partir del mensaje del usuario, los commits y la descripción del PR. Pregunta al usuario cuando la intención no esté clara.",
+    "## Distribución",
+    "Ejecuta la fase A (pasos 3 y 4) y la fase B de la skill **arena**, con cuatro cambios. Lee la línea `interrogate reviewers` en lugar de `arena runners`. Copia los cambios sin commit del alcance en cada worktree. Lanza cada adversario como un subagente de propósito general (`generalPurpose` en Cursor). En lugar de la tarea y la justificación de arena, dale a cada adversario el alcance, la intención y esta consigna:",
+    "> Rompe este cambio. Demuestra cada hallazgo con una ejecución sobre el código real, como un test que falle, un script de reproducción o la salida de un comando que muestre el comportamiento incorrecto. Para un diseño o un plan, ejecuta un prototipo o sondea el árbol actual. Guarda los casos de reproducción en tu propio worktree. Informa de cada hallazgo con un título, el comando exacto, la salida que imprimió y la salida que exige la intención. Deja fuera todo lo que no hayas ejecutado. Eso incluye estilo, nombres, estructura y riesgos que necesiten un cambio futuro para importar. Que no haya hallazgos es un resultado válido.",
+    "## Verificación",
+    "Verifica cada hallazgo según la fase F de arena volviendo a ejecutar su comando. Conserva un hallazgo cuando la salida muestre el fallo y el fallo rompa la intención. Descarta el resto. Fusiona los hallazgos que compartan causa raíz.",
+    "Omite las fases C, D y E de arena. Los adversarios encuentran fallos distintos, así que el veredicto conserva todos los hallazgos verificados, no la lista de un solo adversario.",
+    "## Salida",
+    "- **Intención**: la reformulación.\n- **Hallazgos**: para cada hallazgo verificado, el comando, su salida, cómo rompe la intención y los adversarios que lo encontraron. Di «sin hallazgos verificados» cuando ninguno sobreviva.\n- **Descartados**: para cada adversario, la cantidad de hallazgos descartados y el motivo."
+  ]
+}

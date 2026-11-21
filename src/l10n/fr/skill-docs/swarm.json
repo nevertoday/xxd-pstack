@@ -1,0 +1,79 @@
+{
+  "description": "Déploie N workers en parallèle, attend qu'ils aient tous terminé et renvoie un seul rapport. À utiliser pour /swarm, « lance un swarm là-dessus », ou pour une couverture en parallèle, des courses, des batteries de contrôles et de l'exploration.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Vous colle la sortie brute des IA d'appoint.",
+        "with": "Fusionne les résultats dans un seul tableau, une ligne par problème, avec les lacunes listées à part."
+      },
+      {
+        "without": "Considère qu'une IA d'appoint qui n'a rien renvoyé a réussi.",
+        "with": "Relance une fois en cas de résultat manquant, puis consigne une lacune. Une lacune n'est pas un succès."
+      },
+      {
+        "without": "S'arrête au premier problème trouvé.",
+        "with": "Liste chaque problème qu'il peut prouver et marque les résultats `PASS`, `ISSUES` ou `BLOCKED`."
+      }
+    ],
+    "intro": "",
+    "sections": [
+      "Ouvre une liste de tâches avec une entrée par phase : Cadrage, Déploiement, Agrégation et Rapport.",
+      "Énonce le critère de fin, choisit un découpage en tranches ou une course, fixe d'abord la règle de la course, et précise les SHA et la méthode pour les mesures.",
+      "Lance tous les workers en un seul message, dans le cloud par défaut. Chaque brief se suffit à lui-même : objectif, périmètre, vérification, format du rapport.",
+      "Lit les résultats finaux, relance une fois ceux qui ont omis les SHA ou la méthode, consigne une lacune au-delà, et applique la règle de la course.",
+      "Renvoie un seul rapport dans le chat : un tableau de résultats, une ligne par problème, les lacunes et les abandons, ainsi que la règle de la course utilisée."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Every brief stands alone.",
+      "quoteTr": "Chaque brief se suffit à lui-même.",
+      "title": "Rendez chaque brief autonome",
+      "does": "Chaque IA d'appoint reçoit l'objectif complet, le périmètre et la méthode de vérification, afin qu'aucune ne dévie par manque de contexte.",
+      "why": "Les IA d'appoint ne voient pas votre chat, ce qui oblige l'IA à écrire le contexte au lieu de le tenir pour acquis.",
+      "try": "Quand vous confiez une tâche, ajoutez : « Écris-le pour qu'un nouveau collègue qui a manqué notre discussion puisse s'en charger. »"
+    },
+    {
+      "quote": "A gap does not count as a pass.",
+      "quoteTr": "Une lacune ne compte pas comme un succès.",
+      "title": "Dites ce que signifie un résultat manquant",
+      "does": "Quand une IA d'appoint ne renvoie rien, le rapport signale la lacune au lieu de compter cela comme un succès.",
+      "why": "Les IA ont tendance à lire « aucune erreur » comme « aucun problème » ; décider à l'avance ce que signifie un retour vide ferme cette porte.",
+      "try": "Ajoutez à une liste de contrôle : « Les pages que tu n'as pas vérifiées comptent comme en échec ; liste-les à part. »"
+    },
+    {
+      "quote": "For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.",
+      "quoteTr": "Pour une course ou une configuration mixte, déclarez `first pass`, `rank all` ou `best-of` avant le lancement.",
+      "title": "Fixez d'abord la règle de victoire",
+      "does": "Quand plusieurs IA d'appoint font la course sur une même tâche, la façon de choisir le résultat gagnant est fixée avant le départ, afin qu'elle ne puisse pas changer après coup.",
+      "why": "Des règles fixées avant les résultats empêchent l'IA de choisir le critère qui arrange le résultat.",
+      "try": "Dites avant de commencer : « Sur les trois versions, on garde celle qui charge le plus vite. » Puis commencez."
+    },
+    {
+      "quote": "lists every issue it can prove, not only the first",
+      "quoteTr": "liste chaque problème qu'il peut prouver, pas seulement le premier",
+      "title": "Demandez-les tous, pas seulement le premier",
+      "does": "Il liste chaque problème qu'il peut prouver, au lieu de s'arrêter au premier.",
+      "why": "Les IA ont tendance à s'arrêter à la première trouvaille ; préciser « pas seulement le premier » casse cette habitude.",
+      "try": "Pour une relecture de contrat : « Trouve chaque clause qui joue contre moi, pas seulement la première. »"
+    }
+  ],
+  "blocks": [
+    "# Swarm",
+    "## Démarrage",
+    "Ouvrez une liste de tâches avec une entrée par phase avant de lancer quoi que ce soit.",
+    "1. Cadrage\n2. Déploiement\n3. Agrégation\n4. Rapport",
+    "## Phase A : cadrage",
+    "1. Énoncez le critère de fin ainsi que l'artefact ou le rapport que le swarm doit renvoyer.\n2. Choisissez la configuration. Découpez en tranches, mettez N workers en course sur des briefs identiques, ou combinez les deux. Pour une course ou une configuration mixte, déclarez `first pass`, `rank all` ou `best-of` avant le lancement.\n3. Choisissez le modèle des workers à partir de la ligne `swarm workers` du fichier de paramètres pstack (`~/.cursor/rules/pstack-models.mdc` dans Cursor, `~/.claude/rules/pstack-models.md` dans Claude Code, `~/.agents/pstack-models.md` dans les autres harness). Si le fichier ou cette ligne manque, utilisez `claude-opus-5-5-high-fast`. Pour `auto` ou `inherit-parent`, omettez `model` afin que les workers tournent sur le modèle parent. Si votre outil de sous-agent rejette un slug, utilisez la valeur par défaut et dites-le. S'il rejette la valeur par défaut, utilisez le slug valide le plus proche de la même famille, tiré de son message d'erreur ou de la liste des modèles de votre harness. Pour une course de modèles, nommez à l'avance le modèle de chaque variante. Choisissez le niveau de raisonnement de chaque sous-agent selon la tâche, conformément à la section Sous-agents du skill **poteto-mode**.\n4. Donnez à chaque worker sa propre sortie accessible en écriture lorsqu'il écrit. Lorsque des workers vérifient ou mesurent des commits, chaque brief indique les SHA exacts. Un brief de mesure indique aussi la méthode (nombre d'échantillons, ce que représente un échantillon, ordre). Le worker consigne les deux dans son résultat.",
+    "## Phase B : déploiement",
+    "Lancez les N workers en un seul message avec `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true` et le modèle de l'étape 3, laissé non défini pour `auto` ou `inherit-parent`. N'utilisez `environment: \"local\"` que lorsque le worker a besoin d'accéder à quelque chose sur l'ordinateur de l'utilisateur.",
+    "Lorsqu'un worker doit partir d'une branche poussée autre que celle par défaut, passez `cloud_base_branch`.",
+    "**Autres harness.** Ces paramètres appartiennent à l'outil `Task` de Cursor, et `environment: \"cloud\"` exécute un agent cloud Cursor. Dans un autre harness, utilisez son outil de sous-agent : `Agent` dans Claude Code (`subagent_type: general-purpose`), `task` dans OpenCode (`subagent_type: general`), `spawn_agent` dans Codex. Les workers y tournent en local, donc donnez à chacun son propre worktree ou son propre chemin de sortie. Conservez le brief et le modèle. Retirez les paramètres que votre outil ne possède pas. Si votre harness n'a pas d'outil de sous-agent, comme Pi sans extension, exécutez les workers vous-même, l'un après l'autre.",
+    "Chaque brief se suffit à lui-même. Indiquez l'objectif, le périmètre, la tranche exacte ou la variante de la course, comment vérifier et quoi rapporter. Les rapports utilisent `PASS`, `ISSUES` ou `BLOCKED` avec des preuves. Un worker qui peut prouver un défaut renvoie `ISSUES` et liste chaque problème qu'il peut prouver, pas seulement le premier.",
+    "Si un worker abandonne, continuez avec N-1 et notez-le.",
+    "## Phase C : agrégation",
+    "Lisez les résultats finaux. Écartez tout résultat qui ne consigne pas les SHA et la méthode indiqués dans son brief, et relancez ce worker une fois. Après un second échec, consignez une lacune. Une lacune ne compte pas comme un succès. Pour une couverture, chaque tranche requise doit avoir un résultat. Pour une course, appliquez la règle de sélection déclarée à l'avance. Utilisez « first pass », « rank all » ou « best-of ». Ne collez pas les sorties brutes des workers.",
+    "## Phase D : rapport",
+    "Renvoyez un seul rapport consolidé dans le chat avec un tableau de résultats, une ligne par problème, les lacunes ou les abandons, ainsi que la règle de la course quand elle est utilisée."
+  ]
+}

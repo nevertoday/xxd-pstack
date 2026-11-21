@@ -1,0 +1,77 @@
+{
+  "description": "Descubra o que uma mudança pode quebrar em outro lugar antes de ir para o ar, além do diff, e prove o único fato que a torna segura rodando código de verdade em vez de escrever um relatório. Use para “raio de impacto de X”, “o que isso pode quebrar” ou para revisar um diff pequeno em que você não confia.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Devolve um relatório que parece convincente.",
+        "with": "Encontra um ou dois fatos de que a segurança depende e prova isso rodando código."
+      },
+      {
+        "without": "Faz grep nos pontos de chamada e dá por encerrado.",
+        "with": "Lê o código-fonte e a versão da biblioteca e segue dados e timing que o grep não vê."
+      },
+      {
+        "without": "Lista uma sequência longa de “talvez”.",
+        "with": "Dá a cada risco um `file:line`, a probabilidade, o custo e um jeito de verificar."
+      }
+    ],
+    "intro": "Diz que a skill encontra o que uma mudança quebra em outro lugar, faz par com `how` e `why`, e vai além do que o grep mostra.",
+    "sections": [
+      "Classifica cada fato-chave em cinco níveis, de “você só falou” até “reproduzido no app rodando”, e diz onde parou.",
+      "Lê a mudança, encontra o único fato de segurança, vai além do grep, pesa os riscos e prova com um script. Mudanças grandes vão para `arena`.",
+      "Devolve cinco partes: o que faz, o fato de segurança e a prova dele, os riscos, o que foi descartado e o teste pré-merge mais barato."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "A blast-radius writeup that sounds right is worthless.",
+      "quoteTr": "Um relatório de raio de impacto que parece certo não vale nada.",
+      "title": "Diga que parecer certo não vale nada",
+      "does": "Não devolve uma redação convincente; roda código para provar o ponto que importa.",
+      "why": "Dizer que “parece certo” e “está certo” são coisas diferentes impede a IA de tratar um texto bem escrito como resultado.",
+      "try": "Quando pedir uma verificação, acrescente: “Por mais convincente que pareça o texto, isso não conta. Me mostre um resultado que eu possa abrir.”"
+    },
+    {
+      "quote": "For each fact the change's safety depends on, get it as far down this list as is cheap, and say where it stopped.",
+      "quoteTr": "Para cada fato de que a segurança da mudança depende, chegue o mais longe que for barato nesta lista e diga onde parou.",
+      "title": "Classifique a certeza em níveis",
+      "does": "Para cada fato-chave, diz até que nível de certeza chegou: só falou, apontou o código ou rodou de verdade.",
+      "why": "Uma escala do mais fraco ao mais forte permite que a IA diga onde parou em vez de um vago “parece tudo certo”.",
+      "try": "Peça um nível para cada afirmação: “Marque cada uma como 1 ouvi dizer, 2 li a fonte, 3 testei por conta própria.”"
+    },
+    {
+      "quote": "Find the one fact it's safe because of.",
+      "quoteTr": "Encontre o único fato que torna a mudança segura.",
+      "title": "Encontre o único fato primeiro",
+      "does": "Em vez de uma lista longa de “talvez”, encontra primeiro o único fato que torna a mudança segura.",
+      "why": "Focar em um único fato custa menos do que listar todas as possibilidades, e a verificação vai mais fundo.",
+      "try": "Pergunte: “Qual é a única premissa de que este plano mais depende? Verifique essa primeiro.”"
+    },
+    {
+      "quote": "Listing the callers is not the job.",
+      "quoteTr": "Listar os pontos de chamada não é o trabalho.",
+      "title": "Descarte a saída fácil",
+      "does": "Não devolve uma lista de pontos de chamada; procura problemas que uma busca não mostra.",
+      "why": "Citar a resposta preguiçosa que a IA daria e depois o pedido real não deixa atalho para ela.",
+      "try": "Descarte o atalho primeiro: “Não liste apenas resultados de busca. Quero os problemas que você só encontra lendo.”"
+    }
+  ],
+  "blocks": [
+    "# Raio de impacto",
+    "Descubra o que uma mudança quebra em outro lugar, antes de ir para o ar. Use para “raio de impacto de X”, “o que isso pode quebrar” ou para revisar um diff pequeno em que você ainda não confia.",
+    "Complemento de `how` e `why`. `how` diz o que o código faz. `why` diz por que ele tem esse formato. Raio de impacto diz o que ele quebra em outro lugar.",
+    "Listar os pontos de chamada não é o trabalho. O agente faz grep nisso em um segundo. O trabalho é o que quebra e o grep não vai mostrar.",
+    "## Não confie no seu próprio relatório",
+    "Um relatório de raio de impacto que parece certo não vale nada. Ele soa convincente sendo verdade ou não. Então não devolva o relatório. Encontre um ou dois fatos de que tudo depende e prove isso rodando código.",
+    "### Quanta certeza você tem",
+    "Para cada fato de que a segurança da mudança depende, chegue o mais longe que for barato nesta lista e diga onde parou.",
+    "1. Você só falou. Não vale nada por si só.\n2. Você apontou a linha. Um `file:line` real ou o próprio código-fonte da biblioteca.\n3. Você mostrou que o caso ruim não pode acontecer. Percorreu a falha passo a passo e ela não chega lá.\n4. Você rodou. Um script ou teste que chama o código real e falha de forma clara se você errar.\n5. Você reproduziu no app rodando.",
+    "O passo 4 costuma ser um script pequeno que importa a mesma biblioteca que vai no app e chama a função exata que preocupa você.",
+    "## Passos",
+    "1. Leia a mudança. O diff, os símbolos que ela adiciona, altera e remove, e o que ela passa a fazer de diferente, incluindo a parte que o diff não deixa explícita. Puxe o PR e os commits dele.\n2. Encontre o único fato que torna a mudança segura. A maioria das mudanças que parecem arriscadas é segura por causa de um único fato, como “esta chamada só remove entradas de cache já mortas e não faz mais nada”. Encontre esse fato. Se ele se sustentar, a maioria dos casos arriscados é descartada de uma vez. Gaste seu tempo aqui, não em uma lista longa de “talvez”.\n3. Olhe onde o grep para. Leia o código-fonte da biblioteca que você chama e verifique a versão fixada e qualquer patch local. Entenda quando as coisas rodam: microtasks, unmount e teardown, Solid versus React. Acompanhe o que uma busca por símbolo deixa passar: o JSON que uma API retorna, uma coluna do banco de dados, um formato de transmissão, outra linguagem lendo os mesmos bytes, uma feature flag, código três saltos adiante.\n4. Trate cada risco com honestidade. Dê uma chance real de acontecer e um custo real se acontecer. Mantenha os riscos que você confirmou. Liste separadamente os que você verificou e descartou. Cite um `file:line` real, uma busca que não encontra nada ainda é uma resposta, e nunca invente um ponto de chamada ou uma API.\n5. Prove o único fato. Escreva um script ou teste que execute o código real, rode e cole o que aconteceu.\n6. Para uma mudança grande ou ampla, rode como uma `arena`. Faça a mesma pergunta para mais de um modelo e junte as respostas. Modelos diferentes pegam bugs reais diferentes.",
+    "## O que entregar",
+    "- **O que faz.** O que mudou, incluindo a parte que não é óbvia.\n- **O único fato que torna a mudança segura.** Apresente o fato, diga até qual passo você chegou e mostre a prova. Se não conseguiu provar, escreva não provado.\n- **Riscos.** Cada um diz como quebra, o `file:line`, a probabilidade, a gravidade e como verificar. Cole a prova para os que importam.\n- **Descartados.** O que você verificou e por que está tudo bem.\n- **Antes de fazer merge.** O teste mais barato ou a repro (reprodução mínima do bug) que pega o bug real, incluindo o script que você escreveu.",
+    "Passe o texto pelo `unslop`, cite código real e remova qualquer informação privada antes de ir para qualquer lugar público.",
+    "**Resposta:** o relatório acima, com o único fato de segurança provado ou marcado como não provado."
+  ]
+}

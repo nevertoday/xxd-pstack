@@ -1,0 +1,50 @@
+{
+  "description": "Reformula a última mensagem em linguagem humana simples, sem jargões.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Enche a resposta de jargões que você não consegue acompanhar.",
+        "with": "Reformula a última mensagem sem jargões."
+      },
+      {
+        "without": "Troca as palavras mantendo o mesmo tamanho.",
+        "with": "Deixa a resposta mais simples e concisa."
+      },
+      {
+        "without": "Responde em pedaços soltos.",
+        "with": "Fala com coerência, como uma pessoa conversando com outra."
+      }
+    ],
+    "intro": "Faz a IA reformular a última mensagem dela sem jargões, de forma mais simples e curta, como uma pessoa conversando com outra.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Restate your last message.",
+      "quoteTr": "Reformule sua última mensagem.",
+      "title": "Aponte o texto a refazer",
+      "does": "A IA só repete a última resposta com outras palavras e não começa nenhum trabalho novo.",
+      "why": "Indicar o alvo, “sua última mensagem”, logo de cara evita que a IA precise adivinhar de qual parte você está falando.",
+      "try": "Aponte o que refazer: “Diga de novo o segundo parágrafo da sua última resposta.”"
+    },
+    {
+      "quote": "State it more simply and concisely",
+      "quoteTr": "Diga isso de forma mais simples e concisa",
+      "title": "Use o original como régua",
+      "does": "A nova versão fica mais curta e mais fácil do que a antiga, não apenas reescrita com outras palavras.",
+      "why": "Com a última mensagem como referência, “mais simples” tem algo com que se comparar.",
+      "try": "Compare com o original: “Metade do tamanho da última versão, mesmo sentido.”"
+    },
+    {
+      "quote": "like one human talking to another",
+      "quoteTr": "como um humano conversando com outro",
+      "title": "Escolha uma cena para o tom de voz",
+      "does": "A IA deixa de soar como um relatório e parece um colega explicando ao seu lado.",
+      "why": "Uma conversa que todo mundo conhece é mais fácil de imitar do que um adjetivo como “mais claro”.",
+      "try": "Dê uma cena para o tom: “Explique esse erro do jeito que você explicaria para um parente que não é da área técnica.”"
+    }
+  ],
+  "blocks": [
+    "Reformule sua última mensagem. Pare de usar jargões e fale com coerência. Diga isso de forma mais simples e concisa, como um humano conversando com outro."
+  ]
+}

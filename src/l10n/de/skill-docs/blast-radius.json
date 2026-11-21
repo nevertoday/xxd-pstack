@@ -1,0 +1,77 @@
+{
+  "description": "Finde vor dem Ausliefern heraus, was eine Änderung über den Diff hinaus an anderer Stelle kaputtmachen könnte. Beweise den einen Fakt, der sie sicher macht, indem du echten Code ausführst, statt es nur aufzuschreiben. Nutze den Skill für „Blast Radius von X“, „Was könnte das kaputtmachen?“ oder beim Prüfen eines kleinen Diffs, dem du nicht traust.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Gibt einen Bericht zurück, der überzeugend klingt.",
+        "with": "Findet die ein oder zwei Fakten, von denen die Sicherheit abhängt, und beweist sie durch laufenden Code."
+      },
+      {
+        "without": "Sucht mit grep nach den Aufrufern und belässt es dabei.",
+        "with": "Liest Quellcode und Version der Bibliothek und folgt Daten und Timing, die grep nicht sieht."
+      },
+      {
+        "without": "Listet eine lange Reihe von Vielleichts auf.",
+        "with": "Gibt jedem Risiko eine `file:line`-Stelle, Wahrscheinlichkeit, Kosten und einen Weg zum Prüfen."
+      }
+    ],
+    "intro": "Hier steht, dass der Skill herausfindet, was eine Änderung an anderer Stelle kaputtmacht, mit `how` und `why` zusammenspielt und über das hinausschaut, was grep zeigt.",
+    "sections": [
+      "Stuft jeden wichtigen Fakt auf fünf Stufen ein – von „du hast es behauptet“ bis „in der laufenden App reproduziert“ – und nennt, wo Schluss war.",
+      "Liest die Änderung, findet den einen Fakt für die Sicherheit, schaut über grep hinaus, wägt Risiken ab und beweist es per Skript. Große Änderungen gehen an `arena`.",
+      "Liefert fünf Teile: was die Änderung tut, den Fakt für die Sicherheit samt Beweis, Risiken, was ausgeräumt wurde, und den günstigsten Test vor dem Merge."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "A blast-radius writeup that sounds right is worthless.",
+      "quoteTr": "Ein Blast-Radius-Bericht, der richtig klingt, ist wertlos.",
+      "title": "Sag klar: Richtig klingen zählt nicht",
+      "does": "Der Skill liefert keinen überzeugenden Aufsatz, sondern führt Code aus, um den entscheidenden Punkt zu beweisen.",
+      "why": "Wenn du klarstellst, dass „klingt richtig“ und „ist richtig“ zweierlei sind, hält die KI flüssigen Text nicht mehr für das Ergebnis.",
+      "try": "Wenn du um eine Prüfung bittest, füg hinzu: „Egal wie überzeugend es sich liest, das zählt nicht. Zeig mir ein Ergebnis, das ich öffnen kann.“"
+    },
+    {
+      "quote": "For each fact the change's safety depends on, get it as far down this list as is cheap, and say where it stopped.",
+      "quoteTr": "Bring jeden Fakt, von dem die Sicherheit der Änderung abhängt, auf dieser Liste so weit nach unten, wie es mit wenig Aufwand geht, und sag, wo Schluss war.",
+      "title": "Gewissheit in Stufen bewerten",
+      "does": "Für jeden wichtigen Fakt sagt dir der Skill, wie sicher er sich ist: nur behauptet, auf den Code gezeigt oder wirklich ausgeführt.",
+      "why": "Eine Stufenleiter von schwach bis stark lässt die KI klar angeben, wo sie aufgehört hat, statt vage „sieht gut aus“ zu sagen.",
+      "try": "Frag bei jeder Behauptung nach einer Stufe: „Markier jede Aussage mit 1 gehört, 2 Quelle gelesen, 3 selbst ausprobiert.“"
+    },
+    {
+      "quote": "Find the one fact it's safe because of.",
+      "quoteTr": "Finde den einen Fakt, der sie sicher macht.",
+      "title": "Zuerst den einen Fakt finden",
+      "does": "Statt einer langen Liste von Vielleichts findet der Skill zuerst den einen Fakt, der die Änderung sicher macht.",
+      "why": "Sich auf einen Fakt zu konzentrieren kostet weniger, als jede Möglichkeit aufzuzählen, und die Prüfung geht tiefer.",
+      "try": "Frag: „Auf welche eine Annahme stützt sich dieser Plan am meisten? Prüf das zuerst.“"
+    },
+    {
+      "quote": "Listing the callers is not the job.",
+      "quoteTr": "Die Aufrufer aufzulisten ist nicht die Aufgabe.",
+      "title": "Den bequemen Ausweg ausschließen",
+      "does": "Der Skill liefert keine Liste von Aufrufern, sondern sucht nach Problemen, die eine Suche nicht zeigen kann.",
+      "why": "Wenn du erst die bequeme Antwort nennst, zu der die KI greifen würde, und dann die eigentliche Aufgabe, bleibt ihr keine Abkürzung.",
+      "try": "Schließ die Abkürzung zuerst aus: „Liste nicht einfach Suchergebnisse auf. Ich will die Probleme, die man erst beim Lesen findet.“"
+    }
+  ],
+  "blocks": [
+    "# Blast Radius",
+    "Finde heraus, was eine Änderung an anderer Stelle kaputtmacht, bevor sie ausgeliefert wird. Nutze diesen Skill für „Blast Radius von X“, „Was könnte das kaputtmachen?“ oder zum Prüfen eines kleinen Diffs, dem du noch nicht traust.",
+    "Ergänzung zu `how` und `why`. `how` sagt dir, was der Code tut. `why` sagt dir, warum er so aufgebaut ist. Blast Radius sagt dir, was er an anderer Stelle kaputtmacht.",
+    "Die Aufrufer aufzulisten ist nicht die Aufgabe. Die kann der Agent in einer Sekunde mit grep finden. Die Aufgabe ist das, was kaputtgeht, ohne dass grep es dir zeigt.",
+    "## Trau deinem eigenen Bericht nicht",
+    "Ein Blast-Radius-Bericht, der richtig klingt, ist wertlos. Er liest sich überzeugend, egal ob er stimmt oder nicht. Gib also nicht einfach den Bericht zurück. Finde die ein oder zwei Fakten, von denen das Ganze abhängt, und beweise sie, indem du Code ausführst.",
+    "### Wie sicher bist du?",
+    "Bring jeden Fakt, von dem die Sicherheit der Änderung abhängt, auf dieser Liste so weit nach unten, wie es mit wenig Aufwand geht, und sag, wo Schluss war.",
+    "1. Du hast es behauptet. Für sich allein wertlos.\n2. Du hast auf die Zeile gezeigt. Eine echte `file:line`-Stelle oder der eigene Quellcode der Bibliothek.\n3. Du hast gezeigt, dass der Problemfall nicht eintreten kann. Du bist den Ausfall Schritt für Schritt durchgegangen, und er kommt nicht bis dorthin.\n4. Du hast es ausgeführt. Ein Skript oder ein Test, der den echten Code aufruft und laut fehlschlägt, wenn du falschliegst.\n5. Du hast es in der laufenden App reproduziert.",
+    "Stufe 4 ist meistens ein kleines Skript, das genau die Bibliothek importiert, die auch die App ausliefert, und exakt die Funktion aufruft, bei der du Bedenken hast.",
+    "## Schritte",
+    "1. Lies die Änderung. Den Diff, die Symbole, die sie hinzufügt, ändert und löscht, und was sie jetzt anders macht – auch den Teil, den der Diff nicht ausdrücklich sagt. Hol dir den PR und seine Commits.\n2. Finde den einen Fakt, der sie sicher macht. Die meisten Änderungen, die riskant aussehen, sind wegen eines einzigen Fakts sicher, etwa „Dieser Aufruf entfernt nur bereits tote Cache-Einträge und tut sonst nichts“. Finde diesen Fakt. Wenn er stimmt, sind die meisten Risikofälle auf einen Schlag ausgeräumt. Steck deine Zeit hier hinein, nicht in eine lange Liste von Vielleichts.\n3. Schau dort hin, wo grep aufhört. Lies den Quellcode der Bibliothek, die du aufrufst, und prüf ihre festgepinnte Version sowie eventuelle lokale Patches. Finde heraus, wann was läuft: Microtasks, Unmount und Teardown, Solid vs. React. Geh dem nach, was eine Symbolsuche übersieht: das JSON, das eine API zurückgibt, eine DB-Spalte, ein Wire-Format, eine andere Sprache, die dieselben Bytes liest, ein Feature-Flag, Code drei Stationen weiter hinten.\n4. Sei bei jedem Risiko ehrlich. Gib ihm eine echte Wahrscheinlichkeit und echte Kosten, falls es passiert. Behalte die Risiken, die du bestätigt hast. Liste die Risiken, die du geprüft und ausgeräumt hast, getrennt auf. Nenn eine echte `file:line`-Stelle – auch eine Suche ohne Treffer ist eine Antwort – und erfinde niemals einen Aufrufer oder eine API.\n5. Beweise den einen Fakt. Schreib ein Skript oder einen Test, der den echten Code ausführt, führ das aus und füg ein, was passiert ist.\n6. Bei einer großen oder weitreichenden Änderung lass das Ganze als `arena` laufen. Stell mehr als einem Modell dieselbe Frage und führ die Antworten zusammen. Verschiedene Modelle finden verschiedene echte Bugs.",
+    "## Was du zurückgibst",
+    "- **Was die Änderung tut.** Was sich geändert hat – auch der Teil, der nicht offensichtlich ist.\n- **Der eine Fakt, der sie sicher macht.** Nenn ihn, sag, bis zu welcher Stufe du gekommen bist, und zeig den Beweis. Wenn du ihn nicht beweisen konntest, schreib „unbewiesen“.\n- **Risiken.** Jedes Risiko nennt, wie etwas kaputtgeht, die `file:line`-Stelle, wie wahrscheinlich und wie schlimm es ist und wie man es prüft. Füg für die wichtigen Risiken den Beweis ein.\n- **Ausgeräumt.** Was du geprüft hast und warum es in Ordnung ist.\n- **Vor dem Merge.** Der günstigste Test oder das günstigste Repro (kurz für Reproduktion), um den echten Bug zu fangen – inklusive des Skripts, das du geschrieben hast.",
+    "Lass den Text durch `unslop` laufen, zitiere echten Code und entferne alles Private, bevor etwas davon öffentlich wird.",
+    "**Antwort:** der Bericht oben, wobei der eine Fakt für die Sicherheit entweder bewiesen oder als unbewiesen markiert ist."
+  ]
+}

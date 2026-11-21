@@ -1,0 +1,96 @@
+{
+  "description": "pstack が役割ごとに使うモデルと推論バジェットを設定します。利用可能なモデルを検出し、スキルのデフォルト設定を上書きする常時適用ルールを書き込みます。/setup-pstack や「pstack のモデルを設定」「pstack の予算」、または pstack のモデル選択を変更したいときに使います。",
+  "brief": {
+    "compare": [
+      {
+        "without": "実際には使えないモデル名を書き込んでしまいます。",
+        "with": "このセッションで呼び出せるモデルを一覧化し、その中にあるものだけを書き込みます。"
+      },
+      {
+        "without": "確認せずに設定を書き込んでしまいます。",
+        "with": "3 つの予算のうちどれにするか尋ね、各役割のモデルを表示してから、OK が出るまで待ちます。"
+      },
+      {
+        "without": "再実行しても、廃止された役割の行がファイルに残ってしまいます。",
+        "with": "廃止された役割を削除してファイル全体を上書きするため、何度実行しても同じ結果になります。"
+      }
+    ],
+    "intro": "Cursor、Claude Code、その他のすべてのハーネス（AI を動かすツール本体）で、設定ファイルの置き場所を一覧にしています。",
+    "sections": [
+      "使えるモデルを見つけるところからファイルの書き込みまで 8 つのステップで進み、最後に 2 つの任意提案があります。",
+      "このセッションでヘルパーの AI に渡せるモデル名を一覧にします。見つからない場合は、使えるモデル名を貼り付けるよう求めます。",
+      "既存のファイルがあれば、その予算と役割の選択を出発点として読み込みます。廃止された役割は削除し、古いセットアップのデフォルト値は新しいものに置き換えて、どれを変えたか伝えます。",
+      "予算を large、medium、small の中から尋ね、各役割の推論レベルを 0〜2 段階下げます（xhigh を超えることはありません）。その後、役割一覧を表示してそのまま採用するか変更するかを確認します。",
+      "選んだモデルがすべて検出リストに含まれており、xhigh 以下であることを確認します。該当しないものがあれば、そこで止まって聞き直します。",
+      "ファイル全体を上書きして、`# defaults: 3` の行、予算の行、そして役割ごとの行を 1 行ずつ書き込みます。Cursor 版では `alwaysApply: true` を追加します。",
+      "どのファイルに書き込んだかを伝えます。Cursor と Claude Code では、新しいセッションから反映されます。",
+      "プロジェクトにアプリを操作する仕組みがない場合、`/create-verification-skill` で 1 つ作成するかどうかを 1 度だけ提案します。",
+      "形式検証スキルがない場合、`/create-formal-verification-skill` を実行するかどうかを 1 度だけ提案します。断られたらそのまま次に進みます。"
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Never write a real slug you have not confirmed is available.",
+      "quoteTr": "利用可能と確認できていない実際のスラッグは、決して書き込まないでください。",
+      "title": "確認できたものだけを書く",
+      "does": "実際に使えるモデルだけが設定に入り、実行を壊す架空のモデル名が混ざることはありません。",
+      "why": "「正確に」と書くよりも、「確認する」という具体的な手順に「決して〜しない」を結びつける方が、はるかにすり抜けにくくなります。",
+      "try": "価格表を頼むとき：「公式サイトで確認できた価格だけを一覧にし、残りは『未確認』と書いてください。」"
+    },
+    {
+      "quote": "Offer these three options with these exact labels, and name the current budget when the rule records one.",
+      "quoteTr": "これら 3 つの選択肢をこの通りのラベルで提示し、ルールに現在の予算が記録されている場合はその予算名も伝えてください。",
+      "title": "選択肢をそのまま明記する",
+      "does": "予算を尋ねるとき、毎回同じ 3 つの選択肢を同じ文言で提示し、現在の設定も合わせて伝えてくれます。",
+      "why": "選択肢をプロンプトに書き出し、そのまま使うよう指定しておくと、AI が言い換えたり、勝手に増やしたり、省いたりするのを防げます。",
+      "try": "アンケートを作るとき：「満足度について、必ず『満足』『ふつう』『不満』の選択肢をそのまま使って尋ねてください。」"
+    },
+    {
+      "quote": "So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`.",
+      "quoteTr": "そのため、`medium` では `claude-opus-5-5-xhigh-fast` が `claude-opus-5-5-high-fast` に、`claude-opus-5-5-high-fast` が `claude-opus-5-5-medium-fast` になり、`small` ではそれぞれ `claude-opus-5-5-medium-fast` と `claude-opus-5-5-low-fast` になります。",
+      "title": "ルールの直後に具体例を添える",
+      "does": "予算に合わせてモデルを正しく切り替えてくれます。たとえば、medium 予算なら各モデルを xhigh から high へ 1 段階下げます。",
+      "why": "抽象的な変換ルールは読み違えやすいものですが、すぐ後ろに具体的な変換例を置くと、AI が自分で答え合わせできるようになります。",
+      "try": "ルールと一緒に例を添えましょう。「金額は 100 単位に四捨五入してください。たとえば 1,260 は 1,300 になります。」"
+    },
+    {
+      "quote": "On no, move on without pushing.",
+      "quoteTr": "断られたら、それ以上勧めずに次へ進んでください。",
+      "title": "1 度だけ聞き、断られたら引く",
+      "does": "検証スキルを 1 度だけ提案し、不要と答えたらそこで引き下がります。",
+      "why": "何回聞くかと、断られたときにどうするかを明記しておくと、AI が追加提案を何度も繰り返すのを防げます。",
+      "try": "AI に文章を書いてもらうとき：「最後に 1 度だけ画像が必要か聞いて構いません。不要と答えたらそこで終わってください。」"
+    }
+  ],
+  "blocks": [
+    "# pstack のセットアップ",
+    "pstack のモデル設定（役割ごとに 1 モデル）を書き込みます：",
+    "- **Cursor**：`~/.cursor/rules/pstack-models.mdc`（常時適用されるルール）。\n- **Claude Code**：`~/.claude/rules/pstack-models.md`。Claude Code は新しいセッションごとに `~/.claude/rules/` 内のすべてのファイルを読み込みます。\n- **その他のすべてのハーネス**（Codex、Pi、OpenCode など）：`~/.agents/pstack-models.md`。これらのハーネスは自動で読み込まないため、pstack のスキルがモデルを選ぶときにこのファイルを読み込みます。",
+    "以下の「設定ファイル」は、使用しているハーネス向けのファイルを指します。Claude Code でそのファイルが見つからない場合は、このスキルの旧バージョンが書き出していた `~/.agents/pstack-models.md` を代わりに読み込んでください。",
+    "## 手順",
+    "### 1. 利用可能なモデルを検出する",
+    "このセッションでサブエージェントに渡せるモデルスラッグを列挙してください（Cursor の `Task`、Claude Code の `Agent`、OpenCode の `task`、Codex の `spawn_agent`）。それが信頼できる情報源です。使用中のハーネスにユーザーのモデル一覧を取得するコマンドがある場合（たとえば `opencode models` や `pi --list-models`）は、網羅性を高めるためそちらを優先してください。1 つも検出できない場合は、利用可能なスラッグを貼り付けてもらうようユーザーに求めてください。利用可能と確認できていない実際のスラッグは、決して書き込まないでください。エイリアスの `inherit-parent` と `auto` は検出されるスラッグではありませんが、常に有効です。",
+    "### 2. 現在の状態を読み込む",
+    "デフォルトの役割とモデルの対応表は、下のステップ 5 に示すルールの形式の通りです。設定ファイルがすでにある場合はそれを読み込み、`# budget` 行と各役割の値を現在の選択として扱ってください。ファイルがない場合は、そのデフォルトから始めます。`hardest tasks`、`architect runners`、`reflect tooling`、`why investigators` など、ステップ 5 に含まれない役割の行は、廃止された役割によるものです。これらは削除してください。",
+    "以前のデフォルトでは、パネル枠に別の Gemini モデルが入り、その後 `gemini-4-neon-high` が入っていました。そのため、どの設定ファイルでも、パネル系の役割（`arena runners`、`arena cross-judge pool`、`interrogate reviewers`）にある `gemini-4-neon-high` の項目、または `gemini-4-neon-*` 以外の `gemini-4-*` の項目は古いデフォルトとみなします。これらはいずれも `gemini-4-neon-xhigh` に置き換えます。それ以外の推論レベルの Gemini 4 Neon の項目はユーザーの選択なので、そのまま残します。どの項目を置き換えたかをユーザーに伝えてください。",
+    "`# defaults: 3` の行がない設定ファイルは、古いセットアップで作られたものです。そのセットアップではすべての役割に行を書き出していたため、値の一部はユーザーの選択ではなく古いデフォルト値です。ステップ 3 に進む前に、次の値を置き換えてください：",
+    "- `arena cross-judge pool` のリストが `claude-fable-*` 1 件、`claude-opus-*` 1 件、`gemini-*` 1 件のちょうど 3 件（順不同）で構成されている場合は、この役割のステップ 5 のリストに置き換えます。Fable と Opus は同じベンダーのため、Fable の項目は Opus の項目が審査できる場合にしか審査できませんでした。\n- `# budget: unlimited` の行は `large` にします。`xhigh` を超えて動く役割はないためです。\n- 設定ファイルに `# defaults: 2` の行もない場合は、`grok-*` に一致するものを旧スラッグとみなします。`feature, refactoring`、`bug-fix`、`perf-issue`、`hillclimb`、`swarm workers` のいずれかにある旧スラッグは、その役割のステップ 5 のデフォルトに置き換えます。パネル系の役割（`arena runners`、`arena cross-judge pool`、`interrogate reviewers`）で、`claude-opus-*` 1 件と旧スラッグ 1 件のちょうど 2 件（順不同）から成るリストは、その役割のステップ 5 のリストに置き換えます。それ以外のリストでは、各旧スラッグを `claude-opus-5-5-high-fast` に置き換えます。",
+    "それ以外の役割にある旧スラッグや、すべての `inherit-parent` および `auto` の値を含め、その他の値はすべてユーザーの選択なのでそのまま残します。どの値を置き換えたかをユーザーに伝えてください。",
+    "### 3. 予算を選び、割り当てて確認する",
+    "**(a) 予算を尋ねる**。フリーテキストよりも構造化質問ツール（Cursor の `AskQuestion`、Claude Code の `AskUserQuestion`、OpenCode の `question`）を優先して使ってください。これら 3 つの選択肢をこの通りのラベルで提示し、ルールに現在の予算が記録されている場合はその予算名も伝えてください。ルールがない場合は、`large` がスキルのデフォルトと同じであることを伝えてください。",
+    "- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`",
+    "**(b) 予算を適用する**。スキルのデフォルトから作業用の対応表を作り、再実行時はファミリー、リスト、またはエイリアス（`inherit-parent`、`auto`）を変更した役割をそのまま維持してください。ファミリーの区分は **arena** スキルの Phase A の定義に従うため、Fable は独立した 1 つのファミリーです。各役割には目標の推論レベルがあり、そのデフォルトの推論レベルを予算に応じて動かした値になります。`xhigh` > `high` > `medium` > `low` の段階で、`large` はそのまま、`medium` は 1 段階下げ、`small` は 2 段階下げます。どの役割も `xhigh` を超えて動くことはなく、目標が最下段に達している場合はそこに留まります。ほとんどのデフォルトは `xhigh` であり、各予算ラベルはそれらがどこに落ち着くかを示しています。パネル項目も含め、その役割にあるすべての実際のスラッグの推論レベル部分を、役割の目標に合わせて設定してください。推論レベル部分はスラッグ末尾の要素、または末尾の `fast` の直前の要素です。その結果が検出されたスラッグにない場合は、同じファミリーの検出済みスラッグのうち目標以下で最も高い推論レベルのものを使い、それもなければその役割に「選択が必要」と印を付けてください。`inherit-parent` と `auto` は変更しません。そのため、`medium` では `claude-opus-5-5-xhigh-fast` が `claude-opus-5-5-high-fast` に、`claude-opus-5-5-high-fast` が `claude-opus-5-5-medium-fast` になり、`small` ではそれぞれ `claude-opus-5-5-medium-fast` と `claude-opus-5-5-low-fast` になります。Opus 5.5 は常に `-fast` スラッグで動かすため、Opus 5.5 の値はすべて `-fast` で終わります。Fable 5.2 と Gemini には fast スラッグがないため、決して付けないでください。Gemini 4 Neon のスラッグは `low` から `xhigh` までで `max` や `fast` のスラッグはないため、この枠では最上位スラッグの `gemini-4-neon-xhigh` で動きます。パネル系の役割にある Gemini 4 Neon の項目は独自の目標（`xhigh` を予算に応じて動かしたもの）を取るため、`large` では `gemini-4-neon-xhigh` のまま、`medium` では `gemini-4-neon-high`、`small` では `gemini-4-neon-medium` を書き込みます。",
+    "**(c) 役割一覧を表示して確認する**。すべての役割とそのモデルを表示し、検出一覧にない実際のスラッグには「選択が必要」と印を付けてください。ステップ 2 で削除した各行も合わせて一覧にしてください。このまま採用するか、特定の役割を変更するかを尋ねてください。選択肢には、検出された `xhigh` 以下のモデルに加え、`inherit-parent` と `auto` を提示します（どちらも、この役割を親チャットのモデルで動かすという意味で、Auto 利用者が Auto のまま使うための設定です）。フリーテキストよりも構造化質問ツールを優先して使ってください。パネル系の役割（arena runners、interrogate reviewers）では値がリストになり、エイリアスの項目も含めて 1 項目につき 1 つのサブエージェントが動くため、リストの長さが実行数になります。`arena cross-judge pool` もリストですが、Arena が動かす審査役は 1 つだけです。親と異なるベンダーの値だけをリスト順に試すため、優先順に並べてください。Fable と他の Claude モデルは同じベンダーです。`inherit-parent` や `auto` の値が審査役になることはありません。`swarm workers` は、レースや比較でパターンごとに別のモデルを割り当てない限り、すべてのワーカーのデフォルトモデルになります。",
+    "### 4. 検証する",
+    "書き込むすべての実際のスラッグは、検出一覧に含まれており、かつ `xhigh` 以下でなければなりません。`inherit-parent` と `auto` は常に通過します。選択された実際のスラッグが利用できない場合は、そこで止まって聞き直してください。",
+    "### 5. ルールを書き込む",
+    "`# defaults: 3` の行、選んだラベルとそのラベルが示す推論レベルを記した `# budget` の行、そして poteto-mode が使うのと同じラベルで役割ごとの行を 1 行ずつ設定ファイルに書き込みます。Cursor では、`alwaysApply: true` を含む以下のフロントマターを含めてください。その他のハーネスでは、フロントマターなしで設定ファイルを書き込みます（最初の `#` の行から始めます）。再実行してもべき等になるよう、ファイル全体を上書きしてください。形式：",
+    "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit the subagent `model` and spawn a general-purpose subagent). Alias entries in a panel list still count toward its fan-out.\n# defaults: 3\n# budget: large (xhigh)\nfeature, refactoring: claude-opus-5-5-xhigh-fast\nbug-fix: claude-opus-5-5-xhigh-fast\nperf-issue: claude-opus-5-5-xhigh-fast\nhillclimb: claude-opus-5-5-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh-fast\narena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh\narena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-neon-xhigh\nswarm workers: claude-opus-5-5-high-fast\ninterrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh\n```",
+    "### 6. 完了を伝える",
+    "どのファイルに書き込んだかをユーザーに伝えてください。Cursor と Claude Code では、新しいセッションから適用されます。その他のハーネスでは、pstack のスキルがモデルを選ぶときに `~/.agents/pstack-models.md` を読み込みます。このスキルを再実行すると設定を更新できます。",
+    "### 7. 検証スキルを提案する（任意）",
+    "プロジェクトに、実際のアプリを操作して動作の証拠を取る仕組み（`verify-*` スキルや既存のハーネス）があるか確認してください。ない場合は、1 度だけ次のように提案してください。「エージェントがユーザーと同じようにアプリを操作して変更の動作を証明できるよう、プロジェクト専用の検証スキルを作りますか？/create-verification-skill で生成できます。」同意されたら、`/create-verification-skill` を呼び出してください（ワークスペース、ユーザー、プラグインのいずれに pstack がインストールされていても解決されます）。断られたら、それ以上勧めずに次へ進んでください。",
+    "### 8. 形式検証スキルを提案する（任意）",
+    "プロジェクトに形式検証スキル（モデル検査器、証明、またはその他の検証ツールをコードに対して実行するプロジェクトスキル）がすでにあるか確認してください。ない場合は、1 度だけ次のように提案してください。「テストが届くケースだけでなく、対象範囲のあらゆるケースでコードの重要な性質が成り立つことをエージェントが証明できるよう、形式検証スキルを作りますか？/create-formal-verification-skill で生成できます。」同意されたら、`/create-formal-verification-skill` を呼び出してください（ワークスペース、ユーザー、プラグインのいずれに pstack がインストールされていても解決されます）。断られたら、それ以上勧めずに次へ進んでください。"
+  ]
+}

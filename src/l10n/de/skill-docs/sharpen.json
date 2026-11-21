@@ -1,0 +1,61 @@
+{
+  "description": "Mach eine Aufgabe tiefer, nicht größer, und schreib den Prompt dann um. Für /sharpen nutzen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Macht die Aufgabe größer, indem noch mehr Arbeit draufgepackt wird.",
+        "with": "Sagt zuerst, was ein Top-Profi tun würde, worum du nicht gebeten hast."
+      },
+      {
+        "without": "Startet mit Material, das jemand schon für dich aufbereitet hat.",
+        "with": "Nennt das ursprünglichste Rohmaterial, mit dem ein Profi starten würde."
+      },
+      {
+        "without": "Hält das Ergebnis für richtig, weil es dir und der KI gefällt.",
+        "with": "Nennt etwas außerhalb von dir und der KI, das zeigen würde, dass es richtig ist."
+      }
+    ],
+    "intro": "Bevor die KI deinen Prompt umschreibt, nennt sie, was ein Top-Profi ergänzen würde, dazu das ursprünglichste Rohmaterial, die Methoden und Tools sowie eine Prüfung von außen. Danach schreibt sie den Prompt so um, dass er genau das verlangt: für Entscheidungen, die ein Experiment klären kann, Prototypen bauen und Geschmacksfragen dir überlassen.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "I want a deeper version of this task, not a bigger one.",
+      "quoteTr": "Ich will eine tiefere Version dieser Aufgabe, keine größere.",
+      "title": "Nenne die Richtung, die du nicht willst",
+      "does": "Die KI schreibt deinen Prompt so um, dass er in die Tiefe geht, statt noch mehr Arbeit hineinzupacken.",
+      "why": "„Tiefer“ und „größer“ bedeuten beide „mehr“; wenn du sie nebeneinanderstellst, sagst du der KI, in welche Richtung sie ergänzen soll.",
+      "try": "Wenn du um eine Verbesserung bittest, nenne die Richtung: „Ich will, dass dieser Artikel schärfer wird, nicht länger.“"
+    },
+    {
+      "quote": "Say what a top professional in this field would do here that I'm not asking for.",
+      "quoteTr": "Sag, was ein Top-Profi auf diesem Gebiet hier tun würde, worum ich nicht gebeten habe.",
+      "title": "Leih dir den Blick eines Profis",
+      "does": "Die KI ergänzt die Schritte, an die du nicht gedacht hast, die ein Profi aber nie auslassen würde.",
+      "why": "„Mach es besser“ hat keine Richtung; „was würde ein Top-Profi tun“ gibt der KI ein konkretes Vorbild zum Nachahmen.",
+      "try": "Frag vor einer Überarbeitung: „Was würde ein erfahrener Redakteur mit diesem Entwurf machen, worum ich nicht gebeten habe?“"
+    },
+    {
+      "quote": "Say what, other than you or me, would show the result is right.",
+      "quoteTr": "Sag, was außer dir oder mir zeigen würde, dass das Ergebnis stimmt.",
+      "title": "Frag nach einem Urteil von außen",
+      "does": "Der umgeschriebene Prompt enthält eine Prüfung von außen, zum Beispiel echte Daten, einen Test oder die tatsächliche Anwendung.",
+      "why": "Sowohl wer schreibt als auch wer fragt, findet das Ergebnis meist gut; überzeugend wird es erst, wenn man etwas außerhalb der beiden nennt.",
+      "try": "Ergänze: „Abgesehen davon, dass es dir und mir gefällt: Was würde beweisen, dass diese Migrationsanleitung stimmt?“"
+    },
+    {
+      "quote": "Leave product or preference choices that no experiment can settle for me to make.",
+      "quoteTr": "Überlass mir Produkt- oder Geschmacksentscheidungen, die kein Experiment klären kann.",
+      "title": "Leg fest, welche Entscheidungen deine sind",
+      "does": "Die KI baut Prototypen für Entscheidungen, die ein Experiment klären kann, und empfiehlt eine Option; Geschmacksfragen wie den Stil überlässt sie dir.",
+      "why": "Wenn du trennst, was ein Test beantworten kann und was nur du entscheiden kannst, hält das die KI davon ab, für dich zu entscheiden, um gründlich zu wirken.",
+      "try": "Schreib: „Bau für beide Layouts einen Prototyp und empfiehl eins; die Farben suche ich aus, liste dafür also einfach zwei oder drei Optionen auf.“"
+    }
+  ],
+  "blocks": [
+    "Ich will eine tiefere Version dieser Aufgabe, keine größere. Bevor du sie umschreibst, mach vier Dinge:",
+    "1. Sag, was ein Top-Profi auf diesem Gebiet hier tun würde, worum ich nicht gebeten habe.\n2. Nenne das ursprünglichste Rohmaterial, mit dem dieser Profi starten würde, statt Material, das schon für mich aufbereitet wurde.\n3. Nenne die konkreten Methoden und Tools, die dieser Profi nutzen würde.\n4. Sag, was außer dir oder mir zeigen würde, dass das Ergebnis stimmt.",
+    "Schreib meinen Prompt dann so um, dass er genau das verlangt.",
+    "Der umgeschriebene Prompt soll den Agenten auffordern, für jede Entscheidung, die ein Experiment klären kann, einen Prototyp zu bauen und anhand seiner Beobachtungen eine Option zu empfehlen. Überlass mir Produkt- oder Geschmacksentscheidungen, die kein Experiment klären kann."
+  ]
+}

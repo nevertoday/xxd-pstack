@@ -1,0 +1,88 @@
+{
+  "description": "Bring den Nutzer auf den neuesten Stand, was sich in diesem Chat seit seiner letzten Nachricht geändert hat – in einfachen Worten und mit kleinen Visualisierungen. Liste jeden Punkt auf, der auf ihn wartet, samt allem, was er braucht, um allein anhand der Antwort zu entscheiden. Für /ketchup verwenden.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Erzählt die lange Geschichte und lässt darin untergehen, was deine Entscheidung braucht.",
+        "with": "Startet mit dem, was auf dich wartet, und nennt zu jeder Entscheidung seine Empfehlung."
+      },
+      {
+        "without": "Füllt das Update mit Hashes, Dateipfaden und Build-Nummern.",
+        "with": "Sagt in einfachen Worten, was sich für dich geändert hat, und lässt IDs weg, die du nicht brauchst."
+      },
+      {
+        "without": "Erfindet Zahlen oder Bilder von Bildschirmen, die es nie aufgenommen hat.",
+        "with": "Prüft jede Zahl anhand ihrer Quelle und bettet nur echte Screenshots und Videos ein."
+      }
+    ],
+    "intro": "Es bringt dich ab deiner letzten Nachricht vor /ketchup auf den neuesten Stand, erklärt jede Änderung und listet jede Entscheidung auf, die du treffen musst – in der einfachen Sprache von /bro.",
+    "sections": [
+      "Ändert in dieser Runde nichts, prüft jeden PR, CI-Lauf und Agenten, den dieser Chat angefasst hat, und listet nur Entscheidungen auf, die allein du treffen kannst.",
+      "Startet mit dem, was auf dich wartet, hält die Vorgeschichte unter 100 Wörtern und gibt zu jedem Punkt Empfehlung, Belege und Risiko an.",
+      "Zeichnet nur, wenn ein Bild etwas besser erklärt: höchstens sechs Kästchen, je acht Wörter. Tabellen und Statuslisten zählen nicht."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Assume the user remembers their last message and nothing after it.",
+      "quoteTr": "Geh davon aus, dass der Nutzer sich an seine letzte Nachricht erinnert und an nichts danach.",
+      "title": "Den Startpunkt für Leser festlegen",
+      "does": "Beginnt bei deiner letzten Nachricht: nichts, was du schon weißt, nichts, was du verpasst hast.",
+      "why": "„Was der Leser weiß“ wird zu einem einzigen Zeitpunkt, sodass die KI nicht raten muss, wo sie anfangen soll.",
+      "try": "Wenn du um eine Übergabenotiz bittest, ergänze: „Geh davon aus, dass der Leser das Update vom letzten Freitag gesehen hat und nichts danach.“"
+    },
+    {
+      "quote": "Say \"the tests pass\", not \"CI is green\".",
+      "quoteTr": "Sag „die Tests sind erfolgreich“, nicht „CI ist grün“.",
+      "title": "Den Ton mit einem Beispielpaar vorgeben",
+      "does": "Meldet Ergebnisse in Worten, die du verstehst, nicht in Fachjargon.",
+      "why": "„Einfache Worte“ ist vage. Ein einziges „Sag dies, nicht das“-Paar ist viel präziser als eine Reihe von Adjektiven.",
+      "try": "Um einen bestimmten Ton zu treffen, gib ein Paar vor: „Schreib ‚geht morgen raus‘, nicht ‚ETA T+1‘.“"
+    },
+    {
+      "quote": "An action item is a call or step only the user can take",
+      "quoteTr": "Ein offener Punkt ist etwas, das nur der Nutzer entscheiden oder tun kann",
+      "title": "Das Schlüsselwort zuerst definieren",
+      "does": "Listet nur die Entscheidungen auf, die wirklich du treffen musst; es schiebt dir nicht seine eigene Arbeit zu.",
+      "why": "Jeder versteht unter „offener Punkt“ etwas anderes. Definiere den Begriff und sag dann, was dazuzählt und was nicht.",
+      "try": "Wenn ein Wort in deinem Prompt wichtig ist, definiere es direkt dort: „‚Fertig‘ bedeutet hier, dass es funktioniert, wenn man es auf dem Handy öffnet.“"
+    },
+    {
+      "quote": "Never cut items or shrink them to stay under a word count",
+      "quoteTr": "Streiche niemals Punkte und kürze sie nicht, um unter einer Wortgrenze zu bleiben",
+      "title": "Sagen, welche Regel Vorrang hat",
+      "does": "Hält die Antwort kurz, lässt aber keine Entscheidung weg, die du treffen musst.",
+      "why": "„Kurz“ und „vollständig“ können sich widersprechen. Wenn du sagst, was Vorrang hat, kürzt die KI nichts Wichtiges weg, nur um kurz zu bleiben.",
+      "try": "Wenn du zwei Ziele vorgibst, sag dazu, welches vorgeht: „Halt es kurz, aber nenne zu jeder Änderung das Risiko, auch wenn es dadurch länger wird.“"
+    },
+    {
+      "quote": "Each line must stay true when read alone.",
+      "quoteTr": "Jede Zeile muss für sich allein gelesen stimmen.",
+      "title": "Einen prüfbaren Maßstab vorgeben",
+      "does": "Jede Zeile der Zusammenfassung ist für sich allein vollständig und lässt sich nicht aus dem Zusammenhang reißen.",
+      "why": "Das ist eine Regel, die die KI Zeile für Zeile prüfen kann – das lässt sich leichter einhalten als „sei klar“.",
+      "try": "Wenn du um eine Zusammenfassung bittest, ergänze: „Jede Zeile muss auch dann noch Sinn ergeben, wenn man sie einzeln weiterleitet.“"
+    }
+  ],
+  "blocks": [
+    "# Ketchup",
+    "Bring den Nutzer auf den neuesten Stand, was sich in diesem Chat seit der letzten Nachricht geändert hat, die er vor `/ketchup` geschrieben hat, und hilf ihm, jede Änderung zu verstehen – nicht nur ihren aktuellen Stand. Führ dann jede Entscheidung auf, die auf ihn wartet, damit er sie allein anhand deiner Antwort treffen kann. Benachrichtigungen und Ergebnisse von Subagents sind nicht seine Nachrichten. Geh davon aus, dass der Nutzer sich an seine letzte Nachricht erinnert und an nichts danach.",
+    "Nutze den Tonfall von [`/bro`](../bro/SKILL.md), nicht seine Aufgabe: einfache Worte, kurze Sätze, kein Fachjargon – so wie eine Person eine andere auf den neuesten Stand bringt. Sag, was sich für den Nutzer geändert hat, nicht, wie du es gemacht hast. Sag „die Tests sind erfolgreich“, nicht „CI ist grün“. Lass Hashes, Dateipfade, Befehle, Build-Nummern und Testzahlen weg, es sei denn, der Nutzer braucht etwas davon zum Handeln. Nenne jeden PR, Branch oder Agenten bei einem Namen, den der Nutzer kennt, nicht mit einer selbst erfundenen Bezeichnung. Wenn ein Fakt Kontext braucht, um verständlich zu sein, liefere den Kontext oder lass den Fakt weg.",
+    "## Sammeln, was sich geändert hat",
+    "Bleib in dieser Runde rein lesend. Erstelle Visualisierungen nur aus dem, was du bereits hast: Ändere keinen Code, starte keine App und keinen Job und poste nichts. Sammle deine eigene Arbeit seit dieser Nachricht, Berichte von Subagents und Nachrichten von allen anderen in diesem Chat. Prüf den aktuellen Stand jedes PRs, CI-Laufs oder Agenten, den dieser Chat angefasst hat. Prüf jede Zahl, die du zeigen willst, anhand der Fakten, aus denen sie stammt, und sag Bescheid, wenn du eine korrigierst.",
+    "Ein offener Punkt ist etwas, das nur der Nutzer entscheiden oder tun kann, etwa eine Produktentscheidung, eine Freigabe, ein unumkehrbarer Schritt oder ein Zugang, der dir fehlt. Nimm jeden Punkt auf, der noch auf den Nutzer wartet, auch wenn er schon vor seiner letzten Nachricht aufkam. Arbeit, die du noch selbst erledigen kannst, ist kein offener Punkt. Erfinde niemals eine Entscheidung, um die Antwort zu füllen. Ein Schritt, um den der Nutzer nicht gebeten hat und den die Arbeit nicht braucht, ist kein offener Punkt – es sei denn, er ist unumkehrbar und wartet auf den Nutzer: Gib ihm eine Zeile und keine Visualisierung.",
+    "Eine Entscheidung kann mehrere Punkte umfassen, etwa alle PRs einer Reihe, die auf den Merge warten. Sammle für jeden Punkt den Link, was sich für Nutzer ändert, die Belege für deine Empfehlung, das Risiko und deine Empfehlung. Schreib „unbekannt“ für einen Fakt, den die Entscheidung braucht, den du aber nicht kennst. Lass einen Link weg, den du nicht hast.",
+    "## Die Antwort schreiben",
+    "Verwende deine Worte auf die Entscheidungen, nicht auf die Vorgeschichte. Halt das, was passiert ist, unter 100 Wörtern, Bilder nicht mitgezählt – und kürzer, wenn weniger passiert ist. Lass Arbeit weg, die für den Nutzer nichts geändert hat. Gib jedem Punkt etwa 30 Wörter. Die Antwort wächst mit der Anzahl der Punkte: Zwei Punkte brauchen insgesamt deutlich unter 150 Wörter, Bilder nicht mitgezählt, und dreißig deutlich mehr. Streiche niemals Punkte und kürze sie nicht, um unter einer Wortgrenze zu bleiben: keine Zahl statt einer Liste und kein Link statt eines Punkts. Ein Link darf Vertiefung bieten, aber die Antwort allein muss zum Entscheiden reichen.",
+    "Beginne mit einem kurzen Satz, der nennt, was auf den Nutzer wartet, oder sagt, dass nichts wartet. Die offenen Punkte liefern die Details. Wenn nichts passiert ist und nichts auf den Nutzer wartet, sag genau das und hör auf.",
+    "Zeig dann, was passiert ist – Bilder zuerst. Bette die Screenshots und Videos, die bei der Arbeit entstanden sind, direkt ein, danach jedes Diagramm, das eine Änderung erklärt. Fass danach in einem kurzen Stichpunkt pro Anliegen des Nutzers zusammen: was dabei herauskam und ob es fertig ist, noch läuft, fehlgeschlagen ist oder nicht geprüft wurde. Schreib jede Zeile so, wie du sie laut sagen würdest: „Die Suche war langsam, weil ein Index fehlte“, nicht „Such-Review: erledigt“ oder „Langsame Suche: fehlender Index“. Nenne jeden Bug, der unterwegs gefunden und behoben wurde. Jede Zeile muss für sich allein gelesen stimmen. Markiere niemals etwas als fertig, das noch auf den Nutzer wartet, und lass alles weg, was schon in den offenen Punkten steht. Füge unter der Zusammenfassung höchstens drei kurze Zeilen an, die ändern, was der Nutzer weiß oder tun muss. Nenne danach in einer Zeile alle übrige Arbeit, die du selbst erledigen kannst.",
+    "Liste dann die offenen Punkte auf. Frag die Entscheidung ab, die beim Nutzer liegt – etwa mergen, freigeben oder auswählen – und gib deine Empfehlung ab. Ein Schritt, den du zuerst gehen würdest, gehört in deine Empfehlung. Genauso alles, was zuerst passieren muss, und alles, was sich nicht rückgängig machen lässt. Nenne die Nummer oder den Link zu jedem PR, Issue oder Agenten, um den es bei einer Entscheidung geht – auch bei einer Entscheidung zwischen Optionen.",
+    "Pass die Form an die Entscheidung an. Eine Entscheidung zu einem einzelnen Punkt ist ein Stichpunkt: die Entscheidung, deine Empfehlung, was sich für Nutzer ändert, die Belege für deine Empfehlung und das Risiko – wobei der Punkt nur einmal genannt wird. Wenn mehrere Punkte zur selben Entscheidung gehören, schreib die Entscheidung und deine Empfehlung einmal auf und gib dann jedem Punkt einen eigenen Stichpunkt, den riskantesten zuerst: seinen Link und Namen, was sich für Nutzer ändert, die Belege für deine Empfehlung und das Risiko. Nenne für einen Punkt nur dann eine Empfehlung, wenn sie von der Gesamtempfehlung abweicht. Gib das Risiko für jeden Punkt an, auch wenn es gering ist, etwa „Geringes Risiko: Es ändern sich nur die Farben.“ Sag nur dann, was Warten kostet, wenn es mehr als eine Verzögerung ist, etwa eine Frist oder Datenverlust.",
+    "Nenne bei einer Entscheidung zwischen Optionen jede Option, die bei der Arbeit abgewogen wurde – jeweils mit dem, was sie dem Nutzer bringt und was sie kostet, sowie dem aktuellen Stand, falls es einen gibt. Diese Kosten sind das Risiko der Entscheidung, füge also keine eigene Risikozeile hinzu. Wenn die Screenshots darüber die Optionen zeigen, schreib Nutzen und Kosten jeder Option unter ihren Screenshot.",
+    "## Visualisierungen",
+    "Eine Visualisierung ist ein Bild: ein Screenshot, ein Video, ein Mermaid-Diagramm, ein Chart oder Diagramm aus `/visualize` (Cursor) oder dem Diagramm-Tool deines Harness oder ein generiertes Bild. Eine Markdown-Tabelle ist keine Visualisierung, auch nicht mit Vorher-Nachher-Spalten.",
+    "Wenn sich etwas als Bild leichter erfassen lässt als in Sätzen, zeichne es: wie ein Design oder System funktioniert, einen PR-Stack oder eine Abhängigkeitskette mit dem Stand jedes PRs, das Vorher und Nachher eines Fixes oder Optionen nebeneinander. Zeichne niemals eine Statusliste, eine Liste offener Punkte oder Kästchen ohne Verbindung zueinander. Nenne keinen Fakt doppelt – weder im Text noch über Visualisierungen hinweg.",
+    "Halt jede Visualisierung so klein, dass man sie auf einen Blick erfasst: höchstens sechs Kästchen mit höchstens acht Wörtern pro Kästchen. Schreib Beschriftungen in einfachen Worten, wie ein Mensch sie sagen würde, nicht als Tags wie „Tests: bestanden“. Ein Fakt, der einen Satz braucht, gehört in den Text oder nirgendwohin.",
+    "Bette Screenshots und Videos direkt ein, wenn die Änderung sichtbar ist, nicht nur als Links. Wenn es für eine sichtbare Änderung keine gibt, markiere ihre Zeile in der Zusammenfassung mit „Noch kein Screenshot“ und sag dort, was sich auf dem Bildschirm geändert hat. Zeichne Diagramme und Charts aus Fakten, die du hast: ein Mermaid-Diagramm für Zusammenhänge und ein Chart für Zahlen (`/visualize` in Cursor oder das Diagramm-Tool deines Harness). Erfinde niemals eine Zahl und zeichne oder generiere niemals das Bild eines Bildschirms, den du nicht aufgenommen hast. Verlinke nur existierende Artefakte."
+  ]
+}

@@ -30,13 +30,19 @@
     "start": "Empezar",
     "home": "Inicio",
     "lessons": "Para principiantes: empieza aquí",
+    "main": "Guía completa: para quienes programan",
+    "pending": "En preparación",
+    "ref": "Referencia",
     "howto": "How-to: cómo hacerlo",
     "skills": "Todas las skills: las 34",
     "wiki": "Wiki: qué es cada cosa",
     "faq": "Preguntas frecuentes",
     "toc": "En esta página",
     "tocLabel": "En esta página",
+    "hintMain": "Guía completa",
     "hintLesson": "Para principiantes",
+    "hintFaq": "Preguntas frecuentes",
+    "hintSkill": "Skill",
     "section": "Sección",
     "foot": "Una guía no oficial de {pstack} para principiantes, no su documentación oficial. pstack lo hace poteto (licencia MIT); el repositorio oficial es la referencia para comandos y comportamiento. El código de esta guía y los comentarios están en {github}.",
     "appearance": {
@@ -66,6 +72,7 @@
       "."
     ],
     "cta": "Empieza aquí si eres nuevo",
+    "ctaFull": "Sé programar: la guía completa",
     "ctaNote": "Para principiantes: tres lecciones, 20 minutos.",
     "painH": "¿Te ha pasado esto?",
     "PAIN": [
@@ -146,11 +153,157 @@
     "title": "Lección {n}: {title}",
     "tldr": "En una frase"
   },
+  "guide": {
+    "head": "Paso {n}: {title}",
+    "eyebrow": "Guía completa · paso {n} de {last}",
+    "prog": "Progreso: paso {n} de {last}",
+    "need": "Necesitas: ",
+    "nav": "Paso anterior y siguiente",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "pending": "Siguiente (en preparación)",
+    "tldr": "En una frase"
+  },
+  "howto": {
+    "tldr": "En una frase",
+    "for": "Para: ",
+    "step": "Guía completa, paso {n}: ",
+    "related": "Artículos relacionados",
+    "more": "Más en «{group}»"
+  },
+  "howtoIndex": {
+    "h": "How-to: cómo hacerlo",
+    "p": "Un artículo por tarea: busca el que encaje con lo que estás haciendo, copia el prompt y adáptalo a tu caso."
+  },
+  "faq": {
+    "h": "Preguntas frecuentes",
+    "p": [
+      "Las preguntas que más surgen al empezar con pstack. ¿No encuentras la tuya? Déjala en ",
+      ", o presiona ",
+      " para buscar en todo el sitio."
+    ]
+  },
+  "notFound": {
+    "h": "Página no encontrada",
+    "p": [
+      "Puede que el enlace esté mal o que la página haya cambiado de sitio. Presiona ",
+      " para buscar, o vuelve a empezar desde aquí:"
+    ],
+    "home": "Inicio",
+    "step0": "Para principiantes: lección 1",
+    "skills": "Todas las skills",
+    "faq": "Preguntas frecuentes"
+  },
+  "wikiIndex": {
+    "h": "Wiki: qué es cada cosa",
+    "p1": "Cada término de la guía, explicado con palabras sencillas. Todos empiezan con una sola frase; sigue leyendo solo si quieres saber más.",
+    "p2": [
+      "¿No quieres leer el artículo completo? Pasa el cursor sobre cualquier palabra con subrayado punteado en la guía para ver una explicación en una frase; haz clic en ella para venir aquí. Para buscar una skill por nombre, consulta ",
+      "Todas las skills",
+      "."
+    ]
+  },
+  "wikiEntry": {
+    "like": "Una analogía",
+    "here": "En pstack",
+    "list": "Lista",
+    "head": [
+      "Nombre",
+      "En palabras sencillas"
+    ],
+    "myths": "Malentendidos comunes",
+    "try": "Pruébalo: ",
+    "step": "Guía completa, paso {n}: ",
+    "see": "Relacionado: ",
+    "sep": ", "
+  },
+  "skills": {
+    "h": "Todas las skills",
+    "desc": "Las {n} skills de pstack, cada una en una frase sencilla: qué hace y cuándo usarla.",
+    "intro": [
+      "{n} skills, más ",
+      "24 principios",
+      ". ",
+      "No hace falta memorizarlas.",
+      " En el día a día, escribe ",
+      " y él mismo llama a las «Auto». Ven aquí para llamar a una por su nombre o buscar un nombre que mencionó la IA. Haz clic en una tarjeta para ver en qué se diferencia de pedirlo directamente, qué dice su documento y el texto completo."
+    ],
+    "all": "Todas",
+    "auto": "Auto",
+    "manual": "Escríbela tú",
+    "named": "Llámala si hace falta",
+    "use": "Cuándo usarla",
+    "search": "Filtra por nombre o tarea, p. ej., revisar, lento, por qué",
+    "filterLabel": "Quién la llama",
+    "empty": "Ninguna skill coincide. Prueba con menos palabras o elige «Todas».",
+    "legend": {
+      "auto": "/poteto-mode la usa cuando un paso la necesita",
+      "manual": "Solo se ejecuta cuando la escribes tú",
+      "named": "Escríbela cuando la quieras usar"
+    },
+    "shown": "Mostrando {n}"
+  },
+  "skillDoc": {
+    "ex": "Dilo así",
+    "needs": "Se instala con",
+    "guide": "How-to completo",
+    "sep": ", ",
+    "oneLine": "En una frase",
+    "tabs": [
+      "Resumen",
+      "Frases para aprovechar",
+      "Texto completo"
+    ],
+    "tabsLabel": "Secciones de esta página",
+    "vsH": "Pedirlo directamente frente a usarla",
+    "vsP": "La misma petición, escrita directamente o con /{name}. Esto es lo que cambia.",
+    "without": "Pedirlo directamente",
+    "with": "Con /{name}",
+    "outH": "Qué dice el documento",
+    "outP": "{secs} secciones, unas {words} palabras, {min} min de lectura. Haz clic en una sección para leerla.",
+    "outPNoSec": "Unas {words} palabras, {min} min de lectura.",
+    "intro": "Introducción",
+    "toLearn": "Ver las frases para aprovechar",
+    "toFull": "Leer el texto completo",
+    "learnH": "Frases para aprovechar",
+    "learnP": "Algunas frases del original: qué consigue cada una que haga la IA, por qué funciona y cómo puedes aprovecharla.",
+    "does": "Hace que la IA",
+    "why": "Por qué funciona",
+    "try": "Aprovéchala",
+    "fullH": "Texto completo",
+    "fullP": "El SKILL.md que lee la IA, tal cual está escrito.",
+    "modes": {
+      "tr": "Traducción",
+      "en": "Original",
+      "both": "En paralelo"
+    },
+    "jump": "Ir a",
+    "jumpTop": "Arriba",
+    "credit": [
+      "Original de Lauren Tan (poteto), licencia MIT. Comprobado con la copia de pstack en",
+      "."
+    ],
+    "open": "Ver en GitHub",
+    "moreH": "Más en «{group}»",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "tr": {
+      "fullP": "El SKILL.md que lee la IA. Lee la traducción, el original o ambos en paralelo.",
+      "credit": [
+        "Original de Lauren Tan (poteto), licencia MIT. Traducido por este sitio; comprobado con la copia de pstack en",
+        "."
+      ]
+    }
+  },
   "callout": {
     "ok": "Deberías ver",
     "warn": "Atención",
     "no": "No hagas esto",
     "tip": "Consejo"
+  },
+  "checkpoint": {
+    "title": "Antes de seguir, comprueba",
+    "done": "Todo marcado: pasa al siguiente paso."
   },
   "copy": {
     "title": "Copia esto",
@@ -163,15 +316,31 @@
   "reply": {
     "title": "Ilustración: más o menos así se ve su respuesta"
   },
+  "tabs": {
+    "label": "Elegir"
+  },
+  "shot": {
+    "stamp": "Captura de {date}; la interfaz puede haber cambiado desde entonces."
+  },
   "feedback": {
     "lead": "¿Algo de esta página no se entendió, o no funcionó como dice?",
-    "gh": "Cuéntalo en GitHub"
+    "gh": "Cuéntalo en GitHub",
+    "faq": [
+      ". O mira antes las ",
+      "preguntas frecuentes",
+      "."
+    ]
   },
   "contact": {
     "h": "Preguntas y conversación",
     "p": "¿Te atascaste en un paso, encontraste algo poco claro o hiciste algo con pstack que quieras enseñar? Tráelo a GitHub. Las preguntas que más se repiten acaban en la guía. Puedes escribir en español.",
+    "faq": [
+      "Antes de preguntar, mira las ",
+      "preguntas frecuentes",
+      ": muchas respuestas ya están ahí."
+    ],
     "btn": "Pregunta o comenta en GitHub",
-    "x": "El autor en X",
+    "x": "poteto en X",
     "privacy": "Antes de enviar capturas, tapa las claves de API, el código de tu empresa y los datos de tus cuentas."
   },
   "partial": {

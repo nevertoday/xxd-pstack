@@ -1,0 +1,71 @@
+{
+  "description": "Reconstruit votre contexte de travail récent à partir de votre propre historique de chat, de l'état réel et de l'historique partagé (signalements utilisateurs, correctifs précédents, incidents), puis renvoie un compte rendu concis de l'état actuel. À utiliser pour « rappelle-moi mon travail sur X », « fais-moi le point », « sur quoi j'ai travaillé », « où j'en étais », avant de commencer ou de reprendre un travail.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Reconstruit l'histoire uniquement à partir de son propre historique de chat.",
+        "with": "Cherche aussi dans les PR, les tickets, les canaux de discussion et le suivi des erreurs pour le même code."
+      },
+      {
+        "without": "Indique l'état d'après ce que disaient les chats.",
+        "with": "Vérifie chaque PR, branche et ticket par rapport à l'état réel avec `git` et `gh`."
+      },
+      {
+        "without": "Lit aussi les chats d'autres projets.",
+        "with": "Annonce d'abord le périmètre. Par défaut, ce sont les 7 derniers jours du projet actif."
+      }
+    ],
+    "intro": "Il reconstruit votre contexte récent à partir de vos chats et de l'historique partagé en six étapes : classer, verrouiller le périmètre, explorer les chats en parallèle, balayer l'historique partagé, vérifier l'état réel, rédiger le compte rendu.",
+    "sections": [
+      "Dans l'ordre : une synthèse de 5 puces maximum, une ligne étiquetée par fil, jusqu'à 5 problèmes récurrents, une prochaine étape."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "\"recent\" is a real range, default the last 7 days",
+      "quoteTr": "« récent » est une vraie plage, par défaut les 7 derniers jours",
+      "title": "Donnez une valeur par défaut à un mot vague",
+      "does": "Dites « récent » et l'IA cherche sur les 7 derniers jours, pas sur une durée qu'elle devine comme hier ou le mois dernier.",
+      "why": "« Récent » peut tout vouloir dire ; un nombre par défaut empêche l'IA de deviner et vous indique jusqu'où elle a cherché.",
+      "try": "Quand vous utilisez un mot vague, ajoutez une valeur par défaut : « “Bientôt” veut dire avant la fin de la journée, sauf si je dis le contraire. »"
+    },
+    {
+      "quote": "Never quietly turn \"all\" into \"recent N\".",
+      "quoteTr": "Ne transformez jamais discrètement « tout » en « les N derniers ».",
+      "title": "Nommez le raccourci que l'IA risque de prendre",
+      "does": "Demandez « tout » et l'IA vérifie vraiment tout, pas seulement les derniers éléments avant de déclarer que c'est fait.",
+      "why": "Nommer précisément l'étape que l'IA a tendance à réduire en douce fonctionne bien mieux qu'un vague « fais preuve de rigueur ».",
+      "try": "Quand vous voulez une vérification complète, écrivez : « Regarde les 37 fichiers ; ne te contente pas d'en piocher quelques-uns pour dire que tout va bien. »"
+    },
+    {
+      "quote": "A thread with no tag is not done yet, so tag it.",
+      "quoteTr": "Un fil sans étiquette n'est pas encore terminé, alors étiquetez-le.",
+      "title": "Proposez une liste fixe d'états",
+      "does": "Chaque fil est marqué fusionné, ouvert, en cours ou pas commencé ; pas de « presque fini ».",
+      "why": "Avec seulement quelques étiquettes fixes au choix, l'IA ne peut pas brouiller l'état réel avec des mots vagues.",
+      "try": "Quand vous demandez un état d'avancement, listez les options : « Étiquette chaque tâche “terminé”, “en cours” ou “pas commencé”. »"
+    },
+    {
+      "quote": "Lead with the capsule, then the thread status, then the problems, then the next move.",
+      "quoteTr": "Commencez par la synthèse, puis l'état des fils, puis les problèmes, puis la prochaine étape.",
+      "title": "Fixez ce qui vient en premier",
+      "does": "Le compte rendu commence par l'état actuel et garde les détails pour la suite, si bien que deux lignes suffisent pour connaître la situation.",
+      "why": "Un ordre fixe évite que l'essentiel soit noyé dans les détails.",
+      "try": "Quand vous demandez un rapport, fixez l'ordre : « La conclusion d'abord, puis les raisons, puis la prochaine étape. »"
+    }
+  ],
+  "blocks": [
+    "# Recall",
+    "**Avant de commencer ou de reprendre le travail, vous reconstruisez le contexte de travail récent de l'utilisateur et vous renvoyez une synthèse concise de la situation actuelle et de ce qu'il faut faire ensuite.**",
+    "Restez concis et dans le sujet. Lisez uniquement ce dont les fils dans le périmètre ont besoin, puis arrêtez-vous.",
+    "Votre contexte repose sur deux sources. Votre propre historique de chat contient ce que vous avez fait et décidé. L'historique partagé contient tout ce qui s'est passé autour du même code sous d'autres noms : les symptômes que les utilisateurs continuent de signaler, les correctifs livrés puis annulés, les erreurs qui se déclenchent encore en prod. Cette seconde source se trouve dans le gestionnaire de versions, le suivi des tickets, les canaux de discussion et d'incidents, les documents longs et le suivi des erreurs. Une fonctionnalité qui traîne une longue série de bugs y laisse l'essentiel de son histoire ; ne la reconstruisez donc pas uniquement à partir de vos transcriptions.",
+    "Les transcriptions se trouvent là où votre harness les conserve. Chaque fichier est au format JSONL. Trouvez le répertoire de l'espace de travail actif pour votre harness. Si vous ne savez pas dans quel harness vous êtes, vérifiez lequel de ces emplacements existe pour cet espace de travail :",
+    "- **Cursor :** `~/.cursor/projects/<slug>/agent-transcripts/<uuid>/<uuid>.jsonl`. `<slug>` est le chemin de l'espace de travail sans la barre oblique initiale et avec chaque « / » remplacé par « - » (`/Users/you/proj` devient `Users-you-proj`).\n- **Claude Code :** `~/.claude/projects/<slug>/<session-id>.jsonl`. `<slug>` est le chemin de l'espace de travail avec chaque caractère qui n'est ni une lettre ni un chiffre remplacé par « - » (`/Users/you/proj` devient `-Users-you-proj`).\n- **Pi :** `~/.pi/agent/sessions/--<slug>--/<timestamp>_<id>.jsonl`. `<slug>` est le chemin de l'espace de travail sans la barre oblique initiale et avec chaque « / » remplacé par « - » (`--Users-you-proj--`).\n- **Codex :** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`, non regroupés par espace de travail. Ne conservez que les fichiers dont la première ligne a un `payload.cwd` égal au chemin de l'espace de travail.\n- **OpenCode :** `~/.local/share/opencode/storage/`. Les sessions sont des fichiers JSON sous `session/<project-id>/`, avec leurs messages sous `message/` et `part/`.",
+    "1. Classez, puis orientez. Reprendre un chat précédent précis relève du playbook `session-pickup`, pas de celui-ci. Transformer des habitudes en un skill durable relève de `automate-me`. Un résumé de votre travail lisible par un humain est une autre tâche. Recall charge le contexte de travail à travers les chats récents avant que vous n'agissiez. Si l'utilisateur vous a déjà donné une synthèse complète de l'état (chemins, branche, modification), utilisez-la et sautez l'exploration.\n2. Verrouillez le périmètre avant de chercher. Fixez la fenêtre temporelle (« récent » est une vraie plage, par défaut les 7 derniers jours), le sujet s'il est nommé et l'espace de travail (par défaut celui qui est actif. Ne lisez jamais les transcriptions d'un autre projet sans qu'on vous le demande). Énoncez le périmètre retenu. Ne transformez jamais discrètement « tout » en « les N derniers ».\n3. Répartissez la recherche sur votre historique de chat. Lancez des sous-agents en parallèle sur un modèle rapide et peu coûteux, chacun prenant une tranche du corpus. Demandez à chaque sous-agent de trier les candidats par date de modification réelle (`ls -t`) et jamais par nom d'UUID, de faire d'abord un grep sur le sujet puis de ne lire que les chats correspondants et uniquement leurs passages pertinents, et d'ignorer le chat en cours ainsi que le bruit évident (chats de sous-agents, d'évaluation et de test). Chacun renvoie le même schéma, un bloc par chat : sujet, objectif de l'utilisateur, décisions, fils ouverts, difficultés et corrections, et artefacts (PR, tickets, branches), chacun citant l'UUID du chat. Pour un ou deux chats, sautez la répartition et cherchez directement. Les transcriptions brutes restent dans les sous-agents. La conversation principale ne reçoit que leurs conclusions. Choisissez le niveau de raisonnement de chaque sous-agent en fonction de la tâche, selon la section Sous-agents du skill **poteto-mode**.\n4. Balayez l'historique partagé dès que le sujet nomme une fonctionnalité, un fichier, un sous-système, un domaine ou un bug. C'est le comportement par défaut, pas un choix au jugé, et « mon travail sur X » n'en dispense pas. Lancez un sous-agent d'investigation par source, en mode agent car le mode lecture seule retire l'accès MCP, et demandez à chacun « quel est l'état actuel, qu'est-ce qui a été essayé sans tenir, et que signalent encore les utilisateurs ». Exécutez-les en parallèle avec l'exploration de l'historique de chat. Les résultats vides sont des constats. Ignorez un MCP indisponible et dites-le. Intégrez ce qui remonte dans le compte rendu. Ne sautez cette étape que pour un pur rappel d'activité sans cible nommée (« qu'est-ce que j'ai fait cette semaine »), où votre propre historique et l'état réel constituent toute la réponse.\n5. Vérifiez par rapport à l'état réel. Prenez les PR, branches et tickets que l'exploration et le balayage ont fait remonter et vérifiez-les avec `git` et `gh`. Quand la réponse dépend de ce qu'un agent a vraiment fait (les outils qu'il a lancés, les fichiers qu'il a lus, les erreurs qu'il a rencontrées), lisez la transcription complète, pas seulement une copie locale tronquée.\n6. Rédigez le compte rendu selon le contrat ci-dessous. Regroupez par fil. Restez sur le sujet nommé.",
+    "## Contrat de sortie",
+    "Commencez par la synthèse, puis l'état des fils, puis les problèmes, puis la prochaine étape. Les détails plus poussés vont en dessous ou sont coupés.",
+    "- **Synthèse.** 5 puces maximum. En quoi consiste ce travail et où il en est dans l'ensemble.\n- **Fils.** Une ligne chacun, précédée d'exactement une étiquette d'état : `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]` ou `[planned, not started]`. Un fil sans étiquette n'est pas encore terminé, alors étiquetez-le.\n- **Problèmes.** 5 maximum, ceux qui reviennent. Incluez les symptômes que les utilisateurs continuent de signaler et tout correctif livré puis annulé, afin que la prochaine tentative reparte là où la précédente a échoué.\n- **Prochaine étape.** L'unique prochaine action la plus utile, concrète.",
+    "Une fonctionnalité ou un ticket voisin reste hors périmètre, sauf s'il bloque celui-ci. Quand la synthèse et les lignes de fils dépassent un écran, coupez dans les détails avant de couper des fils. Rédigez le compte rendu via le skill **unslop**, citez les éléments issus des chats par leur UUID et ceux de l'historique partagé par leur source (numéro de PR, ID de ticket, permalien de discussion, incident du suivi des erreurs), et nettoyez le contexte privé avant toute sortie publique.",
+    "**Réponse :** le compte rendu, conforme au contrat ci-dessus."
+  ]
+}

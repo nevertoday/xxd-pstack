@@ -1,0 +1,79 @@
+{
+  "description": "Dispare N workers em paralelo, espere todos terminarem e devolva um único relatório. Use para /swarm, “rode um swarm nisso” ou para cobertura em paralelo, corridas, provas de fogo e exploração.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Cola a saída bruta das IAs ajudantes para você.",
+        "with": "Reúne os resultados em uma tabela, uma linha por problema, com as lacunas listadas à parte."
+      },
+      {
+        "without": "Conta como aprovado quando uma IA ajudante não devolve nada.",
+        "with": "Relança uma vez quando falta um resultado e depois registra uma lacuna. Uma lacuna não é aprovação."
+      },
+      {
+        "without": "Para no primeiro problema que encontra.",
+        "with": "Lista todos os problemas que consegue provar e marca os resultados como `PASS`, `ISSUES` ou `BLOCKED`."
+      }
+    ],
+    "intro": "",
+    "sections": [
+      "Abre uma lista de tarefas com um item para Estruturar, Disparar, Agregar e Reportar.",
+      "Define o teste de conclusão, escolhe fatias ou corrida, fixa a regra da corrida antes e informa os SHAs e o método para medições.",
+      "Dispara todos os workers em uma única mensagem, na nuvem por padrão. Cada briefing se sustenta sozinho: objetivo, escopo, verificação e formato do relatório.",
+      "Lê os resultados finais, relança uma vez os que pularam os SHAs ou o método, registra uma lacuna depois disso e aplica a regra da corrida.",
+      "Devolve um único relatório no chat: uma tabela de resultados, uma linha por problema, lacunas e quedas, além da regra da corrida usada."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Every brief stands alone.",
+      "quoteTr": "Todo briefing se sustenta sozinho.",
+      "title": "Faça cada briefing se sustentar sozinho",
+      "does": "Cada IA ajudante recebe o objetivo completo, o escopo e como verificar, para nenhuma sair dos trilhos por falta de contexto.",
+      "why": "As IAs ajudantes não veem o seu chat, então isso obriga a IA a incluir o contexto por escrito em vez de dar isso como certo.",
+      "try": "Quando delegar uma tarefa, adicione: “Escreva de um jeito que um colega novo, que perdeu a nossa conversa, consiga executar.”"
+    },
+    {
+      "quote": "A gap does not count as a pass.",
+      "quoteTr": "Uma lacuna não conta como aprovação.",
+      "title": "Diga o que um resultado ausente significa",
+      "does": "Quando uma IA ajudante não devolve nada, o relatório aponta a lacuna em vez de contar como aprovado.",
+      "why": "As IAs tendem a ler “sem erro” como “sem problema”; decidir antes o que um resultado em branco significa fecha essa porta.",
+      "try": "Adicione a um checklist: “Páginas que você não verificou contam como reprovadas; liste-as separadamente.”"
+    },
+    {
+      "quote": "For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.",
+      "quoteTr": "Para uma corrida ou formato misto, declare `first pass`, `rank all` ou `best-of` antes de disparar.",
+      "title": "Defina a regra de vitória antes",
+      "does": "Quando várias IAs ajudantes competem na mesma tarefa, a forma de escolher a vencedora fica definida antes de começarem, para não mudar depois.",
+      "why": "Regras definidas antes dos resultados impedem a IA de escolher o critério que mais favorece o desfecho.",
+      "try": "Diga antes de começar: “Das três versões, vamos ficar com a que carregar mais rápido.” Depois comece."
+    },
+    {
+      "quote": "lists every issue it can prove, not only the first",
+      "quoteTr": "lista todos os problemas que consegue provar, não apenas o primeiro",
+      "title": "Peça todos, não só o primeiro",
+      "does": "Lista todos os problemas que consegue provar, em vez de parar no primeiro.",
+      "why": "As IAs tendem a parar no primeiro achado; dizer “não apenas o primeiro” quebra esse hábito.",
+      "try": "Ao revisar um contrato: “Encontre todas as cláusulas que me prejudicam, não só a primeira.”"
+    }
+  ],
+  "blocks": [
+    "# Swarm",
+    "## Início",
+    "Abra uma lista de tarefas com um item por fase antes de iniciar qualquer coisa.",
+    "1. Estruturar\n2. Disparar\n3. Agregar\n4. Reportar",
+    "## Fase A: Estruturar",
+    "1. Declare a condição de conclusão e o artefato ou relatório que o swarm deve devolver.\n2. Escolha o formato. Divida em fatias, coloque N workers em corrida com briefings idênticos ou misture os dois. Para uma corrida ou formato misto, declare `first pass`, `rank all` ou `best-of` antes de disparar.\n3. Escolha o modelo dos workers na linha `swarm workers` do arquivo de configurações do pstack (`~/.cursor/rules/pstack-models.mdc` no Cursor, `~/.claude/rules/pstack-models.md` no Claude Code, `~/.agents/pstack-models.md` em outros harnesses). Se o arquivo ou essa linha não existir, use `claude-opus-5-5-high-fast`. Para `auto` ou `inherit-parent`, omita `model` para que os workers rodem no modelo pai. Se a sua ferramenta de subagentes rejeitar um slug, use o padrão e avise. Se ela rejeitar o padrão, use o slug válido mais próximo da mesma família indicado na mensagem de erro ou na lista de modelos do seu harness. Para uma corrida de modelos, indique antes o modelo de cada braço. Escolha o nível de raciocínio de cada subagente para a tarefa, conforme a seção Subagentes da skill **poteto-mode**.\n4. Dê a cada worker sua própria saída gravável quando ele escrever. Quando os workers verificarem ou medirem commits, cada briefing informa os SHAs exatos. Um briefing de medição também informa o método (quantidade de amostras, o que é uma amostra e ordem). O worker registra os dois no resultado.",
+    "## Fase B: Disparar",
+    "Dispare todos os N workers em uma única mensagem com `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true` e o modelo do passo 3, sem definir para `auto` ou `inherit-parent`. Use `environment: \"local\"` somente quando o worker precisar acessar algo no computador do usuário.",
+    "Quando um worker precisar partir de uma branch que não seja a padrão e já esteja no remoto, passe `cloud_base_branch`.",
+    "**Outros harnesses.** Esses parâmetros pertencem à ferramenta `Task` do Cursor, e `environment: \"cloud\"` roda um agente em nuvem do Cursor. Em outro harness, use a ferramenta de subagentes dele: `Agent` no Claude Code (`subagent_type: general-purpose`), `task` no OpenCode (`subagent_type: general`) e `spawn_agent` no Codex. Lá, os workers rodam localmente, então dê a cada um seu próprio worktree ou caminho de saída. Mantenha o briefing e o modelo. Descarte os parâmetros que a sua ferramenta não tiver. Se o seu harness não tiver ferramenta de subagentes, como no Pi sem extensão, rode os workers por conta própria, um após o outro.",
+    "Todo briefing se sustenta sozinho. Inclua o objetivo, o escopo, a fatia exata ou o braço da corrida, como verificar e o que reportar. Os relatórios usam `PASS`, `ISSUES` ou `BLOCKED` com evidências. Um worker que conseguir provar um defeito reporta `ISSUES` e lista todos os problemas que consegue provar, não apenas o primeiro.",
+    "Se um worker cair, siga com N-1 e anote isso.",
+    "## Fase C: Agregar",
+    "Leia os resultados finais. Descarte qualquer resultado que não registre os SHAs e o método indicados no briefing dele e relance esse worker uma vez. Depois de uma segunda falha, registre uma lacuna. Uma lacuna não conta como aprovação. Para cobertura, cada fatia obrigatória precisa de um resultado. Para uma corrida, aplique a regra de seleção declarada antes. Use first pass, rank all ou best-of. Não cole saídas brutas dos workers.",
+    "## Fase D: Reportar",
+    "Devolva um único relatório consolidado no chat com uma tabela de resultados, uma linha por problema, lacunas ou quedas e a regra da corrida, quando usada."
+  ]
+}

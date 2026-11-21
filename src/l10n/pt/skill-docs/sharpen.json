@@ -1,0 +1,61 @@
+{
+  "description": "Deixe uma tarefa mais profunda, não maior, e depois reescreva o prompt. Use para /sharpen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Deixa a tarefa maior empilhando mais trabalho.",
+        "with": "Primeiro diz o que um profissional de ponta faria e que você não pediu."
+      },
+      {
+        "without": "Parte de um material que alguém já digeriu para você.",
+        "with": "Aponta o material mais bruto pelo qual um profissional começaria."
+      },
+      {
+        "without": "Considera o resultado certo porque você e a IA gostaram dele.",
+        "with": "Aponta algo externo a você e à IA que mostraria que está certo."
+      }
+    ],
+    "intro": "Antes de reescrever seu prompt, a IA aponta o que um profissional de ponta adicionaria, o material mais bruto, os métodos e ferramentas, e uma verificação externa. Depois, reescreve o prompt para pedir exatamente isso: prototipar as escolhas que um experimento pode resolver e deixar as decisões de gosto para você.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "I want a deeper version of this task, not a bigger one.",
+      "quoteTr": "Quero uma versão mais profunda desta tarefa, não uma maior.",
+      "title": "Diga a direção que você não quer",
+      "does": "Reescreve seu prompt para ir mais fundo, em vez de empilhar mais trabalho nele.",
+      "why": "Tanto “mais profunda” quanto “maior” significam “mais”; colocar as duas lado a lado diz à IA em que direção acrescentar.",
+      "try": "Quando pedir uma melhoria, diga a direção: “Quero este artigo mais afiado, não mais longo.”"
+    },
+    {
+      "quote": "Say what a top professional in this field would do here that I'm not asking for.",
+      "quoteTr": "Diga o que um profissional de ponta nesta área faria aqui e que eu não estou pedindo.",
+      "title": "Pegue emprestado o olhar de um especialista",
+      "does": "Adiciona os passos em que você não pensou, mas que um especialista nunca pularia.",
+      "why": "“Faça melhor” não tem direção; “o que um profissional de ponta faria” dá à IA alguém concreto para imitar.",
+      "try": "Antes de editar, pergunte: “O que um editor sênior faria com este rascunho e que eu não pedi?”"
+    },
+    {
+      "quote": "Say what, other than you or me, would show the result is right.",
+      "quoteTr": "Diga o que, além de você ou de mim, mostraria que o resultado está certo.",
+      "title": "Peça um juiz externo",
+      "does": "O prompt reescrito inclui uma verificação externa, como dados reais, um teste ou seguir o resultado na prática.",
+      "why": "Tanto quem escreve quanto quem pede tendem a gostar do resultado; apontar algo externo aos dois é o que o torna convincente.",
+      "try": "Adicione: “Além de você e eu gostarmos dele, o que provaria que este guia de migração está certo?”"
+    },
+    {
+      "quote": "Leave product or preference choices that no experiment can settle for me to make.",
+      "quoteTr": "Deixe para mim as escolhas de produto ou de preferência que nenhum experimento pode resolver.",
+      "title": "Marque quais decisões são suas",
+      "does": "Prototipa escolhas que um experimento pode resolver e recomenda uma; decisões de gosto, como estilo, ficam para você.",
+      "why": "Separar o que um teste pode responder do que só você pode decidir impede que a IA decida por você para parecer minuciosa.",
+      "try": "Escreva: “Prototipe os dois layouts e recomende um; eu escolho as cores, então liste só duas ou três opções.”"
+    }
+  ],
+  "blocks": [
+    "Quero uma versão mais profunda desta tarefa, não uma maior. Antes de reescrevê-la, faça quatro coisas:",
+    "1. Diga o que um profissional de ponta nesta área faria aqui e que eu não estou pedindo.\n2. Aponte o material mais bruto pelo qual esse profissional começaria, em vez do que já foi digerido para mim.\n3. Aponte os métodos e ferramentas específicos que esse profissional usaria.\n4. Diga o que, além de você ou de mim, mostraria que o resultado está certo.",
+    "Depois, reescreva meu prompt para pedir exatamente isso.",
+    "Faça o prompt reescrito pedir ao agente que prototipe qualquer escolha que um experimento possa resolver e recomende uma opção com base no que observou. Deixe para mim as escolhas de produto ou de preferência que nenhum experimento pode resolver."
+  ]
+}

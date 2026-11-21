@@ -1,0 +1,74 @@
+{
+  "description": "Finde die Fehler, die Agents in diesem Repo immer wieder machen, und mach jeden einzelnen unmöglich. Versuch es zuerst über Architektur, dann über Typen, dann über eine Lint-Prüfung, deren Fehlermeldung die Lösung nennt, dann über einen Test, und schreib erst zuletzt Doku. Beweise, dass jede Prüfung bei einem echten früheren Fehler fehlschlägt. Wiederhole das jedes Mal, wenn der Operator dich korrigiert. Für /correct verwenden.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Fügt nach jeder Korrektur eine weitere Regel in die Anweisungsdatei ein.",
+        "with": "Ändert zuerst Architektur oder Typen, sodass sich der falsche Code nicht schreiben lässt."
+      },
+      {
+        "without": "Geht davon aus, dass eine neue Prüfung funktioniert, sobald sie hinzugefügt wurde.",
+        "with": "Beweist, dass jede neue Prüfung bei einem echten früheren Fehler fehlschlägt."
+      },
+      {
+        "without": "Behebt nur die Stelle direkt vor sich, wenn sich ein Fehler wiederholt.",
+        "with": "Wertet eine Regel, die von nichts durchgesetzt wird, als Wiederholung und behebt das Problem auf einer höheren Ebene."
+      }
+    ],
+    "intro": "Das Ziel ist, das Repo so zu ändern, dass der nächste Agent – der nur seine geöffneten Dateien sieht und das nächstgelegene Beispiel kopiert – den Fehler nicht wiederholen kann.",
+    "sections": [
+      "Liest die letzten Commits, Reverts, Review-Kommentare und Agent-Anweisungsdateien und gruppiert wiederholte Fehler in Klassen.",
+      "Behebt jede Klasse auf der höchsten von vier Ebenen: Architektur, Typen und Lint, Verhaltenstests und erst zuletzt Doku.",
+      "Behebt die häufigsten Klassen in jeweils einem Commit und beweist lokal wie in der CI, dass jede Prüfung bei einem echten früheren Fehler fehlschlägt.",
+      "Führt in der Anweisungsdatei eine Tabelle, die jeder Regel zuordnet, was sie durchsetzt. Die Antwort nennt für jede Klasse die Belege, ihre Ebene und warum."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles.",
+      "quoteTr": "Geh davon aus, dass alle Mitwirkenden Agents sind, die nur ihre geöffneten Dateien sehen, das nächstgelegene Beispiel kopieren und den kürzesten Weg nehmen, der kompiliert.",
+      "title": "Stell dir den faulsten Nutzer vor",
+      "does": "Der Skill richtet das Repo auf eine KI aus, die eine Datei liest und das nächstgelegene Beispiel kopiert – sodass selbst Abkürzungen zum richtigen Ergebnis führen.",
+      "why": "Wenn du die schlechten Angewohnheiten des Nutzers einzeln benennst, kann die KI jede Lücke schließen.",
+      "try": "Wenn die KI Anweisungen schreibt, ergänze: „Geh davon aus, dass Leser nur den ersten Absatz lesen und das erste Beispiel kopieren.“"
+    },
+    {
+      "quote": "Fix each class at the highest level that works",
+      "quoteTr": "Jede Klasse auf der höchsten Ebene beheben, die funktioniert",
+      "title": "Ordne die Lösungen: stärkste zuerst",
+      "does": "Die KI versucht zuerst, den Fehler unmöglich zu machen, und schreibt nur dann eine Erinnerungs-Doku, wenn nichts Stärkeres greift.",
+      "why": "Wenn du die Optionen nach Stärke ordnest, greift die KI nicht zuerst zur einfachsten, schwächsten Lösung.",
+      "try": "Ordne die Optionen: „Probier zuerst ein Pflichtfeld, um falsche Eingaben zu blockieren, dann einen Hinweis und erst danach eine schriftliche Notiz.“"
+    },
+    {
+      "quote": "Nothing fails when an agent skips them.",
+      "quoteTr": "Nichts schlägt fehl, wenn ein Agent sie überspringt.",
+      "title": "Sag, warum die schwache Lösung scheitert",
+      "does": "Die KI weiß, dass Doku keinen Fehler verhindert, und hebt sie sich für Ermessensfragen auf.",
+      "why": "Wenn du die Schwachstelle der Lösung in einer Zeile benennst, überzeugt das mehr als „schreib weniger Doku“ – so macht die KI von selbst einen Bogen darum.",
+      "try": "Gib den Grund gleich mit der Regel an: „Niemand bekommt eine Fehlermeldung, wenn eine Erinnerungs-Mail übersprungen wird – mach den entscheidenden Schritt also zum Pflichtfeld.“"
+    },
+    {
+      "quote": "A class counts once it has happened twice.",
+      "quoteTr": "Eine Klasse zählt, sobald sie zweimal vorgekommen ist.",
+      "title": "Setz eine Zahl als Schwelle",
+      "does": "Ein einmaliger Fehler löst keine große Änderung aus; einer, der zweimal vorkommt, schon.",
+      "why": "Eine konkrete Zahl macht aus „passiert immer wieder“ etwas, das die KI zählen statt beurteilen kann.",
+      "try": "Leg eine Zahl fest: „Wenn dieselbe Frage ein zweites Mal auftaucht, nimm die Antwort in die FAQ auf.“"
+    }
+  ],
+  "blocks": [
+    "# Korrigieren",
+    "Der Operator korrigiert Agents in diesem Repo immer wieder wegen derselben Fehler. Ändere das Repo so, dass der nächste Agent sie nicht mehr machen kann.",
+    "Geh davon aus, dass alle Mitwirkenden Agents sind, die nur ihre geöffneten Dateien sehen, das nächstgelegene Beispiel kopieren und den kürzesten Weg nehmen, der kompiliert. Gestalte das Repo so, dass eine Änderung, die aus Sicht einer einzelnen Datei richtig aussieht, auch für das gesamte Repo richtig ist.",
+    "## Fehlerklassen finden",
+    "Lies zuerst die letzten Commits, Reverts, Review-Kommentare, Agent-Anweisungsdateien und Kommentare, die Workarounds erklären. Gruppiere die Fehler in Klassen. Eine Klasse zählt, sobald sie zweimal vorgekommen ist.",
+    "## Jede Klasse auf der höchsten Ebene beheben, die funktioniert",
+    "1. **Durch Architektur ausschließen.** Gib jedem Zustand genau eine zuständige Stelle und jeder Aufgabe genau einen unterstützten Weg. Verstecke Interna, damit der falsche Import fehlschlägt. Ersetze von Hand synchronisierte Listen durch eine einzige Quelle der Wahrheit. Lösche alte Wege und toten Code, den ein Agent kopieren würde.\n2. **Mit Typen erzwingen, damit sich der fehlerhafte Zustand nicht schreiben lässt.** Wenn fehlerhafter Code trotzdem kompiliert, füge eine Lint- oder CI-Prüfung hinzu, deren Fehlermeldung nennt, welche Datei, welcher Typ oder welche Funktion stattdessen genutzt werden soll. Wenn das Muster schon häufig vorkommt, lass die Prüfung nur fehlschlagen, wenn eine Änderung weitere Fälle hinzufügt.\n3. **Das Verhalten testen.** Korrigiere oder lösche jeden Test, der noch durchläuft, wenn das geprüfte Verhalten kaputtgeht, oder der fehlschlägt, wenn sich nur die Interna ändern.\n4. **Doku oder Agent-Regeln erst zuletzt schreiben, nur für Ermessensfragen.** Nichts schlägt fehl, wenn ein Agent sie überspringt.",
+    "## Beheben und beweisen",
+    "Behebe dann direkt die häufigsten Klassen, jeweils in einem Commit. Beweise, dass jede neue Prüfung bei einem echten früheren Fehler fehlschlägt. Führe denselben Befehl lokal und in der CI aus. Ausnahmen gehören direkt in die betroffene Zeile, mit Begründung, Ablaufdatum und Freigabe eines Menschen.",
+    "## Die Regeltabelle pflegen",
+    "Führe zuletzt in der Agent-Anweisungsdatei eine Tabelle, die jeder Regel zuordnet, was sie durchsetzt. Wenn der Operator dich korrigiert, behebe den Fehler und füge die Regel hinzu. Wenn die Regel schon da war und nichts sie durchsetzt, ist das eine Wiederholung – behebe das Problem also in derselben Änderung auf der höchsten Ebene. Streiche eine Regel, sobald der zugehörige Fehler nicht mehr passieren kann.",
+    "**Antwort:** jede Klasse mit ihren Belegen, die gewählte Ebene und warum eine höhere Ebene nicht funktioniert hat."
+  ]
+}

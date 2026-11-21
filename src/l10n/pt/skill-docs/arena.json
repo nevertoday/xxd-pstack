@@ -1,0 +1,85 @@
+{
+  "description": "Lance N candidatos em paralelo na mesma tarefa, escolha uma base e enxerte nela as partes mais fortes dos perdedores. Use para /arena, “faça uma arena disso”, “jogue isso na arena” ou quando uma única tentativa em um artefato não trivial poderia travar o resultado no formato errado.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Escolhe a versão que parece melhor no geral.",
+        "with": "Define de 3 a 6 critérios pontuáveis e dá nota para cada candidato em cada um deles."
+      },
+      {
+        "without": "Deixa o mesmo modelo que escreveu o trabalho dar a nota.",
+        "with": "Coloca um modelo de outro fornecedor para julgar os candidatos e recomendar uma base."
+      },
+      {
+        "without": "Cola pedaços de várias versões juntos.",
+        "with": "Escolhe uma base e incorpora à mão uma ou duas ideias das outras."
+      }
+    ],
+    "intro": "Abre uma lista de tarefas com um item para cada fase antes de iniciar qualquer coisa.",
+    "sections": [
+      "Define o que cada candidato produz, cria uma grade de avaliação de 3 a 6 pontos, escolhe os executores e dá a cada um seu próprio worktree (uma segunda pasta de trabalho ligada ao mesmo repositório Git).",
+      "Dispara todos os executores em uma única mensagem. Cada um devolve o trabalho e uma justificativa dizendo o que rejeitou.",
+      "Depois que todos terminam, um juiz de outro fornecedor dá nota para cada critério sem editar nada e recomenda uma base.",
+      "Lê cada candidato de ponta a ponta, pontua cada critério e compara com o juiz. Divergência significa reler as duas justificativas.",
+      "Traz à mão uma ou duas boas ideias de cada perdedor para a base. Divergência extrema significa reenquadrar e rodar de novo.",
+      "Verifica o resultado segundo prove-it-works. Se algo falhar, volta para Enquadramento ou para Enxerto.",
+      "Entrega um artefato e uma nota: a base escolhida e o motivo, o veredito do juiz, a origem de cada enxerto, o que foi rejeitado e a verificação."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Every candidate gets the same prompt, so the prompt is the contract.",
+      "quoteTr": "Todo candidato recebe o mesmo prompt, então o prompt é o contrato.",
+      "title": "Escreva o prompt como um contrato",
+      "does": "Escreve a tarefa e as regras de pontuação antes de enviar qualquer candidato, para que as versões possam ser comparadas de forma justa.",
+      "why": "Chamar o prompt de contrato lembra a IA de que nada que ficou de fora pode ser cobrado de um candidato depois, então ela coloca tudo por escrito.",
+      "try": "Quando várias IAs ou pessoas forem fazer o mesmo trabalho, dê uma instrução única: “Uma página, menos de 800 palavras, três exemplos reais.”"
+    },
+    {
+      "quote": "Score each against the rubric criterion by criterion, not on holistic feel",
+      "quoteTr": "Dê nota a cada um segundo a grade de avaliação, critério por critério, não pela sensação geral",
+      "title": "Dê notas com uma grade de avaliação",
+      "does": "Ao escolher uma base, mostra a nota de cada versão em cada ponto, para você ver por que escolheu aquela.",
+      "why": "A sensação geral se deixa levar pelo acabamento ou pelo tamanho; pontuar ponto a ponto divide uma decisão nebulosa em pequenas decisões verificáveis.",
+      "try": "Ao comparar opções, passe a grade de avaliação: “Dê nota de 1 a 5 para velocidade, custo e facilidade de mudança, depois escolha.”"
+    },
+    {
+      "quote": "The judge is never from the parent's vendor, and Fable counts as Claude for that check, so use the first entry from another vendor.",
+      "quoteTr": "O juiz nunca é do fornecedor do modelo pai, e Fable conta como Claude nessa verificação, então use a primeira entrada de outro fornecedor.",
+      "title": "Traga um juiz de fora",
+      "does": "Os candidatos são pontuados por um modelo de outro fornecedor, para que nenhum modelo favoreça o próprio estilo.",
+      "why": "Nomear de onde vem o viés e eliminá-lo com uma regra rígida funciona melhor do que pedir objetividade.",
+      "try": "Para revisar o trabalho de uma IA, troque quem revisa: “O Claude escreveu isso; peça para o GPT criticar como leitor.”"
+    },
+    {
+      "quote": "Reframe and re-run rather than averaging the divergence.",
+      "quoteTr": "Reenquadre e rode de novo, em vez de tirar uma média da divergência.",
+      "title": "Rastreie resultados ruins até a pergunta",
+      "does": "Quando as versões divergem demais, reformula a tarefa e roda de novo, em vez de costurar tudo numa bagunça.",
+      "why": "Encara resultados bagunçados como uma pergunta mal formulada, então a IA corrige a origem em vez de ficar no meio-termo.",
+      "try": "Quando respostas da IA se contradizem, não peça um meio-termo; pergunte: “O que ficou pouco claro no meu pedido que levou a respostas tão diferentes?”"
+    }
+  ],
+  "blocks": [
+    "# Arena",
+    "Abra uma lista de tarefas com um item para cada fase (Enquadramento, Disparo em paralelo, Julgamento cruzado, Escolha, Enxerto, Verificação) antes de iniciar qualquer coisa.",
+    "## Fase A: Enquadramento",
+    "Todo candidato recebe o mesmo prompt, então o prompt é o contrato.",
+    "1. Defina qual artefato cada candidato vai produzir.\n2. Monte a grade de avaliação com 3 a 6 critérios concretos e pontuáveis que definam o que é sucesso *nesta* tarefa. Ela é a ferramenta de quem escolhe na Fase D. Os candidatos só veem a tarefa.\n3. Escolha os executores na linha `arena runners` do arquivo de configuração do pstack (`~/.cursor/rules/pstack-models.mdc` no Cursor, `~/.claude/rules/pstack-models.md` no Claude Code e `~/.agents/pstack-models.md` em outros harnesses — ferramentas que rodam a IA), por padrão `claude-fable-5-2-high`, `claude-opus-5-5-high-fast` e `gemini-4-neon-xhigh`. Uma entrada `auto` ou `inherit-parent` representa o modelo pai; nesse caso, omita `model` e crie um subagente de uso geral (`generalPurpose` no Cursor). Se a sua ferramenta de subagentes rejeitar um slug, use o slug válido mais próximo da mesma família que aparecer na mensagem de erro ou na lista de modelos do seu harness, ou retire essa vaga, mantenha pelo menos dois executores e avise sobre isso. As famílias seguem o prefixo e vence a correspondência mais longa: `claude-fable-*`, `claude-*` e `gemini-*`, depois de remover um `cursor-` inicial. A família de qualquer outro slug é o texto antes do primeiro hífen. Crie mais subagentes para explorar várias direções de design e repita um mesmo modelo quando o trabalho depender mais de geração do que de julgamento. Escolha o nível de raciocínio de cada subagente conforme a seção Subagentes da skill **poteto-mode**.\n4. Dê a cada candidato o seu próprio local de saída (um worktree do Git sempre que possível; caso contrário, `/tmp/arena-<slug>/candidate-<n>/`), conforme a skill de princípio **separate-before-serializing-shared-state**.",
+    "## Fase B: Disparo em paralelo",
+    "Crie todos os N subagentes em uma única mensagem com `run_in_background: true`, cada um recebendo a tarefa, o caminho para o material de base compartilhado, o próprio caminho de saída e instruções para produzir o artefato e uma breve justificativa citando as alternativas que considerou e o que rejeitou.",
+    "Se um candidato não produzir saída, siga com N-1 e registre a ausência.",
+    "## Fase C: Julgamento cruzado",
+    "Depois que todos os candidatos da Fase B terminarem, crie um juiz somente leitura a partir da linha `arena cross-judge pool` do arquivo de configuração do pstack (`~/.cursor/rules/pstack-models.mdc` no Cursor, `~/.claude/rules/pstack-models.md` no Claude Code e `~/.agents/pstack-models.md` em outros harnesses), por padrão `claude-opus-5-5-high-fast`, `gemini-4-neon-xhigh`. O juiz nunca é do fornecedor do modelo pai, e Fable conta como Claude nessa verificação, então use a primeira entrada de outro fornecedor. Uma entrada `auto` ou `inherit-parent` representa o modelo pai. Se você não souber qual é o modelo pai, use o primeiro slug real e avise que a verificação de fornecedor não rodou. Se a sua ferramenta de subagentes rejeitar um slug, use o slug válido mais próximo da mesma família que aparecer na mensagem de erro ou na lista de modelos do seu harness, depois tente a próxima entrada desse tipo ou pule o juiz, e avise sobre isso. Enquanto você faz a leitura na Fase D, o juiz dá nota para cada candidato, pelo rótulo do caminho, em cada critério da grade de avaliação e recomenda uma base.",
+    "## Fase D: Escolha da base",
+    "Leia cada candidato de ponta a ponta antes de escolher. Dê nota a cada um segundo a grade de avaliação, critério por critério, não pela sensação geral, e compare com o juiz cruzado quando a Fase C tiver rodado um. Concordância na base confirma a escolha. Divergência significa que um dos dois está enviesado ou a grade de avaliação estava ambígua. Leia as duas justificativas antes de decidir.",
+    "Escolha a base que quem for dar manutenção no futuro consiga estender com mais facilidade sem quebrar invariantes. Quando duas parecerem empatadas, prefira a fronteira mais limpa ou a API menor, conforme o Laziness Protocol.",
+    "## Fase E: Enxerto",
+    "Passe por cada candidato perdedor mais uma vez procurando o que vale a pena trazer para a base, em geral uma ou duas coisas por candidato, não a maior parte. Integre cada enxerto à mão, conforme a skill de princípio **redesign-from-first-principles**, para que o resultado continue coerente sob um único modelo mental. Não cole mecanicamente.",
+    "Se os candidatos convergirem para um mesmo formato, há forte concordância. Registre isso e entregue o formato de consenso. Não é preciso fazer nenhum enxerto. Se divergirem demais, a Fase A ficou pouco especificada. Reenquadre e rode de novo, em vez de tirar uma média da divergência.",
+    "## Fase F: Verificação",
+    "Verifique o artefato sintetizado como qualquer outra saída, conforme a skill de princípio **prove-it-works**. Se a verificação encontrar um problema que a arena deixou passar, ou a Fase A estava errada (reenquadre e rode de novo) ou algum candidato pegou isso e você deixou passar o enxerto (volte para a Fase E). Não tente disfarçar.",
+    "## Saídas",
+    "Um artefato sintetizado, acompanhado de uma breve nota de síntese informando a base escolhida e o motivo, o veredito do juiz cruzado ou a indicação de que a Fase C pulou o juiz, cada enxerto com o candidato de origem, o que foi rejeitado e o porquê, eventuais convergências ou candidatos sem saída e o resultado da verificação."
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "description": "Entwirft ein überprüfbares Playbook, wenn kein spezielleres passt: eine große Migration, eine anspruchsvolle mehrteilige Änderung oder Arbeit, die ein Mensch nach einer Abwesenheit prüft. Passt die Sorgfalt an die Aufgabe an, arbeitet in einer Hypothesen-Schleife und protokolliert Entscheidungen. Nutze es für /figure-it-out oder „figure it out“.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Fängt bei der großen Aufgabe sofort mit dem Coden an.",
+        "with": "Liefert zuerst eine Phasenliste mit einem Fertig-Test und einer Sorgfaltsstufe."
+      },
+      {
+        "without": "Verlässt sich auf den eigenen Bericht, dass die Arbeit erledigt ist.",
+        "with": "Prüft das echte Artefakt und vergibt VERIFIED, NOT VERIFIED oder INCONCLUSIVE."
+      },
+      {
+        "without": "Hebt sich das ganze Prüfen bis zum Schluss auf.",
+        "with": "Misst jede kleine Änderung am Fertig-Test und macht rückgängig, was nicht geholfen hat."
+      }
+    ],
+    "intro": "Der Skill gibt vor, dass die KI zuerst ein Playbook entwirft, wenn keins passt: Phasen passend zum Risiko, als Experimente durchgeführt, mit einem überprüfbaren Entscheidungsprotokoll.",
+    "sections": [
+      "Macht das Lesen des Abschnitts „Prinzipien“ in `poteto-mode` zum ersten To-do und fügt dann die Phasen hinzu.",
+      "Nennt vor dem Start einen widerlegbaren Fertig-Test, einen bezifferten Umfang und eine Sorgfaltsstufe. Ein langer Lauf bekommt einen Checkpoint mit dir.",
+      "Teilt die Arbeit in einzeln integrierbare Einheiten auf, die riskanteste zuerst, erstellt die Prüfung samt Baseline vor der Arbeit und schreibt die Phasenliste auf.",
+      "Behandelt jede Einheit als Experiment: Hypothese, kleinste Änderung, am Fertig-Test messen, behalten oder zurücksetzen.",
+      "Protokolliert den Lauf mit `show-me-your-work`, eine Zeile pro abgeschlossenem Schritt, meist zusammen mit dem Code committet.",
+      "Prüft das Ganze am echten Produkt gegen den Fertig-Test, macht wiederkehrende Korrekturen zu Prüfungen und listet auf, was offen ist."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Rigor is gates and artifacts, not \"try harder\".",
+      "quoteTr": "Sorgfalt heißt Prüfpunkte und Artefakte, nicht „streng dich mehr an“.",
+      "title": "Mach aus „sei vorsichtig“ Prüfungen",
+      "does": "Wenn es auf Sorgfalt ankommt, baut sie Prüfungen ein und hebt Belege auf, statt zu versprechen, vorsichtiger zu sein.",
+      "why": "„Streng dich mehr an“ lässt sich nicht prüfen; ein zusätzlicher Prüfpunkt ist entweder da oder nicht.",
+      "try": "Wenn du Sorgfalt willst, verlange eine Aktion: „Führ nach jeder geänderten Datei die Tests aus und füg das Ergebnis ein.“"
+    },
+    {
+      "quote": "Sequence riskiest-unknown-first.",
+      "quoteTr": "Reihenfolge: riskanteste Unbekannte zuerst.",
+      "title": "Starte mit der riskantesten Unbekannten",
+      "does": "Der Teil, der am ehesten scheitern kann, kommt zuerst dran – so zeigen sich Probleme früh und nicht erst ganz am Schluss.",
+      "why": "Eine einzige Reihenfolgeregel legt fest, wo die KI anfängt, sodass sie nicht zuerst die leichten Teile macht, um beschäftigt zu wirken.",
+      "try": "Ergänze bei einer großen Aufgabe: „Mach den Schritt, bei dem du am unsichersten bist, zuerst; heb die vertrauten für später auf.“"
+    },
+    {
+      "quote": "When something passes too easily, suspect the observation method before the system.",
+      "quoteTr": "Wenn etwas zu leicht durchgeht, verdächtige zuerst die Beobachtungsmethode, noch vor dem System.",
+      "title": "Bring der KI bei, gute Nachrichten anzuzweifeln",
+      "does": "Wenn ein Ergebnis zu gut aussieht, prüft die KI erst ihre Messmethode, bevor sie Erfolg meldet.",
+      "why": "Wenn du die Situation benennst, in der man sich am leichtesten täuschen lässt, hält die KI genau dann inne.",
+      "try": "Wenn du einen Testlauf anforderst, ergänze: „Wenn beim ersten Mal alles besteht, prüf nach, ob die Tests wirklich gelaufen sind.“"
+    },
+    {
+      "quote": "Inconclusive is not a pass.",
+      "quoteTr": "Unklar zählt nicht als bestanden.",
+      "title": "Regle die Grauzone zuerst",
+      "does": "Ein unklares Ergebnis wird als unklar gemeldet und niemals als bestanden verkauft.",
+      "why": "Wenn du den Fall, der sich am leichtesten schönreden lässt, vorab festlegst, bleibt der KI kein Spielraum zum Schönreden.",
+      "try": "Wenn du einen Maßstab festlegst, deck auch den Fall dazwischen ab: „Ein Test, der nicht gelaufen ist, zählt als fehlgeschlagen.“"
+    }
+  ],
+  "blocks": [
+    "# Finde es heraus",
+    "Wenn kein Playbook zur Aufgabe passt, entwirf eins. Das Ergebnis vor jedem Code ist der Workflow selbst: eine Abfolge von Phasen, die die Sorgfalt an die Aufgabe anpasst, nach der wissenschaftlichen Methode vorgeht und ein Entscheidungsprotokoll hinterlässt, das ein Mensch nach einer Abwesenheit prüfen kann.",
+    "## Start",
+    "Öffne eine To-do-Liste, deren erster Punkt das Lesen des Abschnitts „Prinzipien“ im Skill **poteto-mode** ist. Füg dann die folgenden Phasen als To-dos hinzu.",
+    "## Phase A: Rahmen abstecken",
+    "Mach zuerst eine Bestandsaufnahme, dann leg dich fest. Starte den Lauf erst, wenn du Folgendes benennen kannst:",
+    "- Die Definition von „fertig“ als widerlegbares Prüfkriterium (der Prinzip-Skill **prove-it-works**).\n- Bezifferter Umfang: grobe Einheiten und Aufwand plus die Blocker, die bei der Bestandsaufnahme aufgetaucht sind.\n- Die Sorgfaltsstufe, im Zweifel hoch angesetzt. Unumkehrbare Entscheidungen und hoher Schadensradius bekommen mehr. Umkehrbare Schritte mit geringem Risiko bekommen weniger. Sorgfalt heißt Prüfpunkte und Artefakte, nicht „streng dich mehr an“.",
+    "Stell den Rahmen und die Abwägungen vor, bevor du dich auf einen langen Lauf festlegst. Umkehrbare Arbeit läuft weiter (der Prinzip-Skill **never-block-on-the-human**), aber ein mehrstündiger Lauf verdient einen Checkpoint.",
+    "## Phase B: Workflow entwerfen",
+    "Zerlege die Arbeit in atomare, unabhängig integrierbare Einheiten. Reihenfolge: riskanteste Unbekannte zuerst. Grundgerüst und Prüfung kommen vor Features (der Prinzip-Skill **foundational-thinking**).",
+    "- Bau den Prüfrahmen vor der Arbeit, mit der Baseline aus dem Zustand vor der Änderung, sodass die Prüfung „alter Wert vs. neuer Wert“ zeigt.\n- Bei unumkehrbaren Design-Entscheidungen führ den Skill **architect** aus (er führt **arena** aus). Überspring ihn bei mechanischer Arbeit, deren Form bereits feststeht. Ein zweiter arena-Durchlauf über ein geklärtes Design ist Over-Engineering (der Prinzip-Skill **laziness-protocol**).\n- Entscheide, was parallel aufgefächert wird. Parallelisiere nur entlang klarer Trennlinien und gib jedem Worker einen eigenen Worktree oder Branch (der Prinzip-Skill **separate-before-serializing-shared-state**). Fächere nicht zu breit auf. Wähl die Reasoning-Stufe jedes Subagents passend zur Aufgabe, gemäß dem Abschnitt „Subagents“ im Skill **poteto-mode**.\n- Schreib die entworfene Phasenliste auf. Diese Liste prüft der Mensch.",
+    "Setz den Entwurf dann um. Füg seine Schritte als konkrete Punkte zwischen den Einträgen für Phase C und Phase D in die To-do-Liste ein. Arbeite jeden Schritt nach der Schleifen-Disziplin aus Phase C ab und webe das Protokoll aus Phase D laufend mit ein – eine Zeile, sobald ein Schritt abgeschlossen ist –, statt das gesamte Protokoll bis zum Schluss aufzuheben.",
+    "## Phase C: Die Schleife durchlaufen",
+    "Jede Einheit ist ein Experiment. Formuliere die Hypothese, mach die kleinste Änderung, miss am echten Artefakt gegen das Prüfkriterium: Behalt sie, wenn sie Fortschritt gebracht hat, und setz sie zurück, wenn nicht. Wende den Prinzip-Skill **sequence-verifiable-units** an und prüf jede Einheit, bevor du die nächste startest, statt Prüfungen am Schluss zu bündeln.",
+    "- Prüf, indem du das Artefakt selbst ansiehst – niemals anhand eines Selbstberichts. Wenn etwas zu leicht durchgeht, verdächtige zuerst die Beobachtungsmethode, noch vor dem System.\n- Kombiniere delegierte Arbeit mit einer Prüfinstanz. Wenn ein Worker den Prüfpunkt austrickst, setz zurück und verschärfe die Vorgabe. Wenn der Prüfpunkt selbst falsch ist, korrigier den Prüfpunkt in einer eigenen Änderung, statt ihn zu umgehen.\n- Ein Urteil lautet VERIFIED, NOT VERIFIED oder INCONCLUSIVE. Unklar zählt nicht als bestanden. Versteck kein negatives Ergebnis.",
+    "## Phase D: Prüfprotokoll führen",
+    "Protokolliere den Lauf über den Skill **show-me-your-work**. Die Arbeit von figure-it-out ist meist anspruchsvoll genug, um das Protokoll ebenfalls zu committen, damit Prüfende es im PR lesen können. Das Protokoll zusammen mit dem Diff sorgt dafür, dass der Mensch zurückkommen und der Arbeit vertrauen kann.",
+    "## Phase E: Prüfen und übergeben",
+    "Prüf das Ganze am echten Produkt gegen das Prüfkriterium aus Phase A, nicht nur im Prüfrahmen. Verankere jede wiederkehrende Korrektur als Prüfpunkt, Lint-Regel, Prüfung oder Skript (der Prinzip-Skill **encode-lessons-in-structure**).",
+    "**Antwort:** das entworfene Playbook, die Sorgfaltsstufe mit Begründung, der Pfad zum Entscheidungsprotokoll, was gegen das Prüfkriterium geprüft wurde und was noch offen ist."
+  ]
+}

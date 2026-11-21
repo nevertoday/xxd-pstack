@@ -1,0 +1,75 @@
+{
+  "description": "À utiliser uniquement lorsque l'utilisateur demande explicitement du TDD, un test qui échoue ou un test de non-régression, OU lorsque le bug dispose d'une cible de test locale évidente et peu coûteuse. À ignorer lorsque la piste de test est floue, coûteuse, lourde en intégration ou non demandée.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Modifie le code et dit simplement que c'est corrigé.",
+        "with": "Écrit d'abord un test et confirme qu'il échoue à cause de ce bug."
+      },
+      {
+        "without": "Modifie le test pour qu'il corresponde au code erroné.",
+        "with": "Écrit le test d'après le comportement attendu et laisse les assertions existantes intactes."
+      },
+      {
+        "without": "Force l'ajout d'un test composé surtout de mocks.",
+        "with": "Utilise un script ou une commande de reproduction lorsqu'un test n'est pas pratique, et explique pourquoi."
+      }
+    ],
+    "intro": "Il indique que, lorsqu'il existe une piste de test peu coûteuse, l'IA écrit un test qui échoue avant le correctif et passe après. Sinon, elle utilise la vérification la plus proche.",
+    "sections": [
+      "Six étapes : comprendre le bug, choisir le type de test le plus proche, écrire un test qui échoue, confirmer pourquoi il échoue, corriger au minimum, relancer.",
+      "Se rabat sur un script ciblé, une commande de reproduction ou une automatisation de navigateur. Mieux vaut aucun nouveau test qu'un mauvais test.",
+      "Les tests expriment le comportement attendu, les assertions restent en place, on reste centré sur ce bug et les bugs intermittents reçoivent des tests déterministes lorsque c'est possible.",
+      "Fournit des preuves : le test qui a échoué avant et son erreur, l'exécution réussie après, ou pourquoi ce n'était pas possible."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Confirm it fails for the intended reason.",
+      "quoteTr": "Confirmez qu'il échoue pour la raison voulue.",
+      "title": "Vérifiez aussi pourquoi il échoue",
+      "does": "Une fois que le nouveau test passe au rouge, elle vérifie que cet échec vient bien de ce bug, et non d'une faute de frappe ou d'une dépendance manquante.",
+      "why": "« Le faire échouer d'abord » laisse passer n'importe quel voyant rouge ; « échouer pour la bonne raison » est ce qui permet à l'étape de prouver quelque chose.",
+      "try": "Quand l'IA reproduit un problème, ajoutez : « Une fois que ça échoue, dis-moi si l'erreur est bien celle que j'ai décrite. »"
+    },
+    {
+      "quote": "Prefer no new test over a bad test.",
+      "quoteTr": "Préférez l'absence de nouveau test à un mauvais test.",
+      "title": "Autorisez le « on passe cette fois »",
+      "does": "Quand un test est difficile à écrire, elle vérifie autrement et explique pourquoi, au lieu de forcer un test rempli de mocks.",
+      "why": "Des étapes rigides poussent une IA à les remplir de n'importe quoi ; dire qu'on peut sauter l'étape, et définir ce qui est mauvais, lui permet de s'arrêter.",
+      "try": "Laissez une porte de sortie dans les étapes fixes : « Si aucune image ne convient, laisse l'emplacement vide et signale-le ; n'en utilise pas une sans rapport. »"
+    },
+    {
+      "quote": "The test should encode intended behavior, not mirror the current implementation.",
+      "quoteTr": "Le test doit exprimer le comportement attendu, pas refléter l'implémentation actuelle.",
+      "title": "Dites quelle est la référence",
+      "does": "Ses tests vérifient ce que la fonctionnalité devrait faire, pas une copie du code bugué actuel.",
+      "why": "La référence la plus proche dont dispose une IA est le code actuel ; nommer le « comportement attendu » l'empêche de prendre ce qui est faux pour ce qui est juste.",
+      "try": "Quand l'IA vérifie un travail, dites-lui à quoi se fier : « Fie-toi au contrat d'origine, pas à la dernière traduction. »"
+    },
+    {
+      "quote": "Report the evidence, not just the outcome:",
+      "quoteTr": "Fournissez les preuves, pas seulement le résultat :",
+      "title": "Listez ce qu'un compte rendu doit contenir",
+      "does": "À la fin, elle vous indique quel test a échoué avant, de quelle façon, et quelle exécution a réussi après.",
+      "why": "Si on lui demande un résultat, l'IA répond « corrigé » ; lister les preuves qu'elle doit apporter vous permet de juger sans avoir à la relancer.",
+      "try": "Quand vous demandez un compte rendu, listez les éléments : « Quel fichier a changé, comment tu as testé et les dernières lignes de sortie des tests. »"
+    }
+  ],
+  "blocks": [
+    "# Correction de bug en TDD",
+    "Lors de la correction d'un bug disposant d'une piste de test claire et peu coûteuse, rendez le comportement défaillant exécutable avant de modifier le code de production. L'objectif est d'obtenir un test de non-régression ciblé qui échoue avant le correctif et passe après.",
+    "Ne forcez pas l'écriture d'un test lorsque ce n'est pas pratique. Si le test disponible exige une lourde mise en place de harnais de test, des mocks fragiles, une infrastructure end-to-end lente, un état présent uniquement en production, des étapes de reproduction vagues ou d'importants remaniements de fixtures sans rapport, n'ajoutez pas de nouveau test et utilisez plutôt la vérification utile la plus proche.",
+    "## Déroulement",
+    "1. **Comprenez le bug.** Identifiez le comportement attendu, le comportement actuel, le chemin concerné et la plus petite reproduction observable.\n2. **Choisissez la vérification exécutable la plus ciblée.** Préférez le test unitaire, de composant, d'intégration ou de non-régression le plus proche déjà utilisé pour ce chemin de code. Si aucune piste de test pratique n'est évidente, n'en créez pas une de zéro juste pour suivre le déroulement.\n3. **Écrivez d'abord le test qui échoue.** Ajoutez le plus petit test ciblé qui aurait détecté le bug. Le test doit exprimer le comportement attendu, pas refléter l'implémentation actuelle.\n4. **Lancez le nouveau test avant de corriger.** Confirmez qu'il échoue pour la raison voulue. S'il passe ou échoue pour une raison sans rapport, corrigez le test ou la reproduction avant de modifier l'implémentation.\n5. **Corrigez le bug.** Effectuez la plus petite modification du code de production qui satisfait le comportement attendu tout en préservant les contrats voisins.\n6. **Relancez le test de non-régression.** Confirmez que le test passe maintenant.",
+    "## Si un test qui échoue n'est pas pratique",
+    "Utilisez plutôt la vérification de non-régression exécutable la plus proche : un script ciblé, une commande de reproduction manuelle, une automatisation de navigateur, une comparaison de snapshots, une assertion sur les logs ou une vérification d'intégration ciblée.",
+    "Préférez l'absence de nouveau test à un mauvais test. Un mauvais test est un test qui teste surtout des mocks, fige des détails d'implémentation actuels, dépend du timing ou d'un état global sans rapport, nécessite une infrastructure coûteuse pour un petit correctif, ou serait supprimé immédiatement après avoir prouvé le correctif.",
+    "## Garde-fous",
+    "- Ne modifiez pas les tests simplement pour qu'ils correspondent à une implémentation erronée.\n- N'affaiblissez pas les assertions existantes, sauf si le comportement attendu a réellement changé et que la raison est claire.\n- Gardez le test de non-régression centré sur le bug. Évitez les grands remaniements de fixtures ou l'extension de la couverture à des sujets sans rapport.\n- Si le bug est intermittent, rendez le test déterministe lorsque c'est possible et documentez le signal verrouillé.\n- Si le bug met au jour une classe d'erreurs plus large, commencez par intégrer la piste de non-régression ciblée, puis envisagez une couverture supplémentaire pour les cas voisins.",
+    "## Réponse finale",
+    "Fournissez les preuves, pas seulement le résultat :",
+    "- Nommez le test ou la vérification exécutable qui a échoué avant correction, ainsi que l'échec produit.\n- Nommez l'exécution de test réussie après correction, ainsi que toute validation voisine effectuée.\n- Si la preuve d'échec avant correction n'a pas pu être démontrée, expliquez pourquoi et décrivez la vérification de non-régression la plus proche utilisée à la place."
+  ]
+}

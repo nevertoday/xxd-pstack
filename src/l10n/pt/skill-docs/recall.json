@@ -1,0 +1,71 @@
+{
+  "description": "Reconstrói o seu contexto recente de trabalho a partir do seu próprio histórico de chats, do estado real e do registro compartilhado (relatos de usuários, correções anteriores, incidentes) e devolve um resumo enxuto da situação atual. Use para “relembre meu trabalho em X”, “me atualize”, “no que eu estava trabalhando”, “onde eu parei”, antes de começar ou retomar o trabalho.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Reconstrói a história apenas a partir do próprio histórico de chats.",
+        "with": "Também consulta PRs, tickets, canais de chat e rastreamento de erros sobre o mesmo código."
+      },
+      {
+        "without": "Informa o status com base no que os chats disseram.",
+        "with": "Verifica cada PR, branch e ticket contra o estado real com `git` e `gh`."
+      },
+      {
+        "without": "Lê chats de outros projetos também.",
+        "with": "Informa o escopo primeiro. O padrão são os últimos 7 dias do projeto ativo."
+      }
+    ],
+    "intro": "A skill reconstrói o seu contexto recente a partir dos seus chats e do registro compartilhado em seis passos: classificar, travar o escopo, minerar chats em paralelo, varrer o registro compartilhado, verificar o estado real e escrever o resumo.",
+    "sections": [
+      "Na ordem: uma síntese de até 5 itens, uma linha com tag por frente, até 5 problemas recorrentes e um próximo passo."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "\"recent\" is a real range, default the last 7 days",
+      "quoteTr": "“recente” é um intervalo real; por padrão, os últimos 7 dias",
+      "title": "Defina um padrão para palavras vagas",
+      "does": "Diga “recente” e a IA busca nos últimos 7 dias, não no que ela chutar, como ontem ou o mês passado.",
+      "why": "“Recente” pode significar qualquer coisa; um número padrão evita que a IA chute e garante que você saiba até onde ela olhou.",
+      "try": "Quando usar uma palavra vaga, acrescente um padrão: “Logo significa até o fim de hoje, a menos que eu diga o contrário.”"
+    },
+    {
+      "quote": "Never quietly turn \"all\" into \"recent N\".",
+      "quoteTr": "Nunca transforme “todos” em “os N mais recentes” sem avisar.",
+      "title": "Nomeie o atalho que a IA pegaria",
+      "does": "Peça “todos” e a IA verifica todos de verdade, sem olhar só os últimos e dar a tarefa por encerrada.",
+      "why": "Apontar o passo exato que a IA costuma encurtar sem avisar funciona muito melhor do que um genérico “seja minuciosa”.",
+      "try": "Quando quiser uma verificação completa, escreva: “Olhe todos os 37 arquivos; não pegue só alguns de amostra e diga que está tudo certo.”"
+    },
+    {
+      "quote": "A thread with no tag is not done yet, so tag it.",
+      "quoteTr": "Uma frente sem tag ainda não está pronta, então coloque uma tag nela.",
+      "title": "Ofereça um conjunto fixo de estados",
+      "does": "Cada frente recebe uma marcação: merge feito, aberta, em andamento ou não iniciada; nada de “quase lá”.",
+      "why": "Com apenas algumas tags fixas para escolher, a IA não consegue disfarçar o estado real com palavras vagas.",
+      "try": "Quando pedir o status, liste as opções: “Marque cada tarefa como ‘concluída’, ‘em andamento’ ou ‘não iniciada’.”"
+    },
+    {
+      "quote": "Lead with the capsule, then the thread status, then the problems, then the next move.",
+      "quoteTr": "Comece pela síntese, depois o status das frentes, depois os problemas, depois o próximo passo.",
+      "title": "Defina o que vem primeiro",
+      "does": "O resumo começa com a situação atual e deixa os detalhes para depois, para que duas linhas já digam o estado.",
+      "why": "Uma ordem fixa evita que a parte mais importante fique enterrada nos detalhes.",
+      "try": "Quando pedir um relatório, defina a ordem: “Conclusão primeiro, depois os motivos, depois o próximo passo.”"
+    }
+  ],
+  "blocks": [
+    "# Recall",
+    "**Antes de começar ou retomar o trabalho, você reconstrói o contexto recente de trabalho do usuário e devolve uma síntese enxuta de onde as coisas estão agora e do que fazer em seguida.**",
+    "Mantenha tudo enxuto e dentro do assunto. Leia apenas o que as frentes dentro do escopo precisam e pare.",
+    "O seu contexto vive em dois registros. O seu próprio histórico de chats guarda o que você fez e decidiu. O registro compartilhado guarda tudo o que aconteceu em torno do mesmo código sob outros nomes: os sintomas que os usuários continuam relatando, as correções que foram ao ar e acabaram revertidas, os erros que ainda disparam em produção. Esse segundo registro fica no controle de versão, no rastreador de issues, nos canais de chat e de issues, em documentos longos e no rastreamento de erros. Uma funcionalidade com uma longa cauda de bugs guarda a maior parte da sua história ali, então não a reconstrua apenas pelas suas transcrições.",
+    "As transcrições ficam onde o seu harness as guarda. Cada arquivo é JSONL. Encontre o diretório do workspace ativo para o seu harness. Se você não souber qual harness é, verifique qual destes existe para este workspace:",
+    "- **Cursor:** `~/.cursor/projects/<slug>/agent-transcripts/<uuid>/<uuid>.jsonl`. `<slug>` é o caminho do workspace sem a barra inicial, trocando cada “/” por “-” (`/Users/you/proj` vira `Users-you-proj`).\n- **Claude Code:** `~/.claude/projects/<slug>/<session-id>.jsonl`. `<slug>` é o caminho do workspace trocando cada caractere que não seja letra nem dígito por “-” (`/Users/you/proj` vira `-Users-you-proj`).\n- **Pi:** `~/.pi/agent/sessions/--<slug>--/<timestamp>_<id>.jsonl`. `<slug>` é o caminho do workspace sem a barra inicial, trocando cada “/” por “-” (`--Users-you-proj--`).\n- **Codex:** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`, sem agrupamento por workspace. Mantenha apenas arquivos cuja primeira linha tenha `payload.cwd` igual ao caminho do workspace.\n- **OpenCode:** `~/.local/share/opencode/storage/`. As sessões são arquivos JSON em `session/<project-id>/`, com suas mensagens em `message/` e `part/`.",
+    "1. Classifique e depois direcione. Retomar um chat anterior específico é caso do playbook `session-pickup`, não deste. Transformar hábitos em uma skill durável é `automate-me`. Um resumo legível para humanos do seu trabalho é outra tarefa. O Recall carrega contexto de trabalho a partir dos chats recentes antes de você agir. Se o usuário já forneceu uma síntese completa do estado (caminhos, branch, a mudança), use-a e pule a mineração.\n2. Trave o escopo antes de buscar. Defina a janela (“recente” é um intervalo real; por padrão, os últimos 7 dias), o assunto se informado e o workspace (por padrão, o ativo. Nunca leia transcrições de outro projeto sem que peçam). Repita o escopo de volta. Nunca transforme “todos” em “os N mais recentes” sem avisar.\n3. Distribua a busca pelo seu histórico de chats. Dispare subagentes em paralelo em um modelo rápido e barato, cada um pegando uma fatia do corpus. Instrua cada subagente a ordenar os candidatos pelo horário real de modificação (`ls -t`) e nunca pelo nome do UUID, fazer grep pelo assunto primeiro e depois ler apenas os chats correspondentes e somente seus trechos relevantes, e pular o chat atual mais o ruído óbvio (chats de subagente, eval e teste). Cada um devolve o mesmo esquema, um bloco por chat: assunto, objetivo do usuário, decisões, frentes abertas, dificuldades e correções, e artefatos (PRs, tickets, branches), cada qual citando o UUID do chat. Para um ou dois chats, pule a distribuição em paralelo e busque diretamente. As transcrições brutas ficam nos subagentes. A conversa principal recebe apenas os achados deles. Escolha o nível de raciocínio de cada subagente conforme a tarefa, de acordo com a seção Subagentes da skill **poteto-mode**.\n4. Varra o registro compartilhado sempre que o assunto citar uma funcionalidade, arquivo, subsistema, área ou bug. Isso é o padrão, não fica a seu critério, e “meu trabalho em X” não dispensa essa etapa. Dispare um subagente investigador por fonte, em modo agent porque o modo readonly remove o acesso a MCP, e pergunte a cada um “qual é o estado atual, o que já foi tentado e não se sustentou e o que os usuários ainda estão relatando”. Rode-os em paralelo com a mineração do histórico de chats. Resultados vazios são achados. Pule qualquer MCP indisponível e avise. Incorpore o que voltar ao resumo. Pule este passo apenas quando for uma recapitulação pura de atividades sem alvo definido (“o que eu fiz esta semana”), em que o seu próprio histórico e o estado real já são a resposta inteira.\n5. Verifique contra o estado real. Pegue os PRs, branches e tickets que a mineração e a varredura levantaram e confira tudo com `git` e `gh`. Quando a resposta depender do que um agente realmente fez (as ferramentas que rodou, os arquivos que leu, os erros que encontrou), leia a transcrição completa, não apenas uma cópia local encurtada.\n6. Escreva o resumo seguindo o contrato abaixo. Agrupe por frente. Mantenha-se no assunto informado.",
+    "## Contrato de saída",
+    "Comece pela síntese, depois o status das frentes, depois os problemas, depois o próximo passo. Detalhes mais profundos ficam abaixo ou são cortados.",
+    "- **Síntese.** No máximo 5 itens. O que é este trabalho e em que pé está no geral.\n- **Frentes.** Uma linha para cada uma, começando com exatamente uma tag de status: `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]` ou `[planned, not started]`. Uma frente sem tag ainda não está pronta, então coloque uma tag nela.\n- **Problemas.** No máximo 5, os recorrentes. Inclua os sintomas que os usuários continuam relatando e qualquer correção que foi ao ar e acabou revertida, para que a próxima tentativa comece de onde a última falhou.\n- **Próximo passo.** A única próxima ação mais útil, concreta.",
+    "Uma funcionalidade ou ticket adjacente fica de fora, a menos que bloqueie este. Quando a síntese e as linhas das frentes passarem de uma tela, corte detalhes antes de cortar frentes. Escreva o resumo passando pela skill **unslop**, cite achados de chats pelo UUID e achados do registro compartilhado pela fonte (nº do PR, ID do ticket, link permanente do chat, issue do rastreador de erros) e limpe o contexto privado antes de qualquer saída pública.",
+    "**Resposta:** o resumo, seguindo o contrato acima."
+  ]
+}

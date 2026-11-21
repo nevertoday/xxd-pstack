@@ -1,0 +1,77 @@
+{
+  "description": "Trouvez ce qu'un changement pourrait casser ailleurs avant sa livraison, au-delà du diff, et prouvez l'unique fait qui le rend sans risque en exécutant du vrai code plutôt qu'en rédigeant un compte rendu. Utilisez-le pour « rayon d'impact de X », « qu'est-ce que ça pourrait casser » ou pour relire un petit diff auquel vous ne faites pas confiance.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Renvoie un compte rendu qui a l'air convaincant.",
+        "with": "Trouve le ou les deux faits dont dépend la sûreté et les prouve en exécutant du code."
+      },
+      {
+        "without": "Cherche les appelants avec grep et s'arrête là.",
+        "with": "Lit le code source et la version de la bibliothèque, et suit les données et le timing que grep ne voit pas."
+      },
+      {
+        "without": "Liste une longue série de « peut-être ».",
+        "with": "Donne pour chaque risque un `file:line`, une probabilité, un coût et un moyen de le vérifier."
+      }
+    ],
+    "intro": "Explique que le skill trouve ce qu'un changement casse ailleurs, complète `how` et `why`, et regarde au-delà de ce que montre grep.",
+    "sections": [
+      "Évalue chaque fait clé sur cinq niveaux, de « vous l'avez dit » à « reproduit dans l'application qui tourne », et indique où il s'est arrêté.",
+      "Lit le changement, trouve l'unique fait qui le rend sûr, regarde au-delà de grep, pèse les risques et prouve ce fait par un script. Les gros changements passent par `arena`.",
+      "Renvoie cinq parties : ce que fait le changement, le fait qui le rend sûr et sa preuve, les risques, ce qui a été écarté et le test le moins coûteux avant fusion."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "A blast-radius writeup that sounds right is worthless.",
+      "quoteTr": "Un compte rendu de rayon d'impact qui a l'air juste ne vaut rien.",
+      "title": "Dites qu'avoir l'air juste ne compte pour rien",
+      "does": "Il ne renvoie pas une dissertation convaincante ; il exécute du code pour prouver le point qui compte.",
+      "why": "Dire qu'« avoir l'air juste » et « être juste » sont deux choses différentes empêche l'IA de prendre un texte fluide pour le résultat.",
+      "try": "Quand vous demandez une vérification, ajoutez : « Aussi convaincant que ce soit à lire, ça ne compte pas. Montre-moi un résultat que je peux ouvrir. »"
+    },
+    {
+      "quote": "For each fact the change's safety depends on, get it as far down this list as is cheap, and say where it stopped.",
+      "quoteTr": "Pour chaque fait dont dépend la sûreté du changement, amenez-le aussi bas que possible dans cette liste à moindre coût, et dites où il s'est arrêté.",
+      "title": "Classez la certitude par niveaux",
+      "does": "Pour chaque fait clé, il vous dit à quel point il en est sûr : il l'a juste dit, il a pointé le code ou il l'a vraiment exécuté.",
+      "why": "Une échelle du plus faible au plus fort permet à l'IA d'indiquer où elle s'est arrêtée au lieu d'un vague « ça a l'air bon ».",
+      "try": "Demandez un niveau pour chaque affirmation : « Indique pour chacune : 1 entendu dire, 2 lu la source, 3 testé moi-même. »"
+    },
+    {
+      "quote": "Find the one fact it's safe because of.",
+      "quoteTr": "Trouvez l'unique fait qui rend le changement sans risque.",
+      "title": "Trouvez d'abord l'unique fait clé",
+      "does": "Au lieu d'une longue liste de « peut-être », il trouve d'abord l'unique fait qui rend le changement sans risque.",
+      "why": "Se concentrer sur un seul fait coûte moins cher que de lister toutes les possibilités, et la vérification va plus en profondeur.",
+      "try": "Demandez : « Sur quelle hypothèse unique ce plan repose-t-il le plus ? Vérifie celle-là en premier. »"
+    },
+    {
+      "quote": "Listing the callers is not the job.",
+      "quoteTr": "Lister les appelants n'est pas le travail demandé.",
+      "title": "Écartez la solution de facilité",
+      "does": "Il ne renvoie pas une liste d'appelants ; il cherche les problèmes qu'une recherche ne peut pas montrer.",
+      "why": "Nommer la réponse paresseuse vers laquelle l'IA se tournerait, puis la vraie demande, ne lui laisse aucun raccourci.",
+      "try": "Écartez d'abord le raccourci : « Ne te contente pas de lister des résultats de recherche. Je veux les problèmes qu'on ne trouve qu'en lisant. »"
+    }
+  ],
+  "blocks": [
+    "# Rayon d'impact",
+    "Trouvez ce qu'un changement casse ailleurs, avant sa livraison. Utilisez-le pour « rayon d'impact de X », « qu'est-ce que ça pourrait casser » ou pour relire un petit diff auquel vous ne faites pas encore confiance.",
+    "Complément de `how` et `why`. `how` vous dit ce que fait le code. `why` vous dit pourquoi il est conçu ainsi. Rayon d'impact vous dit ce qu'il casse ailleurs.",
+    "Lister les appelants n'est pas le travail demandé. L'agent peut les trouver avec grep en une seconde. Le travail, c'est la casse que grep ne vous montrera pas.",
+    "## Ne vous fiez pas à votre propre compte rendu",
+    "Un compte rendu de rayon d'impact qui a l'air juste ne vaut rien. Il paraît convaincant, qu'il soit vrai ou non. Alors ne renvoyez pas ce compte rendu. Trouvez le ou les deux faits dont tout dépend et prouvez-les en exécutant du code.",
+    "### Quel est votre degré de certitude ?",
+    "Pour chaque fait dont dépend la sûreté du changement, amenez-le aussi bas que possible dans cette liste à moindre coût, et dites où il s'est arrêté.",
+    "1. Vous l'avez dit. Sans valeur en soi.\n2. Vous avez pointé la ligne. Un vrai `file:line`, ou le code source de la bibliothèque elle-même.\n3. Vous avez montré que le mauvais cas ne peut pas arriver. Vous avez suivi l'échec étape par étape et il n'aboutit pas.\n4. Vous l'avez exécuté. Un script ou un test qui appelle le vrai code et échoue bruyamment si vous avez tort.\n5. Vous l'avez reproduit dans l'application qui tourne.",
+    "L'étape 4 est en général un petit script qui importe la même bibliothèque qu'embarque l'application et appelle la fonction précise qui vous inquiète.",
+    "## Étapes",
+    "1. Lisez le changement. Le diff, les symboles qu'il ajoute, modifie et supprime, ainsi que ce qu'il fait désormais différemment, y compris ce que le diff ne dit pas explicitement. Récupérez la PR et ses commits.\n2. Trouvez l'unique fait qui rend le changement sans risque. La plupart des changements qui ont l'air risqués sont sans risque grâce à un seul fait, comme « cet appel supprime uniquement des entrées de cache déjà mortes et ne fait rien d'autre ». Trouvez ce fait. S'il tient, la plupart des cas risqués sont écartés d'un coup. Passez votre temps ici, pas sur une longue liste de « peut-être ».\n3. Regardez là où grep s'arrête. Lisez le code source de la bibliothèque que vous appelez, et vérifiez sa version épinglée ainsi que tout patch local. Déterminez quand les choses s'exécutent : microtâches, démontage et nettoyage, Solid face à React. Suivez ce qu'une recherche de symboles rate : le JSON renvoyé par une API, une colonne de base de données, un format réseau, un autre langage qui lit les mêmes octets, un feature flag, du code trois niveaux en aval.\n4. Soyez honnête sur chaque risque. Donnez-lui une probabilité réelle de se produire et un coût réel s'il survient. Gardez les risques que vous avez confirmés. Listez à part ceux que vous avez vérifiés et écartés. Citez un vrai `file:line` ; une recherche qui ne trouve rien reste une réponse, et n'inventez jamais un appelant ni une API.\n5. Prouvez cet unique fait. Écrivez un script ou un test qui exécute le vrai code, lancez-le et collez ce qui s'est passé.\n6. Pour un changement important ou large, lancez-le en `arena`. Posez la même question à plusieurs modèles et fusionnez les réponses. Des modèles différents repèrent de vrais bugs différents.",
+    "## Ce qu'il faut renvoyer",
+    "- **Ce qu'il fait.** Ce qui a changé, y compris la partie qui n'est pas évidente.\n- **L'unique fait qui rend le changement sans risque.** Énoncez-le, indiquez jusqu'à quelle étape vous l'avez amené et montrez la preuve. Si vous n'avez pas pu le prouver, écrivez « non prouvé ».\n- **Risques.** Chacun précise comment ça casse, le `file:line`, la probabilité et la gravité, ainsi que la façon de vérifier. Collez la preuve pour ceux qui comptent.\n- **Écartés.** Ce que vous avez vérifié et pourquoi il n'y a pas de problème.\n- **Avant de fusionner.** Le test ou le cas de reproduction le moins coûteux qui attrape le vrai bug, y compris le script que vous avez écrit.",
+    "Passez-le par `unslop`, citez du vrai code et retirez tout ce qui est privé avant de le diffuser en public.",
+    "**Réponse :** le compte rendu ci-dessus, avec l'unique fait qui rend le changement sans risque, soit prouvé, soit marqué « non prouvé »."
+  ]
+}

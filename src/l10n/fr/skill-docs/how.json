@@ -1,0 +1,60 @@
+{
+  "description": "À utiliser pour « comment fonctionne X », le parcours du code avant de modifier quelque chose et les questions d'emplacement, de responsabilité ou de couches (« où cela doit-il aller », « quel package en est responsable », « est-ce la bonne couche »). Explique l'architecture des sous-systèmes, le flux d'exécution et les modèles mentaux de prise en main. Utilisez why pour les motivations.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Liste des fichiers et des fonctions sans montrer comment l'ensemble s'articule.",
+        "with": "Rédige une explication d'architecture permettant à un ingénieur senior qui découvre cette partie de commencer à travailler."
+      },
+      {
+        "without": "Modifie le code pendant son exploration.",
+        "with": "Envoie une seule IA d'appoint en lecture seule : votre code reste intact."
+      },
+      {
+        "without": "Devine en silence le sens d'une question floue.",
+        "with": "Énonce sa lecture de la question, puis explore. Vous pouvez recadrer à tout moment."
+      }
+    ],
+    "intro": "Il répond aux questions « comment fonctionne X ». Si le périmètre est flou, il énonce sa lecture puis explore, et vous pouvez recadrer.",
+    "sections": [
+      "Envoie une seule IA d'appoint en lecture seule qui explore et rédige l'explication en une passe, destinée à un ingénieur senior qui découvre cette partie.",
+      "Vous transmet le texte de l'IA d'appoint avec seulement de légères retouches pour la clarté, jamais une réécriture."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "They should understand the architecture well enough to start working in it confidently.",
+      "quoteTr": "Cette personne doit comprendre l'architecture assez bien pour commencer à y travailler avec assurance.",
+      "title": "Fixer la profondeur selon ce que le lecteur peut faire",
+      "does": "Il explique jusqu'à ce que vous puissiez commencer à modifier ce code avec assurance, sans rester en surface ni faire de parcours ligne par ligne.",
+      "why": "« Plus de détails » ne se mesure pas ; préciser ce que le lecteur doit pouvoir faire donne à l'IA une jauge pour savoir quand c'est suffisant.",
+      "try": "Dites ce que vous devez faire ensuite : « Explique-m'en assez pour que je puisse modifier cette config moi-même. »"
+    },
+    {
+      "quote": "Do not substantially rewrite it.",
+      "quoteTr": "Ne le réécrivez pas en profondeur.",
+      "title": "Dire jusqu'où un passage de relais peut modifier le texte",
+      "does": "Le chat principal vous transmet l'explication de l'IA d'appoint presque telle quelle, avec de légères retouches pour la clarté.",
+      "why": "Autoriser de légères retouches tout en interdisant la réécriture empêche l'IA de compresser une bonne explication en son propre résumé appauvri.",
+      "try": "Quand l'IA met au propre le texte de quelqu'un d'autre : « Corrige les fautes de frappe et les coupures, ajoute une ligne de contexte si besoin, mais ne le réécris pas. »"
+    },
+    {
+      "quote": "If the scope is ambiguous, state your interpretation and explore.",
+      "quoteTr": "Si le périmètre est ambigu, énoncez votre interprétation et explorez.",
+      "title": "Énoncer sa lecture, puis démarrer",
+      "does": "Quand la question est vague, il dit comment il la comprend et se lance ; vous pouvez recadrer à tout moment.",
+      "why": "Dire sa lecture à voix haute évite à l'IA de rester bloquée à vous attendre, et vous pouvez voir si elle a mal compris.",
+      "try": "Ajoutez : « Là où je manque de précision, écris en une ligne comment tu le comprends, puis continue sans m'attendre. »"
+    }
+  ],
+  "blocks": [
+    "# How",
+    "Explorez la base de code pour répondre aux questions « comment fonctionne X ? ».",
+    "Si le périmètre est ambigu, énoncez votre interprétation et explorez. L'utilisateur peut vous réorienter.",
+    "## 1. Expliquer",
+    "Lancez un seul sous-agent polyvalent en lecture seule qui explore et explique en une passe : `Task` avec `subagent_type: generalPurpose` et `readonly: true` dans Cursor, `Agent` dans Claude Code (`subagent_type: general-purpose`), `task` dans OpenCode (`subagent_type: general`), `spawn_agent` dans Codex. Si votre harness n'a pas d'outil de sous-agent, comme dans Pi sans extension, faites l'exploration et la rédaction vous-même. Donnez-lui la question de l'utilisateur et ce brief :",
+    "> Vous rédigez une explication d'architecture pour un ingénieur senior. Explorez la base de code et rédigez une explication qu'un ingénieur senior ne connaissant pas cette partie puisse lire pour repartir avec un modèle mental solide. Cette personne doit comprendre l'architecture assez bien pour commencer à y travailler avec assurance. Vous avez un accès en lecture seule à la base de code.",
+    "## 2. Présenter",
+    "Présentez le résultat du sous-agent. De légères retouches pour la clarté ou le contexte de la conversation conviennent. Ne le réécrivez pas en profondeur."
+  ]
+}

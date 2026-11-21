@@ -1,0 +1,79 @@
+{
+  "description": "Starte N parallele Worker, lass alle zu Ende laufen und gib einen einzigen Bericht zurück. Nutze diesen Skill für /swarm, „swarm this“ oder für parallele Abdeckung, Wettläufe, Prüfparcours und Erkundung.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Wirft dir einfach die rohe Ausgabe der Helfer-KIs hin.",
+        "with": "Führt Ergebnisse in einer Tabelle zusammen, eine Zeile pro Problem, Lücken separat aufgeführt."
+      },
+      {
+        "without": "Wertet eine Helfer-KI, die nichts zurückgibt, als bestanden.",
+        "with": "Startet bei fehlendem Ergebnis einmal neu und vermerkt dann eine Lücke. Eine Lücke zählt nicht als bestanden."
+      },
+      {
+        "without": "Hört beim ersten gefundenen Problem auf.",
+        "with": "Listet jedes belegbare Problem auf und markiert Ergebnisse mit `PASS`, `ISSUES` oder `BLOCKED`."
+      }
+    ],
+    "intro": "",
+    "sections": [
+      "Legt eine To-do-Liste mit je einem Eintrag für „Rahmen abstecken“, „Verteilen“, „Zusammenführen“ und „Berichten“ an.",
+      "Legt fest, wann die Aufgabe fertig ist, wählt Teilbereiche oder einen Wettlauf, bestimmt zuerst die Wettlauf-Regel und nennt SHAs und Methode für Messungen.",
+      "Startet alle Worker in einer Nachricht, standardmäßig in der Cloud. Jeder Auftrag steht für sich allein: Ziel, Umfang, Prüfung, Berichtsformat.",
+      "Liest die Endergebnisse, startet jeden Worker einmal neu, der die SHAs oder die Methode ausgelassen hat, vermerkt danach eine Lücke und wendet die Wettlauf-Regel an.",
+      "Liefert einen einzigen Bericht im Chat: eine Ergebnistabelle, eine Zeile pro Problem, Lücken und Ausfälle sowie die verwendete Wettlauf-Regel."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Every brief stands alone.",
+      "quoteTr": "Jeder Auftrag steht für sich allein.",
+      "title": "Lass jeden Auftrag für sich allein stehen",
+      "does": "Jede Helfer-KI bekommt Ziel, Umfang und Prüfweg vollständig mit, sodass keine ohne Kontext vom Kurs abkommt.",
+      "why": "Helfer-KIs können deinen Chat nicht sehen. So muss die KI den Kontext mitschreiben, statt ihn stillschweigend vorauszusetzen.",
+      "try": "Füge beim Weitergeben einer Aufgabe hinzu: „Schreib es so, dass ein neues Teammitglied, das unser Gespräch verpasst hat, direkt danach handeln kann.“"
+    },
+    {
+      "quote": "A gap does not count as a pass.",
+      "quoteTr": "Eine Lücke zählt nicht als bestanden.",
+      "title": "Sag klar, was ein fehlendes Ergebnis bedeutet",
+      "does": "Wenn eine Helfer-KI nichts zurückgibt, benennt der Bericht die Lücke, statt sie als bestanden zu werten.",
+      "why": "KIs deuten „kein Fehler“ oft als „kein Problem“. Legst du vorab fest, was eine leere Antwort bedeutet, schiebst du dem einen Riegel vor.",
+      "try": "Ergänze auf einer Checkliste: „Seiten, die du nicht geprüft hast, gelten als durchgefallen; führe sie separat auf.“"
+    },
+    {
+      "quote": "For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.",
+      "quoteTr": "Lege bei einem Wettlauf oder einer Mischform vor dem Start `first pass`, `rank all` oder `best-of` fest.",
+      "title": "Leg die Siegerregel zuerst fest",
+      "does": "Wenn mehrere Helfer-KIs bei einer Aufgabe gegeneinander antreten, steht schon vor dem Start fest, wie der Gewinner bestimmt wird – das lässt sich später nicht mehr verschieben.",
+      "why": "Regeln, die vor den Ergebnissen stehen, hindern die KI daran, nachträglich den Maßstab zu wählen, der gerade zum Ergebnis passt.",
+      "try": "Sag vor dem Start: „Von den drei Versionen behalten wir die, die am schnellsten lädt.“ Und leg dann los."
+    },
+    {
+      "quote": "lists every issue it can prove, not only the first",
+      "quoteTr": "listet jedes Problem auf, das er belegen kann, nicht nur das erste",
+      "title": "Frag nach allen Funden, nicht nur nach dem ersten",
+      "does": "Die KI listet jedes Problem auf, das sie belegen kann, statt beim ersten aufzuhören.",
+      "why": "KIs hören gern beim ersten Fund auf. Der Zusatz „nicht nur das erste“ durchbricht diese Gewohnheit.",
+      "try": "Bei einer Vertragsprüfung: „Finde jede Klausel, die zu meinem Nachteil ist, nicht nur die erste.“"
+    }
+  ],
+  "blocks": [
+    "# Swarm",
+    "## Start",
+    "Lege eine To-do-Liste mit einem Eintrag pro Phase an, bevor du irgendetwas startest.",
+    "1. Rahmen abstecken\n2. Verteilen\n3. Zusammenführen\n4. Berichten",
+    "## Phase A: Rahmen abstecken",
+    "1. Lege das Abschlusskriterium fest und bestimme, welches Artefakt oder welchen Bericht der Swarm zurückgeben muss.\n2. Wähle die Arbeitsform. Teile die Arbeit in Teilbereiche auf, lass N Worker mit identischen Aufträgen gegeneinander antreten oder kombiniere beides. Lege bei einem Wettlauf oder einer Mischform vor dem Start `first pass`, `rank all` oder `best-of` fest.\n3. Wähle das Worker-Modell aus der Zeile `swarm workers` in der pstack-Einstellungsdatei (`~/.cursor/rules/pstack-models.mdc` in Cursor, `~/.claude/rules/pstack-models.md` in Claude Code, `~/.agents/pstack-models.md` in anderen Harnesses). Fehlt die Datei oder diese Zeile, verwende `claude-opus-5-5-high-fast`. Bei `auto` oder `inherit-parent` lass `model` weg, damit die Worker mit dem übergeordneten Modell laufen. Lehnt dein Subagent-Tool einen Slug ab, verwende den Standard und gib das an. Lehnt es den Standard ab, verwende den nächstgelegenen gültigen Slug derselben Familie aus der Fehlermeldung oder aus der Modellliste in deinem Harness. Bei einem Modell-Wettlauf nenne vorab das Modell für jeden Zweig. Wähle die Reasoning-Stufe jedes Subagents passend zur Aufgabe, gemäß dem Abschnitt „Subagents“ im Skill **poteto-mode**.\n4. Gib jedem Worker ein eigenes beschreibbares Ausgabeziel, wenn er schreibt. Wenn Worker Commits prüfen oder messen, nennt jeder Auftrag die exakten SHAs. Ein Messauftrag nennt außerdem die Methode (Anzahl der Stichproben, was eine Stichprobe ist, Reihenfolge). Der Worker hält beides in seinem Ergebnis fest.",
+    "## Phase B: Verteilen",
+    "Starte alle N Worker in einer Nachricht mit `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true` und dem Modell aus Schritt 3, das bei `auto` oder `inherit-parent` weggelassen wird. Verwende `environment: \"local\"` nur, wenn der Worker Zugriff auf etwas braucht, das auf dem Rechner des Nutzers liegt.",
+    "Wenn ein Worker von einem gepushten Branch starten muss, der nicht der Standard-Branch ist, übergib `cloud_base_branch`.",
+    "**Andere Harnesses.** Diese Parameter gehören zu Cursors Tool `Task`, und `environment: \"cloud\"` startet einen Cursor-Cloud-Agent. Verwende in einem anderen Harness dessen Subagent-Tool: `Agent` in Claude Code (`subagent_type: general-purpose`), `task` in OpenCode (`subagent_type: general`), `spawn_agent` in Codex. Dort laufen Worker lokal; gib deshalb jedem seinen eigenen Worktree oder Ausgabepfad. Behalte den Auftrag und das Modell bei. Lass Parameter weg, die dein Tool nicht hat. Hat dein Harness kein Subagent-Tool, wie bei Pi ohne Erweiterung, führe die Worker selbst nacheinander aus.",
+    "Jeder Auftrag steht für sich allein. Nenne Ziel, Umfang, den genauen Teilbereich oder Zweig im Wettlauf, wie geprüft wird und was berichtet werden soll. Berichte verwenden `PASS`, `ISSUES` oder `BLOCKED` mit Belegen. Ein Worker, der einen Fehler belegen kann, meldet `ISSUES` und listet jedes Problem auf, das er belegen kann, nicht nur das erste.",
+    "Fällt ein Worker aus, mach mit N-1 weiter und vermerke es.",
+    "## Phase C: Zusammenführen",
+    "Lies die Endergebnisse. Verwirf jedes Ergebnis, das die im Auftrag genannten SHAs und die Methode nicht festhält, und starte diesen Worker einmal neu. Nach einem zweiten Fehlschlag vermerke eine Lücke. Eine Lücke zählt nicht als bestanden. Für die Abdeckung braucht jeder erforderliche Teilbereich ein Ergebnis. Bei einem Wettlauf wende die vorab festgelegte Auswahlregel an. Verwende first pass, rank all oder best-of. Füge keine rohen Worker-Ausgaben ein.",
+    "## Phase D: Berichten",
+    "Gib einen einzigen gebündelten Bericht im Chat zurück – mit einer Ergebnistabelle, Einzeilern zu jedem Problem, Lücken oder Ausfällen sowie der Wettlauf-Regel, falls eine verwendet wurde."
+  ]
+}

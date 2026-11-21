@@ -1,0 +1,465 @@
+{
+  "groups": {
+    "基本概念": "Conceptos básicos",
+    "pstack 怎么干活": "Cómo funciona pstack",
+    "验证和证据": "Verificación y evidencia",
+    "原则": "Principios"
+  },
+  "entries": {
+    "pstack": {
+      "title": "Qué es pstack",
+      "one": "pstack es un conjunto gratuito de reglas de trabajo para herramientas de programación con IA. Hace que la IA trabaje como un ingeniero con experiencia.",
+      "like": "Como darle un manual a un compañero nuevo, listo pero apresurado. Es la misma persona, pero ahora trabaja con método.",
+      "here": [
+        "Son 34 skills y 24 principios, todos archivos de instrucciones escritos para la IA. Las reglas son simples. Antes de arreglar un bug, reprodúcelo. Antes de cambiar código, léelo. Después de cambiarlo, pruébalo.",
+        "poteto creó pstack y es la configuración que usa a diario, escrita inicialmente mientras trabajaba en Cursor. La versión oficial está escrita para Cursor. Quienes usan Claude Code y Codex suelen instalar [la copia de pstack](https://github.com/backnotprop/pstack) (mirror). Se sincroniza a diario con la versión oficial y funciona en cualquier herramienta."
+      ],
+      "myths": [
+        "«Es un modelo nuevo o una app»: ni lo uno ni lo otro. Es un conjunto de archivos de instrucciones que añades a la herramienta de programación con IA que ya usas.",
+        "«Instalarlo hace a la IA más inteligente»: el modelo sigue siendo el mismo. Lo que cambia es el orden y el nivel de exigencia del trabajo.",
+        "«Solo funciona en Cursor»: la copia funciona en Claude Code, Codex, OpenCode y Pi. Algunas funciones exclusivas de Cursor se omiten."
+      ]
+    },
+    "agent-skill": {
+      "title": "Agent Skill",
+      "one": "Una skill es una guía práctica escrita para la IA: para este tipo de tarea, hazlo así.",
+      "like": "Como una receta. El chef ya sabe cocinar, pero con una receta el plato sale igual cada vez.",
+      "here": [
+        "Cada skill es una carpeta con un archivo `SKILL.md` dentro. Algunas también incluyen material de referencia y scripts. Por ejemplo, `/statechart` viene con un conjunto de herramientas en TypeScript.",
+        "Es un [formato abierto](https://agentskills.io), así que la misma skill se puede instalar en distintas herramientas de IA."
+      ],
+      "myths": [
+        "«Una skill es solo un prompt muy largo»: casi. La diferencia es que la IA solo la lee cuando la necesita, así que no llena el chat.",
+        "«Cuantas más skills, mejor»: no necesitas muchas el primer día. ==Cuando el mismo problema aparezca dos veces, añade una skill o una comprobación.=="
+      ]
+    },
+    "skill-md": {
+      "title": "SKILL.md",
+      "one": "SKILL.md es el cuerpo de una skill: primero su nombre y cuándo usarla, y después los pasos y las reglas.",
+      "like": "Como el prospecto de un medicamento. La IA lee al principio la línea de «para qué sirve» para decidir. Si encaja, sigue leyendo.",
+      "here": [
+        "Las primeras líneas se llaman frontmatter. Por ejemplo, `/poteto-mode` tiene `disable-model-invocation: true`. Eso significa que la IA nunca lo activa por su cuenta: **tienes que escribir `/poteto-mode` tú**.",
+        "Para cambiar cómo funciona pstack, editas estos archivos. poteto sugiere usar el playbook «escribir una skill» y luego el playbook Eval para comprobar si el cambio ayudó. No parches skills a mitad de una tarea."
+      ],
+      "myths": [
+        "«Puedo escribir un SKILL.md a la carrera»: el texto para una IA exige más cuidado. ==Una frase inútil se convierte en algo que hará cada IA en el futuro.== El playbook «escribir una skill» revisa el formato y los enlaces por ti."
+      ]
+    },
+    "harness": {
+      "title": "Herramientas anfitrionas (Claude Code, Cursor, Codex)",
+      "one": "La herramienta anfitriona es la que ejecuta la IA, como Claude Code o Cursor. pstack se instala dentro de ella.",
+      "like": "pstack es el manual; la herramienta anfitriona es el escritorio. El mismo manual funciona casi igual en cualquier escritorio.",
+      "here": [
+        "pstack se escribió para Cursor. En otras herramientas, los nombres de Cursor en las skills se asignan a los equivalentes locales. pstack incluye una tabla de equivalencias y la IA la lee por su cuenta.",
+        "Algunas funciones existen solo en Cursor, como Automations, Bugbot y los agentes en la nube. En otras herramientas, los pasos que las necesitan se omiten con una nota de una línea."
+      ],
+      "list": [
+        [
+          "Cursor",
+          "Nativo. Instala con `/add-plugin pstack`"
+        ],
+        [
+          "Claude Code",
+          "Añade `pstack:`, como `!/pstack:poteto-mode`"
+        ],
+        [
+          "Codex, OpenCode, Pi, etc.",
+          "Instala con `npx skills add backnotprop/pstack`"
+        ]
+      ],
+      "listTitle": "Herramientas anfitrionas comunes",
+      "listHead": [
+        "Herramienta",
+        "Qué tener en cuenta"
+      ],
+      "myths": [
+        "«Otra herramienta necesita otro pstack»: una sola copia funciona en todas partes. ==Solo cambian el método de instalación, el prefijo del comando y algunas rutas de archivos.=="
+      ]
+    },
+    "slash": {
+      "title": "Comandos slash",
+      "one": "Escribir una palabra que empieza por `/` le pide a la IA que use una skill concreta, como `/how`.",
+      "like": "Como pedir un plato por su nombre. Es más rápido y preciso que describir lo que quieres comer.",
+      "here": [
+        "En el día a día, escribes `/poteto-mode` seguido de tu tarea y los envías juntos. La IA nunca usa las demás skills por su cuenta (salvo `/setup-pstack`). O nombras una tú, o `/poteto-mode` la lee cuando hace falta.",
+        "Cómo lo escribes depende de la herramienta. Con el plugin de Claude Code, añade `pstack:`, como `!/pstack:how`; en Cursor o tras instalar con npx es solo `!/how`; en Codex, usa `$`, como `!$how`. Los comandos de este sitio siguen la herramienta que elijas en Apariencia, arriba a la derecha."
+      ],
+      "myths": [
+        "«Cuantas más skills nombres en un mensaje, mejor»: la documentación de pstack advierte contra esto. Escribir «primero /architect, luego /arena, luego /interrogate» suele romper el orden que ya había planeado. ==Solo di qué quieres y qué no debe tocar.== Nombra una skill únicamente para reemplazar una elección predeterminada."
+      ]
+    },
+    "token-budget": {
+      "title": "Tokens y presupuesto de razonamiento",
+      "one": "Los tokens son la unidad con la que se cobra el uso de la IA. El presupuesto de razonamiento marca cuánto tiempo piensa en cada paso.",
+      "like": "Como contratar a un contratista. Echar un vistazo rápido y empezar sale barato. Medir, hacer planos y revisar dos veces cuesta más, pero hay que rehacer menos.",
+      "here": [
+        "pstack envía IA ayudantes y hace que varios modelos revisen juntos, y todo eso consume tokens. Por defecto es más lento y caro, pero más cuidadoso. `/setup-pstack` te pide elegir un nivel. `large` (alto) es el predeterminado (xhigh) y también el nivel más alto. `medium` (medio) y `small` (bajo) cuestan menos.",
+        "Tres formas de ahorrar. Usa un modelo barato y rápido para los roles de programación. Reduce el panel de revisión. Sáltate `/poteto-mode` para cambios pequeños."
+      ],
+      "myths": [
+        "«`auto` es el nombre de un modelo»: significa «ningún modelo en concreto; usa el mismo que el chat principal». `inherit-parent` significa lo mismo.",
+        "«Un presupuesto más alto siempre es mejor»: ==los problemas difíciles merecen un presupuesto alto. Para cambios cotidianos solo resulta más lento y caro.=="
+      ]
+    },
+    "pr": {
+      "title": "PR, commits y fusiones",
+      "one": "Un PR es una solicitud: «por favor, revisa estos cambios». Cuando se aprueban, se fusionan en la rama principal.",
+      "like": "Como entregar una tarea. Tu borrador puede estar desordenado, la versión que entregas va limpia y cuenta cuando el profesor da el visto bueno.",
+      "here": [
+        "Por defecto, pstack cierra cada tarea como un PR. El playbook «abrir un PR» ordena los cambios en unos pocos commits pequeños. Escribe el título y la descripción, y luego te da el enlace. La postura de poteto: cinco PR pequeños son mejores que uno grande.",
+        "Una vez abierto el PR, el playbook «Babysit» lo vigila. Resuelve conflictos, responde revisiones y arregla las comprobaciones automáticas (CI). **Nunca fusiona.** Para fusionar, dices «fusiona el stack de PR» y el playbook «Entrega» toma el relevo."
+      ],
+      "myths": [
+        "«Si el CI está todo en verde, es seguro fusionar»: ==en verde no significa seguro.== El playbook «Entrega» envía a otra IA, una que no escribió el código, para comprobar de verdad cada PR. Solo se fusionan los que pasan.",
+        "«No se puede usar pstack sin GitHub»: solo los pasos de PR lo necesitan. Cambiar código en local o investigar un problema, no."
+      ]
+    },
+    "poteto-mode": {
+      "title": "/poteto-mode",
+      "one": "`/poteto-mode` es el punto de entrada principal. Dices qué quieres; planea los pasos y hace el trabajo.",
+      "like": "Como alguien con experiencia en gestión de proyectos. Repite lo que pediste, elige el proceso adecuado y solo lo entrega después de comprobarlo.",
+      "here": [
+        "Su primera respuesta repite lo que quieres y el problema que estás resolviendo. También indica el cambio mínimo que espera hacer. **No espera tu visto bueno** para seguir adelante. Si te entendió mal, interrumpe de inmediato.",
+        "Después de eso, basta con decir «continúa» o «adelante», y sigue trabajando. En Cursor también puedes configurarlo como Custom Mode (modo personalizado de Cursor) para que quede activo."
+      ],
+      "myths": [
+        "«Úsalo para todo»: poteto dice que ==lo reserves para trabajo que requiera rigor==. Para cambiar una línea de texto, solo pídelo.",
+        "«Tengo que escribir requisitos largos»: no hace falta. Una frase para cada cosa: qué quieres, qué cuenta como terminado y cualquier pista que tengas.",
+        "«Primero me hará un montón de preguntas»: si ejecutar algo puede responderlo, hace una comprobación rápida. Solo te pregunta cuando necesita tu decisión."
+      ]
+    },
+    "playbook": {
+      "title": "Playbooks",
+      "one": "Un playbook es el conjunto fijo de pasos para un tipo de tarea. Tú describes la tarea; pstack elige uno y lo sigue.",
+      "like": "Como el triaje en un hospital. Describes los síntomas, en enfermería te derivan al área correcta y cada área tiene su propia rutina.",
+      "here": [
+        "`/poteto-mode` tiene 22 playbooks. No hace falta que nombres ninguno: describe la tarea y elige solo. Si ninguno encaja, usa `/figure-it-out` para diseñar uno sobre la marcha.",
+        "Algunas frases cambian su elección. «Todavía no cambies código»: solo investigar. «Nueva tarea»: tratarla como algo nuevo y volver a elegir. «Me voy a dormir»: seguir trabajando por su cuenta durante un buen rato."
+      ],
+      "list": [
+        [
+          "Investigación",
+          "Mirar sin tocar; entender cómo funciona"
+        ],
+        [
+          "Arreglar un bug",
+          "Reproducir, encontrar la causa, arreglar y comprobar"
+        ],
+        [
+          "Problema de rendimiento",
+          "Partir de una lentitud medida; comparar"
+        ],
+        [
+          "Hillclimb",
+          "Subir una métrica paso a paso"
+        ],
+        [
+          "Análisis forense en ejecución / Análisis forense de trazas",
+          "Encontrar la causa a partir de síntomas en vivo; sin arreglar"
+        ],
+        [
+          "Añadir una funcionalidad",
+          "Nueva funcionalidad; definir primero la forma de los datos"
+        ],
+        [
+          "Refactorización",
+          "Cambiar la estructura; el comportamiento sigue igual"
+        ],
+        [
+          "Prototipo",
+          "Construir varios borradores; decidir según los resultados"
+        ],
+        [
+          "Paridad visual",
+          "Hacer que dos versiones coincidan píxel a píxel"
+        ],
+        [
+          "Escribir una skill / Eval",
+          "Escribir o editar una skill; comprobar el cambio"
+        ],
+        [
+          "Babysit",
+          "Vigilar un PR hasta que pueda fusionarse"
+        ],
+        [
+          "Entrega",
+          "Verificar cada PR y luego fusionarlos en orden"
+        ],
+        [
+          "Ejecución autónoma",
+          "Llevar una tarea larga hasta el final"
+        ],
+        [
+          "Autopilot-full / Autopilot-stack",
+          "Llevar los PR hasta la fusión, o verificarlos y esperarte"
+        ],
+        [
+          "Tomar el relevo / Pausa segura",
+          "Retomar trabajo sin terminar; parar de forma limpia"
+        ],
+        [
+          "Plan en varias fases",
+          "Planear primero el trabajo de varias fases y varios PR"
+        ],
+        [
+          "Limpiar worktrees",
+          "Borrar worktrees sin usar para liberar disco"
+        ],
+        [
+          "Abrir un PR",
+          "Cierre: ordenar commits y escribir la descripción"
+        ]
+      ],
+      "listTitle": "Los 22 playbooks (algunos agrupados)",
+      "listHead": [
+        "Playbook",
+        "Para qué sirve"
+      ],
+      "myths": [
+        "«Primero tengo que aprenderme los 22»: no. ==Tú describes la tarea; elegir el playbook es trabajo de la IA.== Esta tabla solo te ayuda a leer la lista de tareas."
+      ]
+    },
+    "todo": {
+      "title": "La lista de tareas",
+      "one": "La lista de tareas son los pasos que anota al empezar. Los primeros puntos son los pasos del playbook elegido, copiados tal cual.",
+      "like": "Como la lista de comprobación de un piloto antes de despegar. Se recorre punto por punto y es fácil ver si falta algo.",
+      "here": [
+        "==Leer la lista es la forma más fácil de supervisar a la IA.== Qué enfoque eligió y qué pasos planea: todo de un vistazo. Si falta un paso importante, di «no te saltes el paso 3, primero reproduce el problema».",
+        "Los primeros puntos son los pasos del playbook elegido, copiados tal cual. En Claude Code usa la herramienta TodoWrite si la sesión dispone de ella. Si no, escribe la lista en su respuesta y la actualiza en cada fase."
+      ],
+      "myths": [
+        "«Una lista más larga significa más cuidado»: la longitud depende del tipo de tarea. Lo que importa es elegir el enfoque correcto, con todos los pasos que necesita."
+      ]
+    },
+    "subagent": {
+      "title": "Subagentes",
+      "one": "Un subagente es una IA ayudante que se envía a hacer una tarea pequeña. Lee mucho y luego trae solo la conclusión.",
+      "like": "Como un editor que envía a un periodista a la calle. El periodista pasa el día investigando y vuelve con un artículo, no con una pila de notas.",
+      "here": [
+        "Muchas skills de pstack envían IA ayudantes. `/how` envía unas cuantas a leer código sin cambiarlo. `/arena` hace que varias escriban cada una su solución. `/swarm` da a cada IA ayudante una parte del trabajo. `/interrogate` trae modelos distintos para encontrar puntos débiles.",
+        "Así, ==la lectura pesada va a las IA ayudantes y el chat principal se queda solo con las conclusiones.== El principio se llama `guard the context window`. El modelo que usa cada IA ayudante sale de la configuración que escribe `/setup-pstack`."
+      ],
+      "myths": [
+        "«Más IA ayudantes significa más rapidez»: las IA ayudantes consumen muchos tokens. pstack solo las envía cuando compensa: mayor cobertura, una opinión independiente o más espacio en el chat principal.",
+        "«No pasa nada si varias IA ayudantes editan código en la misma carpeta»: se pisan los cambios entre sí y nadie sabe quién tocó qué. Cada una que edite código necesita su propio worktree."
+      ]
+    },
+    "worktree": {
+      "title": "Worktrees",
+      "one": "Un worktree es una segunda carpeta de trabajo del mismo repositorio. Cuando varias IA editan código a la vez, cada una usa el suyo.",
+      "like": "Como varios cocineros preparando una misma comida. Comparten el refrigerador, pero cada uno tiene su propia tabla de cortar.",
+      "here": [
+        "El playbook «abrir un PR» ya trabaja en un worktree, así que normalmente no hace falta mencionarlo. Solo di algo si quieres elegir la rama de partida, como «crea un nuevo worktree desde main».",
+        "Los worktrees ocupan espacio en disco; en un equipo portátil, unos pocos a la vez suele ser el límite. Cuando quede poco espacio en disco, di «mira qué está ocupando espacio en mi disco y borra los worktrees que se puedan eliminar». Si alguno tiene cambios sin commit, se detiene y te pregunta."
+      ],
+      "myths": [
+        "«Los worktrees son una función de pstack»: vienen integrados en Git (`git worktree`). pstack simplemente los usa por defecto.",
+        "«Mi proyecto no necesita Git»: la mayoría de los playbooks suponen un repositorio Git. Si todavía no usas Git, ejecuta `git init` y haz un commit."
+      ]
+    },
+    "custom-mode": {
+      "title": "Custom Mode (siempre activo)",
+      "one": "Custom Mode es un modo personalizado de Cursor que mantiene `/poteto-mode` activo, para que no tengas que escribirlo cada vez.",
+      "like": "El uso normal es como pasar la tarjeta de acceso en cada puerta. Custom Mode deja la puerta abierta hasta que tú la cierres.",
+      "here": [
+        "En Cursor, elige `/poteto-mode` en el menú `/` y pulsa **Option+Enter** (Mac) o **Alt+Enter** (Windows). Un Enter normal solo cubre ese mensaje, y su efecto se diluye a medida que avanza el chat.",
+        "Claude Code y Codex no tienen esto. La solución alternativa: ==un chat, una tarea.== Para cambiar de tarea, abre un chat nuevo o escribe «/poteto-mode nueva tarea»."
+      ],
+      "myths": [
+        "«Todas las herramientas tienen Custom Mode»: solo Cursor lo tiene (en la ventana Agents y en la CLI)."
+      ]
+    },
+    "model-roles": {
+      "title": "Roles de modelo y la configuración pstack-models",
+      "one": "pstack divide el trabajo en roles. Cada rol puede usar un modelo distinto, definido en un pequeño archivo de configuración.",
+      "like": "Como un equipo de construcción. No todos tienen que ser los más caros. Quien inspecciona debe venir de otra empresa, para que nadie revise su propio trabajo.",
+      "here": [
+        "Reparto predeterminado: programación, redacción y criterio van todos a opus 5.5. El panel de revisión tiene por defecto uno de cada: fable 5.2, opus 5.5 y gemini 4 neon. ==Que modelos distintos se revisen entre sí es una práctica central de pstack.==",
+        "`/setup-pstack` comprueba qué modelos puedes usar y escribe la configuración. En Cursor está en `~/.cursor/rules/pstack-models.mdc`. En Claude Code, en `~/.claude/rules/pstack-models.md`. Otras herramientas usan `~/.agents/pstack-models.md`. Los cambios se aplican en un chat nuevo. Claude Code solo ofrece modelos Claude; consulta [Cómo usarlo en Claude Code](/es/howto/claude-code/#how-to-set-it-up-well)."
+      ],
+      "myths": [
+        "«Los roles que no están en la configuración no se pueden usar»: los roles que no aparecen usan los valores predeterminados de la skill. Solo cambias los que te importan.",
+        "«Cuando cambian los valores predeterminados, mi configuración se actualiza sola»: no; tu configuración anterior sigue igual. Para obtener los nuevos valores predeterminados, borra esas líneas o el archivo entero y vuelve a ejecutar `/setup-pstack`."
+      ]
+    },
+    "arena-swarm": {
+      "title": "/arena frente a /swarm",
+      "one": "`/arena`: varios resuelven el mismo problema y gana el mejor. `/swarm`: un trabajo grande dividido en partes, una para cada uno.",
+      "like": "`/arena` es un concurso de diseño: eliges una propuesta como base e incorporas las mejores ideas de las demás. `/swarm` es corregir exámenes: cien exámenes repartidos entre cinco profesores.",
+      "here": [
+        "Usa `/arena` para decisiones difíciles de cambiar después, como nombres, formatos y algoritmos. Cada candidato trabaja por su cuenta y un modelo de otra empresa los evalúa. Luego elige una base, añade lo mejor de los demás y verifica el resultado. `/architect` lo usa para diseños grandes o controvertidos.",
+        "Usa `/swarm` para trabajos que deben cubrirlo todo, como «revisa cada paquete». Cada IA ayudante se encarga de su parte e informa «correcto / problema / bloqueado». Al final recibes un informe breve."
+      ],
+      "myths": [
+        "«Usa /arena para un barrido completo»: la documentación de pstack advierte contra esto. ==Para un barrido completo, usa `/swarm`.== `/arena` elegiría una base y combinaría partes para cada resultado, lo que sería trabajo desperdiciado."
+      ]
+    },
+    "evidence": {
+      "title": "Evidencia (no «ya debería estar arreglado»)",
+      "one": "En pstack, «terminado» exige evidencia real: una salida real, valores guardados de verdad o una pantalla recorrida con clics reales.",
+      "like": "Como inspeccionar una casa. «Las tuberías están bien» no cuenta: enciendes las luces, abres el agua y revisas el medidor.",
+      "here": [
+        "Este principio significa «demuestra que funciona»; su nombre es `prove it works`. La evidencia viene de algo que se ejecutó de verdad, y «compiló» no cuenta. Para un cambio en la línea de comandos, ejecuta el comando real. Para un cambio en pantalla, pruébalo haciendo clic en la app. Para velocidad, compara las cifras de antes y después.",
+        "En tu primer prompt, di «qué cuenta como terminado» y «qué evidencia quieres». Es lo más útil que puedes hacer. Cuando no puede comprobar algo, una buena respuesta dice «no concluyente». ==**No te puedes fiar de una respuesta segura sin evidencia.**=="
+      ],
+      "myths": [
+        "«Todos los tests pasan, así que está demostrado»: los tests solo comprueban los casos que pensó quien los escribió. pstack quiere ver cómo se comporta la app real.",
+        "«Su explicación tiene sentido, así que seguramente está bien»: un resultado que puedes comprobar vale más que cualquier explicación. Un resultado se puede verificar; una explicación solo puedes creerla o no."
+      ]
+    },
+    "verify-skill": {
+      "title": "Skill de verificación",
+      "one": "Una skill de verificación es una guía hecha para tu proyecto. Enseña a la IA a arrancar tu app y usarla como lo haría un usuario.",
+      "like": "Como una guía de bienvenida para un tester nuevo: cómo arrancarla, con qué cuenta, dónde hacer clic y qué capturar. Una vez que existe, cualquiera puede probarla.",
+      "here": [
+        "Genérala con `/create-verification-skill`. Sobre todo lee tu código para aprender cómo arranca la app y cómo manejarla. Antes de entregártela, hace una ejecución completa por su cuenta. Los archivos van en tu proyecto: `.cursor/skills/verify-<app-name>/` en Cursor y `.claude/skills/verify-<app-name>/` en Claude Code. A partir de entonces puedes decir «verifica con /verify-<app-name> y dame capturas de pantalla».",
+        "poteto dice que es lo que más compensa de toda la guía. ==**Una IA que puede comprobar su propio trabajo sigue hasta que la comprobación pasa. Una que no puede te devuelve cada resultado a ti.**== Cuando `/setup-pstack` te pregunte al final si quieres generar una, di que sí."
+      ],
+      "myths": [
+        "«La generas una vez y listo»: las apps cambian y la guía queda desactualizada. Ejecuta `/maintain-verification-skill` con regularidad, idealmente a diario. Solo arregla la skill de verificación y nunca toca el código del producto.",
+        "«Mi proyecto es demasiado pequeño para esto»: cuanto antes, mejor. Con ella, comprobar deja de ser tu trabajo; cualquier IA puede hacerlo."
+      ]
+    },
+    "formal-verification": {
+      "title": "Verificación formal",
+      "one": "La verificación formal comprueba todos los casos de una regla, dentro de un alcance definido.",
+      "like": "Los tests habituales revisan los frenos de unos cuantos vehículos al azar. La verificación formal demuestra matemáticamente que este diseño de frenos detiene el vehículo a cualquier velocidad.",
+      "here": [
+        "Genérala con `/create-formal-verification-skill`. Elige una regla que sale cara si se rompe y a la que los tests difícilmente llegan. Por ejemplo: «la misma tarea nunca se ejecuta dos veces a la vez». La herramienta depende del problema; para el orden de eventos usa TLA+ por defecto. También construye a propósito una versión rota para confirmar que la comprobación la detecta. ==Una comprobación que nunca has visto fallar no demuestra nada.==",
+        "Si tu código ya rompe la regla, te da los pasos para reproducir el problema. No cambiará el código del producto salvo que se lo pidas. Cuando el código cambie, ejecuta `/maintain-formal-verification-skill` para actualizarla y volver a ejecutarla. Te dirá si la comprobación quedó desactualizada o si el código realmente tiene un bug. Para enseñárselo a producto o diseño, dibújalo como un diagrama de estados con `/statechart`."
+      ],
+      "myths": [
+        "«Si pasa, todo el sistema está bien»: que pase solo cubre ese alcance. La nota de entrega indica qué se comprobó y qué no.",
+        "«Todos los proyectos deberían hacer esto»: solo vale la pena para concurrencia, reintentos, máquinas de estados o parsers, donde los errores salen caros."
+      ]
+    },
+    "decision-log": {
+      "title": "Registro de decisiones",
+      "one": "El registro de decisiones es una tabla que la IA llena mientras trabaja, una fila por decisión. Léelo en lugar de todo el chat.",
+      "like": "Como un cuaderno de laboratorio: qué se hizo, por qué y qué pasó. Al día siguiente, quien supervisa lo hojea y lo entiende al instante.",
+      "here": [
+        "`/show-me-your-work` lo mantiene al día. Cada fila incluye la hora, la fase, la decisión, el motivo, dónde está la evidencia y el resultado. Se guarda como un archivo TSV, `decisions.tsv` por defecto, y se queda en tu equipo.",
+        "Cuando vuelvas, di «/show-me-your-work explícame paso a paso lo que hiciste anoche». Antes de entregarte el resumen, un modelo de otra empresa lo revisa. La respuesta termina con una sección de «requiere atención». ==**Lee esa sección primero y luego las filas a las que apunta.**== Para una revisión rápida de estado, usa `/ketchup`. Solo lee y te cuenta con palabras sencillas qué cambió y qué está esperando por ti."
+      ],
+      "myths": [
+        "«Con un registro ya no necesito revisar»: el registro hace la revisión más rápida. Revisas las decisiones, no toda una noche de chat."
+      ]
+    },
+    "principles": {
+      "title": "Los 24 principios",
+      "one": "pstack resume la experiencia en ingeniería en 24 principios breves. Cuando la IA se desvía, decir uno de esos nombres la vuelve a encarrilar.",
+      "like": "Como las jugadas ensayadas de un equipo. El entrenador grita una y todos saben qué hacer.",
+      "here": [
+        "No hace falta que invoques los principios; `/poteto-mode` los lee al inicio de cada tarea. Los nombres son para ti, para corregir el rumbo. Imagina que da algo por bueno solo porque compiló. Tú respondes: «apply prove it works. Ejecuta el flujo real de importación y muéstrame los registros que escribió.» Su respuesta debería indicar qué decisión cambió gracias a eso. Si no puede, es que en realidad no lo aplicó.",
+        "El consejo de poteto: no los memorices. Échales un vistazo ahora. ==Cuando la IA cometa un error que un principio habría evitado, vuelve y búscalo.== Así es como se quedan grabados."
+      ],
+      "list": [
+        [
+          "laziness protocol",
+          "Base · Borra lo que puedas; cambia lo mínimo posible"
+        ],
+        [
+          "foundational thinking",
+          "Base · Elige primero la forma correcta de los datos, luego escribe la lógica"
+        ],
+        [
+          "redesign from first principles",
+          "Base · Rediseña como si hubiera existido desde el primer día"
+        ],
+        [
+          "attack the premise",
+          "Base · ¿Fallaron dos arreglos? Pon a prueba la premisa"
+        ],
+        [
+          "subtract before you add",
+          "Base · Quita lo que no sirve y luego añade"
+        ],
+        [
+          "minimize reader load",
+          "Base · Menos saltos al leer, menos que recordar"
+        ],
+        [
+          "outcome-oriented execution",
+          "Base · Ve directo al objetivo; sin código parche"
+        ],
+        [
+          "experience first",
+          "Base · La experiencia de usuario primero; menos funciones, pero mejores"
+        ],
+        [
+          "exhaust the design space",
+          "Base · ¿Sin precedentes? Crea varios prototipos y compara"
+        ],
+        [
+          "build the lever",
+          "Base · Crea una herramienta en vez de repetirlo a mano"
+        ],
+        [
+          "model the domain",
+          "Arquitectura · Mantén las reglas de negocio en un solo lugar, no en condicionales if dispersos"
+        ],
+        [
+          "boundary discipline",
+          "Arquitectura · Comprueba los datos externos justo donde entran"
+        ],
+        [
+          "type system discipline",
+          "Arquitectura · Haz imposible escribir estados inválidos"
+        ],
+        [
+          "make operations idempotent",
+          "Arquitectura · A medio ejecutar o ejecutado dos veces, el mismo resultado"
+        ],
+        [
+          "migrate callers then delete legacy apis",
+          "Arquitectura · Migra a quienes la llaman y luego borra la API antigua"
+        ],
+        [
+          "separate before serializing shared state",
+          "Arquitectura · Deja de compartir primero; bloquea solo si es imprescindible"
+        ],
+        [
+          "prove it works",
+          "Verificación · Demuéstralo con algo real; compilar no cuenta"
+        ],
+        [
+          "fix root causes",
+          "Verificación · Arregla donde empezó el fallo"
+        ],
+        [
+          "sequence verifiable units",
+          "Verificación · Piezas pequeñas; comprueba cada una antes de pasar a la siguiente"
+        ],
+        [
+          "test behavior not implementation",
+          "Verificación · Prueba lo que pueden ver los usuarios"
+        ],
+        [
+          "explain the number",
+          "Verificación · Averigua qué está limitando esa cifra"
+        ],
+        [
+          "guard the context window",
+          "Delegación · La lectura pesada va a las IA ayudantes"
+        ],
+        [
+          "never block on the human",
+          "Delegación · Haz lo que se pueda deshacer; pregunta antes de lo que no"
+        ],
+        [
+          "encode lessons in structure",
+          "Meta · ¿Repetiste el mismo recordatorio dos veces? Conviértelo en una comprobación"
+        ]
+      ],
+      "listTitle": "Los 24 (escribe el nombre en inglés tal cual para que la IA lo reconozca)",
+      "listHead": [
+        "Nombre",
+        "En palabras sencillas"
+      ],
+      "myths": [
+        "«Tienes que invocar los principios uno por uno»: no, `/poteto-mode` los lee siempre. Los nombres son para ti, para corregir el rumbo.",
+        "«Si digo el nombre de un principio, la IA lo sigue»: comprueba si su respuesta indica qué decisión cambió ese principio."
+      ]
+    }
+  }
+}

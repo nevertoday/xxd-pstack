@@ -1,0 +1,78 @@
+{
+  "description": "Erstellt einen projektlokalen Prüf-Skill, der deine App so bedient wie echte Nutzer – für jede Sprache, jedes Framework und jede Plattform. Nutze ihn für /create-verification-skill, „mach einen Steuerungs-Skill für dieses Repo“ oder wenn ein Projekt keinen skriptgesteuerten Weg hat, das Verhalten von UI, CLI oder Service nachzuweisen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Weist ein Feature über interne Setter oder reine Test-Endpoints nach.",
+        "with": "Geht den echten Nutzerweg und prüft die geschriebenen Dateien und Zeilen."
+      },
+      {
+        "without": "Löscht beim Aufräumen gleich die Screenshots und Logs mit.",
+        "with": "Prüft nach dem Aufräumen, ob die Belege noch am angegebenen Ort liegen."
+      },
+      {
+        "without": "Beendet Prozesse nach Namen – auch die Instanz, die du gerade nutzt.",
+        "with": "Stoppt nur die Instanzen, die dieser Durchlauf gestartet hat."
+      }
+    ],
+    "intro": "Er erzeugt einen projektlokalen `verify-<app>`-Skill, der die echte App startet, sie wie echte Nutzer bedient und Belege erfasst – geschrieben für einen Agenten, der die App noch nie gesehen hat.",
+    "sections": [
+      "Beantwortet fünf Fragen aus dem Code: Oberfläche, Startbefehl, wie man die App ansteuert, welche Belege es gibt und Isolation.",
+      "Schreibt `SKILL.md` mit Frontmatter und sechs Abschnitten – Launch, Doctor, Drive, Evidence, Cleanup und Helpers – mit den echten Befehlen des Repos.",
+      "Schreibt `features/`-Dateien für die 3 bis 5 wichtigsten Features: wie man sie erreicht, wie man sie ansteuert und was belegt, dass sie funktionieren.",
+      "Geht den Skill von Anfang bis Ende an einem Feature aus der Map durch. Er besteht nur, wenn die Belege das Aufräumen überstehen.",
+      "Verweist dich auf `/maintain-verification-skill`, um die Map aktuell zu halten, und schlägt nur dann einen Zeitplan vor, wenn du danach fragst."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "it will be read cold, mid-task, by an agent that has never seen the app.",
+      "quoteTr": "Es wird ohne Vorwissen, mitten in einer Aufgabe, von einem Agenten gelesen, der die App noch nie gesehen hat.",
+      "title": "Beschreib die Situation der Lesenden",
+      "does": "Der erzeugte Skill schreibt Befehle, Ports und Setup genau auf, sodass eine KI, die dein Projekt nie gesehen hat, ihn genau so ausführen kann.",
+      "why": "Wenn du sagst, dass die Lesenden nichts wissen und beschäftigt sind, ergänzt die KI Dinge, die sie für selbstverständlich hält, die andere aber nicht wissen.",
+      "try": "Schreib bei einem Übergabedokument dazu: „Wer das liest, fängt morgen neu an, hat dieses Projekt noch nie angefasst und hat gleichzeitig etwas Dringendes auf dem Tisch.“"
+    },
+    {
+      "quote": "Answer these from the codebase and only ask the user what you cannot observe",
+      "quoteTr": "Beantworte diese Fragen aus der Codebasis und frag den Nutzer nur nach dem, was du nicht beobachten kannst",
+      "title": "Erst nachschauen, dann fragen",
+      "does": "Der Skill liest Startbefehle, Ports und Test-Tools aus dem Code aus und fragt dich nur nach dem, was er wirklich nicht findet.",
+      "why": "Ein klares „erst nachschauen, dann fragen“ hält die KI davon ab zu raten – und davon, dir Arbeit zurückzuschieben, die sie selbst erledigen könnte.",
+      "try": "Schreib bei einer Aufgabenübergabe dazu: „Finde zuerst im Projekt heraus, was du kannst, und frag mich den Rest in einer einzigen Nachricht.“"
+    },
+    {
+      "quote": "Never weaken the journey to make it pass.",
+      "quoteTr": "Schwäche den Ablauf niemals ab, damit er besteht.",
+      "title": "Blockier die Schummel-Abkürzung",
+      "does": "Wenn eine Prüfung nicht bestehen kann, siehst du den Fehler und den Grund – keinen still abgeschwächten Test, der „besteht“.",
+      "why": "Soll eine KI dafür sorgen, dass etwas besteht, ist ihr billigster Ausweg, die Latte tiefer zu legen. Wenn du genau das beim Namen nennst, schließt du es aus.",
+      "try": "Wenn du die KI bittest, eine fehlgeschlagene Prüfung zu beheben, schreib dazu: „Ändere nicht den Test und lockere keine Asserts; ändere nur den Code, der getestet wird.“"
+    },
+    {
+      "quote": "A generated skill that was never executed is a draft, not a deliverable.",
+      "quoteTr": "Ein generierter Skill, der nie ausgeführt wurde, ist ein Entwurf, kein fertiges Ergebnis.",
+      "title": "Benenn um, was noch nicht fertig ist",
+      "does": "Vor der Übergabe führt er den neuen Skill von Anfang bis Ende aus – du bekommst also einen, der gelaufen ist, nicht nur einen aufgeschriebenen.",
+      "why": "Ungetestete Arbeit als „Entwurf“ zu bezeichnen, hält die KI davon ab, Geschriebenes schon für fertig zu halten.",
+      "try": "Setz eine klare Hürde für die Übergabe: „Eine Seite, die du nicht auf dem Handy geöffnet hast, ist ein Entwurf – schick sie mir nicht.“"
+    }
+  ],
+  "blocks": [
+    "# Einen Prüf-Skill erstellen",
+    "Jedes ernsthafte Projekt braucht einen skriptgesteuerten Weg, die echte App anzusteuern und ihr Verhalten nachzuweisen: sie starten, ein Feature so durchspielen wie echte Nutzer und Belege erfassen. Dieser Skill erzeugt genau das als projektlokalen Skill (`<skills>/verify-<app>/`), zugeschnitten auf das Repo. `<skills>` ist der Projekt-Skill-Ordner deines Harnesses (des Tools, in dem die KI läuft): `.cursor/skills/` in Cursor, `.claude/skills/` in Claude Code, `.pi/skills/` in Pi, `.agents/skills/` in Codex, OpenCode und anderen. Wenn das Repo bereits Skills in einem dieser Ordner ablegt, nutze diesen. Du schreibst das Ergebnis des Generators für den nächsten Agenten, nicht für einen Menschen: Es wird ohne Vorwissen, mitten in einer Aufgabe, von einem Agenten gelesen, der die App noch nie gesehen hat.",
+    "## 1. Das Repo befragen, nicht den Nutzer",
+    "Beantworte diese Fragen aus der Codebasis und frag den Nutzer nur nach dem, was du nicht beobachten kannst:",
+    "- **Oberfläche:** Womit kommen Nutzer tatsächlich in Berührung? Eine Web-UI, eine CLI/TUI, eine Desktop-App, eine API, eine mobile App, eine Bibliothek? Ein Repo kann mehrere davon haben; wähle die wichtigste aus und notiere die übrigen.\n- **Starten:** Wie startet die App lokal? Bevorzuge den im Repo selbst dokumentierten Dev-Befehl (Package-Skripte, Makefile, README-Quickstart). Notiere Ports, Umgebungsvariablen, Seed-Daten und Auth.\n- **Steuern:** Wie kann ein Agent programmatisch mit ihr interagieren? Vorhandene Test-Harnesses zuerst – Playwright-/Cypress-Specs, Expect-Skripte, PTY-Helfer, per curl erreichbare Endpoints, ein Debug-Port. Wähle erst danach ein allgemeines Rezept: Browser/CDP für Web und Electron, ein tmux-/PTY-Harness für CLI/TUI, einfaches HTTP für Services.\n- **Beobachten:** Welche Belege lassen sich erfassen? Screenshots, Terminal-Mitschnitte, Response-Bodies, Logs, Exit-Codes, DB-Zustand.\n- **Isolieren:** Können zwei Instanzen nebeneinander laufen (Ports, Datenverzeichnisse, Profile)? Falls nicht, schreib das in den erzeugten Skill: Das doppelte Ansteuern einer geteilten Instanz abzulehnen ist besser, als die Sitzung des Nutzers zu beschädigen.",
+    "Wenn der Checkout im aktuellen Zustand nicht baut oder startet, behebe das zuerst (oder melde es präzise), bevor du generierst; ein Skill, der auf einer kaputten Basis entsteht, vermittelt falsche Schritte. Wenn ein unwichtiges fehlendes Asset den Start blockiert (ein Static-Verzeichnis, das die API nie ausliefert, eine Beispielkonfiguration), darf der erzeugte Skill es anlegen – klar als Hilfsgerüst für die Prüfung gekennzeichnet – und beim Aufräumen wieder entfernen.",
+    "## 2. Den Skill erzeugen",
+    "Schreib `<skills>/verify-<app>/SKILL.md` mit YAML-Frontmatter (`name: verify-<app>` und einer `description`, die die App und die Oberfläche nennt und erklärt, wann man zu ihm greift – ohne Frontmatter wird der Skill nie registriert) und den folgenden Abschnitten, die alle auf den tatsächlichen Ergebnissen der Befragung beruhen (keine Platzhalter übrig lassen):",
+    "- **Launch:** der genaue Befehl, der die App zur Prüfung startet, und woran man erkennt, dass sie bereit ist (eine Log-Zeile, ein Prompt). Der Start muss aus einem leeren Datenverzeichnis heraus einen nutzbaren Zustand erreichen, inklusive aller Migrationen und Seed-Daten. Bereit heißt nutzbar, nicht nur, dass ein Prozess antwortet. Ein Datenbank-Health-Check kann schon bestehen, während die Init-Skripte noch laufen. Das Herunterfahren gehört mit dazu. Bei einer kurzlebigen CLI oder TUI gibt es keinen Server, der am Laufen bleiben muss: Starten heißt hier, das Binary einmal zu bauen (oder Abhängigkeiten zu installieren) und dann jeden Durchlauf in einer eigenen isolierten PTY- oder tmux-Sitzung zu starten.\n- **Doctor:** eine rein lesende Prüfung, die beantwortet: „Lohnt es sich, diese Instanz anzusteuern?“ – Prozess läuft, richtige Version bzw. richtiger Build, Port gehört uns, Auth gültig. Ein Agent führt sie immer zuerst aus, sobald etwas nicht stimmt.\n- **Drive:** das Harness-Rezept mit echten Selektoren/Befehlen aus diesem Repo, keine Beispiele. Bevorzuge stabile Anker (ARIA-Labels, Data-Attribute, Prompt-Texte, Routenpfade) gegenüber Koordinaten und Tab-Reihenfolge.\n- **Evidence:** was als Nachweis erfasst wird und wo es landet. Leg die Nachweisstandards fest: den echten Nutzerweg durchspielen, nicht interne Setter oder reine Test-Endpoints; die Aktion und den daraus folgenden Zustand erfassen, nicht nur den Endbildschirm; Nebeneffekte (geschriebene Dateien, eingefügte Zeilen, gesendete Nachrichten) zusammen mit dem Sichtbaren prüfen; Mocks nur dort einsetzen, wo bereits eine Produktionsgrenze das externe System isoliert. Wenn der sichere Weg ein Dry-Run oder Testmodus ist, prüfe durch Beobachtung (Dateien, Netzwerk, Git-Refs), was tatsächlich übersprungen wird, statt dem Namen zu vertrauen: Manche Dry-Runs greifen trotzdem aufs Netzwerk zu oder öffnen einen Browser.\n- **Cleanup:** wie Instanzen beendet werden, die der Durchlauf gestartet hat. Beende Prozesse niemals nach Namen; beende nur, was du selbst gestartet hast. Das Aufräumen entfernt Instanzen und temporäre Zustände, niemals die Belege: Nachweis-Artefakte überleben das Herunterfahren an einem Ort, den der Skill benennt.\n- **Helpers:** Jedes Skript, das der Skill mitbringt, ist ausführbar und sein Aufruf wird im Skill-Text gezeigt. Ein Helfer, den man erst selbst entschlüsseln muss, ist kein Helfer.",
+    "## 3. Die Feature-Map anlegen",
+    "Erstelle `<skills>/verify-<app>/features/README.md` sowie je eine Datei pro Feature, mit dem Nutzer direkt arbeiten (peile für den Anfang die 3–5 wichtigsten an – aus Routen, Befehlen, Menüs oder Doku). Orientiere dich am Aufbau in [`references/feature-map-example/`](references/feature-map-example/), mit einer README-Übersicht und einer Datei pro Feature. Jede Datei beantwortet aus Nutzersicht: was das Feature ist, wie man es erreicht, wie man es mit dem Harness ansteuert und welcher beobachtbare Endzustand belegt, dass es funktioniert. Die vier H2-Überschriften sind `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>` und `Gotchas`. Fehlt in den Seed-Daten eine Voraussetzung, die ein Ablauf braucht, meldet der Ablauf einen Fehler und der Grund kommt in die `Gotchas` dieses Features. Schwäche den Ablauf niemals ab, damit er besteht. Die Map ist die gepflegte Prüfquelle des Repos; ein Nachweis, der nur einen bequemen Einstiegspunkt ansteuert, ist unvollständig, wenn die Map weitere auflistet.",
+    "## 4. Den erzeugten Skill vor der Übergabe unter Beweis stellen",
+    "Führe seine eigenen Anweisungen einmal von Anfang bis Ende aus: starten, Doctor-Check laufen lassen, EIN Feature aus der Map ansteuern (eines reicht; die Map existiert, damit spätere Durchläufe den Rest abdecken können), Belege erfassen, aufräumen. Prüfe nach dem Aufräumen, ob die Belege noch am angegebenen Ort liegen – ein Aufräumen, das den Nachweis verschluckt, lässt diesen Schritt scheitern. Behebe alles, was fehlschlägt, und führe das erzeugte Aufräumen auch nach jedem fehlgeschlagenen Versuch aus, damit abgebrochene Versuche keine verwaisten Prozesse und Ports zurücklassen. Ein generierter Skill, der nie ausgeführt wurde, ist ein Entwurf, kein fertiges Ergebnis. Wenn du ihn in einer Ersatzumgebung statt auf dem echten Ziel erprobt hast (in einem Container statt einer frischen VM, in einem lokalen Stack statt einem entfernten), liste jeden Setup-Schritt auf, den der Ersatz übernommen hat, das echte Ziel aber nicht. Diese Schritte bleiben ungeprüft, bis ein Durchlauf auf dem echten Ziel sie abdeckt.",
+    "## 5. Die Wartungsschleife anbieten",
+    "Weise den Nutzer auf `/maintain-verification-skill` hin, damit die Map ehrlich bleibt, wenn sich die App ändert. Schlage nur dann einen Rhythmus vor, wenn danach gefragt wird."
+  ]
+}

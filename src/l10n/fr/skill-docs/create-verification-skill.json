@@ -1,0 +1,78 @@
+{
+  "description": "Génère un skill de vérification local au projet qui pilote votre application comme un utilisateur — quel que soit le langage, le framework ou la plateforme. À utiliser pour /create-verification-skill, « crée un skill de contrôle pour ce dépôt », ou lorsqu'un projet n'a aucun moyen scripté de prouver le comportement d'une UI, d'une CLI ou d'un service.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Prouve une fonctionnalité via des setters internes ou des endpoints réservés aux tests.",
+        "with": "Suit le vrai parcours utilisateur et vérifie les fichiers et lignes écrits."
+      },
+      {
+        "without": "Supprime les captures d'écran et les logs lors du nettoyage.",
+        "with": "Confirme que les preuves sont toujours à l'emplacement indiqué après le nettoyage."
+      },
+      {
+        "without": "Tue les processus par leur nom, y compris l'instance que vous utilisez.",
+        "with": "N'arrête que les instances lancées par cette exécution."
+      }
+    ],
+    "intro": "Il génère un skill `verify-<app>` local au projet qui lance la vraie application, la pilote comme un utilisateur et capture des preuves — rédigé pour un agent qui n'a jamais vu l'application.",
+    "sections": [
+      "Répond à cinq questions à partir du code : surface, commande de lancement, mode de pilotage, preuves disponibles et isolation.",
+      "Écrit `SKILL.md` avec un frontmatter et six sections — Lancement, Diagnostic, Pilotage, Preuves, Nettoyage et Utilitaires — en utilisant les vraies commandes du dépôt.",
+      "Écrit les fichiers dans `features/` pour les 3 à 5 fonctionnalités principales : comment accéder à chacune, comment la piloter et ce qui prouve qu'elle fonctionne.",
+      "Suit le skill de bout en bout sur une fonctionnalité répertoriée. Cela ne passe que si les preuves survivent au nettoyage.",
+      "Vous oriente vers `/maintain-verification-skill` pour garder la carte à jour, et ne suggère une fréquence que si vous le demandez."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "it will be read cold, mid-task, by an agent that has never seen the app.",
+      "quoteTr": "il sera lu à froid, en plein milieu d'une tâche, par un agent qui n'a jamais vu l'application.",
+      "title": "Décrire la situation du lecteur",
+      "does": "Le skill généré détaille les commandes, les ports et la configuration, pour qu'une IA qui n'a jamais vu votre projet puisse l'exécuter tel quel.",
+      "why": "Préciser que le lecteur ne sait rien et qu'il est occupé pousse l'IA à expliciter ce qu'elle tient pour acquis mais que les autres ignorent.",
+      "try": "Pour un document de passation, ajoutez : « Le lecteur arrive demain, n'a jamais touché à ce projet et gère une urgence en parallèle. »"
+    },
+    {
+      "quote": "Answer these from the codebase and only ask the user what you cannot observe",
+      "quoteTr": "Répondez à ces questions à partir du code et ne demandez à l'utilisateur que ce que vous ne pouvez pas observer",
+      "title": "Chercher avant de demander",
+      "does": "Il lit le code pour trouver les commandes de démarrage, les ports et les outils de test, et ne vous demande que ce qu'il ne peut vraiment pas trouver.",
+      "why": "Une consigne claire du type « cherche d'abord, demande ensuite » empêche l'IA de deviner et de vous renvoyer un travail qu'elle pourrait faire.",
+      "try": "Quand vous confiez une tâche, ajoutez : « Trouve d'abord ce que tu peux dans le projet, puis demande-moi le reste en un seul message. »"
+    },
+    {
+      "quote": "Never weaken the journey to make it pass.",
+      "quoteTr": "N'affaiblissez jamais le parcours pour le faire passer.",
+      "title": "Bloquer le raccourci qui triche",
+      "does": "Quand une vérification ne peut pas passer, vous voyez l'échec et sa cause, pas un test discrètement affaibli qui « passe ».",
+      "why": "Quand on demande à une IA de faire passer quelque chose, son réflexe le moins coûteux est de baisser la barre ; nommer ce réflexe l'écarte.",
+      "try": "Quand vous demandez de corriger une vérification qui échoue, ajoutez : « Ne modifie pas le test et n'assouplis pas les assertions ; ne touche qu'au code testé. »"
+    },
+    {
+      "quote": "A generated skill that was never executed is a draft, not a deliverable.",
+      "quoteTr": "Un skill généré qui n'a jamais été exécuté est un brouillon, pas un livrable.",
+      "title": "Renommer ce qui n'est pas fini",
+      "does": "Avant de vous le remettre, il exécute le nouveau skill de bout en bout : vous recevez ainsi un skill qui a tourné, pas un skill seulement écrit.",
+      "why": "Appeler « brouillon » un travail non testé empêche l'IA de confondre écrit et terminé.",
+      "try": "Fixez un critère de remise : « Une page que tu n'as pas ouverte sur téléphone est un brouillon ; ne me l'envoie pas. »"
+    }
+  ],
+  "blocks": [
+    "# Créer un skill de vérification",
+    "Tout projet sérieux a besoin d'un moyen scripté de piloter la vraie application et de prouver son comportement : la lancer, utiliser une fonctionnalité comme le ferait un utilisateur et capturer des preuves. Ce skill génère cela sous forme d'un skill local au projet (`<skills>/verify-<app>/`) adapté au dépôt. `<skills>` est le dossier de skills projet de votre harness (l'outil qui exécute l'IA) : `.cursor/skills/` dans Cursor, `.claude/skills/` dans Claude Code, `.pi/skills/` dans Pi, `.agents/skills/` dans Codex, OpenCode et d'autres. Si le dépôt range déjà des skills dans l'un de ces dossiers, utilisez celui-là. Vous rédigez le résultat du générateur pour l'agent suivant, pas pour un humain : il sera lu à froid, en plein milieu d'une tâche, par un agent qui n'a jamais vu l'application.",
+    "## 1. Interroger le dépôt, pas l'utilisateur",
+    "Répondez à ces questions à partir du code et ne demandez à l'utilisateur que ce que vous ne pouvez pas observer :",
+    "- **Surface :** que touche réellement un utilisateur ? Une interface web, une CLI/TUI, une application de bureau, une API, une application mobile, une bibliothèque ? Un dépôt peut en comporter plusieurs ; choisissez la principale et notez les autres.\n- **Lancement :** comment l'application démarre-t-elle en local ? Privilégiez la commande de développement documentée par le dépôt lui-même (scripts du package, Makefile, guide de démarrage rapide du README). Notez les ports, les variables d'environnement, les données initiales et l'authentification.\n- **Pilotage :** comment un agent peut-il interagir avec elle de manière programmatique ? D'abord les harnais existants — specs Playwright/Cypress, scripts expect, utilitaires PTY, endpoints appelables avec curl, port de débogage. Ensuite seulement, choisissez une recette générique : navigateur/CDP pour le web et Electron, un harnais tmux/PTY pour une CLI/TUI, du simple HTTP pour les services.\n- **Observation :** quelles preuves peut-on capturer ? Captures d'écran, transcriptions de terminal, corps de réponses, logs, codes de sortie, état de la base de données.\n- **Isolation :** deux instances peuvent-elles tourner côte à côte (ports, dossiers de données, profils) ? Si ce n'est pas le cas, indiquez-le dans le skill généré : mieux vaut refuser de piloter en double une instance partagée que de corrompre la session de l'utilisateur.",
+    "Si le dépôt local échoue au build ou au démarrage en l'état, corrigez d'abord cela (ou signalez-le précisément) avant de générer ; un skill rédigé sur une base cassée enseigne de mauvaises étapes. Lorsqu'une ressource manquante sans rapport bloque le démarrage (un dossier statique que l'API ne sert jamais, une configuration d'exemple), le skill généré peut la créer en la marquant clairement comme élément temporaire de vérification, puis la supprimer lors du nettoyage.",
+    "## 2. Générer le skill",
+    "Écrivez `<skills>/verify-<app>/SKILL.md` avec un frontmatter YAML (`name: verify-<app>` et une `description` qui nomme l'application, la surface et quand y recourir — sans frontmatter, le skill ne s'enregistre jamais) et les sections suivantes, chacune ancrée dans ce que l'interrogation du dépôt a réellement trouvé (sans aucun champ à compléter) :",
+    "- **Lancement :** la commande exacte qui démarre l'application pour la vérification, et comment savoir qu'elle est prête (une ligne de log, une invite). Le lancement doit aboutir à un état utilisable à partir d'un dossier de données vide, y compris les migrations et les données initiales. Prêt signifie utilisable, pas seulement qu'un processus répond. Un contrôle de santé de la base de données peut réussir alors que ses scripts d'initialisation tournent encore. Incluez l'arrêt et le nettoyage. Pour une CLI ou une TUI à durée de vie courte, il n'y a pas de serveur à garder actif : le lancement consiste à compiler le binaire (ou installer les dépendances) une fois, puis à démarrer chaque pilotage dans sa propre session PTY ou tmux isolée.\n- **Diagnostic :** une vérification en lecture seule qui répond à « cette instance vaut-elle la peine d'être pilotée ? » — processus actif, bonne version ou bon build, port bien à nous, authentification valide. Un agent lance d'abord ce contrôle dès que quelque chose semble anormal.\n- **Pilotage :** la recette du harnais avec de vrais sélecteurs et commandes de ce dépôt, pas des exemples. Privilégiez des repères stables (libellés ARIA, attributs data, chaînes d'invite, chemins de routes) plutôt que les coordonnées et l'ordre de tabulation.\n- **Preuves :** ce qu'il faut capturer comme preuve et où l'enregistrer. Énoncez les critères de preuve : suivre le vrai parcours utilisateur, pas des setters internes ni des endpoints réservés aux tests ; capturer l'action et l'état qui en résulte, pas seulement l'écran final ; vérifier les effets de bord (fichiers écrits, lignes insérées, messages envoyés) en plus de ce qui est visible ; n'utiliser des mocks que là où une frontière de production isole déjà le système externe. Quand le chemin sûr est un dry-run ou un mode test, vérifiez par l'observation (fichiers, réseau, refs Git) ce qu'il ignore vraiment plutôt que de vous fier à son nom : certains dry-run accèdent quand même au réseau ou ouvrent un navigateur.\n- **Nettoyage :** comment arrêter les instances créées par l'exécution. Ne tuez jamais par nom de processus ; tuez ce que vous avez lancé. Le nettoyage supprime les instances et l'état temporaire, jamais les preuves : les artefacts de preuve survivent au nettoyage, à un emplacement indiqué par le skill.\n- **Utilitaires :** tout script fourni avec le skill doit être exécutable et son appel doit figurer dans le corps du skill. Un utilitaire que le lecteur doit rétro-ingénierer n'est pas un utilitaire.",
+    "## 3. Initialiser la carte des fonctionnalités",
+    "Créez `<skills>/verify-<app>/features/README.md` ainsi qu'un fichier par fonctionnalité visible par l'utilisateur que vous identifiez (visez les 3 à 5 principales pour commencer, à partir des routes, commandes, menus ou de la documentation). Suivez la structure de [`references/feature-map-example/`](references/feature-map-example/), avec un index README et un fichier par fonctionnalité. Chaque fichier répond, du point de vue de l'utilisateur : ce qu'est la fonctionnalité, comment y accéder, comment la piloter avec le harnais et quel état final observable prouve qu'elle fonctionne. Les quatre titres H2 sont `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>` et `Gotchas`. Si une précondition nécessaire à un parcours manque dans les données initiales, le parcours signale un échec et la raison va dans la section `Gotchas` de cette fonctionnalité. N'affaiblissez jamais le parcours pour le faire passer. La carte est la source de vérification maintenue du dépôt ; une preuve qui ne pilote qu'un point d'entrée commode est incomplète lorsque la carte en recense d'autres.",
+    "## 4. Prouver le skill généré avant de le remettre",
+    "Exécutez ses propres instructions de bout en bout une fois : lancement, diagnostic, pilotage d'UNE fonctionnalité répertoriée (une seule suffit ; la carte existe pour que les exécutions suivantes couvrent le reste), capture des preuves, nettoyage. Après le nettoyage, confirmez que les preuves existent toujours à l'emplacement indiqué — un nettoyage qui efface la preuve fait échouer cette étape. Corrigez ce qui échoue, et lancez aussi le nettoyage généré après chaque tentative ratée afin que les essais cassés ne laissent pas traîner de processus ni de ports occupés. Un skill généré qui n'a jamais été exécuté est un brouillon, pas un livrable. Si vous l'avez prouvé dans un environnement de remplacement au lieu de la cible réelle (un conteneur à la place d'une VM fraîche, une stack locale à la place d'une stack distante), listez chaque étape de configuration effectuée par cet environnement de remplacement que la cible ne fera pas. Ces étapes restent non vérifiées tant qu'une exécution sur la cible réelle ne les a pas couvertes.",
+    "## 5. Proposer la boucle de maintenance",
+    "Orientez l'utilisateur vers `/maintain-verification-skill` pour garder la carte fidèle à mesure que l'application évolue. Ne suggérez un rythme qu'à sa demande."
+  ]
+}

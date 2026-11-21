@@ -1,0 +1,77 @@
+{
+  "description": "Pasada periódica que mantiene fieles a la realidad la skill de verificación y el mapa de funcionalidades de un proyecto: lectores de código fuente en paralelo por cada funcionalidad, una sesión en vivo que opera cada funcionalidad y, como máximo, un PR con correcciones comprobadas. Úsala para /maintain-verification-skill o «audita la skill de verificación».",
+  "brief": {
+    "compare": [
+      {
+        "without": "Reescribe la documentación para tapar una funcionalidad rota.",
+        "with": "Edita solo los archivos de la skill de verificación y te informa de los bugs del producto."
+      },
+      {
+        "without": "Sigue operando una instancia en un estado desconocido.",
+        "with": "Ejecuta Doctor después de cualquier operación fallida antes de volver a operar."
+      },
+      {
+        "without": "Abre un PR incluso cuando no cambió nada.",
+        "with": "Abre un solo PR únicamente cuando hay cambios comprobados e indica el resultado."
+      }
+    ],
+    "intro": "Un mapa de funcionalidades se desactualiza cuando la app cambia, así que esta pasada comprueba cada funcionalidad en el código fuente y la ejecuta en vivo.",
+    "sections": [
+      "Termina en uno de tres resultados: «clean» sin PR, «changed» con un PR o «blocked» con el motivo exacto.",
+      "Edita solo la propia carpeta de la skill de verificación. El código del producto queda intacto y los fallos reales se te comunican.",
+      "Siete pasos: encontrar la skill, ordenar el índice, leer el código fuente por funcionalidad, unificar, ejecutar cada funcionalidad en vivo, clasificar y luego publicar o detenerse."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "The unit of rigor is the feature, not every sentence",
+      "quoteTr": "La unidad de rigor es la funcionalidad, no cada frase",
+      "title": "Di dónde aplicar el rigor",
+      "does": "Comprueba cada funcionalidad sin enredarse en cada frase ni atascar la pasada.",
+      "why": "Nombrar la unidad que debe ser rigurosa le indica a la IA qué necesita cobertura completa y qué puede dejar pasar.",
+      "try": "Cuando la IA revise un documento largo, escribe: «Revisa cada capítulo, pero no te obsesiones con cada palabra»."
+    },
+    {
+      "quote": "Required even when source looks clean.",
+      "quoteTr": "Obligatoria incluso cuando el código fuente parece limpio.",
+      "title": "Bloquea el atajo tentador",
+      "does": "Incluso cuando el código parece estar bien, abre la app y usa cada funcionalidad.",
+      "why": "Nombrar el caso exacto que la IA usaría como excusa funciona mejor que decir solo «obligatoria».",
+      "try": "Cuando la IA revise datos, añade: «Aunque parezcan correctos, comprueba a mano 5 filas al azar»."
+    },
+    {
+      "quote": "Several candidates → ask which one; none → stop and point at `/create-verification-skill` instead of inventing a target.",
+      "quoteTr": "Varios candidatos → pregunta cuál; ninguno → detente y apunta a `/create-verification-skill` en lugar de inventar un objetivo.",
+      "title": "Conecta cada caso con una flecha",
+      "does": "Si hay varias coincidencias, te pregunta; si no hay ninguna, se detiene. No elige una ni se inventa ninguna.",
+      "why": "Cada caso apunta a su acción con una flecha y todos los casos están listados, así que ninguno se pasa por alto.",
+      "try": "Para limpiar archivos, escribe: «Más de 10 → pregúntame primero; ninguno → avísame, no crees ninguno»."
+    },
+    {
+      "quote": "require a concrete source path before calling one missing",
+      "quoteTr": "exige una ruta concreta del código fuente antes de decir que falta una",
+      "title": "Fija un mínimo para cada conclusión",
+      "does": "Cuando dice que al mapa le falta una funcionalidad, siempre indica su ubicación en el código.",
+      "why": "Indicar qué evidencia necesita una conclusión evita que la IA informe de problemas por corazonada.",
+      "try": "Cuando la IA revise un sitio web, escribe: «Antes de decir que un enlace está roto, pega el error que obtuviste al abrirlo»."
+    }
+  ],
+  "blocks": [
+    "# Mantener una skill de verificación",
+    "Un mapa de funcionalidades se deteriora en cuanto la app cambia. Esta skill es el ciclo de mantenimiento para una skill generada por `/create-verification-skill` (o cualquier skill de verificación local del proyecto que tenga un mapa de funcionalidades). La unidad de rigor es la funcionalidad, no cada frase: cubre cada archivo de funcionalidad desde el código fuente y ejercita cada funcionalidad en vivo, sin convertir cada viñeta en una comprobación aparte.",
+    "## Resultados",
+    "Elige uno e indica cuál:",
+    "- **clean** — cada funcionalidad tuvo cobertura de código fuente y en vivo; nada que valga la pena publicar. Sin rama, sin PR.\n- **changed** — un PR publica correcciones comprobadas de documentación, del harness o del mapa.\n- **blocked** — la cobertura no pudo completarse o un arreglo comprobado no pudo publicarse de forma segura. Di exactamente qué lo bloqueó.",
+    "## Alcance de edición",
+    "Edita solo el directorio propio de la skill de verificación (su SKILL.md, features/ y cualquier script del harness que le pertenezca). Nunca edites código del producto durante una ejecución: un comportamiento que el mapa describe y que la app ya no hace es un desfase de la documentación (corrige el mapa) o una regresión del producto (infórmalo, no lo maquilles en la documentación).",
+    "## Pasada",
+    "0. **Localiza el objetivo.** Busca la skill de verificación que vas a mantener: la skill local del proyecto cuyo cuerpo tiene secciones de arranque y operación y un mapa de funcionalidades (normalmente `verify-*/` en la carpeta de skills del proyecto: `.cursor/skills/`, `.claude/skills/`, `.pi/skills/` o `.agents/skills/`). Varios candidatos → pregunta cuál; ninguno → detente y apunta a `/create-verification-skill` en lugar de inventar un objetivo.",
+    "1. **Higiene del índice.** Lee el README del mapa de funcionalidades y lista con glob sus archivos hermanos. Corrige entradas faltantes, sobrantes, duplicadas o muertas. Ligero; sin generar un inventario.",
+    "2. **Oleada de código fuente.** Un subagente de solo lectura por cada archivo de funcionalidad, lanzados en paralelo. Cada uno explica «¿cómo funciona esta funcionalidad de cara al usuario?» a partir del código fuente, señala posibles desfases de la documentación con citas y devuelve una receta concisa de verificación en vivo. Los subagentes hijos nunca operan la app ni editan archivos. Formato de respuesta: resumen de la funcionalidad / puntos de entrada en el código fuente / posible desfase o ninguno / una receta.",
+    "3. **Conciliación.** Cada archivo de funcionalidad cuenta con un resumen devuelto. Combina las recetas que se solapen en tan pocos estados de la app como sea práctico. Comprueba puntualmente los desfases citados; no vuelvas a demostrar las afirmaciones sin desfase. Revisa los cambios recientes en busca de superficies visibles para el usuario que falten en el mapa: exige una ruta concreta del código fuente antes de decir que falta una.",
+    "4. **Pasada en vivo.** Obligatoria incluso cuando el código fuente parece limpio. El coordinador se encarga de toda la operación; sigue el modelo de arranque propio de la skill de verificación: una instancia de larga duración operada en serie para servidores e interfaces de usuario, o una sesión nueva y aislada por cada operación para herramientas CLI de corta duración (lo decide la sección Launch de la skill, no esta). Ejercita cada funcionalidad al menos una vez y mantén tres invariantes durante toda la pasada, sea cual sea el fallo: (1) nunca operes una instancia cuyo estado de salud no hayas comprobado desde la última vez que hizo algo inesperado: ejecuta doctor antes de la primera operación, ejecuta doctor en cada sesión nueva cuando las sesiones sean la unidad, vuelve a ejecutar doctor después de cualquier operación fallida y, cuando doctor no pueda ver el fallo (un estado atascado de la interfaz en un proceso sano), restablece un estado conocido o vuelve a arrancar en lugar de confiar en la suerte; (2) la evidencia recopilada hasta el momento sobrevive a cada limpieza, comprobada en la ubicación indicada, no dada por hecha; (3) nada que haya iniciado una operación sobrevive a la utilidad de esa operación: los residuos de una iteración fallida se limpian tanto si la sesión está atascada como si se cerró o es compartida (en una instancia compartida, limpia los residuos, no la instancia). Un fallo de doctor causado por un desfase de la skill es un desfase: arréglalo dentro del alcance de edición y reintenta una vez —reinicia lo que el arreglo haya invalidado, nada más— antes de dar la pasada por `blocked`. Una funcionalidad a la que no se puede llegar es `verified-unreachable` solo con el requisito previo concreto (autenticación, derecho de acceso, sistema operativo, estado externo) y la ruta intentada; si el mapa omite ese requisito previo, eso es un desfase. Cualquier arreglo del harness surgido de la clasificación se vuelve a operar en vivo antes de publicarse. El desmontaje final ocurre después de la última operación de la ejecución —incluidas esas nuevas comprobaciones— para que nada sobreviva a la ejecución (la evidencia se conserva, según la skill).",
+    "5. **Clasificación.** Descripción incorrecta o ausente desde el punto de vista del usuario → desfase de la documentación, arréglalo. Comportamiento que funciona pero que el harness no puede operar → carencia del harness, arréglala; un arreglo del harness sigue la misma regla de utilidades que en la generación (scripts ejecutables, invocación documentada en el cuerpo de la skill). Comportamiento de la app que realmente está roto → fallo del producto; regístralo para el usuario y mantenlo fuera de este PR.",
+    "6. **Publica o detente.** Para «changed»: un PR con correcciones comprobadas; vuelve a leer primero cada archivo modificado. Para «clean» o «blocked»: sin PR; informa con honestidad del resultado y de la cobertura.",
+    "Guarda notas breves de la ejecución (funcionalidades cubiertas, requisitos previos inalcanzables, desfases confirmados, resultado) en una ubicación temporal; no hagas commit de ellas."
+  ]
+}

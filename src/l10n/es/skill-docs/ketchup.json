@@ -1,0 +1,88 @@
+{
+  "description": "Pon al día al usuario sobre lo que cambió en este chat desde su último mensaje, con palabras sencillas y elementos visuales pequeños. Enumera cada punto pendiente del usuario con lo necesario para decidirlo solo con la respuesta. Úsala para /ketchup.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Cuenta una historia larga y entierra lo que necesita tu decisión.",
+        "with": "Empieza nombrando lo que está pendiente de ti y da su recomendación para cada decisión."
+      },
+      {
+        "without": "Llena la actualización con hashes, rutas de archivos y números de compilación.",
+        "with": "Cuenta qué cambió para ti con palabras sencillas y deja fuera los ID que no necesitas."
+      },
+      {
+        "without": "Inventa cifras o imágenes de pantallas que nunca capturó.",
+        "with": "Comprueba cada cifra con su fuente e inserta solo capturas de pantalla y videos reales."
+      }
+    ],
+    "intro": "Te pone al día desde tu último mensaje antes de /ketchup, explica cada cambio y enumera cada decisión que tienes que tomar, con la voz sencilla de /bro.",
+    "sections": [
+      "No cambia nada en este turno, comprueba cada PR, ejecución de CI y agente que tocó este chat, y enumera únicamente las decisiones que solo tú puedes tomar.",
+      "Empieza por lo que está pendiente de ti, mantiene el relato en menos de 100 palabras y da para cada punto su recomendación, evidencia y riesgo.",
+      "Dibuja solo cuando una imagen lo explica mejor: seis recuadros como máximo, ocho palabras en cada uno. Las tablas y las listas de estado no cuentan."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Assume the user remembers their last message and nothing after it.",
+      "quoteTr": "Asume que el usuario recuerda su último mensaje y nada posterior.",
+      "title": "Traza la línea de salida del lector",
+      "does": "Empieza desde tu último mensaje: sin repetir lo que ya sabes y sin saltarse lo que te perdiste.",
+      "why": "«Lo que sabe el lector» se convierte en un punto concreto en el tiempo, así que la IA no tiene que adivinar por dónde empezar.",
+      "try": "Cuando pidas una nota de traspaso, añade: «Asume que el lector vio la actualización del viernes pasado y nada posterior»."
+    },
+    {
+      "quote": "Say \"the tests pass\", not \"CI is green\".",
+      "quoteTr": "Di «los tests pasan», no «el CI está en verde».",
+      "title": "Fija el tono con un par de ejemplos",
+      "does": "Cuenta los resultados con palabras que entiendes, no con jerga.",
+      "why": "«Palabras sencillas» es vago. Un par de «di esto, no aquello» es mucho más preciso que una lista de adjetivos.",
+      "try": "Para lograr un tono, da un par: «Escribe “sale mañana”, no “ETA T+1”»."
+    },
+    {
+      "quote": "An action item is a call or step only the user can take",
+      "quoteTr": "Un punto de acción es una decisión que solo puede tomar el usuario o un paso que solo puede dar",
+      "title": "Define primero la palabra clave",
+      "does": "Enumera solo las decisiones que realmente tienes que tomar; no te pasa su propio trabajo.",
+      "why": "Cada persona interpreta «punto de acción» de forma distinta. Defínelo y luego di qué cuenta y qué no.",
+      "try": "Si una palabra en tu prompt importa, defínela ahí mismo: «Aquí, “hecho” significa que funciona al abrirlo en un teléfono»."
+    },
+    {
+      "quote": "Never cut items or shrink them to stay under a word count",
+      "quoteTr": "Nunca elimines puntos ni los recortes para no pasarte de un límite de palabras",
+      "title": "Di qué regla gana",
+      "does": "Mantiene la respuesta corta, pero nunca deja fuera una decisión que necesitas tomar.",
+      "why": "«Corto» y «completo» pueden chocar. Decir cuál gana evita que la IA recorte lo importante por ser breve.",
+      "try": "Cuando des dos objetivos, añade cuál va primero: «Hazlo corto, pero indica el riesgo de cada cambio, aunque eso lo alargue»."
+    },
+    {
+      "quote": "Each line must stay true when read alone.",
+      "quoteTr": "Cada línea debe seguir siendo cierta si se lee sola.",
+      "title": "Dale un criterio que pueda comprobar",
+      "does": "Cada línea del resumen está completa por sí sola y no puede sacarse de contexto.",
+      "why": "Es una regla que la IA puede comprobar línea por línea, más fácil de seguir que «sé claro».",
+      "try": "Cuando pidas un resumen, añade: «Cada línea debe seguir teniendo sentido si se reenvía sola»."
+    }
+  ],
+  "blocks": [
+    "# Ketchup",
+    "Pon al día al usuario sobre lo que cambió en este chat desde el último mensaje que escribió antes de `/ketchup`, y ayúdalo a entender cada cambio, no solo en qué estado está. Luego presenta cada decisión pendiente del usuario para que pueda tomarla solo con tu respuesta. Las notificaciones y los resultados de subagentes no son mensajes suyos. Asume que el usuario recuerda su último mensaje y nada posterior.",
+    "Usa la voz de [`/bro`](../bro/SKILL.md), no su tarea: palabras sencillas, frases cortas, sin jerga, como una persona poniendo al día a otra. Di qué cambió para el usuario, no cómo lo hiciste. Di «los tests pasan», no «el CI está en verde». Deja fuera hashes, rutas de archivos, comandos, números de compilación y recuentos de tests, salvo que el usuario necesite alguno para actuar. Llama a cada PR, rama o agente por un nombre que el usuario reconozca, no por una etiqueta que hayas inventado. Si un dato necesita contexto para tener sentido, da el contexto o deja el dato fuera.",
+    "## Reúne lo que cambió",
+    "Mantén este turno en solo lectura. Crea elementos visuales solo a partir de lo que ya tienes: no cambies código, no inicies ninguna app ni proceso, y no publiques nada. Recopila tu propio trabajo desde ese mensaje, los informes de subagentes y los mensajes de cualquier otra persona en este chat. Comprueba el estado actual de cada PR, ejecución de CI o agente que tocó este chat. Comprueba cada cifra que vayas a mostrar con los datos de los que sale, y dilo cuando corrijas una.",
+    "Un punto de acción es una decisión que solo puede tomar el usuario o un paso que solo puede dar, como una elección de producto, una aprobación, una acción irreversible o un acceso que te falta. Incluye cualquiera que siga pendiente del usuario, incluso si surgió antes de su último mensaje. El trabajo que todavía puedes hacer por tu cuenta no es un punto de acción. Nunca inventes una decisión para rellenar la respuesta. Un paso que el usuario no pidió y que el trabajo no necesita no es un punto de acción, salvo que sea irreversible y esté pendiente del usuario: dedícale una línea y ningún elemento visual.",
+    "Una sola decisión puede abarcar varios puntos, como cada PR de un conjunto a la espera de fusionarse. Para cada punto, reúne su enlace, qué cambia para los usuarios, la evidencia detrás de tu recomendación, su riesgo y tu recomendación. Escribe «desconocido» para cualquier dato que la decisión necesite y no sepas. Deja fuera cualquier enlace que no tengas.",
+    "## Escribe la respuesta",
+    "Dedica las palabras a las decisiones, no al relato. Mantén lo ocurrido en menos de 100 palabras, sin contar las imágenes, y más breve cuando haya pasado menos. Deja fuera el trabajo que no cambió nada para el usuario. Dedica unas 30 palabras a cada punto. La respuesta crece con el número de puntos: dos puntos necesitan bastante menos de 150 palabras en total, sin contar las imágenes, y treinta necesitan muchas más. Nunca elimines puntos ni los recortes para no pasarte de un límite de palabras: nada de poner una cifra en lugar de una lista, ni un enlace en lugar de un punto. Un enlace puede aportar más detalle, pero la respuesta por sí sola debe bastar para decidir.",
+    "Empieza con una frase corta que nombre lo que está pendiente del usuario, o diga que no hay nada pendiente. Los puntos de acción dan el detalle. Si no pasó nada y no hay nada pendiente del usuario, dilo y detente.",
+    "Luego muestra lo que pasó, primero las imágenes. Incrusta directamente las capturas de pantalla y los videos que produjo el trabajo, y luego cualquier diagrama que explique un cambio. Después resume en una viñeta corta cada cosa que pidió el usuario: qué salió de ella y si está hecha, sigue en marcha, falló o no se comprobó. Escribe cada línea tal como la dirías en voz alta: «La búsqueda iba lenta porque faltaba un índice», no «Revisión de búsqueda: hecha» ni «Búsqueda lenta: falta índice». Menciona cualquier bug encontrado y arreglado por el camino. Cada línea debe seguir siendo cierta si se lee sola. Nunca marques como hecho algo que siga pendiente del usuario, y deja fuera todo lo que ya digan los puntos de acción. Debajo del resumen, añade como máximo tres líneas cortas que cambien lo que el usuario sabe o tiene que hacer. Luego menciona en una línea cualquier trabajo pendiente que puedas hacer por tu cuenta.",
+    "Luego enumera los puntos de acción. Plantea la decisión que corresponde al usuario —como fusionar, aprobar o elegir— y da tu recomendación. Cualquier paso que darías primero va en tu recomendación. También cualquier cosa que deba ocurrir primero y cualquier cosa que no se pueda deshacer. Indica el número o enlace de cada PR, issue o agente al que se refiera una decisión, también en una decisión entre opciones.",
+    "Adapta la forma a la decisión. Una decisión sobre un solo punto va en una sola viñeta: la decisión, tu recomendación, qué cambia para los usuarios, la evidencia detrás de tu recomendación y su riesgo, nombrando el punto una sola vez. Cuando varios puntos comparten una misma decisión, escribe la decisión y tu recomendación una sola vez, y luego dedica a cada punto su propia viñeta, empezando por el más arriesgado: su enlace y nombre, qué cambia para los usuarios, la evidencia detrás de tu recomendación y su riesgo. Indica la recomendación de un punto solo cuando no coincida con la de la decisión. Indica el riesgo de cada punto incluso cuando sea bajo, como «Riesgo bajo: solo cambian los colores». Di qué cuesta esperar solo cuando implique más que un retraso, como una fecha límite o pérdida de datos.",
+    "Para una decisión entre opciones, presenta todas las opciones que se evaluaron en el trabajo, cada una con lo que gana el usuario y lo que cuesta, además del estado actual cuando exista uno. Esos costos son el riesgo de la decisión, así que no añadas una línea de riesgo aparte. Cuando las capturas de pantalla de arriba muestren las opciones, escribe lo que gana y lo que cuesta cada opción debajo de su captura.",
+    "## Elementos visuales",
+    "Un elemento visual es una imagen: una captura de pantalla, un video, un diagrama Mermaid, un gráfico o diagrama de `/visualize` (Cursor) o de la herramienta de gráficos de tu harness, o una imagen generada. Una tabla Markdown no es un elemento visual, ni siquiera si tiene columnas de antes y después.",
+    "Cuando algo sea más fácil de entender con una imagen que con frases, dibújalo: cómo funciona un diseño o un sistema, un stack de PR o una cadena de dependencias con el estado de cada PR, el antes y el después de una corrección, o opciones lado a lado. Nunca dibujes una lista de estado, una lista de puntos de acción ni recuadros sin nada que los conecte. Nunca des un dato dos veces, ni en el texto ni entre distintos elementos visuales.",
+    "Mantén cada elemento visual lo bastante pequeño para leerlo de un vistazo: seis recuadros como máximo, con hasta ocho palabras en cada uno. Escribe las etiquetas con palabras sencillas que diría una persona, no como rótulos del tipo «Tests: pasan». Un dato que necesita una frase va en el texto, o en ninguna parte.",
+    "Incrusta directamente las capturas de pantalla y los videos cuando el cambio sea visible, no solo como enlaces. Si un cambio visible no tiene ninguno, marca su línea del resumen con «Sin captura todavía» y di ahí qué cambió en pantalla. Dibuja diagramas y gráficos a partir de los datos que tienes: un diagrama Mermaid para mostrar cómo se conectan las cosas y un gráfico para cifras (`/visualize` en Cursor, o la herramienta de gráficos de tu harness). Nunca inventes una cifra, y nunca dibujes ni generes una imagen de una pantalla que no hayas capturado. Enlaza solo artefactos que existan."
+  ]
+}

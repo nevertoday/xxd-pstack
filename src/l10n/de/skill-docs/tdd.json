@@ -1,0 +1,75 @@
+{
+  "description": "Nur nutzen, wenn ausdrücklich nach TDD, einem fehlschlagenden Test oder einem Regressionstest gefragt wird ODER wenn der Bug ein offensichtliches, wenig aufwendiges lokales Testziel hat. Überspringen, wenn der Testpfad unklar, aufwendig, integrationslastig oder nicht angefragt ist.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Ändert den Code und sagt einfach, es sei behoben.",
+        "with": "Schreibt zuerst einen Test und bestätigt, dass er wegen dieses Bugs fehlschlägt."
+      },
+      {
+        "without": "Passt den Test an den falschen Code an.",
+        "with": "Schreibt den Test nach dem gewünschten Verhalten und lässt bestehende Assertions intakt."
+      },
+      {
+        "without": "Erzwingt einen Test, der größtenteils aus Mocks besteht.",
+        "with": "Nutzt ein Skript oder einen Repro-Befehl (kurz für Reproduktion), wenn ein Test unpraktisch ist, und sagt, warum."
+      }
+    ],
+    "intro": "Er besagt: Bei einem wenig aufwendigen Testpfad schreibt die KI einen Test, der vor dem Fix fehlschlägt und danach besteht. Sonst nutzt sie die nächstliegende Prüfung.",
+    "sections": [
+      "Sechs Schritte: den Bug verstehen, den nächstliegenden Testtyp wählen, einen fehlschlagenden Test schreiben, den Grund für das Fehlschlagen bestätigen, minimal beheben, erneut ausführen.",
+      "Weicht auf ein gezieltes Skript, einen Repro-Befehl oder Browser-Automatisierung aus. Kein neuer Test ist besser als ein schlechter.",
+      "Tests bilden das gewünschte Verhalten ab, Assertions bleiben bestehen, der Fokus bleibt auf diesem Bug, und sporadische Bugs bekommen nach Möglichkeit deterministische Tests.",
+      "Liefert Belege: den vorher fehlgeschlagenen Test samt Fehler, den bestandenen Durchlauf danach – oder warum das nicht möglich war."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Confirm it fails for the intended reason.",
+      "quoteTr": "Bestätige, dass er aus dem erwarteten Grund fehlschlägt.",
+      "title": "Prüf auch, warum er fehlschlägt",
+      "does": "Sobald der neue Test rot wird, prüft die KI, ob dieser Bug schuld ist – nicht ein Tippfehler oder eine fehlende Abhängigkeit.",
+      "why": "„Erst fehlschlagen lassen“ lässt jedes Rot durchgehen; erst „aus dem richtigen Grund fehlschlagen“ beweist wirklich etwas.",
+      "try": "Wenn die KI ein Problem reproduziert, füg hinzu: „Sobald es fehlschlägt, sag mir, ob es derselbe Fehler ist, den ich beschrieben habe.“"
+    },
+    {
+      "quote": "Prefer no new test over a bad test.",
+      "quoteTr": "Lieber kein neuer Test als ein schlechter Test.",
+      "title": "Erlaub „diesmal überspringen“",
+      "does": "Wenn ein Test schwer zu schreiben ist, prüft die KI auf anderem Weg und sagt, warum – statt einen Test aus Mocks zu erzwingen.",
+      "why": "Starre Schritte treiben eine KI dazu, sie mit Müll zu füllen; wenn Überspringen erlaubt und „schlecht“ definiert ist, kann die KI aufhören.",
+      "try": "Lass bei festen Schritten einen Ausweg: „Wenn kein Bild passt, lass die Stelle leer und markiere sie; nimm kein unpassendes.“"
+    },
+    {
+      "quote": "The test should encode intended behavior, not mirror the current implementation.",
+      "quoteTr": "Der Test sollte das gewünschte Verhalten abbilden, nicht die aktuelle Implementierung spiegeln.",
+      "title": "Sag, was die Referenz ist",
+      "does": "Die Tests der KI prüfen, was das Feature tun soll – nicht eine Kopie des aktuellen fehlerhaften Codes.",
+      "why": "Die nächstliegende Referenz für eine KI ist der aktuelle Code; „gewünschtes Verhalten“ zu benennen verhindert, dass sie Falsches für richtig hält.",
+      "try": "Wenn die KI Arbeit prüft, sag ihr, worauf sie sich verlassen soll: „Richte dich nach dem Originalvertrag, nicht nach der letzten Übersetzung.“"
+    },
+    {
+      "quote": "Report the evidence, not just the outcome:",
+      "quoteTr": "Liefere die Belege, nicht nur das Ergebnis:",
+      "title": "Liste auf, was ein Bericht enthalten muss",
+      "does": "Am Ende sagt dir die KI, welcher Test vorher wie fehlschlug und welcher Durchlauf danach bestand.",
+      "why": "Fragst du nach einem Ergebnis, sagt die KI „behoben“; listest du die Belege auf, die sie liefern muss, kannst du ohne Rückfragen urteilen.",
+      "try": "Wenn du nach einem Bericht fragst, liste auf: „Welche Datei sich geändert hat, wie du getestet hast und die letzten Zeilen der Testausgabe.“"
+    }
+  ],
+  "blocks": [
+    "# TDD-Bugfix",
+    "Wenn du einen Bug mit einem klaren, wenig aufwendigen Testpfad behebst, mach das fehlerhafte Verhalten ausführbar, bevor du Produktionscode änderst. Das Ziel ist ein gezielter Regressionstest, der vor dem Fix fehlschlägt und danach besteht.",
+    "Erzwinge keinen Test, wenn er unpraktisch wäre. Wenn der verfügbare Test einen umfangreichen Testaufbau, fragile Mocks, langsame End-to-End-Infrastruktur, nur in Produktion vorhandenen Zustand, vage Reproduktionsschritte oder große, nicht zugehörige Fixture-Änderungen erfordern würde, lass einen neuen Test weg und nutze stattdessen die nächstliegende sinnvolle Prüfung.",
+    "## Ablauf",
+    "1. **Versteh den Bug.** Bestimme das gewünschte Verhalten, das aktuelle Verhalten, den betroffenen Pfad und die kleinste beobachtbare Reproduktion.\n2. **Wähl die gezieltste ausführbare Prüfung.** Bevorzuge den nächstliegenden Unit-, Komponenten-, Integrations- oder Regressionstest, der für diesen Codepfad bereits genutzt wird. Wenn kein praktischer Testpfad offensichtlich ist, leg keinen von Grund auf neu an, nur um den Ablauf einzuhalten.\n3. **Schreib zuerst den fehlschlagenden Test.** Füg den kleinsten gezielten Test hinzu, der den Bug abgefangen hätte. Der Test sollte das gewünschte Verhalten abbilden, nicht die aktuelle Implementierung spiegeln.\n4. **Führ den neuen Test vor dem Fix aus.** Bestätige, dass er aus dem erwarteten Grund fehlschlägt. Wenn er besteht oder aus einem anderen Grund fehlschlägt, korrigiere den Test oder die Reproduktion, bevor du die Implementierung bearbeitest.\n5. **Behebe den Bug.** Nimm die kleinste Änderung am Produktionscode vor, die das gewünschte Verhalten erfüllt und angrenzende Verträge wahrt.\n6. **Führ den Regressionstest erneut aus.** Bestätige, dass der Test jetzt besteht.",
+    "## Wenn ein fehlschlagender Test unpraktisch ist",
+    "Nutze stattdessen die nächstliegende ausführbare Regressionsprüfung: ein gezieltes Skript, einen manuellen Reproduktionsbefehl, Browser-Automatisierung, einen Snapshot-Vergleich, eine Log-Assertion oder eine gezielte Integrationsprüfung.",
+    "Lieber kein neuer Test als ein schlechter Test. Ein schlechter Test testet größtenteils Mocks, bildet aktuelle Implementierungsdetails ab, hängt vom Timing oder von einem unbeteiligten globalen Zustand ab, braucht aufwendige Infrastruktur für einen kleinen Fix oder würde direkt nach dem Nachweis des Fixes wieder gelöscht werden.",
+    "## Leitplanken",
+    "- Ändere Tests nicht bloß so, dass sie zu einer falschen Implementierung passen.\n- Schwäche bestehende Assertions nicht ab, es sei denn, das erwartete Verhalten hat sich wirklich geändert und der Grund ist klar.\n- Halte den Regressionstest auf den Bug fokussiert. Vermeide umfangreiche Fixture-Änderungen oder eine nicht zugehörige Ausweitung der Testabdeckung.\n- Wenn der Bug sporadisch auftritt, mach den Test nach Möglichkeit deterministisch und dokumentiere das Signal, das damit abgesichert wird.\n- Wenn der Bug eine breitere Fehlerklasse offenlegt, schließ zuerst den gezielten Regressionspfad ab und zieh danach zusätzliche Abdeckung für verwandte Fälle in Betracht.",
+    "## Abschlussantwort",
+    "Liefere die Belege, nicht nur das Ergebnis:",
+    "- Nenne, welcher Test oder welche ausführbare Prüfung vorher fehlgeschlagen ist und welcher Fehler dabei auftrat.\n- Nenne den bestandenen Testlauf danach sowie alle durchgeführten Prüfungen im Umfeld.\n- Wenn sich kein Beleg für das vorherige Fehlschlagen zeigen ließ, nenne den Grund und beschreibe die nächstliegende Regressionsprüfung, die stattdessen genutzt wurde."
+  ]
+}

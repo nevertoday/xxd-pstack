@@ -1,0 +1,88 @@
+{
+  "description": "Mehrstufiger Standard für technisches Schreiben: Diátaxis-Struktur, Satzstil nach Google Developer Style, STE-Regeln für Anweisungen, Global-English-Syntax. Nutze ihn für /technical-writing oder wenn du Dokus, RFCs, READMEs, PR-Beschreibungen oder Commit-Nachrichten schreibst oder prüfst.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Schreibt Schritte mit „einfach“, „leicht“ oder im Passiv.",
+        "with": "Schreibt jeden Schritt als direkten Befehl, mit der Bedingung zuerst."
+      },
+      {
+        "without": "Schreibt jeden Satz gleich lang und bezieht selbst in Erklärungen keine Position.",
+        "with": "Mischt kurze und lange Sätze und bezieht in Erklärungen Position."
+      },
+      {
+        "without": "Fügt Logs und SHA-Listen direkt in die PR-Beschreibung ein.",
+        "with": "Schreibt die PR-Beschreibung als Ein-Minuten-Briefing und verlinkt die Logs."
+      }
+    ],
+    "intro": "Der Skill setzt das Ziel – ein müder Entwickler versteht den Text beim ersten Lesen – und dann fünf Regeln: überflüssige Wörter streichen, Alltagswörter nutzen, einen Satz anders verbessern, wenn eine Regel ihm schadet, echte Namen schreiben und keinen Jargon erfinden.",
+    "sections": [
+      "Mischt kurze und lange Sätze, bezieht in Erklärungen Position und schreibt konkret, etwa „das Umbenennen einer Spalte lässt den Build fehlschlagen“.",
+      "Ein Modus pro Dokument: Tutorials zeigen bei jedem Schritt ein sichtbares Ergebnis, How-tos nennen nur Handlungen, Referenzen beschreiben nur, Meinungen gehören in Erklärungen.",
+      "Spricht Lesende im Präsens mit „du“ an, schreibt Befehle, stellt Bedingungen nach vorn, lässt Überschriften die Kernaussage tragen und beschriftet Links klar.",
+      "Eine Anweisung pro Satz, Aufteilung ab etwa 20 Wörtern, Warnungen vor dem Schritt und ein Wort pro Aktion.",
+      "Stellt „nur“ und „nicht“ direkt neben ihr Bezugswort, löst Substantivketten auf, gibt jedem „es“ genau einen Bezug und verzichtet auf Semikolons und Schrägstriche.",
+      "Lässt `unslop` über jedes angefasste Dokument laufen, wendet die Regeln auf PRs und Commits an und überlässt UI-Texte den Copy-Richtlinien des Produkts."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Write so a tired engineer understands on the first read.",
+      "quoteTr": "Schreib so, dass ein müder Entwickler es beim ersten Lesen versteht.",
+      "title": "Schreib für eine konkrete Person",
+      "does": "Das Dokument liest sich schon beim ersten Mal klar, ohne dass du zurückspringen musst.",
+      "why": "„Ein müder Entwickler“ beim „ersten Lesen“ ist ein Bild, das du dir vorstellen kannst – viel leichter zu treffen als „schreib klar“.",
+      "try": "Für einen Hinweis, den alle befolgen müssen, sag: „Schreib es so, dass jemand im Support am Ende einer Nachtschicht nach einmaligem Lesen danach handeln kann.“"
+    },
+    {
+      "quote": "Use the short, everyday word: \"use\", not \"utilize\".",
+      "quoteTr": "Nimm das kurze Alltagswort: „nutzen“, nicht „verwenden“.",
+      "title": "Gib zur Regel ein Tauschbeispiel",
+      "does": "Die KI nimmt standardmäßig kurze Alltagswörter und ersetzt ein längeres Wort wie „verwenden“ durch „nutzen“.",
+      "why": "Wenn du die Regel mit einem konkreten „dies, nicht das“ kombinierst, kann die KI den Tausch übernehmen, statt zu raten, was als einfach gilt.",
+      "try": "Für schlichtere Sprache gib ein Tauschbeispiel mit: „Schreib ‚nutzen‘, nicht ‚Gebrauch machen von‘.“"
+    },
+    {
+      "quote": "When a rule makes a sentence worse, fix the sentence another way or leave it alone.",
+      "quoteTr": "Wenn eine Regel einen Satz schlechter macht, verbessere ihn anders oder lass ihn so.",
+      "title": "Gib den Regeln einen Ausweg",
+      "does": "Die KI verbiegt keinen Satz ins Schlechtere, nur um eine Regel zu befolgen.",
+      "why": "Ausdrücklich zu sagen, dass die Regeln der Lesbarkeit dienen und nicht umgekehrt, hindert die KI daran, sie mechanisch anzuwenden.",
+      "try": "Füg nach einer Liste von Stilregeln hinzu: „Wenn eine Regel einen Satz schwerer lesbar macht, lass sie weg. Lesbarkeit gewinnt.“"
+    },
+    {
+      "quote": "Write the real symbol, file, flag, or command name, not a synonym or a description of it.",
+      "quoteTr": "Schreib den echten Symbol-, Datei-, Flag- oder Befehlsnamen, kein Synonym und keine Umschreibung davon.",
+      "title": "Nutze die echten Namen",
+      "does": "Das Dokument nutzt die echten Funktions-, Datei- und Befehlsnamen statt freundlicherer Ersatzbegriffe.",
+      "why": "Die Frage „welches Wort nutzen?“ an Namen zu binden, die schon im Code stehen, hindert die KI daran, eigene zu erfinden.",
+      "try": "Für eine Nutzeranleitung füg hinzu: „Schreib jeden Button-Namen genau so, wie er in der App steht.“"
+    },
+    {
+      "quote": "One document, one mode.",
+      "quoteTr": "Ein Dokument, ein Modus.",
+      "title": "Ein Dokument, eine Aufgabe",
+      "does": "Vor dem Schreiben wählt die KI Tutorial, How-to, Referenz oder Erklärung, schreibt nur das und lagert den Rest hinter einem Link aus.",
+      "why": "Eine feste Regel plus Lösung (aufteilen und verlinken) erspart der KI, bei jedem Absatz abzuwägen, ob er dazugehört.",
+      "try": "Wenn du ein Dokument anforderst, sag: „Hier nur die Installationsschritte. Pack den Hintergrund auf eine eigene Seite und verlink darauf.“"
+    }
+  ],
+  "blocks": [
+    "# Technisches Schreiben",
+    "Schreib so, dass ein müder Entwickler es beim ersten Lesen versteht.",
+    "- Streich jedes Wort, das keine Arbeit leistet.\n- Nimm das kurze Alltagswort: „nutzen“, nicht „verwenden“.\n- Wenn eine Regel einen Satz schlechter macht, verbessere ihn anders oder lass ihn so.\n- Schreib den echten Symbol-, Datei-, Flag- oder Befehlsnamen, kein Synonym und keine Umschreibung davon.\n- Erfinde keinen Jargon. Nutze die Wörter, die ein Entwickler laut aussprechen würde. Erkläre beim ersten Mal, was ein benanntes Muster bedeutet.",
+    "## Variiere den Rhythmus",
+    "- Misch die Satzlängen. Teile den Satz, der zwei Gedanken trägt. Behalte den langen Satz, der nur einen trägt.\n- Bezieh in Erklärungen Position. Halte Referenzen trocken.\n- Sei konkret. Nicht „Schema-Änderungen können Probleme verursachen“, sondern „das Umbenennen einer Spalte lässt den Build fehlschlagen“.",
+    "## Wähle zuerst den Modus (Diátaxis)",
+    "Ein Dokument, ein Modus. Misch keine Modi. Teile stattdessen auf und verlinke.",
+    "- **Tutorial: Lernen durch Tun.** Sag, was die Lernenden bauen werden. Jeder Schritt liefert ein sichtbares Ergebnis, und du sagst, was sie sehen sollten. Erklärungen bekommen einen Teilsatz und einen Link.\n- **How-to: Schritte zu einem Ziel.** Löse das Problem der Lesenden. Setze Kompetenz voraus. Nur Handlungen. Lass Verzweigungen zu. Benenne die Anleitung nach der Aufgabe.\n- **Referenz: Fakten zum Nachschlagen.** Beschreibe nur. Sei trocken, vollständig und bestimmt. Spiegle die Struktur dessen wider, was du beschreibst.\n- **Erklärung: Verstehen und das Warum.** Ein abgegrenztes Thema. Gib Kontext: Designentscheidungen, Geschichte, Einschränkungen, Alternativen. Meinung ist hier erlaubt und sonst nirgends.",
+    "## Schreib Sätze direkt an die Lesenden (Google Developer Style)",
+    "- Sprich die Lesenden mit „du“ an, im Präsens.\n- Sag, wer was tut. Passiv ist nur in Ordnung, wenn unbekannt oder nebensächlich ist, wer handelt.\n- Schreib Anweisungen als Befehle. Stell die Bedingung vor die Anweisung und den häufigsten Fall zuerst.\n- Keine Modewörter, keine bildhafte Sprache, kein „bitte“ und niemals „einfach“, „leicht“ oder „schnell“ in einer Anleitung.\n- Kündige nichts vorab an und beginne aufeinanderfolgende Sätze nicht mit derselben Wendung.\n- Verlinke mit Wörtern, die sagen, wohin der Link führt.\n- Überschriften tragen die Kernaussage, in Satzschreibweise (Sentence Case). Eine h1 pro Seite, keine übersprungenen Ebenen.\n- Nummerierte Listen für Abläufe, Aufzählungspunkte für alles andere. Leite eine Liste mit einem vollständigen Satz ein. Halte die Punkte parallel aufgebaut.\n- Code steht in Code-Schrift. UI-Elemente stehen fett. Nutze das Oxford-Komma. Lass „etc.“ weg.",
+    "## Lass Aussagen einzeln ankommen (STE-Regeln)",
+    "- Eine Anweisung pro Satz. Überall sonst ein Gedanke pro Satz.\n- Teile Anweisungen mit mehr als etwa 20 Wörtern und andere Sätze mit mehr als etwa 25.\n- Stell die Warnung oder Bedingung vor den Schritt, den sie absichert.\n- Behalte Artikel („the“ und „a“) bei.\n- Gib jedem Wort eine Bedeutung und wähle ein Wort pro Aktion.\n- Schreib Anleitungen als direkte Befehle, niemals als Erzählung und niemals im Passiv.\n- Vermeide „-ing“-Wörter, wo du kannst.",
+    "## Lass keinen Satz für zwei Lesarten offen (Global English)",
+    "- Stell Wörter wie „nur“ und „nicht“ direkt neben das Wort, das sie verändern.\n- Löse lange Substantivketten auf.\n- Sorg dafür, dass jedes „es“, „sie“ und „dies“ auf genau eine offensichtliche Sache verweist. Nutze niemals „dies“ oder „was“, um auf einen ganzen Teilsatz zu verweisen.\n- Lass keine Verben weg und auch keine kleinen Strukturwörter wie „dass“.\n- Wiederhole den Artikel in einer Aufzählung, wenn das ein Missverständnis verhindert. Mach klar, welche Teile „und“ oder „oder“ verbindet.\n- Nutze Punkte, keine Semikolons oder Gedankenstriche. Keine Schrägstriche und kein „(s)“. Mach Text in Klammern zu einer vollständigen grammatischen Einheit.\n- Nenne jede Sache überall beim selben Namen.\n- Verzichte auf Redewendungen, Umgangssprache, lateinische Abkürzungen und Metaphern.",
+    "## Tonfall und Repo-Besonderheiten",
+    "- Wende den Skill **unslop** auf jedes Dokument an, das dieser Skill anfasst. Dieser Skill pflegt den Katalog für Slop-Muster (generischer KI-Einheitsbrei): KI-Vokabular, Füllwörter, Absicherungsfloskeln, verräterische Formatierungsmuster.\n- PR-Beschreibungen und Commit-Nachrichten sind auch Texte. Jede Ebene außer Diátaxis gilt für sie. Eine PR-Beschreibung ist ein Briefing, das ein Reviewer in unter einer Minute lesen kann. Füg keine Swarm-Logs, SHA-Listen oder Metriktabellen ein. Verlinke sie.\n- UI-Texte im Produkt sind keine Dokumentation. Nutze dafür die Copy-Richtlinien deines Produkts.\n- Rücke Code-Snippets mit Tabs ein. Schreib echte Pfade. Sorg dafür, dass jede Angabe zu Anzahl oder Dateibaum bei dem Commit stimmt, mit dem sie landet, und gib den Befehl an, der sie neu erzeugt."
+  ]
+}

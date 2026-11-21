@@ -1,0 +1,88 @@
+{
+  "description": "Standard de rédaction technique en couches : structure Diátaxis, phrases au style développeur Google, règles d'instructions STE, syntaxe Global English. À utiliser pour /technical-writing, ou pour rédiger et relire de la documentation, des RFC, des README, des descriptions de PR ou des messages de commit.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Rédige les étapes avec « simplement », « facile » ou à la voix passive.",
+        "with": "Rédige chaque étape à l'impératif direct, avec la condition en premier."
+      },
+      {
+        "without": "Écrit des phrases toutes de la même longueur, sans prendre position, même dans les explications.",
+        "with": "Alterne phrases courtes et longues, et prend position dans les explications."
+      },
+      {
+        "without": "Colle des logs et des listes de SHA dans le corps de la PR.",
+        "with": "Rédige le corps de la PR comme un briefing d'une minute et met un lien vers les logs."
+      }
+    ],
+    "intro": "Il fixe d'abord l'objectif (qu'un ingénieur fatigué comprenne à la première lecture), puis cinq règles : supprimer les mots inutiles, employer des mots courants, corriger une phrase autrement quand une règle lui nuit, écrire les vrais noms et ne pas inventer de jargon.",
+    "sections": [
+      "Alterne phrases courtes et longues, prend position dans les explications et donne des éléments précis comme « un renommage de colonne fait échouer le build ».",
+      "Un seul mode par document : les tutoriels montrent un résultat visible à chaque étape, les guides pratiques ne donnent que des actions, la référence se contente de décrire et l'opinion reste dans les explications.",
+      "S'adresse au lecteur avec « vous » au présent, rédige à l'impératif, place les conditions en premier, fait passer l'idée clé dans les titres et libelle clairement les liens.",
+      "Une instruction par phrase, un découpage au-delà d'environ 20 mots, les avertissements avant l'étape et un seul mot par action.",
+      "Place « only » et « not » à côté du mot qu'ils modifient, découpe les suites de noms, donne un seul référent à chaque « it » et supprime les points-virgules et les barres obliques.",
+      "Passe `unslop` sur chaque document modifié, applique ces règles aux PR et aux commits, et laisse les textes d'interface aux règles rédactionnelles du produit."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Write so a tired engineer understands on the first read.",
+      "quoteTr": "Écrivez pour qu'un ingénieur fatigué comprenne à la première lecture.",
+      "title": "Écrire pour un lecteur concret",
+      "does": "La documentation se lit clairement du premier coup, sans avoir besoin de revenir en arrière.",
+      "why": "« Un ingénieur fatigué » à « la première lecture », c'est une image facile à se représenter, bien plus simple à viser que « sois clair ».",
+      "try": "Pour une note que les gens doivent suivre, dites : « Écris-la pour qu'un agent du support en fin de service de nuit puisse agir après une seule lecture. »"
+    },
+    {
+      "quote": "Use the short, everyday word: \"use\", not \"utilize\".",
+      "quoteTr": "Utilisez le mot court et courant : « use », pas « utilize ».",
+      "title": "Compléter la règle par un remplacement",
+      "does": "Il emploie par défaut des mots courts et courants, et remplace un mot long comme « utilize » par « use ».",
+      "why": "Associer la règle à un exemple concret du type « ceci, pas cela » permet à l'IA de reproduire le remplacement au lieu de deviner ce qui compte comme simple.",
+      "try": "Pour un texte plus simple, donnez un exemple de remplacement : « Écris “utiliser”, pas “faire usage de”. »"
+    },
+    {
+      "quote": "When a rule makes a sentence worse, fix the sentence another way or leave it alone.",
+      "quoteTr": "Quand une règle dégrade une phrase, corrigez-la autrement ou laissez-la telle quelle.",
+      "title": "Donner une porte de sortie aux règles",
+      "does": "Il ne déforme pas une phrase au point de la dégrader juste pour obéir à une règle.",
+      "why": "Dire que les règles servent la lisibilité, et non l'inverse, empêche l'IA de les appliquer mécaniquement.",
+      "try": "Après une liste de règles de style, ajoutez : « Si une règle rend une phrase plus difficile à lire, ignore-la. La lisibilité l'emporte. »"
+    },
+    {
+      "quote": "Write the real symbol, file, flag, or command name, not a synonym or a description of it.",
+      "quoteTr": "Écrivez le vrai nom du symbole, du fichier, du flag ou de la commande, pas un synonyme ni une description.",
+      "title": "Utiliser les vrais noms",
+      "does": "La documentation utilise les vrais noms de fonctions, de fichiers et de commandes, pas des alias plus familiers.",
+      "why": "Renvoyer la question « quel mot utiliser » vers les noms qui existent déjà dans le code empêche l'IA d'inventer les siens.",
+      "try": "Pour un guide utilisateur, ajoutez : « Écris le nom de chaque bouton exactement tel qu'il apparaît dans l'application. »"
+    },
+    {
+      "quote": "One document, one mode.",
+      "quoteTr": "Un document, un mode.",
+      "title": "Un document, un rôle",
+      "does": "Avant d'écrire, il choisit entre tutoriel, guide pratique, référence ou explication, n'écrit que cela et déplace le reste derrière un lien.",
+      "why": "Une règle tranchée assortie d'une solution (séparer et mettre un lien) évite à l'IA de peser chaque paragraphe pour savoir s'il a sa place.",
+      "try": "Quand vous demandez de la documentation, dites : « Seulement les étapes d'installation ici. Place le contexte sur une page séparée et fais un lien vers elle. »"
+    }
+  ],
+  "blocks": [
+    "# Rédaction technique",
+    "Écrivez pour qu'un ingénieur fatigué comprenne à la première lecture.",
+    "- Supprimez chaque mot qui ne sert à rien.\n- Utilisez le mot court et courant : « use », pas « utilize ».\n- Quand une règle dégrade une phrase, corrigez-la autrement ou laissez-la telle quelle.\n- Écrivez le vrai nom du symbole, du fichier, du flag ou de la commande, pas un synonyme ni une description.\n- N'inventez pas de jargon. Utilisez les mots qu'un développeur dirait à voix haute. Expliquez ce que signifie un pattern nommé la première fois.",
+    "## Variez le rythme",
+    "- Variez la longueur des phrases. Coupez la phrase qui porte deux idées. Gardez la phrase longue qui n'en porte qu'une.\n- Prenez position dans les explications. Gardez la référence factuelle.\n- Soyez précis. Pas « les changements de schéma peuvent causer des problèmes », mais « un renommage de colonne fait échouer le build ».",
+    "## Choisissez d'abord le mode (Diátaxis)",
+    "Un document, un mode. Ne mélangez pas les modes. Séparez et ajoutez un lien à la place.",
+    "- **Tutoriel : apprendre par la pratique.** Indiquez ce que l'apprenant va construire. Chaque étape produit un résultat visible, et vous indiquez ce qu'il doit voir. L'explication se limite à une proposition et un lien.\n- **Guide pratique : des étapes vers un objectif.** Résolvez le problème du lecteur. Supposez le lecteur compétent. Uniquement des actions. Autorisez les bifurcations. Nommez le guide d'après la tâche.\n- **Référence : des faits à consulter.** Décrivez uniquement. Soyez factuel, complet et affirmatif. Reflétez la structure de ce que vous décrivez.\n- **Explication : comprendre et savoir pourquoi.** Un seul sujet bien délimité. Donnez du contexte : décisions de conception, historique, contraintes, alternatives. L'opinion est autorisée ici et nulle part ailleurs.",
+    "## Adressez vos phrases au lecteur (style développeur Google)",
+    "- Adressez-vous au lecteur avec « vous », au présent.\n- Dites qui fait quoi. La voix passive ne convient que si l'auteur de l'action est inconnu ou sans importance.\n- Rédigez les instructions à l'impératif. Placez la condition avant l'instruction et le cas courant en premier.\n- Pas de mots à la mode, pas de langage figuré, pas de « s'il vous plaît », et jamais « simplement », « facile » ni « rapidement » dans une procédure.\n- N'annoncez pas à l'avance ce qui va suivre, et ne commencez pas deux phrases consécutives par la même tournure.\n- Rédigez le texte des liens pour indiquer où ils mènent.\n- Les titres portent l'idée principale, en casse de phrase. Un seul h1 par page, sans sauter de niveau.\n- Listes numérotées pour les séquences, puces pour tout le reste. Introduisez chaque liste par une phrase complète. Gardez une structure parallèle entre les éléments.\n- Mettez le code en police de code. Mettez les éléments d'interface en gras. Utilisez la virgule d'Oxford. Supprimez « etc. ».",
+    "## Faites passer les énoncés un par un (règles STE)",
+    "- Une instruction par phrase. Une idée par phrase partout ailleurs.\n- Coupez les instructions de plus d'environ 20 mots et les autres phrases de plus d'environ 25 mots.\n- Placez l'avertissement ou la condition avant l'étape qu'ils protègent.\n- Conservez « the » et « a ».\n- Donnez un seul sens à chaque mot, et choisissez un seul mot par action.\n- Rédigez les procédures à l'impératif direct, jamais sous forme de récit et jamais à la voix passive.\n- Évitez les mots en « -ing » autant que possible.",
+    "## Ne laissez aucune phrase prêter à deux lectures (Global English)",
+    "- Gardez les mots comme « only » et « not » à côté du mot qu'ils modifient.\n- Découpez les longues suites de noms.\n- Faites en sorte que chaque « it », « they » et « this » renvoie à une seule chose évidente. N'utilisez jamais « this » ni « which » pour renvoyer à toute une proposition.\n- Ne supprimez pas les verbes, ni les petits mots qui marquent la structure, comme « that ».\n- Répétez l'article dans une énumération quand cela évite un contresens. Précisez quelles parties sont reliées par « et » ou « ou ».\n- Utilisez des points, pas des points-virgules ni des tirets cadratins. Pas de barres obliques et pas de « (s) ». Faites du texte entre parenthèses une unité grammaticale complète.\n- Appelez chaque chose par un seul nom, partout.\n- Évitez les expressions idiomatiques, le langage familier, les abréviations latines et les métaphores.",
+    "## Voix et spécificités du dépôt",
+    "- Appliquez le skill **unslop** à chaque document que ce skill modifie. Ce skill gère le catalogue des motifs de « slop » : vocabulaire d'IA, remplissage, formules prudentes, tics de mise en forme.\n- Les descriptions de PR et les messages de commit sont aussi de la rédaction. Chaque couche sauf Diátaxis s'y applique. Le corps d'une PR est un briefing qu'un relecteur peut lire en moins d'une minute. Ne collez pas de logs de swarm, de listes de SHA ni de tableaux de métriques. Mettez un lien vers eux.\n- Les textes d'interface du produit ne sont pas de la documentation. Utilisez les règles rédactionnelles de votre produit pour ces textes.\n- Indentez les extraits de code avec des tabulations. Écrivez de vrais chemins. Assurez-vous que chaque décompte ou arbre de fichiers annoncé est exact au commit qui l'intègre, et incluez la commande qui le régénère."
+  ]
+}

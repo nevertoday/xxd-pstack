@@ -1,0 +1,100 @@
+{
+  "description": "À utiliser pour « automatise-moi », « crée / mets à jour / actualise mon skill -mode », « transforme/capture mes préférences ou ma façon de travailler en skill », ou pour que les agents suivent la façon de travailler de l'utilisateur. Rédige ou révise un skill -mode personnel via create-skill + unslop, en extrayant si besoin de nouvelles preuves des transcriptions récentes.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Transforme en règle une préférence exprimée une seule fois.",
+        "with": "Ne codifie que les habitudes observées sur plusieurs tranches de votre historique."
+      },
+      {
+        "without": "Vous balance 20 questions d'un coup.",
+        "with": "Pose une ou deux questions à choix multiples avec 4 à 6 options, puis une question ouverte."
+      },
+      {
+        "without": "Remplit le skill de sections vagues comme « communiquer clairement ».",
+        "with": "N'ajoute une section que là où vous avez une règle précise, et saute le reste."
+      }
+    ],
+    "intro": "Il enchaîne trois étapes pour produire un seul skill -mode : analyser vos chats, rédiger avec votre outil de création de skills et peaufiner le texte avec unslop.",
+    "sections": [
+      "Sept étapes : vérifier s'il existe déjà un skill de mode, analyser vos chats, vous poser des questions, regrouper, rédiger, peaufiner et ouvrir une PR depuis un worktree.",
+      "Ne codifier que les habitudes répétées, référencer les autres skills par leur chemin, éviter les effets de style et omettre les sections sans vraie règle.",
+      "Évite les boucles de benchmark. Vous lisez le brouillon, dites s'il vous ressemble et ce qui manque, puis il est livré.",
+      "Pour un skill dédié à une tâche précise ou un workflow ciblé, comme les messages de commit, créez plutôt un skill ordinaire."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Patterns seen in 2+ slices are high-confidence. Lone signals are weak and usually get dropped.",
+      "quoteTr": "Les schémas vus dans 2 tranches ou plus sont très fiables. Les signaux isolés sont faibles et généralement écartés.",
+      "title": "Fixez un seuil pour ce qui compte",
+      "does": "Seules les habitudes que vous montrez à plusieurs reprises entrent dans le skill ; une remarque ponctuelle ne devient pas une règle.",
+      "why": "« Vu deux fois ou plus » est un décompte précis, donc l'IA n'a pas à deviner à l'instinct quelle préférence est réelle.",
+      "try": "Quand vous demandez un résumé de retours, ajoutez : « Liste uniquement les problèmes soulevés par au moins trois personnes ; mets les mentions isolées à la fin. »"
+    },
+    {
+      "quote": "\"Communicate clearly\" is not a section.",
+      "quoteTr": "« Communiquer clairement » n'est pas une section.",
+      "title": "Éliminez le remplissage avec un contre-exemple",
+      "does": "Le skill ne contient que des règles applicables, pas des phrases creuses comme « être professionnel » ou « être clair ».",
+      "why": "Montrer une phrase que tout le monde écrit à côté d'une règle concrète indique à l'IA ce qui compte et ce qu'il faut supprimer.",
+      "try": "Quand vous demandez des consignes, donnez une paire d'exemples : « “Garder le code propre” ne compte pas ; “découper les fonctions de plus de 50 lignes” compte. »"
+    },
+    {
+      "quote": "Don't glob across every project's directory. That crosses workspace boundaries and reads private chats from unrelated projects.",
+      "quoteTr": "Ne faites pas de glob sur les répertoires de tous les projets. Cela franchit les limites de l'espace de travail et lit des chats privés de projets sans rapport.",
+      "title": "Accompagnez un interdit de son coût",
+      "does": "Il ne lit que les chats de ce projet et n'ouvre jamais les conversations privées de vos autres projets.",
+      "why": "Un simple « ne fais pas ça » peut sembler facultatif ; nommer ce que cela compromettrait montre pourquoi la limite compte.",
+      "try": "Quand vous fixez une règle, ajoutez le coût : « Ne touche pas à .env ; il contient les mots de passe de production et une mauvaise modification fait tomber le site. »"
+    },
+    {
+      "quote": "Mining misses intent that hasn't come up yet.",
+      "quoteTr": "L'analyse de l'historique passe à côté des intentions qui ne se sont pas encore manifestées.",
+      "title": "Nommez l'angle mort de la méthode",
+      "does": "Après avoir analysé votre historique, il vous pose aussi quelques questions à choix multiples pour capter les préférences que vous n'avez jamais mentionnées dans le chat.",
+      "why": "Nommer ce que la première étape ne peut pas voir explique pourquoi l'étape suivante existe, afin que l'IA ne la saute pas en la jugeant redondante.",
+      "try": "Avec deux étapes, précisez ce qui échappe à la première : « Lis les logs ; ils ne montrent pas sur quoi l'utilisateur a cliqué, donc enregistre aussi une exécution. »"
+    }
+  ],
+  "blocks": [
+    "# Automatise-moi",
+    "Un parcours guidé pour transformer les conventions de travail de l'utilisateur en un skill que les agents suivront. Le résultat est un skill `-mode` taillé sur mesure (par exemple `jay-mode`, `priya-mode`).",
+    "Ce skill en orchestre trois autres : une passe d'analyse intégrée (voir l'étape 1), le skill de création de skills de votre harness (rédaction) et le skill **unslop** (discipline rédactionnelle). Il les enchaîne. Il ne les remplace pas.",
+    "Le skill de création de skills est `create-skill` dans Cursor (intégré) ou `skill-creator` d'Anthropic. Si vous n'avez ni l'un ni l'autre, suivez le format Agent Skills sur agentskills.io. Ci-dessous, « `create-skill` » désigne celui que vous utilisez.",
+    "## Déroulement",
+    "### 0. Vérifier s'il existe déjà un skill",
+    "Cherchez récursivement un fichier `*-mode/SKILL.md` correspondant à l'identifiant de l'utilisateur dans les dossiers de skills de votre harness. Dans le projet : `.cursor/skills/` (Cursor), `.claude/skills/` (Claude Code), `.pi/skills/` (Pi) ou `.agents/skills/` (Codex, OpenCode et autres). Pour l'utilisateur : `~/.cursor/skills/`, `~/.claude/skills/`, `~/.pi/agent/skills/`, `~/.codex/skills/`, `~/.config/opencode/skills/` ou `~/.agents/skills/`. Les skills de mode peuvent se trouver dans un répertoire de catégorie personnelle (`<skills>/<handle>/`), pas uniquement à la racine. S'il en existe un, confirmez l'intention avec votre outil de questions structurées (`AskQuestion` dans Cursor, `AskUserQuestion` dans Claude Code, `question` dans OpenCode), sauf si l'utilisateur a déjà dit « mets à jour mon skill » ou quelque chose de similaire :",
+    "- Mettre à jour le skill existant (comportement par défaut lors des exécutions suivantes)\n- Repartir de zéro (rare, demandez pourquoi avant de le faire)",
+    "Le mode mise à jour modifie la suite du déroulement :\n- L'étape 1 n'analyse que l'historique depuis la dernière modification du skill (`git log -1 --format=%cI <path>`).\n- L'étape 2 demande ce qui a changé ou ce qui manque, pas ce qu'il faut capturer à partir de zéro.\n- L'étape 4 modifie le fichier existant sur place. Conservez les sections que l'utilisateur n'a pas contredites. Révisez celles qui disposent de nouvelles preuves. N'ajoutez de nouvelles sections que pour des règles réellement nouvelles.",
+    "### 1. Analyser l'historique de l'utilisateur",
+    "Localisez les transcriptions de l'espace de travail actif avant de lancer le traitement en parallèle. Utilisez uniquement le répertoire de cet espace de travail. Ne faites pas de glob sur les répertoires de tous les projets. Cela franchit les limites de l'espace de travail et lit des chats privés de projets sans rapport. Leur emplacement dépend de votre harness :",
+    "- **Cursor :** le prompt système indique le répertoire `agent-transcripts/` de l'espace de travail sous `~/.cursor/projects/`.\n- **Claude Code :** `~/.claude/projects/<slug>/*.jsonl`, où `<slug>` correspond au chemin de l'espace de travail avec chaque caractère autre qu'une lettre ou un chiffre remplacé par \"-\".\n- **Pi :** `~/.pi/agent/sessions/--<slug>--/*.jsonl`, où `<slug>` correspond au chemin de l'espace de travail sans le slash initial et avec chaque \"/\" remplacé par \"-\".\n- **Codex :** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`. Ne conservez que les fichiers dont la première ligne contient un champ `payload.cwd` égal au chemin de l'espace de travail.\n- **Autres harness :** le répertoire de sessions du harness pour cet espace de travail.",
+    "Passez en revue les conversations récentes avec des agents dans ce périmètre pour repérer les schémas récurrents. Lancez plusieurs sous-agents en parallèle sur différentes tranches de l'historique (par exemple les 2 à 4 dernières semaines, découpées en 3 tranches pour que chacune contienne assez de matière). Choisissez le niveau de raisonnement de chaque sous-agent selon la tâche, conformément à la section Sous-agents du skill **poteto-mode**. Chaque sous-agent chargé d'analyser une tranche lit les transcriptions depuis le chemin limité à l'espace de travail fourni par le parent, recherche les signaux ci-dessous et renvoie une courte liste structurée des schémas relevés avec des pointeurs vers les preuves. Signaux par défaut à rechercher :",
+    "- Préférences de réponse (longueur, ton, format, corrections du type « fais plus simple »)\n- Habitudes de délégation (sous-agents, modèles, workflows spécialisés, parallélisme)\n- Posture de vérification (ce que « terminé » signifie, tests unitaires ou reproduction en conditions réelles, relecteurs)\n- Discipline du code et de la rédaction (style, principes cités, outils de lint et de formatage)\n- Conventions de processus (worktrees, commits, PR, outils de revue et de fusion)\n- Méta-préférences (corriger des skills en cours de tâche, en proposer de nouveaux)",
+    "Recoupez les tranches entre elles avant de retenir un signal. Les schémas vus dans 2 tranches ou plus sont très fiables. Les signaux isolés sont faibles et généralement écartés.",
+    "### 2. Interroger directement l'utilisateur",
+    "L'analyse de l'historique passe à côté des intentions qui ne se sont pas encore manifestées. Utilisez votre outil de questions structurées (choix multiples structurés : `AskQuestion` dans Cursor, `AskUserQuestion` dans Claude Code, `question` dans OpenCode) plutôt que de demander à l'utilisateur de tout rédiger à partir de zéro. Si votre harness n'en possède pas, posez la question dans le chat avec des options numérotées.",
+    "Format : une ou deux questions avec 4 à 6 options chacune, à sélection multiple (`allow_multiple: true` dans Cursor) pour les questions de catégories. Commencez large (« Quels domaines comptent le plus ? »), puis approfondissez les domaines sélectionnés avec des options précises. Après les tours structurés, une question libre dans le chat permet de capter tout ce que les options ont manqué.",
+    "Ne balancez pas 20 questions.",
+    "### 3. Regrouper les constats",
+    "Regroupez l'ensemble des signaux en sections. Sections courantes (n'utilisez que celles qui s'appliquent) :",
+    "- **Style de réponse** : longueur, ton, format.\n- **Autonomie** : jusqu'où aller sans demander, utilisation des outils MCP.\n- **Comprendre d'abord** : quels skills utiliser pour cadrer ou investiguer un changement.\n- **Sous-agents** : comportement par défaut, parallélisme, choix du modèle selon la tâche, workflows spécialisés.\n- **Discipline rédactionnelle et du code** : principes, outils de lint, guides de style.\n- **Revue et vérification** : posture de reproduction, skills de vérification, outils de test en conditions réelles.\n- **Processus** : worktrees git, commits, PR, outils de revue et de fusion.\n- **Skills** : habitudes de création de skills, corriger le skill d'abord, proposition de nouveaux skills.",
+    "Le skill **poteto-mode** montre la structure attendue. Lisez-le pour voir le niveau de détail. Ne copiez pas son contenu. Les règles de l'utilisateur ne sont pas celles de poteto-mode.",
+    "### 4. Rédiger le skill",
+    "Utilisez votre skill de création de skills (`create-skill`) pour rédiger le skill. Emplacement :",
+    "- Chemin : conservez la catégorie d'un skill de mode existant. Pour un nouveau mode, utilisez `<skills>/<handle>/<handle>-mode/SKILL.md` lorsque le dépôt dispose déjà d'une catégorie personnelle établie pour cet identifiant. Sinon, utilisez par défaut `<skills>/<handle>-mode/SKILL.md` dans le projet, ou le dossier de skills au niveau utilisateur si l'utilisateur préfère un skill personnel. `<skills>` est le dossier de skills de votre harness identifié à l'étape 0.\n- Identifiant : le prénom de l'utilisateur ou l'identifiant choisi.\n- Champ `description` du frontmatter : déclenchez sur son nom + `/<handle>-mode` + « travailler dans son style », pas sur des mots-clés génériques comme « écrire du code » ou « relire une PR ».\n- Formatage du frontmatter : suivez les règles YAML de `create-skill`. Gardez `description` sous forme d'un seul scalaire YAML. Mettez-le entre guillemets ou utilisez `description: >-` avec des lignes de suite indentées lorsque la ponctuation ou le retour à la ligne l'exige.\n- Frontmatter `disable-model-invocation: true` par défaut. N'y dérogez que si l'utilisateur souhaite explicitement que son mode s'applique à chaque tour.",
+    "### 5. Itérer sur la rédaction",
+    "Appliquez le skill **unslop** et les règles de rédaction de `create-skill` à chaque ligne.",
+    "Montrez le brouillon à l'utilisateur et recueillez ses retours. Prévoyez plusieurs itérations. Coupez sans pitié. Un skill de mode n'est pas un manuel.",
+    "### 6. Livrer",
+    "Travaillez dans un worktree créé à partir de main. Faites un commit et ouvrez une PR. Ne poussez pas directement sur main.",
+    "## Garde-fous",
+    "- **Ne surajustez pas à une seule conversation.** Une préférence exprimée une fois et contredite une autre fois est du bruit. Exigez plusieurs occurrences avant de la codifier.\n- **Évitez les effets de style.** Reformuler le contenu d'autres skills, inventer des métaphores ou écrire une prose « poétique » pour un agent lecteur est un coût sans bénéfice. Restez opérationnel.\n- **Référencez, n'intégrez pas le contenu.** Les autres skills sur lesquels l'utilisateur s'appuie doivent apparaître comme des références de chemin, pas comme des extraits collés. Même chose pour les documents de principes maintenus ailleurs.\n- **Gardez des sections minimales.** N'ajoutez une section que si l'utilisateur a une règle précise et différente du comportement par défaut. « Communiquer clairement » n'est pas une section. « Paragraphes courts. Tableaux pour comparer des options. Puces uniquement quand les éléments sont réellement parallèles. » en est une.\n- **Utilisez des désignations génériques.** Employez « l'utilisateur » ou « l'humain » dans les consignes à l'impératif, pas le prénom de la personne.\n- **Ne forcez pas la symétrie.** Si un utilisateur n'a aucune règle de processus qui vaille la peine d'être écrite, sautez complètement la section Processus.",
+    "## Évaluation",
+    "Un skill `-mode` est un résultat subjectif. Une boucle de benchmark de type test/itération à la `create-skill` n'est pas utile ici. Validez le ressenti avec l'utilisateur : est-ce que cela lui ressemble ? Manque-t-il quelque chose ? Puis livrez.",
+    "Ne lancez une boucle d'optimisation de la description que si la précision du déclenchement du skill pose problème en pratique.",
+    "## Quand ne pas l'utiliser",
+    "- L'utilisateur veut un skill dédié à une tâche précise (pas des conventions de travail) : `create-skill` seul, sans analyse d'historique nécessaire.\n- L'utilisateur veut capturer un seul workflow ciblé (par exemple « comment j'écris mes messages de commit »). C'est un skill ordinaire, pas un skill de mode."
+  ]
+}

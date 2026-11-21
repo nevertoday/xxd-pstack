@@ -1,0 +1,74 @@
+{
+  "description": "Trouve les erreurs que les agents continuent de répéter dans ce dépôt et rends chacune impossible. Essaie d'abord l'architecture, puis les types, puis un lint dont le message d'erreur nomme le correctif, puis un test, et écris la documentation en dernier. Prouve que chaque vérification échoue sur une vraie erreur passée. Répète l'opération chaque fois que l'opérateur te corrige. À utiliser pour /correct.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Ajoute une règle de plus au fichier d'instructions après chaque correction.",
+        "with": "Modifie d'abord l'architecture ou les types pour rendre le mauvais code impossible à écrire."
+      },
+      {
+        "without": "Suppose qu'une nouvelle vérification fonctionne dès qu'elle est ajoutée.",
+        "with": "Prouve que chaque nouvelle vérification échoue sur une vraie erreur passée."
+      },
+      {
+        "without": "Ne corrige que l'endroit juste sous ses yeux quand une erreur se répète.",
+        "with": "Considère une règle que rien ne fait respecter comme une récidive et la corrige à un niveau supérieur."
+      }
+    ],
+    "intro": "L'objectif est de modifier le dépôt pour que le prochain agent, qui ne voit que ses fichiers ouverts et copie l'exemple le plus proche, ne puisse pas répéter l'erreur.",
+    "sections": [
+      "Lit les commits récents, les reverts, les commentaires de revue et les fichiers d'instructions d'agents, puis regroupe les erreurs répétées en classes.",
+      "Corrige chaque classe au plus haut des quatre niveaux : architecture, types et lint, tests de comportement, puis documentation en dernier.",
+      "Corrige les classes les plus fréquentes, un commit par classe, en prouvant que chaque vérification échoue sur une vraie erreur passée, en local et en CI.",
+      "Tient à jour dans le fichier d'instructions une table associant chaque règle à ce qui la fait respecter. La réponse donne pour chaque classe ses preuves, son niveau et pourquoi."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles.",
+      "quoteTr": "Pars du principe que chaque contributeur est un agent qui ne voit que les fichiers qu'il a ouverts, copie l'exemple le plus proche et prend le chemin le plus court qui compile.",
+      "title": "Imaginez l'utilisateur le plus paresseux",
+      "does": "Il façonne le dépôt pour une IA qui ne lit qu'un fichier et copie l'exemple le plus proche, pour que même les raccourcis donnent le bon résultat.",
+      "why": "Énoncer une par une les mauvaises habitudes de l'utilisateur permet à l'IA de combler chaque faille.",
+      "try": "Quand l'IA rédige des instructions, ajoutez : « Pars du principe que le lecteur ne lit que le premier paragraphe et copie le premier exemple. »"
+    },
+    {
+      "quote": "Fix each class at the highest level that works",
+      "quoteTr": "Corriger chaque classe au plus haut niveau qui fonctionne",
+      "title": "Classez les correctifs du plus solide au plus faible",
+      "does": "Il essaie d'abord de rendre l'erreur impossible et n'écrit une note de rappel que lorsque rien de plus solide ne fonctionne.",
+      "why": "Classer les options par solidité empêche l'IA de sauter d'abord sur la plus facile et la plus faible.",
+      "try": "Classez les options : « Essaie d'abord un champ obligatoire pour bloquer une mauvaise saisie, puis une indication, et seulement ensuite une note écrite. »"
+    },
+    {
+      "quote": "Nothing fails when an agent skips them.",
+      "quoteTr": "Rien n'échoue quand un agent les ignore.",
+      "title": "Dites pourquoi le correctif faible échoue",
+      "does": "Il sait que la documentation ne peut pas empêcher une erreur ; il la réserve donc aux arbitrages.",
+      "why": "Nommer le point faible du correctif en une ligne convainc mieux que « écris moins de documentation », si bien que l'IA l'évite d'elle-même.",
+      "try": "Donnez la raison avec la règle : « Personne ne reçoit d'erreur en ignorant un e-mail de rappel, alors fais de l'étape clé un champ obligatoire. »"
+    },
+    {
+      "quote": "A class counts once it has happened twice.",
+      "quoteTr": "Une classe compte dès qu'elle s'est produite deux fois.",
+      "title": "Fixez un nombre comme seuil",
+      "does": "Une erreur vue une fois ne déclenche pas de gros changement ; vue deux fois, si.",
+      "why": "Un nombre concret transforme « arrive sans cesse » en quelque chose que l'IA peut compter au lieu de devoir juger.",
+      "try": "Fixez un nombre : « Quand la même question revient une deuxième fois, ajoute la réponse à la FAQ. »"
+    }
+  ],
+  "blocks": [
+    "# Corriger",
+    "L'opérateur corrige sans cesse les agents dans ce dépôt pour les mêmes erreurs. Modifie le dépôt pour que le prochain agent ne puisse pas les faire.",
+    "Pars du principe que chaque contributeur est un agent qui ne voit que les fichiers qu'il a ouverts, copie l'exemple le plus proche et prend le chemin le plus court qui compile. Conçois le dépôt pour qu'une modification qui semble juste depuis un seul fichier soit juste pour tout le dépôt.",
+    "## Trouver les classes d'erreurs",
+    "D'abord, lis les commits récents, les reverts, les commentaires de revue, les fichiers d'instructions d'agents et les commentaires qui expliquent des contournements. Regroupe les erreurs en classes. Une classe compte dès qu'elle s'est produite deux fois.",
+    "## Corriger chaque classe au plus haut niveau qui fonctionne",
+    "1. **Élimine-la par l'architecture.** Donne un seul propriétaire à chaque élément d'état et une seule méthode prise en charge pour chaque tâche. Cache les détails internes pour que le mauvais import échoue. Remplace les listes synchronisées à la main par une seule source de vérité. Supprime les anciennes méthodes et le code mort qu'un agent copierait.\n2. **Fais respecter la règle par les types pour que le mauvais état ne puisse pas être écrit.** Si du mauvais code compile encore, ajoute un lint ou une vérification de CI dont le message d'erreur nomme le fichier, le type ou la fonction à utiliser à la place. Si le motif est déjà répandu, ne fais échouer la vérification que lorsqu'une modification en ajoute davantage.\n3. **Teste le comportement.** Corrige ou supprime tout test qui passe encore quand le comportement qu'il vérifie casse, ou qui échoue quand seuls les détails internes changent.\n4. **Écris la documentation ou les règles d'agent en dernier, uniquement pour les arbitrages.** Rien n'échoue quand un agent les ignore.",
+    "## Corriger et prouver",
+    "Ensuite, corrige dès maintenant les classes les plus fréquentes, un commit par classe. Prouve que chaque nouvelle vérification échoue sur une vraie erreur passée. Lance la même commande en local et en CI. Les exceptions vont sur la ligne en cause, avec une raison, une date d'expiration et l'approbation d'un humain.",
+    "## Tenir à jour la table des règles",
+    "Enfin, tiens à jour dans le fichier d'instructions d'agent une table qui associe chaque règle à ce qui la fait respecter. Quand l'opérateur te corrige, corrige l'erreur et ajoute la règle. Si la règle était déjà là et que rien ne la fait respecter, c'est une récidive, alors corrige-la au plus haut niveau dans la même modification. Supprime une règle dès que son erreur ne peut plus se produire.",
+    "**Réponse :** chaque classe avec ses preuves, le niveau que tu as choisi et pourquoi un niveau supérieur n'a pas fonctionné."
+  ]
+}

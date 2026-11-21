@@ -1,0 +1,225 @@
+{
+  "groups": {
+    "entry": "Hier starten: Lern diese drei kennen",
+    "listen": "Erst dich verstehen",
+    "understand": "Den Code verstehen",
+    "design": "Entwurf und Review",
+    "build": "Bauen und aufräumen",
+    "verify": "Prüfen",
+    "report": "Berichten, auswerten, mit der Zeit runder laufen",
+    "other": "Sonstiges"
+  },
+  "skills": {
+    "poteto-mode": {
+      "one": "Der Haupteinstieg. Du sagst, was du willst und was als fertig zählt – die Schritte plant der Skill selbst.",
+      "use": "Alles, was Sorgfalt braucht. Bei einer offensichtlichen Ein-Zeilen-Änderung einfach weglassen.",
+      "ex": "/poteto-mode Der Export schreibt manchmal doppelte Zeilen. Lös den Fehler zuerst noch mal aus, beheb ihn dann und beweis, dass der Fix funktioniert.",
+      "needs": [
+        "alle Prinzipien (principle-*)",
+        "die meisten anderen Skills"
+      ]
+    },
+    "poteto-help": {
+      "one": "Frag einfach „Welcher Skill passt dazu?“ – er antwortet mit einem Prompt, den du genau so abschicken kannst.",
+      "use": "Du fängst gerade erst an oder bist dir nicht sicher, welchen Skill du nehmen sollst.",
+      "ex": "/poteto-help Ich will diesen Branch reviewen. Welchen Skill soll ich nehmen?",
+      "needs": [
+        "die Skills, nach denen du fragst"
+      ]
+    },
+    "setup-pstack": {
+      "one": "Wählt deine Modelle aus: Er prüft, was du nutzen kannst, fragt nach deinem Budget und schreibt eine Konfiguration, die alle Skills gemeinsam nutzen.",
+      "use": "Führ ihn direkt nach der Installation aus. Später noch mal, wenn du Modelle wechseln oder Geld sparen willst.",
+      "ex": "/setup-pstack"
+    },
+    "in-your-own-words": {
+      "one": "Lässt die KI in eigenen Worten wiederholen, was du willst, damit du Missverständnisse früh merkst.",
+      "use": "Deine Anfrage ist unübersichtlich oder eine lange Diskussion, und du hast Sorge, dass die KI es falsch versteht.",
+      "ex": "/in-your-own-words"
+    },
+    "sharpen": {
+      "one": "Schärft deinen Prompt: ergänzt die Schritte und Prüfungen, an die Profis denken würden. Die Arbeit selbst erledigt der Skill nicht.",
+      "use": "Eine wichtige Aufgabe, bei der die Anfrage sitzen soll, bevor du sie abschickst.",
+      "ex": "/sharpen Schreib eine Migrationsanleitung für das v2-Config-Format."
+    },
+    "how": {
+      "one": "Erklärt, wie ein Stück Code heute läuft: den Ablauf, die wichtigen Typen, die leicht übersehenen Fallen.",
+      "use": "Du willst den Code verstehen, bevor du ihn änderst, oder du vermutest, dass er langsam ist.",
+      "ex": "/how Wie deduplizieren wir Benachrichtigungen? Gibt es beim Abfragen der Abonnenten eine N+1-Query?"
+    },
+    "why": {
+      "one": "Findet anhand von Commits und PR-Diskussionen heraus, „warum das so gemacht wurde“ – mit einer Quelle für jede Aussage.",
+      "use": "Du stößt auf seltsamen Code oder eine seltsame Konfiguration und willst die Geschichte dahinter wissen – und ob der Grund noch gilt.",
+      "ex": "/why Warum liegt das Retry-Limit bei 5? Gilt der Grund dafür noch?"
+    },
+    "teach": {
+      "one": "Verbindet /how und /why zu einer Erklärung, die sich Diagramm für Diagramm aufbaut, bis du es verstanden hast.",
+      "use": "Eine Zusammenfassung reicht dir nicht und du willst eine Änderung oder ein Modul wirklich verstehen.",
+      "ex": "/teach Geh mit mir durch, wie dieser PR die Retries ändert. Überzeug mich, dass er die eigentliche Ursache behebt und nicht nur das Symptom.",
+      "needs": [
+        "how",
+        "why"
+      ]
+    },
+    "recall": {
+      "one": "Liest deine letzten Chats und gemeinsame Aufzeichnungen, um dich daran zu erinnern, wie der Stand ist und was als Nächstes ansteht.",
+      "use": "Du kehrst nach ein paar Tagen zu einem alten Thema zurück oder willst vor einem neuen Chat wieder auf den letzten Stand kommen.",
+      "ex": "/recall Hilf mir auf die Sprünge, wie weit wir letzte Woche beim Export-Feature gekommen sind",
+      "needs": [
+        "why",
+        "unslop"
+      ]
+    },
+    "architect": {
+      "one": "Bevor Code für mehrere Module entsteht, skizziert der Skill zwei Entwürfe – wie er aufgerufen wird und welche Typen er hat – und wählt den einfacheren.",
+      "use": "Die Änderung geht über eine einzelne Funktion hinaus und berührt mehrere Module.",
+      "ex": "/architect Entwirf zuerst den Import-Ablauf, schreib noch keinen Code. Am wichtigsten ist mir, wie anderer Code ihn aufruft.",
+      "needs": [
+        "arena"
+      ]
+    },
+    "arena": {
+      "one": "Mehrere KIs versuchen sich einzeln am Problem, ein Modell eines anderen Anbieters bewertet sie, und die beste Lösung übernimmt die guten Ideen der anderen.",
+      "use": "Entscheidungen, die sich später schwer ändern lassen, wie Namen, Formate oder Algorithmen, wenn du mehrere Optionen willst.",
+      "ex": "/arena Dieses Cache-Key-Format lässt sich später schwer ändern. Gib mir 5 Optionen."
+    },
+    "swarm": {
+      "one": "Teilt die Arbeit in einzelne Stücke auf, schickt pro Stück eine KI los und fasst am Ende alles in einem Bericht zusammen.",
+      "use": "Du musst viel auf einmal durchgehen: jedes Paket, jedes Feature.",
+      "ex": "/swarm Führ check.sh für jedes Paket unter packages/ aus, einen Agenten pro Paket, und gib mir am Ende einen gemeinsamen Bericht."
+    },
+    "interrogate": {
+      "one": "Schickt mehrere verschiedene Modelle auf Bug-Suche in deiner Änderung und behält nur Bugs, die sich mit einem Befehl nachweisen lassen. Der Skill ändert nichts.",
+      "use": "Der Code steht, aber du bist dir nicht ganz sicher und willst ihn vor dem Merge gründlich zerpflücken lassen.",
+      "ex": "/interrogate Prüf den ganzen Branch und sei pingelig. Melde nur echte Bugs oder Dinge, die vorher funktioniert haben und jetzt nicht mehr."
+    },
+    "blast-radius": {
+      "one": "Was könnte eine kleine Änderung sonst noch kaputtmachen? Der Skill findet es heraus und führt Code aus, um zu beweisen, warum sie sicher ist.",
+      "use": "Die Änderung ist klein, aber du hast noch kein ganz gutes Gefühl dabei.",
+      "ex": "/blast-radius Worauf wirkt sich diese Änderung sonst noch aus?",
+      "needs": [
+        "arena",
+        "how",
+        "why",
+        "unslop"
+      ]
+    },
+    "figure-it-out": {
+      "one": "Wenn keiner der 22 fertigen Ansätze passt, entwirft der Skill direkt einen neuen. Du kannst jeden Schritt prüfen.",
+      "use": "Große Aufgaben, Aufgaben ohne fertigen Ansatz oder Aufgaben, die du prüfst, wenn du zurück bist.",
+      "ex": "/figure-it-out Stell alle Aufrufer vom Sync-Store auf den neuen Async-Store um, bei exakt gleichem Verhalten."
+    },
+    "tdd": {
+      "one": "Schreibt zuerst einen fehlschlagenden Test, korrigiert dann den Code und lässt den Test noch mal laufen, um zu sehen, dass er durchläuft.",
+      "use": "Wenn du einen Bug behebst und sich Tests auf deinem Rechner leicht ausführen lassen.",
+      "ex": "/tdd implementieren"
+    },
+    "typescript-best-practices": {
+      "one": "Übersetzt die Typ-Prinzipien in konkrete TypeScript-Gewohnheiten, etwa jeden möglichen Fall abzudecken.",
+      "use": "Die Aufgabe berührt Dateien mit .ts / .tsx. Der Skill lädt sich nicht von selbst – du musst ihn nennen.",
+      "ex": "/typescript-best-practices"
+    },
+    "unslop": {
+      "one": "Nimmt Texten den „KI-Beigeschmack“: Standardfloskeln, Worthülsen, Dreierlisten, lange Gedankenstriche.",
+      "use": "READMEs, PR-Beschreibungen, Commit-Nachrichten oder eine zu ausschweifende KI-Antwort.",
+      "ex": "/unslop Räum den neuen README-Text auf, keine langen Gedankenstriche"
+    },
+    "no-comments": {
+      "one": "Räumt Kommentare vor dem Review auf und behält nur Lizenzen, öffentliche API-Doku und Hinweise auf externe Regeln.",
+      "use": "Bevor der Code ins Review geht.",
+      "ex": "/no-comments den Diff"
+    },
+    "technical-writing": {
+      "one": "Schreibt Doku nach einem klaren Standard und überarbeitet Zeile für Zeile, bis selbst müde Devs sie beim ersten Lesen verstehen.",
+      "use": "Wenn du Doku, RFCs, READMEs, PR-Beschreibungen oder Commit-Nachrichten schreibst.",
+      "ex": "/technical-writing Prüf die README-Änderungen",
+      "needs": [
+        "unslop"
+      ]
+    },
+    "create-verification-skill": {
+      "one": "Erstellt einen „Prüf-Skill“ für dein Projekt: Damit lernt die KI, jedes Feature wirklich wie echte User zu nutzen.",
+      "use": "Du hast keinen automatischen Weg zu belegen, dass ein Feature wirklich funktioniert. Das Nützlichste, was du zum Einstieg tun kannst.",
+      "ex": "/create-verification-skill",
+      "needs": [
+        "maintain-verification-skill"
+      ]
+    },
+    "maintain-verification-skill": {
+      "one": "Geht nach Änderungen an der App den Prüf-Skill Feature für Feature durch und korrigiert Veraltetes. Fasst nie Produktcode an.",
+      "use": "Am besten einmal am Tag laufen lassen. Du kannst daraus eine geplante Aufgabe machen.",
+      "ex": "/maintain-verification-skill"
+    },
+    "create-formal-verification-skill": {
+      "one": "Für Fälle, die Tests nicht erreichen (wie Nebenläufigkeit oder Retries), prüft der Skill, ob eine Regel jedes Mal gilt.",
+      "use": "Stellen, an denen ein Fehler teuer ist und Tests ihn kaum auslösen können.",
+      "ex": "/create-formal-verification-skill Job-Leases und Retry-Logik. Derselbe Job darf niemals zweimal gleichzeitig laufen.",
+      "needs": [
+        "maintain-formal-verification-skill",
+        "statechart"
+      ]
+    },
+    "maintain-formal-verification-skill": {
+      "one": "Wenn sich geprüfter Code ändert, aktualisiert der Skill die Prüfung und lässt sie erneut laufen. Er sagt dir: veraltete Prüfung oder echter Bug.",
+      "use": "Ein Merge oder ein Refactoring hat geprüften Code berührt.",
+      "ex": "/maintain-formal-verification-skill"
+    },
+    "statechart": {
+      "one": "Zeichnet die Zustände auf, die User durchlaufen, und markiert alle, die eine Regel brechen – und wie man dorthin kommt.",
+      "use": "Leute, die keinen Code lesen, etwa aus Produkt und Design, müssen „sehen“, wie es sich verhält.",
+      "ex": "/statechart Was sehen User, wenn sie Notizen offline bearbeiten"
+    },
+    "benchmark-checklist": {
+      "one": "Prüft eine Performance-Zahl anhand von 7 Fragen. Das Urteil lautet nur: schneller, langsamer, kein Unterschied oder nicht sicher.",
+      "use": "Du hast Performance gemessen, oder die Zahlen von jemandem sehen verdächtig gut aus.",
+      "ex": "/benchmark-checklist Prüf diese Beschleunigung um 40 %, bevor sie in den PR kommt"
+    },
+    "bro": {
+      "one": "Sagt die letzte Antwort noch mal in einfachen Worten: kürzer, ohne Fachjargon.",
+      "use": "Die Antwort der KI war sehr technisch und du weißt immer noch nicht, was sie gesagt hat.",
+      "ex": "/bro"
+    },
+    "ketchup": {
+      "one": "Klingt wie „catch up“: was sich geändert hat und welche Entscheidungen auf dich warten. Der Skill liest nur und ändert nie etwas.",
+      "use": "Du warst kurz weg und willst ein schnelles Update.",
+      "ex": "/ketchup",
+      "needs": [
+        "bro"
+      ]
+    },
+    "ketchup-video": {
+      "one": "Wie /ketchup, nur als kurzes Slideshow-Video mit Untertiteln.",
+      "use": "Du schaust dir den Fortschritt lieber an, als ihn zu lesen.",
+      "ex": "/ketchup-video",
+      "needs": [
+        "ketchup",
+        "bro"
+      ]
+    },
+    "show-me-your-work": {
+      "one": "Lässt die KI eine Zeile pro Entscheidung protokollieren: was sie getan hat, warum, den Beleg, das Ergebnis.",
+      "use": "Lange Aufgaben oder Aufgaben, die du allein laufen lässt.",
+      "ex": "/show-me-your-work Geh mit mir durch, was du letzte Nacht gemacht hast"
+    },
+    "reflect": {
+      "one": "Liest nach einer Aufgabe den Chat und behält nur Erkenntnisse, die künftige Arbeit verändern würden. Nichts ändert sich, bis du zustimmst.",
+      "use": "Eine Aufgabe dauerte zu lange oder nahm einen Umweg, und du willst das beim nächsten Mal vermeiden.",
+      "ex": "/reflect Das war zu langsam. Schreib auf, was du gelernt hast, damit das nicht noch mal passiert."
+    },
+    "correct": {
+      "one": "Findet wiederkehrende Fehler der KI und blockiert sie – zuerst über Struktur und Typen, zuletzt über Doku.",
+      "use": "Du korrigierst denselben Fehler schon zum zweiten Mal.",
+      "ex": "/correct Die KI überspringt ständig die Repository-Schicht und ruft den Datenbank-Client direkt auf"
+    },
+    "automate-me": {
+      "one": "Liest deine Chats und baut einen „<dein-name>-mode“-Skill, der so arbeitet wie du.",
+      "use": "Du kennst /poteto-mode gut und willst einen, der besser zu dir passt.",
+      "ex": "/automate-me"
+    },
+    "make-bot-ui": {
+      "one": "Baut eine kleine Webseite, deren Buttons den Grok Bot aufwecken. Die Schlüssel bleiben auf deinem Computer.",
+      "use": "Du nutzt Grok Bot und willst ein Bedienfeld mit Buttons. Die meisten brauchen das nicht.",
+      "ex": "/make-bot-ui"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "description": "Für „Warum funktioniert X so?“, „Warum haben wir Y gewählt?“, Design-Begründungen, Regressionen, Postmortems oder datengestützte Schwellenwerte. Liefert eine mit Quellen belegte Einordnung zu Entscheidungen und Abwägungen. Nutze how für das Laufzeitverhalten.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Rät den Grund allein aus dem Code.",
+        "with": "Liest die Commits und PR-Diskussionen dahinter und zu jeder späteren Änderung – und weitere Quellen, wenn die Spur dünn ist."
+      },
+      {
+        "without": "Stellt einen geratenen Grund als Tatsache dar.",
+        "with": "Zitiert, was die Autoren geschrieben haben, und kennzeichnet eigene Schlussfolgerungen als solche."
+      },
+      {
+        "without": "Reimt sich selbst dann eine Antwort zusammen, wenn die Aufzeichnungen keine hergeben.",
+        "with": "Sagt, was die Aufzeichnungen nicht beantworten."
+      }
+    ],
+    "intro": "Es beantwortet das Warum anhand der Aufzeichnungen, nicht anhand des Codes: die Commits und PR-Diskussionen, dann weitere Quellen, wenn die Spur dünn ist. Es zitiert die Autoren, kennzeichnet Schlussfolgerungen und benennt, was die Aufzeichnungen offenlassen.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
+      "quoteTr": "Antworte anhand der Aufzeichnungen, nicht anhand des Codes: Lies die Commits und PR-Diskussionen, die den betreffenden Teil eingeführt haben, sowie jede spätere Änderung – und weitere Quellen, wenn die Spur dünn ist.",
+      "title": "Benenne, wo die Antwort steckt",
+      "does": "Es liest die ursprünglichen Commits und PR-Diskussionen, statt sich einen plausiblen Grund aus dem Code auszudenken.",
+      "why": "Code zeigt das Was, nicht das Warum; wenn du benennst, welche Aufzeichnungen bis hin zu jeder späteren Änderung zu lesen sind, bleibt kein Raum, etwas Geratenes abzugeben.",
+      "try": "Wenn du nach dem Warum fragst, verweise auf die Quelle: „Lies den Commit und die Diskussion, mit denen diese Einstellung hinzugefügt wurde, und jede Änderung seither – nicht nur den heutigen Code.“"
+    },
+    {
+      "quote": "Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer.",
+      "quoteTr": "Zitiere, was die Autoren geschrieben haben, kennzeichne eigene Schlussfolgerungen als solche und sag, was die Aufzeichnungen nicht beantworten.",
+      "title": "Lass Fakten und Vermutungen trennen",
+      "does": "Zitate der Autoren, eigene Schlussfolgerungen und offene Lücken stehen getrennt voneinander, sodass du weißt, welchen Zeilen du ohne Weiteres vertrauen kannst.",
+      "why": "Eine „Warum“-Geschichte lässt sich leicht glattbügeln; Schlussfolgerungen zu kennzeichnen und Lücken zu benennen hält Vermutungen von den Fakten fern.",
+      "try": "Wenn du nach dem Warum fragst, ergänze: „Zitiere, wofür es eine Quelle gibt, markiere eigene Vermutungen als ‚Vermutung‘ und sag klar, was du nicht finden konntest.“"
+    },
+    {
+      "quote": "Use how for runtime behavior.",
+      "quoteTr": "Nutze how für das Laufzeitverhalten.",
+      "title": "Sag, was nicht seine Aufgabe ist",
+      "does": "Fragen zum Laufzeitverhalten gehen an `how`, statt aus der Historie beantwortet zu werden.",
+      "why": "Mit „Wann nutzen“ allein kommen sich benachbarte Tools in die Quere; wenn du ergänzt, wer den Rest übernimmt, ziehst du die Grenze.",
+      "try": "Wenn du Arbeit aufteilst, steck die Grenze ab: „Du übernimmst die Texte; Layout-Fragen gehen ans Design, ändere das nicht selbst.“"
+    }
+  ],
+  "blocks": [
+    "# Warum",
+    "Antworte anhand der Aufzeichnungen, nicht anhand des Codes: Lies die Commits und PR-Diskussionen, die den betreffenden Teil eingeführt haben, sowie jede spätere Änderung – und weitere Quellen, wenn die Spur dünn ist. Zitiere, was die Autoren geschrieben haben, kennzeichne eigene Schlussfolgerungen als solche und sag, was die Aufzeichnungen nicht beantworten."
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "description": "Estándar de redacción técnica por capas: estructura Diátaxis, oraciones con el estilo de Google para desarrolladores, reglas de instrucciones STE y sintaxis de Global English. Úsalo para /technical-writing o al escribir o revisar documentación, RFC, archivos README, descripciones de PR o mensajes de commit.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Escribe los pasos con «simplemente», «fácil» o en voz pasiva.",
+        "with": "Escribe cada paso como una orden directa, con la condición primero."
+      },
+      {
+        "without": "Escribe todas las oraciones con la misma longitud, sin tomar postura ni siquiera en las explicaciones.",
+        "with": "Combina oraciones cortas y largas, y toma postura en las explicaciones."
+      },
+      {
+        "without": "Pega logs y listas de SHA en el cuerpo del PR.",
+        "with": "Escribe el cuerpo del PR como un resumen de un minuto y enlaza los logs."
+      }
+    ],
+    "intro": "Fija el objetivo (que un ingeniero cansado lo entienda en la primera lectura) y luego cinco reglas: quitar las palabras que sobran, usar palabras cotidianas, arreglar la oración de otra forma cuando una regla la empeora, escribir los nombres reales y no inventar jerga.",
+    "sections": [
+      "Combina oraciones cortas y largas, toma postura en las explicaciones y escribe casos concretos como «renombrar una columna hace fallar el build».",
+      "Un modo por documento: los tutoriales muestran un resultado visible en cada paso, los how-to dan solo acciones, la referencia solo describe y la opinión vive en las explicaciones.",
+      "Se dirige al lector de «tú» en presente, escribe órdenes, pone las condiciones primero, hace que los encabezados transmitan la idea y etiqueta los enlaces con claridad.",
+      "Una instrucción por oración, división a partir de unas 20 palabras, advertencias antes del paso y una sola palabra por acción.",
+      "Mantiene «solo» y «no» junto a su palabra, divide las cadenas de sustantivos, da a cada «eso» un único referente y elimina los punto y coma y las barras inclinadas.",
+      "Ejecuta `unslop` en cada documento modificado, aplica las reglas a los PR y commits, y deja los textos de la interfaz a las guías de redacción del producto."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Write so a tired engineer understands on the first read.",
+      "quoteTr": "Escribe para que un ingeniero cansado lo entienda en la primera lectura.",
+      "title": "Escribe para un lector concreto",
+      "does": "El documento se entiende con claridad a la primera, sin tener que volver atrás.",
+      "why": "«Un ingeniero cansado» en «la primera lectura» es una imagen que puedes visualizar, mucho más fácil de tomar como objetivo que «sé claro».",
+      "try": "Para un aviso que la gente debe seguir, di: «Escríbelo para que alguien de soporte al terminar un turno de noche pueda actuar tras una sola lectura»."
+    },
+    {
+      "quote": "Use the short, everyday word: \"use\", not \"utilize\".",
+      "quoteTr": "Usa la palabra corta y cotidiana: «usar», no «utilizar».",
+      "title": "Acompaña la regla con un reemplazo",
+      "does": "Usa palabras cortas y cotidianas por defecto y cambia una palabra larga como «utilizar» por «usar».",
+      "why": "Acompañar la regla con un ejemplo concreto de «esto, no aquello» permite que la IA copie el reemplazo en lugar de adivinar qué cuenta como sencillo.",
+      "try": "Para lograr una prosa más sencilla, da un reemplazo: «Escribe “usar”, no “hacer uso de”»."
+    },
+    {
+      "quote": "When a rule makes a sentence worse, fix the sentence another way or leave it alone.",
+      "quoteTr": "Cuando una regla empeore una oración, arréglala de otra forma o déjala como está.",
+      "title": "Dales una salida a las reglas",
+      "does": "No retorcerá una oración para empeorarla solo por obedecer una regla.",
+      "why": "Decir que las reglas están al servicio de la legibilidad, y no al revés, evita que la IA las aplique de forma mecánica.",
+      "try": "Después de una lista de reglas de estilo, añade: «Si una regla hace que una oración sea más difícil de leer, omítela. La legibilidad gana»."
+    },
+    {
+      "quote": "Write the real symbol, file, flag, or command name, not a synonym or a description of it.",
+      "quoteTr": "Escribe el nombre real del símbolo, archivo, flag o comando, no un sinónimo ni una descripción.",
+      "title": "Usa los nombres reales",
+      "does": "El documento usa los nombres reales de funciones, archivos y comandos, no alias más amigables.",
+      "why": "Dirigir «qué palabra usar» a los nombres que ya existen en el código evita que la IA invente los suyos.",
+      "try": "Para una guía de usuario, añade: «Escribe el nombre de cada botón exactamente como aparece en la app»."
+    },
+    {
+      "quote": "One document, one mode.",
+      "quoteTr": "Un documento, un modo.",
+      "title": "Un documento, una tarea",
+      "does": "Antes de escribir, elige tutorial, how-to, referencia o explicación, escribe solo eso y separa el resto tras un enlace.",
+      "why": "Una regla directa más una solución (dividir y enlazar) le ahorra a la IA evaluar si cada párrafo encaja o no.",
+      "try": "Cuando pidas un documento, di: «Aquí solo van los pasos de instalación. Pon el contexto en una página aparte y enlázala»."
+    }
+  ],
+  "blocks": [
+    "# Redacción técnica",
+    "Escribe para que un ingeniero cansado lo entienda en la primera lectura.",
+    "- Elimina toda palabra que no aporte nada.\n- Usa la palabra corta y cotidiana: «usar», no «utilizar».\n- Cuando una regla empeore una oración, arréglala de otra forma o déjala como está.\n- Escribe el nombre real del símbolo, archivo, flag o comando, no un sinónimo ni una descripción.\n- No inventes jerga. Usa las palabras que un desarrollador diría en voz alta. Di qué significa un patrón con nombre la primera vez.",
+    "## Varía el ritmo",
+    "- Combina longitudes de oración. Divide la oración que lleva dos ideas. Conserva la oración larga que lleva una sola.\n- Toma postura en las explicaciones. Mantén sobria la referencia.\n- Sé específico. No «los cambios de esquema pueden causar problemas», sino «renombrar una columna hace fallar el build».",
+    "## Elige primero el modo (Diátaxis)",
+    "Un documento, un modo. No mezcles modos. En su lugar, divide y enlaza.",
+    "- **Tutorial: aprender haciendo.** Di qué construirá quien aprende. Cada paso produce un resultado visible y tú dices qué debería ver. La explicación lleva una sola cláusula y un enlace.\n- **How-to: pasos hacia un objetivo.** Resuelve el problema del lector. Da por sentada su competencia. Solo acciones. Permite bifurcaciones. Nombra la guía según la tarea.\n- **Referencia: datos para consultar.** Solo describe. Sé sobrio, completo y seguro. Refleja la estructura de lo que describes.\n- **Explicación: comprensión y el porqué.** Un tema acotado. Da contexto: decisiones de diseño, historia, restricciones y alternativas. La opinión está permitida aquí y en ningún otro lugar.",
+    "## Escribe oraciones dirigidas al lector (estilo de Google para desarrolladores)",
+    "- Dirígete al lector de «tú», en tiempo presente.\n- Di quién hace qué. La voz pasiva solo vale cuando no se conoce quién actúa o no viene al caso.\n- Escribe las instrucciones como órdenes. Pon la condición antes de la instrucción y el caso común primero.\n- Sin palabras de moda, sin lenguaje figurado, sin «por favor» y nunca «simplemente», «fácil» ni «rápidamente» en un procedimiento.\n- No anuncies lo que viene a continuación y no empieces oraciones seguidas con la misma frase.\n- Enlaza con palabras que digan adónde lleva el enlace.\n- Los encabezados transmiten la idea, con mayúscula solo al inicio. Un h1 por página, sin saltar niveles.\n- Listas numeradas para secuencias, viñetas para todo lo demás. Introduce cada lista con una oración completa. Mantén los elementos paralelos.\n- El código va en fuente de código. Los elementos de la interfaz van en negrita. Usa la coma serial. Elimina «etc.».",
+    "## Haz que los enunciados se procesen de uno en una (reglas STE)",
+    "- Una instrucción por oración. Una idea por oración en todo lo demás.\n- Divide las instrucciones que pasen de unas 20 palabras y las demás oraciones que pasen de unas 25.\n- Pon la advertencia o condición antes del paso que protege.\n- Conserva los artículos «el» y «un».\n- Da a cada palabra un solo significado y elige una sola palabra para cada acción.\n- Escribe los procedimientos como órdenes directas, nunca como narración y nunca en voz pasiva.\n- Evita los gerundios donde puedas.",
+    "## No dejes ninguna oración abierta a dos lecturas (Global English)",
+    "- Mantén palabras como «solo» y «no» junto a la palabra que modifican.\n- Divide las cadenas largas de sustantivos.\n- Haz que cada «eso», «ellos» y «esto» apunte a una sola cosa obvia. Nunca uses «esto» ni «lo cual» para referirte a toda una cláusula.\n- No omitas verbos ni las palabras cortas que muestran la estructura, como «que».\n- Repite el artículo en una serie cuando evite una mala lectura. Deja claro qué partes unen «y» u «o».\n- Usa puntos, no punto y coma ni rayas. Sin barras inclinadas ni «(s)». Haz que el texto entre paréntesis sea una unidad gramatical completa.\n- Llama a cada cosa por un solo nombre, en todas partes.\n- Evita modismos, coloquialismos, abreviaturas latinas y metáforas.",
+    "## Voz y detalles del repositorio",
+    "- Aplica la skill **unslop** a cada documento que toque esta skill. Esa skill gestiona el catálogo de patrones de texto que suena a IA («slop»): vocabulario de IA, relleno, rodeos e indicios de formato.\n- Las descripciones de PR y los mensajes de commit también son redacción. Se les aplica cada capa excepto Diátaxis. El cuerpo de un PR es un resumen que quien revisa puede leer en menos de un minuto. No pegues logs de swarm, listas de SHA ni tablas de métricas. Enlázalos.\n- Los textos de la interfaz del producto no son documentación. Para eso, usa las guías de redacción de tu producto.\n- Sangra los fragmentos de código con tabulaciones. Escribe rutas reales. Haz que cada dato de conteo o árbol sea cierto en el commit que lo integra e incluye el comando que lo regenera."
+  ]
+}

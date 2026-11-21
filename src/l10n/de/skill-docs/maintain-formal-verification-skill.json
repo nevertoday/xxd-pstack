@@ -1,0 +1,90 @@
+{
+  "description": "Bring die formale Verifikation eines Projekts nach Codeänderungen wieder in Einklang mit dem Code: Finde die Commits, die verifizierten Code berührt haben, aktualisiere Modell, Harness oder Eigenschaften, damit sie den Code so beschreiben, wie er jetzt ist, führe die Prüfungen erneut aus und sag, ob jeder Fehlschlag Drift in der Verifikation oder ein Bug im Code ist. Nutze diesen Skill bei /maintain-formal-verification-skill, „entspricht das Modell noch dem Code“ oder nach Merges und Refactorings, die verifizierten Code berührt haben, ohne ihn erneut zu prüfen.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Nimmt eine bestandene Prüfung als Beweis, dass der Code in Ordnung ist.",
+        "with": "Macht den neuen Code nach einer bestandenen Prüfung absichtlich kaputt und bestätigt, dass die Prüfung das abfängt."
+      },
+      {
+        "without": "Kann eine veraltete Verifikation nicht von einem echten Bug unterscheiden.",
+        "with": "Spielt das Gegenbeispiel am echten Code durch. Nur wenn jeder Schritt wirklich passieren kann, ist es ein Bug."
+      },
+      {
+        "without": "Schraubt so lange am Modell herum, bis eine fehlgeschlagene Prüfung besteht.",
+        "with": "Schreibt die Aktualisierung vor dem erneuten Lauf direkt aus dem Code, nie vom Ergebnis her."
+      }
+    ],
+    "intro": "Der Skill benennt die Gefahr einer Prüfung, die trotz Codeänderungen weiter besteht, und deckt Änderungen ab, die den Prüf-Skill umgangen haben – etwa Merges.",
+    "sections": [
+      "Jede Prüfung bekommt eines von vier Ergebnissen: synchron, aktualisiert, Bug oder blockiert. „Aktualisiert“ und „Bug“ können beide zutreffen.",
+      "Ändert nur Modelle, Harnesses, Eigenschaftsdateien und den Prüf-Skill. Der Produktcode bleibt unangetastet, und Fehlschläge werden gemeldet.",
+      "Sechs Schritte: Prüfungen finden, unverändert ausführen, Änderungen in vier Kategorien einordnen, aus dem Code aktualisieren, erneut ausführen und bewerten, den Sync-Commit weitersetzen.",
+      "Meldet pro Prüfung das Ergebnis, die gelesenen Commits, den Grund für jede Änderung, den absichtlich eingebauten Fehler sowie welche Fehlschläge Drift waren und welche Bugs."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "That pass is the dangerous case, because it looks like a proof.",
+      "quoteTr": "Diese bestandene Prüfung ist der gefährliche Fall, weil sie wie ein Beweis aussieht.",
+      "title": "Entlarve die beruhigendste Illusion",
+      "does": "Wenn eine Prüfung besteht, lehnt sich der Skill nicht zurück. Er fragt zuerst, ob das Bestehen überhaupt noch etwas bedeutet.",
+      "why": "Eine bestandene Prüfung fühlt sich meist sicher an. Wenn du sie als den gefährlichen Fall bezeichnest, gräbt die KI nach, statt einfach einen Haken zu setzen.",
+      "try": "Damit die KI guten Nachrichten nicht blind traut, sag: „Keine Beschwerden heißt nicht, dass die Kunden zufrieden sind. Sieh das als Warnsignal und prüf nach.“"
+    },
+    {
+      "quote": "Write the update from the code before you rerun, and do not shape it by what makes the check pass.",
+      "quoteTr": "Schreib die Aktualisierung aus dem Code, bevor du den Lauf wiederholst, und richte sie nicht danach aus, was die Prüfung bestehen lässt.",
+      "title": "Setze die Arbeit vor das Ergebnis",
+      "does": "Der Skill aktualisiert die Verifikation aus dem Code heraus, statt herumzuprobieren, bis die Prüfung besteht.",
+      "why": "Wenn „erst schreiben, dann das Ergebnis ansehen“ eine feste Reihenfolge ist, bleibt kein Spielraum, vom Ergebnis rückwärts zu arbeiten.",
+      "try": "Für eine Analyse schreib: „Notiere zuerst deine Vorhersage und schau dir erst danach die Daten an. Ändere die Vorhersage danach nicht mehr.“"
+    },
+    {
+      "quote": "Break the new code the way the property guards against",
+      "quoteTr": "Mach den neuen Code genau auf die Art kaputt, vor der die Eigenschaft schützt",
+      "title": "Verlange einen absichtlichen Fehler",
+      "does": "Nach einer bestandenen Prüfung macht der Skill den Code absichtlich kaputt, um zu bestätigen, dass die Prüfung wirklich fehlschlägt.",
+      "why": "Ein einzelner absichtlicher Fehler, der zeigt, dass die Prüfung fehlschlagen kann, überzeugt viel mehr als „Ich glaube, die Prüfung funktioniert“.",
+      "try": "Wenn die KI eine Formularprüfung geschrieben hat, ergänze: „Gib absichtlich eine falsche Telefonnummer ein und bestätige, dass sie abgelehnt wird.“"
+    },
+    {
+      "quote": "Give each check one outcome, and say which:",
+      "quoteTr": "Gib jeder Prüfung ein Ergebnis und sag, welches:",
+      "title": "Lass nur feste Urteile zu",
+      "does": "Jede Prüfung endet mit einem von vier Ergebnissen, sodass du sofort siehst, bei welchen du dir Sorgen machen musst.",
+      "why": "Wenn alle möglichen Urteile vorab aufgelistet und definiert sind, bleibt kein Platz für „größtenteils in Ordnung“.",
+      "try": "Wenn die KI Entwürfe prüft, leg fest: „Jedes Urteil lautet ‚veröffentlichen‘, ‚nach Überarbeitung veröffentlichen‘ oder ‚nicht veröffentlichen‘. Sag, welches zutrifft.“"
+    },
+    {
+      "quote": "If the skill does not record a sync commit, use the last commit that changed the verification files, and say that you did.",
+      "quoteTr": "Wenn der Skill keinen Sync-Commit festhält, nimm den letzten Commit, der die Verifikationsdateien geändert hat, und sag, dass du das getan hast.",
+      "title": "Plane den Ausweg für fehlende Daten",
+      "does": "Wenn ein Eintrag fehlt, hat der Skill einen Ersatz parat und sagt dir, dass er ihn genutzt hat.",
+      "why": "Wenn du vorgibst, was bei fehlenden Daten zu tun ist – plus „sag es dazu“ –, bleibt die KI weder stecken noch rät sie still vor sich hin.",
+      "try": "Beim Sortieren von Ausgaben schreib: „Wenn das Rechnungsdatum fehlt, nimm das Bestelldatum und markiere es mit ‚Bestelldatum‘.“"
+    }
+  ],
+  "blocks": [
+    "# Einen Skill für formale Verifikation pflegen",
+    "Eine formale Prüfung beweist eine Eigenschaft dessen, was sie beschreibt. Wenn sich der Code ändert, die Verifikation aber nicht, kann die Prüfung weiter bestehen, obwohl sie Code beschreibt, den es nicht mehr gibt. Diese bestandene Prüfung ist der gefährliche Fall, weil sie wie ein Beweis aussieht. Dieser Skill ist die Pflegeschleife für einen Prüf-Skill, den `/create-formal-verification-skill` erzeugt hat, oder für jeden projektlokalen Skill, der einen Model Checker, Beweiser oder Verifizierer auf Code-Ebene auf bestimmten Code anwendet. Der projektlokale Skill kümmert sich um Änderungen, die ein Agent vornimmt, während er diesen Skill nutzt. Dieser Skill kümmert sich um die Änderungen, die am Prüf-Skill vorbeigegangen sind: Merges, Bearbeitungen ohne den Skill und Drift, die sich über viele Commits ansammelt.",
+    "## Ergebnisse",
+    "Gib jeder Prüfung ein Ergebnis und sag, welches:",
+    "- **synchron**: Seit dem letzten Sync hat keine Änderung das verändert, was die Prüfung beschreibt, und die Prüfung besteht.\n- **aktualisiert**: Der Code hat sich geändert, die Verifikation beschreibt jetzt den neuen Code, und die Prüfung besteht.\n- **Bug**: Die Verifikation beschreibt den aktuellen Code, und der Code verletzt die Eigenschaft. Das ist ein Befund im Code. Es ist keine Drift.\n- **blockiert**: Die Prüfung konnte nicht wieder an den Code angeglichen oder nicht ausgeführt werden. Sag genau, warum.",
+    "Eine Prüfung kann gleichzeitig „aktualisiert“ und „Bug“ sein: Durch die Aktualisierung beschreibt die Verifikation wieder den Code, und danach schlägt die Eigenschaft darauf fehl.",
+    "## Bearbeitungsbereich",
+    "Bearbeite nur die Verifikation: Modelle, Harnesses, Eigenschaftsdateien und den Prüf-Skill selbst. Bearbeite während eines Laufs niemals den Produktcode, es sei denn, du wirst darum gebeten. Wenn eine Eigenschaft am aktuellen Code fehlschlägt, schwäche weder die Eigenschaft noch das Modell ab, damit sie besteht. Melde den Fehlschlag.",
+    "## Durchlauf",
+    "1. **Prüfungen finden.** Ein Prüf-Skill hat keinen festen Namen, also finde ihn darüber, was er tut: ein Projekt-Skill, der einen Model Checker, einen Beweiser oder einen anderen Verifizierer auf bestimmten Code anwendet. Lies jeden, den du findest, oder den, der genannt wurde. Sammle für jede Prüfung die Eigenschaft, den abgedeckten Code, die Grenzen und Annahmen, den Befehl zum Ausführen sowie den Commit, bei dem zuletzt bestätigt wurde, dass sie den Code beschreibt. Wenn es keinen Prüf-Skill gibt, brich ab und verweise auf `/create-formal-verification-skill`. Wenn der Skill keinen Sync-Commit festhält, nimm den letzten Commit, der die Verifikationsdateien geändert hat, und sag, dass du das getan hast.",
+    "2. **Unverändert ausführen.** Führe jede Prüfung einmal aus, bevor du irgendetwas änderst, und halte das Ergebnis fest. Eine bestandene Prüfung sagt dir hier nicht, dass der Code korrekt ist. Sie sagt dir, dass die alte Beschreibung noch gilt. Ein Fehlschlag hier kann Drift sein oder ein Bug. Entscheide erst in Schritt 5, was davon es ist.",
+    "3. **Jede Änderung am abgedeckten Code lesen.** Erstelle einen Diff der abgedeckten Dateien vom Sync-Commit bis zum aktuellen Commit und lies jede Commit-Nachricht. Achte auch auf verschobenen Code: Eine abgedeckte Funktion, die umbenannt, aufgeteilt oder in eine andere Datei verschoben wurde, ist immer noch abgedeckter Code. Achte außerdem auf neuen Code, der den von einer Prüfung geschützten Zustand berührt – etwa eine neue Funktion, die dieselben Felder schreibt. Entscheide für jede Änderung, welcher dieser Fälle vorliegt:\n   - **Keine Auswirkung.** Die Änderung berührt nichts, was die Verifikation beschreibt – etwa Formatierung, Kommentare oder Codepfade, die die Verifikation nicht abdeckt. Prüfe das anhand von Modell oder Harness, nicht anhand der Commit-Nachricht.\n   - **Die Verifikation beschreibt den Code nicht mehr.** Aus einem Schritt, der eine unteilbare Aktion war, sind zwei geworden, eine Verzweigung kam hinzu oder fiel weg, eine Prüfung wurde verschoben, ein neuer Pfad erreicht den geschützten Zustand oder ein Wert hat jetzt einen anderen Wertebereich. Modell oder Harness müssen geändert werden.\n   - **Das Versprechen wurde absichtlich geändert.** Damit ändert sich, was der Code verspricht, und Belege in der Änderung zeigen, dass das gewollt ist: der Doku-Kommentar, die Tests, das Changelog oder die Commit-Nachricht. Die Eigenschaft muss geändert werden, und du musst diese Belege nennen.\n   - **Das Versprechen ist möglicherweise gebrochen.** Der Code hat sich geändert, und kein Beleg spricht dafür, dass sich das Versprechen geändert hat. Behandle einen darauf folgenden Fehlschlag als Bug-Kandidaten.",
+    "4. **Aus dem Code aktualisieren, nicht vom Ergebnis her.** Ändere Modell oder Harness so, dass jeder geänderte Teil wieder auf Code verweist, den man beim Review öffnen kann, und behalte einen unteilbaren Schritt im Code auch als einen Schritt in der Verifikation bei. Schreib die Aktualisierung aus dem Code, bevor du den Lauf wiederholst, und richte sie nicht danach aus, was die Prüfung bestehen lässt. Ändere eine Eigenschaft nur bei einem Versprechen, das absichtlich geändert wurde. Notiere die alte Formulierung, die neue Formulierung und den Beleg. Behalte die Grenzen bei, solange die Änderung sie nicht falsch macht. Wenn du eine Grenze verkleinern musst, sag das im Bericht.",
+    "5. **Erneut ausführen und jedes Ergebnis bewerten.**\n   - **Bestanden:** Die Prüfung kann jetzt mit einer Beschreibung bestehen, die gar nicht mehr fehlschlagen kann. Mach den neuen Code genau auf die Art kaputt, vor der die Eigenschaft schützt, etwa indem du eine neue Prüfung entfernst oder einen neuen Schritt umstellst, und bestätige, dass die Prüfung das abfängt. Nimm den eingebauten Fehler danach wieder heraus.\n   - **Fehlgeschlagen:** Spiele das Gegenbeispiel Schritt für Schritt am echten Code durch. Wenn ein Schritt im Code nicht passieren kann, ist die Verifikation falsch. Korrigiere die Verifikation und sag, was falsch war. Wenn jeder Schritt passieren kann, ist es ein Bug. Nenne den Commit, der ihn eingeführt hat, schildere das Gegenbeispiel als Schrittfolge in den eigenen Worten des Codes und benenne den Schaden in einem Satz. Wenn ein einfacher Test oder eine Reproduktion am echten Code den Bug zeigt, nimm das als Beleg in den Bericht auf. Committe es nicht in den Produktcode.",
+    "6. **Prüf-Skill aktualisieren.** Aktualisiere den Code, den jede Prüfung abdeckt, die Befehle, die Grenzen, die Annahmen und den Sync-Commit. Setze den Sync-Commit auf den Commit, den du geprüft hast. Setze den Sync-Commit bei einer blockierten Prüfung nicht weiter und sag das im Bericht. Folge dem Prüf-Skill danach einmal so, wie es der nächste Agent tun würde, damit du weißt, dass seine Schritte noch laufen.",
+    "## Bericht",
+    "Teile für jede Prüfung mit:",
+    "- das Ergebnis und die Commits, die du gelesen hast;\n- was sich in der Verifikation geändert hat und warum, mit einem kurzen Grund für jede Änderung: Der Code hat eine andere Form bekommen, oder das Versprechen wurde absichtlich geändert (mit dem Beleg);\n- das Ergebnis des erneuten Laufs und den absichtlichen Fehler, mit dem du gezeigt hast, dass die aktualisierte Prüfung noch fehlschlagen kann;\n- jeden Bug in einfachen Worten: das Gegenbeispiel als Schritte in den Worten des Codes, den Schaden und den Commit, der ihn eingeführt hat;\n- was die Verifikation weiterhin nicht abdeckt – auch neuen Code, den sie abdecken sollte, es aber nicht tut.",
+    "Sag klar heraus, welche Fehlschläge Drift in der Verifikation waren und welche Bugs im Code. Wenn eine Prüfung vor deiner Aktualisierung bestanden hat und danach fehlschlägt, sag, dass das alte Bestehen auf einer veralteten Beschreibung beruhte.",
+    "Pack die Aktualisierungen der Verifikation in eine eigene Änderung, getrennt von jedem Fix am Produktcode."
+  ]
+}

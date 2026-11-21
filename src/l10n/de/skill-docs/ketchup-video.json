@@ -1,0 +1,65 @@
+{
+  "description": "Den Nutzer wie bei /ketchup auf den neuesten Stand bringen: Ein kurzes, untertiteltes Folienvideo zeigt, was passiert ist, und die offenen Entscheidungen stehen als Text darunter. Für /ketchup-video verwenden.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Macht aus Folien Stichpunktlisten, Tabellen oder Statuslisten.",
+        "with": "Vermittelt einen Punkt pro Folie und verändert ein Bild mit Pfeilen und Markierungen."
+      },
+      {
+        "without": "Legt Untertitel über das Bild und verdeckt, was es zeigt.",
+        "with": "Setzt jeden Untertitel in einen gleich hohen Streifen unter der Folie."
+      },
+      {
+        "without": "Schickt das gerenderte Video ab, ohne es sich anzusehen.",
+        "with": "Prüft ein Einzelbild pro Folie, misst jede Anzeigedauer und rendert jede Folie neu, die zu schnell zum Lesen ist."
+      }
+    ],
+    "intro": "Der Skill folgt /ketchup, zeigt aber in einem kurzen, untertitelten Video, was passiert ist. Die Antwort enthält den Einstiegssatz, das Video, übrige Arbeit und die offenen Entscheidungen.",
+    "sections": [
+      "Plant einen Satz als Kernaussage und eine Zeile pro Folie, nutzt höchstens 10 Folien und baut sie aus echten Screenshots, Diffs und Daten.",
+      "Gibt jeder Folie einen Untertitel von etwa zehn Wörtern, der sagt, was sie bedeutet – in einem festen Streifen unter der Folie.",
+      "Rendert ein tonloses Querformat-Video mit eingebrannten Untertiteln, mindestens eine Sekunde pro drei Wörter, und prüft dann Einzelbild und Anzeigedauer jeder Folie."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Before you draw, write the one sentence the user should leave with and one line per slide.",
+      "quoteTr": "Bevor du zeichnest, schreib den einen Satz auf, den der Nutzer mitnehmen soll, und eine Zeile pro Folie.",
+      "title": "Schreib die Kernaussage, bevor du etwas baust",
+      "does": "Das ganze Video folgt einer Kernaussage, und jede Folie hilft dir, sie zu behalten.",
+      "why": "Wenn die KI vor dem Start sagt, was sie vermitteln will, läuft das Ergebnis nicht auseinander.",
+      "try": "Bevor du um einen Bericht bittest, füg hinzu: „Schreib zuerst den einen Satz, den der Leser behalten soll, und schreib dann.“"
+    },
+    {
+      "quote": "at least one second for each three words",
+      "quoteTr": "mindestens eine Sekunde pro drei Wörter",
+      "title": "Mach aus „lange genug“ eine Formel",
+      "does": "Jede Folie bleibt lange genug stehen, um ihre Wörter zu lesen; nichts huscht vorbei.",
+      "why": "„Lange genug“ ist ein Gefühl; „eine Sekunde pro drei Wörter“ ist eine Regel, die du berechnen und prüfen kannst.",
+      "try": "Tausch ein Gefühl gegen eine Formel: „Pass die Länge der Antwort an die Fragen an: höchstens drei Sätze pro Frage.“"
+    },
+    {
+      "quote": "not with a still-frame detector, which counts the faint ends of a fade as still",
+      "quoteTr": "nicht mit einem Standbild-Detektor, der die schwachen Ausläufer einer Überblendung als Standbild zählt",
+      "title": "Benenne die Prüfung, die lügt",
+      "does": "Der Skill misst wirklich, wie lange jede Folie zu sehen ist, statt einem Tool zu vertrauen, das sich verzählt.",
+      "why": "Wenn du genau sagst, wo ein übliches Tool falschliegt, gibt sich die KI nicht mit einer Zahl zufrieden, die nur richtig aussieht.",
+      "try": "Wenn du um eine Link-Prüfung bittest, schreib: „Öffne jede Seite und lies sie; ein Statuscode reicht nicht, manche Fehlerseiten liefern 200 zurück.“"
+    }
+  ],
+  "blocks": [
+    "# Ketchup-Video",
+    "Folge [`/ketchup`](../ketchup/SKILL.md), zeig aber in einem kurzen, untertitelten Video, was passiert ist, statt dessen Zusammenfassung und Grafiken. Sein Zeitfenster beginnt bei der letzten Nachricht, die der Nutzer vor `/ketchup-video` geschrieben hat, nicht vor einem früheren `/ketchup`. Das Schreiben und Rendern des Videos außerhalb des Repos ist die einzige Ausnahme von dessen Nur-Lesen-Regel. Die Antwort besteht aus dem Einstiegssatz von ketchup, dem eingebetteten Video, einer Zeile für übrige Arbeit, die du selbst erledigen kannst, und den offenen Punkten. Wenn das Video die Optionen einer Entscheidung zeigt, nenn jede Option so, wie sie im Video heißt. Schlägt das Rendern fehl, sag das in einer Zeile und nenn nur die offenen Entscheidungen.",
+    "## Folien",
+    "Nutze die Screenshots, Aufnahmen, Diffs und Daten, die bei der Arbeit entstanden sind, nicht den Fließtext im Chat darüber. Bevor du zeichnest, schreib den einen Satz auf, den der Nutzer mitnehmen soll, und eine Zeile pro Folie. Streich jede Folie, die nichts daran ändert, was der Nutzer weiß. Nutze höchstens 10 Folien, weniger ist besser. Keine dieser beiden Notizen gehört in die Antwort.",
+    "Jede Folie vermittelt einen Punkt. Bau die Folien auf einem Bild auf und verändere es von Folie zu Folie, statt zu einem Bild ohne Zusammenhang zu schneiden. Eine Farbe oder Form bedeutet auf jeder Folie dasselbe. Zeig die Arbeit in Bildern – etwa wie ein System funktioniert, einen PR-Stack (mehrere aufeinander aufbauende PRs) mit dem Status jedes PRs, ein Vorher-Nachher eines Fixes oder Optionen nebeneinander. Deute mit Pfeilen, Markierungen und Bewegung auf das, was sich geändert hat. Eine Folie ist niemals eine Stichpunktliste, eine Statusliste, eine Tabelle oder Kästchen ohne Verbindung dazwischen.",
+    "Beschränke Text auf ein Minimum. Setze jede Beschriftung direkt an das, was sie benennt, in normalen Worten, wie man es sagen würde – keine Tags wie „Tests: pass“. Beschreibe niemals per Bildunterschrift, was ein Bild zeigt, und nenn keinen Fakt doppelt – weder über Folien hinweg noch im Text darunter.",
+    "Zeig, was aus jeder Sache geworden ist, um die der Nutzer gebeten hat, und ob sie erledigt ist, noch läuft, fehlgeschlagen ist oder nicht geprüft wurde. Zeig niemals etwas als erledigt, das noch auf den Nutzer wartet. Zeig jeden Bug, der unterwegs gefunden und behoben wurde. Wenn es für eine sichtbare Änderung keinen Screenshot gibt, sag das auf ihrer Folie und nenn, was sich auf dem Bildschirm geändert hat. Zeichne nur auf Basis von Fakten, die du hast. Erfinde niemals eine Zahl und zeichne niemals einen Bildschirm, den du nicht aufgenommen hast.",
+    "## Untertitel",
+    "Gib jeder Folie eine kurze Untertitelzeile mit etwa zehn Wörtern, die ihren Punkt so ausdrückt, wie du es dem Nutzer erzählen würdest – allein aus dem, was diese Folie zeigt. Sag, was das Bild bedeutet, statt seine Beschriftungen vorzulesen. Setze den Untertitel in einen Streifen unter der Folie, auf jeder Folie gleich hoch und abgesehen vom Untertitel leer, sodass er die Folie niemals verdeckt. Halte ihn klein, aber lesbar, wenn das Video in Chat-Größe läuft.",
+    "## Rendern",
+    "Rendere ein tonloses Querformat-Video, etwa als mp4, mit Bewegung zwischen den Folien. Jedes Einzelbild ist die Folie selbst, von Rand zu Rand, über ihrem Untertitelstreifen. Erzeuge die Einzelbilder aus den Folien, niemals durch eine Bildschirmaufnahme, und brenne jeden Untertitel in die Einzelbilder seiner Folie ein, sodass er über die gesamte Anzeigedauer der Folie im Bild bleibt. Die Anzeigedauer ist die Zeit, in der eine Folie vollständig im Bild ist, ohne die Bewegung hinein oder hinaus mitzuzählen. Halte jede Folie lange genug im Bild, um die Wörter zu lesen, die sie hinzufügt, mindestens eine Sekunde pro drei Wörter. Eine Folie fügt ihren Untertitel hinzu sowie jedes Wort, das nicht auf der vorherigen Folie stand, einschließlich jeder Beschriftung, die sie ändert. Die erste Folie fügt alle ihre Wörter hinzu. Wörter innerhalb eines Screenshots zählen nicht mit.",
+    "Bevor du das Video einbettest, prüf die gerenderte Datei. Schau dir ein Einzelbild jeder Folie in Chat-Größe an und prüf, ob ihr Untertitel lesbar ist und nichts verdeckt. Miss jede Anzeigedauer, indem du die Einzelbilder der Datei mit der Folie abgleichst, nicht mit einem Standbild-Detektor, der die schwachen Ausläufer einer Überblendung als Standbild zählt. Zähle die Wörter, die jede Folie hinzufügt, und vergleiche sie mit ihrer gemessenen Anzeigedauer. Korrigiere jede Folie, die du in dieser Zeit nicht lesen kannst, rendere neu und prüf noch einmal."
+  ]
+}

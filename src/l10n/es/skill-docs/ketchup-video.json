@@ -1,0 +1,65 @@
+{
+  "description": "Pon al día al usuario como /ketchup, con un video corto subtitulado de diapositivas sobre lo que pasó y las decisiones pendientes en texto debajo. Úsala para /ketchup-video.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Convierte las diapositivas en listas de viñetas, tablas o listas de estado.",
+        "with": "Presenta una sola idea por diapositiva, modificando una misma imagen con flechas y resaltados."
+      },
+      {
+        "without": "Coloca los subtítulos sobre la imagen y tapa lo que muestra.",
+        "with": "Pone cada subtítulo en una franja de la misma altura debajo de la diapositiva."
+      },
+      {
+        "without": "Envía el video renderizado sin verlo.",
+        "with": "Comprueba un fotograma por diapositiva, mide el tiempo de permanencia de cada una y vuelve a renderizar cualquiera que pase demasiado rápido para leerla."
+      }
+    ],
+    "intro": "Se basa en /ketchup, pero muestra lo que pasó en un video corto subtitulado. La respuesta incluye la frase inicial, el video, el trabajo restante y las decisiones pendientes.",
+    "sections": [
+      "Planifica una frase con la idea clave y una línea por diapositiva, usa como máximo 10 diapositivas y las construye a partir de capturas de pantalla, diffs y datos reales.",
+      "Añade a cada diapositiva un subtítulo de unas diez palabras que explica qué significa, en una franja fija debajo de la diapositiva.",
+      "Renderiza un video horizontal sin sonido con subtítulos incrustados, con al menos un segundo por cada tres palabras, y luego comprueba el fotograma y el tiempo de permanencia de cada diapositiva."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Before you draw, write the one sentence the user should leave with and one line per slide.",
+      "quoteTr": "Antes de dibujar, escribe la única frase con la que debería quedarse el usuario y una línea por diapositiva.",
+      "title": "Escribe la idea clave antes de construir",
+      "does": "Todo el video sigue una sola idea clave, y cada diapositiva te ayuda a recordarla.",
+      "why": "Hacer que la IA diga qué quiere comunicar antes de empezar evita que el resultado se disperse.",
+      "try": "Antes de pedir un informe, añade: «Primero escribe la única frase que debería recordar el lector y luego redacta»."
+    },
+    {
+      "quote": "at least one second for each three words",
+      "quoteTr": "al menos un segundo por cada tres palabras",
+      "title": "Convierte «el tiempo suficiente» en una fórmula",
+      "does": "Cada diapositiva se queda en pantalla el tiempo suficiente para leer sus palabras; nada pasa en un parpadeo.",
+      "why": "«El tiempo suficiente» es una sensación; «un segundo por cada tres palabras» es una regla que puedes calcular y comprobar.",
+      "try": "Cambia una sensación por una fórmula: «Ajusta la extensión de la respuesta a las preguntas: como máximo tres frases por cada una»."
+    },
+    {
+      "quote": "not with a still-frame detector, which counts the faint ends of a fade as still",
+      "quoteTr": "no con un detector de fotogramas fijos, que cuenta los extremos tenues de un fundido como fijos",
+      "title": "Nombra la comprobación que miente",
+      "does": "Mide de verdad cuánto tiempo se queda cada diapositiva en pantalla en lugar de confiar en una herramienta que cuenta mal.",
+      "why": "Decir con exactitud dónde falla una herramienta habitual evita que la IA se conforme con un número que solo parece correcto.",
+      "try": "Cuando pidas comprobar enlaces, escribe: «Abre cada página y léela; un código de estado no basta, algunas páginas de error devuelven 200»."
+    }
+  ],
+  "blocks": [
+    "# Ketchup en video",
+    "Sigue [`/ketchup`](../ketchup/SKILL.md), pero muestra lo que pasó en un video corto subtitulado en lugar de su resumen y sus elementos visuales. Su ventana de tiempo empieza en el último mensaje que escribió el usuario antes de `/ketchup-video`, no antes de ningún `/ketchup` anterior. Escribir y renderizar el video, fuera del repositorio, es la única excepción a su regla de solo lectura. La respuesta consta de la frase inicial de ketchup, el video incrustado, una línea que indique cualquier trabajo restante que puedas hacer por tu cuenta y las acciones pendientes. Cuando el video muestre las opciones de una decisión, llama a cada opción por el nombre que le da el video. Si el renderizado falla, dilo en una línea e incluye solo las decisiones pendientes.",
+    "## Diapositivas",
+    "Usa las capturas de pantalla, grabaciones, diffs y datos que produjo el trabajo, no el texto del chat sobre ellos. Antes de dibujar, escribe la única frase con la que debería quedarse el usuario y una línea por diapositiva. Descarta cada diapositiva que no cambie lo que el usuario sabe. Usa como máximo 10 diapositivas, y cuantas menos, mejor. Ninguna de las dos notas va en la respuesta.",
+    "Cada diapositiva presenta una sola idea. Construye las diapositivas sobre una sola imagen y modifícala de una diapositiva a otra, en lugar de cortar a una sin relación. Un color o una forma significan lo mismo en todas las diapositivas. Muestra el trabajo en imágenes, por ejemplo cómo funciona un sistema, un stack de PR con el estado de cada PR, el antes y el después de una corrección u opciones lado a lado. Señala lo que cambió con flechas, resaltados y movimiento. Una diapositiva nunca es una lista de viñetas, una lista de estado, una tabla ni recuadros sin nada que los conecte.",
+    "Mantén el texto al mínimo. Pon cada etiqueta sobre lo que nombra, con palabras sencillas que diría una persona, no con rótulos como «Tests: aprobados». Nunca describas con un pie de foto lo que muestra una imagen, y nunca des un dato dos veces, ni entre diapositivas ni en el texto debajo de ellas.",
+    "Muestra en qué quedó cada cosa que pidió el usuario, y si está terminada, sigue en ejecución, falló o no se comprobó. Nunca muestres como terminado algo que todavía espera al usuario. Muestra cualquier bug encontrado y arreglado por el camino. Si un cambio visible no tiene captura de pantalla, dilo en su diapositiva e indica qué cambió en pantalla. Dibuja solo a partir de los hechos que tienes. Nunca inventes un número, y nunca dibujes una pantalla que no hayas capturado.",
+    "## Subtítulos",
+    "Pon en cada diapositiva una línea corta de subtítulo, de unas diez palabras, que exprese su idea tal como se la dirías al usuario, solo a partir de lo que muestra esa diapositiva. Di qué significa la imagen en lugar de leer sus etiquetas. Coloca el subtítulo en una franja debajo de la diapositiva, de la misma altura en todas las diapositivas y vacía salvo por el subtítulo, para que nunca tape la diapositiva. Ponlo en tamaño pequeño, pero legible cuando el video se reproduce al tamaño del chat.",
+    "## Renderizado",
+    "Renderiza un video horizontal sin sonido, como un mp4, con movimiento entre diapositivas. Cada fotograma es la propia diapositiva, de borde a borde, encima de su franja de subtítulo. Genera los fotogramas a partir de las diapositivas, nunca grabando una pantalla, e incrusta cada subtítulo en los fotogramas de su diapositiva para que siga en pantalla durante todo su tiempo de permanencia. El tiempo de permanencia es el tiempo que una diapositiva está por completo en pantalla, sin contar el movimiento de entrada ni de salida. Mantén cada diapositiva el tiempo suficiente para leer las palabras que añade, al menos un segundo por cada tres palabras. Una diapositiva añade su subtítulo y cada palabra que no estaba en la diapositiva anterior, incluida cualquier etiqueta que cambie. La primera diapositiva añade todas sus palabras. Las palabras dentro de una captura de pantalla no cuentan.",
+    "Antes de incrustar el video, comprueba el archivo renderizado. Mira un fotograma de cada diapositiva al tamaño del chat y comprueba que su subtítulo sea legible y no tape nada. Mide cada tiempo de permanencia haciendo coincidir los fotogramas del archivo con la diapositiva, no con un detector de fotogramas fijos, que cuenta los extremos tenues de un fundido como fijos. Cuenta las palabras que añade cada diapositiva frente a su tiempo de permanencia medido. Arregla cualquier diapositiva que no puedas leer en ese tiempo, vuelve a renderizar y comprueba de nuevo."
+  ]
+}

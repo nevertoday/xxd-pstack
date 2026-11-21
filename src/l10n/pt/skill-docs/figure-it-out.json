@@ -1,0 +1,84 @@
+{
+  "description": "Desenhe um playbook auditável quando nenhum mais específico servir: uma grande migração, uma mudança ambiciosa em várias partes ou um trabalho que um humano revisa depois de se afastar. Ajusta o rigor à tarefa, roda um ciclo de hipóteses e registra as decisões. Use para /figure-it-out ou “figure it out”.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Começa a programar a tarefa grande logo de cara.",
+        "with": "Entrega primeiro uma lista de fases, com um teste de conclusão e um nível de rigor."
+      },
+      {
+        "without": "Confia no próprio relato de que o trabalho está pronto.",
+        "with": "Inspeciona o artefato real e marca como VERIFIED, NOT VERIFIED ou INCONCLUSIVE."
+      },
+      {
+        "without": "Deixa toda a verificação para o final.",
+        "with": "Mede cada pequena mudança contra o teste de conclusão e reverte o que não ajudou."
+      }
+    ],
+    "intro": "Ela diz que, quando nenhum playbook se encaixa, a IA desenha um primeiro: fases ajustadas ao risco, executadas como experimentos, com uma trilha de decisões auditável.",
+    "sections": [
+      "Coloca a leitura da seção Princípios do `poteto-mode` como primeiro item da lista de tarefas e depois adiciona as fases.",
+      "Antes de começar, define um teste de conclusão falseável, um escopo quantificado e um nível de rigor. Uma execução longa ganha um checkpoint com você.",
+      "Divide o trabalho em unidades integráveis, começando pelas mais arriscadas, monta a verificação com uma linha de base antes do trabalho e anota a lista de fases.",
+      "Trata cada unidade como um experimento: hipótese, menor mudança possível, medir contra o teste de conclusão, manter ou reverter.",
+      "Mantém o log da execução com `show-me-your-work`, uma linha por passo integrado, geralmente incluído no commit junto com o código.",
+      "Verifica o conjunto inteiro contra o teste de conclusão no produto real, transforma correções repetidas em verificações e lista o que está em aberto."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "Rigor is gates and artifacts, not \"try harder\".",
+      "quoteTr": "Rigor são travas e artefatos, não “se esforçar mais”.",
+      "title": "Transforme “tenha cuidado” em verificações",
+      "does": "Quando o rigor importa, ela adiciona verificações e guarda evidências em vez de prometer ter mais cuidado.",
+      "why": "“Se esforçar mais” não dá para verificar; uma trava extra existe ou não existe.",
+      "try": "Para conseguir cuidado, peça uma ação: “Rode os testes depois de cada arquivo que alterar e cole o resultado.”"
+    },
+    {
+      "quote": "Sequence riskiest-unknown-first.",
+      "quoteTr": "Ordene começando pela incerteza mais arriscada.",
+      "title": "Comece pela incerteza mais arriscada",
+      "does": "A parte com maior chance de falhar vai primeiro, para que os problemas apareçam cedo, não lá no final.",
+      "why": "Uma regra de ordenação decide por onde a IA começa, assim ela não pode fazer as partes fáceis primeiro para parecer ocupada.",
+      "try": "Para uma tarefa grande, acrescente: “Faça primeiro o passo em que você tem menos certeza; deixe os familiares para depois.”"
+    },
+    {
+      "quote": "When something passes too easily, suspect the observation method before the system.",
+      "quoteTr": "Quando algo passa fácil demais, desconfie do método de observação antes do sistema.",
+      "title": "Ensine a IA a duvidar de boas notícias",
+      "does": "Quando um resultado parece bom demais, ela verifica a forma como mediu antes de anunciar sucesso.",
+      "why": "Nomear a situação em que é mais fácil se enganar faz a IA fazer uma pausa quando isso acontece.",
+      "try": "Quando pedir para rodar os testes, acrescente: “Se tudo passar de primeira, verifique se os testes realmente rodaram.”"
+    },
+    {
+      "quote": "Inconclusive is not a pass.",
+      "quoteTr": "Inconclusivo não é aprovação.",
+      "title": "Defina a regra da zona cinzenta antes",
+      "does": "Um resultado pouco claro é relatado como pouco claro, nunca passado como aprovação.",
+      "why": "Decidir de antemão sobre o caso mais fácil de distorcer como boa notícia não deixa nada para a IA distorcer.",
+      "try": "Quando definir um critério, cubra o caso intermediário: “Um teste que não rodou conta como falha.”"
+    }
+  ],
+  "blocks": [
+    "# Descubra como fazer",
+    "Quando a tarefa não se encaixa em nenhum playbook, desenhe um. O entregável antes de qualquer código é o próprio fluxo de trabalho: uma sequência de fases que ajusta o rigor à tarefa, aplica o método científico e deixa uma trilha de decisões que um humano pode auditar depois de se afastar.",
+    "## Início",
+    "Abra uma lista de tarefas cujo primeiro item seja ler a seção Princípios da skill **poteto-mode**. Depois, adicione as fases abaixo como tarefas.",
+    "## Fase A: enquadrar",
+    "Faça o levantamento primeiro, depois se comprometa. Não comece a execução até conseguir definir:",
+    "- A definição de pronto como um predicado falseável (a skill de princípio **prove-it-works**).\n- Escopo quantificado: unidades e esforço aproximados, mais os bloqueios que o levantamento revelou.\n- O nível de rigor, puxado para cima. Decisões sem volta e de alto raio de impacto recebem mais. Passos reversíveis e de baixo risco recebem menos. Rigor são travas e artefatos, não “se esforçar mais”.",
+    "Apresente o enquadramento e os trade-offs antes de se comprometer com uma execução longa. Trabalho reversível segue em frente (a skill de princípio **never-block-on-the-human**), mas uma execução de várias horas merece um checkpoint.",
+    "## Fase B: desenhar o fluxo de trabalho",
+    "Decomponha em unidades atômicas, integráveis de forma independente. Ordene começando pela incerteza mais arriscada. Estrutura base e verificação vêm antes das funcionalidades (a skill de princípio **foundational-thinking**).",
+    "- Monte o harness de verificação antes do trabalho, com a linha de base capturada do estado anterior à mudança, para que a verificação fique no formato “valor antigo vs valor novo”.\n- Para decisões de design sem volta, rode a skill **architect** (ela roda **arena**). Pule essa etapa em trabalho mecânico cujo formato já esteja concreto. Uma segunda arena sobre um design já fechado é excesso de engenharia (a skill de princípio **laziness-protocol**).\n- Decida o que distribuir em paralelo. Paralelize apenas nas fronteiras naturais e dê a cada worker seu próprio worktree ou sua própria branch (a skill de princípio **separate-before-serializing-shared-state**). Não exagere no paralelismo. Escolha o nível de raciocínio de cada subagente conforme a tarefa, seguindo a seção Subagentes da skill **poteto-mode**.\n- Escreva a lista de fases desenhada. É essa lista que o humano revisa.",
+    "Depois, execute esse desenho. Adicione os passos dele à lista de tarefas como itens concretos entre as entradas da Fase C e da Fase D. Rode cada um seguindo a disciplina do ciclo da Fase C e intercale o log da Fase D ao longo deles, uma linha conforme cada passo é integrado, em vez de deixar a trilha inteira para o final.",
+    "## Fase C: rodar o ciclo",
+    "Cada unidade é um experimento. Formule a hipótese, faça a menor mudança possível, meça contra o predicado no artefato real, mantenha se houve avanço, reverta se não houve. Aplique a skill de princípio **sequence-verifiable-units**, verificando cada unidade antes de começar a próxima em vez de acumular verificações para o final.",
+    "- Verifique inspecionando o artefato, nunca um autorrelato. Quando algo passa fácil demais, desconfie do método de observação antes do sistema.\n- Combine trabalho delegado com um juiz. Se um worker burlar a trava, reinicie e endureça o contrato. Se a própria trava estiver errada, corrija a trava em uma mudança própria em vez de contorná-la.\n- O veredito é VERIFIED, NOT VERIFIED ou INCONCLUSIVE. Inconclusivo não é aprovação. Não esconda um resultado negativo.",
+    "## Fase D: manter a trilha de auditoria",
+    "Registre a execução usando a skill **show-me-your-work**. O trabalho do figure-it-out costuma ser ambicioso o bastante para fazer commit da trilha, assim quem revisa pode lê-la no PR. A trilha junto com o diff é o que permite ao humano voltar e confiar no trabalho.",
+    "## Fase E: verificar e devolver",
+    "Verifique o conjunto inteiro contra o predicado da Fase A no produto real, não só no harness. Codifique qualquer correção recorrente como uma trava, uma regra de lint, uma verificação ou um script (a skill de princípio **encode-lessons-in-structure**).",
+    "**Resposta:** o playbook que você desenhou, o nível de rigor e o motivo, o caminho da trilha de decisões, o que está verificado contra o predicado e o que ainda está em aberto."
+  ]
+}

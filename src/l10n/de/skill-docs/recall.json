@@ -1,0 +1,71 @@
+{
+  "description": "Rekonstruiert deinen jüngsten Arbeitskontext aus deinem eigenen Chat-Verlauf, dem Live-Status und der gemeinsamen Historie (Nutzerberichte, frühere Fixes, Vorfälle) und liefert ein kompaktes Status-Briefing zurück. Nutze den Skill für „erinnere mich an meine Arbeit an X“, „bring mich auf den neuesten Stand“, „woran habe ich zuletzt gearbeitet“ oder „wo habe ich aufgehört“, bevor du eine Aufgabe beginnst oder fortsetzt.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Rekonstruiert die Vorgeschichte allein aus dem eigenen Chat-Verlauf.",
+        "with": "Durchsucht außerdem PRs, Tickets, Chat-Kanäle und das Error-Tracking zum selben Code."
+      },
+      {
+        "without": "Meldet den Status so, wie er in den Chats stand.",
+        "with": "Prüft jeden PR, jeden Branch und jedes Ticket mit `git` und `gh` gegen den Live-Status."
+      },
+      {
+        "without": "Liest auch Chats aus anderen Projekten mit.",
+        "with": "Nennt zuerst den Suchbereich. Standard sind die letzten 7 Tage des aktiven Projekts."
+      }
+    ],
+    "intro": "Der Skill rekonstruiert deinen jüngsten Kontext aus deinen Chats und der gemeinsamen Historie in sechs Schritten: einordnen, den Suchbereich festlegen, Chats parallel auswerten, die gemeinsame Historie durchkämmen, den Live-Status prüfen und das Briefing schreiben.",
+    "sections": [
+      "In dieser Reihenfolge: ein Kurzüberblick mit bis zu 5 Stichpunkten, eine Zeile mit Tag pro Thread, bis zu 5 wiederkehrende Probleme, ein nächster Schritt."
+    ]
+  },
+  "lessons": [
+    {
+      "quote": "\"recent\" is a real range, default the last 7 days",
+      "quoteTr": "„kürzlich“ ist ein konkreter Zeitraum, standardmäßig die letzten 7 Tage",
+      "title": "Gib einem vagen Wort einen Standardwert",
+      "does": "Wenn du „kürzlich“ sagst, durchsucht die KI die letzten 7 Tage – nicht irgendetwas Geratenes wie gestern oder den letzten Monat.",
+      "why": "„Kürzlich“ kann alles Mögliche bedeuten. Durch eine feste Standardzahl rät die KI nicht, und du weißt, wie weit sie zurückgeschaut hat.",
+      "try": "Wenn du ein vages Wort verwendest, gib einen Standardwert dazu: „‚Bald‘ heißt bis Ende des Tages, wenn ich nichts anderes sage.“"
+    },
+    {
+      "quote": "Never quietly turn \"all\" into \"recent N\".",
+      "quoteTr": "Mach aus „alle“ niemals heimlich „die letzten N“.",
+      "title": "Benenne, wo die KI sonst abkürzt",
+      "does": "Wenn du „alle“ verlangst, prüft die KI wirklich alle – nicht nur die paar neuesten, bevor sie die Aufgabe als erledigt abhakt.",
+      "why": "Genau den Schritt zu benennen, den die KI gern stillschweigend kürzt, wirkt viel besser als ein allgemeines „sei gründlich“.",
+      "try": "Wenn du eine vollständige Prüfung willst, schreib: „Schau dir alle 37 Dateien an. Nimm nicht nur eine Stichprobe und sag, es sei alles in Ordnung.“"
+    },
+    {
+      "quote": "A thread with no tag is not done yet, so tag it.",
+      "quoteTr": "Ein Thread ohne Tag ist noch nicht fertig, also versieh ihn mit einem Tag.",
+      "title": "Gib feste Zustände vor",
+      "does": "Jeder Thread wird als gemergt, offen, in Arbeit oder nicht begonnen markiert – kein „fast fertig“.",
+      "why": "Mit nur wenigen festen Tags zur Auswahl kann die KI den echten Stand nicht hinter vagen Worten verwischen.",
+      "try": "Wenn du nach dem Status fragst, zähl die Optionen auf: „Markiere jede Aufgabe mit ‚erledigt‘, ‚in Arbeit‘ oder ‚nicht begonnen‘.“"
+    },
+    {
+      "quote": "Lead with the capsule, then the thread status, then the problems, then the next move.",
+      "quoteTr": "Beginne mit dem Kurzüberblick, dann dem Status der Threads, dann den Problemen, dann dem nächsten Schritt.",
+      "title": "Leg fest, was zuerst kommt",
+      "does": "Das Briefing startet mit dem aktuellen Stand, Details kommen später – so siehst du schon nach zwei Zeilen, wie es steht.",
+      "why": "Eine feste Reihenfolge verhindert, dass das Wichtigste in Details untergeht.",
+      "try": "Wenn du einen Bericht anforderst, gib die Reihenfolge vor: „Zuerst das Fazit, dann die Gründe, dann der nächste Schritt.“"
+    }
+  ],
+  "blocks": [
+    "# Recall",
+    "**Bevor du mit einer Arbeit beginnst oder sie fortsetzt, rekonstruierst du den jüngsten Arbeitskontext des Nutzers und gibst einen prägnanten Kurzüberblick zurück: wo die Dinge jetzt stehen und was als Nächstes zu tun ist.**",
+    "Fasse dich kurz und bleib beim Thema. Lies nur das, was die Threads im Suchbereich brauchen, und hör dann auf.",
+    "Dein Kontext steckt in zwei Historien. Dein eigener Chat-Verlauf enthält, was du getan und entschieden hast. Die gemeinsame Historie enthält alles, was unter anderen Namen rund um denselben Code passiert ist: die Symptome, die Nutzer immer wieder melden, die Fixes, die ausgeliefert und wieder zurückgenommen wurden, und die Fehler, die in Produktion noch immer auftreten. Diese zweite Historie liegt in der Versionsverwaltung, im Issue-Tracker, in Chat- und Issue-Kanälen, in ausführlichen Dokumenten und im Error-Tracking. Bei einem Feature mit einem langen Rattenschwanz an Bugs liegt der Großteil seiner Geschichte genau dort – rekonstruiere es also nicht allein aus deinen Transkripten.",
+    "Transkripte liegen dort, wo dein Harness (das Tool, in dem die KI läuft, z. B. Claude Code, Cursor oder Codex) sie ablegt. Jede Datei ist eine JSONL-Datei. Finde das Verzeichnis des aktiven Workspace für dein Harness. Wenn du nicht erkennen kannst, welches Harness du bist, prüfe, welche davon für diesen Workspace existieren:",
+    "- **Cursor:** `~/.cursor/projects/<slug>/agent-transcripts/<uuid>/<uuid>.jsonl`. `<slug>` ist der Workspace-Pfad ohne den führenden Schrägstrich, bei dem jedes „/“ durch „-“ ersetzt wird (aus `/Users/you/proj` wird `Users-you-proj`).\n- **Claude Code:** `~/.claude/projects/<slug>/<session-id>.jsonl`. `<slug>` ist der Workspace-Pfad, bei dem jedes Zeichen, das kein Buchstabe und keine Ziffer ist, durch „-“ ersetzt wird (aus `/Users/you/proj` wird `-Users-you-proj`).\n- **Pi:** `~/.pi/agent/sessions/--<slug>--/<timestamp>_<id>.jsonl`. `<slug>` ist der Workspace-Pfad ohne den führenden Schrägstrich, bei dem jedes „/“ durch „-“ ersetzt wird (`--Users-you-proj--`).\n- **Codex:** `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`, nicht nach Workspace gruppiert. Behalte nur Dateien, in deren erster Zeile `payload.cwd` dem Workspace-Pfad entspricht.\n- **OpenCode:** `~/.local/share/opencode/storage/`. Sessions sind JSON-Dateien unter `session/<project-id>/`, ihre Nachrichten liegen unter `message/` und `part/`.",
+    "1. Erst einordnen, dann weiterleiten. Einen einzelnen früheren Chat wieder aufzunehmen, fällt unter das `session-pickup`-Playbook, nicht unter diesen Skill. Gewohnheiten in einen dauerhaften Skill umzuwandeln, übernimmt `automate-me`. Eine für Menschen lesbare Zusammenfassung deiner Arbeit ist eine andere Aufgabe. Recall lädt Arbeitskontext aus den jüngsten Chats, bevor du handelst. Wenn dir der Nutzer bereits einen vollständigen Status-Kurzüberblick gegeben hat (Pfade, Branch, die Änderung), nutze ihn und überspringe die Auswertung.\n2. Lege vor der Suche den Suchbereich fest. Fixiere das Zeitfenster („kürzlich“ ist ein konkreter Zeitraum, standardmäßig die letzten 7 Tage), das Thema, falls genannt, und den Workspace (standardmäßig den aktiven; lies niemals ungefragt Transkripte eines anderen Projekts). Melde den Suchbereich zurück. Mach aus „alle“ niemals heimlich „die letzten N“.\n3. Verteile die Suche über deinen Chat-Verlauf. Starte parallele Subagents (jeweils eine Helfer-KI für eine einzelne Teilaufgabe) auf einem schnellen, günstigen Modell, die jeweils einen Teil des Bestands übernehmen. Weise jeden Subagent an, Kandidaten nach der echten Änderungszeit (`ls -t`) und niemals nach dem UUID-Namen zu sortieren, zuerst mit grep nach dem Thema zu suchen und dann nur die passenden Chats und dort nur die relevanten Stellen zu lesen, sowie den aktuellen Chat und offensichtliches Rauschen (Subagent-, Eval- und Test-Chats) zu überspringen. Jeder liefert dasselbe Schema zurück, einen Block pro Chat: Thema, Ziel des Nutzers, Entscheidungen, offene Threads, Schwierigkeiten und Korrekturen sowie Artefakte (PRs, Tickets, Branches) – jeweils mit Angabe der Chat-UUID. Bei ein oder zwei Chats überspringe die Aufteilung und suche direkt. Die rohen Transkripte bleiben bei den Subagents. Der Haupt-Thread erhält nur ihre Ergebnisse. Wähle die Reasoning-Stufe jedes Subagents passend zur Aufgabe, gemäß dem Abschnitt „Subagents“ im Skill **poteto-mode**.\n4. Durchkämme die gemeinsame Historie immer dann, wenn das Thema ein Feature, eine Datei, ein Subsystem, einen Bereich oder einen Bug nennt. Das ist der Standardfall, keine Ermessensfrage – und „meine Arbeit an X“ ist davon nicht ausgenommen. Starte pro Quelle einen Recherche-Subagent – im Agent-Modus, weil der Readonly-Modus den MCP-Zugriff entfernt – und frag jeden: „Was ist der aktuelle Stand, was wurde versucht und hat nicht gehalten, und was melden Nutzer noch immer?“ Lass sie parallel zur Auswertung des Chat-Verlaufs laufen. Auch leere Ergebnisse zählen als Befund. Überspringe ein nicht verfügbares MCP und weise darauf hin. Arbeite die Ergebnisse ins Briefing ein. Überspringe diesen Schritt nur bei reinen Tätigkeitsrückblicken ohne genanntes Ziel („was habe ich diese Woche gemacht“), bei denen dein eigener Verlauf und der Live-Status bereits die gesamte Antwort liefern.\n5. Prüfe gegen den Live-Status. Nimm die PRs, Branches und Tickets, die bei der Chat-Auswertung und beim Durchkämmen aufgetaucht sind, und prüfe sie mit `git` und `gh`. Wenn die Antwort davon abhängt, was ein Agent tatsächlich getan hat (welche Tools er ausgeführt hat, welche Dateien er gelesen hat und auf welche Fehler er gestoßen ist), lies das vollständige Transkript, nicht nur eine gekürzte lokale Kopie.\n6. Schreibe das Briefing nach dem Vertrag unten. Gruppiere nach Threads. Bleib beim genannten Thema.",
+    "## Ausgabevertrag",
+    "Beginne mit dem Kurzüberblick, dann dem Status der Threads, dann den Problemen, dann dem nächsten Schritt. Tiefere Details kommen darunter oder fliegen raus.",
+    "- **Kurzüberblick.** Höchstens 5 Stichpunkte. Worum es bei dieser Arbeit geht und wo sie insgesamt steht.\n- **Threads.** Jeweils eine Zeile, vorangestellt ist genau ein Status-Tag: `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]` oder `[planned, not started]`. Ein Thread ohne Tag ist noch nicht fertig, also versieh ihn mit einem Tag.\n- **Probleme.** Höchstens 5, und zwar die wiederkehrenden. Nimm die Symptome mit auf, die Nutzer immer wieder melden, sowie jeden Fix, der ausgeliefert und wieder zurückgenommen wurde – damit der nächste Versuch dort ansetzt, wo der letzte gescheitert ist.\n- **Nächster Schritt.** Die eine sinnvollste nächste Aktion, konkret formuliert.",
+    "Ein benachbartes Feature oder Ticket bleibt außen vor, solange es diese Arbeit nicht blockiert. Wenn Kurzüberblick und Thread-Zeilen länger als eine Bildschirmseite werden, kürze Details, bevor du Threads streichst. Schreibe das Briefing über den Skill **unslop**, belege Funde aus Chats mit ihrer UUID und Funde aus der gemeinsamen Historie mit ihrer Quelle (PR-Nummer, Ticket-ID, Chat-Permalink, Issue im Error-Tracker) und bereinige privaten Kontext vor jeder öffentlichen Ausgabe.",
+    "**Antwort:** das Briefing nach dem obigen Vertrag."
+  ]
+}
