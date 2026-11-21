@@ -85,7 +85,7 @@ Viele installieren es, probieren es einmal aus, denken „so viel anders ist das
 - **Ihre Antworten lesen lernen**: wo du ihre Zusammenfassung des Auftrags, ihre To-do-Liste und ihre Prüfungen findest, woran du erkennst, ob sie gut gearbeitet hat, und welchen einen Satz du schickst, wenn sie abdriftet.
 - **Prompts schreiben lernen vom Profi**: Lies den vollen Text aller 34 Skills, bei jedem mit ein paar zerlegten Sätzen: was die Zeile bei der KI bewirkt, warum sie so formuliert ist und wie du sie übernimmst.
 - **Einfache Worte**: Jede Seite beginnt mit einem Satz dazu, wobei sie dir hilft, und unbekannte Begriffe erklären sich beim Darüberfahren.
-- **Weltweit lesbar**: Startseite und Einsteigerlektionen gibt es in 10 Sprachen, du kannst also in deiner eigenen anfangen.
+- **Weltweit lesbar**: die ganze Website gibt es in 10 Sprachen, von der ersten Lektion bis zum vollständigen Text der Skills, du kannst sie also in deiner eigenen lesen.
 - **Auf dem aktuellen Stand**: geprüft mit der aktuellen pstack-Version; jeder Befehl stimmt mit dem offiziellen Repo überein.
 
 ## 🧭 So arbeitet es
@@ -168,7 +168,7 @@ Hier zahlen sich alle vorherigen Schritte aus: Nur eine KI, die **ihre eigene Ar
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 Anleitungen, je eine Aufgabe
 - **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 Begriffe · ein Satz → ein Vergleich → in pstack → häufige Irrtümer; mit Tabellen der 24 Prinzipien und 22 Playbooks
 - **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: Kostet das Geld? Muss ich Cursor nutzen? Pfuscht es mir im Code herum?
-- **Sprachen**: Startseite und Einsteigerlektionen · 10 Sprachen. Ganzer Leitfaden, Skills, How-tos, Wiki und FAQ · English und 中文
+- **Sprachen**: Die ganze Website · 10 Sprachen: Einsteigerlektionen, ganzer Leitfaden, Skills, How-tos, Wiki und FAQ
 
 Mit <kbd>⌘</kbd> <kbd>K</kbd> oben rechts auf jeder Seite durchsuchst du die ganze Website. Im Text markieren **Textmarker** und **dicke Unterstreichung** das Wichtigste, und gepunktet unterstrichene Begriffe zeigen beim Darüberfahren eine Erklärung in einem Satz.
 

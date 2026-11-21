@@ -85,7 +85,7 @@ Mucha gente lo instala, lo prueba una vez, piensa «tampoco cambia tanto» y lo 
 - **Aprende a leer sus respuestas**: dónde está su reformulación, su lista de tareas y sus comprobaciones; cómo saber si lo ha hecho bien, y qué frase mandarle cuando se desvía.
 - **Aprende a escribir prompts de un experto**: lee el texto completo de las 34 skills, con varias frases de cada una desmontadas: qué hace hacer a la IA, por qué está escrita así y cómo aprovecharla tú.
 - **Palabras sencillas**: cada página empieza con una línea sobre lo que te ayuda a conseguir, y los términos poco conocidos se explican al pasar el ratón por encima.
-- **Para todo el mundo**: la página de inicio y las lecciones para principiantes están en 10 idiomas, así que puedes empezar en el tuyo.
+- **Para todo el mundo**: todo el sitio está en 10 idiomas, desde la primera lección hasta el texto completo de las skills, así que puedes leerlo en el tuyo.
 - **Al día**: revisada con la versión actual de pstack; cada comando coincide con el repositorio oficial.
 
 ## 🧭 Cómo trabaja
@@ -168,7 +168,7 @@ Aquí es donde todos los pasos anteriores dan fruto: solo una IA que **puede ver
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guías, una tarea cada una
 - **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 conceptos · una frase → una analogía → en pstack → errores comunes; incluye tablas de los 24 principios y los 22 playbooks
 - **[Preguntas frecuentes](https://pstack.xiaoxiaodong.ai/en/faq/)**: ¿Cuesta dinero? ¿Tengo que usar Cursor? ¿Me va a estropear el código?
-- **Idiomas**: Página de inicio y lecciones para principiantes · 10 idiomas. Guía completa, skills, how-tos, wiki y preguntas frecuentes · English y 中文
+- **Idiomas**: Todo el sitio · 10 idiomas: lecciones para principiantes, guía completa, skills, how-tos, wiki y preguntas frecuentes
 
 Pulsa <kbd>⌘</kbd> <kbd>K</kbd> arriba a la derecha de cualquier página para buscar en todo el sitio. En el texto, el **marcador** y el **subrayado grueso** señalan lo importante, y los términos con subrayado punteado muestran una explicación de una línea al pasar el ratón.
 

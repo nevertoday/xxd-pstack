@@ -85,7 +85,7 @@ Muita gente instala, testa uma vez, acha que "não muda tanta coisa assim" e des
 - **Aprenda a ler as respostas**: onde achar a reformulação do pedido, a lista de tarefas e as verificações, como saber se ela trabalhou bem e que frase mandar quando ela sair do rumo.
 - **Aprenda a escrever prompts com um especialista**: leia o texto completo das 34 skills, com algumas frases de cada uma destrinchadas: o que a linha faz a IA fazer, por que foi escrita assim e como aproveitar a ideia.
 - **Linguagem simples**: cada página começa com uma linha dizendo no que ela ajuda, e os termos desconhecidos se explicam quando você passa o mouse.
-- **Para ler em qualquer lugar do mundo**: a página inicial e as lições para iniciantes estão em 10 idiomas, então você pode começar no seu.
+- **Para ler em qualquer lugar do mundo**: o site inteiro está em 10 idiomas, da primeira lição ao texto completo das skills, então você pode ler no seu.
 - **Sempre atualizado**: conferido com a versão atual do pstack; todos os comandos batem com o repositório oficial.
 
 ## 🧭 Como ele trabalha
@@ -168,7 +168,7 @@ Também há [Prompts para copiar e colar](https://pstack.xiaoxiaodong.ai/en/howt
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guias, uma tarefa cada
 - **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 conceitos · uma frase → uma analogia → no pstack → equívocos comuns; inclui tabelas dos 24 princípios e dos 22 playbooks
 - **[Perguntas frequentes](https://pstack.xiaoxiaodong.ai/en/faq/)**: Custa dinheiro? Preciso usar o Cursor? Ele vai bagunçar meu código?
-- **Idiomas**: Página inicial e lições para iniciantes · 10 idiomas. Guia completo, skills, how-tos, wiki e perguntas frequentes · English e 中文
+- **Idiomas**: O site inteiro · 10 idiomas: lições para iniciantes, guia completo, skills, how-tos, wiki e perguntas frequentes
 
 Aperte <kbd>⌘</kbd> <kbd>K</kbd> no canto superior direito de qualquer página para buscar no site inteiro. No texto, o **marca-texto** e o **sublinhado grosso** indicam o essencial, e termos com sublinhado pontilhado mostram uma explicação de uma linha ao passar o mouse.
 

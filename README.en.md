@@ -85,7 +85,7 @@ Plenty of people install it, try it once, think "it's not that different," and g
 - **Learn to read its replies**: where to find its restatement, its todo list and its checks, how to tell whether it did well, and what one line to send when it drifts.
 - **Learn prompt writing from an expert**: read the full text of all 34 skills, with a few sentences from each taken apart: what the line makes the AI do, why it's worded that way, and how to borrow it.
 - **Plain words**: every page opens with one line on what it helps you get done, and unfamiliar terms explain themselves on hover.
-- **Readable worldwide**: the home page and beginner lessons come in 10 languages, so you can start in your own.
+- **Readable worldwide**: the whole site comes in 10 languages, from the first lesson to the skills' full text, so you can read it in your own.
 - **Kept current**: checked against the current pstack release; every command matches the official repo.
 
 ## 🧭 How it works
@@ -168,7 +168,7 @@ This is where all the earlier steps pay off: only an AI that **can verify its ow
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guides, one task each
 - **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 concepts · one sentence → an analogy → in pstack → common mistakes; includes tables of the 24 principles and 22 playbooks
 - **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: Does it cost money? Do I have to use Cursor? Will it mess up my code?
-- **Languages**: Home page and beginner lessons · 10 languages. Full guide, skills, how-tos, wiki and FAQ · English and 中文
+- **Languages**: The whole site · 10 languages: beginner lessons, full guide, skills, how-tos, wiki and FAQ
 
 Press <kbd>⌘</kbd> <kbd>K</kbd> at the top right of any page to search the whole site. In the text, **highlighter** and **bold underline** mark the key points, and dotted-underlined terms show a one-line explanation on hover.
 

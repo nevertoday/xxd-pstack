@@ -15,14 +15,14 @@ const BASE = (import.meta.env?.BASE_URL || "/").replace(/\/$/, "");
 export const LANGS = [
   { code: "en", name: "English", html: "en", full: true },
   { code: "zh", name: "中文", html: "zh-CN", full: true },
-  { code: "ja", name: "日本語", html: "ja" },
-  { code: "ko", name: "한국어", html: "ko" },
-  { code: "es", name: "Español", html: "es" },
-  { code: "pt", name: "Português", html: "pt-BR" },
-  { code: "fr", name: "Français", html: "fr" },
-  { code: "de", name: "Deutsch", html: "de" },
-  { code: "ru", name: "Русский", html: "ru" },
-  { code: "ar", name: "العربية", html: "ar", dir: "rtl" },
+  { code: "ja", name: "日本語", html: "ja", full: true },
+  { code: "ko", name: "한국어", html: "ko", full: true },
+  { code: "es", name: "Español", html: "es", full: true },
+  { code: "pt", name: "Português", html: "pt-BR", full: true },
+  { code: "fr", name: "Français", html: "fr", full: true },
+  { code: "de", name: "Deutsch", html: "de", full: true },
+  { code: "ru", name: "Русский", html: "ru", full: true },
+  { code: "ar", name: "العربية", html: "ar", dir: "rtl", full: true },
 ];
 const PREVIEW = (globalThis.process?.env?.L10N_FULL || "").split(",").map((x) => x.trim()).filter(Boolean);
 const FULL = new Set([...LANGS.filter((l) => l.full).map((l) => l.code), ...PREVIEW]);

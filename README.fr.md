@@ -85,7 +85,7 @@ Beaucoup l'installent, l'essaient une fois, se disent « ça ne change pas grand
 - **Apprenez à lire ses réponses** : où trouver sa reformulation, sa liste de tâches et ses vérifications, comment savoir si elle a bien travaillé, et quelle phrase envoyer quand elle dérape.
 - **Apprenez à écrire des prompts auprès d'un expert** : lisez le texte intégral des 34 skills, avec quelques phrases de chacune décortiquées : ce que la ligne fait faire à l'IA, pourquoi elle est formulée ainsi et comment la reprendre.
 - **Des mots simples** : chaque page commence par une ligne qui dit ce qu'elle vous aide à faire, et les termes inconnus s'expliquent au survol.
-- **Lisible partout dans le monde** : la page d'accueil et les leçons pour débutants existent en 10 langues, pour commencer dans la vôtre.
+- **Lisible partout dans le monde** : tout le site existe en 10 langues, de la première leçon au texte complet des skills, pour le lire dans la vôtre.
 - **Tenu à jour** : vérifié sur la version actuelle de pstack ; chaque commande correspond au dépôt officiel.
 
 ## 🧭 Comment il travaille
@@ -168,7 +168,7 @@ C'est ici que toutes les étapes précédentes paient : seule une IA **capable d
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 fiches, une tâche chacune
 - **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 notions · une phrase → une analogie → dans pstack → idées reçues ; avec les tableaux des 24 principes et des 22 playbooks
 - **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: C'est payant ? Faut-il utiliser Cursor ? Va-t-il abîmer mon code ?
-- **Langues**: Page d'accueil et leçons pour débutants · 10 langues. Guide complet, skills, how-to, wiki et FAQ · English et 中文
+- **Langues** : Tout le site · 10 langues : leçons pour débutants, guide complet, skills, how-to, wiki et FAQ
 
 Appuyez sur <kbd>⌘</kbd> <kbd>K</kbd> en haut à droite de n'importe quelle page pour chercher dans tout le site. Dans le texte, le **surligneur** et le **soulignement épais** marquent l'essentiel, et les termes soulignés en pointillés affichent une explication d'une ligne au survol.
 
