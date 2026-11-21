@@ -27,7 +27,7 @@
       "quote": "Assume the user remembers their last message and nothing after it.",
       "quoteTr": "Pars du principe que l'utilisateur se souvient de son dernier message et de rien après.",
       "title": "Tracer la ligne de départ du lecteur",
-      "does": "Part de votre dernier message : rien de ce que vous savez déjà, rien de ce que vous avez manqué.",
+      "does": "Il part de votre dernier message : rien de ce que vous savez déjà, rien de ce que vous avez manqué.",
       "why": "« Ce que le lecteur sait » devient un point précis dans le temps, donc l'IA n'a pas à deviner par où commencer.",
       "try": "Quand vous demandez une note de passation, ajoutez : « Pars du principe que le lecteur a vu le point de vendredi dernier et rien après. »"
     },
@@ -35,7 +35,7 @@
       "quote": "Say \"the tests pass\", not \"CI is green\".",
       "quoteTr": "Dis « les tests passent », pas « la CI est verte ».",
       "title": "Fixer le ton avec une paire d'exemples",
-      "does": "Rapporte les résultats avec des mots que vous comprenez, pas du jargon.",
+      "does": "Il rapporte les résultats avec des mots que vous comprenez, pas en jargon.",
       "why": "« Mots simples » est vague. Une paire « dis ceci, pas cela » est bien plus précise qu'une suite d'adjectifs.",
       "try": "Pour obtenir le ton voulu, donnez une paire d'exemples : « Écris “sort demain”, pas “ETA T+1”. »"
     },
@@ -43,7 +43,7 @@
       "quote": "An action item is a call or step only the user can take",
       "quoteTr": "Un point d'action est une décision ou une étape qui ne revient qu'à l'utilisateur",
       "title": "Définir le mot clé en premier",
-      "does": "Ne liste que les décisions que vous devez vraiment prendre ; il ne se décharge pas de son propre travail sur vous.",
+      "does": "Il ne liste que les décisions que vous devez vraiment prendre ; il ne se décharge pas de son propre travail sur vous.",
       "why": "Chacun comprend « point d'action » différemment. Définissez-le, puis précisez ce qui compte et ce qui ne compte pas.",
       "try": "Si un mot compte dans votre prompt, définissez-le tout de suite : « Ici, “terminé” veut dire que ça fonctionne quand on l'ouvre sur téléphone. »"
     },
@@ -51,7 +51,7 @@
       "quote": "Never cut items or shrink them to stay under a word count",
       "quoteTr": "Ne supprime jamais de points et ne les raccourcis pas pour rester sous une limite de mots",
       "title": "Dire quelle règle prime",
-      "does": "Garde la réponse courte, mais n'omet jamais une décision que vous devez prendre.",
+      "does": "Il garde la réponse courte, mais n'omet jamais une décision que vous devez prendre.",
       "why": "« Court » et « complet » peuvent entrer en conflit. Dire lequel prime empêche l'IA de couper l'essentiel pour faire court.",
       "try": "Quand vous donnez deux objectifs, précisez lequel passe en premier : « Fais court, mais indique le risque de chaque changement, même si ça allonge la réponse. »"
     },

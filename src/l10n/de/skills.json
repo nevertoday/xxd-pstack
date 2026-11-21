@@ -138,7 +138,7 @@
       ]
     },
     "create-verification-skill": {
-      "one": "Erstellt einen „Prüf-Skill“ für dein Projekt: Damit lernt die KI, jedes Feature wirklich wie echte User zu nutzen.",
+      "one": "Erstellt einen „Prüf-Skill“ für dein Projekt: Damit lernt die KI, jedes Feature wirklich so zu bedienen wie echte Nutzer.",
       "use": "Du hast keinen automatischen Weg zu belegen, dass ein Feature wirklich funktioniert. Das Nützlichste, was du zum Einstieg tun kannst.",
       "ex": "/create-verification-skill",
       "needs": [
@@ -165,9 +165,9 @@
       "ex": "/maintain-formal-verification-skill"
     },
     "statechart": {
-      "one": "Zeichnet die Zustände auf, die User durchlaufen, und markiert alle, die eine Regel brechen – und wie man dorthin kommt.",
+      "one": "Zeichnet die Zustände auf, die Nutzer durchlaufen, und markiert alle, die eine Regel brechen – und wie man dorthin kommt.",
       "use": "Leute, die keinen Code lesen, etwa aus Produkt und Design, müssen „sehen“, wie es sich verhält.",
-      "ex": "/statechart Was sehen User, wenn sie Notizen offline bearbeiten"
+      "ex": "/statechart Was sehen Nutzer, wenn sie Notizen offline bearbeiten"
     },
     "benchmark-checklist": {
       "one": "Prüft eine Performance-Zahl anhand von 7 Fragen. Das Urteil lautet nur: schneller, langsamer, kein Unterschied oder nicht sicher.",

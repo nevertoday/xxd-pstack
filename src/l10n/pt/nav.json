@@ -1,12 +1,12 @@
 {
   "lessons": {
     "1-why": {
-      "title": "O que ele faz por você",
+      "title": "O que o pstack faz por você",
       "minutes": "3 minutos",
       "sum": "O que é o pstack, do que você precisa e quanto custa"
     },
     "2-install": {
-      "title": "Instale",
+      "title": "Instale o pstack",
       "minutes": "5 minutos",
       "sum": "Digite duas linhas no Claude Code e escolha uma opção"
     },
@@ -135,7 +135,7 @@
     },
     "形式化验证": {
       "label": "verificação formal",
-      "tip": "Em vez de testar exemplos, verifica se uma regra vale em todos os casos possíveis."
+      "tip": "Em vez de testar exemplos, a verificação formal confere se uma regra vale em todos os casos possíveis."
     },
     "决策日志": {
       "label": "log de decisões",

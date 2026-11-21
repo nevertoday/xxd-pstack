@@ -51,7 +51,7 @@
       "like": "pstack est le manuel ; l'outil hôte est le bureau. Le même manuel sert quasiment de la même façon sur n'importe quel bureau.",
       "here": [
         "pstack a été écrit pour Cursor. Dans les autres outils, les noms propres à Cursor présents dans les skills sont traduits vers leurs équivalents locaux. pstack embarque une table de correspondance, que l'IA lit toute seule.",
-        "Quelques fonctions n'existent que dans Cursor, comme Automations, Bugbot et les agents cloud. Dans les autres outils, les étapes qui en ont besoin sont sautées avec une courte note d'une ligne."
+        "Quelques fonctions n'existent que dans Cursor, comme Automations, Bugbot et les agents cloud. Dans les autres outils, les étapes qui en ont besoin sont sautées avec une note d'une ligne."
       ],
       "list": [
         [
@@ -130,7 +130,7 @@
     },
     "playbook": {
       "title": "Playbooks",
-      "one": "Un playbook est la marche à suivre standard pour un type de tâche. Vous décrivez la tâche ; il en choisit un et le suit.",
+      "one": "Un playbook est la marche à suivre standard pour un type de tâche. Vous décrivez la tâche ; `/poteto-mode` en choisit un et le suit.",
       "like": "Comme le triage aux urgences. Vous décrivez vos symptômes, l'infirmière vous oriente vers le bon service, et chaque service applique son propre protocole.",
       "here": [
         "`/poteto-mode` dispose de 22 playbooks. Vous n'avez pas à en nommer un : décrivez la tâche et il choisit. Si aucun ne convient, il utilise `/figure-it-out` pour en concevoir un sur mesure.",
@@ -250,7 +250,7 @@
       "like": "Comme plusieurs cuisiniers qui préparent un même repas. Ils partagent le frigo, mais chacun a sa propre planche à découper.",
       "here": [
         "Le playbook « Ouvrir une PR » travaille déjà dans un worktree : en général, vous n'avez pas besoin d'en parler. Précisez-le seulement pour choisir la branche de départ, par exemple « crée un nouveau worktree à partir de main ».",
-        "Les worktrees prennent de la place sur le disque ; sur un ordinateur portable, quelques-uns à la fois est à peu près la limite. Quand l'espace manque, dites « regarde ce qui prend de la place sur mon disque et supprime les worktrees dont on peut se passer ». Pour ceux qui contiennent des modifications non commitées, l'IA s'arrête et vous demande."
+        "Les worktrees prennent de la place sur le disque ; sur un ordinateur portable, quelques-uns à la fois, c'est à peu près la limite. Quand l'espace manque, dites « regarde ce qui prend de la place sur mon disque et supprime les worktrees dont on peut se passer ». Pour ceux qui contiennent des modifications non commitées, l'IA s'arrête et vous demande."
       ],
       "myths": [
         "« Les worktrees sont une fonctionnalité de pstack » : ils sont intégrés à Git (`git worktree`). pstack se contente de les utiliser par défaut.",
@@ -260,7 +260,7 @@
     "custom-mode": {
       "title": "Custom Mode (toujours actif)",
       "one": "Custom Mode est une fonctionnalité de Cursor (un mode personnalisé persistant) qui garde `/poteto-mode` actif, pour vous éviter de le taper à chaque fois.",
-      "like": "L'usage normal, c'est comme passer votre badge à chaque porte. Custom Mode bloque la porte ouverte jusqu'à ce que vous la refermiez.",
+      "like": "L'usage normal, c'est comme passer votre badge à chaque porte. Custom Mode cale la porte ouverte jusqu'à ce que vous la refermiez.",
       "here": [
         "Dans Cursor, choisissez `/poteto-mode` dans le menu `/` puis appuyez sur **Option+Enter** (Mac) ou **Alt+Enter** (Windows). Un simple Enter ne vaut que pour ce message, et son effet s'estompe au fil du chat.",
         "Claude Code et Codex n'ont pas cette fonction. L'astuce : ==un chat, une tâche.== Pour changer de tâche, ouvrez un nouveau chat ou tapez « /poteto-mode new task »."
@@ -275,7 +275,7 @@
       "like": "Comme une équipe sur un chantier. Tout le monde n'a pas besoin d'être le prestataire le plus cher. L'inspecteur doit venir d'un autre cabinet, pour que personne ne contrôle son propre travail.",
       "here": [
         "Répartition par défaut : le code, la rédaction et le jugement vont tous à opus 5.5. Le panel de revue réunit par défaut fable 5.2, opus 5.5 et gemini 4 neon (un de chaque). ==Faire relire le travail par des modèles différents est une pratique centrale de pstack.==",
-        "`/setup-pstack` vérifie quels modèles vous pouvez utiliser et écrit la configuration. Dans Cursor, c'est `~/.cursor/rules/pstack-models.mdc`. Dans Claude Code, c'est `~/.claude/rules/pstack-models.md`. Les autres outils utilisent `~/.agents/pstack-models.md`. Les changements s'appliquent dans un nouveau chat. Claude Code ne propose que des modèles Claude ; voir [Utiliser pstack dans Claude Code](/fr/howto/claude-code/#how-to-set-it-up-well)."
+        "`/setup-pstack` vérifie quels modèles vous pouvez utiliser et écrit la configuration. Dans Cursor, c'est `~/.cursor/rules/pstack-models.mdc`. Dans Claude Code, c'est `~/.claude/rules/pstack-models.md`. Les autres outils utilisent `~/.agents/pstack-models.md`. Les changements s'appliquent dans un nouveau chat. Claude Code ne propose que des modèles Claude ; voir [Utiliser pstack dans Claude Code](/fr/howto/claude-code/#comment-bien-le-configurer)."
       ],
       "myths": [
         "« Les rôles absents de la configuration sont inutilisables » : les rôles non listés reprennent les réglages intégrés du skill. Vous ne modifiez que ceux qui vous intéressent.",
@@ -287,8 +287,8 @@
       "one": "`/arena` : plusieurs participants résolvent le même problème, et le meilleur l'emporte. `/swarm` : un gros travail découpé en morceaux, chacun prend le sien.",
       "like": "`/arena`, c'est un concours de design : on choisit une proposition comme base et on y intègre les meilleures idées des autres. `/swarm`, c'est la correction d'examens : cent copies réparties entre cinq enseignants.",
       "here": [
-        "Utilisez `/arena` pour les décisions difficiles à changer par la suite, comme les noms, les formats et les algorithmes. Chaque candidat travaille de son côté, puis un modèle d'une autre entreprise les départage. Ensuite, il choisit une base, ajoute les meilleures parties des autres et vérifie. `/architect` s'en sert pour les conceptions importantes ou débattues.",
-        "Utilisez `/swarm` pour les tâches qui doivent tout couvrir, comme « vérifie chaque paquet ». Chaque IA d'appoint traite sa partie et renvoie « OK / problème / bloqué ». À la fin, vous recevez un rapport court."
+        "Utilisez `/arena` pour les décisions difficiles à changer par la suite, comme les noms, les formats et les algorithmes. Chaque candidat travaille de son côté, puis un modèle d'une autre entreprise les départage. Ensuite, `/arena` choisit une base, ajoute les meilleures parties des autres et vérifie. `/architect` s'en sert pour les conceptions importantes ou débattues.",
+        "Utilisez `/swarm` pour les tâches qui doivent tout couvrir, comme « vérifie chaque package ». Chaque IA d'appoint traite sa partie et renvoie « OK / problème / bloqué ». À la fin, vous recevez un rapport court."
       ],
       "myths": [
         "« Il faut utiliser /arena pour un passage complet » : la documentation de pstack le déconseille. ==Pour tout passer en revue, utilisez `/swarm`.== `/arena` choisirait une base et fusionnerait des morceaux pour chaque résultat, ce qui serait du travail perdu."
@@ -330,7 +330,7 @@
       ],
       "myths": [
         "« Si ça passe, tout le système est sûr » : une réussite ne couvre que ce périmètre. La note de passation précise ce qui a été vérifié et ce qui ne l'a pas été.",
-        "« Chaque projet devrait faire ça » : cela ne vaut le coup que pour la concurrence, les nouvelles tentatives, les machines à états ou les parseurs, là où les erreurs coûtent cher."
+        "« Chaque projet devrait faire ça » : cela ne vaut le coup que pour la concurrence, les réessais, les machines à états ou les parseurs, là où les erreurs coûtent cher."
       ]
     },
     "decision-log": {
@@ -339,7 +339,7 @@
       "like": "Comme un cahier de laboratoire : ce qui a été fait, pourquoi et ce qui s'est passé. Le lendemain, le responsable le feuillette et comprend tout.",
       "here": [
         "`/show-me-your-work` le tient à jour. Chaque ligne indique l'heure, l'étape, la décision, la raison, l'emplacement de la preuve et le résultat. Il est enregistré au format TSV, sous `decisions.tsv` par défaut, et reste sur votre machine.",
-        "À votre retour, dites « /show-me-your-work résume-moi ce que tu as fait cette nuit ». Avant de vous remettre le résumé, un modèle d'une autre entreprise le relit. La réponse se termine par une section « Points d'attention ». ==**Lisez cette section en premier, puis les lignes qu'elle indique.**== Pour un point rapide, utilisez `/ketchup`. Il se contente de lire et vous dit en termes simples ce qui a changé et ce qui attend votre retour."
+        "À votre retour, dites « /show-me-your-work résume-moi ce que tu as fait cette nuit ». Avant de vous remettre le résumé, un modèle d'une autre entreprise le relit. La réponse se termine par une section `Attention` (les points à examiner de près). ==**Lisez cette section en premier, puis les lignes qu'elle indique.**== Pour un point rapide, utilisez `/ketchup`. Il se contente de lire et vous dit en termes simples ce qui a changé et ce qui attend une action de votre part."
       ],
       "myths": [
         "« Avec un journal, je n'ai plus besoin de relire » : le journal rend la relecture plus rapide. Vous relisez les décisions, pas toute une nuit de chat."
@@ -416,7 +416,7 @@
         ],
         [
           "separate before serializing shared state",
-          "Architecture · Cesser de partager d'abord ; ne verrouiller qu'en dernier recours"
+          "Architecture · D'abord cesser de partager ; ne verrouiller qu'en dernier recours"
         ],
         [
           "prove it works",

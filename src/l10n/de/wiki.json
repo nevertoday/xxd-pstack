@@ -107,7 +107,7 @@
       "like": "Wie Hausaufgaben abzugeben. Dein Entwurf darf unordentlich sein, die Abgabe ist ordentlich, und sie zählt, sobald die Lehrkraft sie absegnet.",
       "here": [
         "Standardmäßig schließt pstack jede Aufgabe mit einem PR ab. Das Playbook „PR öffnen“ sortiert die Änderungen in ein paar kleine Commits. Es schreibt Titel und Beschreibung und gibt dir dann den Link. potetos Grundsatz: Fünf kleine PRs sind besser als ein großer.",
-        "Sobald der PR offen ist, überwacht das Playbook „Babysit“ (einen PR aktiv begleiten) ihn. Es löst Konflikte, beantwortet Reviews und repariert die automatischen Prüfungen (CI). **Es mergt niemals selbst.** Zum Mergen sagst du „land the stack“, und das Playbook „Shipping“ (fertigstellen, prüfen und ausliefern) übernimmt."
+        "Sobald der PR offen ist, überwacht ihn das Playbook „Babysit“ (es begleitet den PR aktiv). Es löst Konflikte, beantwortet Reviews und repariert die automatischen Prüfungen (CI). **Es mergt niemals selbst.** Zum Mergen sagst du „land the stack“, und das Playbook „Shipping“ (fertigstellen, prüfen und ausliefern) übernimmt."
       ],
       "myths": [
         "„Eine komplett grüne CI heißt, ich kann sicher mergen“: ==Grün heißt nicht sicher.== Das Playbook „Shipping“ schickt eine andere KI, die den Code nicht selbst geschrieben hat, um jeden PR wirklich zu prüfen. Nur was besteht, wird gemergt.",
@@ -275,7 +275,7 @@
       "like": "Wie auf einer Baustelle. Nicht alle müssen den höchsten Stundensatz haben. Und die Abnahme sollte von einer anderen Firma kommen, damit niemand die eigene Arbeit prüft.",
       "here": [
         "Standardaufteilung: Coding, Schreiben und Entscheidungen liegen alle bei opus 5.5. Im Review-Panel sitzen standardmäßig je einmal fable 5.2, opus 5.5 und gemini 4 neon. ==Dass sich verschiedene Modelle gegenseitig prüfen, gehört zum Kern von pstack.==",
-        "`/setup-pstack` prüft, welche Modelle du nutzen kannst, und schreibt die Konfiguration. In Cursor liegt sie unter `~/.cursor/rules/pstack-models.mdc`. In Claude Code unter `~/.claude/rules/pstack-models.md`. Andere Tools nutzen `~/.agents/pstack-models.md`. Änderungen gelten ab einem neuen Chat. Claude Code bietet nur Claude-Modelle an; mehr dazu unter [Nutzung in Claude Code](/de/howto/claude-code/#how-to-set-it-up-well)."
+        "`/setup-pstack` prüft, welche Modelle du nutzen kannst, und schreibt die Konfiguration. In Cursor liegt sie unter `~/.cursor/rules/pstack-models.mdc`. In Claude Code unter `~/.claude/rules/pstack-models.md`. Andere Tools nutzen `~/.agents/pstack-models.md`. Änderungen gelten ab einem neuen Chat. Claude Code bietet nur Claude-Modelle an; mehr dazu unter [In Claude Code nutzen](/de/howto/claude-code/#so-richtest-du-es-gut-ein)."
       ],
       "myths": [
         "„Rollen, die nicht in der Konfiguration stehen, lassen sich nicht nutzen“: Nicht aufgeführte Rollen nutzen die eingebauten Standards des jeweiligen Skills. Du änderst nur die, die dir wichtig sind.",
@@ -287,7 +287,7 @@
       "one": "`/arena`: Mehrere lösen dasselbe Problem, und die beste Lösung gewinnt. `/swarm`: Eine große Aufgabe wird aufgeteilt – alle übernehmen ein Stück.",
       "like": "`/arena` ist wie ein Design-Pitch: ein Entwurf als Basis, dazu die besten Ideen aus den anderen. `/swarm` ist wie Klausuren korrigieren: hundert Arbeiten auf fünf Lehrkräfte verteilt.",
       "here": [
-        "Nutze `/arena` für Entscheidungen, die sich später schwer ändern lassen – etwa Namen, Formate und Algorithmen. Jeder Entwurf entsteht unabhängig, und ein Modell eines anderen Anbieters bewertet alle. Danach wählt es eine Basis, baut die besten Teile der anderen ein und prüft das Ergebnis. `/architect` nutzt es für große oder umstrittene Entwürfe.",
+        "Nutze `/arena` für Entscheidungen, die sich später schwer ändern lassen – etwa Namen, Formate und Algorithmen. Jeder Entwurf entsteht unabhängig, und ein Modell eines anderen Anbieters bewertet alle. Danach wählt der Skill eine Basis, baut die besten Teile der anderen ein und prüft das Ergebnis. `/architect` nutzt `/arena` für große oder umstrittene Entwürfe.",
         "Nutze `/swarm` für Aufgaben, die alles abdecken müssen, etwa „Prüf jedes Paket“. Jede Helfer-KI kümmert sich um ihren Teil und meldet „bestanden / Problem / blockiert“. Am Ende bekommst du einen kurzen Gesamtbericht."
       ],
       "myths": [
@@ -300,7 +300,7 @@
       "like": "Wie bei einer Hausabnahme. „Die Leitungen passen schon“ zählt nicht: Du schaltest das Licht ein, drehst die Wasserhähne auf und prüfst den Zähler.",
       "here": [
         "Dieses Prinzip bedeutet „Zeig, dass es funktioniert“; sein Name ist `prove it works`. Ein Beleg kommt von etwas, das wirklich gelaufen ist – „es kompiliert“ zählt nicht. Bei einer Änderung an der Kommandozeile: den echten Befehl ausführen. Bei einer Änderung an der Oberfläche: in der App durchklicken. Bei der Geschwindigkeit: Vorher-Nachher-Werte vergleichen.",
-        "Schreib schon in deinen ersten Prompt, „wann es als fertig gilt“ und „welchen Beleg du sehen willst“. Das ist das Hilfreichste, was du tun kannst. Wenn die KI etwas nicht prüfen kann, lautet eine gute Antwort „nicht eindeutig“. ==**Einer selbstsicheren Antwort ohne Beleg kannst du nicht trauen.**=="
+        "Schreib schon in deinen ersten Prompt, wann es als fertig gilt und welchen Beleg du sehen willst. Das ist das Hilfreichste, was du tun kannst. Wenn die KI etwas nicht prüfen kann, lautet eine gute Antwort „nicht eindeutig“. ==**Einer selbstsicheren Antwort ohne Beleg kannst du nicht trauen.**=="
       ],
       "myths": [
         "„Alle Tests laufen durch, also ist es bewiesen“: Tests prüfen nur die Fälle, an die beim Schreiben gedacht wurde. pstack will sehen, wie sich die echte App verhält.",
@@ -312,11 +312,11 @@
       "one": "Ein Prüf-Skill ist eine Anleitung eigens für dein Projekt. Er bringt der KI bei, deine App zu starten und sie so zu bedienen, wie man sie im Alltag nutzt.",
       "like": "Wie eine Einarbeitungs-Anleitung fürs Testen: wie man die App startet, welches Konto man nimmt, wohin man klickt, wovon ein Screenshot gemacht wird. Sobald es sie gibt, kann jede Person testen.",
       "here": [
-        "Erstell ihn mit `/create-verification-skill`. Es liest vor allem deinen Code, um zu lernen, wie die App startet und bedient wird. Vor der Übergabe macht es selbst einen kompletten Durchlauf. Die Dateien landen in deinem Projekt: `.cursor/skills/verify-<app-name>/` in Cursor, `.claude/skills/verify-<app-name>/` in Claude Code. Ab dann kannst du sagen: „Prüf mit /verify-<app-name> und gib mir Screenshots.“",
+        "Erstell ihn mit `/create-verification-skill`. Der Skill liest vor allem deinen Code, um zu lernen, wie die App startet und bedient wird. Vor der Übergabe macht er selbst einen kompletten Durchlauf. Die Dateien landen in deinem Projekt: `.cursor/skills/verify-<app-name>/` in Cursor, `.claude/skills/verify-<app-name>/` in Claude Code. Ab dann kannst du sagen: „Prüf mit /verify-<app-name> und gib mir Screenshots.“",
         "Laut poteto zahlt sich das von allem in dieser Anleitung am meisten aus. ==**Eine KI, die ihre eigene Arbeit prüfen kann, macht weiter, bis die Prüfung besteht. Eine, die das nicht kann, reicht dir jedes Ergebnis zurück.**== Wenn `/setup-pstack` am Ende fragt, ob einer erstellt werden soll, sag Ja."
       ],
       "myths": [
-        "„Einmal erstellen, dann ist Ruhe“: Apps ändern sich, und die Anleitung veraltet. Führ regelmäßig `/maintain-verification-skill` aus, am besten täglich. Es repariert nur den Prüf-Skill und fasst niemals Produktcode an.",
+        "„Einmal erstellen, dann ist Ruhe“: Apps ändern sich, und die Anleitung veraltet. Führ regelmäßig `/maintain-verification-skill` aus, am besten täglich. Er repariert nur den Prüf-Skill und fasst niemals Produktcode an.",
         "„Mein Projekt ist zu klein dafür“: Je früher, desto besser. Damit ist das Prüfen nicht mehr deine Aufgabe – jede KI kann es übernehmen."
       ]
     },
@@ -325,8 +325,8 @@
       "one": "Die formale Verifikation prüft jeden möglichen Fall einer Regel innerhalb eines festgelegten Rahmens.",
       "like": "Normales Testen prüft die Bremsen bei ein paar Autos stichprobenartig. Formale Verifikation beweist mathematisch, dass diese Bremskonstruktion bei jeder Geschwindigkeit anhält.",
       "here": [
-        "Erstell sie mit `/create-formal-verification-skill`. Dabei wird eine Regel gewählt, deren Bruch teuer wäre und die Tests nur schwer erreichen. Zum Beispiel: „Derselbe Job läuft niemals zweimal gleichzeitig.“ Das Werkzeug hängt vom Problem ab; für die Reihenfolge von Ereignissen nutzt es standardmäßig TLA+. Außerdem baut es absichtlich eine fehlerhafte Version, um sicherzugehen, dass die Prüfung sie erkennt. ==Eine Prüfung, die du noch nie scheitern gesehen hast, beweist nichts.==",
-        "Verstößt dein Code schon gegen die Regel, bekommst du Schritte, die das Problem auslösen. Produktcode wird nicht geändert, solange du es nicht verlangst. Nach Code-Änderungen führst du `/maintain-formal-verification-skill` aus, um die Prüfung zu aktualisieren und neu laufen zu lassen. Es sagt dir, ob die Prüfung veraltet ist oder der Code wirklich einen Bug hat. Um es Produkt- oder Design-Teams zu zeigen, zeichne es mit `/statechart` als Zustandsdiagramm."
+        "Erstell sie mit `/create-formal-verification-skill`. Dabei wird eine Regel gewählt, deren Bruch teuer wäre und die Tests nur schwer erreichen. Zum Beispiel: „Derselbe Job läuft niemals zweimal gleichzeitig.“ Das Werkzeug hängt vom Problem ab; für die Reihenfolge von Ereignissen nutzt der Skill standardmäßig TLA+. Außerdem baut er absichtlich eine fehlerhafte Version, um sicherzugehen, dass die Prüfung sie erkennt. ==Eine Prüfung, die du noch nie scheitern gesehen hast, beweist nichts.==",
+        "Verstößt dein Code schon gegen die Regel, bekommst du Schritte, die das Problem auslösen. Produktcode wird nicht geändert, solange du es nicht verlangst. Nach Code-Änderungen führst du `/maintain-formal-verification-skill` aus, um die Prüfung zu aktualisieren und neu laufen zu lassen. Der Skill sagt dir, ob die Prüfung veraltet ist oder der Code wirklich einen Bug hat. Um es Produkt- oder Design-Teams zu zeigen, zeichne es mit `/statechart` als Zustandsdiagramm."
       ],
       "myths": [
         "„Wenn sie besteht, ist das ganze System in Ordnung“: Ein Erfolg gilt nur für den festgelegten Rahmen. In der Übergabenotiz steht, was geprüft wurde und was nicht.",
@@ -339,7 +339,7 @@
       "like": "Wie ein Laborbuch: was gemacht wurde, warum und was passiert ist. Am nächsten Tag blättert die Leitung kurz durch und ist im Bilde.",
       "here": [
         "`/show-me-your-work` führt es. Jede Zeile enthält Zeit, Phase, Entscheidung, Grund, Fundort des Belegs und Ergebnis. Gespeichert wird es als TSV-Datei – standardmäßig `decisions.tsv` – und es bleibt lokal auf deinem Rechner.",
-        "Wenn du zurückkommst, sag: „/show-me-your-work geh mit mir durch, was du letzte Nacht gemacht hast.“ Bevor du die Zusammenfassung bekommst, prüft ein Modell eines anderen Anbieters sie noch einmal. Die Antwort endet mit einem Abschnitt „Braucht Aufmerksamkeit“. ==**Lies diesen Abschnitt zuerst und dann die Zeilen, auf die er verweist.**== Für einen schnellen Statuscheck nutz `/ketchup`. Es liest nur und sagt dir in klaren Worten, was sich geändert hat und was auf dich wartet."
+        "Wenn du zurückkommst, sag: „/show-me-your-work geh mit mir durch, was du letzte Nacht gemacht hast.“ Bevor du die Zusammenfassung bekommst, prüft ein Modell eines anderen Anbieters sie noch einmal. Die Antwort endet mit einem Abschnitt „Attention“ (was deine Aufmerksamkeit braucht). ==**Lies diesen Abschnitt zuerst und dann die Zeilen, auf die er verweist.**== Für einen schnellen Statuscheck nutz `/ketchup`. Der Skill liest nur und sagt dir in klaren Worten, was sich geändert hat und was auf dich wartet."
       ],
       "myths": [
         "„Mit einem Protokoll muss ich kein Review mehr machen“: Das Protokoll macht das Review nur schneller. Du prüfst die Entscheidungen statt einer ganzen Nacht voller Chat-Verlauf."
@@ -432,7 +432,7 @@
         ],
         [
           "test behavior not implementation",
-          "Prüfung · Testen, was Nutzende sehen können"
+          "Prüfung · Testen, was Nutzer sehen können"
         ],
         [
           "explain the number",

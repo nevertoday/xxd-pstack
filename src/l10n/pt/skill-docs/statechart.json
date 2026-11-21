@@ -28,7 +28,7 @@
   "lessons": [
     {
       "quote": "Label each state with what the reader can see or cares about",
-      "quoteTr": "Rotule cada estado com o que o leitor pode ver ou com o que se importa",
+      "quoteTr": "Rotule cada estado com o que o leitor consegue ver ou com o que importa para ele",
       "title": "Nomeie os estados como os leitores os veem",
       "does": "Cada estado no diagrama aparece como “Pagando”, palavras que você entende, não um nome de variável.",
       "why": "A nomeação parte do olhar do leitor, assim a IA não carrega os nomes do próprio código.",
@@ -73,7 +73,7 @@
     "Você faz o trabalho que exige critério: as palavras em cada estado e seta, as fases e suas cores, o título e o relatório para o leitor. Coloque seu trabalho em um módulo de visualização e passe-o com `--view`.",
     "Para mostrar as palavras do leitor, o módulo de visualização exporta `state(vars)`. O valor retornado por `state()` define o formato:",
     "- Uma string gera um diagrama plano: `export const state = (v) => (v.paid ? \"Paid\" : \"Paying\");`\n- Um array gera estados-pai: `export const state = (v) => v.main.split(\".\");`\n- Um objeto gera uma região paralela para cada chave: `export const state = (v) => ({ Playback: v.playback, Volume: v.volume });`",
-    "Rotule cada estado com o que o leitor pode ver ou com o que se importa, como “Pagando” ou “Lease retido, gravação pendente”. Deixe nomes de variáveis fora dos rótulos. Em `vars`, uma sequência TLA+ é um objeto com chaves a partir de 1, então `v.pc[1]` é `pc[1]`. Um conjunto é um array.",
+    "Rotule cada estado com o que o leitor consegue ver ou com o que importa para ele, como “Pagando” ou “Lease retido, gravação pendente”. Deixe nomes de variáveis fora dos rótulos. Em `vars`, uma sequência TLA+ é um objeto com chaves a partir de 1, então `v.pc[1]` é `pc[1]`. Um conjunto é um array.",
     "O módulo de visualização também pode exportar `step(action, from, to)`. Ele recebe o nome da ação do TLC e os valores antes e depois do passo, e retorna o rótulo da seta. Escreva cada rótulo de passo como o usuário vê acontecer, como “você aperta play” ou “a conexão falha”. Não use o nome do código nem da ação TLA+. Duas ações que terminam do mesmo jeito no diagrama recebem o mesmo rótulo, para compartilharem uma única seta.",
     "Quando um passo só pode acontecer em algumas condições, termine o rótulo dele com a condição entre colchetes, com as palavras do leitor, como `you press play [while the file loads]`. Em um diagrama de regiões, o comando escreve na seta a condição sobre as outras regiões, com as palavras dos rótulos delas, como `[when Offline]`. Os seus colchetes substituem isso, e duas setas de um mesmo estado podem acabar parecendo iguais. Por isso, em um diagrama de regiões, não escreva colchetes para uma condição sobre outra região. Quando um valor que nenhum rótulo mostra decide para onde um passo vai, nomeie o resultado no rótulo, como “a leitura da lista falha”.",
     "O módulo de visualização também pode exportar:",
@@ -89,6 +89,6 @@
     "Renderize diagramas com o Pele. Quando o usuário pedir uma imagem, ou quando um diagrama for grande demais para ler como texto, siga `references/render.md`. Não use outro renderizador, a menos que o usuário peça.",
     "## Faça a entrega",
     "Entregue cada diagrama e seu texto Mermaid para a pessoa que precisa decidir. Adicione uma linha para cada bug: a regra, a frase do leitor para essa regra e o caminho como o relatório o numera. Diga o que o modelo deixa de fora. Informe o comando que gera os arquivos de novo, com uma nova pasta `--out`.",
-    "Quando o modelo descreve código, reproduza cada caminho de bug no código real, como um teste ou uma repro ao vivo (reprodução mínima do bug), um passo para cada ação. Se um bug não acontecer, considere que o modelo está errado até mostrar que não está."
+    "Quando o modelo descreve código, reproduza cada caminho de bug no código real, como um teste ou uma repro ao vivo, um passo para cada ação. Se um bug não acontecer, considere que o modelo está errado até mostrar que não está."
   ]
 }

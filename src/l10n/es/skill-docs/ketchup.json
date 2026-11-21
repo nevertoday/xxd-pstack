@@ -3,23 +3,23 @@
   "brief": {
     "compare": [
       {
-        "without": "Cuenta una historia larga y entierra lo que necesita tu decisión.",
-        "with": "Empieza nombrando lo que está pendiente de ti y da su recomendación para cada decisión."
+        "without": "La IA cuenta una historia larga y entierra lo que necesita tu decisión.",
+        "with": "La IA empieza nombrando lo que está pendiente de ti y da su recomendación para cada decisión."
       },
       {
-        "without": "Llena la actualización con hashes, rutas de archivos y números de compilación.",
-        "with": "Cuenta qué cambió para ti con palabras sencillas y deja fuera los ID que no necesitas."
+        "without": "La IA llena la actualización con hashes, rutas de archivos y números de compilación.",
+        "with": "La IA cuenta qué cambió para ti con palabras sencillas y deja fuera los ID que no necesitas."
       },
       {
-        "without": "Inventa cifras o imágenes de pantallas que nunca capturó.",
-        "with": "Comprueba cada cifra con su fuente e inserta solo capturas de pantalla y videos reales."
+        "without": "La IA inventa cifras o imágenes de pantallas que nunca capturó.",
+        "with": "La IA comprueba cada cifra con su fuente e inserta solo capturas de pantalla y videos reales."
       }
     ],
-    "intro": "Te pone al día desde tu último mensaje antes de /ketchup, explica cada cambio y enumera cada decisión que tienes que tomar, con la voz sencilla de /bro.",
+    "intro": "La skill te pone al día desde tu último mensaje antes de /ketchup, explica cada cambio y enumera cada decisión que tienes que tomar, con la voz sencilla de /bro.",
     "sections": [
-      "No cambia nada en este turno, comprueba cada PR, ejecución de CI y agente que tocó este chat, y enumera únicamente las decisiones que solo tú puedes tomar.",
-      "Empieza por lo que está pendiente de ti, mantiene el relato en menos de 100 palabras y da para cada punto su recomendación, evidencia y riesgo.",
-      "Dibuja solo cuando una imagen lo explica mejor: seis recuadros como máximo, ocho palabras en cada uno. Las tablas y las listas de estado no cuentan."
+      "La IA no cambia nada en este turno, comprueba cada PR, ejecución de CI y agente que tocó este chat, y enumera únicamente las decisiones que solo tú puedes tomar.",
+      "La IA empieza por lo que está pendiente de ti, mantiene el relato en menos de 100 palabras y da para cada punto su recomendación, evidencia y riesgo.",
+      "La IA dibuja solo cuando una imagen lo explica mejor: seis recuadros como máximo, ocho palabras en cada uno. Las tablas y las listas de estado no cuentan."
     ]
   },
   "lessons": [
@@ -27,7 +27,7 @@
       "quote": "Assume the user remembers their last message and nothing after it.",
       "quoteTr": "Asume que el usuario recuerda su último mensaje y nada posterior.",
       "title": "Traza la línea de salida del lector",
-      "does": "Empieza desde tu último mensaje: sin repetir lo que ya sabes y sin saltarse lo que te perdiste.",
+      "does": "La IA parte de tu último mensaje: no repite lo que ya sabes ni se salta lo que te perdiste.",
       "why": "«Lo que sabe el lector» se convierte en un punto concreto en el tiempo, así que la IA no tiene que adivinar por dónde empezar.",
       "try": "Cuando pidas una nota de traspaso, añade: «Asume que el lector vio la actualización del viernes pasado y nada posterior»."
     },
@@ -35,7 +35,7 @@
       "quote": "Say \"the tests pass\", not \"CI is green\".",
       "quoteTr": "Di «los tests pasan», no «el CI está en verde».",
       "title": "Fija el tono con un par de ejemplos",
-      "does": "Cuenta los resultados con palabras que entiendes, no con jerga.",
+      "does": "La IA cuenta los resultados con palabras que entiendes, no con jerga.",
       "why": "«Palabras sencillas» es vago. Un par de «di esto, no aquello» es mucho más preciso que una lista de adjetivos.",
       "try": "Para lograr un tono, da un par: «Escribe “sale mañana”, no “ETA T+1”»."
     },
@@ -43,7 +43,7 @@
       "quote": "An action item is a call or step only the user can take",
       "quoteTr": "Un punto de acción es una decisión que solo puede tomar el usuario o un paso que solo puede dar",
       "title": "Define primero la palabra clave",
-      "does": "Enumera solo las decisiones que realmente tienes que tomar; no te pasa su propio trabajo.",
+      "does": "La IA enumera solo las decisiones que realmente tienes que tomar; no te pasa su propio trabajo.",
       "why": "Cada persona interpreta «punto de acción» de forma distinta. Defínelo y luego di qué cuenta y qué no.",
       "try": "Si una palabra en tu prompt importa, defínela ahí mismo: «Aquí, “hecho” significa que funciona al abrirlo en un teléfono»."
     },
@@ -51,7 +51,7 @@
       "quote": "Never cut items or shrink them to stay under a word count",
       "quoteTr": "Nunca elimines puntos ni los recortes para no pasarte de un límite de palabras",
       "title": "Di qué regla gana",
-      "does": "Mantiene la respuesta corta, pero nunca deja fuera una decisión que necesitas tomar.",
+      "does": "La IA mantiene la respuesta corta, pero nunca deja fuera una decisión que necesitas tomar.",
       "why": "«Corto» y «completo» pueden chocar. Decir cuál gana evita que la IA recorte lo importante por ser breve.",
       "try": "Cuando des dos objetivos, añade cuál va primero: «Hazlo corto, pero indica el riesgo de cada cambio, aunque eso lo alargue»."
     },

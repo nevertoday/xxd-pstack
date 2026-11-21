@@ -41,7 +41,7 @@
     ],
     "ai": "La IA trabaja aquí",
     "note": "Tus otras carpetas quedan fuera de su alcance",
-    "cap": "La IA trabaja en la carpeta donde abres Claude Code. Por eso empiezas con una nueva y vacía."
+    "cap": "La IA trabaja en la carpeta donde abres Claude Code. Por eso, empieza con una nueva y vacía."
   },
   "l3-prompt": {
     "parts": [
@@ -126,11 +126,11 @@
       },
       {
         "t": "Fusionar",
-        "d": "Dices «fusiona el stack»"
+        "d": "Dices «land the stack»"
       }
     ],
     "gate": "Te necesita",
-    "cap": "Llega hasta «listo para fusionar» y ahí se detiene. Fusionar es decisión tuya."
+    "cap": "La IA llega hasta «listo para fusionar» y ahí se detiene. Fusionar es decisión tuya."
   },
   "g7-night": {
     "eve": {
@@ -156,11 +156,11 @@
       "t": "Por la mañana",
       "items": [
         "/show-me-your-work",
-        "Lee primero «necesita atención»",
+        "Lee primero la sección «Attention»",
         "Luego las líneas que señala"
       ]
     },
-    "cap": "No relees toda la conversación de la noche. Con el registro y «necesita atención» basta."
+    "cap": "No relees toda la conversación de la noche. Con el registro y la sección «Attention» (lo que requiere atención) basta."
   },
   "g8-guard": {
     "rungs": [
@@ -204,7 +204,7 @@
         "d": "El problema desaparece"
       }
     ],
-    "cap": "El primer paso y el último son el mismo caso de reproducción, así que el antes y el después coinciden. Si no puede reproducir el problema, no cambia el código."
+    "cap": "El primer paso y el último son el mismo caso de reproducción, así que el antes y el después coinciden. Si la IA no puede reproducir el problema, no cambia el código."
   },
   "h-perf": {
     "steps": [
@@ -226,7 +226,7 @@
       }
     ],
     "loop": "¿No va más rápido? Revierte e inténtalo de nuevo",
-    "cap": "Ambas cifras usan los mismos datos, alternando varias ejecuciones de cada una, y comparan medianas."
+    "cap": "Las dos mediciones usan los mismos datos, alternan varias ejecuciones de cada versión y se comparan las medianas."
   },
   "h-refactor": {
     "steps": [
@@ -330,7 +330,7 @@
         "d": "Detener solo lo que arrancó; conservar la evidencia"
       }
     ],
-    "cap": "La skill verify-<app> generada tiene estas secciones. Antes de entregártela, las ejecuta de principio a fin una vez y luego comprueba que la evidencia sobrevivió a la limpieza."
+    "cap": "La skill verify-<app> generada tiene estas secciones. Antes de entregártela, la IA las ejecuta de principio a fin una vez y luego comprueba que la evidencia sobrevivió a la limpieza."
   },
   "h-formal": {
     "a": {
@@ -345,7 +345,7 @@
     "b": {
       "who": "Verificación formal",
       "steps": [
-        "Modela tomar una tarea, renovar el lease, agotar el tiempo y reintentar",
+        "Modela tomar una tarea, renovar la concesión, agotar el tiempo y reintentar",
         "Recorre todos los órdenes posibles",
         "Da con un orden que falla"
       ],
@@ -357,19 +357,19 @@
     "steps": [
       {
         "t": "A toma la tarea 42",
-        "d": "Lease de 30 segundos"
+        "d": "Concesión temporal (lease) de 30 segundos"
       },
       {
         "t": "A se detiene 31 s",
         "d": "Una pausa larga del GC, por ejemplo"
       },
       {
-        "t": "El lease expira",
+        "t": "La concesión expira",
         "d": "B toma la misma tarea 42"
       },
       {
         "t": "A despierta y escribe",
-        "d": "Sin comprobar que aún tiene el lease"
+        "d": "Sin comprobar que aún tiene la concesión"
       },
       {
         "t": "La tarea 42 se ejecutó dos veces",

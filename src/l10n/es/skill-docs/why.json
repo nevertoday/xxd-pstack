@@ -1,21 +1,21 @@
 {
-  "description": "Úsala para «por qué X funciona así», «por qué elegimos Y», justificación de diseño, regresiones, análisis postmortem o umbrales respaldados por datos. Devuelve una lectura con citas sobre decisiones y contrapartidas. Usa how para el comportamiento en tiempo de ejecución.",
+  "description": "Úsala para «por qué X funciona así», «por qué elegimos Y», justificación de diseño, regresiones, análisis postmortem o umbrales respaldados por datos. La skill devuelve una lectura con citas sobre decisiones y contrapartidas. Usa how para el comportamiento en tiempo de ejecución.",
   "brief": {
     "compare": [
       {
-        "without": "Adivina una razón a partir del propio código.",
-        "with": "Lee los commits y las discusiones de PR que hay detrás y los de cada cambio posterior, y luego otras fuentes si el rastro es escaso."
+        "without": "La IA adivina una razón a partir del propio código.",
+        "with": "La IA lee los commits y las discusiones de PR que hay detrás y los de cada cambio posterior, y luego otras fuentes si el rastro es escaso."
       },
       {
-        "without": "Presenta una razón supuesta como si fuera un hecho.",
-        "with": "Cita lo que escribieron los autores y marca sus propias inferencias como inferencias."
+        "without": "La IA presenta una razón supuesta como si fuera un hecho.",
+        "with": "La IA cita lo que escribieron los autores y marca sus propias inferencias como inferencias."
       },
       {
-        "without": "Arma una respuesta incluso cuando el registro no tiene ninguna.",
-        "with": "Dice lo que el registro no responde."
+        "without": "La IA arma una respuesta incluso cuando el registro no tiene ninguna.",
+        "with": "La IA dice lo que el registro no responde."
       }
     ],
-    "intro": "Responde al porqué a partir del registro, no del código: los commits y las discusiones de PR, y luego otras fuentes si el rastro es escaso. Cita a los autores, marca las inferencias y señala lo que el registro deja abierto.",
+    "intro": "La skill responde al porqué a partir del registro, no del código: los commits y las discusiones de PR, y luego otras fuentes si el rastro es escaso. Cita a los autores, marca las inferencias y señala lo que el registro deja abierto.",
     "sections": []
   },
   "lessons": [
@@ -23,7 +23,7 @@
       "quote": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
       "quoteTr": "Responde a partir del registro, no del código: lee los commits y las discusiones de PR que introdujeron el elemento en cuestión y cada cambio posterior, así como otras fuentes si el rastro es escaso.",
       "title": "Indica dónde está la respuesta",
-      "does": "Lee los commits y las discusiones de PR originales en lugar de inventar una razón creíble a partir del código.",
+      "does": "La IA lee los commits y las discusiones de PR originales en lugar de inventar una razón creíble a partir del código.",
       "why": "El código muestra el qué, no el porqué; indicar qué registro leer, pasando por cada cambio posterior, no deja margen para presentar una suposición.",
       "try": "Cuando preguntes por qué, señala la fuente: «Lee el commit y la discusión que añadieron este ajuste, y cada cambio desde entonces, no solo el código actual»."
     },
@@ -45,7 +45,7 @@
     }
   ],
   "blocks": [
-    "# Por qué",
+    "# Why",
     "Responde a partir del registro, no del código: lee los commits y las discusiones de PR que introdujeron el elemento en cuestión y cada cambio posterior, así como otras fuentes si el rastro es escaso. Cita lo que escribieron los autores, marca tus propias inferencias como inferencias y di lo que el registro no responde."
   ]
 }

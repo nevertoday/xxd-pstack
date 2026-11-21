@@ -107,7 +107,7 @@
       "like": "Como entregar uma lição de casa. Seu rascunho pode estar bagunçado, a versão entregue fica limpinha, e só vale depois que o professor aprova.",
       "here": [
         "Por padrão, o pstack encerra toda tarefa como um PR. O playbook “abrir um PR” organiza as mudanças em alguns commits pequenos. Ele escreve o título e a descrição e depois entrega o link para você. Na visão de poteto: cinco PRs pequenos são melhores do que um grande.",
-        "Depois que o PR está aberto, o playbook babysit acompanha tudo. Ele resolve conflitos, responde às revisões e corrige as checagens automáticas (CI). **Ele nunca faz merge.** Para isso, você diz “faça o merge da stack” e o playbook shipping assume."
+        "Depois que o PR está aberto, o playbook babysit acompanha tudo. Ele resolve conflitos, responde às revisões e corrige as checagens automáticas (CI). **Ele nunca faz merge.** Para isso, você diz “land the stack” e o playbook shipping assume."
       ],
       "myths": [
         "“CI todo verde significa que é seguro fazer merge”: ==verde não significa seguro.== O playbook shipping envia outra IA, que não escreveu o código, para verificar cada PR de verdade. Só os que passam vão para o merge.",
@@ -134,7 +134,7 @@
       "like": "Como a triagem de um hospital. Você descreve os sintomas, a enfermagem encaminha você para o setor certo, e cada setor tem sua própria rotina.",
       "here": [
         "O `/poteto-mode` tem 22 playbooks. Você não escolhe pelo nome: descreve a tarefa e ele decide. Se nenhum servir, ele usa o `/figure-it-out` para montar um na hora.",
-        "Algumas frases mudam a escolha dele. “Ainda não mude o código”: só investiga. “Nova tarefa”: trata como algo novo e escolhe de novo. “Vou dormir”: continua trabalhando sozinho por um bom tempo."
+        "Algumas frases mudam a escolha dele. “Ainda não mude o código”: o `/poteto-mode` só investiga. “new task”: trata o pedido como algo novo e escolhe de novo. “Vou dormir”: continua trabalhando sozinho por um bom tempo."
       ],
       "list": [
         [
@@ -250,7 +250,7 @@
       "like": "Como vários cozinheiros preparando uma refeição. Eles dividem a geladeira, mas cada um tem sua própria tábua de corte.",
       "here": [
         "O playbook “abrir um PR” já trabalha em um worktree, então você normalmente não precisa mencionar isso. Só diga algo para escolher a branch inicial, como “comece um novo worktree a partir da main”.",
-        "Worktrees ocupam espaço em disco; em um notebook, alguns ao mesmo tempo já costumam ser o limite. Quando o disco estiver apertado, diga “veja o que está ocupando meu disco e apague os worktrees que podem sair”. Se algum tiver mudanças sem commit, ele para e pergunta para você."
+        "Worktrees ocupam espaço em disco; em um notebook, alguns ao mesmo tempo já costumam ser o limite. Quando o disco estiver apertado, diga “veja o que está ocupando meu disco e apague os worktrees que podem sair”. Se algum tiver mudanças sem commit, a IA para e pergunta para você."
       ],
       "myths": [
         "“Worktrees são um recurso do pstack”: eles já vêm no Git (`git worktree`). O pstack apenas usa por padrão.",
@@ -263,7 +263,7 @@
       "like": "O uso normal é como passar o crachá em cada porta. O Custom Mode deixa a porta aberta até você fechar.",
       "here": [
         "No Cursor, escolha `/poteto-mode` no menu `/` e pressione **Option+Enter** (Mac) ou **Alt+Enter** (Windows). Um Enter comum vale só para aquela mensagem, e o efeito vai enfraquecendo conforme o chat avança.",
-        "Claude Code e Codex não têm isso. A alternativa: ==um chat, uma tarefa.== Para trocar de tarefa, comece um chat novo ou diga “/poteto-mode nova tarefa”."
+        "Claude Code e Codex não têm isso. A alternativa: ==um chat, uma tarefa.== Para trocar de tarefa, comece um chat novo ou diga “/poteto-mode new task”."
       ],
       "myths": [
         "“Toda ferramenta tem Custom Mode”: só o Cursor tem (na janela Agents e na CLI)."
@@ -275,7 +275,7 @@
       "like": "Como uma equipe de obra. Nem todo mundo precisa ser a contratação mais cara. E quem faz a vistoria deve vir de outra empresa, para ninguém conferir o próprio trabalho.",
       "here": [
         "Divisão padrão: código, escrita e julgamento ficam todos com opus 5.5. O painel de revisão tem, por padrão, um de cada: fable 5.2, opus 5.5 e gemini 4 neon. ==Modelos diferentes revisando uns aos outros é uma prática central do pstack.==",
-        "O `/setup-pstack` verifica quais modelos você pode usar e grava a configuração. No Cursor, ela fica em `~/.cursor/rules/pstack-models.mdc`. No Claude Code, em `~/.claude/rules/pstack-models.md`. Outras ferramentas usam `~/.agents/pstack-models.md`. As mudanças passam a valer em um chat novo. O Claude Code só oferece modelos Claude; veja [Usando no Claude Code](/pt/howto/claude-code/#how-to-set-it-up-well)."
+        "O `/setup-pstack` verifica quais modelos você pode usar e grava a configuração. No Cursor, ela fica em `~/.cursor/rules/pstack-models.mdc`. No Claude Code, em `~/.claude/rules/pstack-models.md`. Outras ferramentas usam `~/.agents/pstack-models.md`. As mudanças passam a valer em um chat novo. O Claude Code só oferece modelos Claude; veja [Usando no Claude Code](/pt/howto/claude-code/#como-configurar-bem)."
       ],
       "myths": [
         "“Papéis que não estão na configuração não podem ser usados”: papéis fora da lista usam o padrão embutido da skill. Você só altera os que quiser.",
@@ -339,7 +339,7 @@
       "like": "Como um caderno de laboratório: o que foi feito, por quê e o que aconteceu. No dia seguinte, o supervisor folheia e entende tudo.",
       "here": [
         "O `/show-me-your-work` mantém esse log. Cada linha traz o horário, a etapa, a decisão, o motivo, onde está a prova e o resultado. Ele é salvo como um arquivo TSV, `decisions.tsv` por padrão, e fica na sua máquina.",
-        "Quando voltar, diga “/show-me-your-work me explique passo a passo o que você fez ontem à noite”. Antes de entregar o resumo, um modelo de outra empresa revisa tudo. A resposta termina com uma seção “precisa de atenção”. ==**Leia essa seção primeiro e depois as linhas que ela aponta.**== Para uma checagem rápida de status, use `/ketchup`. Ele só lê e conta em palavras simples o que mudou e o que está esperando por você."
+        "Quando voltar, diga “/show-me-your-work me explique passo a passo o que você fez ontem à noite”. Antes de entregar o resumo, um modelo de outra empresa revisa tudo. A resposta termina com uma seção Attention (o que precisa da sua atenção). ==**Leia essa seção primeiro e depois as linhas que ela aponta.**== Para uma checagem rápida de status, use `/ketchup`. Ele só lê e conta em palavras simples o que mudou e o que está esperando por você."
       ],
       "myths": [
         "“Com o log, não preciso revisar”: o log deixa a revisão mais rápida. Você revisa as decisões, não uma noite inteira de chat."

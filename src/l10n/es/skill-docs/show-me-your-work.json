@@ -1,29 +1,29 @@
 {
-  "description": "Mantén un rastro de decisiones revisable para trabajos largos o sin supervisión: un registro TSV con una fila por decisión (qué, por qué, evidencia, resultado). Local por defecto; inclúyelo en un commit cuando quien revise necesite el rastro para confiar en el resultado. Úsalo para /show-me-your-work, ejecuciones autónomas o de varias fases, o trabajo que una persona revisa después de ausentarse.",
+  "description": "Mantén un rastro de decisiones revisable para trabajos largos o sin supervisión: un registro TSV con una fila por decisión (qué, por qué, evidencia, resultado). Local por defecto; inclúyelo en un commit cuando quien revise necesite el rastro para confiar en el resultado. Úsala para /show-me-your-work, ejecuciones autónomas o de varias fases, o trabajo que una persona revisa después de ausentarse.",
   "brief": {
     "compare": [
       {
-        "without": "Respalda sus afirmaciones con párrafos de prosa.",
-        "with": "Registra una fila TSV por decisión, con un commit, PR o file:line como evidencia."
+        "without": "La IA respalda sus afirmaciones con párrafos de prosa.",
+        "with": "La IA registra una fila TSV por decisión, con un commit, PR o file:line como evidencia."
       },
       {
-        "without": "Revisa su propio trabajo y lo da por bueno.",
-        "with": "Hace que un modelo de otro proveedor revise el rastro y termina con una sección «Atención»."
+        "without": "La IA revisa su propio trabajo y lo da por bueno.",
+        "with": "La IA hace que un modelo de otro proveedor revise el rastro y termina con una sección «Attention»."
       },
       {
-        "without": "Confía en su propio registro tal como lo escribió.",
-        "with": "Comprueba cada fila contra la transcripción de la ejecución antes de devolverte el control y añade filas para las omisiones."
+        "without": "La IA confía en su propio registro tal como lo escribió.",
+        "with": "La IA comprueba cada fila contra la transcripción de la ejecución antes de devolverte el control y añade filas para las omisiones."
       }
     ],
-    "intro": "Empieza con una sola línea: mantén un único registro.",
+    "intro": "La skill empieza con una sola línea: mantén un único registro.",
     "sections": [
-      "Un solo archivo TSV, una fila por decisión, con seis columnas: ts, phase, decision, why, evidence, result. A continuación incluye un ejemplo.",
-      "Añade filas en lenguaje sencillo con scripts/log.sh para bifurcaciones, unidades terminadas y reversiones. Cada nueva ejecución abre con una fila start.",
-      "Guarda el registro en decisions.tsv dentro del directorio de trabajo, fuera de Git, y solo se incluye en un commit cuando quien revise necesita el rastro.",
+      "Un solo archivo TSV, una fila por decisión, con seis columnas: ts, phase, decision, why, evidence, result. A continuación, la skill incluye un ejemplo.",
+      "La IA añade filas en lenguaje sencillo con scripts/log.sh para bifurcaciones, unidades terminadas y reversiones. Cada nueva ejecución abre con una fila start.",
+      "La IA guarda el registro en decisions.tsv dentro del directorio de trabajo, fuera de Git, y solo se incluye en un commit cuando quien revise necesita el rastro.",
       "Solo se añade al final: una fila nueva sustituye a una errónea. La evidencia de scripts incluidos en un commit vale más que las comprobaciones puntuales.",
-      "Antes de devolverte el control, lee la transcripción de esta ejecución, comprueba cada fila y su evidencia, y añade filas para omisiones y errores.",
-      "Una IA ayudante con un modelo de otro proveedor revisa el rastro. La respuesta termina con una sección «Atención» que nombra ese modelo.",
-      "Indica a quien lee que revise de arriba abajo, siga las referencias de evidencia y muestre el TSV en una terminal con column.",
+      "Antes de devolverte el control, la IA lee la transcripción de esta ejecución, comprueba cada fila y su evidencia, y añade filas para omisiones y errores.",
+      "Una IA ayudante con un modelo de otro proveedor revisa el rastro. La respuesta termina con una sección «Attention» que nombra ese modelo.",
+      "La skill indica a quien lee que revise de arriba abajo, siga las referencias de evidencia y muestre el TSV en una terminal con column.",
       "Otras skills remiten a esta para su rastro de auditoría y le dejan el control del formato."
     ]
   },
@@ -40,7 +40,7 @@
       "quote": "A wrong call gets a new row that supersedes it.",
       "quoteTr": "Una decisión errónea recibe una fila nueva que la sustituye.",
       "title": "Acompaña cada prohibición con una alternativa",
-      "does": "Cuando una fila anterior estaba mal, añade una corrección debajo y deja la fila antigua, así puedes ver que cambió de idea.",
+      "does": "Cuando una fila anterior estaba mal, la IA añade una corrección debajo y deja la fila antigua, así puedes ver que cambió de idea.",
       "why": "Un simple «no edites el historial» deja a la IA atascada o tentada a hacer trampa; decirle qué hacer en su lugar le da una salida.",
       "try": "Cuando prohíbas algo, da la alternativa: «No borres entradas antiguas; marca las desactualizadas con una línea nueva: “anulada, ver #5”»."
     },
@@ -48,21 +48,21 @@
       "quote": "Correct the log, not the story.",
       "quoteTr": "Corrige el registro, no el relato.",
       "title": "Condensa las reglas en contrastes cortos",
-      "does": "Cuando la comprobación detecta una discrepancia, añade una fila con lo que ocurrió de verdad en lugar de pulir el relato.",
+      "does": "Cuando la comprobación detecta una discrepancia, la IA añade una fila con lo que ocurrió de verdad en lugar de pulir el relato.",
       "why": "«Arregla esto, no aquello» es lo bastante corto para recordarlo, así que la IA lo mantiene incluso al final de una ejecución larga.",
       "try": "Escribe tu regla más importante como un contraste corto: «Arregla el bug, no el mensaje de error»."
     },
     {
       "quote": "\"No flags\" is a valid value.",
-      "quoteTr": "«Sin alertas» es un valor válido.",
+      "quoteTr": "«No flags» es un valor válido.",
       "title": "Di que «ninguno» es una respuesta",
-      "does": "Cuando la revisión no encuentra nada, escribe «Sin alertas» en lugar de inventar algunas para parecer útil.",
+      "does": "Cuando la revisión no encuentra nada, la IA escribe «No flags» en lugar de inventar algunas alertas para parecer útil.",
       "why": "En cuanto una respuesta vacía cuenta, la IA no tiene motivos para inventar problemas.",
       "try": "Cuando pidas problemas, añade: «Si no encuentras riesgos, di “ninguno”; no rellenes la lista»."
     }
   ],
   "blocks": [
-    "# Muéstrame tu trabajo",
+    "# Show me your work",
     "Mantén un único registro canónico.",
     "## El formato",
     "Un único archivo TSV, una fila por decisión. Cada celda ocupa una sola línea. La evidencia es una referencia, no prosa.",
@@ -72,7 +72,7 @@
     "```\nts\tphase\tdecision\twhy\tevidence\tresult\n2026-05-24T09:02:00Z\tframe\tcounted the work first, about 100 components and roughly 75 hours\twanted to know the size before starting a long run\tcommit 3a9f1c2\tfound 5 things to sort out before starting\n2026-05-24T09:40:00Z\tharness\ttook screenshots of the old version before changing anything\tso we can compare old against new and catch any visual change\tscripts/snapshot.sh, baseline/\tsaved 120 reference screenshots\n2026-05-24T11:15:00Z\twidget\tmoved the widget styles over without changing how it looks\tkeep the change small and the result identical\tcommit 7c21e0a, pixel-diff 0\tlooks identical, tests pass\n2026-05-24T12:30:00Z\twidget\tthrew out a helper's work because its screenshots were blank\tchecked the real files instead of trusting its summary\tworktree reset\treverted, tightened the instructions for next time\n```",
     "## Registrar una fila",
     "Escribe cada entrada como le contarías a alguien de tu equipo lo que hiciste. Palabras sencillas, acciones concretas, sin tono de IA ni jerga abstracta (la skill **unslop** también se aplica al texto del registro).",
-    "Usa el script auxiliar `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>`. Añade la marca `ts`, escribe el encabezado en el primer uso, elimina tabulaciones y saltos de línea sueltos y antepone una comilla simple a cualquier celda que empiece por `=`, `+`, `-` o `@`. Un `printf` directo que añada una fila al final también sirve, pero cuida esos mismos bytes si las celdas provienen de texto generado o aportado por el usuario.",
+    "Usa el script auxiliar `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>`. El script añade la marca `ts`, escribe el encabezado en el primer uso, elimina tabulaciones y saltos de línea sueltos y antepone una comilla simple a cualquier celda que empiece por `=`, `+`, `-` o `@`. Un `printf` directo que añada una fila al final también sirve, pero cuida esos mismos bytes si las celdas provienen de texto generado o aportado por el usuario.",
     "Registra puntos de decisión y puntos de control, no cada acción: una bifurcación elegida, una unidad completada con su resultado de verificación, un cambio de rumbo o una reversión con su detonante, un bloqueo detectado, un control de validación corregido. En ejecuciones en bucle, una fila por iteración. Omite lo trivial y lo evidente.",
     "Una ejecución es una conversación de agente, incluidos sus turnos posteriores y cualquier resumen de ella. Un relevo, un agente de reemplazo o un chat nuevo inicia una nueva ejecución. Cuando una ejecución añade filas a un registro que ya tiene filas, su primera fila lleva la fase `start`, y también su primera fila después de la fila `start` de otra ejecución. Por eso, una ejecución que vuelve a un registro en un turno posterior lee primero las últimas filas del registro para comprobar si otra ejecución escribió desde entonces. Una fila `start` indica el rango de `ts` de las filas anteriores que esta ejecución no escribió, y su evidencia identifica esta ejecución, por ejemplo con su ID de agente. No uses la fase `start` para nada más.",
     "## Dónde se guarda",
@@ -87,7 +87,7 @@
     "## Revisión del rastro con otro modelo",
     "Antes de devolver el control, lanza un subagente con un modelo de un proveedor distinto al que hizo el trabajo. La autorrevisión no sirve como sustituto. El subagente lee el rastro de auditoría y la transcripción de la ejecución, y señala a qué debería prestar atención el usuario. No se trata de rehacer el trabajo, sino de buscar qué es subóptimo o arriesgado. Elige el nivel de razonamiento de cada subagente según la tarea, conforme a la sección Subagentes de la skill **poteto-mode**.",
     "- Decisiones registradas con evidencia débil o ausente.\n- Pasos de verificación omitidos o afirmados sin prueba en la transcripción.\n- Elecciones que parecen arriesgadas en retrospectiva (prematuras, que amplían el alcance o que solo tapan un síntoma).\n- Omisiones que el usuario pasaría por alto en un vistazo rápido.",
-    "Toda respuesta de una ejecución que haya generado un rastro termina con una sección «Atención». Empieza con el modelo revisor en su propia línea (`reviewed by <model>`) y luego lista cada alerta apuntando a filas o momentos concretos. «Sin alertas» es un valor válido. El nombre del modelo no lo es.",
+    "Toda respuesta de una ejecución que haya generado un rastro termina con una sección «Attention». Empieza con el modelo revisor en su propia línea (`reviewed by <model>`) y luego lista cada alerta apuntando a filas o momentos concretos. «No flags» es un valor válido. El nombre del modelo no lo es.",
     "## Revisar el rastro",
     "Lee de arriba abajo, sigue las referencias de evidencia y haz comprobaciones puntuales. GitHub muestra como tabla un TSV incluido en un commit. `column -s$'\\t' -t decisions.tsv` lo muestra en una terminal.",
     "## Combinar esta skill",

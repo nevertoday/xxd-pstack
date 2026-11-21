@@ -11,11 +11,11 @@
         "with": "Sagt in einfachen Worten, was sich für dich geändert hat, und lässt IDs weg, die du nicht brauchst."
       },
       {
-        "without": "Erfindet Zahlen oder Bilder von Bildschirmen, die es nie aufgenommen hat.",
+        "without": "Erfindet Zahlen oder Bilder von Bildschirmen, die nie aufgenommen wurden.",
         "with": "Prüft jede Zahl anhand ihrer Quelle und bettet nur echte Screenshots und Videos ein."
       }
     ],
-    "intro": "Es bringt dich ab deiner letzten Nachricht vor /ketchup auf den neuesten Stand, erklärt jede Änderung und listet jede Entscheidung auf, die du treffen musst – in der einfachen Sprache von /bro.",
+    "intro": "Der Skill bringt dich ab deiner letzten Nachricht vor /ketchup auf den neuesten Stand, erklärt jede Änderung und listet jede Entscheidung auf, die du treffen musst – in der einfachen Sprache von /bro.",
     "sections": [
       "Ändert in dieser Runde nichts, prüft jeden PR, CI-Lauf und Agenten, den dieser Chat angefasst hat, und listet nur Entscheidungen auf, die allein du treffen kannst.",
       "Startet mit dem, was auf dich wartet, hält die Vorgeschichte unter 100 Wörtern und gibt zu jedem Punkt Empfehlung, Belege und Risiko an.",
@@ -33,7 +33,7 @@
     },
     {
       "quote": "Say \"the tests pass\", not \"CI is green\".",
-      "quoteTr": "Sag „die Tests sind erfolgreich“, nicht „CI ist grün“.",
+      "quoteTr": "Sag „die Tests laufen durch“, nicht „CI ist grün“.",
       "title": "Den Ton mit einem Beispielpaar vorgeben",
       "does": "Meldet Ergebnisse in Worten, die du verstehst, nicht in Fachjargon.",
       "why": "„Einfache Worte“ ist vage. Ein einziges „Sag dies, nicht das“-Paar ist viel präziser als eine Reihe von Adjektiven.",
@@ -43,7 +43,7 @@
       "quote": "An action item is a call or step only the user can take",
       "quoteTr": "Ein offener Punkt ist etwas, das nur der Nutzer entscheiden oder tun kann",
       "title": "Das Schlüsselwort zuerst definieren",
-      "does": "Listet nur die Entscheidungen auf, die wirklich du treffen musst; es schiebt dir nicht seine eigene Arbeit zu.",
+      "does": "Listet nur die Entscheidungen auf, die wirklich du treffen musst; der Skill schiebt dir nicht seine eigene Arbeit zu.",
       "why": "Jeder versteht unter „offener Punkt“ etwas anderes. Definiere den Begriff und sag dann, was dazuzählt und was nicht.",
       "try": "Wenn ein Wort in deinem Prompt wichtig ist, definiere es direkt dort: „‚Fertig‘ bedeutet hier, dass es funktioniert, wenn man es auf dem Handy öffnet.“"
     },
@@ -67,7 +67,7 @@
   "blocks": [
     "# Ketchup",
     "Bring den Nutzer auf den neuesten Stand, was sich in diesem Chat seit der letzten Nachricht geändert hat, die er vor `/ketchup` geschrieben hat, und hilf ihm, jede Änderung zu verstehen – nicht nur ihren aktuellen Stand. Führ dann jede Entscheidung auf, die auf ihn wartet, damit er sie allein anhand deiner Antwort treffen kann. Benachrichtigungen und Ergebnisse von Subagents sind nicht seine Nachrichten. Geh davon aus, dass der Nutzer sich an seine letzte Nachricht erinnert und an nichts danach.",
-    "Nutze den Tonfall von [`/bro`](../bro/SKILL.md), nicht seine Aufgabe: einfache Worte, kurze Sätze, kein Fachjargon – so wie eine Person eine andere auf den neuesten Stand bringt. Sag, was sich für den Nutzer geändert hat, nicht, wie du es gemacht hast. Sag „die Tests sind erfolgreich“, nicht „CI ist grün“. Lass Hashes, Dateipfade, Befehle, Build-Nummern und Testzahlen weg, es sei denn, der Nutzer braucht etwas davon zum Handeln. Nenne jeden PR, Branch oder Agenten bei einem Namen, den der Nutzer kennt, nicht mit einer selbst erfundenen Bezeichnung. Wenn ein Fakt Kontext braucht, um verständlich zu sein, liefere den Kontext oder lass den Fakt weg.",
+    "Nutze den Tonfall von [`/bro`](../bro/SKILL.md), nicht seine Aufgabe: einfache Worte, kurze Sätze, kein Fachjargon – so wie eine Person eine andere auf den neuesten Stand bringt. Sag, was sich für den Nutzer geändert hat, nicht, wie du es gemacht hast. Sag „die Tests laufen durch“, nicht „CI ist grün“. Lass Hashes, Dateipfade, Befehle, Build-Nummern und Testzahlen weg, es sei denn, der Nutzer braucht etwas davon zum Handeln. Nenne jeden PR, Branch oder Agenten bei einem Namen, den der Nutzer kennt, nicht mit einer selbst erfundenen Bezeichnung. Wenn ein Fakt Kontext braucht, um verständlich zu sein, liefere den Kontext oder lass den Fakt weg.",
     "## Sammeln, was sich geändert hat",
     "Bleib in dieser Runde rein lesend. Erstelle Visualisierungen nur aus dem, was du bereits hast: Ändere keinen Code, starte keine App und keinen Job und poste nichts. Sammle deine eigene Arbeit seit dieser Nachricht, Berichte von Subagents und Nachrichten von allen anderen in diesem Chat. Prüf den aktuellen Stand jedes PRs, CI-Laufs oder Agenten, den dieser Chat angefasst hat. Prüf jede Zahl, die du zeigen willst, anhand der Fakten, aus denen sie stammt, und sag Bescheid, wenn du eine korrigierst.",
     "Ein offener Punkt ist etwas, das nur der Nutzer entscheiden oder tun kann, etwa eine Produktentscheidung, eine Freigabe, ein unumkehrbarer Schritt oder ein Zugang, der dir fehlt. Nimm jeden Punkt auf, der noch auf den Nutzer wartet, auch wenn er schon vor seiner letzten Nachricht aufkam. Arbeit, die du noch selbst erledigen kannst, ist kein offener Punkt. Erfinde niemals eine Entscheidung, um die Antwort zu füllen. Ein Schritt, um den der Nutzer nicht gebeten hat und den die Arbeit nicht braucht, ist kein offener Punkt – es sei denn, er ist unumkehrbar und wartet auf den Nutzer: Gib ihm eine Zeile und keine Visualisierung.",

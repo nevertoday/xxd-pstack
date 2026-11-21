@@ -5,7 +5,7 @@
     "skip": "Aller au contenu",
     "menu": "Ouvrir le menu",
     "search": "Rechercher dans le guide",
-    "searchPh": "Une leçon, une étape, un skill, un mot…",
+    "searchPh": "Étapes, fiches, skills, termes, questions…",
     "searchEmpty": "Aucun résultat. Essayez un autre mot",
     "look": "Apparence et commandes",
     "lang": "Langue",
@@ -60,9 +60,9 @@
   "tool": {
     "group": "Commandes",
     "label": "J'utilise",
-    "desc": "Les commandes du site s'affichent comme dans cet outil : il suffit de copier",
+    "desc": "Les commandes du site s'affichent au format de cet outil : il suffit de les copier",
     "bare": "Installé avec npx",
-    "now": "Forme actuelle : "
+    "now": "Affichage actuel : "
   },
   "home": {
     "h1": "Avant que l'IA dise « c'est fait », faites-la essayer elle-même",
@@ -115,10 +115,10 @@
     "NO": [
       "Vous n'avez jamais utilisé un outil comme Claude Code : installez-le d'abord avec le guide officiel, et revenez quand vous savez discuter avec l'IA",
       "C'est un tout petit changement, comme une faute de frappe ou une couleur : demandez-le directement à l'IA",
-      "Vous voulez seulement le plus rapide et le moins cher : pstack vérifie davantage, donc c'est plus lent et ça consomme davantage votre forfait"
+      "Vous voulez seulement le plus rapide et le moins cher : pstack vérifie davantage, donc c'est plus lent et ça entame davantage votre forfait"
     ],
     "devH": "Si vous codez",
-    "devP": "pstack, c'est le pack de skills que poteto (auparavant dans l'équipe React ; a créé pstack chez Cursor, développe aujourd'hui Grok Bot) utilise tous les jours pour son propre code : 34 skills, 22 playbooks et 24 principes d'ingénierie. Ci-dessous, les quatre étapes qu'il suit pour chaque tâche, et le guide complet en 9 étapes.",
+    "devP": "pstack, c'est le pack de skills que poteto (auparavant dans l'équipe cœur de React ; a créé pstack chez Cursor, développe aujourd'hui Grok Bot) utilise tous les jours pour son propre code : 34 skills, 22 playbooks et 24 principes d'ingénierie. Ci-dessous, les quatre étapes qu'il suit pour chaque tâche, et le guide complet en 9 étapes.",
     "FLOW": [
       [
         "Vous dites une phrase",
@@ -280,7 +280,7 @@
     "jump": "Aller à",
     "jumpTop": "Haut",
     "credit": [
-      "Original de Lauren Tan (poteto), licence MIT. Vérifié d'après le miroir de pstack :",
+      "Original de Lauren Tan (poteto), licence MIT. Vérifié par rapport au miroir de pstack, commit",
       "."
     ],
     "open": "Voir sur GitHub",
@@ -290,7 +290,7 @@
     "tr": {
       "fullP": "Le fichier SKILL.md que lit l'IA. Lisez la traduction, l'original, ou les deux côte à côte.",
       "credit": [
-        "Original de Lauren Tan (poteto), licence MIT. Traduit par ce site ; vérifié d'après le miroir de pstack :",
+        "Original de Lauren Tan (poteto), licence MIT. Traduit par ce site ; vérifié par rapport au miroir de pstack, commit",
         "."
       ]
     }
@@ -323,7 +323,7 @@
     "stamp": "Capture d'écran ({date}) ; l'interface a peut-être changé depuis."
   },
   "feedback": {
-    "lead": "Quelque chose n'est pas clair sur cette page, ou ne marche pas comme indiqué ?",
+    "lead": "Quelque chose n'est pas clair sur cette page, ou ne marche pas comme indiqué ?",
     "gh": "Dites-le sur GitHub",
     "faq": [
       ". Ou jetez d'abord un œil à la ",
@@ -333,14 +333,14 @@
   },
   "contact": {
     "h": "Questions et discussion",
-    "p": "Bloqué à une étape, quelque chose de pas clair, ou envie de montrer ce que vous avez fait avec pstack ? Venez en parler sur GitHub. Les questions qui reviennent le plus sont ajoutées au guide. Vous pouvez écrire en français.",
+    "p": "Vous bloquez sur une étape, quelque chose n'est pas clair, ou vous voulez montrer ce que vous avez fait avec pstack ? Venez en parler sur GitHub. Les questions qui reviennent le plus sont ajoutées au guide. Vous pouvez écrire en français.",
     "faq": [
       "Avant de demander, regardez la ",
       "FAQ",
       " : beaucoup de réponses y sont déjà."
     ],
     "btn": "Poser une question sur GitHub",
-    "x": "L'auteur sur X",
+    "x": "poteto sur X",
     "privacy": "Avant d'envoyer des captures d'écran, floutez les clés d'API, le code de votre entreprise et les infos de vos comptes."
   },
   "partial": {
@@ -359,7 +359,7 @@
     "contactFaq": [
       "Avant de demander, regardez la ",
       "FAQ (en anglais)",
-      " : beaucoup de réponses y sont déjà."
+      " : beaucoup de réponses y sont déjà."
     ]
   }
 }

@@ -8,7 +8,7 @@
       },
       {
         "without": "Prüft ihre eigene Arbeit und erklärt alles für in Ordnung.",
-        "with": "Lässt ein Modell eines anderen Anbieters den Verlauf prüfen und schließt mit einem Abschnitt „Attention“ ab."
+        "with": "Lässt ein Modell eines anderen Anbieters den Verlauf prüfen und schließt mit einem Abschnitt „Attention“ (was deine Aufmerksamkeit braucht) ab."
       },
       {
         "without": "Vertraut ihrem eigenen Protokoll so, wie es dasteht.",
@@ -34,7 +34,7 @@
       "title": "Frag, wo der Beleg liegt",
       "does": "Jede Zeile enthält einen Commit, eine Datei oder einen Screenshot zum Öffnen – keinen Absatz, in dem steht „Hab ich geprüft“.",
       "why": "Wenn du die Form der Belege festlegst, bleibt der KI kein Spielraum, Nachweise durch schönen Fließtext zu ersetzen.",
-      "try": "Wenn du nach Schlussfolgerungen fragst, ergänze: „Schreib hinter jede Dateiname und Zeilennummer; eine Erklärung ist nicht nötig.“"
+      "try": "Wenn du nach Schlussfolgerungen fragst, ergänze: „Schreib hinter jede davon Dateiname und Zeilennummer; eine Erklärung ist nicht nötig.“"
     },
     {
       "quote": "A wrong call gets a new row that supersedes it.",
@@ -62,7 +62,7 @@
     }
   ],
   "blocks": [
-    "# Zeig mir deine Arbeit",
+    "# Show me your work",
     "Führe genau ein maßgebliches Protokoll.",
     "## Das Format",
     "Eine einzelne TSV-Datei, eine Zeile pro Entscheidung. Zellen bleiben einzeilig. Ein Beleg ist ein Verweis, kein Fließtext.",
@@ -72,7 +72,7 @@
     "```\nts\tphase\tdecision\twhy\tevidence\tresult\n2026-05-24T09:02:00Z\tframe\tcounted the work first, about 100 components and roughly 75 hours\twanted to know the size before starting a long run\tcommit 3a9f1c2\tfound 5 things to sort out before starting\n2026-05-24T09:40:00Z\tharness\ttook screenshots of the old version before changing anything\tso we can compare old against new and catch any visual change\tscripts/snapshot.sh, baseline/\tsaved 120 reference screenshots\n2026-05-24T11:15:00Z\twidget\tmoved the widget styles over without changing how it looks\tkeep the change small and the result identical\tcommit 7c21e0a, pixel-diff 0\tlooks identical, tests pass\n2026-05-24T12:30:00Z\twidget\tthrew out a helper's work because its screenshots were blank\tchecked the real files instead of trusting its summary\tworktree reset\treverted, tightened the instructions for next time\n```",
     "## Eine Zeile protokollieren",
     "Schreibe jeden Eintrag so, wie du jemandem im Team erzählen würdest, was du gemacht hast. Einfache Worte, konkrete Handlungen, kein KI-Sprech und kein abstrakter Jargon (der Skill **unslop** gilt auch für Protokolltexte).",
-    "Nutze das Hilfsskript `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>`. Es setzt `ts`, schreibt beim ersten Aufruf die Kopfzeile, entfernt unerwünschte Tabs/Zeilenumbrüche und stellt jeder Zelle, die mit `=`, `+`, `-` oder `@` beginnt, ein einfaches Anführungszeichen voran. Ein bloßes `printf`, das eine Zeile anhängt, funktioniert auch, aber achte auf genau dieselben Bytes, wenn Zellen aus generiertem Text oder Nutzereingaben stammen.",
+    "Nutze das Hilfsskript `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>`. Es setzt `ts`, schreibt beim ersten Aufruf die Kopfzeile, entfernt unerwünschte Tabs/Zeilenumbrüche und stellt jeder Zelle, die mit `=`, `+`, `-` oder `@` beginnt, ein einfaches Anführungszeichen voran. Ein bloßes `printf`, das eine Zeile anhängt, funktioniert auch, aber achte auf genau diese Zeichen, wenn Zellen aus generiertem Text oder Nutzereingaben stammen.",
     "Protokolliere Entscheidungspunkte und Checkpoints, nicht jede einzelne Aktion: eine getroffene Weichenstellung, eine abgeschlossene Einheit samt Prüfergebnis, einen Kurswechsel oder Revert samt Auslöser, einen aufgetretenen Blocker, ein behobenes Gate. Bei Loop-Läufen eine Zeile pro Durchlauf. Überspringe Triviales und Selbstverständliches.",
     "Ein Lauf ist eine Agent-Unterhaltung, einschließlich ihrer späteren Runden und jeder Zusammenfassung davon. Eine Übernahme, ein Ersatz-Agent oder ein neuer Chat startet einen neuen Lauf. Wenn ein Lauf ein Protokoll ergänzt, das bereits Zeilen enthält, hat seine erste Zeile die Phase `start` – ebenso seine erste Zeile nach der `start`-Zeile eines anderen Laufs. Ein Lauf, der in einer späteren Runde zu einem Protokoll zurückkehrt, liest daher zuerst die letzten Zeilen des Protokolls, um zu prüfen, ob inzwischen ein anderer Lauf hineingeschrieben hat. Eine `start`-Zeile nennt den `ts`-Bereich der vorherigen Zeilen, die dieser Lauf nicht geschrieben hat, und ihr Beleg nennt diesen Lauf, zum Beispiel seine Agent-ID. Nutze die Phase `start` für nichts anderes.",
     "## Wo es liegt",

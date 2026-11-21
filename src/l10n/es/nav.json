@@ -58,7 +58,7 @@
       "sum": "Dale instrucciones antes de dormir y lee su registro por la mañana"
     },
     "8-make-it-yours": {
-      "title": "Cuando ya te manejes bien",
+      "title": "Cuando ya te sientas a gusto",
       "minutes": "Según necesites",
       "sum": "Corrige el rumbo en una línea; evita que el mismo error ocurra dos veces"
     }
@@ -71,21 +71,21 @@
     "others": "De otros usuarios"
   },
   "howto": {
-    "fix-bug": "Arreglar un bug: reprodúcelo, arréglalo y demuéstralo",
+    "fix-bug": "Arreglar un bug: reproducir, arreglar y demostrar",
     "add-feature": "Añadir una funcionalidad sin romper las anteriores",
     "refactor": "Refactorizar: código nuevo, mismo comportamiento",
-    "perf": "¿Demasiado lento? Demuestra que va más rápido, con números",
+    "perf": "¿Demasiado lento? Demostrar con números que va más rápido",
     "new-codebase": "Hacerte cargo de un proyecto que no conoces",
-    "review-branch": "Antes de entregarlo, deja que varias IA le busquen fallos",
+    "review-branch": "Antes de entregar: que varias IA le busquen fallos",
     "write-docs": "Escribir README, documentación y descripciones de PR",
-    "big-migration": "Cambios grandes: déjaselo por la noche y compruébalo por la mañana",
+    "big-migration": "Cambios grandes: dejárselo por la noche y comprobarlo por la mañana",
     "verify-app": "Dar a tu proyecto una skill de verificación para que la IA compruebe su propio trabajo",
     "formal-verify": "Bugs a los que no llegan los tests: verificación formal",
     "claude-code": "Usarlo en Claude Code",
     "cursor": "Usarlo en Cursor",
     "codex": "Usarlo en Codex y otras herramientas",
     "pick-skills": "Instalar solo algunas skills",
-    "cost": "Mantener los gastos bajos",
+    "cost": "Controlar el gasto",
     "update-remove": "Actualizar, inspeccionar y desinstalar",
     "recipes": "Prompts para copiar y pegar",
     "steer": "Corregir el rumbo en una frase",
@@ -115,11 +115,11 @@
     },
     "poteto-mode": {
       "label": "poteto-mode",
-      "tip": "El interruptor principal de pstack. Tú dices lo que quieres; planifica los pasos por su cuenta."
+      "tip": "El interruptor principal de pstack. Tú dices lo que quieres; la skill planifica los pasos por su cuenta."
     },
     "子代理": {
-      "label": "subagent",
-      "tip": "Una IA ayudante que la conversación principal envía a hacer una parte del trabajo; solo devuelve la conclusión."
+      "label": "subagente",
+      "tip": "Una IA ayudante que la conversación principal lanza para hacer una parte del trabajo; solo devuelve la conclusión."
     },
     "worktree": {
       "label": "worktree",
@@ -135,7 +135,7 @@
     },
     "形式化验证": {
       "label": "verificación formal",
-      "tip": "En lugar de probar ejemplos, comprueba que una regla se cumple en todos los casos posibles."
+      "tip": "Comprobación de que una regla se cumple en todos los casos posibles, no solo en unos ejemplos."
     },
     "决策日志": {
       "label": "registro de decisiones",
@@ -147,7 +147,7 @@
     },
     "token": {
       "label": "tokens",
-      "tip": "La unidad con la que se mide y se cobra el uso de la IA. pstack envía más subagentes y hace más comprobaciones, así que consume más."
+      "tip": "La unidad con la que se mide y se cobra el uso de la IA. pstack lanza más subagentes y hace más comprobaciones, así que consume más."
     },
     "推理预算": {
       "label": "presupuesto de razonamiento",
@@ -159,7 +159,7 @@
     },
     "斜杠命令": {
       "label": "comando slash",
-      "tip": "Un comando que escribes en el chat y empieza por /, como /poteto-mode. Llama a una skill por su nombre."
+      "tip": "Un comando que escribes en el chat y empieza por /, como /poteto-mode. Este comando llama a una skill por su nombre."
     },
     "模型角色": {
       "label": "roles de modelo",

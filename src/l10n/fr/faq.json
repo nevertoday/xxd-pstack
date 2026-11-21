@@ -4,7 +4,7 @@
     "items": [
       [
         "pstack est-il payant ?",
-        "Non, pstack est gratuit et open source (MIT). Votre outil d'IA reste au même prix : abonnement ou facture API, comme d'habitude. **Une même tâche consomme davantage votre quota avec pstack**, car il lance plus d'IA d'appoint et de vérifications. Voir [Maîtriser les coûts](/fr/howto/cost/)."
+        "Non, pstack est gratuit et open source (MIT). Votre outil d'IA reste au même prix : abonnement ou facture API, comme d'habitude. **Une même tâche entame davantage votre quota avec pstack**, car il lance plus d'IA d'appoint et de vérifications. Voir [Limiter les coûts](/fr/howto/cost/)."
       ],
       [
         "Dois-je utiliser Cursor ?",
@@ -16,7 +16,7 @@
       ],
       [
         "Quel est le rapport avec le mode plan intégré à Claude Code ou Cursor ?",
-        "Aucun conflit entre les deux : utilisez l'un ou l'autre. pstack n'a pas de skill de planification : pour poteto, le meilleur plan est le code lui-même. Si vous avez besoin d'un plan, attendez que la conception soit arrêtée, puis demandez à `/poteto-mode` un plan par phases. Chaque PR (Pull Request) doit préciser comment elle sera vérifiée."
+        "Aucun conflit entre les deux : utilisez l'un ou l'autre. pstack n'a pas de skill de planification : pour poteto, le meilleur plan est le code lui-même. Si vous avez besoin d'un plan, attendez que la conception soit fixée, puis demandez à `/poteto-mode` un plan par phases. Chaque PR (Pull Request) doit préciser comment elle sera vérifiée."
       ],
       [
         "Quelle est la différence entre la version officielle et le miroir backnotprop ?",
@@ -61,7 +61,7 @@
       ],
       [
         "Comment le désinstaller ?",
-        "Cela dépend de la façon dont vous l'avez installé. Plugin Claude Code : tapez `/plugin uninstall pstack@cursor-plugins` dans le chat, puis `/reload-plugins` ; pour simplement le mettre en pause, utilisez `disable` à la place de `uninstall`. Installé avec `npx skills` : lancez `npx skills remove` dans votre terminal. Si vous avez lancé `/setup-pstack`, supprimez aussi le fichier de configuration qu'il a créé. Voir [Mettre à jour, inspecter, désinstaller](/fr/howto/update-remove/)."
+        "Cela dépend de la façon dont vous l'avez installé. Plugin Claude Code : tapez `/plugin uninstall pstack@cursor-plugins` dans le chat, puis `/reload-plugins` ; pour simplement le mettre en pause, utilisez `disable` à la place de `uninstall`. Installé avec `npx skills` : lancez `npx skills remove` dans votre terminal. Si vous avez lancé `/setup-pstack`, supprimez aussi le fichier de réglages qu'il a créé. Voir [Mettre à jour, inspecter, désinstaller](/fr/howto/update-remove/)."
       ]
     ]
   },
@@ -74,7 +74,7 @@
       ],
       [
         "Est-ce sans risque de laisser l'IA tourner toute la nuit ?",
-        "Seulement lorsque ces quatre conditions sont réunies. ① Vous avez déjà effectué cette tâche vous-même, ou vous avez observé l'IA la faire une fois. ② Elle dispose des outils que vous utiliseriez, comme un skill de vérification, des logs, un profiler. ③ Chaque phase peut être vérifiée, et elle s'arrête quand l'une d'elles ne passe pas. ④ Vous avez relu quelques transcriptions et transformé les échecs récurrents en vérifications. Voir [La laisser tourner toute seule](/fr/guide/7-overnight/)."
+        "Seulement lorsque ces quatre conditions sont réunies. ① Vous avez déjà effectué cette tâche vous-même, ou vous avez observé l'IA la faire une fois. ② Elle dispose des outils que vous utiliseriez, comme un skill de vérification, des logs, un profiler. ③ Chaque phase peut être vérifiée, et elle s'arrête quand l'une d'elles ne passe pas. ④ Vous avez relu l'historique de quelques sessions et transformé les échecs récurrents en vérifications. Voir [La laisser tourner toute seule](/fr/guide/7-overnight/)."
       ],
       [
         "Pourquoi pstack fait-il relire le travail par plusieurs modèles différents ?",

@@ -30,7 +30,7 @@
       "quote": "A check that you have never seen fail proves nothing.",
       "quoteTr": "Uma verificação que você nunca viu falhar não prova nada.",
       "title": "Faça a verificação falhar uma vez",
-      "does": "Quebra o código de propósito para ver a verificação pegar a falha antes de dizer que ela passou.",
+      "does": "A IA quebra o código de propósito para ver a verificação pegar a falha antes de dizer que ela passou.",
       "why": "Uma frase curta e categórica diz o que faz uma aprovação valer, assim uma verificação que nunca falha não pode se passar por prova.",
       "try": "Depois de configurar um alerta, acrescente: “Crie um registro que deveria disparar esse alerta e me mostre que ele dispara.”"
     },
@@ -38,15 +38,15 @@
       "quote": "Choose the strongest such target in the repo, not the one that is easiest to verify.",
       "quoteTr": "Escolha o alvo mais forte desse tipo no repositório, não o mais fácil de verificar.",
       "title": "Dê nome à saída fácil",
-      "does": "Vai atrás do código que mais importa, não da parte mais fácil de terminar.",
+      "does": "A IA vai atrás do código que mais importa, não da parte mais fácil de terminar.",
       "why": "As IAs tendem a escorregar para a opção fácil; nomear esse impulso em voz alta evita que elas caiam nele.",
       "try": "Quando pedir uma análise: “Escolha o problema com maior chance de custar clientes, não o mais fácil de analisar.”"
     },
     {
       "quote": "Do not weaken the property or the model until it passes",
-      "quoteTr": "Não enfraqueça a propriedade nem o modelo até passar",
+      "quoteTr": "Não enfraqueça a propriedade nem o modelo só para a verificação passar",
       "title": "Proíba baixar a régua",
-      "does": "Quando o código realmente está errado, relata o problema com um exemplo em vez de afrouxar a verificação sem avisar.",
+      "does": "Quando o código realmente está errado, a IA relata o problema com um exemplo em vez de afrouxar a verificação sem avisar.",
       "why": "Nomear o jeito mais comum de trapacear funciona muito melhor do que um “seja honesto” genérico.",
       "try": "Quando pedir uma correção, acrescente: “Se um teste falhar, me diga o que está errado; não edite o teste para fazê-lo passar.”"
     },
@@ -60,7 +60,7 @@
     }
   ],
   "blocks": [
-    "# Crie uma skill de verificação formal",
+    "# Criar uma skill de verificação formal",
     "Um teste verifica os casos que alguém pensou em escrever. A verificação formal checa todos os casos dentro de um escopo declarado: toda ordem de passos em um modelo, toda entrada até um limite ou todas as entradas. Esta skill encontra a parte do repositório em que isso mais importa, verifica uma propriedade dela e deixa uma skill local do projeto que permite que o próximo agente verifique uma alteração em relação a essa propriedade. Escreva essa skill para um agente que a lê sem contexto, no meio de uma alteração, e que nunca viu o seu trabalho. O usuário deve poder confiar no resultado e agir com base nele sem aprender a linguagem de verificação.",
     "## Escolha o alvo a partir do código",
     "Responda a partir da base de código e pergunte ao usuário apenas o que você não consegue observar. Se o usuário mencionou uma área ou um bug, comece por aí.",
@@ -68,7 +68,7 @@
     "## Deixe a pergunta escolher a ferramenta",
     "Escolha a ferramenta que responde à pergunta com o menor custo: um verificador de modelos, um assistente de provas, um verificador baseado em SMT ou outra ferramenta. Saber se eventos podem acontecer em uma ordem ruim costuma pedir um verificador de modelos sobre um modelo pequeno do design, e o TLA+ é o padrão para isso em qualquer linguagem. Saber se o código em si se comporta corretamente para toda entrada, como em segurança de memória, overflow ou um invariante de estrutura de dados, costuma pedir um verificador que roda no código. Se nenhum verificador rodar nesta linguagem, diga isso e teste o código real com entradas geradas, não um modelo da função feito à mão. Uma propriedade que deve valer para qualquer tamanho, quando um limite não basta, pode precisar de uma prova. Dê preferência a uma ferramenta que quem desenvolve no repositório consiga instalar e rodar, e diga ao usuário por que você a escolheu.",
     "## O que faz uma boa verificação",
-    "- **Fiel ao código.** Cada parte do modelo ou da prova aponta para código que um revisor pode abrir. O que a verificação trata como um passo indivisível é um passo indivisível no código. Os nomes vêm deste repositório.\n- **Capaz de falhar.** Uma verificação que você nunca viu falhar não prova nada. Mostre cada propriedade falhando em uma variante quebrada do código que ela protege, como uma checagem removida ou um passo reordenado.\n- **Achados continuam sendo achados.** Quando o código atual quebra a propriedade, relate o problema com o contraexemplo nos termos do código. Não enfraqueça a propriedade nem o modelo até passar, e não altere o código do produto a menos que o usuário peça.\n- **Honesta quanto ao escopo.** Diga o que foi verificado, sob quais limites e premissas, e o que ficou de fora. Uma aprovação cobre o modelo ou o limite, não o sistema inteiro.\n- **Legível sem a ferramenta.** Descreva a propriedade e o dano em uma frase simples cada. Conte um contraexemplo como uma sequência curta de passos com as palavras do código.\n- **Barata para rodar de novo.** Um comando, uma versão reprodutível da ferramenta e uma execução curta o bastante para que o próximo agente a use em toda alteração relevante.\n- **Mantida em sincronia com o código.** Registre quais arquivos e funções cada checagem cobre e o commit em que você confirmou pela última vez que a verificação os descreve. Quando o código coberto muda depois desse commit, o próximo agente consegue ver que a verificação precisa de uma nova olhada.",
+    "- **Fiel ao código.** Cada parte do modelo ou da prova aponta para código que um revisor pode abrir. O que a verificação trata como um passo indivisível é um passo indivisível no código. Os nomes vêm deste repositório.\n- **Capaz de falhar.** Uma verificação que você nunca viu falhar não prova nada. Mostre cada propriedade falhando em uma variante quebrada do código que ela protege, como uma checagem removida ou um passo reordenado.\n- **Achados continuam sendo achados.** Quando o código atual quebra a propriedade, relate o problema com o contraexemplo nos termos do código. Não enfraqueça a propriedade nem o modelo só para a verificação passar, e não altere o código do produto a menos que o usuário peça.\n- **Honesta quanto ao escopo.** Diga o que foi verificado, sob quais limites e premissas, e o que ficou de fora. Uma aprovação cobre o modelo ou o limite, não o sistema inteiro.\n- **Legível sem a ferramenta.** Descreva a propriedade e o dano em uma frase simples cada. Conte um contraexemplo como uma sequência curta de passos com as palavras do código.\n- **Barata para rodar de novo.** Um comando, uma versão reprodutível da ferramenta e uma execução curta o bastante para que o próximo agente a use em toda alteração relevante.\n- **Mantida em sincronia com o código.** Registre quais arquivos e funções cada checagem cobre e o commit em que você confirmou pela última vez que a verificação os descreve. Quando o código coberto muda depois desse commit, o próximo agente consegue ver que a verificação precisa de uma nova olhada.",
     "## Gere a skill de verificação",
     "Escreva uma skill local do projeto com frontmatter que nomeie a área e diga quando usá-la. Sem frontmatter, a skill nunca é registrada. Apenas pela skill, o próximo agente deve conseguir saber se uma alteração mexe no código verificado, rodar a verificação, diferenciar um bug real de um erro de modelagem e atualizar a verificação quando uma alteração for intencional. Coloque o registro de cobertura e o commit de sincronização na skill e diga ao próximo agente para avançar o commit de sincronização somente depois de confirmar que a verificação descreve o código no novo commit. Use os comandos, caminhos e nomes reais deste repositório e não deixe nenhum placeholder.",
     "Se a verificação for um modelo TLA+, diga ao próximo agente para ler cada resultado com a skill [`/statechart`](../statechart/SKILL.md) do pstack. Ela mostra cada violação de invariante que o verificador encontra como seu caminho mais curto, em palavras simples. Quando a verificação passa, `/statechart` desenha um diagrama de como o sistema se move entre os estados. Cite `/statechart` pelo nome. Seus comandos, opções e caminhos de arquivo mudam entre versões e máquinas, então não copie nenhum deles para a skill gerada nem para os scripts dela.",

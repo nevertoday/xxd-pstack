@@ -15,14 +15,14 @@
         "with": "Expõe o que acha que você quer, para você ver."
       }
     ],
-    "intro": "Faz a IA reformular, com as próprias palavras, o que ela acha que são os seus objetivos e qual problema você está resolvendo.",
+    "intro": "A skill faz a IA reformular, com as próprias palavras, o que ela acha que são os seus objetivos e qual problema você está resolvendo.",
     "sections": []
   },
   "lessons": [
     {
       "quote": "Restate in your own words",
       "quoteTr": "Reformule com suas próprias palavras",
-      "title": "Peça com as palavras da IA",
+      "title": "Peça que a IA use as próprias palavras",
       "does": "A IA não repete as suas palavras; ela reconta tudo do jeito que entendeu, assim um mal-entendido aparece na hora.",
       "why": "Repetir como eco esconde se a IA entendeu; as próprias palavras dela expõem qualquer lacuna.",
       "try": "Depois de passar uma tarefa, pergunte primeiro: “Antes de começar, diga com suas próprias palavras o que você planeja mudar.”"

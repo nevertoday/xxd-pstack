@@ -8,7 +8,7 @@
       },
       {
         "without": "Kürt einen Sieger, während eine Seite mit Standardeinstellungen läuft.",
-        "with": "Tunt beide Seiten erst wie in der Produktion. Kann sie das nicht, kürt sie keinen Sieger."
+        "with": "Tunt beide Seiten erst wie in der Produktion. Kann die KI das nicht, kürt sie keinen Sieger."
       },
       {
         "without": "Rät anhand des Codes, warum etwas langsam ist.",
@@ -20,7 +20,7 @@
       "Schreibt die zu testende Behauptung auf, liest das Mess-Skript und prüft die Systemlast mit uptime und nproc.",
       "Beantwortet 7 Fragen: Was begrenzt es, war es getunt, hat es Grenzen gesprengt, gab es Fehler, lässt es sich reproduzieren, spielt es eine Rolle, ist es überhaupt passiert?",
       "Beginnt mit dem Urteil sowie Wert, Anzahl der Läufe, Spannweite und Engpass. Kein benannter Engpass heißt: nicht eindeutig.",
-      "Prüft die Baseline des Playbooks „Performance-Problem“ und das Hillclimb-Harness mit dieser Checkliste, bevor sie genutzt werden."
+      "Prüft die Baseline des Playbooks „Perf issue“ und das Hillclimb-Harness mit dieser Checkliste, bevor sie genutzt werden."
     ]
   },
   "lessons": [
@@ -68,6 +68,6 @@
     "## Bericht",
     "- Starte mit dem Urteil: schneller, langsamer, kein messbarer Unterschied oder nicht eindeutig.\n- Nenn den Wert samt Einheit, die Anzahl der Läufe, die Spannweite und den Engpass. Zum Beispiel: „p50 41 ms → 33 ms, Median aus 7 Läufen pro Seite, Spannweite danach 32 bis 35 ms, begrenzt durch JSON-Parsing auf einem Kern.“\n- Stuf das Urteil als nicht eindeutig ein, wenn du einen Unterschied behauptest, aber keinen Engpass nennen kannst, wenn eine Seite nicht getunt lief oder wenn du die Fragen 4 und 7 nicht prüfen konntest. Nenn die Lücke.\n- Beschränk die PR-Beschreibung auf einen zentralen Wert. Pack die Läufe, die Spannweite und die Belege für den Engpass in ein verlinktes Artefakt oder eine Notizdatei.",
     "## Weiteres Performance-Material",
-    "- Prüf die Baseline des Playbooks **Performance-Problem**, bevor das Playbook darauf aufbauend plant – und danach jede weitere Zahl.\n- Prüf das Harness des Playbooks **Hillclimb**, bevor es eingefroren wird. Das eingefrorene Harness gibt dann Zähler für Fehler und erledigte Arbeit aus, sodass jedes Behalten oder Zurücksetzen die Fragen 4 und 7 ohne Mehraufwand mitprüft."
+    "- Prüf die Baseline des Playbooks **Perf issue**, bevor das Playbook darauf aufbauend plant – und danach jede weitere Zahl.\n- Prüf das Harness des Playbooks **Hillclimb**, bevor es eingefroren wird. Das eingefrorene Harness gibt dann Zähler für Fehler und erledigte Arbeit aus, sodass jedes Behalten oder Zurücksetzen die Fragen 4 und 7 ohne Mehraufwand mitprüft."
   ]
 }

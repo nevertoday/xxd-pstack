@@ -10,7 +10,7 @@
         "Comprend en gros",
         "Change des choses"
       ],
-      "end": "« C'est fait ! » Vous ouvrez : le bouton ne fait rien"
+      "end": "« C'est fait ! » Vous ouvrez : le bouton ne fait rien"
     },
     "b": {
       "who": "L'IA avec pstack",
@@ -26,11 +26,11 @@
   },
   "l2-install": {
     "notes": [
-      "Étape 1 : ajoutez la boutique de plugins",
-      "Étape 2 : installez pstack, choisissez Install for you",
-      "Étape 3 : tapez /pstack: sans appuyer sur Entrée ; si poteto-mode est dans la liste, c'est installé"
+      "Étape 1 : ajoutez la boutique de plugins",
+      "Étape 2 : installez pstack, choisissez Install for you",
+      "Étape 3 : tapez /pstack: sans appuyer sur Entrée ; si poteto-mode est dans la liste, c'est installé"
     ],
-    "cap": "Illustration : voilà à peu près à quoi ressemblent les trois étapes dans Claude Code. Le vrai écran affiche quelques lignes de plus."
+    "cap": "Illustration : voilà à peu près à quoi ressemblent les trois étapes dans Claude Code. Le vrai écran affiche quelques lignes de plus."
   },
   "l3-folder": {
     "place": "Bureau",
@@ -41,7 +41,7 @@
     ],
     "ai": "L'IA travaille ici",
     "note": "Vos autres dossiers restent hors de portée",
-    "cap": "L'IA travaille dans le dossier où vous ouvrez Claude Code. D'où le nouveau dossier vide."
+    "cap": "L'IA travaille dans le dossier où vous ouvrez Claude Code. Commencez donc par un nouveau dossier vide."
   },
   "l3-prompt": {
     "parts": [
@@ -54,7 +54,7 @@
         "label": "Ce que je veux"
       },
       {
-        "text": "« J'ai bu un verre » ajoute un au compteur du jour ; il reste après réouverture ; on voit les 7 derniers jours.",
+        "text": "Cliquer sur « J'ai bu un verre » ajoute un au compteur du jour ; il reste après réouverture ; on voit les 7 derniers jours.",
         "label": "Le résultat attendu"
       },
       {
@@ -62,7 +62,7 @@
         "label": "Ce que tu me montres à la fin"
       }
     ],
-    "cap": "D'abord l'interrupteur ; chacune des trois parties a un seul rôle."
+    "cap": "D'abord l'interrupteur ; chacune des trois parties a un seul rôle."
   },
   "g0-layers": {
     "layers": [
@@ -109,7 +109,7 @@
   "g6-ship": {
     "steps": [
       {
-        "t": "Dites quand c'est terminé",
+        "t": "Dites ce que « terminé » veut dire",
         "d": "Dès la première phrase"
       },
       {
@@ -156,11 +156,11 @@
       "t": "Le matin",
       "items": [
         "/show-me-your-work",
-        "Lire d'abord « points d'attention »",
+        "Lire d'abord la section Attention",
         "Puis les lignes indiquées"
       ]
     },
-    "cap": "Vous n'avez pas à relire toute la conversation de la nuit. Le journal et « points d'attention » suffisent."
+    "cap": "Vous n'avez pas à relire toute la conversation de la nuit. Le journal et la section Attention suffisent."
   },
   "g8-guard": {
     "rungs": [
@@ -226,7 +226,7 @@
       }
     ],
     "loop": "Pas plus rapide ? Annuler et recommencer",
-    "cap": "Les deux chiffres reposent sur les mêmes données, avec plusieurs exécutions alternées, et comparent les médianes."
+    "cap": "Les deux chiffres sont mesurés sur les mêmes données, en alternant plusieurs exécutions de chaque côté, puis on compare les médianes."
   },
   "h-refactor": {
     "steps": [
@@ -311,7 +311,7 @@
     "steps": [
       {
         "t": "Lancer",
-        "d": "De données vides à vraiment utilisable"
+        "d": "Des données vides à une app vraiment utilisable"
       },
       {
         "t": "Diagnostic",
@@ -338,14 +338,14 @@
       "steps": [
         "A prend une tâche et termine",
         "B prend la suivante et termine",
-        "Un nouvel essai, tout va bien aussi"
+        "Un réessai, tout va bien aussi"
       ],
       "end": "Tout est vert. En production, A se fige une fois et la même tâche s'exécute deux fois"
     },
     "b": {
       "who": "Vérification formelle",
       "steps": [
-        "Modéliser la prise d'une tâche, le renouvellement du bail, l'expiration, le nouvel essai",
+        "Modéliser la prise d'une tâche, le renouvellement du bail, l'expiration, le réessai",
         "Parcourir tous les ordres possibles",
         "Tomber sur un mauvais ordre"
       ],

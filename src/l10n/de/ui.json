@@ -5,7 +5,7 @@
     "skip": "Zum Inhalt springen",
     "menu": "Menü öffnen",
     "search": "Anleitung durchsuchen",
-    "searchPh": "Lektionen, Schritte, Skills, Begriffe…",
+    "searchPh": "Schritte, Kurzanleitungen, Skills, Begriffe, Fragen…",
     "searchEmpty": "Nichts gefunden. Probier ein anderes Wort",
     "look": "Darstellung und Befehle",
     "lang": "Sprache",
@@ -62,7 +62,7 @@
     "label": "Ich nutze",
     "desc": "Die Befehle auf dieser Seite erscheinen so, wie dieses Tool sie erwartet. Einfach kopieren",
     "bare": "Mit npx installiert",
-    "now": "So steht es da: "
+    "now": "Angezeigt als: "
   },
   "home": {
     "h1": "Bevor die KI „fertig“ sagt, lass sie es selbst ausprobieren",
@@ -88,7 +88,7 @@
       [
         "Bevor sie anfängt",
         "Legt los, ohne zu prüfen, was du willst",
-        "Sagt dein Ziel zuerst in eigenen Worten, damit du sie sofort korrigieren kannst"
+        "Gibt dein Ziel zuerst in eigenen Worten wieder, damit du sie sofort korrigieren kannst"
       ],
       [
         "Während sie etwas ändert",
@@ -226,7 +226,7 @@
       ". ",
       "Du musst sie nicht auswendig lernen.",
       " Im Alltag tippst du ",
-      " ein, und es ruft die mit „Automatisch“ selbst auf. Komm hierher, um einen gezielt beim Namen aufzurufen oder einen Namen nachzuschlagen, den die KI erwähnt hat. Klick auf eine Karte: Dort siehst du den Unterschied zum einfachen Fragen, den Inhalt des Dokuments und den Volltext."
+      " ein, und es ruft die mit „Automatisch“ markierten Skills selbst auf. Komm hierher, um einen gezielt beim Namen aufzurufen oder einen Namen nachzuschlagen, den die KI erwähnt hat. Klick auf eine Karte: Dort siehst du den Unterschied zum einfachen Fragen, den Inhalt des Dokuments und den Volltext."
     ],
     "all": "Alle",
     "auto": "Automatisch",
@@ -340,7 +340,7 @@
       ": Viele Antworten stehen schon dort."
     ],
     "btn": "Auf GitHub fragen oder diskutieren",
-    "x": "Der Autor auf X",
+    "x": "poteto auf X",
     "privacy": "Bevor du Screenshots schickst: Mach API-Schlüssel, Firmencode und Kontodaten unkenntlich."
   },
   "partial": {

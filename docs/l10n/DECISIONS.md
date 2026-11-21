@@ -1,0 +1,8 @@
+Site-wide decisions (these override any reviewer suggestion that conflicts with them):
+- These fixed phrases are words pstack recognises. Keep them in English everywhere, in prompts and in prose that tells the reader what to type: `new task`, `land the stack`, `/unslop that, no emdashes`, and the skill names `why` / `how` inside "why first, then how" (translate only the connecting words, e.g. ja「先に why、次に how」).
+- Principle names (`prove it works`, `fix root causes`, `build the lever`, …) stay in English; explain them around the name.
+- Use one rendering per glossary term across all pages; when a reviewer names the preferred rendering in a Systemic rule, use that one everywhere in this file.
+- In prompts, keep `/loop until done` in English (translate the rest of the sentence). Keep the word `babysit` in English in "babysit this PR"-style prompts and translate the rest, the same way on every page.
+- Spanish/Portuguese/other languages where a description of what the AI does can be read as an order to the reader: name the subject (the AI, the skill, `/poteto-mode`) so it is clear who acts.
+- The section at the end of a `/show-me-your-work` reply is literally headed `Attention` (the AI writes it in English). Call it `Attention` everywhere, with a short explanation in your language on first mention on a page.
+- In skill docs, lists of literal English words and phrases stay in English exactly as in the source, as the Chinese site does: unslop's banned-word lists and quoted example phrases ("highlighting...", "experts believe"), playbook titles used as names (Investigation, Bug fix, Perf issue, …), section headings the AI writes (`Attention`), trigger phrases.

@@ -1,10 +1,10 @@
 {
-  "description": "À utiliser pour « pourquoi X fonctionne ainsi », « pourquoi on a choisi Y », les justifications de conception, les régressions, les post-mortems ou les seuils fondés sur des données. Renvoie une analyse sourcée des décisions et des compromis. Utilisez how pour le comportement à l'exécution.",
+  "description": "À utiliser pour « pourquoi X fonctionne ainsi », « pourquoi on a choisi Y », les justifications de conception, les régressions, les post-mortems ou les seuils fondés sur des données. Renvoie une analyse sourcée des décisions et des compromis. Utilise how pour le comportement à l'exécution.",
   "brief": {
     "compare": [
       {
         "without": "Devine une raison à partir du code lui-même.",
-        "with": "Lit les commits et discussions de PR à son origine ainsi que ceux de chaque modification ultérieure, puis d'autres sources si la piste est mince."
+        "with": "Lit les commits et discussions de PR à son origine ainsi que ceux de chaque modification ultérieure, puis d'autres sources si cette piste ne donne pas grand-chose."
       },
       {
         "without": "Présente une raison devinée comme un fait.",
@@ -15,30 +15,30 @@
         "with": "Dit ce à quoi l'historique ne répond pas."
       }
     ],
-    "intro": "Il répond au pourquoi à partir de l'historique, pas du code : les commits et les discussions de PR, puis d'autres sources si la piste est mince. Il cite les auteurs, signale les déductions et nomme ce que l'historique laisse en suspens.",
+    "intro": "Il répond au pourquoi à partir de l'historique, pas du code : les commits et les discussions de PR, puis d'autres sources si cette piste ne donne pas grand-chose. Il cite les auteurs, signale les déductions et nomme ce que l'historique laisse en suspens.",
     "sections": []
   },
   "lessons": [
     {
       "quote": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
-      "quoteTr": "Répondez à partir de l'historique, pas du code : lisez les commits et les discussions de PR qui ont introduit l'élément ciblé ainsi que chaque modification ultérieure, et d'autres sources si la piste est mince.",
-      "title": "Indiquez où se trouve la réponse",
+      "quoteTr": "Réponds à partir de l'historique, pas du code : lis les commits et les discussions de PR qui ont introduit l'élément ciblé ainsi que chaque modification ultérieure, et d'autres sources si cette piste ne donne pas grand-chose.",
+      "title": "Indiquer où se trouve la réponse",
       "does": "Il lit les commits et discussions de PR d'origine au lieu d'inventer une raison plausible à partir du code.",
       "why": "Le code montre le « quoi », pas le « pourquoi » ; préciser quel historique lire, en passant par chaque modification ultérieure, ne laisse aucune marge pour avancer une supposition.",
       "try": "Quand vous demandez pourquoi, indiquez la source : « Lis le commit et la discussion qui ont ajouté ce paramètre, ainsi que chaque modification depuis, pas seulement le code actuel. »"
     },
     {
       "quote": "Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer.",
-      "quoteTr": "Citez ce que les auteurs ont écrit, signalez vos propres déductions comme des déductions et dites ce à quoi l'historique ne répond pas.",
-      "title": "Demandez de séparer faits et suppositions",
+      "quoteTr": "Cite ce que les auteurs ont écrit, signale tes propres déductions comme des déductions et dis ce à quoi l'historique ne répond pas.",
+      "title": "Demander de séparer faits et suppositions",
       "does": "Les citations des auteurs, ses propres déductions et les zones d'ombre sont séparées, vous savez donc à quelles lignes vous fier d'emblée.",
       "why": "Un récit de « pourquoi » est facile à lisser ; étiqueter les déductions et nommer les zones d'ombre empêchent les suppositions de se mêler aux faits.",
       "try": "Quand vous demandez pourquoi, ajoutez : « Cite ce qui a une source, étiquette tes propres suppositions “supposition” et dis clairement ce que tu n'as pas trouvé. »"
     },
     {
       "quote": "Use how for runtime behavior.",
-      "quoteTr": "Utilisez how pour le comportement à l'exécution.",
-      "title": "Dites ce qui n'est pas son rôle",
+      "quoteTr": "Utilise how pour le comportement à l'exécution.",
+      "title": "Dire ce qui n'est pas son rôle",
       "does": "Les questions sur le comportement à l'exécution vont à `how`, au lieu de recevoir une réponse tirée de l'historique.",
       "why": "Un simple « quand l'utiliser » laisse les outils voisins se marcher sur les pieds ; ajouter qui s'occupe du reste trace la limite.",
       "try": "Quand vous répartissez le travail, marquez la limite : « Tu t'occupes du texte ; les questions de mise en page vont au design, n'y touche pas toi-même. »"
@@ -46,6 +46,6 @@
   ],
   "blocks": [
     "# Why",
-    "Répondez à partir de l'historique, pas du code : lisez les commits et les discussions de PR qui ont introduit l'élément ciblé ainsi que chaque modification ultérieure, et d'autres sources si la piste est mince. Citez ce que les auteurs ont écrit, signalez vos propres déductions comme des déductions et dites ce à quoi l'historique ne répond pas."
+    "Réponds à partir de l'historique, pas du code : lis les commits et les discussions de PR qui ont introduit l'élément ciblé ainsi que chaque modification ultérieure, et d'autres sources si cette piste ne donne pas grand-chose. Cite ce que les auteurs ont écrit, signale tes propres déductions comme des déductions et dis ce à quoi l'historique ne répond pas."
   ]
 }

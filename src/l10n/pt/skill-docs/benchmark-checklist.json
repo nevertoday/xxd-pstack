@@ -15,7 +15,7 @@
         "with": "Faz o profiling em uma execução separada para encontrar o gargalo e o mapeia para o código-fonte."
       }
     ],
-    "intro": "Use sempre que reportar um número de performance. Uma estimativa aproximada que você pediu precisa de uma execução, mas ainda verifica as perguntas 4 e 7.",
+    "intro": "Use sempre que reportar um número de performance. Para uma estimativa aproximada que você pediu, basta uma execução, mas a skill ainda verifica as perguntas 4 e 7.",
     "sections": [
       "Anota a afirmação a testar, lê o script de medição e verifica a carga da máquina com uptime e nproc.",
       "Responde a 7 perguntas: o que limita, se foi ajustado, se violou limites, se deu erro, se reproduz, se faz diferença e se aconteceu.",
@@ -28,7 +28,7 @@
       "quote": "Write down the claim you expect to make, in the words you would ship",
       "quoteTr": "Anote a afirmação que você espera fazer, com as palavras que publicaria",
       "title": "Escreva a afirmação antes de testar",
-      "does": "Antes de medir, escreve a frase que pretende reportar, e cada pergunta testa essa frase.",
+      "does": "Antes de medir, a IA escreve a frase que pretende reportar, e cada pergunta testa essa frase.",
       "why": "Uma afirmação concreta dá um alvo para as verificações, impedindo a IA de medir primeiro e inventar a história depois.",
       "try": "Antes de pesquisar, adicione: “Primeiro escreva a conclusão de uma linha que você espera me dar, como ‘a página inicial carrega duas vezes mais rápido’, e depois verifique se ela se sustenta.”"
     },
@@ -36,7 +36,7 @@
       "quote": "Removing a piece that takes 10% of the run can make the run at most about 11% faster.",
       "quoteTr": "Remover uma parte que leva 10% da execução pode deixá-la, no máximo, cerca de 11% mais rápida.",
       "title": "Use a aritmética como trava de segurança",
-      "does": "Quando um ganho de velocidade parece bom demais, verifica se isso é sequer possível e admite que a medição está ruim se não for.",
+      "does": "Quando um ganho de velocidade parece bom demais, a IA verifica se isso é sequer possível e admite que a medição está ruim se não for.",
       "why": "Um exemplo resolvido funciona melhor do que “não exagere”, porque a IA consegue refazer a conta sozinha.",
       "try": "Dê um limite que a IA consiga calcular: “Esta seção é um décimo do texto, então cortá-la economiza no máximo um décimo do tempo de leitura.”"
     },
@@ -68,6 +68,6 @@
     "## Relatório",
     "- Comece pelo veredito: mais rápido, mais lento, sem diferença mensurável ou inconclusivo.\n- Informe o número com sua unidade, a quantidade de execuções, a faixa e o gargalo. Por exemplo: “p50 41 ms → 33 ms, mediana de 7 execuções por lado, faixa de 32 a 35 ms depois, limitado por parsing de JSON em um núcleo.”\n- Declare o veredito como inconclusivo quando afirmar que há diferença, mas não conseguir apontar o gargalo, quando um lado rodou sem ajustes ou quando não conseguiu verificar as perguntas 4 e 7. Aponte o que faltou.\n- Deixe apenas um número principal na descrição do PR. Coloque as execuções, a faixa e as evidências do gargalo em um artefato com link ou em um arquivo de notas.",
     "## Outros materiais de performance",
-    "- Verifique a baseline do playbook **Problema de performance** antes de o playbook planejar a partir dela, e cada número depois disso.\n- Verifique o harness do playbook **Hillclimb** antes de congelá-lo. O harness congelado passa a exibir as contagens de erros e de trabalho, então cada decisão de manter ou reverter verifica as perguntas 4 e 7 de graça."
+    "- Verifique a baseline do playbook **Perf issue** antes de o playbook planejar a partir dela, e cada número depois disso.\n- Verifique o harness do playbook **Hillclimb** antes de congelá-lo. O harness congelado passa a exibir as contagens de erros e de trabalho, então cada decisão de manter ou reverter verifica as perguntas 4 e 7 de graça."
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "description": "Lance N candidatos em paralelo na mesma tarefa, escolha uma base e enxerte nela as partes mais fortes dos perdedores. Use para /arena, “faça uma arena disso”, “jogue isso na arena” ou quando uma única tentativa em um artefato não trivial poderia travar o resultado no formato errado.",
+  "description": "Lance N candidatos em paralelo na mesma tarefa, escolha uma base e enxerte nela as partes mais fortes dos perdedores. Use para /arena, “arena this”, “throw it in the arena” ou quando uma única tentativa em um artefato não trivial poderia travar o resultado no formato errado.",
   "brief": {
     "compare": [
       {
@@ -15,7 +15,7 @@
         "with": "Escolhe uma base e incorpora à mão uma ou duas ideias das outras."
       }
     ],
-    "intro": "Abre uma lista de tarefas com um item para cada fase antes de iniciar qualquer coisa.",
+    "intro": "A skill abre uma lista de tarefas com um item para cada fase antes de iniciar qualquer coisa.",
     "sections": [
       "Define o que cada candidato produz, cria uma grade de avaliação de 3 a 6 pontos, escolhe os executores e dá a cada um seu próprio worktree (uma segunda pasta de trabalho ligada ao mesmo repositório Git).",
       "Dispara todos os executores em uma única mensagem. Cada um devolve o trabalho e uma justificativa dizendo o que rejeitou.",
@@ -31,7 +31,7 @@
       "quote": "Every candidate gets the same prompt, so the prompt is the contract.",
       "quoteTr": "Todo candidato recebe o mesmo prompt, então o prompt é o contrato.",
       "title": "Escreva o prompt como um contrato",
-      "does": "Escreve a tarefa e as regras de pontuação antes de enviar qualquer candidato, para que as versões possam ser comparadas de forma justa.",
+      "does": "A IA escreve a tarefa e as regras de pontuação antes de enviar qualquer candidato, para que as versões possam ser comparadas de forma justa.",
       "why": "Chamar o prompt de contrato lembra a IA de que nada que ficou de fora pode ser cobrado de um candidato depois, então ela coloca tudo por escrito.",
       "try": "Quando várias IAs ou pessoas forem fazer o mesmo trabalho, dê uma instrução única: “Uma página, menos de 800 palavras, três exemplos reais.”"
     },
@@ -39,7 +39,7 @@
       "quote": "Score each against the rubric criterion by criterion, not on holistic feel",
       "quoteTr": "Dê nota a cada um segundo a grade de avaliação, critério por critério, não pela sensação geral",
       "title": "Dê notas com uma grade de avaliação",
-      "does": "Ao escolher uma base, mostra a nota de cada versão em cada ponto, para você ver por que escolheu aquela.",
+      "does": "Ao escolher uma base, a IA mostra a nota de cada versão em cada ponto, para você ver por que ela escolheu aquela.",
       "why": "A sensação geral se deixa levar pelo acabamento ou pelo tamanho; pontuar ponto a ponto divide uma decisão nebulosa em pequenas decisões verificáveis.",
       "try": "Ao comparar opções, passe a grade de avaliação: “Dê nota de 1 a 5 para velocidade, custo e facilidade de mudança, depois escolha.”"
     },
@@ -55,8 +55,8 @@
       "quote": "Reframe and re-run rather than averaging the divergence.",
       "quoteTr": "Reenquadre e rode de novo, em vez de tirar uma média da divergência.",
       "title": "Rastreie resultados ruins até a pergunta",
-      "does": "Quando as versões divergem demais, reformula a tarefa e roda de novo, em vez de costurar tudo numa bagunça.",
-      "why": "Encara resultados bagunçados como uma pergunta mal formulada, então a IA corrige a origem em vez de ficar no meio-termo.",
+      "does": "Quando as versões divergem demais, a IA reformula a tarefa e roda de novo, em vez de costurar tudo numa bagunça.",
+      "why": "A skill encara resultados bagunçados como uma pergunta mal formulada, então a IA corrige a origem em vez de ficar no meio-termo.",
       "try": "Quando respostas da IA se contradizem, não peça um meio-termo; pergunte: “O que ficou pouco claro no meu pedido que levou a respostas tão diferentes?”"
     }
   ],
@@ -65,7 +65,7 @@
     "Abra uma lista de tarefas com um item para cada fase (Enquadramento, Disparo em paralelo, Julgamento cruzado, Escolha, Enxerto, Verificação) antes de iniciar qualquer coisa.",
     "## Fase A: Enquadramento",
     "Todo candidato recebe o mesmo prompt, então o prompt é o contrato.",
-    "1. Defina qual artefato cada candidato vai produzir.\n2. Monte a grade de avaliação com 3 a 6 critérios concretos e pontuáveis que definam o que é sucesso *nesta* tarefa. Ela é a ferramenta de quem escolhe na Fase D. Os candidatos só veem a tarefa.\n3. Escolha os executores na linha `arena runners` do arquivo de configuração do pstack (`~/.cursor/rules/pstack-models.mdc` no Cursor, `~/.claude/rules/pstack-models.md` no Claude Code e `~/.agents/pstack-models.md` em outros harnesses — ferramentas que rodam a IA), por padrão `claude-fable-5-2-high`, `claude-opus-5-5-high-fast` e `gemini-4-neon-xhigh`. Uma entrada `auto` ou `inherit-parent` representa o modelo pai; nesse caso, omita `model` e crie um subagente de uso geral (`generalPurpose` no Cursor). Se a sua ferramenta de subagentes rejeitar um slug, use o slug válido mais próximo da mesma família que aparecer na mensagem de erro ou na lista de modelos do seu harness, ou retire essa vaga, mantenha pelo menos dois executores e avise sobre isso. As famílias seguem o prefixo e vence a correspondência mais longa: `claude-fable-*`, `claude-*` e `gemini-*`, depois de remover um `cursor-` inicial. A família de qualquer outro slug é o texto antes do primeiro hífen. Crie mais subagentes para explorar várias direções de design e repita um mesmo modelo quando o trabalho depender mais de geração do que de julgamento. Escolha o nível de raciocínio de cada subagente conforme a seção Subagentes da skill **poteto-mode**.\n4. Dê a cada candidato o seu próprio local de saída (um worktree do Git sempre que possível; caso contrário, `/tmp/arena-<slug>/candidate-<n>/`), conforme a skill de princípio **separate-before-serializing-shared-state**.",
+    "1. Defina qual artefato cada candidato vai produzir.\n2. Monte a grade de avaliação com 3 a 6 critérios concretos e pontuáveis que definam o que é sucesso *nesta* tarefa. Ela é a ferramenta de quem escolhe na Fase D. Os candidatos só veem a tarefa.\n3. Escolha os executores na linha `arena runners` do arquivo de configuração do pstack (`~/.cursor/rules/pstack-models.mdc` no Cursor, `~/.claude/rules/pstack-models.md` no Claude Code e `~/.agents/pstack-models.md` em outros harnesses), por padrão `claude-fable-5-2-high`, `claude-opus-5-5-high-fast` e `gemini-4-neon-xhigh`. Uma entrada `auto` ou `inherit-parent` representa o modelo pai; nesse caso, omita `model` e crie um subagente de uso geral (`generalPurpose` no Cursor). Se a sua ferramenta de subagentes rejeitar um slug, use o slug válido mais próximo da mesma família que aparecer na mensagem de erro ou na lista de modelos do seu harness, ou retire essa vaga, mantenha pelo menos dois executores e avise sobre isso. As famílias seguem o prefixo e vence a correspondência mais longa: `claude-fable-*`, `claude-*` e `gemini-*`, depois de remover um `cursor-` inicial. A família de qualquer outro slug é o texto antes do primeiro hífen. Crie mais subagentes para explorar várias direções de design e repita um mesmo modelo quando o trabalho depender mais de geração do que de julgamento. Escolha o nível de raciocínio de cada subagente conforme a seção Subagentes da skill **poteto-mode**.\n4. Dê a cada candidato o seu próprio local de saída (um worktree do Git sempre que possível; caso contrário, `/tmp/arena-<slug>/candidate-<n>/`), conforme a skill de princípio **separate-before-serializing-shared-state**.",
     "## Fase B: Disparo em paralelo",
     "Crie todos os N subagentes em uma única mensagem com `run_in_background: true`, cada um recebendo a tarefa, o caminho para o material de base compartilhado, o próprio caminho de saída e instruções para produzir o artefato e uma breve justificativa citando as alternativas que considerou e o que rejeitou.",
     "Se um candidato não produzir saída, siga com N-1 e registre a ausência.",

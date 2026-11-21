@@ -8,7 +8,7 @@
       },
       {
         "without": "Revisa o próprio trabalho e diz que está tudo bem.",
-        "with": "Faz um modelo de outro fornecedor revisar o rastro e termina com uma seção Atenção."
+        "with": "Faz um modelo de outro fornecedor revisar o rastro e termina com uma seção Attention (o que precisa da sua atenção)."
       },
       {
         "without": "Confia no próprio log do jeito que foi escrito.",
@@ -22,7 +22,7 @@
       "Mantém o log em decisions.tsv no diretório de trabalho, fora do git, fazendo commit só quando quem revisa precisa do rastro.",
       "Somente adição: uma nova linha substitui uma errada. Evidências de scripts com commit valem mais do que checagens avulsas.",
       "Antes de devolver o trabalho, lê a transcrição desta execução, confere cada linha e sua evidência e adiciona linhas para lacunas e erros.",
-      "Uma IA ajudante em um modelo de outro fornecedor revisa o rastro. A resposta termina com uma seção Atenção indicando esse modelo.",
+      "Uma IA ajudante em um modelo de outro fornecedor revisa o rastro. A resposta termina com uma seção Attention indicando esse modelo.",
       "Orienta você a ler de cima para baixo, seguir os ponteiros de evidência e exibir o TSV com column no terminal.",
       "Outras skills encaminham seu rastro de auditoria para esta e deixam o formato a cargo dela."
     ]
@@ -54,9 +54,9 @@
     },
     {
       "quote": "\"No flags\" is a valid value.",
-      "quoteTr": "“Sem alertas” é um valor válido.",
+      "quoteTr": "“No flags” é um valor válido.",
       "title": "Diga que “nenhum” é uma resposta",
-      "does": "Quando a revisão não encontra nada, a IA escreve “Sem alertas” em vez de inventar alguns só para parecer útil.",
+      "does": "Quando a revisão não encontra nada, a IA escreve “No flags” em vez de inventar alguns alertas só para parecer útil.",
       "why": "Quando uma resposta vazia vale, a IA não tem motivo para inventar problemas.",
       "try": "Quando pedir para apontar problemas, acrescente: “Se não encontrar riscos, diga ‘nenhum’; não encha a lista.”"
     }
@@ -87,7 +87,7 @@
     "## Revisão do rastro entre modelos",
     "Antes de devolver o trabalho, inicie um subagente em um modelo de um fornecedor diferente do que fez o trabalho. Autorrevisão não substitui isso. O subagente lê o rastro de auditoria e a transcrição da execução e sinaliza o que merece atenção do usuário. Não é para refazer o trabalho, mas uma varredura em busca do que está abaixo do ideal ou arriscado. Escolha o nível de raciocínio de cada subagente conforme a tarefa, de acordo com a seção Subagentes da skill **poteto-mode**.",
     "- Decisões registradas com evidência fraca ou ausente.\n- Etapas de verificação puladas ou declaradas sem prova na transcrição.\n- Escolhas que parecem arriscadas em retrospecto (prematuras, que ampliam o escopo, que mascaram um sintoma).\n- Lacunas que o usuário deixaria passar numa leitura rápida.",
-    "Toda resposta de uma execução que gerou um rastro termina com uma seção “Atenção”. Comece com o modelo revisor em uma linha própria (`reviewed by <model>`) e depois liste cada alerta apontando para linhas ou momentos específicos. “Sem alertas” é um valor válido. O nome do modelo não é opcional.",
+    "Toda resposta de uma execução que gerou um rastro termina com uma seção “Attention”. Comece com o modelo revisor em uma linha própria (`reviewed by <model>`) e depois liste cada alerta apontando para linhas ou momentos específicos. “No flags” é um valor válido. O nome do modelo não é opcional.",
     "## Revisando o rastro",
     "Leia de cima para baixo, siga os ponteiros de evidência e faça verificações pontuais. O GitHub exibe um TSV com commit como tabela. `column -s$'\\t' -t decisions.tsv` exibe o arquivo no terminal.",
     "## Compondo esta skill",

@@ -1,9 +1,9 @@
 {
-  "description": "Gib in eigenen Worten wieder, was deiner Einschätzung nach die Ziele des Nutzers sind und welches Problem gelöst werden soll. Für /in-your-own-words verwenden.",
+  "description": "Gib in eigenen Worten wieder, was deiner Einschätzung nach die Ziele des Nutzers sind und welches Problem er zu lösen versucht. Für /in-your-own-words verwenden.",
   "brief": {
     "compare": [
       {
-        "without": "Gibt deine Worte eins zu eins wieder, sodass du nicht merkst, ob sie es verstanden hat.",
+        "without": "Gibt deine Worte eins zu eins wieder, sodass du nicht merkst, ob die KI es verstanden hat.",
         "with": "Formuliert deine Ziele in eigenen Worten."
       },
       {
@@ -37,7 +37,7 @@
     },
     {
       "quote": "what problem they're trying to solve",
-      "quoteTr": "welches Problem gelöst werden soll",
+      "quoteTr": "welches Problem er zu lösen versucht",
       "title": "Ziel und Problem getrennt abfragen",
       "does": "Die KI sagt, was du erreichen willst und was dich blockiert – so siehst du, welche Hälfte sie falsch verstanden hat.",
       "why": "Das Ziel ist, wohin du willst, und das Problem ist, was im Weg steht; beides abzufragen zeigt, wo die Lücke liegt.",
@@ -45,6 +45,6 @@
     }
   ],
   "blocks": [
-    "Gib in eigenen Worten wieder, was deiner Einschätzung nach die Ziele des Nutzers sind und welches Problem gelöst werden soll."
+    "Gib in eigenen Worten wieder, was deiner Einschätzung nach die Ziele des Nutzers sind und welches Problem er zu lösen versucht."
   ]
 }

@@ -7,7 +7,7 @@
         "with": "Cita o mecanismo ou um número e corta frases que serviriam sem alteração em outro projeto."
       },
       {
-        "without": "Diz “especialistas acreditam” sem citar ninguém.",
+        "without": "Diz “experts believe” sem citar ninguém.",
         "with": "Cita a fonte ou apaga a afirmação."
       },
       {
@@ -31,7 +31,7 @@
       "quote": "Name the actor unless it is unknown or doesn't matter.",
       "quoteTr": "Nomeie quem age, a menos que não se saiba quem é ou isso não importe.",
       "title": "Escreva a exceção na própria regra",
-      "does": "Reescreve frases na voz passiva para nomear quem age e mantém a passiva só quando não se sabe quem é ou isso não importa.",
+      "does": "A skill reescreve frases na voz passiva para nomear quem age e mantém a passiva só quando não se sabe quem é ou isso não importa.",
       "why": "Deixar a exceção explícita dentro da regra impede a IA de reescrever todas as frases na passiva, inclusive as que deveriam ficar.",
       "try": "Coloque a exceção no pedido: “Dê um subtítulo para cada parágrafo, exceto os parágrafos de uma ou duas frases.”"
     },
@@ -47,7 +47,7 @@
       "quote": "One name per thing. Repeat it.",
       "quoteTr": "Um nome para cada coisa. Repita.",
       "title": "Diga que tudo bem repetir",
-      "does": "Chama cada coisa por uma única palavra do começo ao fim, em vez de ficar trocando de sinônimo para variar.",
+      "does": "A skill chama cada coisa por uma única palavra do começo ao fim, em vez de ficar trocando de sinônimo para variar.",
       "why": "“Repita” dá permissão explícita, então a IA para de renomear a mesma coisa até os leitores acharem que são várias.",
       "try": "Ao pedir uma revisão, adicione: “Chame de ‘pedido’ em todo o texto. Não troque para ‘compra’ ou ‘transação’.”"
     }
@@ -56,6 +56,6 @@
     "# Unslop",
     "Edite o texto para remover padrões de IA. Procure os padrões abaixo e depois reescreva. Preserve o sentido e mantenha o tom pretendido.",
     "Os números das regras são IDs estáveis que outras skills citam. Uma regra removida deixa uma lacuna.",
-    "3. Sem trechos no gerúndio no fim da frase que não trazem nenhum fato (“destacando…”, “garantindo…”).\n5. Sem atribuições vagas (“especialistas acreditam”). Cite a fonte ou apague.\n7. Sem vocabulário de IA: adicionalmente, crucial, mergulhar, aprimorar, fomentar, cenário, decisivo, destacar, testemunho, ressaltar, vibrante.\n8. Diga “é” ou “tem”, não “serve como”, “figura como”, “ostenta”, “conta com”.\n9. Sem “não apenas X, mas Y”. Vá direto ao ponto.\n10. Não force ideias em grupos de três.\n11. Um nome para cada coisa. Repita.\n12. Sem “de X a Y”, a menos que X e Y estejam em uma escala real.\n13. Sem travessões, meias-riscas ou hifens usados como travessão, nem parênteses no lugar deles. Use ponto ou vírgula.\n14. Dois-pontos vão antes de uma lista ou de um exemplo, nunca no meio da frase como conector.\n15. Não coloque em negrito todo nome próprio ou sigla.\n16. Sem rótulo em negrito com dois-pontos que repete a própria linha (“**Performance:** A performance melhorou…”). Tudo bem usar uma abertura em negrito que termina em ponto e traz um detalhe novo.\n17. Títulos com apenas a primeira letra maiúscula.\n18. Sem emojis decorativos.\n19. Aspas retas.\n20. Sem frases de chatbot (“Espero que ajude!”, “Me avise se…”).\n22. Sem aberturas com elogios ou concordância. Responda diretamente.\n23. Corte a enrolação. “A fim de” vira “para”. Apague “é importante notar que”.\n24. No máximo uma ressalva: “pode”.\n25. Sem conclusões genéricas. Apresente planos ou fatos específicos.\n26. Sem substantivos metafóricos abstratos: substrato, cunha, vetor, nexo, primitiva, harness, superfície, andaime, paradigma, catraca, estrela-guia, volante de inércia. Use a palavra concreta.\n27. Diga o que faz, não a sensação que passa. Cite o mecanismo ou o número. Corte qualquer frase que poderia aparecer sem alteração na documentação de outro projeto.\n28. Uma ideia por frase. Divida qualquer frase que o leitor precise reler.\n29. Voz ativa. Nomeie quem age, a menos que não se saiba quem é ou isso não importe.\n30. Corte advérbios ou use um verbo mais forte. Dê o número.\n31. Use a palavra simples: “usar”, não “utilizar” ou “alavancar”.\n32. Sem metáfora, aforismo, código personificado ou verbo figurado quando existir uma expressão literal.\n33. Escreva frases completas, com seus artigos e verbos. Escreva setas e abreviações por extenso."
+    "3. Sem trechos com “-ing” no fim da frase que não trazem nenhum fato (“highlighting...”, “ensuring...”).\n5. Sem atribuições vagas (“experts believe”). Cite a fonte ou apague.\n7. Sem vocabulário de IA: additionally, crucial, delve, enhance, foster, landscape, pivotal, showcase, testament, underscore, vibrant.\n8. Diga “is” ou “has”, não “serves as”, “stands as”, “boasts”, “features”.\n9. Sem “not just X, but Y”. Vá direto ao ponto.\n10. Não force ideias em grupos de três.\n11. Um nome para cada coisa. Repita.\n12. Sem “from X to Y”, a menos que X e Y estejam em uma escala real.\n13. Sem travessões, meias-riscas ou hifens usados como travessão, nem parênteses no lugar deles. Use ponto ou vírgula.\n14. Dois-pontos vão antes de uma lista ou de um exemplo, nunca no meio da frase como conector.\n15. Não coloque em negrito todo nome próprio ou sigla.\n16. Sem rótulo em negrito com dois-pontos que repete a própria linha (“**Performance:** Performance improved...”). Tudo bem usar uma abertura em negrito que termina em ponto e traz um detalhe novo.\n17. Títulos com apenas a primeira letra maiúscula.\n18. Sem emojis decorativos.\n19. Aspas retas.\n20. Sem frases de chatbot (“I hope this helps!”, “Let me know if...”).\n22. Sem aberturas com elogios ou concordância. Responda diretamente.\n23. Corte a enrolação. “In order to” vira “to”. Apague “it is important to note that”.\n24. No máximo uma ressalva: “may”.\n25. Sem conclusões genéricas. Apresente planos ou fatos específicos.\n26. Sem substantivos metafóricos abstratos: substrate, wedge, vector, nexus, primitive, harness, surface, scaffolding, paradigm, ratchet, north star, flywheel. Use a palavra concreta.\n27. Diga o que faz, não a sensação que passa. Cite o mecanismo ou o número. Corte qualquer frase que poderia aparecer sem alteração na documentação de outro projeto.\n28. Uma ideia por frase. Divida qualquer frase que o leitor precise reler.\n29. Voz ativa. Nomeie quem age, a menos que não se saiba quem é ou isso não importe.\n30. Corte advérbios ou use um verbo mais forte. Dê o número.\n31. Use a palavra simples: “use”, não “utilize” ou “leverage”.\n32. Sem metáfora, aforismo, código personificado ou verbo figurado quando existir uma expressão literal.\n33. Escreva frases completas, com seus artigos e verbos. Escreva setas e abreviações por extenso."
   ]
 }

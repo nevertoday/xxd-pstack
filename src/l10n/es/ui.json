@@ -5,7 +5,7 @@
     "skip": "Ir al contenido",
     "menu": "Abrir menú",
     "search": "Buscar en la guía",
-    "searchPh": "Busca lecciones, pasos, skills, términos…",
+    "searchPh": "Busca pasos, how-to, skills, términos, preguntas…",
     "searchEmpty": "No hay resultados. Prueba con otra palabra",
     "look": "Apariencia y comandos",
     "lang": "Idioma",
@@ -71,7 +71,7 @@
       "No necesitas saber programar",
       "."
     ],
-    "cta": "Empieza aquí si eres nuevo",
+    "cta": "Empieza aquí si eres principiante",
     "ctaFull": "Sé programar: la guía completa",
     "ctaNote": "Para principiantes: tres lecciones, 20 minutos.",
     "painH": "¿Te ha pasado esto?",
@@ -101,7 +101,7 @@
         "Te dice qué comprobó de verdad y qué vio, y te avisa claramente de lo que no pudo comprobar"
       ]
     ],
-    "lessonsH": "Si empiezas, te bastan tres lecciones",
+    "lessonsH": "Para empezar, te bastan tres lecciones",
     "lessonsP": "Léelas en orden, 20 minutos en total. Con estas tres ya puedes usarlo. Lo demás del sitio es para consultarlo después.",
     "lessonsLabel": "Para principiantes: 3 lecciones",
     "fitH": "¿Es para ti?",
@@ -118,7 +118,7 @@
       "Solo quieres lo más rápido y barato: pstack comprueba más, así que es más lento y gasta más de tu plan"
     ],
     "devH": "Si sabes programar",
-    "devP": "pstack es el paquete de skills que poteto (exmiembro del equipo principal de React; creó pstack en Cursor y ahora desarrolla Grok Bot) usa a diario en su propio código: 34 skills, 22 playbooks y 24 principios de ingeniería. Abajo están los cuatro pasos que sigue en cada tarea y la guía completa de 9 pasos.",
+    "devP": "pstack es el paquete de skills que poteto (exmiembro del equipo principal de React; creó pstack en Cursor y ahora desarrolla Grok Bot) usa a diario en su propio código: 34 skills, 22 playbooks y 24 principios de ingeniería. Abajo están los cuatro pasos que sigue pstack en cada tarea y la guía completa de 9 pasos.",
     "FLOW": [
       [
         "Dices una frase",
@@ -126,14 +126,14 @@
       ],
       [
         "/poteto-mode elige un playbook",
-        "Escoge uno de los 22 playbooks y copia sus pasos tal cual en la lista de tareas."
+        "La skill escoge uno de los 22 playbooks y copia sus pasos tal cual en la lista de tareas."
       ],
       [
         "Las skills van paso a paso",
         "/how para leer código, /architect para decidir un diseño, /interrogate para buscarle fallos; IA ayudantes cuando hay mucho trabajo."
       ],
       [
-        "Comprueba antes de entregar",
+        "Lo comprueba antes de entregártelo",
         "Salida real de comandos, capturas de pantalla, el antes y el después. Si algo no se puede verificar, lo dice."
       ]
     ],
@@ -226,7 +226,7 @@
       ". ",
       "No hace falta memorizarlas.",
       " En el día a día, escribe ",
-      " y él mismo llama a las «Auto». Ven aquí para llamar a una por su nombre o buscar un nombre que mencionó la IA. Haz clic en una tarjeta para ver en qué se diferencia de pedirlo directamente, qué dice su documento y el texto completo."
+      " y la skill llama por sí sola a las «Auto». Ven aquí para llamar a una por su nombre o buscar un nombre que mencionó la IA. Haz clic en una tarjeta para ver en qué se diferencia de pedirlo directamente, qué dice su documento y el texto completo."
     ],
     "all": "Todas",
     "auto": "Auto",

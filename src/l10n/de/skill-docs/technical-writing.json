@@ -36,9 +36,9 @@
     },
     {
       "quote": "Use the short, everyday word: \"use\", not \"utilize\".",
-      "quoteTr": "Nimm das kurze Alltagswort: „nutzen“, nicht „verwenden“.",
+      "quoteTr": "Nimm das kurze Alltagswort: „prüfen“, nicht „einer Prüfung unterziehen“.",
       "title": "Gib zur Regel ein Tauschbeispiel",
-      "does": "Die KI nimmt standardmäßig kurze Alltagswörter und ersetzt ein längeres Wort wie „verwenden“ durch „nutzen“.",
+      "does": "Die KI nimmt standardmäßig kurze Alltagswörter und ersetzt eine lange Wendung wie „einer Prüfung unterziehen“ durch „prüfen“.",
       "why": "Wenn du die Regel mit einem konkreten „dies, nicht das“ kombinierst, kann die KI den Tausch übernehmen, statt zu raten, was als einfach gilt.",
       "try": "Für schlichtere Sprache gib ein Tauschbeispiel mit: „Schreib ‚nutzen‘, nicht ‚Gebrauch machen von‘.“"
     },
@@ -70,7 +70,7 @@
   "blocks": [
     "# Technisches Schreiben",
     "Schreib so, dass ein müder Entwickler es beim ersten Lesen versteht.",
-    "- Streich jedes Wort, das keine Arbeit leistet.\n- Nimm das kurze Alltagswort: „nutzen“, nicht „verwenden“.\n- Wenn eine Regel einen Satz schlechter macht, verbessere ihn anders oder lass ihn so.\n- Schreib den echten Symbol-, Datei-, Flag- oder Befehlsnamen, kein Synonym und keine Umschreibung davon.\n- Erfinde keinen Jargon. Nutze die Wörter, die ein Entwickler laut aussprechen würde. Erkläre beim ersten Mal, was ein benanntes Muster bedeutet.",
+    "- Streich jedes Wort, das keine Arbeit leistet.\n- Nimm das kurze Alltagswort: „prüfen“, nicht „einer Prüfung unterziehen“.\n- Wenn eine Regel einen Satz schlechter macht, verbessere ihn anders oder lass ihn so.\n- Schreib den echten Symbol-, Datei-, Flag- oder Befehlsnamen, kein Synonym und keine Umschreibung davon.\n- Erfinde keinen Jargon. Nutze die Wörter, die ein Entwickler laut aussprechen würde. Erkläre beim ersten Mal, was ein benanntes Muster bedeutet.",
     "## Variiere den Rhythmus",
     "- Misch die Satzlängen. Teile den Satz, der zwei Gedanken trägt. Behalte den langen Satz, der nur einen trägt.\n- Bezieh in Erklärungen Position. Halte Referenzen trocken.\n- Sei konkret. Nicht „Schema-Änderungen können Probleme verursachen“, sondern „das Umbenennen einer Spalte lässt den Build fehlschlagen“.",
     "## Wähle zuerst den Modus (Diátaxis)",

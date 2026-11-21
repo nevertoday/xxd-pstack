@@ -3,25 +3,25 @@
   "brief": {
     "compare": [
       {
-        "without": "Demuestra una funcionalidad mediante setters internos o endpoints solo para tests.",
-        "with": "Sigue el recorrido real del usuario y comprueba los archivos y las filas que escribió."
+        "without": "La IA demuestra una funcionalidad mediante setters internos o endpoints solo para tests.",
+        "with": "La IA sigue el recorrido real del usuario y comprueba los archivos y las filas que escribió."
       },
       {
-        "without": "Borra las capturas de pantalla y los logs junto con la limpieza.",
-        "with": "Confirma que la evidencia sigue en la ubicación indicada después de la limpieza."
+        "without": "La IA borra las capturas de pantalla y los logs junto con la limpieza.",
+        "with": "La IA confirma que la evidencia sigue en la ubicación indicada después de la limpieza."
       },
       {
-        "without": "Mata procesos por nombre, incluida la instancia que estás usando.",
-        "with": "Detiene solo las instancias que inició esta ejecución."
+        "without": "La IA mata procesos por nombre, incluida la instancia que estás usando.",
+        "with": "La IA detiene solo las instancias que inició esta ejecución."
       }
     ],
-    "intro": "Genera una skill `verify-<app>` local del proyecto que arranca la app real, la maneja como un usuario y captura evidencia, redactada para un agente que nunca ha visto la app.",
+    "intro": "`/create-verification-skill` genera una skill `verify-<app>` local del proyecto que arranca la app real, la maneja como un usuario y captura evidencia, redactada para un agente que nunca ha visto la app.",
     "sections": [
-      "Responde cinco preguntas a partir del código: superficie, comando de arranque, cómo controlar la app, qué evidencia existe y aislamiento.",
-      "Escribe `SKILL.md` con frontmatter y seis secciones —Arranque, Diagnóstico, Control, Evidencia, Limpieza y Utilidades— usando los comandos reales del repo.",
-      "Escribe archivos en `features/` para las 3 a 5 funcionalidades principales: cómo llegar a cada una, cómo controlarla y qué demuestra que funciona.",
-      "Sigue la skill de principio a fin en una funcionalidad del mapa. Solo pasa si la evidencia sobrevive a la limpieza.",
-      "Te remite a `/maintain-verification-skill` para mantener el mapa al día y solo sugiere una frecuencia si se lo pides."
+      "La IA responde cinco preguntas a partir del código: superficie, comando de arranque, cómo controlar la app, qué evidencia existe y aislamiento.",
+      "La IA escribe `SKILL.md` con frontmatter y seis secciones (Launch, Doctor, Drive, Evidence, Cleanup y Helpers) usando los comandos reales del repo.",
+      "La IA escribe archivos en `features/` para las 3 a 5 funcionalidades principales: cómo llegar a cada una, cómo controlarla y qué demuestra que funciona.",
+      "La IA sigue la skill de principio a fin en una funcionalidad del mapa. La verificación solo pasa si la evidencia sobrevive a la limpieza.",
+      "La IA te remite a `/maintain-verification-skill` para mantener el mapa al día y solo sugiere una frecuencia si se lo pides."
     ]
   },
   "lessons": [
@@ -37,7 +37,7 @@
       "quote": "Answer these from the codebase and only ask the user what you cannot observe",
       "quoteTr": "Responde estas preguntas a partir de la base de código y pregúntale al usuario solo lo que no puedas observar",
       "title": "Busca antes de preguntar",
-      "does": "Lee el código para encontrar comandos de arranque, puertos y herramientas de test, y te pregunta solo lo que de verdad no puede encontrar.",
+      "does": "La IA lee el código para encontrar comandos de arranque, puertos y herramientas de test, y te pregunta solo lo que de verdad no puede encontrar.",
       "why": "Una indicación clara de «busca primero, pregunta después» evita que la IA adivine y que te devuelva trabajo que ella misma podría hacer.",
       "try": "Cuando encargues una tarea, añade: «Busca primero en el proyecto todo lo que puedas y luego pregúntame el resto en un solo mensaje»."
     },
@@ -53,7 +53,7 @@
       "quote": "A generated skill that was never executed is a draft, not a deliverable.",
       "quoteTr": "Una skill generada que nunca se ejecutó es un borrador, no un entregable.",
       "title": "Renombra lo que no está terminado",
-      "does": "Antes de entregarla, ejecuta la nueva skill de principio a fin; así recibes una que ya se ejecutó, no una que solo se escribió.",
+      "does": "Antes de entregarla, la IA ejecuta la nueva skill de principio a fin; así recibes una que ya se ejecutó, no una que solo se escribió.",
       "why": "Llamar «borrador» al trabajo sin probar evita que la IA trate lo escrito como terminado.",
       "try": "Pon un listón para la entrega: «Una página que no has abierto en un teléfono es un borrador; no me la envíes»."
     }
@@ -67,7 +67,7 @@
     "Si la copia de trabajo no compila ni arranca tal cual está, arréglalo primero (o infórmalo con precisión) antes de generarla; una skill escrita sobre una base rota enseña pasos erróneos. Cuando falta un recurso irrelevante que bloquea el arranque (un directorio estático que la API nunca sirve, un archivo de configuración de ejemplo), la skill generada puede crearlo, marcado claramente como andamiaje de verificación, y eliminarlo en la limpieza.",
     "## 2. Genera la skill",
     "Escribe `<skills>/verify-<app>/SKILL.md` con frontmatter YAML (`name: verify-<app>` y una `description` que indique la app, la superficie y cuándo recurrir a ella; sin frontmatter, la skill nunca se registra) y estas secciones, cada una basada en lo que realmente encontró la entrevista (sin dejar marcadores de posición):",
-    "- **Arranque:** el comando exacto que arranca la app para la verificación y cómo saber que está lista (una línea de log, un prompt). El arranque debe llegar a un estado utilizable a partir de un directorio de datos vacío, incluidas las migraciones y los datos iniciales. Estar lista significa ser utilizable, no solo que un proceso responda. Una comprobación de estado de la base de datos puede pasar mientras sus scripts de inicialización siguen ejecutándose. Incluye el desmontaje. Para una CLI o TUI de vida corta no hay ningún servidor que mantener activo: arrancar significa compilar el binario (o instalar dependencias) una vez y luego iniciar cada ejecución en su propia sesión aislada de PTY o tmux.\n- **Diagnóstico:** una comprobación de solo lectura que responde «¿vale la pena controlar esta instancia?»: proceso activo, versión o compilación correcta, puerto nuestro y autenticación válida. Un agente ejecuta esto primero siempre que algo no cuadre.\n- **Control:** la receta del harness con selectores y comandos reales de este repo, no ejemplos. Prefiere identificadores estables (etiquetas ARIA, atributos data, textos de prompt, rutas) antes que coordenadas u orden de tabulación.\n- **Evidencia:** qué capturar como demostración y dónde se guarda. Define los criterios de demostración: sigue el recorrido real del usuario, no setters internos ni endpoints solo para tests; captura la acción y el estado resultante, no solo la pantalla final; verifica los efectos secundarios (archivos escritos, filas insertadas, mensajes enviados) junto con lo visible; usa mocks solo donde una frontera de producción ya aísle el sistema externo. Cuando la vía segura sea un dry-run o modo de test, verifica qué omite realmente observándolo (archivos, red, referencias de Git) en lugar de fiarte de su nombre: algunos dry-runs siguen tocando la red o abriendo un navegador.\n- **Limpieza:** cómo desmontar las instancias que creó la ejecución. Nunca mates por nombre de proceso; mata lo que iniciaste. La limpieza elimina las instancias y el estado temporal, nunca la evidencia: los artefactos de evidencia sobreviven al desmontaje, en una ubicación que indica la skill.\n- **Utilidades:** todo script que incluya la skill es ejecutable y su invocación aparece en el cuerpo de la skill. Una utilidad que el lector tenga que descifrar por ingeniería inversa no es útil.",
+    "- **Launch:** el comando exacto que arranca la app para la verificación y cómo saber que está lista (una línea de log, un prompt). El arranque debe llegar a un estado utilizable a partir de un directorio de datos vacío, incluidas las migraciones y los datos iniciales. Estar lista significa ser utilizable, no solo que un proceso responda. Una comprobación de estado de la base de datos puede pasar mientras sus scripts de inicialización siguen ejecutándose. Incluye el desmontaje. Para una CLI o TUI de vida corta no hay ningún servidor que mantener activo: arrancar significa compilar el binario (o instalar dependencias) una vez y luego iniciar cada ejecución en su propia sesión aislada de PTY o tmux.\n- **Doctor:** una comprobación de solo lectura que responde «¿vale la pena controlar esta instancia?»: proceso activo, versión o compilación correcta, puerto nuestro y autenticación válida. Un agente ejecuta esto primero siempre que algo no cuadre.\n- **Drive:** la receta del harness con selectores y comandos reales de este repo, no ejemplos. Prefiere identificadores estables (etiquetas ARIA, atributos data, textos de prompt, rutas) antes que coordenadas u orden de tabulación.\n- **Evidence:** qué capturar como demostración y dónde se guarda. Define los criterios de demostración: sigue el recorrido real del usuario, no setters internos ni endpoints solo para tests; captura la acción y el estado resultante, no solo la pantalla final; verifica los efectos secundarios (archivos escritos, filas insertadas, mensajes enviados) junto con lo visible; usa mocks solo donde una frontera de producción ya aísle el sistema externo. Cuando la vía segura sea un dry-run o modo de test, verifica qué omite realmente observándolo (archivos, red, referencias de Git) en lugar de fiarte de su nombre: algunos dry-runs siguen tocando la red o abriendo un navegador.\n- **Cleanup:** cómo desmontar las instancias que creó la ejecución. Nunca mates por nombre de proceso; mata lo que iniciaste. La limpieza elimina las instancias y el estado temporal, nunca la evidencia: los artefactos de evidencia sobreviven al desmontaje, en una ubicación que indica la skill.\n- **Helpers:** todo script que incluya la skill es ejecutable y su invocación aparece en el cuerpo de la skill. Una utilidad que el lector tenga que descifrar por ingeniería inversa no es útil.",
     "## 3. Crea el mapa inicial de funcionalidades",
     "Crea `<skills>/verify-<app>/features/README.md` y un archivo por cada funcionalidad visible para el usuario que puedas identificar (apunta a las 3-5 principales para empezar, a partir de rutas, comandos, menús o documentación). Sigue la estructura de [`references/feature-map-example/`](references/feature-map-example/), con un índice README y un archivo por funcionalidad. Cada archivo responde, desde el punto de vista del usuario: qué es la funcionalidad, cómo llegar a ella, cómo controlarla con el harness y qué estado final observable demuestra que funciona. Los cuatro H2 son `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>` y `Gotchas`. Si a los datos iniciales les falta una precondición que necesita un recorrido, el recorrido informa de un fallo y el motivo se anota en `Gotchas` de esa funcionalidad. Nunca debilites el recorrido para que pase. El mapa es la fuente de verificación mantenida del repo; una demostración que recorre un único punto de entrada cómodo está incompleta cuando el mapa lista otros.",
     "## 4. Demuestra que la skill generada funciona antes de entregarla",

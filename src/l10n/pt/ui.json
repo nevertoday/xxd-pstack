@@ -5,7 +5,7 @@
     "skip": "Pular para o conteúdo",
     "menu": "Abrir menu",
     "search": "Buscar no guia",
-    "searchPh": "Busque lições, passos, skills, termos…",
+    "searchPh": "Busque lições, passos, how-tos, skills, termos, perguntas…",
     "searchEmpty": "Nada encontrado. Tente outra palavra",
     "look": "Aparência e comandos",
     "lang": "Idioma",
@@ -87,18 +87,18 @@
     "DIFF": [
       [
         "Antes de começar",
-        "Começa sem confirmar o que você quer",
-        "Primeiro repete seu objetivo com as palavras dela, para você corrigir na hora"
+        "Ela começa sem confirmar o que você quer",
+        "Primeiro a IA repete seu objetivo com as palavras dela, para você corrigir na hora"
       ],
       [
         "Enquanto muda as coisas",
-        "Muda algo num lugar que parece mais ou menos certo",
-        "Primeiro descobre qual é o problema e depois muda o mínimo possível"
+        "Ela muda algo num lugar que parece mais ou menos certo",
+        "Primeiro a IA descobre qual é o problema e depois muda o mínimo possível"
       ],
       [
         "Quando diz que terminou",
         "“Agora deve estar funcionando”",
-        "Diz o que realmente verificou e o que viu, e avisa com clareza o que não conseguiu verificar"
+        "A IA diz o que realmente verificou e o que viu, e avisa com clareza o que não conseguiu verificar"
       ]
     ],
     "lessonsH": "Para quem está começando, bastam três lições",
@@ -118,7 +118,7 @@
       "Você só quer o mais rápido e barato: o pstack verifica mais, então é mais lento e gasta mais do seu plano"
     ],
     "devH": "Se você programa",
-    "devP": "O pstack é o pacote de skills que poteto (ex-time principal do React; criou o pstack no Cursor e hoje desenvolve o Grok Bot) usa todo dia no próprio código: 34 skills, 22 playbooks e 24 princípios de engenharia. Abaixo estão os quatro passos que ele segue em cada tarefa e o guia completo de 9 passos.",
+    "devP": "O pstack é o pacote de skills que poteto (que já fez parte do time principal do React; criou o pstack no Cursor e hoje desenvolve o Grok Bot) usa todo dia no próprio código: 34 skills, 22 playbooks e 24 princípios de engenharia. Abaixo estão os quatro passos que ele segue em cada tarefa e o guia completo de 9 passos.",
     "FLOW": [
       [
         "Você diz uma frase",
@@ -126,15 +126,15 @@
       ],
       [
         "/poteto-mode escolhe um playbook",
-        "Escolhe um dos 22 playbooks e copia os passos dele, do jeito que estão, para a lista de tarefas."
+        "Ele escolhe um dos 22 playbooks e copia os passos dele, do jeito que estão, para a lista de tarefas."
       ],
       [
         "As skills rodam passo a passo",
         "/how para ler código, /architect para decidir um design, /interrogate para achar falhas; IAs ajudantes quando há muito trabalho."
       ],
       [
-        "Verifica antes de entregar",
-        "Saída real de comandos, capturas de tela, o antes e o depois. Se algo não dá para verificar, ele avisa."
+        "A IA verifica antes de entregar",
+        "Saída real de comandos, capturas de tela, o antes e o depois. Se algo não dá para verificar, ela avisa."
       ]
     ],
     "CONN": [
@@ -238,7 +238,7 @@
     "empty": "Nenhuma skill encontrada. Tente usar menos palavras ou escolha “Todas”.",
     "legend": {
       "auto": "O /poteto-mode usa quando algum passo precisa",
-      "manual": "Só roda quando você digita",
+      "manual": "A skill só roda quando você digita",
       "named": "Digite quando quiser usar"
     },
     "shown": "Mostrando {n}"
@@ -340,7 +340,7 @@
       ": muitas respostas já estão lá."
     ],
     "btn": "Pergunte ou converse no GitHub",
-    "x": "O autor no X",
+    "x": "poteto no X",
     "privacy": "Antes de mandar capturas de tela, esconda chaves de API, código da sua empresa e dados das suas contas."
   },
   "partial": {

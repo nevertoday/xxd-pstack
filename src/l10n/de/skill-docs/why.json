@@ -1,5 +1,5 @@
 {
-  "description": "Für „Warum funktioniert X so?“, „Warum haben wir Y gewählt?“, Design-Begründungen, Regressionen, Postmortems oder datengestützte Schwellenwerte. Liefert eine mit Quellen belegte Einordnung zu Entscheidungen und Abwägungen. Nutze how für das Laufzeitverhalten.",
+  "description": "Für „why does X work this way“, „why we picked Y“, Design-Begründungen, Regressionen, Postmortems oder datengestützte Schwellenwerte. Liefert eine mit Quellen belegte Einordnung zu Entscheidungen und Abwägungen. Nutze how für das Laufzeitverhalten.",
   "brief": {
     "compare": [
       {
@@ -15,7 +15,7 @@
         "with": "Sagt, was die Aufzeichnungen nicht beantworten."
       }
     ],
-    "intro": "Es beantwortet das Warum anhand der Aufzeichnungen, nicht anhand des Codes: die Commits und PR-Diskussionen, dann weitere Quellen, wenn die Spur dünn ist. Es zitiert die Autoren, kennzeichnet Schlussfolgerungen und benennt, was die Aufzeichnungen offenlassen.",
+    "intro": "Der Skill beantwortet das Warum anhand der Aufzeichnungen, nicht anhand des Codes: die Commits und PR-Diskussionen, dann weitere Quellen, wenn die Spur dünn ist. Er zitiert die Autoren, kennzeichnet Schlussfolgerungen und benennt, was die Aufzeichnungen offenlassen.",
     "sections": []
   },
   "lessons": [
@@ -23,7 +23,7 @@
       "quote": "Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin.",
       "quoteTr": "Antworte anhand der Aufzeichnungen, nicht anhand des Codes: Lies die Commits und PR-Diskussionen, die den betreffenden Teil eingeführt haben, sowie jede spätere Änderung – und weitere Quellen, wenn die Spur dünn ist.",
       "title": "Benenne, wo die Antwort steckt",
-      "does": "Es liest die ursprünglichen Commits und PR-Diskussionen, statt sich einen plausiblen Grund aus dem Code auszudenken.",
+      "does": "Der Skill liest die ursprünglichen Commits und PR-Diskussionen, statt sich einen plausiblen Grund aus dem Code auszudenken.",
       "why": "Code zeigt das Was, nicht das Warum; wenn du benennst, welche Aufzeichnungen bis hin zu jeder späteren Änderung zu lesen sind, bleibt kein Raum, etwas Geratenes abzugeben.",
       "try": "Wenn du nach dem Warum fragst, verweise auf die Quelle: „Lies den Commit und die Diskussion, mit denen diese Einstellung hinzugefügt wurde, und jede Änderung seither – nicht nur den heutigen Code.“"
     },
@@ -45,7 +45,7 @@
     }
   ],
   "blocks": [
-    "# Warum",
+    "# Why",
     "Antworte anhand der Aufzeichnungen, nicht anhand des Codes: Lies die Commits und PR-Diskussionen, die den betreffenden Teil eingeführt haben, sowie jede spätere Änderung – und weitere Quellen, wenn die Spur dünn ist. Zitiere, was die Autoren geschrieben haben, kennzeichne eigene Schlussfolgerungen als solche und sag, was die Aufzeichnungen nicht beantworten."
   ]
 }

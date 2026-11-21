@@ -115,6 +115,11 @@ class Report {
 const NAMES = /^(?:\s*(?:Claude Code|Cursor|Codex|OpenCode|Pi|Gemini|GitHub|Grok Bot|etc\.|…)\s*[,，、…]?\s*)+$/;
 const onlyNames = (s) => NAMES.test(s.trim());
 
+/** 技能文档里按规矩保留英文的块：技能名做的标题（# Show me your work）、剧本名单（Investigation, Bug fix, …） */
+const keepEnglishBlock = (s) => /^#{1,3} [^\n]+$/.test(s.trim()) || /^([A-Z][^,\n]{0,30}, ){5,}[A-Z][^,\n]{0,30}\.?$/.test(s.trim());
+/** 技能名：译文给技能名加上代码格式是可以的 */
+const SKILL_NAMES = new Set(readdirSync("src/l10n/en/skill-docs").map((f) => f.replace(/\.json$/, "")));
+
 // ---------- 数据 ----------
 function walkData(R, file, unit, en, tr, path, zh) {
   const at = `${file} ${path || "（整个文件）"}`;
@@ -145,7 +150,7 @@ function walkData(R, file, unit, en, tr, path, zh) {
   if (isDocBlock) {
     // 英文的每段行内代码都要在；译文为了语法重复同一段、或给英文里本来就有的词加上代码格式，都可以
     const lostCode = minus(codeSpans(en), codeSpans(tr));
-    const newCode = [...new Set(codeSpans(tr))].filter((c) => !codeSpans(en).includes(c) && !en.includes(c));
+    const newCode = [...new Set(codeSpans(tr))].filter((c) => !codeSpans(en).includes(c) && !en.includes(c) && !SKILL_NAMES.has(c.replace(/^\//, "")));
     if (lostCode.length || newCode.length) R.err(at, `行内代码和英文不一样：${lostCode.length ? "少了 " + lostCode.map((c) => "`" + c + "`").join(" ") : "多了 " + newCode.map((c) => "`" + c + "`").join(" ")}`);
     const fe = fencesOf(en), ft = fencesOf(tr);
     if (fe.length !== ft.length) R.err(at, `代码块有 ${ft.length} 个，英文是 ${fe.length} 个`);
@@ -155,7 +160,7 @@ function walkData(R, file, unit, en, tr, path, zh) {
     if (lost.length) R.err(at, `丢了行内代码 ${lost.map((c) => "`" + c + "`").join(" ")}（命令、文件名保持原样）`);
   }
   // 中文版也和英文一样（原则名、命令、例句里的英文）的，不算没翻
-  if (tr === en && zh !== en && isProse(en) && !onlyNames(en) && !(isDocBlock && !isProse(en.replace(/```[\s\S]*?```/g, "")))) R.same(file, at, "");
+  if (tr === en && zh !== en && isProse(en) && !onlyNames(en) && !(isDocBlock && keepEnglishBlock(en)) && !(isDocBlock && !isProse(en.replace(/```[\s\S]*?```/g, "")))) R.same(file, at, "");
   const han = hanProblems(tr, en, R.lang);
   if (han.length) R.err(at, `有没翻的中文：${han.join("、")}`);
 }

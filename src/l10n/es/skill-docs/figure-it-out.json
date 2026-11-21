@@ -8,14 +8,14 @@
       },
       {
         "without": "Confía en su propio informe de que el trabajo está terminado.",
-        "with": "Inspecciona el artefacto real y marca VERIFICADO, NO VERIFICADO o NO CONCLUYENTE."
+        "with": "Inspecciona el artefacto real y marca `VERIFIED`, `NOT VERIFIED` o `INCONCLUSIVE`."
       },
       {
         "without": "Deja todas las comprobaciones para el final.",
         "with": "Mide cada pequeño cambio contra el criterio de terminado y revierte lo que no ayudó."
       }
     ],
-    "intro": "Dice que, cuando ningún playbook encaja, la IA diseña uno primero: fases ajustadas al riesgo, ejecutadas como experimentos y con un registro de decisiones auditable.",
+    "intro": "La skill dice que, cuando ningún playbook encaja, la IA diseña uno primero: fases ajustadas al riesgo, ejecutadas como experimentos y con un registro de decisiones auditable.",
     "sections": [
       "Pone la lectura de la sección de principios de `poteto-mode` como primera tarea y luego añade las fases.",
       "Antes de empezar, establece un criterio de terminado falsable, un alcance cuantificado y un nivel de rigor. Una ejecución larga incluye un punto de control contigo.",
@@ -30,7 +30,7 @@
       "quote": "Rigor is gates and artifacts, not \"try harder\".",
       "quoteTr": "El rigor son controles y artefactos, no «esforzarse más».",
       "title": "Convierte el «ten cuidado» en comprobaciones",
-      "does": "Cuando importa el rigor, añade comprobaciones y guarda evidencia en lugar de prometer que tendrá más cuidado.",
+      "does": "Cuando importa el rigor, la IA añade comprobaciones y guarda evidencia en lugar de prometer que tendrá más cuidado.",
       "why": "«Esforzarse más» no se puede comprobar; un control adicional existe o no existe.",
       "try": "Si quieres que tenga cuidado, pide una acción: «Ejecuta los tests después de cada archivo que cambies y pega el resultado»."
     },
@@ -46,7 +46,7 @@
       "quote": "When something passes too easily, suspect the observation method before the system.",
       "quoteTr": "Cuando algo pasa con demasiada facilidad, sospecha del método de observación antes que del sistema.",
       "title": "Enséñale a dudar de las buenas noticias",
-      "does": "Cuando un resultado parece demasiado bueno, comprueba cómo midió antes de anunciar el éxito.",
+      "does": "Cuando un resultado parece demasiado bueno, la IA comprueba cómo midió antes de anunciar el éxito.",
       "why": "Nombrar la situación en la que es más fácil engañarse hace que la IA se detenga cuando ocurre.",
       "try": "Cuando pidas ejecutar los tests, añade: «Si todo pasa a la primera, comprueba que los tests se ejecutaron de verdad»."
     },
@@ -60,21 +60,21 @@
     }
   ],
   "blocks": [
-    "# Resuélvelo",
+    "# Figure it out",
     "Cuando la tarea no encaje en ningún playbook, diseña uno. El entregable antes de escribir código es el propio flujo de trabajo: una secuencia de fases que ajusta el rigor a la tarea, aplica el método científico y deja un registro de decisiones que una persona puede auditar después de ausentarse.",
     "## Inicio",
     "Abre una lista de tareas cuyo primer elemento sea leer la sección de principios de la skill **poteto-mode**. Luego añade las fases siguientes como tareas.",
-    "## Fase A: enmarcar",
+    "## Fase A: plantear",
     "Primero reconoce el terreno y luego comprométete. No empieces la ejecución hasta que puedas indicar:",
     "- La definición de terminado como un predicado falsable (la skill de principio **prove-it-works**).\n- El alcance cuantificado: unidades y esfuerzo aproximados, más los bloqueos que hayan surgido al reconocer el terreno.\n- El nivel de rigor, tirando a alto. Las decisiones irreversibles y con alto radio de impacto requieren más. Los pasos reversibles y de bajo riesgo requieren menos. El rigor son controles y artefactos, no «esforzarse más».",
-    "Presenta el encuadre y las contrapartidas antes de comprometerte con una ejecución larga. El trabajo reversible sigue adelante (la skill de principio **never-block-on-the-human**), pero una ejecución de varias horas merece un punto de control.",
+    "Presenta el planteamiento y las contrapartidas antes de comprometerte con una ejecución larga. El trabajo reversible sigue adelante (la skill de principio **never-block-on-the-human**), pero una ejecución de varias horas merece un punto de control.",
     "## Fase B: diseñar el flujo de trabajo",
     "Descompón el trabajo en unidades atómicas que puedan integrarse por separado. Ordena empezando por la incógnita más arriesgada. El andamiaje y la verificación van antes que las funcionalidades (la skill de principio **foundational-thinking**).",
     "- Construye el entorno de verificación antes de empezar el trabajo, con la línea base capturada del estado previo al cambio, para que la comprobación se lea como «valor anterior frente a valor nuevo».\n- Para decisiones de diseño irreversibles, ejecuta la skill **architect** (que ejecuta **arena**). Omítela en trabajos mecánicos cuya forma ya está definida. Una segunda ronda de arena sobre un diseño ya cerrado es sobreingeniería (la skill de principio **laziness-protocol**).\n- Decide qué se reparte en paralelo. Paraleliza solo por fronteras limpias y da a cada trabajador su propio worktree o rama (la skill de principio **separate-before-serializing-shared-state**). No paralelices en exceso. Escoge el nivel de razonamiento de cada subagente para el trabajo, según la sección de subagentes de la skill **poteto-mode**.\n- Deja por escrito la lista de fases diseñada. Esa lista es lo que revisa la persona.",
     "Después ejecuta el diseño. Añade sus pasos a la lista de tareas como elementos concretos entre las entradas de la fase C y la fase D. Ejecuta cada uno bajo la disciplina del ciclo de la fase C e intercala en ellos el registro de la fase D, una fila a medida que se integra cada paso, en lugar de dejar todo el registro para el final.",
     "## Fase C: ejecutar el ciclo",
     "Cada unidad es un experimento. Plantea la hipótesis, haz el cambio mínimo, mide contra el predicado en el artefacto real, mantenlo si avanzó y reviértelo si no. Aplica la skill de principio **sequence-verifiable-units**, verificando cada unidad antes de empezar la siguiente en lugar de agrupar las comprobaciones al final.",
-    "- Verifica inspeccionando el artefacto, nunca un autoinforme. Cuando algo pasa con demasiada facilidad, sospecha del método de observación antes que del sistema.\n- Empareja el trabajo delegado con un juez. Si un trabajador burla el control, reinicia y endurece el contrato. Si el control en sí está mal, corrígelo en su propio cambio en lugar de sortearlo.\n- Un veredicto es VERIFICADO, NO VERIFICADO o NO CONCLUYENTE. No concluyente no es un aprobado. No ocultes un resultado negativo.",
+    "- Verifica inspeccionando el artefacto, nunca un autoinforme. Cuando algo pasa con demasiada facilidad, sospecha del método de observación antes que del sistema.\n- Empareja el trabajo delegado con un juez. Si un trabajador burla el control, reinicia y endurece el contrato. Si el control en sí está mal, corrígelo en su propio cambio en lugar de sortearlo.\n- Un veredicto es VERIFIED, NOT VERIFIED o INCONCLUSIVE. No concluyente no es un aprobado. No ocultes un resultado negativo.",
     "## Fase D: mantener el registro de auditoría",
     "Registra la ejecución mediante la skill **show-me-your-work**. El trabajo de figure-it-out suele ser lo bastante ambicioso como para hacer commit del registro y que quien revisa pueda leerlo en el PR. El registro junto con el diff es lo que permite a la persona volver y confiar en el trabajo.",
     "## Fase E: verificar y entregar",

@@ -18,7 +18,7 @@
         "Repete o que você quer",
         "Descobre onde está o problema",
         "Depois faz a mudança",
-        "Testa ela mesma"
+        "Ela mesma testa"
       ],
       "end": "Mostra o que viu"
     },
@@ -41,7 +41,7 @@
     ],
     "ai": "A IA trabalha aqui",
     "note": "Suas outras pastas ficam fora do alcance",
-    "cap": "A IA trabalha na pasta em que você abre o Claude Code. Por isso você começa com uma nova e vazia."
+    "cap": "A IA trabalha na pasta em que você abre o Claude Code. Por isso, comece com uma pasta nova e vazia."
   },
   "l3-prompt": {
     "parts": [
@@ -54,7 +54,7 @@
         "label": "O que eu quero"
       },
       {
-        "text": "Com “Bebi um copo” o número de hoje sobe; continua lá ao reabrir; mostra os últimos 7 dias.",
+        "text": "Clico em “Bebi um copo” e o número de hoje sobe um; continua lá depois que eu reabro; mostra os últimos 7 dias.",
         "label": "Como fica quando estiver pronto"
       },
       {
@@ -126,7 +126,7 @@
       },
       {
         "t": "Fazer merge",
-        "d": "Você diz para fazer merge da stack"
+        "d": "Você diz land the stack"
       }
     ],
     "gate": "Precisa de você",
@@ -156,11 +156,11 @@
       "t": "De manhã",
       "items": [
         "/show-me-your-work",
-        "Ler primeiro “precisa de atenção”",
+        "Ler primeiro a seção Attention",
         "Depois, as linhas que ele aponta"
       ]
     },
-    "cap": "Você não relê toda a conversa da noite. O log e “precisa de atenção” bastam."
+    "cap": "Você não relê toda a conversa da noite. O log e a seção Attention bastam."
   },
   "g8-guard": {
     "rungs": [
@@ -226,7 +226,7 @@
       }
     ],
     "loop": "Não ficou mais rápido? Reverta e tente de novo",
-    "cap": "Os dois números usam os mesmos dados, alternando várias execuções de cada vez, e comparam as medianas."
+    "cap": "Os dois números usam os mesmos dados, com execuções alternadas, várias de cada lado, e comparam as medianas."
   },
   "h-refactor": {
     "steps": [

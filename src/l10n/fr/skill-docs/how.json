@@ -32,7 +32,7 @@
     },
     {
       "quote": "Do not substantially rewrite it.",
-      "quoteTr": "Ne le réécrivez pas en profondeur.",
+      "quoteTr": "Ne le réécris pas en profondeur.",
       "title": "Dire jusqu'où un passage de relais peut modifier le texte",
       "does": "Le chat principal vous transmet l'explication de l'IA d'appoint presque telle quelle, avec de légères retouches pour la clarté.",
       "why": "Autoriser de légères retouches tout en interdisant la réécriture empêche l'IA de compresser une bonne explication en son propre résumé appauvri.",
@@ -40,21 +40,21 @@
     },
     {
       "quote": "If the scope is ambiguous, state your interpretation and explore.",
-      "quoteTr": "Si le périmètre est ambigu, énoncez votre interprétation et explorez.",
+      "quoteTr": "Si le périmètre est ambigu, énonce ton interprétation et explore.",
       "title": "Énoncer sa lecture, puis démarrer",
       "does": "Quand la question est vague, il dit comment il la comprend et se lance ; vous pouvez recadrer à tout moment.",
-      "why": "Dire sa lecture à voix haute évite à l'IA de rester bloquée à vous attendre, et vous pouvez voir si elle a mal compris.",
+      "why": "Annoncer sa lecture évite à l'IA de rester bloquée à vous attendre, et vous pouvez voir si elle a mal compris.",
       "try": "Ajoutez : « Là où je manque de précision, écris en une ligne comment tu le comprends, puis continue sans m'attendre. »"
     }
   ],
   "blocks": [
     "# How",
-    "Explorez la base de code pour répondre aux questions « comment fonctionne X ? ».",
-    "Si le périmètre est ambigu, énoncez votre interprétation et explorez. L'utilisateur peut vous réorienter.",
+    "Explore la base de code pour répondre aux questions « comment fonctionne X ? ».",
+    "Si le périmètre est ambigu, énonce ton interprétation et explore. L'utilisateur peut te réorienter.",
     "## 1. Expliquer",
-    "Lancez un seul sous-agent polyvalent en lecture seule qui explore et explique en une passe : `Task` avec `subagent_type: generalPurpose` et `readonly: true` dans Cursor, `Agent` dans Claude Code (`subagent_type: general-purpose`), `task` dans OpenCode (`subagent_type: general`), `spawn_agent` dans Codex. Si votre harness n'a pas d'outil de sous-agent, comme dans Pi sans extension, faites l'exploration et la rédaction vous-même. Donnez-lui la question de l'utilisateur et ce brief :",
-    "> Vous rédigez une explication d'architecture pour un ingénieur senior. Explorez la base de code et rédigez une explication qu'un ingénieur senior ne connaissant pas cette partie puisse lire pour repartir avec un modèle mental solide. Cette personne doit comprendre l'architecture assez bien pour commencer à y travailler avec assurance. Vous avez un accès en lecture seule à la base de code.",
+    "Lance un seul sous-agent polyvalent en lecture seule qui explore et explique en une passe : `Task` avec `subagent_type: generalPurpose` et `readonly: true` dans Cursor, `Agent` dans Claude Code (`subagent_type: general-purpose`), `task` dans OpenCode (`subagent_type: general`), `spawn_agent` dans Codex. Si ton harness n'a pas d'outil de sous-agent, comme dans Pi sans extension, fais l'exploration et la rédaction toi-même. Donne-lui la question de l'utilisateur et ce brief :",
+    "> Tu rédiges une explication d'architecture pour un ingénieur senior. Explore la base de code et rédige une explication qu'un ingénieur senior ne connaissant pas cette partie puisse lire pour repartir avec un modèle mental solide. Cette personne doit comprendre l'architecture assez bien pour commencer à y travailler avec assurance. Tu as un accès en lecture seule à la base de code.",
     "## 2. Présenter",
-    "Présentez le résultat du sous-agent. De légères retouches pour la clarté ou le contexte de la conversation conviennent. Ne le réécrivez pas en profondeur."
+    "Présente le résultat du sous-agent. De légères retouches pour la clarté ou le contexte de la conversation conviennent. Ne le réécris pas en profondeur."
   ]
 }

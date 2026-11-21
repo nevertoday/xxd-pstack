@@ -97,7 +97,7 @@
       },
       {
         "t": "Schwachstellen suchen",
-        "d": "/interrogate behält nur Probleme, die es im Lauf zeigen kann"
+        "d": "/interrogate behält nur Probleme, die der Skill im Lauf zeigen kann"
       },
       {
         "t": "Aufräumen",
@@ -156,11 +156,11 @@
       "t": "Am Morgen",
       "items": [
         "/show-me-your-work",
-        "Zuerst „braucht Aufmerksamkeit“ lesen",
+        "Zuerst „Attention“ lesen",
         "Dann die Zeilen, auf die es verweist"
       ]
     },
-    "cap": "Du liest nicht den ganzen Chat der Nacht nach. Das Protokoll und „braucht Aufmerksamkeit“ reichen."
+    "cap": "Du liest nicht den ganzen Chat der Nacht nach. Das Protokoll und der Abschnitt „Attention“ reichen."
   },
   "g8-guard": {
     "rungs": [
@@ -183,7 +183,7 @@
     ],
     "high": "Am stärksten",
     "low": "Letzter Ausweg",
-    "cap": "/correct fängt oben an. Wenn eine höhere Stufe greift, nutzt es keine tiefere."
+    "cap": "/correct fängt oben an. Wenn eine höhere Stufe greift, nutzt der Skill keine tiefere."
   },
   "h-bug": {
     "steps": [
@@ -265,7 +265,7 @@
       "t": "Verworfen",
       "d": "Ließ sich im Lauf nicht zeigen, mit Begründung; überflieg das auch"
     },
-    "cap": "/interrogate meldet nur; es ändert deinen Code nicht. Ein Problem zählt nur, wenn ein Lauf es zeigt."
+    "cap": "/interrogate meldet nur; der Skill ändert deinen Code nicht. Ein Problem zählt nur, wenn ein Lauf es zeigt."
   },
   "h-cost": {
     "root": {
@@ -288,7 +288,7 @@
       }
     ],
     "note": "Die Helfer-KIs bekommen klar abgegrenzte Aufgaben, die günstigere Modelle gut schaffen",
-    "cap": "Ändere diese drei Zeilen am Ende von /setup-pstack, wenn es dich bittet, die Rollen zu bestätigen."
+    "cap": "Ändere diese drei Zeilen am Ende von /setup-pstack, wenn der Skill dich bittet, die Rollen zu bestätigen."
   },
   "h-steer": {
     "parts": [
@@ -330,7 +330,7 @@
         "d": "Nur stoppen, was selbst gestartet wurde; Belege behalten"
       }
     ],
-    "cap": "Das erzeugte verify-<app> enthält diese Abschnitte. Vor der Übergabe lässt die KI alle einmal komplett durchlaufen und prüft dann, ob die Belege das Aufräumen überstanden haben."
+    "cap": "Der erzeugte Skill verify-<app> enthält diese Abschnitte. Vor der Übergabe lässt die KI alle einmal komplett durchlaufen und prüft dann, ob die Belege das Aufräumen überstanden haben."
   },
   "h-formal": {
     "a": {

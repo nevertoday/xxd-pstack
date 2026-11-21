@@ -8,7 +8,7 @@
       },
       {
         "without": "自分の作業を自分でレビューして問題なしとします。",
-        "with": "別ベンダーのモデルに記録をレビューさせ、最後に Attention セクションを付けます。"
+        "with": "別ベンダーのモデルに記録をレビューさせ、最後に Attention（要確認）セクションを付けます。"
       },
       {
         "without": "自分の書いたログをそのまま信じます。",
@@ -54,7 +54,7 @@
     },
     {
       "quote": "\"No flags\" is a valid value.",
-      "quoteTr": "「No flags（指摘なし）」も有効な値です。",
+      "quoteTr": "「No flags」も有効な値です。",
       "title": "「なし」も答えになると伝える",
       "does": "レビューで何も見つからないとき、役に立つふりをしていくつか問題をでっち上げる代わりに「No flags」と書きます。",
       "why": "「何もない」という答えが認められれば、AI が問題を作り出す理由がなくなります。",
@@ -62,7 +62,7 @@
     }
   ],
   "blocks": [
-    "# 作業の過程を見せて",
+    "# Show me your work",
     "正規のログは 1 つにまとめます。",
     "## フォーマット",
     "1 つの TSV ファイルに、判断 1 件につき 1 行を記録します。各セルは 1 行に収めます。根拠は文章ではなくポインターです。",
@@ -72,7 +72,7 @@
     "```\nts\tphase\tdecision\twhy\tevidence\tresult\n2026-05-24T09:02:00Z\tframe\tcounted the work first, about 100 components and roughly 75 hours\twanted to know the size before starting a long run\tcommit 3a9f1c2\tfound 5 things to sort out before starting\n2026-05-24T09:40:00Z\tharness\ttook screenshots of the old version before changing anything\tso we can compare old against new and catch any visual change\tscripts/snapshot.sh, baseline/\tsaved 120 reference screenshots\n2026-05-24T11:15:00Z\twidget\tmoved the widget styles over without changing how it looks\tkeep the change small and the result identical\tcommit 7c21e0a, pixel-diff 0\tlooks identical, tests pass\n2026-05-24T12:30:00Z\twidget\tthrew out a helper's work because its screenshots were blank\tchecked the real files instead of trusting its summary\tworktree reset\treverted, tightened the instructions for next time\n```",
     "## 行を記録する",
     "チームメイトに自分の作業を伝えるつもりで各項目を書きます。平易な言葉と具体的な行動を使い、AI っぽい言い回しや抽象的な専門用語は避けます（AI っぽい文章のクセを取り除く **unslop** スキルは、ログの文章にも当てはまります）。",
-    "ヘルパースクリプト `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>` を使います。`ts` を自動で打刻し、初回だけヘッダー行を書き込み、余分なタブや改行を取り除き、`=`、`+`、`-`、`@` のいずれかで始まるセルの先頭にシングルクォートを付けます。素の `printf` で行を追記しても構いませんが、生成テキストやユーザー入力由来のテキストをセルに入れる場合は、同じバイトに注意してください。",
+    "ヘルパースクリプト `scripts/log.sh <logfile> <phase> <decision> <why> <evidence> <result>` を使います。`ts` を自動で打刻し、初回だけヘッダー行を書き込み、余分なタブや改行を取り除き、`=`、`+`、`-`、`@` のいずれかで始まるセルの先頭にシングルクォートを付けます。素の `printf` で行を追記しても構いませんが、生成テキストやユーザー入力由来のテキストをセルに入れる場合は、同じ文字（タブ、改行、先頭の `=`・`+`・`-`・`@`）に注意してください。",
     "すべての行動ではなく、判断の分岐点やチェックポイントを記録します。選んだ分岐、検証結果付きの単位作業の完了、きっかけを添えた方針転換や差し戻し、表面化したブロッカー、修正したゲートが対象です。ループ実行では、反復 1 回につき 1 行を記録します。些細なことや自明なことは省きます。",
     "1 回の実行とは 1 つのエージェント会話を指し、後続のターンやその要約も含みます。引き継ぎ、交代したエージェント、または新しいチャットは、新しい実行の開始になります。すでに行が存在するログに実行が行を追加する場合、その最初の行の phase は `start` にします。別の実行の `start` 行のあとに書く最初の行も同様です。そのため、あとのターンでログに戻ってきた実行は、まずログの末尾数行を読み、その間に別の実行が書き込んでいないかを確認します。`start` 行には、その前にある「この実行が書いていない行」の `ts` 範囲を記し、根拠にはエージェント ID など、この実行を特定する名前を書きます。phase の `start` は、これ以外の用途には使いません。",
     "## ログの置き場所",
@@ -87,7 +87,7 @@
     "## 別モデルによる記録のレビュー",
     "作業を返す前に、作業を担当したモデルとは別ベンダーのモデルでサブエージェントを起動します。自己レビューでは代わりになりません。サブエージェントは監査記録と実行のトランスクリプトを読み、ユーザーが注意すべき点を指摘します。作業をやり直すのではなく、最適とは言えない点やリスクのある点を探し出します。各サブエージェントの推論レベルは、**poteto-mode** スキルの Subagents セクションに従って作業内容に合わせて選びます。",
     "- 根拠が弱いか、根拠が欠けている判断の記録。\n- 省略された検証ステップ、またはトランスクリプト上に証拠がないまま済んだと主張されている検証ステップ。\n- あとから見るとリスクが高い選択（時期尚早、スコープの膨張、症状の表面的な取り繕い）。\n- ざっと流し読みしただけではユーザーが見落としそうな抜け漏れ。",
-    "記録を残した実行の返信は、毎回「Attention」セクションで締めくくります。先頭の単独行にレビュー担当モデル（`reviewed by <model>`）を書き、続けて具体的な行や場面を指しながら指摘事項を列挙します。「No flags」も有効な値です。モデル名は省略できません。",
+    "記録を残した実行の返信は、毎回「Attention」セクションで締めくくります。先頭の単独行にレビュー担当モデル（`reviewed by <model>`）を書き、続けて具体的な行や場面を指しながら指摘事項を列挙します。「No flags」も有効な値です。モデル名だけでは有効な値になりません。",
     "## 記録の見直し方",
     "上から下に読み、根拠のポインターをたどりながら抜き取りで確認します。コミットされた TSV は GitHub 上でテーブルとして表示されます。ターミナルでは `column -s$'\\t' -t decisions.tsv` で整形表示できます。",
     "## このスキルを組み合わせる",

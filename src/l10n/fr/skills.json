@@ -50,7 +50,7 @@
     "why": {
       "one": "Retrouve « pourquoi cela a été fait ainsi » dans les commits et les discussions de PR, avec une source pour chaque affirmation.",
       "use": "Vous tombez sur du code ou une configuration étrange et vous voulez connaître son histoire, et savoir si la raison tient toujours.",
-      "ex": "/why Pourquoi la limite de tentatives est-elle à 5 ? Cette raison tient-elle toujours ?"
+      "ex": "/why Pourquoi la limite de réessais est-elle fixée à 5 ? Cette raison tient-elle toujours ?"
     },
     "teach": {
       "one": "Combine /how et /why en une seule explication progressive, schéma après schéma, jusqu'à ce que vous compreniez.",
@@ -71,7 +71,7 @@
       ]
     },
     "architect": {
-      "one": "Avant d'écrire du code qui s'étend sur plusieurs modules, il esquisse deux approches, la manière de l'appeler et les types, puis choisit la plus simple.",
+      "one": "Avant d'écrire du code qui s'étend sur plusieurs modules, il esquisse deux formes possibles (comment on l'appelle, quels types), puis choisit la plus simple.",
       "use": "Le changement dépasse une seule fonction et touche plusieurs modules.",
       "ex": "/architect Conçois d'abord le flux d'import, ne te jette pas sur le code. Ce qui m'importe le plus, c'est comment le reste du code l'appelle.",
       "needs": [
@@ -153,7 +153,7 @@
     "create-formal-verification-skill": {
       "one": "Pour les cas que les tests n'atteignent pas (comme la concurrence ou les réessais), il vérifie qu'une règle reste vraie à chaque fois.",
       "use": "Les endroits où une erreur coûte cher et où les tests ont du mal à la déclencher.",
-      "ex": "/create-formal-verification-skill Baux de jobs et logique de réessai. Un même job ne doit jamais tourner deux fois en même temps.",
+      "ex": "/create-formal-verification-skill Baux de tâches et logique de réessai. Une même tâche ne doit jamais tourner deux fois en même temps.",
       "needs": [
         "maintain-formal-verification-skill",
         "statechart"
@@ -166,7 +166,7 @@
     },
     "statechart": {
       "one": "Dessine les états par lesquels passe un utilisateur, et indique ceux qui enfreignent une règle ainsi que le chemin pour y arriver.",
-      "use": "Des personnes qui ne lisent pas le code, comme le produit et le design, ont besoin de « voir » comment cela se comporte.",
+      "use": "Des personnes qui ne lisent pas le code, comme les équipes produit et design, ont besoin de « voir » comment cela se comporte.",
       "ex": "/statechart Que voit l'utilisateur quand il modifie des notes hors ligne ?"
     },
     "benchmark-checklist": {

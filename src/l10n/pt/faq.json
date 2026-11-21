@@ -49,7 +49,7 @@
       ],
       [
         "Não acontece nada quando digito um comando no Claude Code?",
-        "A instalação como plugin coloca cada comando sob `pstack:`: você digita `!/pstack:poteto-mode`, e apenas `!/poteto-mode` não é reconhecido. Essa é a regra do Claude Code para todos os plugins, para que dois plugins não entrem em conflito de nome. Os comandos neste site já vêm escritos assim por padrão, para que funcione ao copiar. Se você instalou com `npx skills`, não há prefixo: abra Aparência no canto superior direito e mude “Eu uso” para “Instalado com npx”. Além disso, depois do `/setup-pstack`, inicie uma nova sessão para que suas escolhas de modelo passem a valer. Veja [Usar no Claude Code](/pt/howto/claude-code/)."
+        "A instalação como plugin coloca cada comando sob `pstack:`: você digita `!/pstack:poteto-mode`, e apenas `!/poteto-mode` não é reconhecido. Essa é a regra do Claude Code para todos os plugins, para que dois plugins não entrem em conflito de nome. Os comandos neste site já vêm escritos assim por padrão, para que funcione ao copiar. Se você instalou com `npx skills`, não há prefixo: abra Aparência no canto superior direito e mude “Eu uso” para “Instalado com npx”. Além disso, depois do `/setup-pstack`, inicie uma nova sessão para que suas escolhas de modelo passem a valer. Veja [Usando no Claude Code](/pt/howto/claude-code/)."
       ],
       [
         "Não tenho os modelos padrão. Funciona mesmo assim?",
@@ -74,7 +74,7 @@
       ],
       [
         "É seguro deixar a IA rodando a noite toda?",
-        "Só quando todas estas quatro condições forem verdadeiras. ① Você já fez essa tarefa por conta própria, ou acompanhou a IA fazer uma vez. ② Ela tem as ferramentas que você usaria, como uma skill de verificação, logs, um profiler. ③ Cada fase pode ser verificada, e ela para quando alguma fica abaixo do esperado. ④ Você já leu algumas transcrições e transformou falhas repetidas em verificações. Veja [Deixar rodando sozinho](/pt/guide/7-overnight/)."
+        "Só quando todas estas quatro condições forem verdadeiras. ① Você já fez essa tarefa por conta própria, ou acompanhou a IA fazer uma vez. ② Ela tem as ferramentas que você usaria, como uma skill de verificação, logs, um profiler. ③ Cada fase pode ser verificada, e ela para quando alguma fica abaixo do esperado. ④ Você já leu algumas transcrições e transformou falhas repetidas em verificações. Veja [Deixe a IA rodar sozinha](/pt/guide/7-overnight/)."
       ],
       [
         "Por que ele coloca vários modelos diferentes para revisar o trabalho?",

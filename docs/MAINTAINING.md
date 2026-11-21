@@ -10,7 +10,9 @@
   - 数据：`nav.js` 各条目的 `en: {}`；`wiki.en.js`、`faq.en.js`、`skills.en.js`（按 slug / 技能名叠加，结构和条数要和中文一致）；界面文字（外壳、首页、各页面框架、组件里的固定文字）在 `src/data/ui.js` 的 zh / en 两份。
   - 改完数据或界面文字，跑 `node scripts/l10n.mjs export`，更新给另外 8 种语言翻译用的英文模板（见下一条）。
   - 强调：每页最多一处 `<mark>`（这页最要紧的一句），`<u>` 只给照做会失败的坑；英文页放在对应的那句上。
-- **另外 8 种语言（日、韩、西、葡、法、德、俄、阿）**：现在网站只有首页和新手入门三课，其余页面链到英文版。全站的架子已经搭好，翻好一种、打开开关，它就是全站。
+- **另外 8 种语言（日、韩、西、葡、法、德、俄、阿）**：2026-11-21 起都是全站：完整教程、How-to、技能（含技能原文）、Wiki、常见问题都有本语言版。
+  - 怎么翻：由 Gemini 4 Neon XHigh（`agy -p … --model gemini-4-neon-xhigh`）按 `docs/l10n/STYLE.md`（翻译要求）、`docs/l10n/DECISIONS.md`（全站定下的规矩，比如 `new task`、`land the stack`、`Attention`、禁用词表、剧本名保持英文）和 `docs/l10n/glossary/<语言>.md`（术语表）从英文翻。翻完先过 `node scripts/l10n.mjs check`，再请一位审读者对照英文通读，按「当前原文 → 改成」的清单回给翻译改，改完再查一遍。
+  - 英文改了以后：`node scripts/l10n.mjs export`，按 `git diff src/l10n/en` 和改过的 `src/pages/en/` 重翻对应的那几处，同一次提交里 8 种一起改。
   - 语言清单在 `nav.js` 的 `LANGS`。`full: true` 是全站语言：导航、搜索、上一步 / 下一步、Wiki 和技能链接都指向 `/<语言>/…`。没有 `full` 的，构建后 `scripts/l10n-dist.mjs` 把 `dist/<语言>/` 里首页和新手入门以外的页面删掉，所以翻好的页面可以先提交，线上不变。
   - 想先看看一种语言打开后的样子，不用改 `LANGS`：`L10N_FULL=ja npm run build`（几种用逗号隔开）。
   - 一种语言的全部翻译，都和英文的同一个文件一一对应：
