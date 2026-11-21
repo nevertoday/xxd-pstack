@@ -13,7 +13,7 @@ export const WIKI = [
     like: "像给一个聪明但毛躁的新同事发一本工作手册。人还是那个人，做事有了章法。",
     here: [
       "它由 34 个技能和 24 条原则组成，都是写给 AI 看的说明文件。规矩很朴素：修 bug 前先让问题再出现一次，改代码前先读懂，改完自己试一遍。",
-      "作者是 poteto，这是作者每天在 Cursor 里用的那一套。官方版是写给 Cursor 的。用 Claude Code、Codex 的人，一般装[镜像版](https://github.com/backnotprop/pstack)。它每天跟官方版同步，哪个工具都能用。",
+      "作者是 poteto，这是作者每天自己写代码用的那一套，最早是在 Cursor 工作时写的。官方版是写给 Cursor 的。用 Claude Code、Codex 的人，一般装[镜像版](https://github.com/backnotprop/pstack)。它每天跟官方版同步，哪个工具都能用。",
     ],
     myths: [
       "「它是一个新模型，或者一个 App」：都不是。它是一些说明文件，装进你已经在用的 AI 编程工具里。",

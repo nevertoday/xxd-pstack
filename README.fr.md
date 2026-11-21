@@ -52,7 +52,7 @@ Si vous avez déjà codé avec une IA, vous avez sûrement vécu ça :
   <img src="assets/en/before-after.svg" width="100%" alt="Comparaison : sans pstack, l'IA modifie le code tout de suite et saute la reproduction et la vérification ; avec pstack, elle suit les cinq étapes et montre des preuves avant/après">
 </p>
 
-Le modèle n'est pas trop bête. Il travaille simplement sans méthode : il modifie du code qu'il n'a pas compris, et dit que c'est fini sans avoir essayé. pstack est le paquet d'Agent Skills que poteto (membre de l'équipe principale de React, qui travaille chez Cursor) utilise chaque jour pour écrire du code. **Le modèle reste le même. Ce qui change, c'est l'ordre dans lequel il travaille et l'exigence qu'il s'impose :**
+Le modèle n'est pas trop bête. Il travaille simplement sans méthode : il modifie du code qu'il n'a pas compris, et dit que c'est fini sans avoir essayé. pstack est le paquet d'Agent Skills que poteto (ancien membre de l'équipe principale de React, qui a créé pstack chez Cursor et développe aujourd'hui Grok Bot) utilise chaque jour pour écrire du code. **Le modèle reste le même. Ce qui change, c'est l'ordre dans lequel il travaille et l'exigence qu'il s'impose :**
 
 | Quand | L'IA habituelle | Avec pstack |
 |:---|:---|:---|

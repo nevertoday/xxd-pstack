@@ -52,7 +52,7 @@ Wer schon mit KI programmiert hat, kennt das wahrscheinlich:
   <img src="assets/en/before-after.svg" width="100%" alt="Vergleich: Ohne pstack ändert die KI sofort den Code und überspringt Reproduzieren und Verifizieren; mit pstack geht sie alle fünf Schritte durch und zeigt Belege für vorher und nachher">
 </p>
 
-Das Modell ist nicht zu dumm. Es arbeitet nur ohne Methode: Es ändert Code, den es nicht verstanden hat, und meldet „fertig“, ohne es auszuprobieren. pstack ist das Paket an Agent Skills, das poteto (Mitglied des React-Kernteams, arbeitet bei Cursor) jeden Tag beim eigenen Programmieren nutzt. **Das Modell bleibt dasselbe. Was sich ändert, sind die Reihenfolge der Arbeit und der Anspruch daran:**
+Das Modell ist nicht zu dumm. Es arbeitet nur ohne Methode: Es ändert Code, den es nicht verstanden hat, und meldet „fertig“, ohne es auszuprobieren. pstack ist das Paket an Agent Skills, das poteto (früher im React-Kernteam, hat pstack bei Cursor geschrieben und baut heute Grok Bot) jeden Tag beim eigenen Programmieren nutzt. **Das Modell bleibt dasselbe. Was sich ändert, sind die Reihenfolge der Arbeit und der Anspruch daran:**
 
 | Wann | Typische KI | Mit pstack |
 |:---|:---|:---|

@@ -98,6 +98,9 @@ export const HOWTO = [
     { slug: "steer", title: "它跑偏了，一句话拉回来", en: { title: "Pull it back on track in one sentence" } },
     { slug: "which-skill", title: "不知道该用哪个技能", en: { title: "Not sure which skill to use" } },
   ]},
+  { group: "别人的经验", en: { group: "From other users" }, items: [
+    { slug: "field-notes", title: "用过的人怎么说：值得抄的用法和坑", en: { title: "What other users learned: tricks to copy, traps to skip" } },
+  ]},
 ];
 export const howtoHref = (slug, lang = "zh") => link(`/howto/${slug}/`, lang);
 export const HOWTO_FLAT = HOWTO.flatMap((g) => g.items.map((i) => ({ ...i, group: g.group, groupEn: g.en.group })));

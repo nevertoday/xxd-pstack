@@ -52,7 +52,7 @@ If you've coded with AI, you've probably lived through these:
   <img src="assets/en/before-after.svg" width="100%" alt="Comparison: without pstack the AI edits code right away and skips reproducing and verifying; with pstack it does all five steps and shows before-and-after evidence">
 </p>
 
-The model isn't too dumb. It just works without a method: it changes code it hasn't understood, and calls things done without trying them. pstack is the set of Agent Skills that poteto (a React core team member who works at Cursor) uses to write code every day. **The model stays the same. What changes is the order it works in and the bar it holds itself to:**
+The model isn't too dumb. It just works without a method: it changes code it hasn't understood, and calls things done without trying them. pstack is the set of Agent Skills that poteto (formerly on the React core team, who wrote pstack at Cursor and now builds Grok Bot) uses to write code every day. **The model stays the same. What changes is the order it works in and the bar it holds itself to:**
 
 | When | Typical AI | With pstack |
 |:---|:---|:---|

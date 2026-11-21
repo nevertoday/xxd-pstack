@@ -86,7 +86,7 @@ export default {
       "You only want fastest and cheapest: pstack checks more, so it's slower and uses more of your plan",
     ],
     devH: "If you write code",
-    devP: "pstack is the pack of skills poteto (on the React core team, working at Cursor) uses for their own code every day: 34 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
+    devP: "pstack is the pack of skills poteto (formerly on the React core team; wrote pstack at Cursor, now builds Grok Bot) uses for their own code every day: 34 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
     // 完整教程目前只有英文和中文
     devNote: "The full guide is in English (and Chinese) for now.",
     // FLOW：每个是 [标题, 说明]，图标和顺序固定

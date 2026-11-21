@@ -15,7 +15,7 @@ export const WIKI_EN = {
     like: "Like handing a smart but hasty new teammate a handbook. Same person, but now the work has a method.",
     here: [
       "It's 34 skills and 24 principles, all instruction files written for the AI. The rules are simple. Before fixing a bug, make it happen again. Before changing code, read it. After changing it, try it.",
-      "The author is poteto, and this is the setup the author uses in Cursor every day. The official version is written for Cursor. Claude Code and Codex users usually install [the mirror](https://github.com/backnotprop/pstack). It syncs with the official version daily and works in any tool.",
+      "The author is poteto, and this is the setup the author uses every day, first written while working at Cursor. The official version is written for Cursor. Claude Code and Codex users usually install [the mirror](https://github.com/backnotprop/pstack). It syncs with the official version daily and works in any tool.",
     ],
     myths: [
       "\"It's a new model, or an app\": neither. It's a set of instruction files you add to the AI coding tool you already use.",

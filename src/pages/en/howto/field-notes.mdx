@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: field-notes
+time: 8-minute read
+for: You've used it a few times and want to see how others use it, and what tripped them up
+step: 8
+tldr: Habits picked from a dozen hands-on write-ups and the author's talks. Each one is ready to copy, with its source.
+description: "What other pstack users learned: points several people reached on their own; break a new test on purpose, split checks by aspect, look for the gap every design shares, log bad patterns before fixing them; traps others hit; articles, videos and talks worth your time."
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+This page is other people's experience, not pstack's manual. We read a dozen hands-on write-ups, plus the author's talks and interviews, and kept what still works today. Every point links to its source.
+
+## Copy this one first
+
+The AI added a new test and says "tests pass." Reply:
+
+<Copy id="fn-break" code="Break the feature on purpose and run the new test once. Confirm it fails. Then undo the break and run it again. Paste both outputs." />
+
+A test you've never seen fail may be a test that can't fail. One team tried this and found the AI's new test stayed green no matter what. From [productize.life's hands-on review](https://productize.life/blog/pstack-skills/en).
+
+## What several people found on their own
+
+- **Skip `/poteto-mode` for small edits.** One builder made the same small app twice: 30 minutes without it, an hour with it, and the pstack version was sturdier ([Rob Shocks' comparison](https://the-agent-daily.org/agentnews-experimental/deep-dives/pstack-is-agent-overkill-use-it-anyway)). For copy changes and style tweaks, just ask.
+- **Make one AI trustworthy before you run many.** The author's advice is to go deep before going wide. Running agents in parallel before you can check their work just produces rework faster ([How I Use Cursor](https://x.com/poteto/article/2058975157503570132)).
+- **Skills advise. They don't lock anything.** An AI can skip a step or miss a rule. Anything that must not happen belongs in permissions and check scripts ([productize.life](https://productize.life/blog/pstack-skills/en), [justmao](https://justmao.com/en/posts/pstack-install-routing/)).
+- **When a mistake comes back, turn it into a check.** The author's team writes repeat mistakes up as lint rules instead of adding another line to a rules file ([the author's talk](https://www.youtube.com/watch?v=O_zcc6Xl12g)). This site's version is in [Once you're comfortable](/en/guide/8-make-it-yours/).
+- **Most of the money goes to checking, and that's fine.** The author says most of their tokens go to verification (same talk). Save money elsewhere first.
+
+## Habits worth copying
+
+**Hand off in four parts. Unchecked isn't passed.** One builder made a form in Claude Code and closed every task this way ([五里墩茶社, in Chinese](https://www.bilibili.com/video/BV1LLWY6yEch/)):
+
+<Copy id="fn-handoff" code="When you're done, report in four parts: what changed; what you checked; where the evidence is (command output, screenshot paths); what you didn't check. List the unchecked items separately. Don't call them passed." />
+
+**Split checks by aspect.** Don't split by feature. Split by what each helper looks at, one aspect per helper AI ([五里墩茶社](https://www.bilibili.com/video/BV1WGsi6MEJm/)):
+
+<Copy id="fn-swarm" code="/swarm Check this form three ways: one helper fills it in and submits it end to end, one uses only the keyboard, one looks at it on a 375px-wide screen. Each says what it checked and how. Then run the submit step once yourself." />
+
+**After comparing designs, look for the shared gap.** Something no design thought of is easy to miss when you score them ([五里墩茶社](https://www.bilibili.com/video/BV1xfsM6wE39/)):
+
+<Copy id="fn-gap" code="Is there a case none of these designs handles? List them, then say which design is easiest to extend to cover it." />
+
+**See the public interface before it's built.** One developer fixing a production bug had `/architect` stop before writing the code ([azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)):
+
+<Copy id="fn-api" code="/architect The tag page sometimes returns a 500. Find the real cause first. Before you write the fix, stop and show me every public function you're adding or changing. I'll confirm, then you write it." />
+
+**Log bad patterns first, review them in a batch.** The author has the AI write problems down instead of fixing each one. Every few days they read the list and look for a shared cause ([with Matt Pocock](https://www.youtube.com/watch?v=MN9dGgmLyso)):
+
+<Copy id="fn-ledger" code="From now on, when you see a component calling the API directly, don't change it. Append it to docs/bad-patterns.md: the file, the line, what it looks like. I'll review the list weekly." />
+
+**Do the first one by hand, script the rest.** For a styling migration, the author moved one component by hand, then had the AI write a script for the rest, one small piece a day ([Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)). `build the lever` is the name pstack knows for "build a tool to do it":
+
+<Copy id="fn-lever" code="apply build the lever. I migrated Button by hand. Write a script that migrates the other components the same way, plus a check: light and dark screenshots must match before and after. Migrate one component at a time." />
+
+## Traps other people hit
+
+- **A week's quota gone in a day.** The `/setup-pstack` budget sets how long each step thinks, not how much you spend in total. Skip `/poteto-mode` for small things, and see [Keep costs down](/en/howto/cost/) for the rest.
+- **"Reviewed by several models" was one model.** In Claude Code, the Gemini seat runs on the current chat's model ([productize.life](https://productize.life/blog/pstack-skills/en)). To find out, ask:
+
+<Copy id="fn-who" code="Which model ran each of those reviews? List them one by one." />
+
+- **A long todo list buried the original goal.** Give it one thing at a time. Say `new task` when you switch, and see [Pull it back on track](/en/howto/steer/) when it drifts.
+
+<Callout type="warn" title="Many numbers and commands online are from older versions">
+pstack changes fast. "23 playbooks", "51 skills", `/orchestrate`, the `unlimited` budget and `with checkpoint` <u>no longer exist</u>. Go by this site's commands, checked against 0.15.46.
+</Callout>
+
+## Want more?
+
+- **[All Code Is Slop (Except Mine)](https://www.youtube.com/watch?v=O_zcc6Xl12g)**: the author's November 2026 talk, 16 minutes. The newest and shortest account of where to put your effort.
+- **[Matt Pocock with the author](https://www.youtube.com/watch?v=MN9dGgmLyso)**: a 65-minute livestream. How the author runs agents through the day, lets them work overnight and reads the commit history each morning.
+- **[Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)**: the author's essay on why checking comes first, and what one big migration taught them.
+- **[The author's "start with verification" post](https://x.com/poteto/status/2109436202554372476)**: one post. Read it before you give your project a verification skill.
+- **[productize.life's hands-on review](https://productize.life/blog/pstack-skills/en)**: the most candid write-up, on what helped and what didn't.
+- **[What is poteto-mode](https://flaviocopes.com/poteto-mode/)**: Flavio Copes. The clearest prompt examples.
+- **[azukiazusa's bug fix](https://azukiazusa.dev/en/blog/pstack-agent-skills/)**: one production bug, from the error to the fix.
+- **[五里墩茶社's test videos](https://www.bilibili.com/video/BV1LLWY6yEch/)**: in Chinese, on Bilibili. Real runs in Claude Code, honest about what wasn't tested.
+
+## Stuck?
+
+<Q q="A command from an article doesn't work for me.">
+<p>It's probably from an older version and has been renamed or removed. Update first (see <a href="/en/howto/update-remove/">Update, inspect, uninstall</a>), then ask <code>/poteto-help</code> which command to use now.</p>
+</Q>
+<Q q="The author ships thousands of PRs a month. Can I?">
+<p>That's the author's own figure. In the talk, the author says it took about six months of building checks before letting agents run like that. Start with one task and one AI that can check its own work.</p>
+</Q>
+<Q q="I wrote up my own experience.">
+<p>Send it to us on <a href="https://github.com/nevertoday/xxd-pstack/issues">this site's GitHub</a>. If the habit still works today, we'll add it here with credit.</p>
+</Q>

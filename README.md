@@ -52,7 +52,7 @@
   <img src="assets/before-after.svg" width="100%" alt="对比：不用 pstack 时 AI 直接改代码、跳过复现和验证；用 pstack 时五步都做，并给出修前修后的证据">
 </p>
 
-不是模型不够聪明，是它做事没章法：没看懂就改，没试过就说做完。pstack 是 poteto（React 核心团队成员，在 Cursor 工作）每天自己写代码用的一套 Agent Skills。**模型还是那个模型，变的是做事的顺序和标准：**
+不是模型不够聪明，是它做事没章法：没看懂就改，没试过就说做完。pstack 是 poteto（React 核心团队出身，在 Cursor 写下 pstack，现在做 Grok Bot）每天自己写代码用的一套 Agent Skills。**模型还是那个模型，变的是做事的顺序和标准：**
 
 | 什么时候 | 平常的 AI | 装了 pstack |
 |:---|:---|:---|

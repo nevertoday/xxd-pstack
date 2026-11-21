@@ -1,0 +1,92 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: field-notes
+time: 读 8 分钟
+for: 已经用过几次，想看看别人怎么用、踩过什么坑
+step: 8
+tldr: 从十几篇别人的实测、作者的演讲和对谈里挑出的用法：每条都能照抄，附出处。
+description: 别人用 pstack 的心得：几个人不约而同说到的事；故意弄坏测试、按方面分头验证、找方案的共同遗漏、坏毛病先记账；别人踩过的坑；值得看的文章、视频和演讲。
+---
+import Callout from "../../components/Callout.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+
+这页是别人的经验，不是 pstack 的说明书。我们读了十几篇实测、作者的演讲和对谈，挑出现在还能用的。每条后面都有出处，想看原文可以点进去。
+
+## 先照抄一个
+
+AI 给你加了个新测试，说「测试通过」。你回：
+
+<Copy id="fn-break" code="新加的这个测试，先把功能故意改坏，跑一次，确认它会失败。再改回来跑一次。两次的输出都贴给我。" />
+
+一个从没失败过的测试，可能根本不会失败。有人这样一试，就发现 AI 写的测试怎么改都是绿的。出自 [productize.life 的实测](https://productize.life/blog/pstack-skills/en)。
+
+## 几个人不约而同说到的
+
+- **小改动别开 `/poteto-mode`。** 有人拿同一个小应用比过：不用它半小时，用了一小时，但用了的那份更扎实（[Rob Shocks 的对比](https://the-agent-daily.org/agentnews-experimental/deep-dives/pstack-is-agent-overkill-use-it-anyway)）。改文案、调样式，直接说就行。
+- **先让一个 AI 靠得住，再开很多个。** 作者的说法是先往深里用，再往宽里铺。验证没做好就并行，只会更快地产出要返工的代码（[How I Use Cursor](https://x.com/poteto/article/2058975157503570132)）。
+- **技能是建议，不是锁。** AI 可能漏读、跳步。真要拦住的事，交给权限设置和检查脚本（[productize.life](https://productize.life/blog/pstack-skills/en)、[justmao](https://justmao.com/en/posts/pstack-install-routing/)）。
+- **同一个错第二次出现，就改成检查。** 作者团队把 AI 老犯的错写成 lint 规则，而不是往规则文件里再加一句话（[作者的演讲](https://www.youtube.com/watch?v=O_zcc6Xl12g)）。本站的做法在[用熟以后](/guide/8-make-it-yours/)。
+- **钱大多花在验证上，这是对的。** 作者说自己大部分 token 都用在验证上（同一场演讲）。省钱先从别的地方省。
+
+## 值得抄的用法
+
+**交接分四项，没查的不算通过。** 有人在 Claude Code 里做完一个表单，每次都按这四项交接（[五里墩茶社](https://www.bilibili.com/video/BV1LLWY6yEch/)）：
+
+<Copy id="fn-handoff" code="做完按四项交给我：改了什么；验证了什么；证据在哪（命令输出、截图路径）；哪些没查。没查的单独列出来，不要写成通过。" />
+
+**验证按方面分头查。** 不按功能拆，按「看哪方面」拆，每个帮手 AI 管一方面（[五里墩茶社](https://www.bilibili.com/video/BV1WGsi6MEJm/)）：
+
+<Copy id="fn-swarm" code="/swarm 分三路验证这个表单：一路走完整的填写和提交，一路只用键盘操作，一路在 375px 宽的屏幕上看。每一路写清楚查了什么、用什么查的。最后你自己再把提交那一步跑一遍。" />
+
+**几个方案比完，再找共同的遗漏。** 几份方案都没想到的地方，评分时最容易漏掉（[五里墩茶社](https://www.bilibili.com/video/BV1xfsM6wE39/)）：
+
+<Copy id="fn-gap" code="这几个方案有没有都没考虑到的情况？列出来，再说哪一个补起来最容易。" />
+
+**动手前，先看公开接口。** 有人修一个线上 bug，让 `/architect` 写实现之前先停下来（[azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)）：
+
+<Copy id="fn-api" code="/architect 标签页偶尔报 500，先找到真正的原因。写实现之前停下，把新加或改动的公开函数给我看，我确认了再写。" />
+
+**坏毛病先记账，攒几天一起看。** 作者让 AI 发现问题先别修，记进一个文件。过几天一起看，找它们共同的原因（[和 Matt Pocock 的对谈](https://www.youtube.com/watch?v=MN9dGgmLyso)）：
+
+<Copy id="fn-ledger" code="以后你看到组件里有直接请求接口的写法，先别改，追加到 docs/bad-patterns.md：哪个文件、哪一行、什么样。我每周看一次。" />
+
+**第一份手做，剩下的交给脚本。** 作者迁移样式时，先自己迁好一个组件，再让 AI 写脚本迁剩下的，并且每天只迁一小块（[Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)）。`build the lever` 是 pstack 认识的原则名，意思是「做个工具来干」：
+
+<Copy id="fn-lever" code="apply build the lever. Button 我已经手动迁好了，照它写一个脚本迁剩下的组件，再写一个检查：迁移前后亮色、暗色截图要一样。一次只迁一个组件。" />
+
+## 别人踩过的坑
+
+- **一周的额度，一天就用完了。** `/setup-pstack` 的预算只管每一步「想多久」，不管总共花多少。小事别加 `/poteto-mode`，其他省钱办法看[控制花费](/howto/cost/)。
+- **「几个模型评过」，其实是同一个。** 在 Claude Code 里，Gemini 那个席位会换成当前对话的模型（[productize.life](https://productize.life/blog/pstack-skills/en)）。想知道真相，就问它：
+
+<Copy id="fn-who" code="刚才每个评审是哪个模型跑的？逐个列出来。" />
+
+- **待办一长串，原来的目标找不到了。** 一次只交代一件事。换事先说 `new task`，跑偏了看[一句话拉回来](/howto/steer/)。
+
+<Callout type="warn" title="网上的数字和命令，很多是旧版的">
+pstack 更新很快。文章里的「23 套剧本」「51 个技能」、`/orchestrate`、`unlimited` 预算、`with checkpoint`，<u>现在都没有了</u>。命令以本站为准，本站核对到 0.15.46。
+</Callout>
+
+## 想多看一点
+
+- **[All Code Is Slop (Except Mine)](https://www.youtube.com/watch?v=O_zcc6Xl12g)**：作者 2026 年 11 月的演讲，英文，16 分钟。最新也最短，讲力气先花在哪。
+- **[Matt Pocock 和作者的对谈](https://www.youtube.com/watch?v=MN9dGgmLyso)**：英文直播，65 分钟。作者一天里怎么安排 AI，夜里放手、早上看提交记录。
+- **[Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)**：作者的长文，讲为什么先验证，和一次大迁移的教训。有[中文译文](https://www.v2ex.com/t/1247460)。
+- **[作者的「先从验证开始」](https://x.com/poteto/status/2109436202554372476)**：一条帖子。还没给项目配验证技能的，先读这条。
+- **[productize.life 的实测](https://productize.life/blog/pstack-skills/en)**：英文。最老实的一篇，写了哪些有用、哪些不灵。
+- **[What is poteto-mode](https://flaviocopes.com/poteto-mode/)**：Flavio Copes，英文。提示词的例子写得最清楚。
+- **[azukiazusa 的修 bug 实录](https://azukiazusa.dev/en/blog/pstack-agent-skills/)**：英文。一个线上 bug 从报错到修好的全过程。
+- **[五里墩茶社的实测视频](https://www.bilibili.com/video/BV1LLWY6yEch/)**：中文，B 站。在 Claude Code 里实测，也说清了哪些没测到。
+
+## 卡住了？
+
+<Q q="文章里的命令，我这里打不出来。">
+<p>多半是旧版的命令，现在改名或删掉了。先按<a href="/howto/update-remove/">更新、查看、卸载</a>升到最新，再问 <code>/poteto-help</code>，它会告诉你现在该用哪个。</p>
+</Q>
+<Q q="作者说一个月几千个 PR，我也能做到吗？">
+<p>那是作者自己报的数字。作者在演讲里说，花了大约半年先把验证搭好，才敢让 AI 这样跑。先从一个任务、一个能自己检查的 AI 开始。</p>
+</Q>
+<Q q="我也写了一篇使用心得。">
+<p>欢迎到<a href="https://github.com/nevertoday/xxd-pstack/issues">本站的 GitHub</a> 提给我们。只要是现在还成立的用法，我们会补进这页，并注明出处。</p>
+</Q>
