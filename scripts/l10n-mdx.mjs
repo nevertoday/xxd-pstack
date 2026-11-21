@@ -76,7 +76,12 @@ export function frontmatter(src) {
   const keys = new Map();
   m[1].split("\n").forEach((l, n) => {
     const kv = l.match(/^([\w-]+):\s*(.*)$/);
-    if (kv) keys.set(kv[1], { value: kv[2].replace(/^"(.*)"$/, "$1").replace(/^'(.*)'$/, "$1"), line: n + 2 });
+    if (!kv) return;
+    // YAML 里不加引号的值：不能用 [ { & * ! | > % @ ` 开头，不能含「: 」「 #」；加了引号要成对
+    const v = kv[2], q = v[0] === '"' || v[0] === "'";
+    const yaml = q ? (v.length < 2 || v.at(-1) !== v[0] ? "引号没有成对" : null)
+      : /^[[{&*!|>%@`]/.test(v) ? `不能用 ${v[0]} 开头（整个值加上双引号）` : /: | #/.test(v) ? "含有「: 」或「 #」（整个值加上双引号）" : null;
+    keys.set(kv[1], { value: v.replace(/^"(.*)"$/, "$1").replace(/^'(.*)'$/, "$1"), line: n + 2, yaml });
   });
   return { keys, body: src.slice(m[0].length), offset: m[0].length };
 }

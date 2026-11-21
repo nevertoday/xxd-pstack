@@ -173,6 +173,7 @@ async function checkPage(R, rel) {
   for (const k of E.fm.keys()) if (!T.fm.has(k)) R.err(at(1), `frontmatter 缺 ${k}`);
   for (const [k, v] of T.fm) {
     if (!E.fm.has(k)) { R.err(at(v.line), `frontmatter 多了 ${k}`); continue; }
+    if (v.yaml) R.err(at(v.line), `frontmatter ${k} 的值${v.yaml}`);
     const e = E.fm.get(k).value;
     if (FM_LITERAL.includes(k)) { if (v.value !== e) R.err(at(v.line), `frontmatter ${k} 要和英文一样：${e}`); }
     else if (!v.value.trim()) R.err(at(v.line), `frontmatter ${k} 是空的`);
