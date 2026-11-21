@@ -4,16 +4,15 @@
 // 动画：进入视野后一步步亮起来（带 data-k 的部分按顺序出现），放两遍停在完整的样子，可以「再看一遍」。
 // 没有脚本、或者系统设了减少动效：直接显示完整的图。
 import { FIGS, FIG_UI } from "../data/figs.js";
+import { figsFor } from "../data/figs.i18n.js";
 import { langOf } from "../data/nav.js";
-import { X as dict } from "../i18n/index.js";
 interface Props { id: string }
 const { id } = Astro.props;
 const F = FIGS[id];
 if (!F) throw new Error(`src/data/figs.js 里没有图「${id}」`);
 const lang = langOf(Astro.url.pathname);
-const x = dict(lang);
-const T = F[lang] ?? x?.figs?.[id] ?? F.en;
-const UI = FIG_UI[lang] ?? x?.figs?.ui ?? FIG_UI.en;
+const T = F[lang] ?? figsFor(lang)[id];
+const UI = FIG_UI[lang] ?? figsFor(lang).ui;
 const B = F.base;
 const type = F.type;
 

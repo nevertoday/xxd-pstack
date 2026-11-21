@@ -1,0 +1,67 @@
+{
+  "ui": {
+    "label": "Schaubild",
+    "replay": "Nochmal ansehen"
+  },
+  "l1-habits": {
+    "a": {
+      "who": "Die KI wie üblich",
+      "steps": [
+        "Versteht ungefähr",
+        "Ändert drauflos"
+      ],
+      "end": "„Fertig!“ Du öffnest es, der Button tut nichts"
+    },
+    "b": {
+      "who": "Die KI mit pstack",
+      "steps": [
+        "Wiederholt, was du willst",
+        "Findet, wo das Problem liegt",
+        "Ändert erst dann",
+        "Probiert es selbst aus"
+      ],
+      "end": "Zeigt dir, was sie gesehen hat"
+    },
+    "cap": "Die zusätzlichen Schritte sind die Gewohnheiten, die pstack mitbringt. Etwas langsamer, aber du machst nicht dauernd alles neu."
+  },
+  "l2-install": {
+    "notes": [
+      "Schritt 1: den Plugin-Store hinzufügen",
+      "Schritt 2: pstack installieren, Install for you wählen",
+      "Schritt 3: /pstack: tippen, ohne Enter; steht poteto-mode in der Liste, ist es installiert"
+    ],
+    "cap": "Illustration: So sehen die drei Schritte in Claude Code ungefähr aus. Der echte Bildschirm zeigt ein paar Zeilen mehr."
+  },
+  "l3-folder": {
+    "place": "Schreibtisch",
+    "items": [
+      "Arbeit",
+      "Fotos",
+      "water"
+    ],
+    "ai": "Hier arbeitet die KI",
+    "note": "An deine anderen Ordner kommt sie nicht heran",
+    "cap": "Die KI arbeitet in dem Ordner, in dem du Claude Code öffnest. Deshalb fängst du mit einem neuen, leeren an."
+  },
+  "l3-prompt": {
+    "parts": [
+      {
+        "text": "/pstack:poteto-mode",
+        "label": "Der Schalter"
+      },
+      {
+        "text": "Bau mir eine kleine Webseite, die zählt, wie viel Wasser ich jeden Tag trinke.",
+        "label": "Was ich will"
+      },
+      {
+        "text": "„Ein Glas getrunken“ erhöht die Zahl für heute; sie bleibt nach dem Neuöffnen; die letzten 7 Tage sind zu sehen.",
+        "label": "So sieht „fertig“ aus"
+      },
+      {
+        "text": "Wie du es geprüft hast und was du gesehen hast, wenn möglich mit Screenshot.",
+        "label": "Was du mir am Ende zeigst"
+      }
+    ],
+    "cap": "Zuerst der Schalter; jeder der drei Teile hat genau eine Aufgabe."
+  }
+}

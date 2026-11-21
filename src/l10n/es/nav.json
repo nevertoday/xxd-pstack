@@ -1,0 +1,19 @@
+{
+  "lessons": {
+    "1-why": {
+      "title": "Qué hace por ti",
+      "minutes": "3 minutos",
+      "sum": "Qué es pstack, qué necesitas y qué cuesta"
+    },
+    "2-install": {
+      "title": "Instálalo",
+      "minutes": "5 minutos",
+      "sum": "Escribe dos líneas en Claude Code y elige una opción"
+    },
+    "3-first-use": {
+      "title": "Úsalo por primera vez",
+      "minutes": "10 minutos",
+      "sum": "Haz una página web pequeña con un mensaje de tres partes"
+    }
+  }
+}

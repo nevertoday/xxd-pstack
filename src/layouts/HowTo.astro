@@ -3,32 +3,36 @@
 import Site from "./Site.astro";
 import Feedback from "../components/Feedback.astro";
 import { HOWTO_FLAT, howtoHref, stepHref, STEPS, link, langOf, t } from "../data/nav.js";
+import { ui } from "../data/ui.js";
+import { fmt } from "../l10n/load.js";
 const { frontmatter, headings = [] } = Astro.props;
 const lang = langOf(Astro.url.pathname);
-const en = lang === "en";
 const me = HOWTO_FLAT.find((h) => h.slug === frontmatter.slug);
 if (!me) throw new Error(`HOWTO 里没有 ${frontmatter.slug}`);
 const sameGroup = HOWTO_FLAT.filter((h) => h.group === me.group && h.slug !== me.slug);
 const step = frontmatter.step !== undefined ? STEPS.find((s) => s.n === frontmatter.step) : null;
 const title = t(me, "title", lang);
-const group = en ? me.groupEn : me.group;
+const group = t(me.grp, "group", lang);
+const T = ui(lang).howto;
+// 反馈的 issue 标题：其他语言标上语言、用英文标题（维护者看得懂）
+const page = lang === "zh" || lang === "en" ? `How-to: ${title}` : `[${lang}] How-to: ${t(me, "title", "en")}`;
 ---
 <Site title={title} description={frontmatter.description} headings={headings} literal={frontmatter.cmds === "literal"}>
   <header class="step-head">
     <ol class="xxd-breadcrumbs" data-size="sm"><li><a href={link("/howto/", lang)}>How-to</a></li><li>{group}</li><li aria-current="page">{title}</li></ol>
     <h1>{title}</h1>
-    {frontmatter.tldr && <p class="page-tldr"><span class="page-tldr__label">{en ? "In one line" : "一句话"}</span>{frontmatter.tldr}</p>}
+    {frontmatter.tldr && <p class="page-tldr"><span class="page-tldr__label">{T.tldr}</span>{frontmatter.tldr}</p>}
     <div class="step-head__meta">
       {frontmatter.time && <span class="xxd-badge">{frontmatter.time}</span>}
-      {frontmatter.for && <span class="xxd-badge">{en ? "For: " : "适用："}{frontmatter.for}</span>}
-      {step && <a class="xxd-badge" href={stepHref(step, lang)}>{en ? `Full guide step ${step.n}: ` : `完整教程第 ${step.n} 步：`}{t(step, "title", lang)}</a>}
+      {frontmatter.for && <span class="xxd-badge">{T.for}{frontmatter.for}</span>}
+      {step && <a class="xxd-badge" href={stepHref(step, lang)}>{fmt(T.step, { n: step.n })}{t(step, "title", lang)}</a>}
     </div>
   </header>
   <article class="xxd-prose"><slot /></article>
-  <Feedback page={`How-to: ${title}`} />
+  <Feedback page={page} />
   {sameGroup.length > 0 && (
-    <nav class="related" aria-label={en ? "Related articles" : "同类文章"}>
-      <p class="related__title">{en ? `More in “${group}”` : `「${group}」的其他文章`}</p>
+    <nav class="related" aria-label={T.related}>
+      <p class="related__title">{fmt(T.more, { group })}</p>
       <ul>{sameGroup.map((h) => <li><a class="xxd-link" href={howtoHref(h.slug, lang)}>{t(h, "title", lang)}</a></li>)}</ul>
     </nav>
   )}

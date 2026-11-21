@@ -2,14 +2,13 @@
 // 外壳：顶栏（搜索、主题、语言、GitHub）、左侧导航（主线 8 步 + 栏目）、正文、右侧目录。界面全部用 xxd-ui-kit：
 // 顶栏 xxd-topbar、标志 xxd-logo、左侧 xxd-sidebar（How-to 分组是子菜单）、目录 xxd-toc（跟着滚动高亮）。
 // 中文在根路径，英文在 /en/ 下；语言看路径（langOf），界面文字在下面的 UI 里。
-import { LESSONS, lessonHref, STEPS, stepHref, HOWTO, HOWTO_FLAT, howtoHref, wikiHref, link, REPO, PSTACK, PSTACK_UPSTREAM, LANGS, langInfo, langOf, fullLang, isFull, langHref, t } from "../data/nav.js";
-import { X as dict, fmt } from "../i18n/index.js";
-import { WIKI } from "../data/wiki.js";
-import { WIKI_EN } from "../data/wiki.en.js";
-import { FAQ } from "../data/faq.js";
-import { FAQ_EN } from "../data/faq.en.js";
+import { LESSONS, lessonHref, STEPS, stepHref, HOWTO, HOWTO_FLAT, howtoHref, wikiHref, link, REPO, PSTACK, PSTACK_UPSTREAM, LANGS, langInfo, langOf, fullLang, isFull, hasPage, stripLang, langHref, t } from "../data/nav.js";
+import { ui } from "../data/ui.js";
+import { fmt } from "../l10n/load.js";
+import { wikiFor } from "../data/wiki.i18n.js";
+import { faqFor } from "../data/faq.i18n.js";
 import { skillsFor } from "../data/skills.i18n.js";
-import { TOOLS, TOOL_UI, TOOL_DEFAULT, TOOL_KEY, SKILL_NAMES } from "../data/tools.js";
+import { TOOLS, TOOL_DEFAULT, TOOL_KEY, SKILL_NAMES } from "../data/tools.js";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
@@ -21,44 +20,31 @@ interface Props {
   /** 这一页专讲某个工具（frontmatter 写 cmds: literal）：命令照原样显示，不跟着「我用的工具」换 */
   literal?: boolean;
 }
-const UI = {
-  zh: { html: "zh-CN", brand: "pstack 新手教程", desc: "不会写代码也能学会 pstack：三课、20 分钟，说人话。", skip: "跳到正文", menu: "打开目录", search: "搜索教程",
-  searchPh: "搜步骤、How-to、技能、名词、问题……", searchEmpty: "没找到，换个词试试", look: "外观和命令写法", repo: "本教程的 GitHub 仓库", repoMore: "其他仓库：pstack 镜像、官方原版", repoDefault: "默认",
-  repos: [[REPO, "本教程", "nevertoday/xxd-pstack", "教程的源码，有问题在这里提"], [PSTACK, "pstack 镜像", "backnotprop/pstack", "本站依据的版本，任何工具都能装"], [PSTACK_UPSTREAM, "pstack 官方原版", "cursor/plugins", "poteto 维护，给 Cursor 用"]],
-  navLabel: "网站目录", start: "开始", home: "首页", lessons: "新手入门：先看这三课", main: "完整教程：会写代码的人看", pending: "编写中", ref: "查资料", howto: "How-to：具体怎么做",
-  skills: "技能速查：34 个技能", wiki: "Wiki：这是什么", faq: "常见问题", toc: "本页", tocLabel: "本页目录", hintMain: "完整教程", hintLesson: "新手入门", hintFaq: "常见问题", hintSkill: "技能", switchTo: "English", switchLabel: "Switch to English",
-  foot: `本站是 <a href="${PSTACK}">pstack</a> 的非官方入门教程，不是官方文档；pstack 由 poteto 开发（MIT），命令和行为以官方仓库为准。教程源码和问题反馈在 <a href="${REPO}">GitHub</a>。` },
-  en: { html: "en", brand: "pstack for beginners", desc: "Learn pstack even if you don't code: three lessons, 20 minutes, plain words.", skip: "Skip to content", menu: "Open menu", search: "Search the guide",
-    searchPh: "Search steps, how-tos, skills, terms, questions…", searchEmpty: "Nothing found. Try another word", look: "Appearance and commands", repo: "This guide on GitHub", repoMore: "Other repos: the pstack mirror, the official original", repoDefault: "Default",
-    repos: [[REPO, "This guide", "nevertoday/xxd-pstack", "Source for this guide; file issues here"], [PSTACK, "pstack mirror", "backnotprop/pstack", "The version this site follows"], [PSTACK_UPSTREAM, "Official pstack", "cursor/plugins", "Maintained by poteto, for Cursor"]],
-    navLabel: "Site navigation", start: "Start", home: "Home", lessons: "Beginner track: start here", main: "Full guide: for people who code", pending: "In progress", ref: "Reference", howto: "How-to: how exactly",
-    skills: "Skills at a glance: all 34", wiki: "Wiki: what is it", faq: "FAQ", toc: "On this page", tocLabel: "On this page", hintMain: "Full guide", hintLesson: "Beginner track", hintFaq: "FAQ", hintSkill: "Skill", switchTo: "中文", switchLabel: "切换到中文",
-    foot: `An unofficial beginner's guide to <a href="${PSTACK}">pstack</a>, not its official docs. pstack is made by poteto (MIT); the official repo is the source of truth for commands and behavior. Source and feedback for this guide are on <a href="${REPO}">GitHub</a>.` },
-};
+// 三个仓库：地址和路径不翻译，名字和说明在界面文字的 site.repos 里（顺序一样）
+const REPOS = [[REPO, "nevertoday/xxd-pstack"], [PSTACK, "backnotprop/pstack"], [PSTACK_UPSTREAM, "cursor/plugins"]];
 const lang = langOf(Astro.url.pathname);
 const info = langInfo(lang);
-// 非全站语言（日、韩……）只有首页和新手入门；其余页面和数据都用英文版（fl = "en"）
-const x = dict(lang);
+// 界面文字（src/data/ui.js；另外 8 种语言叠 src/l10n/<语言>/ui.json）
+const S = ui(lang);
+// 还不是全站的语言（只有首页和新手入门）：导航里其余页面放进「更多（英文）」，数据和链接都用英文版（fl = "en"）
+const partial = !isFull(lang);
 const fl = fullLang(lang);
-const en = fl === "en";
-const L = x
-  ? { ...UI.en, ...x.ui, html: info.html,
-      repos: UI.en.repos.map((r, i) => [r[0], x.ui.repos?.[i]?.[0] ?? r[1], r[2], x.ui.repos?.[i]?.[1] ?? r[3]]),
-      foot: fmt(x.ui.foot, { pstack: `<a href="${PSTACK}">pstack</a>`, github: `<a href="${REPO}">GitHub</a>` }) }
-  : UI[lang];
+const L = { ...S.site, html: info.html,
+  repos: REPOS.map(([href, path], i) => [href, S.site.repos[i][0], path, S.site.repos[i][1]]),
+  foot: fmt(S.site.foot, { pstack: `<a href="${PSTACK}">pstack</a>`, github: `<a href="${REPO}">GitHub</a>` }) };
 // 语言菜单：每种语言里的同一页；那种语言没有这一页就去它的首页
 const langLinks = LANGS.map((l) => ({ ...l, href: langHref(Astro.url.pathname, l.code) }));
-const rel = (Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ""), "") || "/");
-const alternates = langLinks.filter((l) => l.code !== lang && (isFull(l.code) || /^\/([a-z]{2}\/)?(start\/|$)/.test(rel)));
+const rel = stripLang(Astro.url.pathname);
+const alternates = langLinks.filter((l) => l.code !== lang && hasPage(l.code, rel));
 // 外观面板的文字：中文、英文用 UI Kit 自带的，其他语言传进去
 // 顶栏的三个下拉都从触发按钮的末端垂下来。UI Kit 的定位按物理方向算，从右往左的语言里「末端」是左边
 const menuAt = info.dir === "rtl" ? "bottom-start" : "bottom-end";
-const lookOpts = JSON.stringify(x ? { locale: "en", labels: x.ui.appearance } : { locale: lang === "zh" ? "zh-CN" : "en", labels: { cornersDesc: lang === "zh" ? "关掉就是直角" : "Off keeps every corner square" } });
+const lookOpts = JSON.stringify(lang === "zh" || lang === "en" ? { locale: lang === "zh" ? "zh-CN" : "en", labels: { cornersDesc: S.site.appearance.cornersDesc } } : { locale: "en", labels: S.site.appearance });
 // 「我用的工具」：外观面板里那一组的文字；命令怎么换写法见 src/data/tools.js
-const TU = x?.comp?.tool ?? TOOL_UI[lang] ?? TOOL_UI.en;
+const TU = S.tool;
 const toolOpts = JSON.stringify({ key: TOOL_KEY, def: TOOL_DEFAULT, tools: TOOLS.map((t) => t[0]), names: SKILL_NAMES });
-const wikiItems = WIKI.map((w) => (en ? { ...w, ...WIKI_EN[w.slug] } : w));
-const faqGroups = en ? FAQ_EN : FAQ;
+const wikiItems = wikiFor(fl).items;
+const faqGroups = faqFor(fl);
 const { title, description = L.desc, headings = [], literal = false } = Astro.props;
 const keep = literal ? "" : undefined;
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
@@ -70,7 +56,7 @@ const toc = headings.filter((h) => h.depth === 2); // 只列二级标题：标�
 const searchIndex = JSON.stringify([
   ...LESSONS.map((x) => ({ label: `${x.n}. ${t(x, "title", lang)}`, hint: L.hintLesson, keywords: t(x, "sum", lang), href: lessonHref(x, lang) })),
   ...STEPS.map((x) => ({ label: `${x.n}. ${t(x, "title", fl)}`, hint: L.hintMain, keywords: t(x, "sum", fl), href: stepHref(x, fl) })),
-  ...HOWTO_FLAT.map((x) => ({ label: t(x, "title", fl), hint: `How-to · ${en ? x.groupEn : x.group}`, keywords: en ? x.groupEn : x.group, href: howtoHref(x.slug, fl) })),
+  ...HOWTO_FLAT.map((x) => ({ label: t(x, "title", fl), hint: `How-to · ${t(x.grp, "group", fl)}`, keywords: t(x.grp, "group", fl), href: howtoHref(x.slug, fl) })),
   ...skillsFor(fl).flatMap((g) => g.items.map((x) => ({ label: `/${x.name}`, hint: `${L.hintSkill} · ${g.title}`, keywords: plain(`${x.zh} ${x.use}`), href: link(`/skills/${x.name}/`, fl) }))),
   ...wikiItems.map((x) => ({ label: x.title, hint: "Wiki", keywords: plain(x.one), href: wikiHref(x.slug, fl) })),
   ...faqGroups.flatMap((g) => g.items.map(([q, a], i) => ({ label: q, hint: `${L.hintFaq} · ${g.title}`, keywords: plain(a), href: link(`/faq/#${g.id}-${i + 1}`, fl) }))),
@@ -139,7 +125,7 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
           </section>
         </div>
         <!-- 语言：菜单里列出全部语言，当前的那个打勾；中文、英文是全站，其他语言有首页和新手入门 -->
-        <button class="xxd-btn site-lang" data-size="sm" data-variant="ghost" type="button" data-xxd-menu="site-lang-menu" aria-label={L.lang ?? (lang === "zh" ? "语言" : "Language")} data-tooltip={L.lang ?? (lang === "zh" ? "语言" : "Language")} data-tooltip-placement="bottom"><i data-xxd-icon="Languages" data-size="16"></i><span class="site-lang__name">{info.name}</span></button>
+        <button class="xxd-btn site-lang" data-size="sm" data-variant="ghost" type="button" data-xxd-menu="site-lang-menu" aria-label={L.lang} data-tooltip={L.lang} data-tooltip-placement="bottom"><i data-xxd-icon="Languages" data-size="16"></i><span class="site-lang__name">{info.name}</span></button>
         <div class="xxd-menu site-lang-menu" id="site-lang-menu" role="menu" popover data-placement={menuAt}>
           {langLinks.map((l) => <a class="xxd-menu__item" role="menuitemradio" aria-checked={l.code === lang ? "true" : "false"} href={l.href} hreflang={l.html} lang={l.html}>{l.name}</a>)}
         </div>
@@ -176,7 +162,7 @@ const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="curre
               </a>
             ))}
           </section>
-          {x ? (
+          {partial ? (
             <section class="xxd-sidebar__group">
               <h2 class="xxd-sidebar__label">{L.more}</h2>
               <a class="xxd-sidebar__item" href={stepHref(STEPS[0], "en")} hreflang="en"><span>{L.main}</span></a>

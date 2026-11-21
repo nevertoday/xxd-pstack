@@ -3,96 +3,25 @@
 // 最后才是给会写代码的人的一张图和完整教程路线。
 import Site from "../layouts/Site.astro";
 import Contact from "../components/Contact.astro";
-import { LESSONS, lessonHref, STEPS, stepHref, link, langOf, fullLang, t } from "../data/nav.js";
-import { X as dict, fmt } from "../i18n/index.js";
-import { inline } from "../lib/md.js";
+import { LESSONS, lessonHref, STEPS, stepHref, langOf, fullLang, isFull, t } from "../data/nav.js";
+import { ui } from "../data/ui.js";
+import { fmt } from "../l10n/load.js";
 
 const lang = langOf(Astro.url.pathname);
-const ZH = {
-  brand: "pstack 新手教程",
-  h1: "AI 说「做好了」之前，先让它自己试一遍",
-  lead: ["pstack 是一份装进 AI 里的做事规矩，免费开源。装上以后，AI 会先弄清你要什么，只改该改的地方。", "不会写代码也能用", "。"],
-  cta: ["新手从这里开始", "我会写代码，看完整教程"],
-  ctaNote: "新手入门一共三课，20 分钟。",
-  painH: "你是不是遇到过这些",
-  PAIN: [
-    "AI 说「做好了」，你一打开，按钮点了没反应。",
-    "你说「还是不行」，它说「抱歉，已修复」，结果还是一样，来回好几次。",
-    "你只想改一个地方，它顺手改了一堆你没让它动的东西。",
-  ],
-  diffH: "装上以后，有什么不一样",
-  diffW: "什么时候", diffA: "平常的 AI", diffB: "装了 pstack",
-  DIFF: [
-    ["动手之前", "没弄清你要什么，直接就做", "先用自己的话复述一遍，你能马上纠正"],
-    ["改的时候", "在看起来差不多的地方乱改", "先把问题弄清楚再动手，改得越少越好"],
-    ["说做完的时候", "一句「应该没问题了」", "列出实际检查过什么、看到了什么；查不了的直说"],
-  ],
-  lessonsH: "新手只要三课", lessonsP: "按顺序看，一共 20 分钟。学完这三课就会用了，网站上其他内容都是以后遇到了再查。",
-  lessonsLabel: "新手入门：共 3 课",
-  fitH: "适不适合你", yesH: "适合", noH: "先不用",
-  YES: ["用 AI 做过小网页、小插件、小工具，被「已完成但其实没好」坑过", "已经装了 Claude Code（或 Cursor、Codex），能在里面和 AI 聊天", "想要做对，不在乎慢一点"],
-  NO: ["还没用过 Claude Code 这类工具：先照官方指南装好，能聊天了再来", "改个错别字、换个颜色这种小事：直接跟 AI 说就行", "只要最快、最省额度：pstack 会多检查，更慢，也更费额度"],
-  devH: "会写代码的人看这里",
-  devP: "pstack 是 poteto（React 核心团队出身，在 Cursor 写下 pstack，现在做 Grok Bot）每天自己写代码用的一包技能：34 个技能、22 套剧本、24 条工程原则。下面是它每接一件事走的四步，和 9 步的完整教程。",
-  FLOW: [
-    ["MessageCircle", "你说一句话", "目标，加上怎么算做完。比如「先复现，再修，再验证」。"],
-    ["Route", "/poteto-mode 挑剧本", "从 22 套剧本里选一套，把它的步骤原样抄进待办清单。"],
-    ["Layers", "按步骤调用技能", "读代码用 /how，定设计用 /architect，挑刺用 /interrogate；活多就派子代理。"],
-    ["ShieldCheck", "检查完再交回来", "真实的命令输出、截图、前后对比。验证不了的，直说「没法确定」。"],
-  ],
-  CONN: ["匹配", "执行", "验证"],
-  stepsLabel: (n) => `完整教程：共 ${n} 步`,
-};
-const EN = {
-  brand: "pstack for beginners",
-  h1: "Before the AI says “done,” make it try the thing itself",
-  lead: ["pstack is a free, open-source set of work rules you install into your AI. With it, the AI first makes sure it knows what you want, then changes only what needs changing. ", "You don't need to know how to code", "."],
-  cta: ["Start here if you're new", "I code: the full guide"],
-  ctaNote: "The beginner track is three lessons, 20 minutes.",
-  painH: "Has this happened to you?",
-  PAIN: [
-    "The AI says “done!” You open it, and the button does nothing.",
-    "You say “still broken.” It says “sorry, fixed now.” Same result, again and again.",
-    "You wanted one small change, and it changed a pile of things you never asked about.",
-  ],
-  diffH: "What changes once it's installed",
-  diffW: "When", diffA: "AI as usual", diffB: "With pstack",
-  DIFF: [
-    ["Before it starts", "Starts without checking what you want", "Repeats your goal in its own words first, so you can correct it right away"],
-    ["While it changes things", "Changes things somewhere that looks about right", "Figures out the problem first, then changes as little as it can"],
-    ["When it says it's done", "“Should be fine now”", "Lists what it actually checked and what it saw, and says plainly what it couldn't check"],
-  ],
-  lessonsH: "Beginners need just three lessons", lessonsP: "Read them in order, 20 minutes in all. After these three you can use it. Everything else on the site is for looking up later.",
-  lessonsLabel: "Beginner track: 3 lessons",
-  fitH: "Is it for you?", yesH: "Yes, if", noH: "Not yet, if",
-  YES: ["You've made small pages, plug-ins or tools with AI and been burned by “done” that wasn't", "You already have Claude Code (or Cursor or Codex) and can chat with the AI in it", "You'd rather get it right than get it fast"],
-  NO: ["You haven't used a tool like Claude Code yet: install it with the official guide first, and come back once you can chat", "It's a tiny change like a typo or a color: just ask the AI directly", "You only want fastest and cheapest: pstack checks more, so it's slower and uses more of your plan"],
-  devH: "If you write code",
-  devP: "pstack is the pack of skills poteto (formerly on the React core team; wrote pstack at Cursor, now builds Grok Bot) uses for their own code every day: 34 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
-  FLOW: [
-    ["MessageCircle", "You say one sentence", "The goal, plus how you'll know it's done. For example: “reproduce it first, then fix, then verify.”"],
-    ["Route", "/poteto-mode picks a playbook", "It chooses one of 22 playbooks and copies its steps into the todo list as they are."],
-    ["Layers", "Skills run step by step", "/how to read code, /architect to settle a design, /interrogate to pick holes; subagents when there's a lot to do."],
-    ["ShieldCheck", "It checks before handing back", "Real command output, screenshots, before-and-after. If something can't be verified, it says so."],
-  ],
-  CONN: ["match", "do", "verify"],
-  stepsLabel: (n) => `Full guide: ${n} steps`,
-};
-// 其他语言：文字来自 src/i18n/<语言>.js；FLOW 的图标沿用英文版；完整教程链到英文版
-const x = dict(lang);
+// 文字在 src/data/ui.js 的 home（另外 8 种语言在 src/l10n/<语言>/ui.json）；还不是全站的语言，完整教程链到英文版
+const S = ui(lang);
+const C = S.home;
 const fl = fullLang(lang);
-const C = x
-  ? { ...EN, ...x.home, brand: x.ui.brand, FLOW: EN.FLOW.map(([icon], i) => [icon, ...(x.home.FLOW[i] ?? EN.FLOW[i].slice(1))]), stepsLabel: (n) => fmt(x.home.stepsLabel, { n }) }
-  : lang === "en" ? EN : ZH;
+const FLOW_ICONS = ["MessageCircle", "Route", "Layers", "ShieldCheck"];
 const headings = [["h-pain", C.painH], ["h-diff", C.diffH], ["h-lessons", C.lessonsH], ["h-fit", C.fitH], ["h-dev", C.devH]].map(([slug, text]) => ({ slug, text, depth: 2 }));
 ---
-<Site title={C.brand} headings={headings}>
+<Site title={S.site.brand} headings={headings}>
   <div class="home">
     <h1>{C.h1}</h1>
     <p class="home__lead">{C.lead[0]}<mark>{C.lead[1]}</mark>{C.lead[2]}</p>
     <div class="home__cta">
-      <a class="xxd-btn" data-variant="primary" href={lessonHref(LESSONS[0], lang)}>{C.cta[0]}<i data-xxd-icon="ArrowRight" data-size="16"></i></a>
-      <a class="xxd-btn" data-variant="ghost" href={stepHref(STEPS[0], fl)} hreflang={fl === lang ? undefined : fl}>{C.cta[1]}</a>
+      <a class="xxd-btn" data-variant="primary" href={lessonHref(LESSONS[0], lang)}>{C.cta}<i data-xxd-icon="ArrowRight" data-size="16"></i></a>
+      <a class="xxd-btn" data-variant="ghost" href={stepHref(STEPS[0], fl)} hreflang={fl === lang ? undefined : fl}>{C.ctaFull}</a>
     </div>
     <p class="home__note">{C.ctaNote}</p>
 
@@ -138,9 +67,9 @@ const headings = [["h-pain", C.painH], ["h-diff", C.diffH], ["h-lessons", C.less
     <section aria-labelledby="h-dev">
       <h2 id="h-dev">{C.devH}</h2>
       <p>{C.devP}</p>
-      {x && <p class="home__note">{C.devNote}</p>}
+      {!isFull(lang) && <p class="home__note">{S.partial.devNote}</p>}
       <div class="flow">
-        {C.FLOW.map(([icon, h, p], i) => (
+        {C.FLOW.map(([h, p], i) => (
           <>
             {i > 0 && (
               <div class="flow__conn" aria-hidden="true">
@@ -149,14 +78,14 @@ const headings = [["h-pain", C.painH], ["h-diff", C.diffH], ["h-lessons", C.less
               </div>
             )}
             <div class="flow__box" data-mine={i === 1 ? "" : undefined}>
-              <i class="flow__icon" data-xxd-icon={icon} data-size="20"></i>
+              <i class="flow__icon" data-xxd-icon={FLOW_ICONS[i]} data-size="20"></i>
               <p class="flow__title">{h}</p>
               <p class="flow__desc">{p}</p>
             </div>
           </>
         ))}
       </div>
-      <ol class="xxd-steps roadmap" data-vertical start={STEPS[0].n} aria-label={C.stepsLabel(STEPS.length)}>
+      <ol class="xxd-steps roadmap" data-vertical start={STEPS[0].n} aria-label={fmt(C.stepsLabel, { n: STEPS.length })}>
         {STEPS.map((s) => (
           <li class="xxd-steps__item">
             <span class="xxd-steps__mark" aria-hidden="true">{s.n}</span>

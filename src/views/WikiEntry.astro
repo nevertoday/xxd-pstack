@@ -2,21 +2,20 @@
 // 一个 Wiki 条目：一句话、打个比方、在 pstack 里、（可选）清单、常见误区、动手操作、相关条目
 import Site from "../layouts/Site.astro";
 import { WIKI } from "../data/wiki.js";
-import { WIKI_EN, WIKI_GROUPS_EN } from "../data/wiki.en.js";
+import { wikiEntry, wikiGroupName } from "../data/wiki.i18n.js";
 import { wikiHref, howtoHref, stepHref, HOWTO_FLAT, STEPS, link, langOf, t } from "../data/nav.js";
+import { ui } from "../data/ui.js";
+import { fmt } from "../l10n/load.js";
 import { inline } from "../lib/md.js";
 interface Props { slug: string }
 const lang = langOf(Astro.url.pathname);
-const en = lang === "en";
-const local = (x) => (en ? { ...x, ...WIKI_EN[x.slug], group: WIKI_GROUPS_EN[x.group] } : x);
+const local = (x) => ({ ...wikiEntry(x, lang), group: wikiGroupName(x.group, lang) });
 const raw = WIKI.find((x) => x.slug === Astro.props.slug);
 const w = local(raw);
 const titleOf = (slug) => { const x = WIKI.find((y) => y.slug === slug); if (!x) throw new Error(`Wiki 里没有 ${slug}`); return local(x).title; };
 const howto = w.howto && HOWTO_FLAT.find((h) => h.slug === w.howto);
 const step = w.step !== undefined && STEPS.find((s) => s.n === w.step);
-const T = en
-  ? { like: "An analogy", here: "In pstack", list: "List", head: ["Name", "In plain words"], myths: "Common misconceptions", try: "Try it: ", step: (n) => `Full guide step ${n}: `, see: "Related: ", sep: ", " }
-  : { like: "打个比方", here: "在 pstack 里", list: "清单", head: ["名字", "说人话"], myths: "常见误区", try: "动手操作：", step: (n) => `完整教程第 ${n} 步：`, see: "相关条目：", sep: "、" };
+const T = ui(lang).wikiEntry;
 const headings = [
   { slug: "like", text: T.like, depth: 2 },
   { slug: "here", text: T.here, depth: 2 },
@@ -44,7 +43,7 @@ const headings = [
     )}
     <h2 id="myths">{T.myths}</h2>
     <ul>{w.myths.map((m) => <li set:html={inline(m)} />)}</ul>
-    {(howto || step) && <p>{T.try}{step && <a href={stepHref(step, lang)}>{T.step(step.n)}{t(step, "title", lang)}</a>}{howto && step && T.sep}{howto && <a href={howtoHref(howto.slug, lang)}>{t(howto, "title", lang)}</a>}</p>}
+    {(howto || step) && <p>{T.try}{step && <a href={stepHref(step, lang)}>{fmt(T.step, { n: step.n })}{t(step, "title", lang)}</a>}{howto && step && T.sep}{howto && <a href={howtoHref(howto.slug, lang)}>{t(howto, "title", lang)}</a>}</p>}
     {w.see?.length > 0 && <p class="wiki__see">{T.see}{w.see.map((s, i) => <>{i > 0 && T.sep}<a href={wikiHref(s, lang)}>{titleOf(s)}</a></>)}</p>}
   </article>
 </Site>

@@ -19,8 +19,4 @@ export const TOOL_KEY = "xxd-pstack-tool";
 
 export const cmdFor = (name, tool) => (tool === "codex" ? "$" : tool === "cc" ? "/pstack:" : "/") + name;
 
-// 界面文字。bare 那一项的名字：用 npx skills 装进 Claude Code 等工具的人
-export const TOOL_UI = {
-  zh: { group: "命令", label: "我用的工具", desc: "网站上的命令按这个工具的写法显示，复制就能用", bare: "npx 装的", now: "现在这样写：" },
-  en: { group: "Commands", label: "I use", desc: "Commands on this site are shown for this tool, so copying just works", bare: "Installed with npx", now: "Shown as: " },
-};
+// 界面文字（「我用的工具」那一组的标题、说明，bare 那一项的名字）在 src/data/ui.js 的 tool 里

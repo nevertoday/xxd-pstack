@@ -5,10 +5,14 @@
 //   全文：中文 / 原文 / 对照，带「跳到哪一节」
 // 没有 JS 时三块都显示。地址栏的 #overview / #learn / #full 或任何一节的锚点，都会切到对应的标签页。
 // 数据：简介来自 skills.js（英文叠 skills.en.js）；原文、译文、写法（lessons）、对比和每节一句（brief）来自 data/skill-docs/<名>.json。
+// 另外 8 种语言：译文、写法、概览来自 src/l10n/<语言>/skill-docs/<名>.json（skillDocFor，缺的用英文），全文和中文页一样能切译文 / 原文 / 对照。
 import Site from "../layouts/Site.astro";
 import Copy from "../components/Copy.astro";
 import { skillsFor } from "../data/skills.i18n.js";
+import { skillDocFor } from "../data/skill-docs.i18n.js";
 import { link, PSTACK, langOf, HOWTO_FLAT, howtoHref, t } from "../data/nav.js";
+import { ui } from "../data/ui.js";
+import { fmt } from "../l10n/load.js";
 import { inline } from "../lib/md.js";
 import { skillSections } from "../lib/skill-sections.js";
 import { micromark } from "micromark";
@@ -40,31 +44,18 @@ const fixLinks = (html) =>
 // 原文的标题往下降两级（页面自己有 h1、h2）
 const md = (x) => fixLinks(micromark(x.replace(/^(#{1,4}) /gm, "$1## "), { extensions: [gfm()], htmlExtensions: [gfmHtml()] }));
 
-const T = en
-  ? { crumbs: "Skills at a glance", use: "When to use", ex: "Say it like this", needs: "Install with", guide: "Full how-to", sep: ", ", oneLine: "In one line",
-      tabs: ["Overview", "Wording worth borrowing", "Full text"], tabsLabel: "Parts of this page",
-      vsH: "Just asking vs. using it", vsP: (n) => `The same request, typed plainly or with /${n}. Here's what changes.`, without: "Just asking", with: (n) => `With /${n}`,
-      outH: "What the document says", outP: (secs, words, min) => secs ? `${secs} sections, about ${words} words, ${min} min to read. Click a section to read it.` : `About ${words} words, ${min} min to read.`,
-      intro: "Opening", readIt: "Read", toLearn: "See the wording worth borrowing", toFull: "Read the full text",
-      learnH: "Wording worth borrowing", learnP: "A few sentences from the original: what each one makes the AI do, why it works, and how you can borrow it.",
-      does: "Makes the AI", why: "Why it works", try: "Borrow it",
-      fullH: "Full text", fullP: "The SKILL.md the AI reads, as written.", modes: [["en", "Original"]], jump: "Jump to", jumpTop: "Top",
-      credit: ["Original by Lauren Tan (poteto), MIT license. Checked against the pstack mirror at", "."], open: "View on GitHub",
-      moreH: (g) => `More in “${g}”`, prev: "Previous", next: "Next" }
-  : { crumbs: "技能速查", use: "什么时候用", ex: "这样说", needs: "要一起装", guide: "详细教程", sep: "、", oneLine: "一句话",
-      tabs: ["概览", "写法亮点", "全文"], tabsLabel: "这一页的几部分",
-      vsH: "用它和不用它", vsP: (n) => `同一件事，直接跟 AI 说，和点名用 /${n}，AI 的做法不一样：`, without: "直接说", with: (n) => `用 /${n}`,
-      outH: "文档写了什么", outP: (secs, words, min, zh) => `${secs ? `原文分 ${secs} 节，` : ""}约 ${words} 个英文单词，中文译文约 ${zh} 字，读完约 ${min} 分钟。${secs ? "点一节直接跳到全文。" : ""}`,
-      intro: "开头", readIt: "读这一节", toLearn: "看写法亮点", toFull: "读全文",
-      learnH: "写法亮点", learnP: "挑了几句原文：每句让 AI 做什么、为什么这样写管用、你写提示词时怎么借来用。",
-      does: "让 AI", why: "为什么管用", try: "借来用",
-      fullH: "全文", fullP: "AI 读到的就是这份 SKILL.md。可以看中文、看原文，或者一段一段对照着看。", modes: [["zh", "中文"], ["en", "原文"], ["both", "对照"]], jump: "跳到", jumpTop: "开头",
-      credit: ["原文作者 Lauren Tan（poteto），MIT 许可。译文由本站翻译，核对到 pstack 镜像", "。"], open: "在 GitHub 上看",
-      moreH: (g) => `「${g}」里的其他技能`, prev: "上一个", next: "下一个" };
+// 界面文字：有译文的语言（中文以外）用 tr 里的 fullP、credit
+const S = ui(lang);
+const T = lang === "zh" || en ? S.skillDoc : { ...S.skillDoc, ...S.skillDoc.tr };
+// 另外 8 种语言的译文（zh、en 是 null）
+const L = lang === "zh" || en ? null : skillDocFor(d, lang);
 
-const lessons = (d.lessons || []).map((l) => ({ quote: l.quote, quoteZh: l.quoteZh, ...(en ? l.en : l.zh) }));
-const brief = d.brief?.[en ? "en" : "zh"];
-const outline = skillSections(d.blocks);
+// quoteZh：原句的译文（中文页是 quoteZh，另外 8 种语言是 quoteTr；还没翻、和原句一样的不显示）
+const lessons = (d.lessons || []).map((l, i) => ({ ...(en ? l.en : L ? L.lessons[i] : l.zh), quote: l.quote, quoteZh: L ? L.lessons[i].quoteTr : l.quoteZh }));
+const brief = L ? L.brief : d.brief?.[en ? "en" : "zh"];
+// 全文的每一块：en 是原文，zh 是译文（中文或另外 8 种语言之一）
+const blocks = L ? d.blocks.map((b, i) => ({ en: b.en, zh: L.blocks[i] })) : d.blocks;
+const outline = skillSections(blocks);
 const secIds = new Map(outline.sections.map((x, i) => [x.index, `sec-${i + 1}`]));
 const zhChars = d.blocks.reduce((n, b) => n + ((b.zh || "").match(/[一-鿿]/g) || []).length, 0);
 const minutes = Math.max(1, Math.round(outline.total / 220));
@@ -76,16 +67,18 @@ const headings = [
   ...(lessons.length ? [{ slug: "learn", text: T.learnH, depth: 2 }] : []),
   { slug: "full", text: T.fullH, depth: 2 },
 ];
-const badge = s.auto ? ["success", en ? "Auto" : "自动调用"] : s.manual ? ["warning", en ? "Type it yourself" : "要你亲手打"] : ["", en ? "Call when needed" : "按需点名"];
+const badge = s.auto ? ["success", S.skills.auto] : s.manual ? ["warning", S.skills.manual] : ["", S.skills.named];
 // 有专门 How-to 的技能：卡片里给一条「详细教程」
 const GUIDE = { "create-verification-skill": "verify-app", "maintain-verification-skill": "verify-app", "create-formal-verification-skill": "formal-verify", "maintain-formal-verification-skill": "formal-verify" };
 const guide = GUIDE[name] && HOWTO_FLAT.find((h) => h.slug === GUIDE[name]);
-const desc = en ? d.description.en : d.description.zh || d.description.en;
+const desc = en ? d.description.en : L ? L.description : d.description.zh || d.description.en;
+const outP = outline.sections.length ? T.outP : T.outPNoSec;
+const modes = [["zh", T.modes.tr], ["en", T.modes.en], ["both", T.modes.both]];
 const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T.tabs[1], lessons.length]] : []), ["full", T.tabs[2], null]];
 ---
-<Site title={`/${name} · ${T.crumbs}`} description={s.zh} headings={headings}>
+<Site title={`/${name} · ${S.skills.h}`} description={s.zh} headings={headings}>
   <article class="xxd-prose skilldoc">
-    <ol class="xxd-breadcrumbs" data-size="sm"><li><a href={link("/skills/", lang)}>{T.crumbs}</a></li><li><a href={link(`/skills/#${s.group.id}`, lang)}>{s.group.title}</a></li><li aria-current="page">/{name}</li></ol>
+    <ol class="xxd-breadcrumbs" data-size="sm"><li><a href={link("/skills/", lang)}>{S.skills.h}</a></li><li><a href={link(`/skills/#${s.group.id}`, lang)}>{s.group.title}</a></li><li aria-current="page">/{name}</li></ol>
     <div class="skilldoc__head">
       <h1><code>/{name}</code></h1>
       <span class="xxd-badge" data-tone={badge[0] || undefined}>{badge[1]}</span>
@@ -94,7 +87,7 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
 
     <div class="skilldoc__card">
       <dl class="skilldoc__facts">
-        <div><dt>{T.use}</dt><dd>{s.use}</dd></div>
+        <div><dt>{S.skills.use}</dt><dd>{s.use}</dd></div>
         {s.needs && <div><dt>{T.needs}</dt><dd>{s.needs.join(T.sep)}</dd></div>}
         {guide && <div><dt>{T.guide}</dt><dd><a class="xxd-link" href={howtoHref(guide.slug, lang)}>{t(guide, "title", lang)}</a></dd></div>}
       </dl>
@@ -117,16 +110,16 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
       {brief && (
         <>
           <h2 id="compare">{T.vsH}</h2>
-          <p class="skilldoc__lead">{T.vsP(name)}</p>
+          <p class="skilldoc__lead">{fmt(T.vsP, { name })}</p>
           <div class="vs" role="table" aria-label={T.vsH}>
             <div class="vs__row vs__row--head" role="row">
               <span role="columnheader">{T.without}</span>
-              <span role="columnheader"><code>{T.with(name)}</code></span>
+              <span role="columnheader"><code>{fmt(T.with, { name })}</code></span>
             </div>
             {brief.compare.map((r) => (
               <div class="vs__row" role="row">
                 <span class="vs__without" role="cell" data-label={T.without}><i data-xxd-icon="X" data-size="14" aria-hidden="true"></i><span set:html={inline(r.without)} /></span>
-                <span class="vs__with" role="cell" data-label={T.with(name)}><i data-xxd-icon="Check" data-size="14" aria-hidden="true"></i><span set:html={inline(r.with)} /></span>
+                <span class="vs__with" role="cell" data-label={fmt(T.with, { name })}><i data-xxd-icon="Check" data-size="14" aria-hidden="true"></i><span set:html={inline(r.with)} /></span>
               </div>
             ))}
           </div>
@@ -134,7 +127,7 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
       )}
 
       <h2 id="outline">{T.outH}</h2>
-      <p class="skilldoc__lead">{T.outP(outline.sections.length, round(outline.total), minutes, round(zhChars))}</p>
+      <p class="skilldoc__lead">{fmt(outP, { secs: outline.sections.length, words: round(outline.total), min: minutes, zh: round(zhChars) })}</p>
       {brief?.intro && <p class="outline__intro"><span>{T.intro}</span><span set:html={inline(brief.intro)} /></p>}
       {outline.sections.length > 0 && (
         <ol class="outline">
@@ -168,7 +161,7 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
               <p class="lesson__title">{l.title}</p>
               <blockquote class="lesson__quote">
                 <p lang="en" set:html={inline(l.quote)} />
-                {!en && l.quoteZh && <p class="lesson__quote-zh" set:html={inline(l.quoteZh)} />}
+                {!en && l.quoteZh && l.quoteZh !== l.quote && <p class="lesson__quote-zh" set:html={inline(l.quoteZh)} />}
               </blockquote>
               <dl class="lesson__notes">
                 <div><dt>{T.does}</dt><dd set:html={inline(l.does)} /></div>
@@ -187,7 +180,7 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
       <div class="skilldoc__tools">
         {!en && (
           <div class="xxd-segmented skilldoc__modes" data-xxd-segmented role="radiogroup" aria-label={T.fullH} id="skilldoc-modes">
-            {T.modes.map(([v, label], i) => <button type="button" role="radio" data-value={v} aria-checked={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{label}</button>)}
+            {modes.map(([v, label], i) => <button type="button" role="radio" data-value={v} aria-checked={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{label}</button>)}
           </div>
         )}
         {outline.sections.length > 1 && (
@@ -205,7 +198,7 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
           <div class="doc__en" lang="en"><p><span class="doc__tag">description</span>{d.description.en}</p></div>
           {!en && <div class="doc__zh"><p><span class="doc__tag">description</span>{desc}</p></div>}
         </div>
-        {d.blocks.map((b, i) => (
+        {blocks.map((b, i) => (
           <div class="doc__row" id={secIds.get(i)}>
             <div class="doc__en" lang="en" set:html={md(b.en)} />
             {!en && <div class="doc__zh" set:html={md(b.zh || b.en)} />}
@@ -215,10 +208,10 @@ const panels = [["overview", T.tabs[0], null], ...(lessons.length ? [["learn", T
       <p class="skilldoc__credit">{T.credit[0]} <code class="xxd-code-inline">{d.commit}</code>{T.credit[1]} <a href={src} target="_blank" rel="noopener">{T.open}</a></p>
     </section>
 
-    <nav class="skilldoc__more" aria-label={T.moreH(s.group.title)}>
+    <nav class="skilldoc__more" aria-label={fmt(T.moreH, { group: s.group.title })}>
       {siblings.length > 0 && (
         <>
-          <p class="skilldoc__more-h">{T.moreH(s.group.title)}</p>
+          <p class="skilldoc__more-h">{fmt(T.moreH, { group: s.group.title })}</p>
           <ul class="skilldoc__chips">
             {siblings.map((x) => <li><a href={link(`/skills/${x.name}/`, lang)} title={x.zh}><code>/{x.name}</code></a></li>)}
           </ul>

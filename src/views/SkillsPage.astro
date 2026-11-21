@@ -4,36 +4,27 @@
 import Site from "../layouts/Site.astro";
 import { SKILL_COUNT } from "../data/skills.js";
 import { skillsFor } from "../data/skills.i18n.js";
+import { skillDocFor } from "../data/skill-docs.i18n.js";
 import { link, wikiHref, langOf } from "../data/nav.js";
+import { ui } from "../data/ui.js";
+import { fmt } from "../l10n/load.js";
 const lang = langOf(Astro.url.pathname);
-const en = lang === "en";
 const SKILLS = skillsFor(lang);
 const headings = SKILLS.map((g) => ({ slug: g.id, text: g.title, depth: 2 }));
 const kind = (s) => (s.auto ? "auto" : s.manual ? "manual" : "named");
 const count = (k) => SKILLS.reduce((n, g) => n + g.items.filter((s) => kind(s) === k).length, 0);
-const T = en
-  ? { h: "Skills at a glance", desc: `All ${SKILL_COUNT} pstack skills, each in one plain sentence: what it does and when to use it.`,
-      all: "All", auto: "Auto", manual: "Type it yourself", named: "Call when needed", use: "When to use",
-      search: "Filter by name or task, e.g. review, slow, why", filterLabel: "Who calls it", empty: "No skill matches. Try fewer words, or pick “All”.",
-      legend: { auto: "/poteto-mode uses it when a step needs it", manual: "Runs only when you type it yourself", named: "Type it when you want it" },
-      shown: (n) => `${n} shown` }
-  : { h: "技能速查", desc: `pstack 的 ${SKILL_COUNT} 个技能，每个一句人话：干什么、什么时候用。`,
-      all: "全部", auto: "自动调用", manual: "要你亲手打", named: "按需点名", use: "什么时候用",
-      search: "按名字或想做的事筛选，比如：审、性能、为什么", filterLabel: "谁来调用", empty: "没有对得上的技能。少打几个字，或者选「全部」。",
-      legend: { auto: "/poteto-mode 需要时自己用，不用你点名", manual: "只有你亲手打出来才会运行", named: "想用的时候自己打" },
-      shown: (n) => `显示 ${n} 个` };
+const T = ui(lang).skills;
 const filters = [["all", T.all, SKILL_COUNT], ["auto", T.auto, count("auto")], ["manual", T.manual, count("manual")], ["named", T.named, count("named")]];
 const tone = { auto: "success", manual: "warning", named: undefined };
 // 筛选也搜例句和详情页「用它和不用它」那几行，这样打「审」「性能」也能找到对的技能
 const docs = import.meta.glob("../data/skill-docs/*.json", { eager: true, import: "default" });
-const briefText = (n) => { const b = docs[`../data/skill-docs/${n}.json`]?.brief?.[en ? "en" : "zh"]; return b ? b.compare.map((r) => `${r.without} ${r.with}`).join(" ") : ""; };
+const briefOf = (n) => { const d = docs[`../data/skill-docs/${n}.json`]; return !d ? null : lang === "zh" || lang === "en" ? d.brief?.[lang] : skillDocFor(d, lang).brief; };
+const briefText = (n) => { const b = briefOf(n); return b ? b.compare.map((r) => `${r.without} ${r.with}`).join(" ") : ""; };
 ---
-<Site title={T.h} description={T.desc} headings={headings}>
+<Site title={T.h} description={fmt(T.desc, { n: SKILL_COUNT })} headings={headings}>
   <article class="xxd-prose skills">
     <h1>{T.h}</h1>
-    {en
-      ? <p>{SKILL_COUNT} skills, plus <a href={wikiHref("principles", lang)}>24 principles</a>. <strong>You don't need to memorize them.</strong> Day to day, type <code class="xxd-code-inline">/poteto-mode</code> and it calls the “Auto” ones itself. Come here to call one by name, or to look up a name the AI mentioned. Click a card to see how it differs from just asking, what its document says, and the full text.</p>
-      : <p>{SKILL_COUNT} 个技能，外加 <a href={wikiHref("principles")}>24 条原则</a>。<strong>新手不用全记住</strong>：平时只打 <code class="xxd-code-inline">/poteto-mode</code>，标着「自动调用」的它会自己叫上。想点名用某一个，或者 AI 提到一个名字想查查，就来这里。点开一张卡，能看到它和直接跟 AI 说有什么不同、文档每一节写了什么，还有全文。</p>}
+    <p>{fmt(T.intro[0], { n: SKILL_COUNT })}<a href={wikiHref("principles", lang)}>{T.intro[1]}</a>{T.intro[2]}<strong>{T.intro[3]}</strong>{T.intro[4]}<code class="xxd-code-inline">/poteto-mode</code>{T.intro[5]}</p>
 
     <div class="skills__filter" data-skills-filter hidden>
       <div class="xxd-input-wrap skills__search">
@@ -69,7 +60,7 @@ const briefText = (n) => { const b = docs[`../data/skill-docs/${n}.json`]?.brief
     ))}
     <p class="skills__empty" id="skills-empty" hidden>{T.empty}</p>
   </article>
-  <script is:inline define:vars={{ shown: T.shown("#") }}>
+  <script is:inline define:vars={{ shown: fmt(T.shown, { n: "#" }) }}>
     (() => {
       const box = document.querySelector("[data-skills-filter]");
       if (!box) return;

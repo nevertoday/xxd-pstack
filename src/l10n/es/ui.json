@@ -1,0 +1,196 @@
+{
+  "site": {
+    "brand": "pstack para principiantes",
+    "desc": "Aprende pstack aunque no sepas programar: tres lecciones, 20 minutos, palabras sencillas.",
+    "skip": "Ir al contenido",
+    "menu": "Abrir menú",
+    "search": "Buscar en la guía",
+    "searchPh": "Busca lecciones, pasos, skills, términos…",
+    "searchEmpty": "No hay resultados. Prueba con otra palabra",
+    "look": "Apariencia y comandos",
+    "lang": "Idioma",
+    "repo": "Esta guía en GitHub",
+    "repoMore": "Otros repositorios: la copia de pstack, el original oficial",
+    "repoDefault": "Predeterminado",
+    "repos": [
+      [
+        "Esta guía",
+        "El código de esta guía; deja aquí tus comentarios"
+      ],
+      [
+        "Copia de pstack",
+        "La versión que sigue este sitio"
+      ],
+      [
+        "pstack oficial",
+        "Lo mantiene poteto, para Cursor"
+      ]
+    ],
+    "navLabel": "Navegación del sitio",
+    "start": "Empezar",
+    "home": "Inicio",
+    "lessons": "Para principiantes: empieza aquí",
+    "howto": "How-to: cómo hacerlo",
+    "skills": "Todas las skills: las 34",
+    "wiki": "Wiki: qué es cada cosa",
+    "faq": "Preguntas frecuentes",
+    "toc": "En esta página",
+    "tocLabel": "En esta página",
+    "hintLesson": "Para principiantes",
+    "section": "Sección",
+    "foot": "Una guía no oficial de {pstack} para principiantes, no su documentación oficial. pstack lo hace poteto (licencia MIT); el repositorio oficial es la referencia para comandos y comportamiento. El código de esta guía y los comentarios están en {github}.",
+    "appearance": {
+      "group": "Apariencia",
+      "theme": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema",
+      "corners": "Esquinas redondeadas",
+      "cornersDesc": "Si lo desactivas, todas las esquinas quedan rectas",
+      "accent": "Color de acento",
+      "accentDesc": "Se usa en botones, selección y foco"
+    }
+  },
+  "tool": {
+    "group": "Comandos",
+    "label": "Uso",
+    "desc": "Los comandos del sitio se muestran como se escriben en esta herramienta: copiar y listo",
+    "bare": "Instalado con npx",
+    "now": "Se escribe así: "
+  },
+  "home": {
+    "h1": "Antes de que la IA diga «listo», haz que lo pruebe ella misma",
+    "lead": [
+      "pstack es un conjunto de reglas de trabajo, gratis y de código abierto, que instalas en tu IA. Con él, la IA primero se asegura de entender lo que quieres y luego cambia solo lo necesario. ",
+      "No necesitas saber programar",
+      "."
+    ],
+    "cta": "Empieza aquí si eres nuevo",
+    "ctaNote": "Para principiantes: tres lecciones, 20 minutos.",
+    "painH": "¿Te ha pasado esto?",
+    "PAIN": [
+      "La IA dice «¡listo!». Lo abres y el botón no hace nada.",
+      "Le dices «sigue sin funcionar». Te responde «perdón, ya está arreglado». Y pasa lo mismo, una y otra vez.",
+      "Querías un cambio pequeño y te cambió un montón de cosas que no pediste."
+    ],
+    "diffH": "Qué cambia cuando lo instalas",
+    "diffW": "Cuándo",
+    "diffA": "La IA de siempre",
+    "diffB": "Con pstack",
+    "DIFF": [
+      [
+        "Antes de empezar",
+        "Empieza sin confirmar qué quieres",
+        "Primero repite tu objetivo con sus palabras, para que la corrijas enseguida"
+      ],
+      [
+        "Mientras hace cambios",
+        "Cambia algo en un sitio que parece más o menos correcto",
+        "Primero averigua cuál es el problema y luego cambia lo menos posible"
+      ],
+      [
+        "Cuando dice que terminó",
+        "«Ya debería funcionar»",
+        "Te dice qué comprobó de verdad y qué vio, y te avisa claramente de lo que no pudo comprobar"
+      ]
+    ],
+    "lessonsH": "Si empiezas, te bastan tres lecciones",
+    "lessonsP": "Léelas en orden, 20 minutos en total. Con estas tres ya puedes usarlo. Lo demás del sitio es para consultarlo después.",
+    "lessonsLabel": "Para principiantes: 3 lecciones",
+    "fitH": "¿Es para ti?",
+    "yesH": "Sí, si",
+    "noH": "Todavía no, si",
+    "YES": [
+      "Has hecho páginas pequeñas, extensiones o herramientas con IA y te ha fallado un «listo» que no lo estaba",
+      "Ya tienes Claude Code (o Cursor o Codex) y puedes chatear con la IA ahí",
+      "Prefieres que salga bien a que salga rápido"
+    ],
+    "NO": [
+      "Todavía no has usado una herramienta como Claude Code: instálala primero con la guía oficial y vuelve cuando ya puedas chatear",
+      "Es un cambio mínimo, como una palabra mal escrita o un color: pídeselo directamente a la IA",
+      "Solo quieres lo más rápido y barato: pstack comprueba más, así que es más lento y gasta más de tu plan"
+    ],
+    "devH": "Si sabes programar",
+    "devP": "pstack es el paquete de skills que poteto (exmiembro del equipo principal de React; creó pstack en Cursor y ahora desarrolla Grok Bot) usa a diario en su propio código: 34 skills, 22 playbooks y 24 principios de ingeniería. Abajo están los cuatro pasos que sigue en cada tarea y la guía completa de 9 pasos.",
+    "FLOW": [
+      [
+        "Dices una frase",
+        "El objetivo y cómo sabrás que está terminado. Por ejemplo: «primero reprodúcelo, luego arréglalo y después compruébalo»."
+      ],
+      [
+        "/poteto-mode elige un playbook",
+        "Escoge uno de los 22 playbooks y copia sus pasos tal cual en la lista de tareas."
+      ],
+      [
+        "Las skills van paso a paso",
+        "/how para leer código, /architect para decidir un diseño, /interrogate para buscarle fallos; IA ayudantes cuando hay mucho trabajo."
+      ],
+      [
+        "Comprueba antes de entregar",
+        "Salida real de comandos, capturas de pantalla, el antes y el después. Si algo no se puede verificar, lo dice."
+      ]
+    ],
+    "CONN": [
+      "elegir",
+      "hacer",
+      "comprobar"
+    ],
+    "stepsLabel": "Guía completa: {n} pasos"
+  },
+  "lesson": {
+    "eyebrow": "Para principiantes · lección {n} de {total}",
+    "prog": "Progreso: lección {n} de {total}",
+    "nav": "Lección anterior y siguiente",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "title": "Lección {n}: {title}",
+    "tldr": "En una frase"
+  },
+  "callout": {
+    "ok": "Deberías ver",
+    "warn": "Atención",
+    "no": "No hagas esto",
+    "tip": "Consejo"
+  },
+  "copy": {
+    "title": "Copia esto",
+    "copy": "Copiar"
+  },
+  "cmd": {
+    "done": "Comando copiado",
+    "label": "Copiar comando: {c}"
+  },
+  "reply": {
+    "title": "Ilustración: más o menos así se ve su respuesta"
+  },
+  "feedback": {
+    "lead": "¿Algo de esta página no se entendió, o no funcionó como dice?",
+    "gh": "Cuéntalo en GitHub"
+  },
+  "contact": {
+    "h": "Preguntas y conversación",
+    "p": "¿Te atascaste en un paso, encontraste algo poco claro o hiciste algo con pstack que quieras enseñar? Tráelo a GitHub. Las preguntas que más se repiten acaban en la guía. Puedes escribir en español.",
+    "btn": "Pregunta o comenta en GitHub",
+    "x": "El autor en X",
+    "privacy": "Antes de enviar capturas, tapa las claves de API, el código de tu empresa y los datos de tus cuentas."
+  },
+  "partial": {
+    "more": "Más (en inglés)",
+    "main": "Guía completa: 9 pasos",
+    "hintMain": "Guía completa (en inglés)",
+    "hintFaq": "Preguntas frecuentes (en inglés)",
+    "hintSkill": "Skill (en inglés)",
+    "ctaFull": "Sé programar: la guía completa (en inglés)",
+    "devNote": "Por ahora la guía completa está en inglés (y en chino).",
+    "feedbackFaq": [
+      ". O mira antes las ",
+      "preguntas frecuentes (en inglés)",
+      "."
+    ],
+    "contactFaq": [
+      "Antes de preguntar, mira las ",
+      "preguntas frecuentes (en inglés)",
+      ": muchas respuestas ya están ahí."
+    ]
+  }
+}

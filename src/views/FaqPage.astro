@@ -2,16 +2,14 @@
 import Site from "../layouts/Site.astro";
 import Q from "../components/Q.astro";
 import Contact from "../components/Contact.astro";
-import { FAQ } from "../data/faq.js";
-import { FAQ_EN } from "../data/faq.en.js";
+import { faqFor } from "../data/faq.i18n.js";
 import { REPO, langOf } from "../data/nav.js";
+import { ui } from "../data/ui.js";
 import { inline } from "../lib/md.js";
-const en = langOf(Astro.url.pathname) === "en";
-const groups = en ? FAQ_EN : FAQ;
+const lang = langOf(Astro.url.pathname);
+const groups = faqFor(lang);
 const headings = groups.map((g) => ({ slug: g.id, text: g.title, depth: 2 }));
-const T = en
-  ? { h: "FAQ", p: ["The questions that come up most when people first meet pstack. Didn't find yours? Open one on ", ", or press ", " to search the whole site."] }
-  : { h: "常见问题", p: ["第一次接触 pstack 时最常冒出来的问题。没找到你的？到 ", " 提一个，或者按 ", " 搜索全站。"] };
+const T = ui(lang).faq;
 ---
 <Site title={T.h} headings={headings}>
   <article class="xxd-prose">

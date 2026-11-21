@@ -1,0 +1,67 @@
+{
+  "ui": {
+    "label": "Diagrama",
+    "replay": "Ver de nuevo"
+  },
+  "l1-habits": {
+    "a": {
+      "who": "La IA de siempre",
+      "steps": [
+        "Entiende por encima",
+        "Cambia cosas"
+      ],
+      "end": "«¡Listo!» Lo abres y el botón no hace nada"
+    },
+    "b": {
+      "who": "La IA con pstack",
+      "steps": [
+        "Repite lo que quieres",
+        "Busca dónde está el problema",
+        "Luego hace el cambio",
+        "Lo prueba ella misma"
+      ],
+      "end": "Te muestra lo que vio"
+    },
+    "cap": "Los pasos de más son los hábitos que añade pstack. Un poco más lento, pero dejas de rehacer lo mismo."
+  },
+  "l2-install": {
+    "notes": [
+      "Paso 1: añade la tienda de plugins",
+      "Paso 2: instala pstack y elige Install for you",
+      "Paso 3: escribe /pstack: sin pulsar Enter; si en la lista aparece poteto-mode, ya está instalado"
+    ],
+    "cap": "Ilustración: así se ven más o menos los tres pasos en Claude Code. La pantalla real muestra algunas líneas más."
+  },
+  "l3-folder": {
+    "place": "Escritorio",
+    "items": [
+      "Trabajo",
+      "Fotos",
+      "water"
+    ],
+    "ai": "La IA trabaja aquí",
+    "note": "Tus otras carpetas quedan fuera de su alcance",
+    "cap": "La IA trabaja en la carpeta donde abres Claude Code. Por eso empiezas con una nueva y vacía."
+  },
+  "l3-prompt": {
+    "parts": [
+      {
+        "text": "/pstack:poteto-mode",
+        "label": "El interruptor"
+      },
+      {
+        "text": "Hazme una página web pequeña que registre cuánta agua bebo cada día.",
+        "label": "Qué quiero"
+      },
+      {
+        "text": "Con «Un vaso más» sube el número de hoy; sigue ahí al reabrirla; muestra los últimos 7 días.",
+        "label": "Cómo se ve terminado"
+      },
+      {
+        "text": "Cómo lo comprobaste y qué viste, con una captura si puedes.",
+        "label": "Qué me muestras al terminar"
+      }
+    ],
+    "cap": "Primero el interruptor; cada una de las tres partes hace un trabajo."
+  }
+}

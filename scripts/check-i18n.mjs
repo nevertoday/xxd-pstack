@@ -1,18 +1,26 @@
 // 检查一种非全站语言（ja、ko、es、pt、fr、de、ru、ar）的翻译是不是齐全、能不能构建：
 //   node scripts/check-i18n.mjs ja        只查日语
 //   node scripts/check-i18n.mjs           全部查
-// 查的是：src/i18n/<语言>.js 的键和 base.js 一样多、{占位} 没丢、数组长度一样；
+// 查的是：src/l10n/<语言>/ 里首页和新手入门用到的文字（ui.json、nav.json 的 lessons）键和英文一样多、{占位} 没丢、数组长度一样；
 // src/pages/<语言>/ 下的首页和三课都在、MDX 能编译、复制块的 id 和英文版一样、每页最多一处 <mark>、
 // 站内链接指向存在的页面（新手入门指向本语言，其他页面指向 /en/）；
 // 新手三课的图示（figs）和 src/data/figs.js 的英文结构一样，三课里用到的 <Fig> 和英文版一样。
 import { readFileSync, existsSync } from "node:fs";
 import { compile } from "@mdx-js/mdx";
-import BASE from "../src/i18n/base.js";
-import { EXTRA } from "../src/i18n/index.js";
 import { FIGS, FIG_UI, LESSON_FIGS } from "../src/data/figs.js";
+import { UI } from "../src/data/ui.js";
+import { LESSONS as LESSON_DATA } from "../src/data/nav.js";
+import { load, L10N_LANGS } from "../src/l10n/load.js";
 
 const LESSONS = ["1-why", "2-install", "3-first-use"];
-const want = process.argv[2] ? [process.argv[2]] : Object.keys(EXTRA);
+const want = process.argv[2] ? [process.argv[2]] : L10N_LANGS;
+// 首页和新手入门用到的界面文字（还不是全站的语言也要齐）
+const pick = (o, drop = []) => Object.fromEntries(Object.entries(o).filter(([k]) => !drop.includes(k)));
+const E = UI.en;
+const CORE = {
+  site: pick(E.site, ["main", "pending", "ref", "hintMain", "hintFaq", "hintSkill"]), tool: E.tool, home: pick(E.home, ["ctaFull"]), lesson: E.lesson,
+  callout: E.callout, copy: E.copy, cmd: E.cmd, reply: E.reply, feedback: pick(E.feedback, ["faq"]), contact: pick(E.contact, ["faq"]), partial: E.partial,
+};
 let bad = 0;
 const fail = (code, msg) => { bad++; console.log(`✗ ${code}：${msg}`); };
 
@@ -34,10 +42,10 @@ const ids = (s) => [...s.matchAll(/<Copy id="([^"]+)"/g)].map((m) => m[1]).sort(
 const figs = (s) => [...s.matchAll(/<Fig id="([^"]+)"/g)].map((m) => m[1]).join(",");
 
 for (const code of want) {
-  const d = EXTRA[code];
-  if (!d) { fail(code, "不是非全站语言"); continue; }
-  walk(BASE, d, "", code);
-  walk({ ui: FIG_UI.en, ...Object.fromEntries(LESSON_FIGS.map((id) => [id, FIGS[id].en])) }, d.figs, "figs", code);
+  if (!L10N_LANGS.includes(code)) { fail(code, "不是另外 8 种语言之一"); continue; }
+  walk(CORE, load(code, "ui"), "ui", code);
+  walk(Object.fromEntries(LESSON_DATA.map((l) => [l.slug, l.en])), load(code, "nav")?.lessons, "nav.lessons", code);
+  walk({ ui: FIG_UI.en, ...Object.fromEntries(LESSON_FIGS.map((id) => [id, FIGS[id].en])) }, load(code, "figs"), "figs", code);
   if (!existsSync(`src/pages/${code}/index.astro`)) fail(code, "缺首页");
   for (const f of LESSONS) {
     const p = `src/pages/${code}/start/${f}.mdx`;
