@@ -7,13 +7,28 @@
 - 界面用 xxd-ui-kit（`public/xxd/` 里自带一份，不走 CDN）。
 - 中英双语：中文在根路径，英文在 `/en/` 下，slug 相同，顶栏按钮切到对应页。改了一篇中文，**同一次提交里把英文版也改了**：
   - 正文：`src/pages/en/guide/`、`src/pages/en/howto/`（MDX，路径多一层 `../`；站内链接加 `/en`；`<Term k="中文键" />` 照原样，英文名在 `nav.js` 的 `GLOSSARY[k].en`）。
-  - 数据：`nav.js` 各条目的 `en: {}`；`wiki.en.js`、`faq.en.js`、`skills.en.js`（按 slug / 技能名叠加，结构和条数要和中文一致）；界面文字在各组件和 `views/` 里的 zh / en 两份。
+  - 数据：`nav.js` 各条目的 `en: {}`；`wiki.en.js`、`faq.en.js`、`skills.en.js`（按 slug / 技能名叠加，结构和条数要和中文一致）；界面文字（外壳、首页、各页面框架、组件里的固定文字）在 `src/data/ui.js` 的 zh / en 两份。
+  - 改完数据或界面文字，跑 `node scripts/l10n.mjs export`，更新给另外 8 种语言翻译用的英文模板（见下一条）。
   - 强调：每页最多一处 `<mark>`（这页最要紧的一句），`<u>` 只给照做会失败的坑；英文页放在对应的那句上。
-- **另外 8 种语言（日、韩、西、葡、法、德、俄、阿）**：网站只有首页和新手入门三课，其余页面链到英文版。
-  - 语言清单在 `nav.js` 的 `LANGS`（`full: true` 是全站语言）；`langOf`、`link`、`langHref`、`fullLang` 都按它走。
-  - 界面文字、首页、三课的标题在 `src/i18n/<语言>.js`，结构照 `src/i18n/base.js`（英文底稿，也是缺键时的兜底）。
-  - 三课正文在 `src/pages/<语言>/start/`，照英文版翻；新手入门之间的链接指向本语言，其他站内链接指向 `/en/`。
-  - 改了中文 / 英文的新手入门或首页，同一次提交里把这 8 种也改了；改完跑 `node scripts/check-i18n.mjs`（查键、占位、编译、复制块 id、链接）。
+- **另外 8 种语言（日、韩、西、葡、法、德、俄、阿）**：现在网站只有首页和新手入门三课，其余页面链到英文版。全站的架子已经搭好，翻好一种、打开开关，它就是全站。
+  - 语言清单在 `nav.js` 的 `LANGS`。`full: true` 是全站语言：导航、搜索、上一步 / 下一步、Wiki 和技能链接都指向 `/<语言>/…`。没有 `full` 的，构建后 `scripts/l10n-dist.mjs` 把 `dist/<语言>/` 里首页和新手入门以外的页面删掉，所以翻好的页面可以先提交，线上不变。
+  - 想先看看一种语言打开后的样子，不用改 `LANGS`：`L10N_FULL=ja npm run build`（几种用逗号隔开）。
+  - 一种语言的全部翻译，都和英文的同一个文件一一对应：
+    - 数据：`src/l10n/<语言>/` 下和 `src/l10n/en/` 同名的 JSON，结构一样。`ui.json` 界面文字，`nav.json` 三课、九步、How-to 的标题和简介、术语的名字和一句话解释，`wiki.json`、`faq.json`、`skills.json`（技能一句话、什么时候用、例句），`figs.json` 图里的字，`skill-docs/<技能名>.json` 技能详情页（说明、概览、写法、全文按块）。
+    - 页面：`src/pages/<语言>/start/`、`guide/`、`howto/` 下和 `src/pages/en/` 同名的 MDX，frontmatter 的键一样。
+    - Wiki、技能、常见问题、How-to 目录、404 这几页没有文字，外壳已经给 8 种语言都生成好了（`node scripts/l10n.mjs pages`）。
+  - `src/l10n/en/` 是交给翻译的英文模板，不手改：它由 `node scripts/l10n.mjs export` 从中文 / 英文的源数据生成。英文改了，export 一下，`git diff src/l10n/en` 就是要重新翻的地方。
+  - 翻译要守的规矩：`{名字}` 占位原样留着；站内链接 `/en/…` 改成 `/<语言>/…`，外链不动；命令、代码、技能名、原则名保持英文；技能写法里的 `quote` 是原文原句，不翻，`quoteTr` 才是它的译文；MDX 正文里不能有裸的 `<`、`{`、`}`；frontmatter 的值里有 `: ` 或以 `[` 开头的，整个加上双引号。
+  - 缺什么都能构建：缺的文件、缺的键显示英文，还没翻的完整教程和 How-to 链到英文版。
+  - `node scripts/l10n.mjs status` 看每种语言翻了多少；`node scripts/l10n.mjs check ja` 查一种（不写就查 8 种），出错的地方写成「文件:行」或「文件 键路径」。它查：
+    - 数据：键、数组长度、占位和英文一样；英文有字的地方不能空；链接对得上；命令和文件名这类行内代码没丢；技能全文块数一样，每块的代码原样；`quote` 没动。
+    - 页面：frontmatter、import、标题层级、组件的顺序和 id（`Copy`、`Checkpoint`、`Fig`、`Tabs`，`Callout` 的类型，`Term` 的键）和英文一样；命令原样；能编译；`<mark>` 不比英文多。
+    - 没翻干净：和英文一字不差的句子和段落（中文版也没翻的，比如原则名，不算）；非中日语言里出现汉字，日语里出现中文源文件里的整串汉字（英文原文里本来就有的人名除外）。
+    - 链接里的锚点（`#…`）要先 `npm run build`（这种语言打开或用 `L10N_FULL`），它才能对着页面查。
+    - 英文模板忘了 export，它也会说。
+  - 还没打开的语言，缺的文件、页面、键只计数，不算错（首页和新手入门用到的除外）；`full: true` 以后缺了就算错。打开之前先让 check 全过，再 `npm run build` 看一眼，新手入门里原来指向 `/en/` 的链接也要改成 `/<语言>/…`（check 会列出来）。
+  - `ui.json` 里的 `partial` 是还没打开全站时用的几句（「更多（英文）」「常见问题（英文）」这类）；打开以后用的是 `site`、`home`、`feedback`、`contact` 里对应的那几句。
+  - 改了中文 / 英文的新手入门或首页，同一次提交里把已经有的 8 种也改了；`node scripts/check-i18n.mjs` 还能用，等于 `l10n.mjs check`。
   - 阿拉伯语从右往左（`dir="rtl"`）：样式里新写的左右一律用逻辑属性（`margin-inline-start`、`inset-inline-end`），代码和命令保持从左往右。
 - 本项目面向全球读者，不只是中文读者：网站有中文和英文，README 有 10 种语言（`README.md` 中文，`README.<lang>.md` 其他）。非中文版用 `assets/en/` 的英文插画（同一个 `build_assets.py` 生成）。
 - 改 README 时 10 种语言一起改，每种都按当地读者的说法写（不是逐字翻译）；结构、链接、徽章保持一致。不要把项目说成「中文教程」。
@@ -26,14 +41,14 @@ npm run build      # 输出到 dist/
 
 ## 怎么改
 
-- **站点结构**只在 `src/data/nav.js` 改：主线 9 步（`STEPS`）、How-to 清单（`HOWTO`）、术语解释（`GLOSSARY`）、本站仓库地址（`REPO`）。
+- **站点结构**只在 `src/data/nav.js` 改：主线 9 步（`STEPS`）、How-to 清单（`HOWTO`）、术语解释（`GLOSSARY`）、本站仓库地址（`REPO`）。How-to 新加一组，要给它一个 `id`（只用来对上另外 8 种语言的翻译）。
 - **主线教程**每一步是 `src/pages/guide/<n>-<slug>.mdx`，开头写 `layout: ../../layouts/Guide.astro` 和 `step: n`。
 - **How-to** 是 `src/pages/howto/<slug>.mdx`（`layout: ../../layouts/HowTo.astro`，`slug` 要和 `HOWTO` 里一致，`step` 是相关的主线步骤）。
 - **技能速查**只改数据：`src/data/skills.js`（每个技能：一句话、什么时候用、例句、要一起装的技能、谁来调用）。页面是一组组卡片，上面能按名字、想做的事和「谁来调用」筛选（也搜例句和「用它和不用它」）。
 - **技能详情页**（`/skills/<名>/`）：页头卡片（一句话、什么时候用、能复制的例句），下面三个标签页一次只显示一块：**概览**（用它和不用它、文档每一节讲什么，点一节跳进全文）、**写法亮点**、**全文**（带「跳到」）。人话简介来自 `skills.js`；原文、中文译文、写法（`lessons`）和概览（`brief`）来自 `src/data/skill-docs/<名>.json`。
   - `brief.zh` / `brief.en` 各有：`compare` 正好 3 行 `{ without, with }`（直接跟 AI 说时它通常怎么做 / 用了这个技能它怎么做，只写原文里点名或明确针对的做法，每格一句）；`intro`（原文第一个小节前那段讲什么，没有就空着）；`sections`（每节一句，条数和顺序跟 `src/lib/skill-sections.js` 切出来的一样）。
   - 原文按空行切成一块块，每块一对 `{ en, zh }`，页面上可切换中文 / 原文 / 对照。
-  - pstack 更新后：`node scripts/skill-docs.mjs sync <pstack 仓库目录>`。英文没变的块保留译文，变了的块译文清空。
+  - pstack 更新后：`node scripts/skill-docs.mjs sync <pstack 仓库目录>`。英文没变的块保留译文，变了的块译文清空；另外 8 种语言的 `src/l10n/<语言>/skill-docs/` 也一样跟着对齐。然后 `node scripts/l10n.mjs export`。
   - 然后 `node scripts/skill-docs.mjs check`，把它列出的缺译文、写法原句找不到、概览节数对不上的补上。
   - 译文要完整忠实（不缩写、不增删），代码块、命令、技能名、原则名、路径保持英文；用户写「用户 / 对方」，不用他 / 她。
   - 写法每个技能 3–5 条：`quote` 必须是原文里的原句；`does` 这句让 AI 做什么、`why` 为什么这样写、`try` 读者怎么借用，各一句。
@@ -41,6 +56,8 @@ npm run build      # 输出到 dist/
 - **Wiki** 和 **常见问题** 只改数据：`src/data/wiki.js`、`src/data/faq.js`。Wiki 条目可以带一张 `list` 表。
 - **教程组件**（在 MDX 里 import）：`Callout`（`ok` / `warn` / `no` / `tip`）、`Term`（术语，`k` 对应 `GLOSSARY`）、`Checkpoint`（可打勾的检查点）、`Q`（「卡住了？」里的一条）、`Tabs`（按工具切换）、`Copy`（带复制按钮的提示词或命令）、`Cmd`（正文里一点就复制的命令）、`Shot`（配图）。
 - **搜索**（⌘K）自动收录主线每一步、每篇 How-to、每个技能、每个 Wiki 条目和每条常见问题，正文按小节做全文搜索。
+- **界面文字**（顶栏、侧栏、页面框架、组件里固定的字）只改 `src/data/ui.js`：中文、英文各一份，另外 8 种语言照 `en` 的结构翻在 `src/l10n/<语言>/ui.json`。改完 `node scripts/l10n.mjs export`。
+- **另外 8 种语言**：翻译文件和页面怎么放、怎么查、怎么打开全站，见上面「另外 8 种语言」那一条。构建多了一步 `scripts/l10n-dist.mjs`（还没打开的语言只留首页和新手入门；打开了的，指向还没翻的页面的链接改指英文版）。
 - **UI Kit 升级**：在 xxd-ui-kit 里 `pnpm xxd sync <本目录>`，不要手改 `public/xxd/`。改完界面跑 `pnpm xxd doctor <本目录>`。
 
 ## 写作规矩
@@ -120,7 +137,7 @@ npm run build      # 输出到 dist/
 
 一张图讲清一个关系，放在最需要的那一节：两条路的对比、几步的顺序、哪一层、由强到弱。不是每节都配；同一页最多两张。
 
-- **数据和文字**在 `src/data/figs.js`：每张图一个 id，`type` 选画法（compare、term、folder、anatomy、stack、flow、night、ladder、fan、tree），`base` 放和语言无关的部分（图标、命令、哪一步要你开口），`zh` / `en` 放文字。新手三课的图（`LESSON_FIGS`）另有 8 种语言，写在 `src/i18n/<语言>.js` 的 `figs` 里；`node scripts/check-i18n.mjs` 会查键齐不齐、每课的图和英文版是不是同一组。
+- **数据和文字**在 `src/data/figs.js`：每张图一个 id，`type` 选画法（compare、term、folder、anatomy、stack、flow、night、ladder、fan、tree），`base` 放和语言无关的部分（图标、命令、哪一步要你开口），`zh` / `en` 放文字。另外 8 种语言的图里的字在 `src/l10n/<语言>/figs.json`（新手三课的图 `LESSON_FIGS` 现在就要有）；`node scripts/l10n.mjs check` 会查键齐不齐、每页的图和英文版是不是同一组。
 - **画法**在 `src/components/Fig.astro`，样式在 `public/site.css` 的「图示」一节。全部是 HTML + CSS：颜色、圆角用令牌，跟着亮暗、直角圆角、主色走；字能换行，正文栏窄了自动竖排（容器查询）；从右到左的语言里横向箭头会翻过来，竖排的箭头不翻。
 - **动画**：进入视野后一步步亮起来，放两遍停在完整的样子，图下面出「再看一遍」。只动 opacity / transform；系统设了减少动效、或者没有脚本时直接显示完整的图。终端图的命令一个字一个字打出来。
 - **图里的字**：一格一件事，短；`/命令` 会自动排成等宽、不在连字符处断开。不抄正文整句，也不喊卖点。终端里的命令和输出照真实界面写（英文），说明文字才翻译。

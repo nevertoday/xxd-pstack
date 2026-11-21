@@ -44,10 +44,8 @@ function status() {
 }
 
 const [cmd, ...args] = process.argv.slice(2);
-{
-  if (cmd === "export") exportTemplates();
-  else if (cmd === "pages") writeShells();
-  else if (cmd === "status") status();
-  else if (cmd === "check") process.exit(await check(args.length ? args : L10N_LANGS));
-  else { console.log("用法：node scripts/l10n.mjs export | pages | check [语言…] | status"); process.exit(1); }
-}
+if (cmd === "export") exportTemplates();
+else if (cmd === "pages") writeShells();
+else if (cmd === "status") status();
+else if (cmd === "check") process.exit(await check(args.length ? args : L10N_LANGS));
+else { console.log("用法：node scripts/l10n.mjs export | pages | check [语言…] | status"); process.exit(1); }
