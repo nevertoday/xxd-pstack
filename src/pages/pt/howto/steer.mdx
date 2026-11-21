@@ -1,0 +1,93 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: steer
+time: Uma linha
+for: A IA saiu do rumo e você quer colocá-la de volta nos trilhos sem escrever um parágrafo
+step: 8
+tldr: Quando a IA sair do rumo, responda com uma linha. Diga o que você quer, inclua o nome de um princípio que o pstack conhece e peça os resultados reais.
+description: "Coloque de volta nos trilhos uma IA que saiu do rumo em uma linha: nomes de princípios, /bro, /unslop, new task; uma lista do que a IA está fazendo e o que responder; como saber se ela realmente colocou isso em prática."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copie este primeiro
+
+A IA diz “pronto”, mas tudo o que aconteceu foi o build passar. Você responde:
+
+<Copy id="s-prove" code="apply prove it works. Rode o fluxo real de importação e me mostre os registros que ele gravou." />
+
+`prove it works` significa “mostre que funciona de verdade”. É o nome de um dos <Term k="原则" text="princípios" /> do pstack (regras escritas sobre como trabalhar). O `/poteto-mode` lê todos antes de começar, então o nome diz exatamente a qual regra você se refere.
+
+A segunda metade diz o que você quer desta vez. <mark>Um nome aponta com mais precisão do que um parágrafo.</mark> Não precisa decorar. Volte aqui quando a IA sair do rumo.
+
+<Fig id="h-steer" />
+
+## Mais três jeitos de colocar a IA de volta nos trilhos
+
+**Ela fez algo que você não pediu.** Repita o objetivo:
+
+<Copy id="s-goal" code="eu disse que o objetivo é reproduzir. ainda não pedi uma correção." />
+
+**A resposta está difícil de acompanhar ou está com muita cara de IA:**
+
+<Copy id="s-bro" code="/bro" />
+
+<Copy id="s-unslop" code="/unslop that, no emdashes" />
+
+`/bro` repete a última resposta em palavras simples. `/unslop that` tira o jeito de texto gerado por IA desse trecho, e `no emdashes` significa “sem travessões”.
+
+**Você passou para outro assunto.** Diga “new task” primeiro:
+
+<Copy id="s-new" code="/poteto-mode new task. Descubra por que o cache continua lá depois do logout. Não altere nenhum código ainda." />
+
+Senão, a IA trata sua nova pergunta como o próximo passo da tarefa anterior.
+
+## O que a IA está fazendo e o que você responde
+
+Primeiro o significado, depois o nome para digitar exatamente assim:
+
+- **Diz “pronto” porque o build passou** → mostre que funciona de verdade: `apply prove it works.` Rode o comando real e me mostre a saída real.
+- **Adiciona uma verificação com if depois do ponto de falha e diz que está corrigido** → encontre a causa real: `fix root causes.` Encontre onde começa a dar errado.
+- **Empilha um novo adaptador em cima de três antigos** → remova antes de adicionar: `subtract before you add.` Apague os obsoletos primeiro.
+- **Corrigiu a mesma verificação várias vezes e ainda falha** → questione a suposição: `attack the premise.` Teste o que essas correções presumem.
+- **Fazendo dezenas de alterações idênticas na mão** → crie uma ferramenta: `build the lever.` Escreva um script que eu possa rodar de novo.
+- **Deixa uma camada de compatibilidade para a interface antiga durante uma migração** → apague depois de migrar: `migrate callers then delete legacy apis.`
+- **Os testes verificam qual função interna foi chamada** → teste o comportamento: `test behavior not implementation.` Verifique o que o usuário consegue ver.
+- **Interrompe para perguntar sobre algo pequeno que pode ser desfeito** → não espere por mim: `never block on the human.` Faça e depois me mostre.
+- **Começa a escrever o primeiro design logo de cara** → experimente vários: `exhaust the design space.` Crie dois ou três protótipos e compare.
+
+Todos os 24 estão em [Princípios](/pt/wiki/principles/).
+
+## A IA deve dizer qual decisão mudou
+
+Só citar o nome não conta. Quando usa um princípio, ela precisa dizer o que mudou por causa dele.
+
+<Copy id="s-good" title="Uma resposta de verdade" code="Seguindo subtract before you add, primeiro apaguei dois adaptadores que ninguém chama mais. O novo não precisa mais manter compatibilidade com eles, e a interface ficou com metade do tamanho." />
+
+<Copy id="s-bad" title="Só o nome" code="Segui o princípio prove it works. A funcionalidade funciona." />
+
+A segunda tem o nome, mas sem decisão e sem evidências. Rebata:
+
+<Copy id="s-push" code="Você disse que usou prove it works. Qual comando e qual saída provaram isso? Cole aqui." />
+
+## O mesmo problema voltou
+
+Uma correção no chat só vale para esta vez. Na segunda vez, use `/correct` para mudar o próprio repositório:
+
+<Copy id="s-correct" code="/correct a IA continua pulando a camada de repositório e chamando o cliente do banco de dados diretamente." />
+
+Ele adiciona uma verificação, um tipo ou um teste para que futuras IAs não consigam cometer esse erro. Para saber mais, veja [Quando já estiver à vontade](/pt/guide/8-make-it-yours/).
+
+## Travou?
+
+<Q q="Disse o nome do princípio e parece que nada aconteceu.">
+Se você enviou o `/poteto-mode` com Enter, ele para de funcionar depois de alguns turnos. Digite de novo ou, no Cursor, use Option+Enter (Alt+Enter no Windows) para mantê-lo ativo.
+</Q>
+<Q q="Não consigo lembrar os nomes dos princípios.">
+Não precisa. Diga o que você quer com as suas próprias palavras, como “não adicione uma verificação depois, encontre a causa real”. Os nomes são só mais curtos e mais precisos.
+</Q>
+<Q q="Coloquei de volta nos trilhos, mas depois de um tempo ela saiu do rumo de novo.">
+Primeiro verifique se você trocou de tarefa sem dizer `new task`. Se o mesmo problema continuar voltando, use `/correct`.
+</Q>

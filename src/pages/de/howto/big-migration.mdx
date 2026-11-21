@@ -1,0 +1,110 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: big-migration
+time: 5 Minuten vor dem Schlafengehen, 15 Minuten am Morgen
+for: Du hast eine große, mechanische Migration, willst die KI über Nacht laufen lassen und das Ergebnis morgens sicher prüfen
+step: 7
+tldr: Gib der KI vor dem Schlafengehen ein Ziel und eine Fertig-Bedingung, die klar erfüllt oder nicht erfüllt ist. Lass sie die ganze Nacht laufen und prüf morgens die Belege.
+description: "Übergib eine große Migration vor dem Schlafengehen: ein Ziel und eine Fertig-Bedingung (erfüllt oder nicht erfüllt), ein frischer Worktree, ein Entscheidungsprotokoll, /loop until done und ein Morgencheck mit /show-me-your-work."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Kopier das zuerst
+
+<Copy id="mig-contract" title="Übergabe vor dem Schlafengehen" code={`/poteto-mode Ich gehe schlafen. Migriere in einem frischen Worktree auf Basis von <Basis-Branch> jeden Aufrufer auf den neuen Parser.
+Fertig heißt: keine alten Aufrufer mehr, alle Parser-Fixtures bestehen und die alte API ist gelöscht.
+Führe ein Entscheidungsprotokoll. Du musst mich vor dem Committen nicht fragen.
+/loop until done. Wenn du nach ein paar Stunden wirklich feststeckst, stoppe und schreib auf, warum.`} />
+
+Der Originalwortlaut aus den pstack-Docs:
+
+<Copy id="mig-contract-en" title="Der Originalwortlaut" code={`/poteto-mode im going to bed. migrate every caller to the new parser in a fresh worktree off <base>.
+done means zero old callers, all parser fixtures pass, old api deleted.
+keep a decision log. don't ask me before committing.
+/loop until done. if you're truly stuck after a few hours, stop and write up why.`} />
+
+## Was jede Zeile bewirkt
+
+- **„Ich gehe schlafen“**: nicht anhalten, um dich zu fragen. Einfach weitermachen.
+- **„Fertig heißt“**: eine Prüfung, die die KI in jeder Runde ausführen kann.
+- **„Ein frischer Worktree“**: ein zusätzlicher Arbeitsordner für dasselbe Git-Repo (ein <Term k="worktree" />), damit deine andere offene Arbeit unberührt bleibt.
+- **„Du musst mich vor dem Committen nicht fragen“**: beantwortet vorab die Frage, für die sie sonst anhalten würde.
+- **`/loop until done`**: sorgt dafür, dass sie immer wieder zur Fertig-Bedingung zurückkehrt. `/loop` ist direkt in Cursor und Claude Code eingebaut. Es ist kein pstack-Skill.
+- **Der Ausweg**: Wenn sie wirklich feststeckt, stoppt sie und erklärt warum, statt sich die ganze Nacht im Kreis zu drehen.
+
+<Callout type="no" title="Aufgewendete Zeit ist keine Fertig-Bedingung">
+„Arbeite 4 Stunden daran“ gibt der KI nichts zu prüfen. Gib <code>/loop</code> eine Bedingung, die klar erfüllt oder nicht erfüllt sein kann.
+</Callout>
+
+## Beispiel: eine Chrome-Erweiterung
+
+Dutzende Dateien rufen `chrome.storage.sync` direkt auf. Du hast ein neues `settings`-Modul geschrieben, willst jeden Aufruf darauf umstellen und danach das alte `getPref` löschen.
+
+<Copy id="mig-ext" title="Beispiel: Chrome-Erweiterung" code={`/poteto-mode Ich gehe schlafen. Stelle in einem frischen Worktree auf Basis von main jeden direkten Aufruf von chrome.storage.sync auf das neue settings-Modul um.
+Fertig heißt:
+1. grep -rn "chrome.storage.sync" src/ findet nur den einen Aufruf im settings-Modul;
+2. npm test läuft komplett durch;
+3. die Funktion getPref und ihre Tests sind gelöscht;
+4. beim Öffnen der Optionsseite mit einem Testprofil, auf dem die alte Version installiert war, erscheinen alle Einstellungen genau wie vor der Migration. Schick mir einen Screenshot.
+Behalte das Verhalten exakt bei. Wenn du während der Migration Bugs findest, notiere sie. Behebe sie nicht nebenbei.
+Führe ein Entscheidungsprotokoll. Du musst mich vor dem Committen nicht fragen.
+/loop until done. Wenn du wirklich feststeckst, stoppe und schreib auf, warum.`} />
+
+- **Vier Fertig-Bedingungen**: ein grep, ein Testlauf, ob zwei Namen noch existieren, ein Screenshot. Jede davon ist klar erfüllt oder nicht erfüllt. Morgens prüfst du nur diese vier.
+- **„Behebe Bugs nicht nebenbei“**: damit sich Vorher und Nachher direkt vergleichen lassen.
+
+## Bevor du loslässt: Kann die KI sich selbst prüfen?
+
+<mark>Die KI die ganze Nacht laufen zu lassen klappt nur, wenn sie ihre eigene Arbeit prüfen kann.</mark> Sonst häuft sie nur schneller ungeprüften Code an. Lass erst los, wenn alle vier Punkte zutreffen:
+
+1. **Du hast es einmal gemacht.** Von Hand oder indem du der KI zugesehen hast. Du weißt, wie „fertig“ aussieht.
+2. **Sie hat die Werkzeuge.** Den <Term k="验证技能" />, den Profiler und die Logs, die du selbst nutzen würdest.
+3. **Jeder Schritt liefert einen eigenen Beleg.** Sie kann anhalten, wenn ein Schritt nicht ausreicht.
+4. **Wiederkehrende Fehler sind abgedeckt.** Du hast ihre Transkripte gelesen und wiederkehrende Fehler zu Prüfungen gemacht.
+
+Wenn nicht, lass sie laufen, während du zuschaust.
+
+## Wo du morgens nachschaust
+
+<Copy id="mig-audit" title="Prüfung am Morgen" code="/show-me-your-work sag mir, was du letzte Nacht gemacht hast" />
+
+**Lies zuerst den Abschnitt „Attention“ (was Aufmerksamkeit braucht) am Ende.** Eine Helfer-KI auf dem Modell eines anderen Anbieters liest das Protokoll vorab. Unter „Attention“ steht, was einen genaueren Blick verdient – etwa Entscheidungen mit schwachen Belegen. Geh diesen Protokollzeilen nach.
+
+Das <Term k="决策日志" /> ist standardmäßig `decisions.tsv` im Arbeitsordner und wird nicht committet. Jede Zeile ist eine Entscheidung, mit Begründung und Beleg.
+
+Willst du nur schnell den Stand sehen? Tipp `/ketchup` in den laufenden Chat. Es liest nur. Es sagt dir, was sich geändert hat und was auf deine Entscheidung wartet.
+
+## Zwischendurch anhalten
+
+Wenn du deinen Laptop zuklappen oder den Editor neu starten musst, sag „Pause“ oder „Ich gehe offline“. Die KI committet ungespeicherte Arbeit als `wip:`-Commit und schreibt Notizen zum späteren Weitermachen. Starte einen neuen Chat und lass sie übernehmen. Sie macht anhand der Notizen weiter.
+
+Bei „Mach weiter“ oder „Weiter“ pausiert sie nie.
+
+## Mehrere Aufgaben über Nacht
+
+Für eine Reihe voneinander unabhängiger Änderungen gibt es zwei <Term k="剧本" text="Playbooks" />:
+
+- **Autopilot-stack: mergt nicht.** Morgens siehst du geprüfte PRs und entscheidest selbst.
+- **Autopilot-full: mergt.** Jeder PR wird erst gemergt, nachdem eine andere Helfer-KI ihn geprüft hat.
+
+Ein Projekt, das mehrere Tage läuft, hat kein eigenes Playbook. `/poteto-mode` übergibt es an `/figure-it-out`, das aus dem Stand einen Ansatz dafür entwirft.
+
+Unsicher? Nimm Autopilot-stack. So hast du vor dem Mergen weiter das letzte Wort.
+
+## Kommst du nicht weiter?
+
+<Q q="Morgens sagt die KI „fertig“, aber ich bin mir nicht sicher.">
+Verlass dich nicht auf die Zusammenfassung. Schau dir die Belege an. Führ die Prüfungen für die Fertig-Bedingung selbst noch einmal aus, etwa grep und den Testlauf. Lies danach den Abschnitt „Attention“ in der Antwort von <code>/show-me-your-work</code>.
+</Q>
+<Q q="Die KI hat nachts angehalten, um mich etwas zu fragen, und einfach gewartet.">
+In der Übergabe fehlte die Erlaubnis vorab. Schreib beim nächsten Mal „Ich gehe schlafen“ und „Du musst mich vor dem Committen nicht fragen“ dazu.
+</Q>
+<Q q="Die KI hat die Fertig-Bedingung aufgeweicht und dann Erfolg gemeldet.">
+Das soll sie nicht. Antworte: „Die Fertig-Bedingung bleibt. Führ die ursprünglichen vier Prüfungen nacheinander aus und zeig sie mir.“
+</Q>
+<Q q="Ich habe „Weiter“ gesagt, und die KI hat einen Pause-Commit gemacht.">
+Das sollte nicht passieren. Antworte: „Ich habe dich nicht gebeten zu pausieren. Mach weiter.“
+</Q>

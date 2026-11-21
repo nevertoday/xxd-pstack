@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: fix-bug
+time: Ein Bug, ein Chat
+for: Du hast einen Bug und willst ihn sauber beheben, nicht nur irgendwie flicken
+step: 6
+tldr: Beschreib das Symptom und ergänze „erst reproduzieren“. Die KI findet die eigentliche Ursache, behebt sie und belegt den Fix mit denselben Schritten.
+description: "Bug mit /poteto-mode beheben: das Problem noch einmal auftreten lassen, die eigentliche Ursache finden, sie beheben und den Fix mit denselben Schritten belegen. Mit einem Beispiel für eine Chrome-Erweiterung."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Kopier das zuerst
+
+<Copy id="bug-min" title="Die kürzeste Version" code="/poteto-mode Nach einem Retry bekommen Nutzer zwei Benachrichtigungen. Erst reproduzieren, dann beheben, dann prüfen." />
+
+„Reproduzieren“ heißt: das Problem noch einmal auftreten lassen. Die KI macht das zuerst. Klappt das nicht, ändert sie den Code nicht.
+
+Die Reihenfolge steht fest: <mark><strong>reproduzieren, die eigentliche Ursache finden, sie beheben und dann mit denselben Schritten prüfen.</strong></mark>
+
+<Fig id="h-bug" />
+
+## Gib der KI noch ein paar Hinweise
+
+<Copy id="bug-full" title="Die vollständige Version" code="/poteto-mode Seit dem Release von gestern lässt der CSV-Export die letzte Zeile weg. Die ID des fehlgeschlagenen Jobs ist 4812. Erst reproduzieren, dann beheben. Behoben ist es, wenn der Testdatensatz mit 60.000 Zeilen ohne fehlende Zeilen exportiert wird. Zeig mir die Zeilenzahl vor und nach dem Fix." />
+
+Jeder Teil erfüllt eine Aufgabe:
+
+- **Symptom und seit wann es auftritt**: Seit dem Release lässt der Export die letzte Zeile weg.
+- **Ein Hinweis, den du hast**: die Job-ID. Das spart eine Suchrunde.
+- **Wann es als behoben gilt**: Alle 60.000 Zeilen werden exportiert.
+- **Was die KI dir zeigen soll**: die Zeilenzahl vorher und nachher.
+
+<Callout type="warn" title="Behalt deine Vermutung erst für dich">
+Sagst du „Ich glaube, es liegt am Pagination-Code“, schaut die KI nur dort nach. Lass sie erst ihre eigene Einschätzung geben. Ergänze dann deine.
+</Callout>
+
+## Beispiel: eine Chrome-Erweiterung
+
+Nutzer melden: Gespeicherte Einträge in der Seitenleiste tauchen nach dem Neuladen manchmal doppelt auf.
+
+<Copy id="bug-ext" title="Beispiel: Chrome-Erweiterung" code={`/poteto-mode Nutzer melden, dass die Liste der gespeicherten Einträge in der Seitenleiste nach dem Neuladen manchmal doppelte Einträge zeigt.
+Ich habe es selbst ausprobiert: Klickt man schnell zweimal auf „Speichern“, passiert es häufiger. Erst reproduzieren. Noch keinen Code ändern.
+Behoben ist es, wenn nach zehn Klicks auf Speichern genau ein Eintrag in der Liste steht und genau ein Eintrag in chrome.storage.
+Zeig mir, was vor und nach dem Fix tatsächlich im Storage steht.`} />
+
+- **„Genau ein Eintrag in chrome.storage“**: Die Oberfläche versteckt Duplikate vielleicht, während in den Daten noch zwei stehen. Prüf den gespeicherten Wert.
+- **„Zehn Klicks auf Speichern“**: macht aus „manchmal“ eine Prüfung, die jedes Mal eindeutig klappt oder fehlschlägt.
+
+## Worauf du nach dem Absenden achten solltest
+
+**Am Anfang: die Zusammenfassung der KI.** Beschreibt sie ein anderes Problem, stopp sie sofort.
+
+**In der Mitte: die <Term k="待办清单" />.** Die KI listet ein paar mögliche Ursachen auf und schließt sie aus, bis sie die erste Stelle findet, an der etwas schiefgeht. Der Fix gehört dorthin, nicht in eine spätere Prüfung.
+
+**Am Ende: Vorher und Nachher.** Beides nutzt dieselben Repro-Schritte (kurz für Reproduktion).
+
+## Leicht zu testen? Ergänze /tdd
+
+<Copy id="bug-tdd" code="/poteto-mode Reproduziere zuerst den doppelten Schreibvorgang. Wenn sich das mit wenig Aufwand testen lässt, nutze /tdd: Schreib einen fehlschlagenden Test, beheb den Bug und lass den Test noch einmal laufen." />
+
+Lass „wenn sich das mit wenig Aufwand testen lässt“ drin. Ein Test, der nur mit Bergen von Fake-Daten läuft, beweist weniger, als den echten Befehl auszuführen.
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI sagt, sie kann den Bug nicht reproduzieren.">
+Das ist gut. Sie ändert nichts blind. Sei konkreter: welche Seite, welche Daten, worauf du geklickt hast, welche Version. Du kannst auch ein Log oder eine Aufnahme einfügen.
+</Q>
+<Q q="Die KI hat „behoben“ gesagt, aber keine Belege gezeigt.">
+Antworte: „apply prove it works. Führ die Repro-Schritte noch einmal aus und zeig mir die echte Ausgabe.“ <code>prove it works</code> heißt: Zeig echte Ergebnisse, die belegen, dass es funktioniert. Das ist der Name eines <a href="/de/wiki/principles/">Prinzips</a> von pstack. Tipp es genau so ein, dann weiß die KI, was du meinst.
+</Q>
+<Q q="Die KI hat an einer späteren Stelle eine if-Prüfung eingebaut und nennt es behoben.">
+Antworte: „fix root causes. Dieser Zustand darf gar nicht erst entstehen. Finde die Stelle, an der es zuerst schiefgeht.“ <code>fix root causes</code> heißt: die eigentliche Ursache beheben. Auch das ist der Name eines Prinzips. Eine Prüfung zählt nur dann als Fix, wenn dieser Zustand wirklich zulässig ist.
+</Q>

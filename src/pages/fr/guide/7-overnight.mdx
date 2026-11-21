@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 7
+need: "Une IA déjà capable de vérifier son propre travail (le skill de vérification de l'étape 6)"
+tldr: "Confiez une grosse tâche à l'IA avant de dormir avec des consignes claires. Au matin, lisez d'abord sa section « points d'attention »."
+description: "Laissez l'IA mener une grosse tâche pendant la nuit : assurez-vous de pouvoir lui faire confiance, écrivez des consignes claires pour la nuit et lisez le journal de décisions au matin au lieu de tout le chat."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## D'abord, assurez-vous de pouvoir lui faire confiance
+
+Avant de lui laisser la main, ces quatre conditions doivent être réunies :
+
+1. **Vous savez à quoi ressemble un bon résultat** : vous l'avez déjà fait une fois, ou vous l'avez vu faire une fois.
+2. **Elle a les outils que vous utiliseriez** : un skill de vérification, des logs.
+3. **Chaque étape peut prouver son résultat** : elle s'arrête quand le compte n'y est pas.
+4. **Les erreurs répétées ont désormais des contrôles** : vous avez relu quelques historiques de session.
+
+<mark>Tant que ces quatre conditions ne sont pas réunies, faites-la tourner sous vos yeux.</mark>
+
+## Écrivez vos consignes pour la nuit
+
+<Copy id="contract" title="Consignes pour la nuit" code={`/poteto-mode Je vais me coucher. Dans un nouveau worktree à partir de main, migre tous les appelants vers le nouveau parseur.
+C'est terminé quand : il ne reste plus aucun ancien appelant, toutes les fixtures du parseur passent et l'ancienne API est supprimée.
+Tiens un journal de décisions. Tu n'as pas besoin de me demander avant de commiter.
+/loop until done. Si tu bloques depuis des heures et que tu ne peux vraiment plus avancer, arrête-toi et note pourquoi.`} />
+
+Ce que fait chaque phrase :
+
+- **Je vais me coucher** : continue, ne me demande rien.
+- **C'est terminé quand** : elle vérifie ce critère à chaque tour.
+- **Un nouveau <Term k="worktree" />** : un dossier de travail séparé pour le même dépôt Git, à l'écart de votre propre travail.
+- **Pas besoin de demander avant de commiter** : elle ne reste pas bloquée à attendre votre feu vert.
+- **/loop jusqu'à ce que ce soit terminé** : elle vérifie en boucle si c'est fini (intégré à Cursor et Claude Code).
+- **Si tu bloques, arrête-toi et note pourquoi** : mieux vaut s'arrêter que de brasser du vent pendant huit heures.
+
+<Callout type="no" title={`« Travaille pendant 4 heures » n'est pas une condition de fin`}>
+Une durée ne se vérifie pas. Donnez-lui une condition qui est clairement remplie ou non.
+</Callout>
+
+## Ce qu'elle fait toute la nuit
+
+<Fig id="g7-night" />
+
+## Au matin : lisez d'abord « points d'attention »
+
+<Copy id="audit" code="/show-me-your-work Fais-moi le point sur ce que tu as fait cette nuit" />
+
+**Ce que vous obtenez** : un résumé. Avant de vous le remettre, un modèle d'une autre entreprise lit le journal et ajoute une section « points d'attention ». <strong>Lisez d'abord cette section, puis les lignes qu'elle signale.</strong>
+
+Le journal est `decisions.tsv` (ou `.audit/<task-name>.tsv` quand plusieurs tâches partagent un même dossier). Par défaut, il reste sur votre machine.
+
+Vous voulez juste connaître l'avancement ? Tapez `/ketchup` dans ce chat. Il vous indique ce qui a changé et ce qui attend votre décision.
+
+## Plusieurs tâches en une nuit
+
+<Copy id="autopilot" code="/poteto-mode Traite ces cinq changements en Autopilot, mais ne fusionne pas. Je les fusionnerai moi-même demain matin." />
+
+| Ce que vous avez | Quelle approche | Au matin |
+| --- | --- | --- |
+| De nombreuses PR indépendantes | Autopilot-full | Les PR vérifiées sont fusionnées |
+| Pareil, vous fusionnez vous-même | Autopilot-stack | Une série de PR vérifiées |
+| Un projet sur plusieurs jours | Confié à `/figure-it-out` | Les phases avancent, avec un journal de décisions |
+
+## Un blocage ?
+
+<Q q="Je ne suis pas à l'aise à l'idée de la laisser commiter toute seule.">
+<p>Retirez « tu n'as pas besoin de me demander avant de commiter », ou utilisez Autopilot-stack pour qu'elle s'arrête une fois tout vérifié.</p>
+</Q>
+<Q q="Au réveil, elle avait tourné en rond.">
+<p>La condition de fin n'était probablement pas assez stricte. Utilisez <code>/reflect</code> pour noter la leçon, et <code>/correct</code> pour transformer les erreurs répétées en contrôles.</p>
+</Q>
+<Q q="Je veux l'arrêter en cours de route.">
+<p>Dites-lui « pause » ou « je me déconnecte ». Elle termine l'étape en cours et écrit une note de reprise. Un nouveau chat peut reprendre à partir de là.</p>
+</Q>
+
+<Checkpoint id="s7" items={["Je connais les quatre conditions à réunir avant de lui laisser la main", "Je sais écrire des consignes pour la nuit avec une condition de fin, un worktree, un journal de décisions et une condition d'arrêt", "Au matin, je lis d'abord la section « points d'attention »"]} />

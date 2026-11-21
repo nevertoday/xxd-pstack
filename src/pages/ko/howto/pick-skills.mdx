@@ -1,0 +1,74 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: pick-skills
+time: 읽는 시간 4분
+for: npx skills로 설치하면서 전부 말고 몇 개만 골라 설치하고 싶은 분
+step: 1
+tldr: /poteto-mode를 쓸 건가요? 전부 설치하세요. 기능 한두 개만 필요하다면 여기서 고르고, 함께 필요한 스킬도 같이 챙기세요.
+description: pstack 스킬 중에는 혼자 동작하는 것도 있고, 다른 스킬을 함께 설치해야 하는 것도 있어요. 혼자 동작하는 스킬, 각 스킬에 필요한 다른 스킬, 자주 쓰는 조합, npx skills 목록에서 고르는 법을 정리했어요.
+---
+import Q from "../../../components/Q.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## /poteto-mode를 쓸 건가요? 전부 설치하세요
+
+`/poteto-mode`는 거의 모든 스킬을 써요. <mark><strong>쓸 계획이라면 전부 설치하세요</strong></mark>. 기능 한두 개만 필요하다면 아래 목록에서 고르세요.
+
+Cursor 플러그인을 설치했거나 Claude Code 플러그인 스토어에서 설치했다면 이미 전부 다 들어 있어요. 이 페이지는 건너뛰세요.
+
+## 혼자 동작하는 스킬 17개
+
+하나만 설치하면 그 하나를 바로 쓸 수 있어요.
+
+- **이해하고 설명하기**: `how`(코드가 어떻게 돌아가는지 설명하기), `bro`(쉬운 말로 다시 설명하기), `in-your-own-words`(목표를 먼저 다시 말해 주기).
+- **글쓰기**: `unslop`(AI 티 빼기), `sharpen`(프롬프트를 더 정확하게 다듬기).
+- **코드 작성하기**: `tdd`(실패하는 테스트부터 쓰기), `typescript-best-practices`(타입 규칙 지키기), `statechart`(검증된 상태도 그리기).
+- **여러 AI 함께 쓰기**: `arena`(한 작업을 여러 방식으로 시도해 가장 나은 안 고르기), `swarm`(일을 나눠 동시에 처리하기), `interrogate`(여러 모델이 깐깐하게 따져 보기).
+- **확인하고 기록하기**: `benchmark-checklist`(성능 수치 확인하기), `show-me-your-work`(결정 로그 남기기), `correct`(반복되는 실수를 뿌리부터 막기).
+- **기타**: `figure-it-out`(그 자리에서 접근법 설계하기), `reflect`(배운 점을 수정 제안으로 정리하기), `automate-me`(나만의 스킬로 정리하기).
+
+## 다른 스킬이 함께 필요한 스킬
+
+화살표 오른쪽에 있는 스킬을 빼먹으면 그 단계에서 찾지 못해요.
+
+- `teach` → `how`, `why`도 함께
+- `why` → `how`도 함께
+- `technical-writing` → `unslop`도 함께
+- `architect` → `arena`, `how`도 함께
+- `blast-radius` → `arena`, `how`, `why`, `unslop`도 함께
+- `create-verification-skill` → `maintain-verification-skill`도 함께
+- `create-formal-verification-skill` → `maintain-formal-verification-skill`, `statechart`도 함께
+- `ketchup` → `bro`도 함께; `ketchup-video` → `ketchup`, `bro`도 함께
+- `poteto-help` → 물어보고 싶은 스킬도 함께
+
+## 자주 쓰는 조합
+
+- **코드만 이해하기**: `how`, `why`, `teach`
+- **글에서 AI 티 빼기**: `unslop`, `bro`
+- **코드를 바꾸기 전에 설계 확정하기**: `architect`, `arena`, `how`
+- **AI가 앱을 직접 검증하게 하기**: `create-verification-skill`, `maintain-verification-skill`
+
+작성자가 실제로 쓰는 건 `/poteto-mode`로 이 스킬들을 엮어 쓰는 방식이에요. 온전한 경험을 원한다면 전부 선택하세요.
+
+## 목록에서 고르는 법
+
+터미널에서 아래 명령어를 실행하세요.
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+스킬 이름을 입력해 필터링하세요. 원하는 스킬과 위에서 “함께”로 표시된 스킬을 모두 체크한 뒤, 설치할 도구를 고르세요. 빠뜨린 게 있나요? 명령어를 다시 실행해서 추가하면 돼요. 도구별 자세한 내용은 [Codex와 다른 도구에서 쓰기](/ko/howto/codex/)를 참고하세요.
+
+## 막혔나요?
+
+<Q q="teach만 설치했는데 필요한 게 빠져 있어요.">
+`teach`는 `how`와 `why`가 필요해요. `npx skills add backnotprop/pstack`을 다시 실행해서 이 둘도 함께 체크하세요.
+</Q>
+<Q q="몇 개만 설치했는데 /poteto-mode를 쓸 수 있나요?">
+권하지 않아요. 모든 원칙 스킬(`principle-*`)을 읽고, 다른 스킬도 대부분 호출해요. 하나라도 빠지면 해당 단계가 온전히 끝나지 않아요.
+</Q>
+<Q q="recall, no-comments, setup-pstack은 어떤 스킬이 필요한가요?">
+`recall`은 `why`와 `unslop`을 써요. `no-comments`는 `how`, `why`, `architect`를 언급하니 안전하게 같이 챙겨 두세요. `setup-pstack`은 따로 필요한 스킬이 없어요. 모델을 고르고 싶다면 설치하세요.
+</Q>
+<Q q="원칙 스킬(principle-*)도 따로 골라야 하나요?">
+`poteto-mode`를 설치할 때 전부 함께 설치하세요. 직접 입력할 일은 없어요. <a href="/ko/howto/steer/">한 줄로 방향 바로잡기</a>에 나온 것처럼 방향을 잡을 때 이름만 말해 주면 돼요.
+</Q>

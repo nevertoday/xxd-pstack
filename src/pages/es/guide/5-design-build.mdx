@@ -1,0 +1,99 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 5
+need: Un cambio que estás a punto de hacer
+tldr: "Para cambios grandes, compara varios diseños o haz prototipos. Di lo que viste al implementar. Limpia todo antes de entregarlo."
+description: "Define el diseño (/architect, /arena, /interrogate, prototipos), implementa (/tdd) y luego limpia (/unslop, /no-comments)."
+---
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## La mayoría de los cambios no necesitan un paso de diseño
+
+Cuando un cambio toca varios lugares, `/poteto-mode` lo diseña primero por su cuenta. Menciona las skills de abajo solo cuando quieras que piense un paso más.
+
+<Fig id="g5-arc" />
+
+## El cambio toca varios lugares: /architect
+
+<Copy id="arch" code="/architect Diseña primero el flujo de importación, aún no escribas código. Lo que más me importa es cómo lo usa el código que lo llama." />
+
+**Qué obtienes**: la IA lee primero todo el código que toca el cambio. Luego esboza dos enfoques distintos: los tipos, cómo se llaman las funciones y cómo se dividen los módulos. La IA elige el que deja cada dato con un único dueño y exige que el código que lo llama sepa lo menos posible. Para un diseño grande o discutido, recurre por su cuenta a `/arena` para comparar más versiones. Después implementa el que eligió. Para ver el diseño antes, dilo en el prompt: «muéstrame primero el diseño y espera mi OK antes de escribir código».
+
+Mientras implementa, si la misma solución provisional vuelve a aparecer, el diseño está mal. La IA rediseña en lugar de poner parches. Es normal.
+
+## Una decisión en la que tienes dudas: /arena
+
+Úsala para nombres, formatos o algoritmos que serán difíciles de cambiar más adelante.
+
+<Copy id="arena" code="/arena Este formato de clave de caché será difícil de cambiar después. Dame 5 opciones." />
+
+**Qué obtienes**: varias IA escriben cada una su versión. Un modelo de otra empresa las puntúa (por ejemplo, Gemini evaluando el trabajo de Claude). La mejor pasa a ser la base y se le suman las buenas ideas del resto.
+
+## Ya está escrito, ahora busca los fallos: /interrogate
+
+<Copy id="interro" code="/interrogate Revisa toda la rama y sé exigente. No señales detalles menores salvo que sea un bug real o una regresión." />
+
+**Qué obtienes**: solo problemas que un comando hizo fallar de verdad. La IA no modifica el código. También lista los problemas que descartó. **Lee esa lista también**. Si descartó alguno por error, pídele que lo vuelva a comprobar.
+
+## ¿No te decides? Haz prototipos
+
+<Copy id="proto" code="/poteto-mode Haz varios prototipos del nuevo menú desplegable. Dame capturas o grabaciones de pantalla para comparar." />
+
+**Qué obtienes**: varios borradores desechables, cada uno con captura o tiempos medidos, lado a lado para que elijas. Sirve para interfaz, comportamiento y algoritmos.
+
+Con los planes pasa lo mismo. Haz prototipos de las partes donde tengas dudas y luego incluye en el plan lo que viste. Un plan que nunca probó nada puede estar equivocado, por muy detallado que sea.
+
+## Una funcionalidad grande: escribe primero el tutorial y luego el diseño
+
+<Copy id="backwards" title="Versión de poteto, cámbiala por tu propia tarea" code={`(1) /recall qué hice en los últimos 7 días sobre bugs y problemas de rendimiento de la lista virtual. Usa /how y /why para entender cómo funciona nuestra lista virtual actual.
+(2) Luego planifica con /poteto-mode y /technical-writing: diseña un nuevo motor que elimine de raíz el parpadeo y los saltos. Empieza con un tutorial sobre cómo usaría el nuevo paquete para añadir una lista virtual a una app de React.
+(3) Cuando el plan esté escrito, usa /teach para explicármelo y demuestra que el nuevo enfoque supera al actual.`} />
+
+Cada parte hace una cosa:
+
+- **Recupera el contexto**: los bugs que arreglaste y cómo funciona hoy son lo que el nuevo diseño tiene que resolver.
+- **Diseña a partir del uso**: escribe primero cómo se va a usar y verás enseguida si es fácil de usar.
+- **Pide que lo demuestre**: las razones no bastan, pide una comparación. Con una [skill de verificación](/es/howto/verify-app/) en el proyecto, la IA puede mostrar evidencia real.
+
+El [paso 3](/es/guide/3-first-task/) decía que no encadenes skills en tu mensaje. Eso vale para tareas pequeñas. Para un diseño grande como este, poteto menciona las skills parte por parte, y en cada parte solo las que necesita.
+
+## Al implementar, di lo que viste
+
+- **Arreglar un bug**: da el síntoma y añade «reprodúcelo primero». Ejemplo: «Después de un reintento escribe dos registros. Reprodúcelo primero, luego arréglalo y después compruébalo».
+- **Añadir una funcionalidad**: di qué no debe cambiar. Ejemplo: «Añade una opción --json. La salida de texto no debe cambiar en absoluto».
+- **Refactorizar**: di que el comportamiento sigue igual. Ejemplo: «Registra primero la salida actual y luego demuestra que no cambió».
+- **Encontrar qué va lento**: da una cifra medida. Ejemplo: «El arranque tarda 1.8 segundos. Captura una traza y dame un antes y un después».
+
+Para ver el proceso completo, consulta [arreglar un bug](/es/howto/fix-bug/), [añadir una funcionalidad](/es/howto/add-feature/), [refactorizar](/es/howto/refactor/) y [encontrar qué va lento](/es/howto/perf/).
+
+Cuando un test local pueda detectar el bug, escribe:
+
+<Copy id="tdd" code="/tdd implement" />
+
+**Qué obtienes**: primero un test que falla, después la corrección y luego una ejecución que muestra que pasa.
+
+Cuando modifiques TypeScript, menciona `/typescript-best-practices`. <u>No se carga sola.</u>
+
+## Limpia todo antes de entregarlo
+
+- **Redacción**: `/unslop` quita el tono genérico de IA. Puedes añadir reglas: `/unslop Limpia el contenido nuevo del README, sin guiones largos`.
+- **Comentarios**: `/no-comments` lanza una IA que no escribió el código para revisar los comentarios. Solo se quedan los necesarios.
+- **Código**: solo di «Elimina los comentarios que narran el código, las comprobaciones defensivas sin justificación, el código de compatibilidad muerto y los cambios sin relación con esta tarea».
+
+## ¿Te atascaste?
+
+<Q q="Se quedó con el primer diseño y no me dio a elegir.">
+<p>Di «todavía no decidas, haz dos o tres prototipos y compáralos lado a lado». O escribe <code>exhaust the design space</code>, que significa «prueba todas las opciones». Es un <a href="/es/wiki/principles/">nombre de principio</a> que pstack conoce, así que escribirlo tal cual funciona.</p>
+</Q>
+<Q q="Quiero que escriba un plan antes de empezar.">
+<p>Cuando el diseño esté definido, di: <code>/poteto-mode Convierte este diseño en un plan. Divídelo en PR pequeños que puedan comprobarse por separado, cada uno con sus pasos de verificación.</code> La IA solo escribe el plan y no implementa nada. Un <Term k="PR" /> es un conjunto de cambios que se entrega a alguien para revisar.</p>
+</Q>
+<Q q="¿En qué se diferencia /swarm de /arena?">
+<p><code>/arena</code> pone a varias IA a hacer el mismo trabajo y elige el mejor. <code>/swarm</code> divide un trabajo grande en partes para varias IA. Consulta <a href="/es/wiki/arena-swarm/">en qué se diferencia /arena de /swarm</a>.</p>
+</Q>
+
+<Checkpoint id="s5" items={["Sé que la mayoría de los cambios no necesitan un paso de diseño; menciono /architect, /arena o /interrogate solo cuando tengo dudas", "Cuando no logro decidir algo, le pido que haga prototipos para comparar", "Antes de entregarlo, le pido que limpie la redacción y los comentarios"]} />

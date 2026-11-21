@@ -1,0 +1,64 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 0
+need: Nada todavía, solo leer
+tldr: Entiende qué hace pstack por ti, qué cuesta y las cuatro cosas que debes tener listas antes de empezar.
+description: Qué es pstack, qué malos hábitos de la IA al programar corrige, qué cuesta y qué tener listo antes de empezar.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Fig from "../../../components/Fig.astro";
+
+<Callout type="tip" title="¿No programas?">
+Esta guía completa es para quienes escriben código y usa palabras como Git y PR. Si nunca has escrito código, empieza por las [tres lecciones para principiantes](/es/start/1-why/). Lo estarás usando en 20 minutos.
+</Callout>
+
+## Qué es pstack
+
+pstack es un paquete de <Term k="技能" text="skills" />. Se instala en la herramienta de programación con IA que ya usas, como Claude Code, Cursor o Codex.
+
+Una vez instalado, la IA escribe código siguiendo las reglas de un ingeniero senior: <mark><strong>primero entiende, luego actúa y después comprueba su propio trabajo.</strong></mark>
+
+El modelo sigue siendo el mismo. Lo que cambia es el orden en que trabaja y el estándar que debe cumplir.
+
+<Fig id="g0-layers" />
+
+## Qué malos hábitos corrige
+
+- **Cambiar código que no ha entendido**. Edita una parte que parece la correcta, pero no lo es.
+- **Tratar solo el síntoma**. Oculta los datos duplicados donde se muestran. El bug que los crea sigue ahí.
+- **Decir «listo» sin probarlo**. Dice «ya debería estar bien». Lo ejecutas y sigue roto.
+- **Cambios que no paran de crecer**. Añade código que nadie necesita y el siguiente bug se esconde ahí.
+
+## Solo necesitas un comando
+
+En el día a día, solo escribe `/poteto-mode`. Le dices el objetivo y planifica el resto. Detrás hay más cosas, pero todavía no necesitas aprenderlas:
+
+- **22 <Term k="剧本" text="playbooks" />**: arreglar un bug, añadir una funcionalidad, refactorizar… un enfoque para cada tipo de tarea.
+- **34 skills**: por ejemplo, `/how` explica código y `/bro` dice las cosas con palabras sencillas. Consulta la [lista de skills](/es/skills/).
+- **24 <Term k="原则" text="principios" />**: por ejemplo, «subtract before you add» (restar antes de añadir) y «prove it works» (demostrar que funciona).
+- **2 IA ayudantes**: una sigue las mismas reglas cuando la envían a trabajar; la otra solo revisa comentarios.
+
+## Qué obtienes
+
+- **Cambios más pequeños, probados cada vez**. Borra lo que puede y termina ejecutando comandos reales y haciendo clic en la interfaz real.
+- **Puedes ejecutar varias IA a la vez**. Cada una sigue las mismas reglas y trabaja en su propia carpeta.
+- **El mismo error no ocurre dos veces**. Usa `/correct` para cortarlo de raíz.
+
+<Callout type="warn" title="Lo que cuesta: más lento y más caro">
+Envía más IA ayudantes y hace que varios modelos se revisen entre sí. Por eso es más lento y consume más tokens. No lo uses para cambios pequeños. Para ahorrar, consulta [Controlar el gasto](/es/howto/cost/).
+</Callout>
+
+## Ten cuatro cosas listas
+
+- **Una herramienta de programación con IA**: Claude Code, Cursor o Codex, cualquiera de ellas (OpenCode y Pi también funcionan). Debe poder cambiar tu código y ejecutar comandos. <u>Una IA solo de chat en el navegador no sirve</u>.
+- **Un modelo que puedas usar**: un plan de pago de la herramienta o una clave de API.
+- **Un proyecto real en Git**: la mayoría de los playbooks crean un <Term k="worktree" /> y abren un <Term k="PR" />. ¿Todavía no usas Git? Ejecuta `git init` y haz un commit primero.
+- **Node.js 22.20 o superior**: solo si instalas con `npx skills`.
+
+<Callout type="tip">
+Este sitio usa la copia (mirror) [backnotprop/pstack](https://github.com/backnotprop/pstack). Se sincroniza a diario con la versión oficial y también funciona en Claude Code y Codex. Las dos se usan igual.
+</Callout>
+
+<Checkpoint id="s0" items={["Sé que pstack es un paquete de skills que se instala en una herramienta de programación con IA, no un modelo nuevo", "Sé que en el día a día solo escribo un comando: <code>/poteto-mode</code>", "Tengo una de estas herramientas (Claude Code, Cursor o Codex) y un proyecto en el que quiero trabajar con ella"]} />

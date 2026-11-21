@@ -1,0 +1,91 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 6
+need: Uma alteração pronta; ter um repositório no GitHub ajuda
+tldr: "Obtenha evidências que você possa conferir por conta própria, depois peça para a IA abrir o PR, deixá-lo pronto para merge e fazer merge do que foi verificado."
+description: "Diga logo de início o que significa estar pronto, peça evidências adequadas à mudança, deixe a IA verificar no seu app, depois abra o PR, deixe-o pronto para merge e faça merge com base em resultados verificados."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+<Fig id="g6-ship" />
+
+## Diga na primeira frase o que significa estar pronto
+
+<Copy id="done" code="/poteto-mode Adicione saída em JSON a este comando. A saída em texto deve continuar idêntica byte a byte, o parse do JSON deve funcionar sem erro; rode os dois no projeto de exemplo. Mostre as evidências." />
+
+A resposta deve incluir os comandos reais e a saída deles. Se alguma verificação não pôde rodar, ela diz “inconclusivo”.
+
+<mark><strong>“Compilou” não é prova.</strong></mark> Peça evidências adequadas à mudança:
+
+| O que mudou | Evidência para pedir |
+| --- | --- |
+| Linha de comando | Rodar o comando real |
+| UI | Percorrer o fluxo no app rodando |
+| Parsers, migrações | Reexecutar uma entrada salva |
+| Performance | Comparar medições de antes e depois |
+| Armazenamento | Ler de volta o valor gravado |
+
+## Deixe a IA verificar no seu app
+
+Se a IA não tiver como controlar o seu app, rode isto primeiro:
+
+<Copy id="cvs" code="/create-verification-skill" />
+
+**O que você recebe**: uma <Term k="验证技能" /> `/verify-<your-app-name>`. A IA lê principalmente o seu código e faz uma execução de teste completa antes de entregar. <u>Se a execução de teste falhar, não use o que ela criou.</u>
+
+Depois disso, peça evidências assim:
+
+<Copy id="use-vs" code="/poteto-mode Crie a funcionalidade de arquivamento em massa. Verifique com /verify-<your-app-name> e me entregue uma gravação de tela e capturas de tela como evidências." />
+
+Faça commit da skill de verificação no repositório. Revise essa skill regularmente com `/maintain-verification-skill` (o ideal é todo dia). Para ver o que é gerado, como conferir e como poteto usa essa skill, veja [Dê uma skill de verificação ao seu projeto](/pt/howto/verify-app/).
+
+## Abra o PR
+
+Um <Term k="PR" /> é um conjunto de alterações enviadas para revisão e depois para merge.
+
+<Copy id="pr" code="/poteto-mode Abra um PR. Commits pequenos e ordenados, com as evidências na descrição." />
+
+**O que você recebe**: a IA organiza commits pequenos em um <Term k="worktree" /> e entrega o link do PR no final.
+
+## Deixe pronto para merge: faça babysit do PR
+
+<Copy id="babysit" code="/poteto-mode Faça babysit deste PR e deixe tudo verde." />
+
+**O que você recebe**: ao fazer babysit (acompanhar o PR até terminar), a IA resolve conflitos, depois comentários de revisão e depois o CI (as verificações que rodam a cada push). Problemas reais são corrigidos. Comentários sem fundamento recebem uma resposta explicando o motivo.
+
+<strong>Ela para em “pronto para merge”. Nunca faz merge por você.</strong>
+
+## Faça merge: land the stack
+
+Uma stack é uma sequência de PRs encadeados, um baseado no anterior.
+
+<Copy id="ship" code="/poteto-mode land the stack." />
+
+**O que você recebe**: uma IA que não escreveu cada PR faz a verificação de novo. Começando da base, ela faz merge apenas da sequência contínua que passou. Ela avisa onde a sequência quebrou.
+
+<Callout type="tip" title="Usando o Claude Code">
+Abrir PRs usa o `gh`. Faça login no GitHub na sua máquina primeiro: `gh auth login`.
+</Callout>
+
+## Travou?
+
+<Q q="A IA diz que terminou, mas não mostrou nenhuma evidência.">
+<p>Responda: “apply prove it works. Mostre a saída real, não o log de build.” prove it works significa “prove que funciona com resultados reais”. É o nome de um princípio que o pstack conhece.</p>
+</Q>
+<Q q="Medi um ganho de velocidade. Como saber se é real?">
+<Copy id="bench" code="/benchmark-checklist Verifique este ganho de velocidade na exportação antes de ir para o PR" />
+<p>A skill faz 7 perguntas. Só existem quatro vereditos: mais rápido, mais lento, sem diferença mensurável ou inconclusivo.</p>
+</Q>
+<Q q="É uma mudança pequena, mas estou com um pé atrás.">
+<p>Use <code>/blast-radius</code>. Essa skill descobre por que a mudança é segura e depois prova isso rodando código.</p>
+</Q>
+<Q q="Há casos que os testes não alcançam, como duas retentativas colidindo.">
+<p>Use <Term k="形式化验证" />: <code>/create-formal-verification-skill Leases de tarefas e lógica de retentativa. A mesma tarefa nunca pode rodar duas vezes ao mesmo tempo.</code> Quando vale a pena e como ler um contraexemplo: <a href="/pt/howto/formal-verify/">Bugs que os testes não alcançam: verificação formal</a>.</p>
+</Q>
+
+<Checkpoint id="s6" items={["Meu prompt diz o que significa estar pronto e quais evidências quero ver", "Sei que não dá para confiar em um “pronto” sem evidências", "Sei que fazer babysit não faz merge; para fazer merge, preciso dizer land the stack"]} />

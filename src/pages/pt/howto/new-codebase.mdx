@@ -1,0 +1,81 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: new-codebase
+time: Meia hora no primeiro dia, depois pergunte conforme precisar
+for: Você está assumindo o projeto de outra pessoa, ou voltando ao seu depois de meses, e quer entendê-lo primeiro
+step: 4
+tldr: Comece com “não altere nenhum código ainda” e deixe a IA guiar você. Depois, pergunte os detalhes com /how e /why.
+description: "Assumindo um projeto desconhecido: peça para a IA ler sem alterar nada, pergunte os detalhes com /how, /why, /teach e /recall, e use a retomada de sessão para uma branch pela metade."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copie isto primeiro
+
+<Copy id="nc-first" title="Seu primeiro prompt" code="/poteto-mode Me ajude a entender este projeto: o que ele faz, como rodar localmente e onde fica o código principal. Diga quais arquivos você leu e quais fontes usou. Não altere nenhum código ainda." />
+
+- **“Não altere nenhum código ainda”**: <mark><strong>até entender o código, a IA só lê.</strong></mark> Ela investiga e não abre nenhum <Term k="PR" />.
+- **“Diga quais arquivos você leu”**: a IA separa o que leu do que deduziu.
+
+## Onde olhar depois de enviar
+
+Você recebe um resumo, com a fonte de cada ponto. Ele costuma cobrir:
+
+- **Visão geral**: o que o projeto faz.
+- **Ideias principais e como funciona.**
+- **Onde cada coisa fica.**
+- **Armadilhas para ficar de olho.**
+
+## Depois, pergunte os detalhes: quatro comandos
+
+| Comando | Responde | Exemplo |
+| --- | --- | --- |
+| `/how` | Como funciona hoje | Como os alertas são deduplicados? |
+| `/why` | Por que foi feito assim | Por que no máximo 5 retentativas? |
+| `/teach` | Até você entender de verdade | Me ensine essa mudança nas retentativas |
+| `/recall` | Onde você parou | Onde ficou o trabalho de exportação? |
+
+- **`/why`** verifica primeiro o histórico do Git, depois issues e documentação. Se não encontrar nada, avisa. “Ninguém anotou o porquê” também é uma resposta.
+- **`/teach`**: adicione “me convença”, e a explicação vira um argumento que você pode conferir.
+- **`/recall`** lê apenas o seu próprio histórico neste projeto, dos últimos 7 dias por padrão.
+
+## Um exemplo de site de membros
+
+Um amigo passa para você um site de membros no Cloudflare Workers, com dados no D1. Você precisa mudar como funciona a expiração da assinatura. Comece com o primeiro prompt acima e depois pergunte:
+
+<Copy id="nc-how" title="Primeiro, pergunte como funciona hoje" code="/how Depois que o usuário faz login, como o status da assinatura chega até a página? Onde a sessão fica armazenada? Onde a expiração da assinatura é verificada?" />
+
+<Copy id="nc-why" title="Depois, pergunte por quê" code="/why Por que a verificação de expiração da assinatura está escrita duas vezes, em dois lugares diferentes? Esse motivo ainda vale?" />
+
+<Copy id="nc-teach" title="Por fim, até você entender de verdade" code="/teach Preciso mudar a lógica de expiração da assinatura. Me ensine como essa parte funciona e me convença de que mudar em apenas um lugar não vai expulsar usuários que já pagaram." />
+
+Depois dessas três perguntas, deixe a IA fazer alterações. A essa altura, vocês dois já têm a mesma visão.
+
+## Retomando uma branch pela metade
+
+Você na semana passada, ou outra conversa com a IA, parou na metade de uma branch. Envie isto:
+
+<Copy id="nc-pickup" title="Retome de onde parou" code="/poteto-mode Assuma esta branch. Leia o log de decisões, descubra o que já foi feito e continue daí. Não refaça nada que já esteja pronto." />
+
+A IA encontra os registros anteriores (conversas, branches e o <Term k="决策日志" />) e diz de qual passo vai continuar. Se a conversa anterior disse “passou”, ela verifica de novo por conta própria.
+
+<Callout type="tip" title="/recall versus retomar uma branch">
+Para continuar uma conversa específica, use o prompt acima. Para recuperar o contexto das suas últimas conversas antes de começar algo novo, use <code>/recall</code>. Por exemplo: “/recall meu trabalho na lista virtual ontem, depois leia este relato de bug.”
+</Callout>
+
+## Travou?
+
+<Q q="Eu disse para não alterar nada, e a IA alterou o código mesmo assim.">
+Para uma pergunta nova na mesma conversa, comece com “new task”: “/poteto-mode new task. Descubra por que o cache continua lá depois do logout. Não altere nenhum código ainda.” Sem isso, a IA trata sua pergunta como o próximo passo da tarefa anterior.
+</Q>
+<Q q="O /why diz que não consegue encontrar o motivo original.">
+Esse é um resultado normal. Se você souber onde a resposta pode estar, como o link de uma issue ou um documento antigo, cole no chat.
+</Q>
+<Q q="A IA explicou tudo, mas não consegui acompanhar.">
+Digite <code>/bro</code>. Ela reconta a última resposta em palavras simples, de forma mais curta.
+</Q>
+<Q q="Ao retomar uma branch, a IA refez um trabalho que já estava pronto.">
+Responda: “Os registros anteriores são confiáveis. Não comece do zero. Diga de qual passo você vai continuar.”
+</Q>

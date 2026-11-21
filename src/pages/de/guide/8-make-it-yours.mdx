@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 8
+need: Ein paar echte Aufgaben mit pstack erledigt
+tldr: "Korrigier die KI in einer Zeile mit dem Namen eines Prinzips. Passiert ein Fehler zweimal, blockier ihn mit /correct im Repo."
+description: "Mit dem Namen eines Prinzips nachsteuern; /reflect hält die Lehren einer Aufgabe fest; /correct blockiert wiederkehrende Fehler; /automate-me baut deinen eigenen Modus; einen Skill testen, bevor du ihn änderst."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Klein anfangen
+
+Am ersten Tag brauchst du nicht viele Skills. <mark><strong>Schreib ganz normale Prompts und achte darauf, wo die KI patzt. Passiert derselbe Patzer zweimal, füg einen Skill oder eine Prüfung hinzu.</strong></mark>
+
+## In einer Zeile korrigieren: Nenn ein Prinzip beim Namen
+
+pstack hat 24 <Term k="原则" text="Prinzipien" />, und jedes hat einen Namen. „Erst löschen, dann hinzufügen“ heißt zum Beispiel `subtract before you add`. pstack kennt diese Namen. Du kannst einen also genau so eintippen.
+
+- **Die KI nennt es einen Erfolg, weil der Code kompiliert**: „mit echten Ergebnissen beweisen“. Antworte: `apply prove it works. Führ den echten Import-Ablauf aus und zeig mir die Datensätze, die er geschrieben hat.`
+- **Die KI fügt hinter der Fehlerstelle eine Prüfung ein und nennt das Problem behoben**: „die eigentliche Ursache finden“. Antworte: `fix root causes. Finde heraus, wo es zuerst schiefgeht.`
+- **Die KI probiert immer wieder einen Fix, der schon zweimal gescheitert ist**: „die Annahme hinterfragen“. Antworte: `attack the premise. Schreib die gemeinsame Annahme dieser Fixes auf und teste sie direkt.`
+- **Die KI will einen vierten Adapter auf drei alte setzen**: „erst löschen, dann hinzufügen“. Antworte: `subtract before you add. Lösch zuerst die veralteten Adapter und entwirf dann, was übrig bleibt.`
+
+Sie sollte sagen, welche Entscheidung das Prinzip geändert hat. Schau in [die 24 Prinzipien](/de/wiki/principles/) – weitere Sätze findest du unter [Mit einem Satz wieder auf Kurs bringen](/de/howto/steer/).
+
+## Das war ein Umweg: /reflect
+
+<Copy id="reflect" code="/reflect Das war zu langsam. Schreib auf, was du gelernt hast, damit das nicht wieder passiert." />
+
+**Was du bekommst**: Vorschläge, sortiert nach „annehmen“, „ablehnen“ und „unentschieden“. <strong>Die KI ändert Skills erst nach deiner Freigabe.</strong> Gib nur die frei, die verändern würden, wie künftige Arbeit abläuft.
+
+## Derselbe Fehler kommt immer wieder: /correct
+
+<Copy id="correct" code="/correct Die KI umgeht immer wieder die Repository-Schicht und ruft den Datenbank-Client direkt auf" />
+
+**Was du bekommst**: Die KI liest die letzten Commits und Review-Kommentare und ordnet die Fehler nach Art. Pro Art erstellt sie einen Commit mit dem strengsten Fix, der möglich ist:
+
+<Fig id="g8-guard" />
+
+Tipp nur `/correct` ohne Argument ein, dann durchsucht die KI den Verlauf von selbst.
+
+`/reflect` ändert Skills. `/correct` ändert dein Repo.
+
+## Deinen eigenen Modus bauen: /automate-me
+
+<Copy id="automate" code="/automate-me" />
+
+**Was du bekommst**: Die KI liest deine Chats in diesem Projekt und erkennt deine Gewohnheiten. Nach Rücksprache mit dir schreibt sie einen `<dein-name>-mode`-Skill und öffnet einen PR, den du prüfen kannst.
+
+Wenn sich deine Gewohnheiten ändern, führ es noch einmal aus: „/automate-me Aktualisiere meinen Modus-Skill mit allem seit der letzten Änderung.“
+
+## Einen Skill testen, bevor du ihn änderst
+
+<Copy id="eval" code="/poteto-mode Aktualisiere den Review-Skill, damit er fehlende Datenbank-Migrationen erkennt, und führ ein Eval für die Änderung aus." />
+
+**Was du bekommst**: Mehrere KIs erledigen dieselbe Aufgabe, ohne zu wissen, dass sie getestet werden, und eine Bewertungs-KI vergibt Punkte. Schau dir jedes Ergebnis auch selbst an.
+
+<Callout type="warn" title="Ändere keinen Skill mitten in einer Aufgabe">
+Wenn ein Skill schlecht abschneidet, notier dir das und beheb es später in einem eigenen PR. Reviewer sehen eine Skill-Änderung nicht, wenn sie in einer Feature-Änderung vergraben ist.
+</Callout>
+
+Gewohnheiten und Stolperfallen von anderen, die pstack nutzen, stehen unter [Was andere gelernt haben](/de/howto/field-notes/).
+
+## Kommst du nicht weiter?
+
+<Q q="/automate-me sagt, es findet nicht genug Verlauf.">
+<p>Es liest nur Chats aus dem aktuellen Projekt. Nutz pstack hier eine Weile ganz normal und führ den Befehl dann noch einmal aus.</p>
+</Q>
+<Q q="Ich will selbst einen Skill von Grund auf schreiben.">
+<p>Sag: <code>/poteto-mode Schreib einen Skill, der Datenbank-Migrationen in diesem Repo prüft</code>. Die KI prüft Format und Links und öffnet dann einen PR.</p>
+</Q>
+
+<Checkpoint id="s8" items={["Ich habe mir zwei oder drei Namen von Prinzipien gemerkt, wie prove it works und fix root causes", "Passiert derselbe Fehler ein zweites Mal, blockiere ich ihn mit /correct", "Skill-Änderungen kommen in einen eigenen PR und durchlaufen zuerst ein Eval"]} />

@@ -1,0 +1,64 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 0
+need: Nada ainda, é só ler
+tldr: Saiba o que o pstack faz por você, qual é o custo e as quatro coisas para deixar prontas antes de começar.
+description: O que é o pstack, quais maus hábitos da IA ao programar ele corrige, qual é o custo e o que deixar pronto antes de começar.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Fig from "../../../components/Fig.astro";
+
+<Callout type="tip" title="Não programa?">
+Este guia completo é para quem escreve código, e ele usa palavras como Git e PR. Se você nunca escreveu código, comece pelas [três lições para iniciantes](/pt/start/1-why/). Em 20 minutos você já vai estar usando.
+</Callout>
+
+## O que é o pstack
+
+O pstack é um pacote de <Term k="技能" text="skills" />. Ele entra na ferramenta de programação com IA que você já usa, como Claude Code, Cursor ou Codex.
+
+Depois que ele entra, a IA escreve código seguindo as regras de um engenheiro sênior: <mark><strong>entender primeiro, agir depois e conferir o próprio trabalho.</strong></mark>
+
+O modelo continua o mesmo. O que muda é a ordem em que ele trabalha e o padrão que precisa atingir.
+
+<Fig id="g0-layers" />
+
+## Quais maus hábitos ele corrige
+
+- **Alterar código que não entendeu.** A IA edita um trecho que parece certo, mas não é.
+- **Tratar só o sintoma.** Ela esconde os dados duplicados onde eles aparecem. O bug que cria esses dados continua lá.
+- **Dizer “pronto” sem testar.** Ela diz “agora deve estar tudo certo”. Você roda e continua quebrado.
+- **Mudanças que não param de crescer.** Ela adiciona código que ninguém precisa, e o próximo bug se esconde ali.
+
+## Você só precisa de um comando
+
+No dia a dia, é só digitar `/poteto-mode`. Você diz o objetivo, e ele planeja o resto. Por trás dele existe mais coisa, mas você ainda não precisa aprender isso agora:
+
+- **22 <Term k="剧本" text="playbooks" />**: corrigir um bug, adicionar uma funcionalidade, refatorar… uma abordagem para cada tipo de tarefa.
+- **34 skills**: por exemplo, `/how` explica código e `/bro` coloca as coisas em linguagem simples. Veja a [lista de skills](/pt/skills/).
+- **24 <Term k="原则" text="princípios" />**: por exemplo, “subtract before you add” (remover antes de adicionar) e “prove it works” (provar que funciona).
+- **2 IAs ajudantes**: uma segue as mesmas regras quando é enviada para trabalhar; a outra só revisa comentários.
+
+## O que você ganha com isso
+
+- **Mudanças menores, sempre testadas.** A IA apaga o que pode e termina rodando comandos reais e clicando na interface de verdade.
+- **Você pode rodar várias IAs ao mesmo tempo.** Cada uma segue as mesmas regras e trabalha na própria pasta.
+- **O mesmo erro não acontece duas vezes.** Use `/correct` para bloquear o problema na raiz.
+
+<Callout type="warn" title="O custo: mais lento e mais caro">
+Ele envia mais IAs ajudantes e coloca vários modelos para revisar o trabalho uns dos outros. Por isso, é mais lento e gasta mais tokens. Não use em mudanças pequenas. Para economizar, veja [Manter os custos baixos](/pt/howto/cost/).
+</Callout>
+
+## Deixe quatro coisas prontas
+
+- **Uma ferramenta de programação com IA**: qualquer uma entre Claude Code, Cursor ou Codex (OpenCode e Pi também funcionam). Ela precisa conseguir alterar seu código e rodar comandos. <u>Uma IA só de chat no navegador não funciona</u>.
+- **Um modelo que você possa usar**: um plano pago da ferramenta ou uma chave de API.
+- **Um projeto real no Git**: a maioria dos playbooks cria um <Term k="worktree" /> (uma segunda pasta de trabalho ligada ao mesmo repositório Git) e abre um <Term k="PR" />. Ainda não usa Git? Rode `git init` e faça um commit primeiro.
+- **Node.js 22.20 ou superior**: só se você instalar com `npx skills`.
+
+<Callout type="tip">
+Este site usa a cópia [backnotprop/pstack](https://github.com/backnotprop/pstack). Ela sincroniza com a versão oficial todos os dias e também funciona no Claude Code e no Codex. Você usa as duas do mesmo jeito.
+</Callout>
+
+<Checkpoint id="s0" items={["Sei que o pstack é um pacote de skills que entra em uma ferramenta de programação com IA, não um modelo novo", "Sei que no dia a dia eu só digito um comando: <code>/poteto-mode</code>", "Tenho Claude Code, Cursor ou Codex, além de um projeto em que quero trabalhar com ele"]} />

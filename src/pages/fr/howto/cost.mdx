@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cost
+time: 5 minutes de lecture, 5 pour modifier les réglages
+for: Vous trouvez que pstack consomme trop de tokens et vous voulez économiser un peu
+step: 2
+tldr: Pour les petites tâches, demandez directement. Pour les plus grosses, utilisez un modèle principal puissant avec des modèles moins chers pour le code, ou baissez d'un niveau de budget.
+description: Où passe l'argent avec pstack ; éviter /poteto-mode pour les petites tâches ; un modèle principal puissant avec des modèles moins chers pour le code ; les trois budgets ; des panels de revue plus petits ; ce que signifient auto et inherit-parent.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Où passe l'argent
+
+Une même tâche consomme beaucoup plus de <Term k="token" text="tokens" /> (l'unité de mesure et de facturation de l'IA) avec `/poteto-mode`. Ce surcoût vient de trois postes :
+
+- **IA d'appoint**. La lecture et l'écriture du code passent par plusieurs <Term k="子代理" text="sous-agents" />, et chacun est facturé séparément.
+- **Panels de revue**. `arena` et `interrogate` font faire un passage à plusieurs modèles. Par défaut, il y en a trois, donc vous payez trois fois.
+- **Réflexion plus longue**. Le niveau par défaut est `xhigh`. Plus l'IA réfléchit longtemps, plus ça coûte cher.
+
+Cet argent paie des vérifications et des seconds avis. Les ajustements ci-dessous permettent de dépenser moins sans les perdre.
+
+## Éviter /poteto-mode pour les petites tâches
+
+Une faute de frappe, un ajustement de couleur, une ligne de log en plus : si vous pouvez vérifier d'un coup d'œil que c'est bon, demandez directement.
+
+- **Vous voulez seulement savoir comment faire** : utilisez `/poteto-help`. Il répond sans lancer de travail.
+- **Vous ne comprenez pas encore le code** : interrogez d'abord `/how`. C'est moins cher que de refaire une mauvaise modification.
+
+## Modèle principal puissant, modèles moins chers pour le code
+
+<mark>Faites tourner la conversation principale, celle avec laquelle vous discutez, sur un modèle puissant. Passez les rôles qui écrivent du code sur des modèles moins chers.</mark>
+
+La conversation principale doit vous comprendre et relire les modifications, donc économiser dessus entraîne des erreurs. Les IA d'appoint chargées du code reçoivent un travail bien cadré, que les modèles moins chers gèrent bien.
+
+Lancez `/setup-pstack`. À la dernière étape, « confirmer les rôles », passez les lignes `feature, refactoring`, `bug-fix` et `perf-issue` sur un modèle moins cher.
+
+<Fig id="h-cost" />
+
+## Baisser d'un niveau de budget
+
+<Cmd c="/setup-pstack" />
+
+Il propose trois budgets :
+
+| Budget | Niveau | Remarques |
+| --- | --- | --- |
+| `large` | `xhigh` | Par défaut |
+| `medium` | `high` | Un peu moins cher |
+| `small` | `medium` | Le moins cher |
+
+Le budget change uniquement le temps de réflexion des modèles, pas le choix des modèles. Les rôles que vous avez modifiés vous-même sont conservés. <u>Démarrez une nouvelle conversation après votre choix</u>, sinon le changement ne s'appliquera pas.
+
+<Callout type="tip" title="Il s'adapte déjà à la tâche">
+Le budget n'est qu'un point de départ. Il abaisse le niveau de deux crans ou plus pour les tâches de routine, si bien que même avec `large`, le travail simple n'est pas facturé au tarif maximal. Aucun rôle ne dépasse `xhigh`.
+</Callout>
+
+## Envoyer un relecteur de moins
+
+Les lignes `arena runners` et `interrogate reviewers` envoient une IA d'appoint par modèle listé. Par défaut, il y en a trois :
+
+<Copy id="cost-panel-before" title="Par défaut : trois par panel" code={`arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh
+interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh`} />
+
+Supprimez-en un et vous en payez un de moins, mais vous perdez aussi l'avis d'un modèle. fable est le plus cher, donc c'est en le retirant que vous économisez le plus. Vous pouvez aussi le préciser tâche par tâche :
+
+<Copy id="cost-arena" code="/arena cette question de nommage n'est pas très importante. 2 options suffisent." />
+
+## auto et inherit-parent : suivre la conversation principale
+
+Mettre `auto` ou `inherit-parent` sur un rôle revient au même : aucun modèle n'est défini, donc il utilise le modèle de la conversation principale. `auto` n'est pas un modèle appelé auto.
+
+Quand la conversation principale tourne sur un modèle bon marché, ces rôles aussi. Dans Claude Code, le siège gemini du panel de revue l'utilise par défaut.
+
+## Un blocage ?
+
+<Q q="Après le passage à small, les résultats se sont nettement dégradés.">
+Essayez d'abord `medium`. Ou gardez `large` et passez uniquement les rôles qui écrivent du code sur un modèle moins cher. Une mauvaise décision coûte généralement plus cher que les tokens économisés.
+</Q>
+<Q q="J'ai modifié un nom de modèle à la main dans le fichier de réglages, et il indique que le modèle n'est pas disponible.">
+Le nom est peut-être mal orthographié, ou vous n'y avez pas accès. Il revient au modèle par défaut et vous le signale. Pour changer de modèle, relancez `/setup-pstack` et choisissez dans sa liste.
+</Q>
+<Q q="J'ai changé le budget, mais le coût n'a pas changé.">
+Les nouveaux réglages ne s'appliquent qu'aux nouvelles conversations. Démarrez-en une nouvelle et revérifiez. Sur des outils comme Codex, assurez-vous que `~/.agents/pstack-models.md` a bien été écrit.
+</Q>

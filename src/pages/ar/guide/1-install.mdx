@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: أداة واحدة من Claude Code أو Cursor أو Codex؛ مع Node.js 22.20+ إذا استخدمت npx للتثبيت
+tldr: ثبّت pstack بأمر واحد أو أمرين، ثم أرسل رسالة واحدة للتأكد من أنه يعمل.
+description: ثبّت pstack في Claude Code أو Cursor أو Codex بأمر واحد، ثم تأكد من نجاح التثبيت برسالة واحدة.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## التثبيت حسب أداتك
+
+<div data-sk-keep>
+<Tabs id="install" label="اختر أداتك" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex وغيرها"]]}>
+<div slot="cc">
+
+في مربع المحادثة داخل Claude Code، أرسل هذين الأمرين بالترتيب:
+
+<Copy id="cc-1" title="أولًا: أضف متجر الإضافات" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="ثانيًا: ثبّت pstack" code="/plugin install pstack@cursor-plugins" />
+
+بعد التثبيت، <mark><strong>يبدأ كل أمر بالبادئة `pstack:`</strong></mark>. تكتب `/pstack:poteto-mode`؛ أما `/poteto-mode` وحده فلن يتعرّف عليه Claude Code. هذه قاعدة Claude Code للإضافات، حتى لا تتعارض إضافتان على الاسم نفسه.
+
+**لا يتم تحديثه تلقائيًا** في الوضع الافتراضي. لتفعيل التحديث التلقائي: اكتب `/plugin`، وافتح تبويب «marketplaces»، واختر `cursor-plugins`، ثم اختر «enable auto-update».
+
+لا تريد هذه البادئة؟ ثبّته باستخدام `npx skills` من تبويب «Codex وغيرها» بدلًا من ذلك.
+
+</div>
+<div slot="cursor">
+
+في مربع المحادثة داخل Cursor، أرسل:
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+تحتفظ الأوامر بأسمائها العادية، مثل `/poteto-mode` و`/how`. لا حاجة إلى أي بادئة.
+
+اختياري: ثبّت أيضًا إضافة `cursor-team-kit`. يستخدمها pstack في بضعة مواضع. لكنه يعمل بشكل طبيعي من دونها.
+
+</div>
+<div slot="other">
+
+افتح الطرفية **في مجلد مشروعك** وشغّل:
+
+<Copy id="npx-1" lang="bash" title="التثبيت في هذا المشروع" code="npx skills add backnotprop/pstack" />
+
+سيعرض لك قائمة بكل المهارات. **في المرة الأولى، اختر الكل**، ثم حدّد الأدوات التي تريد التثبيت فيها. لتقليصها لاحقًا، راجع [تثبيت بضع مهارات فقط](/ar/howto/pick-skills/).
+
+لجعله متاحًا في كل المشاريع، أضف `-g`:
+
+<Copy id="npx-2" lang="bash" title="التثبيت على مستوى الجهاز" code="npx skills add backnotprop/pstack -g" />
+
+يحتاج إلى Node.js 22.20 أو أحدث. لست متأكدًا؟ شغّل `node -v` للتحقّق.
+
+</div>
+</Tabs>
+</div>
+
+بعد التثبيت، اختر أداتك من هنا. سيتحوّل كل أمر في الموقع، بما في ذلك ما تنسخه أزرار النسخ، إلى الصيغة التي تستخدمها تلك الأداة:
+
+<ToolPick />
+
+## جرّبه
+
+ابدأ محادثة **جديدة** وأرسل:
+
+<Copy id="test" title="اختبار سريع" code="/poteto-help أي مهارة في pstack يجب أن يتعلّمها المبتدئ أولًا؟ أجب في جملة أو جملتين." />
+
+إذا ذكرت الإجابة poteto-mode، فقد تم التثبيت بنجاح. أمر `/poteto-help` يجيب عن الأسئلة فقط. لن يبدأ العمل على أي شيء.
+
+<Callout type="ok">
+اكتب `/` في مربع المحادثة، وستجد `poteto-mode` في القائمة التي تظهر (`pstack:poteto-mode` مع إضافة Claude Code).
+</Callout>
+
+## توقفت عند خطوة؟
+
+<Q q="أكتب / ولا أجد poteto-mode.">
+<p>ابدأ محادثة جديدة أولًا. ما زال غير ظاهر؟ مع إضافة Claude Code، ابحث عن <code>pstack:</code>. وإذا استخدمت <code>npx skills</code>، فتأكّد من أن الأداة مفتوحة في <strong>مجلد المشروع الذي تم التثبيت فيه</strong>، أو أعد التثبيت على مستوى الجهاز باستخدام <code>-g</code>.</p>
+</Q>
+<Q q="يخبرني npx skills أن إصدار Node لديّ قديم جدًا.">
+<p>يحتاج إلى Node.js 22.20 أو أحدث. ثبّت نسخة LTS جديدة من <a href="https://nodejs.org">nodejs.org</a>، ثم أعد تشغيل الأمر.</p>
+</Q>
+<Q q="هل يمكنني تثبيت الإضافة ونسخة npx معًا؟">
+<p>لا تفعل ذلك. وجود نسختين من المهارة نفسها يسبّب ارتباكًا. اختر واحدة فقط.</p>
+</Q>
+
+للتحديث أو إلغاء التثبيت لاحقًا، راجع [التحديث والفحص وإلغاء التثبيت](/ar/howto/update-remove/).
+
+<Checkpoint id="s1" items={["تم تثبيت pstack في أداتي", "في محادثة جديدة، عند كتابة / يظهر poteto-mode (أو pstack:poteto-mode)", "أجاب /poteto-help عن سؤالي"]} />

@@ -1,0 +1,162 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: formal-verify
+time: Einmal erzeugen, danach ein Befehl pro Änderung
+for: Dein Code enthält Nebenläufigkeit, Retries, eine Zustandsmaschine oder einen Parser, ein Bug dort ist teuer und Tests erreichen ihn selten
+step: 6
+tldr: Leg eine Regel fest, die nie verletzt werden darf („derselbe Job läuft nie zweimal gleichzeitig“), und lass jeden Fall in einem festgelegten Umfang prüfen. Wird die Regel verletzt, bekommst du ein Gegenbeispiel, das du in wenigen Schritten durchgehen kannst.
+description: "Nutze /create-formal-verification-skill für Bugs, die Tests nicht erreichen: wann es sich lohnt, wie der Skill Ziel und Tool wählt, wie du ein Gegenbeispiel liest, wie du den erzeugten Skill einsetzt und wie /maintain-formal-verification-skill ihn nach Code-Änderungen wieder angleicht."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+Tests prüfen die Fälle, an die jemand beim Schreiben gedacht hat. <Term k="形式化验证" /> prüft **jeden** Fall in einem festgelegten Umfang: jede Reihenfolge von Schritten in einem Modell, jede Eingabe bis zu einer bestimmten Größe oder schlicht jede Eingabe.
+
+Manche Bugs sitzen auf Pfaden, die niemand durchläuft: zwei Retries, die sich überschneiden, ein Lock, das mitten beim Schreiben abläuft, oder Zustandsänderungen, die in der falschen Reihenfolge ankommen. Zehn Testläufe gehen durch. Ein Jahr nach dem Launch passiert es einmal, und du hast eine Doppelabbuchung oder beschädigte Daten.
+
+<Fig id="h-formal" />
+
+## Wann es sich lohnt
+
+- **Nebenläufigkeit und Locks**: Mehrere Prozesse oder Maschinen konkurrieren um dieselbe Sache. Job-Leases, Lagerbestände.
+- **Retries und „genau einmal“**: Eine Nachricht darf nicht zweimal zugestellt werden; eine Bestellung schaltet die Mitgliedschaft einmal frei.
+- **Zustandsmaschinen**: Bestellstatus, Offline-Änderungen, die später synchronisiert werden, Freigabeprozesse.
+- **Parser**: Keine Eingabe darf ihn zum Absturz bringen oder falsch gelesen werden.
+- **Unsicherer Low-Level-Code**: Speichersicherheit, Integer-Überlauf, Bedingungen, die eine Datenstruktur immer einhalten muss.
+
+Normale Seiten zum Anlegen, Lesen und Bearbeiten, Texte und Styling brauchen das nicht; ein <a href="/de/howto/verify-app/">Prüf-Skill</a> deckt sie ab. `/setup-pstack` bietet dir das ebenfalls einmal an. <mark>Sag Ja, wenn dein Code solche Logik enthält und ein Bug dort teuer wäre; sag sonst Nein und führ es später aus, falls sich das ändert.</mark>
+
+## Kopier zuerst das hier
+
+Lass die KI das wertvollste Ziel aus dem Code auswählen:
+
+<Copy id="fv-auto" code="/create-formal-verification-skill" />
+
+Wenn du es schon weißt, nenn den Bereich und die Regel. Diese beiden stammen aus der offiziellen Anleitung:
+
+<Copy id="fv-lease" title="Job-Leases und Retries" code="/create-formal-verification-skill die Job-Lease- und Retry-Logik. Ein Job darf niemals zweimal gleichzeitig laufen." />
+
+<Copy id="fv-queue" title="Retry-Queue" code="/create-formal-verification-skill die Retry-Queue. Eine Nachricht darf niemals zweimal zugestellt werden." />
+
+Noch zwei aus Alltagsprojekten:
+
+<Copy id="fv-order" title="Mitgliederseite: Zahlungs-Webhooks" code="/create-formal-verification-skill den Zahlungs-Webhook und die Freischaltung der Mitgliedschaft. Der Anbieter wiederholt Webhooks und schickt sie in falscher Reihenfolge; eine Bestellung darf eine Mitgliedschaft genau einmal freischalten." />
+
+<Copy id="fv-sync" title="Chrome-Erweiterung: Synchronisation zwischen Geräten" code="/create-formal-verification-skill die Lesezeichen-Synchronisation. Zwei Computer bearbeiten Lesezeichen jeweils offline und gehen dann wieder online; beide enden im selben Zustand, ohne dass etwas verloren geht oder doppelt vorhanden ist." />
+
+Ein Satz mit zwei Angaben reicht: **welcher Code geprüft werden soll** und **welche Regel nie verletzt werden darf**.
+
+## Wie die KI das Ziel wählt
+
+Sie sucht nach einem Versprechen, das der Code gibt, bei dem ein Bruch Nutzern schadet und Tests den auslösenden Fall selten erreichen. <u>Sie wählt das wertvollste Ziel, nicht das am einfachsten zu prüfende.</u> Wenn du einen Bereich nennst, fängt sie dort an.
+
+## Wie die KI das Tool wählt
+
+Die Fragestellung bestimmt das Tool. Die KI sagt dir, was sie gewählt hat und warum – du musst diese Sprachen also nicht lernen:
+
+| Was du wissen willst | Art des Tools | Gängige Beispiele |
+| --- | --- | --- |
+| Können Ereignisse in einer ungünstigen Reihenfolge passieren? | Ein Model-Checker: ein kleines Modell des Entwurfs, bei dem jede Reihenfolge durchgespielt wird | TLA+ (Standard für diese Art von Frage, egal in welcher Sprache dein Code geschrieben ist) |
+| Verhält sich der Code selbst für jede Eingabe korrekt: Speichersicherheit, Überlauf, Bedingungen an Datenstrukturen? | Ein Verifier, der direkt auf dem Code läuft | Hängt von der Sprache ab: CBMC für C, Kani für Rust |
+| Für deine Sprache gibt es keinen solchen Verifier | Viele erzeugte Eingaben gegen den echten Code | Property-based Testing: fast-check, Hypothesis |
+| Es muss für jede Größe gelten, eine feste Grenze reicht nicht | Ein Beweis | Ein Beweisassistent wie Lean |
+
+Die Beispielspalte stammt von dieser Seite; der Skill schreibt kein Tool vor. Er bevorzugt eines, das dein Team installieren und ausführen kann.
+
+## Wie gute formale Verifikation aussieht
+
+Das sind die eigenen Maßstäbe des Skills – und darauf solltest du bei der Übergabe achten:
+
+- **Treu zum Code**: Jeder Teil des Modells oder Beweises verweist auf Code, den du öffnen kannst. Was der Code in einem Schritt tut, ist ein Schritt im Modell. Die Namen stammen aus deinem Projekt.
+- **Kann fehlschlagen**: <mark><strong>Eine Prüfung, die du noch nie hast scheitern sehen, beweist nichts.</strong></mark> Jede Regel wird einmal an absichtlich fehlerhaftem Code zum Scheitern gebracht (eine entfernte Prüfung, zwei vertauschte Schritte), und die Prüfung fängt es ab.
+- **Funde bleiben Funde**: Bricht der aktuelle Code die Regel bereits, meldet die KI das mit einem Gegenbeispiel. Sie weicht weder die Regel noch das Modell auf, um die Prüfung zu bestehen, und fasst keinen Produktcode an, außer du bittest darum.
+- **Ehrlich beim Umfang**: Was geprüft wurde, innerhalb welcher Grenzen, unter welchen Annahmen und was außen vor bleibt. Eine bestandene Prüfung gilt für dieses Modell und diese Grenzen, nicht für das gesamte System.
+- **Ohne das Tool lesbar**: Die Regel und der Schaden jeweils in einem einfachen Satz. Das Gegenbeispiel als Schritte in den Worten deines Codes erzählt.
+- **Günstig erneut ausführbar**: Ein Befehl, eine festgelegte Tool-Version, schnell genug, dass die nächste KI die Prüfung bei jeder relevanten Änderung ausführt.
+- **Bleibt synchron zum Code**: Der Skill hält fest, welche Dateien und Funktionen jede Prüfung abdeckt, und den Commit, bei dem zuletzt bestätigt wurde, dass beide übereinstimmen. Ändert sich dieser Code, weiß die nächste KI, dass sie noch einmal hinschauen muss.
+
+## Wie sich ein Gegenbeispiel liest
+
+Hat der aktuelle Code den Bug tatsächlich, bekommst du keine Formeln. Du bekommst Schritte wie diese:
+
+<Fig id="h-formal-cex" />
+
+Jeder Schritt entspricht einer Stelle im Code. So kannst du das Gegenbeispiel im echten Code durchgehen und bestätigen, dass das Modell nicht falsch liegt. Wenn du es jemandem aus Produktmanagement oder Design zeigen willst, nutze `/statechart`: Schlägt eine Prüfung fehl, beschreibt es den kürzesten Fehlerpfad in einfachen Worten; besteht sie, zeichnet es, wie das System zwischen Zuständen wechselt.
+
+<Copy id="fv-chart" code="/statechart was Nutzer sehen, wenn sie eine Notiz offline bearbeiten" />
+
+## Was du bekommst
+
+Einen neuen Skill in deinem Projekt, benannt nach dem Code, den er prüft. Wenn die nächste KI nur diesen Skill liest, kann sie:
+
+1. erkennen, ob eine Änderung den geprüften Code berührt;
+2. die Prüfung mit einem Befehl ausführen;
+3. einen echten Bug von einem Modellierungsfehler unterscheiden;
+4. die Verifikation aktualisieren, wenn eine Änderung beabsichtigt ist.
+
+Vor der Übergabe folgt die KI dem Skill einmal bei einer temporären Änderung, die die Regel im echten Code bricht, und die Prüfung muss es abfangen. Danach verwirft sie die Änderung und bestätigt, dass die Prüfung wieder im Ausgangszustand ist. Bei der Übergabe nennt sie dir:
+
+- was geprüft wurde, mit welchem Tool, warum gerade diesem Tool und innerhalb welcher Grenzen;
+- was die Prüfung gefunden hat, in einfachen Worten;
+- wie du sie ab jetzt ausführst;
+- was sie nicht abdeckt.
+
+Ein zweites Ziel schlägt sie nur vor, wenn ein weiteres dicht dahinter lag.
+
+## Wenn sich der Code ändert: /maintain-formal-verification-skill
+
+Der gefährliche Fall ist nicht eine Prüfung, die fehlschlägt. Es ist <mark>eine Prüfung, die weiter besteht, nachdem sich der Code geändert hat</mark>. Sie beschreibt Code, den es nicht mehr gibt, wirkt aber wie ein Beweis.
+
+Läuft eine Änderung über den Prüf-Skill, aktualisiert die KI die Verifikation gleich mit. Für Änderungen, die ihn übersprungen haben (Merges, direkte Änderungen am Code, Refactorings), führst du aus:
+
+<Copy id="mfv" code="/maintain-formal-verification-skill" />
+
+Die KI führt die Prüfung einmal so aus, wie sie ist, liest seit der letzten Bestätigung jeden Commit, der abgedeckten Code berührt hat (einschließlich umbenannter, aufgeteilter oder verschobener Funktionen), und aktualisiert das Modell anhand des Codes – nicht danach, was die Prüfung bestehen ließe. Jede Prüfung endet mit einem Ergebnis:
+
+| Ergebnis | Bedeutung |
+| --- | --- |
+| in sync | Im abgedeckten Code hat sich nichts Wesentliches geändert, und die Prüfung besteht |
+| updated | Der Code hat sich geändert, die Verifikation beschreibt ihn jetzt wieder, und die Prüfung besteht |
+| bug | Die Verifikation beschreibt den aktuellen Code, und der Code bricht die Regel. Ein Fund im Code, kein Auseinanderdriften |
+| blocked | Die KI konnte die Prüfung nicht wieder angleichen oder nicht ausführen; sie nennt den Grund |
+
+Eine Prüfung kann gleichzeitig „updated“ und „bug“ sein: Durch die Aktualisierung beschreibt sie den Code wieder, und dann schlägt die Regel fehl. Besteht eine aktualisierte Prüfung, macht die KI den neuen Code noch einmal absichtlich kaputt, um zu bestätigen, dass die Prüfung es noch abfängt. Eine Regel ändert sie nur, wenn es Belege dafür gibt, dass das Versprechen absichtlich geändert wurde (ein Doc-Kommentar, Tests, ein Changelog, eine Commit-Nachricht), und nennt diesen Beleg. Änderungen an der Verifikation gehören in eine eigene Änderung, getrennt von jedem Produkt-Fix.
+
+## Wie poteto es nutzt
+
+- **Veröffentlicht am 18. Oktober 2026**, in pstack v0.15.27, als Beta markiert. In der [Ankündigung](https://x.com/poteto/status/2111926622278521253) nannte poteto zwei Beispiele: TLA+-Modelle für nebenläufige Zustandsmaschinen und Kani, um Rust auf undefiniertes Verhalten zu prüfen. poteto sagt, dass das Modellieren von Code in TLA+ bereits mehrere Bugs gefunden hat, ohne zu sagen, welche.
+- **„Die Fragestellung bestimmt das Tool“ wurde getestet.** In dem [PR, der den Skill hinzugefügt hat](https://github.com/cursor/plugins/pull/709), probierte poteto ihn an sechs vorher unbekannten Open-Source-Projekten aus: pg-boss, swr, HikariCP, client-go, cJSON und arrayvec. Bei cJSON (C) und arrayvec (Rust) wählte die KI jedes Mal einen Verifier, der direkt auf dem Code läuft: CBMC und Kani. Ein früherer Entwurf, der TLA+ vorschrieb, wählte bei beiden TLA+. poteto merkt außerdem an, dass die Stichprobe klein ist – ein bis zwei Durchläufe pro Projekt –, nimm es also als Anhaltspunkt.
+- **poteto geht offen mit dem Wartungs-Skill um.** In [dem zugehörigen PR](https://github.com/cursor/plugins/pull/716) ließ poteto ihn 54-mal gegen ein TLA+-Modell vom Semaphor aus Go laufen (einschließlich einer Version mit fehlendem Wakeup) sowie gegen cachetools in Python. Das Fazit: Der Skill machte die Ergebnisse nicht korrekter, weil die Modelle die Verifikation ohnehin synchron halten. Was er brachte, war, den Code nach der Aktualisierung noch einmal kaputt zu machen, um zu zeigen, dass die Prüfung es noch abfängt: 11 von 11 Durchläufen mit dem Skill, 5 von 10 ohne.
+- **potetos Kombination** ([Beitrag vom 21. Oktober](https://x.com/poteto/status/2112736749281759566)): Erst die KI mit `/statechart` ein Zustandsdiagramm zeichnen lassen, um den Code zu verstehen, dann den erzeugten TLA+-Prüf-Skill nutzen, um Bugs zu entdecken, bevor Nutzer es tun.
+
+## Warum es sich jetzt lohnt, es auszuprobieren
+
+Formale Verifikation war früher selten: Modelle und Beweise machten viel Arbeit, und nur wenige wussten, wie es geht. Durch KI ist dieser Aufwand stark gesunken, und viele sprechen darüber:
+
+- Martin Kleppmann argumentiert, dass KI formale Verifikation in den Mainstream bringt: Beweise lassen sich günstig schreiben, und Beweisprüfer fangen genau die Fehler ab, die KI macht ([Beitrag](https://martin.kleppmann.com/2025/12/08/ai-formal-verification.html), Dezember 2025).
+- Hillel Wayne, der seit Langem TLA+ unterrichtet, sagt, dass KI enorm vervielfacht, wie viel Spezifikation du schreiben kannst ([Juni 2025](https://buttondown.com/hillelwayne/archive/ai-is-a-gamechanger-for-tla-users)), und warnt, dass Spezifikationen, die KI einfach so nebenbei schreibt, oft verfehlen, wofür eine Spezifikation da ist ([März 2026](https://buttondown.com/hillelwayne/archive/llms-are-bad-at-vibing-specifications)). Deshalb sind „Kann fehlschlagen“ und „Treu zum Code“ von oben so wichtig.
+- Datadog prüft KI-geschriebenen Code mit TLA+-Spezifikationen, Simulationstests und Kani ([Closing the verification loop](https://datadoghq.com/blog/ai/harness-first-agents), März 2026).
+- AWS nutzt seit Langem TLA+ und die eigene Sprache P, um die Entwürfe seiner verteilten Dienste zu prüfen ([Systems Correctness Practices at AWS](https://cacm.acm.org/practice/systems-correctness-practices-at-amazon-web-services)).
+
+Der vollständige Text der Skills steht auf dieser Seite: [`/create-formal-verification-skill`](/de/skills/create-formal-verification-skill/), [`/maintain-formal-verification-skill`](/de/skills/maintain-formal-verification-skill/), [`/statechart`](/de/skills/statechart/).
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI sagt, für meine Sprache gibt es keinen Verifier, der direkt auf dem Code läuft.">
+Das ist eine ehrliche Antwort. Sie testet den echten Code mit vielen erzeugten Eingaben, statt von Hand ein Modell davon zu schreiben, was der Code vermutlich tut. Fragen zur Reihenfolge sind davon nicht betroffen: TLA+ ist es egal, in welcher Sprache dein Code geschrieben ist.
+</Q>
+<Q q="Die Prüfung dauert zu lange.">
+Sag: „Verkleinere den Umfang, bis die Prüfung in wenigen Minuten durchläuft, und nenne den kleineren Umfang bei der Übergabe.“ Eine zu langsame Prüfung wird nicht bei jeder Änderung ausgeführt – das ist genauso, als hättest du gar keine.
+</Q>
+<Q q="Die KI meldet ein Gegenbeispiel, und ich erkenne nicht, ob es ein echter Bug oder ein Modellierungsfehler ist.">
+Bitte sie: „Geh das Gegenbeispiel Schritt für Schritt im echten Code durch.“ Kann ein Schritt im Code nicht passieren, ist das Modell falsch; korrigier das Modell. Kann jeder Schritt passieren, ist es ein echter Bug. Sind die Schritte schwer nachzuvollziehen, nutze `/statechart`.
+</Q>
+<Q q="Die KI will die Regel aufweichen, damit die Prüfung besteht.">
+Nein. Antworte: „Behalte die Regel bei. Der aktuelle Code bricht sie; schreib mir das Gegenbeispiel als Schritte im Code auf.“ Ein Fund wird als Fund gemeldet; ob und wie du ihn behebst, entscheidest du.
+</Q>
+<Q q="Die Prüfung hat bestanden. Heißt das, es gibt keine Bugs?">
+Nur für dieses Modell und diesen Umfang. Lies bei der Übergabe den Abschnitt „was sie nicht abdeckt“ und führ nach Code-Änderungen `/maintain-formal-verification-skill` aus.
+</Q>

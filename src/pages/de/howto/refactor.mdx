@@ -1,0 +1,79 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: refactor
+time: Ein oder zwei Chats für ein mittleres Refactoring
+for: Der Code wird immer unübersichtlicher, und du willst die Struktur aufräumen, ohne dass sich für Nutzer etwas ändert
+step: 5
+tldr: Speichere zuerst die aktuelle Ausgabe, ändere dann die Struktur. Vergleiche dieselbe Ausgabe danach, um zu beweisen, dass sich nichts geändert hat.
+description: "Refactoring mit /poteto-mode: festhalten, was der Code jetzt tut, die Struktur ändern und danach anhand der Aufzeichnung beweisen, dass sich nichts geändert hat. Mit einem Beispiel für eine statische Astro-Website."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Kopier das zuerst
+
+<Copy id="ref-min" title="Die kürzeste Version" code="/poteto-mode verschiebe das Parsing in ein Modul, keine Verhaltensänderung. Halte zuerst die aktuelle Ausgabe fest und beweise danach, dass sie unverändert ist." />
+
+Ein Refactoring bedeutet: <mark><strong>Die Struktur des Codes ändert sich, und sein Verhalten ändert sich überhaupt nicht.</strong></mark>
+
+- **Keine Verhaltensänderung**: Für Nutzer ändert sich nichts Sichtbares. Die KI behandelt die Aufgabe als Refactoring. Keine neuen Features, keine Bugfixes.
+- **Zuerst die aktuelle Ausgabe festhalten**: Speichere ein „Vorher“, damit es etwas zum Vergleichen gibt. „Type-Checks laufen durch“ zählt nicht. Das zeigt nur, dass der Code kompiliert.
+
+<Fig id="h-refactor" />
+
+## Beispiel: eine statische Astro-Website
+
+Ein Dutzend Seiten haben jeweils eigenen Code für die Datumsformatierung, alle ein bisschen anders. Du willst eine einzige Hilfsfunktion.
+
+<Copy id="ref-astro" title="Beispiel: statische Astro-Website" code={`/poteto-mode Zieh den Code für die Datumsformatierung aus allen Seiten in eine einzige Hilfsfunktion, keine Verhaltensänderung.
+Bevor du anfängst: Führ npm run build aus und kopier den gesamten dist-Ordner als Ausgangsstand.
+Wenn du fertig bist, führ den Build erneut aus und mach einen Diff gegen den Ausgangsstand. Der Diff muss für jede HTML-Datei leer sein.
+Lösch den gesamten alten Code. Behalte keine alten Funktionen aus Kompatibilitätsgründen.
+Zeig mir den Diff-Befehl und seine Ausgabe.`} />
+
+- **Ein leerer Diff von dist**: Leer heißt, es hat sich nichts geändert. Eine Zeile mehr heißt, etwas hat sich geändert. Du musst nicht jede Zeile lesen. Diese eine Ausgabe reicht.
+- **Keine alten Funktionen behalten**: Alle Aufrufer werden umgestellt, und der alte Code verschwindet im selben Durchgang.
+
+Wenn der Diff nicht leer ist, lass dir von der KI jeden Unterschied erklären. Manche kommen vielleicht von Seiten, die Datumsangaben schon vorher anders formatiert haben.
+
+## Worauf du nach dem Abschicken achtest
+
+**Am Anfang: wie die KI das aktuelle Verhalten festgehalten hat.** Ein Test, ein Ausgabe-Snapshot oder ein Vergleichsskript.
+
+**Mittendrin: erst löschen, dann hinzufügen.** Sie entfernt zuerst ungenutzten Code und fügt danach die neue Struktur hinzu.
+
+**Am Ende: der Vergleich.** In der Antwort steht, welche Struktur sich geändert hat, was die KI verglichen hat, das Ergebnis und welche Änderungen sie rückgängig gemacht hat. Ist der Code nicht leichter zu lesen, macht sie die Änderung rückgängig.
+
+## Du findest auf halbem Weg einen Bug
+
+Beim Aufräumen stößt du oft auf „Das war schon immer falsch“. Teil das auf:
+
+1. **Mach das Refactoring fertig und committe es.** Lass den alten Bug, wie er ist.
+2. **Behebe den Bug als neue Aufgabe.** Siehe [Bug beheben](/de/howto/fix-bug/).
+
+So lässt sich das Refactoring weiter sauber mit dem Ausgangsstand vergleichen. Wenn du beim Refactoring nebenbei Fehler behebst, kannst du nicht mehr unterscheiden, was ein Fix ist und was kaputtgegangen ist.
+
+<Callout type="warn" title="Willst du das Verhalten eigentlich ändern?">
+Dann ist es kein Refactoring. Sag das klar und behandle es als Feature. Siehe <a href="/de/howto/add-feature/">Feature hinzufügen</a>. Bei einer großen Änderung über viele Module hinweg übergibt die KI an <code>/figure-it-out</code>, um zuerst den gesamten Ablauf zu planen.
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI sagt „Type-Checks und Tests laufen durch“, also habe sich nichts geändert.">
+Antworte: „Type-Checks sind kein Vergleich. Halte die echte Ausgabe von vorher fest, lass danach dieselbe Eingabe laufen und zeig mir den Diff.“ Wenn sie schon fertig ist, lass sie den früheren Commit auschecken und den Ausgangsstand neu erstellen.
+</Q>
+<Q q="Die KI legt als Erstes neue Dateien und Abstraktionsebenen an.">
+Antworte: „subtract-before-you-add“. Das heißt: Lösch zuerst, was nicht gebraucht wird, und bau dann auf der einfacheren Basis auf. Das ist der Name eines <Term k="原则" text="Prinzips" /> von pstack. Tipp es genau so ein, dann weiß die KI, was du meinst.
+</Q>
+<Q q="Die KI hat eine alte Funktion „aus Kompatibilitätsgründen“ behalten.">
+Antworte: „migrate-callers-then-delete-legacy-apis. Stell alle Aufrufer um und lösch die alte Funktion in diesem Durchgang.“ Der Name dieses Prinzips bedeutet genau das. Das Prinzip gilt nur für Code innerhalb deines Projekts. Wenn externe Nutzer von dieser Schnittstelle abhängen, sag es der KI vorher.
+</Q>
+<Q q="Der Code ist nach der Änderung verworrener.">
+Sag einfach: „Durch diese Änderung muss man beim Lesen durch mehr Ebenen springen. Mach sie rückgängig.“ Wenn der Code nicht leichter zu lesen ist, sollte die Änderung rückgängig gemacht werden.
+</Q>
+<Q q="Die KI hat nebenbei einen Bug behoben.">
+Antworte: „Mach den Bugfix rückgängig, schließ das Refactoring mit dem ursprünglichen Verhalten ab und prüf es. Leg für den Bug eine eigene Aufgabe an.“
+</Q>

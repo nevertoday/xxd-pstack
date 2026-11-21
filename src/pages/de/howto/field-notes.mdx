@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: field-notes
+time: 8 Minuten Lesezeit
+for: Du hast es schon ein paar Mal genutzt und willst sehen, wie andere damit arbeiten und worüber sie gestolpert sind
+step: 8
+tldr: Gewohnheiten aus einem Dutzend Praxisberichten und potetos Vorträgen. Jede direkt zum Kopieren, mit Quelle.
+description: "Was andere mit pstack gelernt haben: Punkte, auf die mehrere unabhängig kamen; einen neuen Test absichtlich fehlschlagen lassen, Prüfungen nach Aspekten aufteilen, nach der gemeinsamen Lücke aller Entwürfe suchen, schlechte Muster erst protokollieren, bevor du sie behebst; Fallen, in die andere getappt sind; Artikel, Videos und Vorträge, die sich lohnen."
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+Hier geht es um die Erfahrungen anderer, nicht um das Handbuch von pstack. Wir haben ein Dutzend Praxisberichte sowie potetos Vorträge und Interviews durchgesehen und übernommen, was heute noch funktioniert. Jeder Punkt verlinkt auf seine Quelle.
+
+## Kopier das zuerst
+
+Die KI hat einen neuen Test hinzugefügt und meldet „Tests bestanden“. Antworte:
+
+<Copy id="fn-break" code="Mach das Feature absichtlich kaputt und führe den neuen Test einmal aus. Bestätige, dass er fehlschlägt. Mach die Änderung dann rückgängig und führe ihn noch einmal aus. Füge beide Ausgaben ein." />
+
+Ein Test, den du nie hast fehlschlagen sehen, kann vielleicht gar nicht fehlschlagen. Ein Team hat das ausprobiert und festgestellt, dass der neue Test der KI immer grün blieb – egal was passierte. Aus dem [Praxisbericht von productize.life](https://productize.life/blog/pstack-skills/en).
+
+## Was mehrere unabhängig voneinander herausgefunden haben
+
+- **Lass `/poteto-mode` bei kleinen Änderungen weg.** Jemand hat dieselbe kleine App zweimal gebaut: 30 Minuten ohne, eine Stunde mit, und die pstack-Version war robuster ([Vergleich von Rob Shocks](https://the-agent-daily.org/agentnews-experimental/deep-dives/pstack-is-agent-overkill-use-it-anyway)). Für Textänderungen und kleine Styling-Anpassungen frag einfach direkt.
+- **Mach erst eine KI verlässlich, bevor du mehrere laufen lässt.** Der Rat von poteto: erst in die Tiefe gehen, dann in die Breite. Agents parallel laufen zu lassen, bevor du ihre Arbeit prüfen kannst, produziert nur schneller Nacharbeit ([How I Use Cursor](https://x.com/poteto/article/2058975157503570132)).
+- **Skills geben Empfehlungen. Sie sperren nichts.** Eine KI kann einen Schritt überspringen oder eine Regel übersehen. Alles, was auf keinen Fall passieren darf, gehört in Berechtigungen und Prüfskripte ([productize.life](https://productize.life/blog/pstack-skills/en), [justmao](https://justmao.com/en/posts/pstack-install-routing/)).
+- **Wenn ein Fehler wiederkommt, mach eine Prüfung daraus.** Das Team von poteto macht aus wiederkehrenden Fehlern Lint-Regeln, statt noch eine Zeile in eine Regeldatei zu schreiben ([Vortrag von poteto](https://www.youtube.com/watch?v=O_zcc6Xl12g)). Die Version dieser Seite steht unter [Wenn du dich damit wohlfühlst](/de/guide/8-make-it-yours/).
+- **Das meiste Geld fließt in die Prüfung – und das ist in Ordnung.** Laut poteto gehen bei poteto selbst die meisten Tokens für die Prüfung drauf (derselbe Vortrag). Spar zuerst an anderer Stelle.
+
+## Gewohnheiten zum Übernehmen
+
+**In vier Teilen abgeben. Ungeprüft heißt nicht bestanden.** Jemand hat in Claude Code ein Formular gebaut und jede Aufgabe so abgeschlossen ([五里墩茶社, auf Chinesisch](https://www.bilibili.com/video/BV1LLWY6yEch/)):
+
+<Copy id="fn-handoff" code="Wenn du fertig bist, berichte in vier Teilen: was sich geändert hat; was du geprüft hast; wo die Belege sind (Befehlsausgaben, Screenshot-Pfade); was du nicht geprüft hast. Liste die ungeprüften Punkte getrennt auf. Bezeichne sie nicht als bestanden." />
+
+**Teile Prüfungen nach Aspekten auf.** Teile nicht nach Feature auf. Teile danach auf, worauf jede Helfer-KI achtet – ein Aspekt pro Helfer-KI ([五里墩茶社](https://www.bilibili.com/video/BV1WGsi6MEJm/)):
+
+<Copy id="fn-swarm" code="/swarm Prüfe dieses Formular auf drei Arten: Eine Helfer-KI füllt es aus und schickt es einmal komplett ab, eine nutzt nur die Tastatur, eine schaut es sich auf einem 375 px breiten Bildschirm an. Jede sagt, was sie geprüft hat und wie. Führe danach das Absenden einmal selbst aus." />
+
+**Such nach dem Entwurfsvergleich die gemeinsame Lücke.** Wenn du Entwürfe bewertest, übersiehst du leicht etwas, woran kein einziger gedacht hat ([五里墩茶社](https://www.bilibili.com/video/BV1xfsM6wE39/)):
+
+<Copy id="fn-gap" code="Gibt es einen Fall, den keiner dieser Entwürfe abdeckt? Liste diese Fälle auf und sag dann, welcher Entwurf sich am leichtesten dafür erweitern lässt." />
+
+**Schau dir die öffentliche Schnittstelle an, bevor sie gebaut wird.** Bei einem Produktions-Bug ließ jemand `/architect` anhalten, bevor Code geschrieben wurde ([azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)):
+
+<Copy id="fn-api" code="/architect Die Tag-Seite liefert manchmal einen 500er zurück. Finde zuerst die eigentliche Ursache. Bevor du den Fix schreibst, halte an und zeig mir jede öffentliche Funktion, die du hinzufügst oder änderst. Ich bestätige, dann schreibst du ihn." />
+
+**Protokolliere schlechte Muster erst und geh sie gesammelt durch.** Statt jedes Problem einzeln zu beheben, lässt poteto die KI alles aufschreiben. Alle paar Tage wird die Liste durchgesehen, um eine gemeinsame Ursache zu finden ([mit Matt Pocock](https://www.youtube.com/watch?v=MN9dGgmLyso)):
+
+<Copy id="fn-ledger" code="Wenn du ab jetzt eine Komponente siehst, die die API direkt aufruft, ändere sie nicht. Häng sie an docs/bad-patterns.md an: Datei, Zeile und wie es aussieht. Ich gehe die Liste wöchentlich durch." />
+
+**Mach den ersten Fall von Hand, den Rest per Skript.** Bei einer Styling-Migration zog poteto eine Komponente von Hand um und ließ die KI dann ein Skript für den Rest schreiben – ein kleines Stück pro Tag ([Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)). `build the lever` ist der Name, unter dem pstack „bau dir ein Werkzeug dafür“ kennt:
+
+<Copy id="fn-lever" code="apply build the lever. Ich habe Button von Hand migriert. Schreib ein Skript, das die anderen Komponenten genauso migriert, plus eine Prüfung: Screenshots im hellen und dunklen Modus müssen vorher und nachher übereinstimmen. Migriere eine Komponente nach der anderen." />
+
+## Fallen, in die andere getappt sind
+
+- **Ein Wochenkontingent an einem Tag verbraucht.** Das Budget in `/setup-pstack` legt fest, wie lange jeder Schritt nachdenkt – nicht, wie viel du insgesamt ausgibst. Lass `/poteto-mode` bei Kleinigkeiten weg; alles Weitere steht unter [Kosten niedrig halten](/de/howto/cost/).
+- **„Von mehreren Modellen geprüft“ war nur ein Modell.** In Claude Code läuft der Gemini-Platz über das Modell des aktuellen Chats ([productize.life](https://productize.life/blog/pstack-skills/en)). Um das herauszufinden, frag:
+
+<Copy id="fn-who" code="Welches Modell hat jedes dieser Reviews durchgeführt? Liste sie einzeln auf." />
+
+- **Eine lange To-do-Liste hat das ursprüngliche Ziel begraben.** Gib der KI immer nur eine Aufgabe auf einmal. Sag `new task`, wenn du wechselst, und schau unter [Wieder auf Kurs bringen](/de/howto/steer/), wenn sie abdriftet.
+
+<Callout type="warn" title="Viele Zahlen und Befehle im Netz stammen aus älteren Versionen">
+pstack ändert sich schnell. „23 Playbooks“, „51 Skills“, `/orchestrate`, das Budget `unlimited` und `with checkpoint` <u>gibt es nicht mehr</u>. Halte dich an die Befehle auf dieser Seite – geprüft mit 0.15.46.
+</Callout>
+
+## Lust auf mehr?
+
+- **[All Code Is Slop (Except Mine)](https://www.youtube.com/watch?v=O_zcc6Xl12g)**: potetos Vortrag vom November 2026, 16 Minuten. Die aktuellste und kürzeste Übersicht, wo sich dein Aufwand lohnt.
+- **[Matt Pocock mit poteto](https://www.youtube.com/watch?v=MN9dGgmLyso)**: ein 65-minütiger Livestream. Wie poteto tagsüber mit Agents arbeitet, sie über Nacht laufen lässt und jeden Morgen den Commit-Verlauf liest.
+- **[Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)**: potetos Essay darüber, warum die Prüfung zuerst kommt und was eine große Migration gelehrt hat.
+- **[potetos Post zu „Mit der Prüfung anfangen“](https://x.com/poteto/status/2109436202554372476)**: ein einzelner Post. Lies ihn, bevor du deinem Projekt einen Prüf-Skill gibst.
+- **[Praxisbericht von productize.life](https://productize.life/blog/pstack-skills/en)**: der ehrlichste Bericht darüber, was geholfen hat und was nicht.
+- **[What is poteto-mode](https://flaviocopes.com/poteto-mode/)**: Flavio Copes. Die klarsten Prompt-Beispiele.
+- **[Bugfix von azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)**: ein Produktions-Bug, vom Fehler bis zum Fix.
+- **[Testvideos von 五里墩茶社](https://www.bilibili.com/video/BV1LLWY6yEch/)**: auf Chinesisch, auf Bilibili. Echte Durchläufe in Claude Code – ehrlich darüber, was nicht getestet wurde.
+
+## Kommst du nicht weiter?
+
+<Q q="Ein Befehl aus einem Artikel funktioniert bei mir nicht.">
+<p>Er stammt wahrscheinlich aus einer älteren Version und wurde umbenannt oder entfernt. Aktualisiere zuerst (siehe <a href="/de/howto/update-remove/">Aktualisieren, prüfen, deinstallieren</a>) und frag dann <code>/poteto-help</code>, welchen Befehl du jetzt nutzt.</p>
+</Q>
+<Q q="poteto liefert tausende PRs im Monat aus. Kann ich das auch?">
+<p>Das ist potetos eigene Angabe. Im Vortrag erzählt poteto: Es hat etwa sechs Monate gedauert, Prüfungen aufzubauen, bevor Agents so laufen konnten. Fang mit einer Aufgabe und einer KI an, die ihre eigene Arbeit prüfen kann.</p>
+</Q>
+<Q q="Ich habe meine eigenen Erfahrungen aufgeschrieben.">
+<p>Schick sie uns über <a href="https://github.com/nevertoday/xxd-pstack/issues">das GitHub-Repo dieser Seite</a>. Wenn die Gewohnheit heute noch funktioniert, nehmen wir sie hier mit Quellenangabe auf.</p>
+</Q>

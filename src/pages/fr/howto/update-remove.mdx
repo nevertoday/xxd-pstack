@@ -1,0 +1,83 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: update-remove
+time: 4 minutes de lecture
+for: Vous voulez mettre à jour pstack, voir ce qui est installé ou le supprimer
+step: 1
+tldr: Trouvez les commandes de mise à jour et de désinstallation selon votre méthode d'installation. Après une mise à jour, relancez /setup-pstack ; après une désinstallation, supprimez le fichier de configuration.
+description: "Trouvez les commandes pour lister, mettre à jour et désinstaller, selon votre méthode d'installation. Le piège à éviter : quand une mise à jour change les modèles par défaut, votre ancien fichier de configuration indique encore les anciens."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Tabs from "../../../components/Tabs.astro";
+
+## Commandes selon la méthode d'installation
+
+Choisissez l'onglet correspondant à la commande que vous avez tapée à l'époque :
+
+- `npx skills add` → Ligne de commande skills
+- `/plugin install` → Plugin Claude Code
+- `/add-plugin` → Plugin Cursor
+
+Vous ne vous en souvenez plus ? Si les commandes demandent le préfixe `pstack:`, c'est le plugin Claude Code.
+
+<Tabs id="ur" items={[["skills","Ligne de commande skills"],["cc","Plugin Claude Code"],["cursor","Plugin Cursor"]]}>
+<div slot="skills">
+<p>Lancez ces commandes dans votre terminal (pas dans le chat de l'IA) :</p>
+<p><Cmd c="npx skills list" /> Voir quels skills sont installés.</p>
+<p><Cmd c="npx skills check" /> Vérifier s'il existe de nouvelles versions.</p>
+<p><Cmd c="npx skills update" /> Mettre à jour vers la dernière version.</p>
+<p><Cmd c="npx skills remove" /> Désinstaller des skills.</p>
+<p>Les skills installés sans <code>-g</code> ne sont présents que dans le projet où vous étiez à ce moment-là.</p>
+</div>
+<div slot="cc">
+<p>Par défaut, les plugins tiers ne se mettent pas à jour automatiquement. Pour faire une mise à jour manuelle ponctuelle (à lancer dans votre terminal) :</p>
+<p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
+<p>Pour mettre à jour automatiquement : tapez <code>/plugin</code>, ouvrez l'onglet <strong>marketplaces</strong>, sélectionnez <code>cursor-plugins</code>, puis choisissez <strong>enable auto-update</strong>.</p>
+<p>Tapez ces commandes dans le chat de Claude Code :</p>
+<p><Cmd c="/plugin list" /> Voir quels plugins sont installés et s'ils sont activés.</p>
+<p><Cmd c="/plugin uninstall pstack@cursor-plugins" /> Désinstaller.</p>
+<p><Cmd c="/plugin disable pstack@cursor-plugins" /> Le mettre en pause. Réactivez-le plus tard avec <code>/plugin enable pstack@cursor-plugins</code>.</p>
+<p>Après une désinstallation ou une mise en pause, tapez <code>/reload-plugins</code> ou redémarrez Claude Code. Pour supprimer aussi la boutique de plugins ajoutée à l'installation : <code>/plugin marketplace remove cursor-plugins</code>. Notez que cela désinstalle également tous les autres plugins que vous avez installés depuis cette boutique.</p>
+</div>
+<div slot="cursor">
+<p>Gérez-le depuis Customize dans la barre latérale. pstack ne documente pas les étapes de mise à jour du plugin Cursor ; suivez donc directement l'interface de Cursor.</p>
+</div>
+</Tabs>
+
+## Après une mise à jour : relancez la configuration
+
+`/setup-pstack` écrit le modèle de chaque <Term k="模型角色" /> dans le fichier de configuration, une ligne par rôle. Si une nouvelle version change les modèles par défaut, votre fichier indique toujours les anciens. <mark>Quand un skill lit cette ligne, il continue d'utiliser l'ancien modèle</mark>.
+
+<Cmd c="/setup-pstack" />
+
+Il reconnaît les anciens modèles par défaut, les remplace par les nouveaux et vous dit lesquels. Les modèles que vous avez choisis volontairement restent en place. Si une ancienne version a écrit le fichier, `/poteto-mode` vous le rappelle une fois par conversation.
+
+Pour une ancienne valeur qu'il ne reconnaît pas, ouvrez d'abord le fichier de configuration et supprimez cette ligne (ou tout le fichier), puis relancez la commande.
+
+| Outil | Fichier de configuration |
+| --- | --- |
+| Cursor | `~/.cursor/rules/pstack-models.mdc` |
+| Claude Code | `~/.claude/rules/pstack-models.md` |
+| Codex et autres | `~/.agents/pstack-models.md` |
+
+<Callout type="ok" title="Relancer la commande est sans risque">
+Quand vous relancez `/setup-pstack`, les rôles que vous avez modifiés volontairement sont conservés. Démarrez ensuite une nouvelle conversation, sinon cela ne sera pas pris en compte.
+</Callout>
+
+## Après une désinstallation : supprimez aussi le fichier de configuration
+
+La désinstallation ne supprime pas le fichier de configuration. Claude Code le lit à chaque nouvelle session, donc il prend de la place pour rien. Si vous en avez fini avec pstack, supprimez aussi le fichier correspondant dans le tableau ci-dessus.
+
+Un <Term k="验证技能" /> généré par pstack (un dossier comme `verify-your-app`) appartient à votre projet et n'est pas supprimé avec pstack.
+
+## Un blocage ?
+
+<Q q="J'ai mis à jour pstack, mais il utilise toujours les anciens modèles.">
+C'est très probablement l'ancien fichier de configuration. Relancez `/setup-pstack`. Si cela ne règle pas le problème, supprimez la ligne de ce rôle. Démarrez ensuite une nouvelle conversation.
+</Q>
+<Q q="Je ne vois pas les skills de pstack dans npx skills list.">
+Vérifiez que vous lancez la commande dans le dossier du projet où vous avez fait l'installation. Les skills installés dans un projet et ceux installés avec `-g` se trouvent à des endroits différents.
+</Q>

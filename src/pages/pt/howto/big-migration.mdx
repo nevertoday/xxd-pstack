@@ -1,0 +1,110 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: big-migration
+time: 5 minutos antes de dormir, 15 minutos de manhã
+for: Você tem uma migração grande e mecânica e quer que a IA rode tudo durante a noite, para revisar com segurança de manhã
+step: 7
+tldr: Antes de dormir, dê um objetivo e uma condição de conclusão que passa ou falha. Deixe a IA rodar a noite toda e confira as evidências de manhã.
+description: "Passe uma migração grande antes de dormir: um objetivo e uma condição de conclusão que passa ou falha, um worktree novo, um log de decisões, /loop until done e uma checagem pela manhã com /show-me-your-work."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copie isto primeiro
+
+<Copy id="mig-contract" title="Passagem de bastão antes de dormir" code={`/poteto-mode Estou indo dormir. Em um worktree novo a partir de <base>, migre todas as chamadas para o novo parser.
+Concluído significa: zero chamadas antigas, todas as fixtures do parser passam e a API antiga foi removida.
+Mantenha um log de decisões. Não precisa me perguntar antes de fazer commit.
+/loop until done. Se travar de verdade depois de algumas horas, pare e escreva o motivo.`} />
+
+O texto original, da documentação do pstack:
+
+<Copy id="mig-contract-en" title="O texto original" code={`/poteto-mode im going to bed. migrate every caller to the new parser in a fresh worktree off <base>.
+done means zero old callers, all parser fixtures pass, old api deleted.
+keep a decision log. don't ask me before committing.
+/loop until done. if you're truly stuck after a few hours, stop and write up why.`} />
+
+## O que cada linha faz
+
+- **“Estou indo dormir”**: a IA não para para perguntar a você. Segue em frente.
+- **“Concluído significa”**: uma checagem que ela pode rodar a cada rodada.
+- **“Um worktree novo”**: uma segunda pasta de trabalho ligada ao mesmo repositório Git (um <Term k="worktree" />), para não mexer no resto do seu trabalho aberto.
+- **“Não precisa me perguntar antes de fazer commit”**: responde de antemão à pergunta que ela pararia para fazer.
+- **`/loop until done`**: faz a IA voltar sempre para a condição de conclusão. O `/loop` já vem integrado ao Cursor e ao Claude Code. Não é uma skill do pstack.
+- **A saída**: se travar de verdade, ela para e explica o motivo, em vez de ficar batendo cabeça a noite toda.
+
+<Callout type="no" title="Tempo gasto não é condição de conclusão">
+“Trabalhe nisso por 4 horas” não dá nada para a IA checar. Dê ao <code>/loop</code> uma condição que possa passar ou falhar.
+</Callout>
+
+## Um exemplo de extensão do Chrome
+
+Dezenas de arquivos chamam `chrome.storage.sync` diretamente. Você escreveu um novo módulo `settings` e quer mover todas as chamadas para ele e depois remover a antiga `getPref`.
+
+<Copy id="mig-ext" title="Exemplo de extensão do Chrome" code={`/poteto-mode Estou indo dormir. Em um worktree novo a partir da main, mova todas as chamadas diretas a chrome.storage.sync para o novo módulo settings.
+Concluído significa:
+1. grep -rn "chrome.storage.sync" src/ encontra apenas a única chamada dentro do módulo settings;
+2. npm test passa por completo;
+3. a função getPref e os testes dela foram removidos;
+4. abrir a página de opções com um perfil de teste que tinha a versão antiga instalada mostra todas as configurações exatamente como antes da migração. Me mande uma captura de tela.
+Mantenha o comportamento exatamente igual. Se encontrar bugs durante a migração, anote. Não corrija no caminho.
+Mantenha um log de decisões. Não precisa me perguntar antes de fazer commit.
+/loop until done. Se travar de verdade, pare e escreva o motivo.`} />
+
+- **Quatro condições de conclusão**: um grep, uma execução de testes, conferir se dois nomes ainda existem e uma captura de tela. Cada uma passa ou falha. De manhã, confira só essas quatro.
+- **“Não corrija bugs no caminho”**: para poder comparar o antes e o depois diretamente.
+
+## Antes de deixar rodar sozinha: a IA consegue verificar o próprio trabalho?
+
+<mark>Deixar a IA rodar a noite toda só funciona se ela conseguir verificar o próprio trabalho.</mark> Senão, ela só acumula código sem verificação mais rápido. Só deixe rodar sozinha quando todos estes quatro pontos forem verdadeiros:
+
+1. **Você já fez isso uma vez.** Na mão ou acompanhando a IA. Você sabe como fica quando está pronto.
+2. **Ela tem as ferramentas.** A <Term k="验证技能" />, o profiler e os logs que você usaria.
+3. **Cada passo se comprova.** Ela consegue parar quando um passo fica abaixo do esperado.
+4. **Erros repetidos estão cobertos.** Você leu as transcrições dela e transformou erros repetidos em verificações.
+
+Se não, rode enquanto acompanha.
+
+## Onde olhar de manhã
+
+<Copy id="mig-audit" title="Auditoria da manhã" code="/show-me-your-work me conte o que você fez ontem à noite" />
+
+**Leia primeiro a seção Attention (o que precisa de atenção) no final.** Uma IA ajudante em um modelo de outra empresa lê o log primeiro. A seção Attention lista o que merece um olhar mais atento, como decisões com evidências fracas. Siga essas linhas do log.
+
+Por padrão, o <Term k="决策日志" /> é o arquivo `decisions.tsv` na pasta de trabalho e não entra em commit. Cada linha é uma decisão, com o motivo e as evidências.
+
+Quer só um status rápido? Digite `/ketchup` na conversa em andamento. Ele só lê. Diz o que mudou e o que está esperando a sua decisão.
+
+## Parar no meio do caminho
+
+Se precisar fechar o notebook ou reiniciar o editor, diga “pausar” ou “vou ficar offline”. Ela faz um commit `wip:` com o trabalho não salvo e escreve anotações para retomar depois. Abra uma nova conversa e peça para ela assumir. Ela continua a partir das anotações.
+
+“Siga em frente” ou “continue” nunca faz a IA pausar.
+
+## Mais de uma tarefa durante a noite
+
+Para uma série de mudanças independentes, existem dois <Term k="剧本" text="playbooks" />:
+
+- **Autopilot-stack: não faz merge.** De manhã, você vê os PRs verificados e decide por conta própria.
+- **Autopilot-full: faz merge.** O merge de cada PR só acontece depois que uma IA ajudante diferente o verifica.
+
+Um projeto que leva dias não tem um playbook próprio. O `/poteto-mode` passa o trabalho para o `/figure-it-out`, que desenha uma abordagem na hora.
+
+Na dúvida? Escolha o Autopilot-stack. Você continua tendo a palavra final antes de fazer merge.
+
+## Travou?
+
+<Q q="De manhã ela diz “pronto”, mas eu não tenho certeza.">
+Não confie no resumo. Olhe as evidências. Rode de novo por conta própria as verificações da condição de conclusão, como o grep e os testes. Depois, leia a seção Attention da resposta do <code>/show-me-your-work</code>.
+</Q>
+<Q q="Ela parou durante a noite para me perguntar algo e ficou sem fazer nada.">
+Faltou dar permissão prévia no pedido. Da próxima vez, inclua “Estou indo dormir” e “não precisa me perguntar antes de fazer commit”.
+</Q>
+<Q q="Ela afrouxou a condição de conclusão e declarou vitória.">
+Ela não deveria fazer isso. Responda: “A condição de conclusão continua a mesma. Rode as quatro verificações originais uma por uma e me mostre.”
+</Q>
+<Q q="Eu disse “continue” e ela fez um commit de pausa.">
+Isso não deveria acontecer. Responda: “Não pedi para pausar. Siga em frente.”
+</Q>

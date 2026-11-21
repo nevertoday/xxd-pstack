@@ -1,0 +1,74 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: pick-skills
+time: 4 分で読めます
+for: npx skills で全部ではなくいくつかだけ選んでインストールしたいとき
+step: 1
+tldr: /poteto-mode を使うなら全部インストールしましょう。機能を 1〜2 個だけ使いたいなら、ここで選んで必要なスキルも一緒に入れます。
+description: pstack のスキルには、単体で動くものと他のスキルも一緒に必要なものがあります。単体で動くスキル、それぞれに必要なスキル、よくある組み合わせ、npx skills の一覧での選び方をまとめています。
+---
+import Q from "../../../components/Q.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## /poteto-mode を使うなら全部インストール
+
+`/poteto-mode` はほぼすべてのスキルを使います。<mark><strong>使う予定があるなら、全部インストールしてください</strong></mark>。機能を 1〜2 個だけ使いたい場合のみ、下のリストから選んでください。
+
+Cursor プラグインをインストールした場合や、Claude Code のマーケットプレイスから入れた場合は、すでに全部そろっています。このページはスキップしてください。
+
+## 単体で動く 17 個
+
+1 つインストールすれば、そのまま使えます：
+
+- **理解と説明**：`how`（コードの仕組みを説明する）、`bro`（やさしい言葉で言い直す）、`in-your-own-words`（まず目的を言い直す）。
+- **文章を書く**：`unslop`（AI っぽさを取り除く）、`sharpen`（プロンプトをより的確にする）。
+- **コードを書く**：`tdd`（まず失敗するテストを書く）、`typescript-best-practices`（型のルールを守る）、`statechart`（検証済みのステートチャートを描く）。
+- **複数の AI で進める**：`arena`（1 つのタスクに複数案を出し、一番いいものを採用する）、`swarm`（作業を分けて並列に進める）、`interrogate`（複数のモデルで穴を探す）。
+- **確認と記録**：`benchmark-checklist`（パフォーマンスの数値をチェックする）、`show-me-your-work`（判断ログを残す）、`correct`（繰り返すミスを根本から止める）。
+- **その他**：`figure-it-out`（その場で進め方を設計する）、`reflect`（学んだことを修正案にする）、`automate-me`（自分用のスキルにまとめる）。
+
+## 他のスキルも一緒に必要なもの
+
+矢印の右側を省くと、そのステップで見つかりません：
+
+- `teach` → あわせて `how`、`why`
+- `why` → あわせて `how`
+- `technical-writing` → あわせて `unslop`
+- `architect` → あわせて `arena`、`how`
+- `blast-radius` → あわせて `arena`、`how`、`why`、`unslop`
+- `create-verification-skill` → あわせて `maintain-verification-skill`
+- `create-formal-verification-skill` → あわせて `maintain-formal-verification-skill`、`statechart`
+- `ketchup` → あわせて `bro`／`ketchup-video` → あわせて `ketchup`、`bro`
+- `poteto-help` → あわせて、質問したいスキル
+
+## よくある組み合わせ
+
+- **コードを理解するだけ**：`how`、`why`、`teach`
+- **文章の AI っぽさを取り除く**：`unslop`、`bro`
+- **コードを変える前に設計を固める**：`architect`、`arena`、`how`
+- **AI 自身にアプリを検証させる**：`create-verification-skill`、`maintain-verification-skill`
+
+作者が実際に使っているのは、`/poteto-mode` でこれらをつなげて動かす使い方です。フルに体験したいなら、すべて選択してください。
+
+## 一覧での選び方
+
+ターミナルで次を実行します：
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+スキル名を入力すると絞り込めます。「あわせて」に挙げたものも含めて欲しいスキルにチェックを入れ、インストール先のツールを選びます。入れ忘れたものがあれば、もう一度実行して追加してください。ツールごとの詳しい手順は、[Codex や他のツールで使う](/ja/howto/codex/)を参照してください。
+
+## つまずいたときは？
+
+<Q q="teach だけインストールしたら、足りないものがあります。">
+`teach` は `how` と `why` に依存しています。もう一度 `npx skills add backnotprop/pstack` を実行して、この 2 つにもチェックを入れてください。
+</Q>
+<Q q="いくつかしかインストールしていません。/poteto-mode は使えますか？">
+おすすめしません。すべての原則スキル（`principle-*`）を読み込み、他のスキルもほとんど呼び出します。1 つでも欠けると、ステップが完結しません。
+</Q>
+<Q q="recall、no-comments、setup-pstack には何が必要ですか？">
+`recall` は `why` と `unslop` を使います。`no-comments` は `how`、`why`、`architect` に触れているので、念のため一緒に入れておくと安心です。`setup-pstack` は他には何も必要ありません。モデルを選びたいならインストールしてください。
+</Q>
+<Q q="原則スキル（principle-*）は個別に選びますか？">
+`poteto-mode` をインストールするときに、全部一緒に入れてください。自分で入力することはありません。<a href="/ja/howto/steer/">一言で軌道修正する</a>にあるように、軌道修正するときに名前を伝えるだけです。
+</Q>

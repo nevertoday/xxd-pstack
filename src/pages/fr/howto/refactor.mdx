@@ -1,0 +1,79 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: refactor
+time: Une ou deux conversations pour un refactoring moyen
+for: Le code devient de plus en plus fouillis, et vous voulez nettoyer sa structure sans rien changer pour les utilisateurs
+step: 5
+tldr: Enregistrez la sortie actuelle, puis modifiez la structure. Comparez ensuite la même sortie pour prouver que rien n'a changé.
+description: "Refactorer avec /poteto-mode : enregistrez ce que le code fait actuellement, modifiez la structure, puis utilisez cet enregistrement pour prouver que rien n'a changé. Inclut un exemple avec un site statique Astro."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copiez d'abord ceci
+
+<Copy id="ref-min" title="La version la plus courte" code="/poteto-mode déplace le parsing dans un seul module, zéro changement de comportement. enregistre d'abord la sortie actuelle et prouve ensuite qu'elle n'a pas changé." />
+
+Un refactoring signifie : <mark><strong>la structure du code change, mais son comportement ne change pas du tout.</strong></mark>
+
+- **Zéro changement de comportement** : rien de ce que voient les utilisateurs ne change. L'IA traite la tâche comme un refactoring. Pas de nouvelle fonctionnalité, pas de correction de bug.
+- **Enregistrer d'abord la sortie actuelle** : sauvegardez un « avant » pour avoir de quoi comparer. « Les vérifications de types passent » ne compte pas. Cela montre seulement que le code compile.
+
+<Fig id="h-refactor" />
+
+## Exemple avec un site statique Astro
+
+Une douzaine de pages ont chacune leur propre code de formatage de dates, à chaque fois un peu différent. Vous voulez une seule fonction utilitaire.
+
+<Copy id="ref-astro" title="Exemple de site statique Astro" code={`/poteto-mode Regroupe le code de formatage de dates de toutes les pages dans une seule fonction utilitaire, zéro changement de comportement.
+Avant de commencer : lance npm run build et copie tout le dossier dist comme référence.
+Quand tu as terminé, relance le build et fais un diff par rapport à la référence. Le diff doit être vide pour chaque fichier HTML.
+Supprime tout l'ancien code. Ne garde aucune ancienne fonction pour la compatibilité.
+Montre-moi la commande diff et sa sortie.`} />
+
+- **Un diff vide sur dist** : vide veut dire que rien n'a changé. Une ligne en plus veut dire que quelque chose a changé. Vous n'avez pas besoin de lire chaque ligne. Cette seule sortie suffit.
+- **Aucune ancienne fonction conservée** : tous les appelants basculent, et l'ancien code disparaît dans la même passe.
+
+Si le diff n'est pas vide, demandez à l'IA d'expliquer chaque différence. Certaines peuvent venir de pages qui formataient déjà les dates différemment au départ.
+
+## Où regarder après l'envoi
+
+**Au début : comment l'IA a enregistré le comportement actuel.** Un test, une capture de sortie ou un script de comparaison.
+
+**Au milieu : supprimer avant d'ajouter.** Elle retire d'abord le code inutilisé, puis ajoute la nouvelle structure.
+
+**À la fin : la comparaison.** La réponse indique quelle structure a changé, ce qu'elle a comparé, le résultat et les modifications qu'elle a annulées. Si le code n'est pas plus facile à lire, elle annule le changement.
+
+## Vous trouvez un bug en cours de route
+
+En nettoyant le code, on tombe souvent sur un « c'était faux depuis le début ». Séparez les deux :
+
+1. **Terminez le refactoring et faites un commit.** Laissez l'ancien bug tel quel.
+2. **Corrigez le bug dans une nouvelle tâche.** Voir [Corriger un bug](/fr/howto/fix-bug/).
+
+De cette façon, le refactoring se compare toujours proprement à la référence. Si vous corrigez des problèmes pendant le refactoring, vous ne pourrez plus distinguer les corrections de ce qui a été cassé.
+
+<Callout type="warn" title="Vous voulez en fait changer le comportement ?">
+Dans ce cas, ce n'est pas un refactoring. Dites-le et traitez la tâche comme une fonctionnalité. Voir <a href="/fr/howto/add-feature/">Ajouter une fonctionnalité</a>. Pour un gros changement qui touche plusieurs modules, l'IA passe la main à <code>/figure-it-out</code> pour planifier d'abord toute l'exécution.
+</Callout>
+
+## Un blocage ?
+
+<Q q="L'IA dit « les vérifications de types et les tests passent », donc rien n'a changé.">
+Répondez : « Les vérifications de types ne sont pas une comparaison. Enregistre la vraie sortie d'avant, lance la même entrée après et montre-moi le diff. » Si elle a déjà terminé, demandez-lui de revenir au commit précédent et de reconstruire la référence.
+</Q>
+<Q q="L'IA commence par ajouter de nouveaux fichiers et des couches d'abstraction.">
+Répondez : « subtract-before-you-add ». Cela signifie : supprimer d'abord ce qui est inutile, puis construire sur une base plus simple. C'est le nom d'un <Term k="原则" text="principe" /> de pstack. Tapez-le tel quel, et elle saura ce que vous voulez dire.
+</Q>
+<Q q="L'IA a gardé une ancienne fonction « pour la compatibilité ».">
+Répondez : « migrate-callers-then-delete-legacy-apis. Migre tous les appelants et supprime l'ancienne fonction dans cette passe. » Ce nom de principe veut dire exactement cela. Il ne couvre que le code interne à votre projet. Si des utilisateurs externes dépendent de cette interface, prévenez d'abord l'IA.
+</Q>
+<Q q="Le code est plus alambiqué après le changement.">
+Dites simplement : « Ce changement oblige le lecteur à traverser plus de couches. Annule-le. » Si le code n'est pas plus facile à lire, il faut annuler le changement.
+</Q>
+<Q q="L'IA a corrigé un bug en chemin.">
+Répondez : « Annule la correction du bug, termine le refactoring avec le comportement d'origine et vérifie-le. Ouvre une tâche séparée pour le bug. »
+</Q>

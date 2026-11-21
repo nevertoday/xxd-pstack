@@ -1,0 +1,100 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cursor
+time: 2 minutos para instalar, 6 para ler
+for: Você usa o Cursor e quer que o pstack funcione de forma natural nele
+step: 1
+# Every command on this page is written for Cursor, so it stays as written
+cmds: literal
+tldr: Depois de instalar, envie /poteto-mode com Option+Enter e ele fica ativo em todos os turnos.
+description: O pstack foi escrito para o Cursor. Instalação com um comando, como manter o /poteto-mode ativo em todos os turnos, execuções longas com /loop, várias IAs ao mesmo tempo e o que instalar separadamente.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Um comando para instalar
+
+Na caixa de chat do Cursor, digite:
+
+<Cmd c="/add-plugin pstack" />
+
+Instalar pelo Customize na barra lateral funciona igual. Depois, escolha seus modelos:
+
+<Cmd c="/setup-pstack" />
+
+Ele pergunta sobre o seu <Term k="推理预算" /> (por quanto tempo os modelos pensam), atribui um modelo a cada <Term k="模型角色" /> e salva isso em `~/.cursor/rules/pstack-models.mdc`.
+
+<Callout type="tip" title="Depois da configuração, inicie uma nova conversa">
+<u>Essas configurações só valem para novas conversas</u>. Se você continuar em uma antiga, ela ainda usa os modelos padrão.
+</Callout>
+
+Por padrão, os comandos neste site são escritos para o plugin do Claude Code, com um prefixo `pstack:` que o Cursor não usa. Escolha Cursor aqui e todos os comandos do site passam para o formato do Cursor, prontos para copiar:
+
+<ToolPick />
+
+## Escolha /poteto-mode no menu /
+
+Digite `/` na caixa de chat, selecione `/poteto-mode` no menu e escreva a tarefa:
+
+<Copy id="cursor-first" title="Sua primeira tarefa" code="/poteto-mode adicione uma flag --json a este comando. A saída em texto existente precisa continuar idêntica byte a byte. Verifique as duas saídas." />
+
+A tecla que você usa para enviar faz diferença:
+
+- **Enter**: vale só para esta mensagem. Alguns turnos depois, ele para de funcionar.
+- **Option+Enter (Mac) ou Alt+Enter (Windows)**: <mark>ele vira um <Term k="Custom Mode" /> (modo persistente do Cursor) e fica ativo em todos os turnos</mark>, até você sair do modo.
+
+Com o Custom Mode ativado, “faça isso” ou “continue” basta nas mensagens seguintes.
+
+Quando terminar uma coisa e passar para a próxima, comece com “nova tarefa”. Caso contrário, a IA trata sua nova pergunta como o próximo passo da anterior.
+
+## Deixe com a IA antes de dormir: /loop
+
+`/loop` é um comando nativo do Cursor. Ele acorda a IA de tempos em tempos para verificar se o trabalho terminou. Dê uma condição de conclusão que passe ou falhe:
+
+<Copy id="cursor-loop" title="Antes de dormir" code={`/poteto-mode Vou dormir. Em um novo worktree (criado a partir de <sua branch base>), migre todos os pontos de chamada para o novo parser.
+Concluído significa: nenhum ponto de chamada antigo restante, todos os dados de teste do parser passando e a API antiga removida.
+Mantenha um log de decisões. Não precisa me perguntar antes de fazer commit.
+/loop until done. Se travar de verdade depois de algumas horas, pare e anote o motivo.`} />
+
+“Trabalhe por 4 horas” não é uma condição de conclusão. A IA não tem nada para verificar, então você vai acordar com 4 horas de trabalho à toa. Para uma versão mais completa, veja [Deixe rodando](/pt/guide/7-overnight/).
+
+## Várias IAs ao mesmo tempo: dê um espaço próprio para cada uma
+
+Várias IAs alterando código na mesma pasta sobrescrevem o trabalho umas das outras. Duas formas de mantê-las separadas:
+
+- **Na nuvem**: digite `/in-cloud` antes da tarefa. Cada IA ganha sua própria máquina e branch, e seu computador fica intacto.
+- **Localmente**: dê a cada tarefa seu próprio <Term k="worktree" /> (uma segunda pasta de trabalho ligada ao mesmo repositório Git). Em um notebook, algumas ao mesmo tempo já bastam.
+
+<Copy id="cursor-wt" code={`/poteto-mode new task. Crie um novo worktree a partir de <branch base> e leve as alterações do parser para lá.`} />
+
+## Algumas coisas para instalar separadamente
+
+Alguns passos do `/poteto-mode` usam o plugin `cursor-team-kit`. Ele funciona sem o plugin, mas esses passos entregam um resultado mais fraco. Para ter o conjunto completo, instale o plugin. Ele inclui:
+
+- **`deslop`**: tira a “cara de IA” do código.
+- **`control-cli`**: controla programas de linha de comando.
+- **`control-ui`**: controla navegadores e páginas web.
+
+O pstack não tem uma skill de planejamento. Use o Plan Mode nativo do Cursor junto com ele.
+
+## Travou?
+
+<Q q="O /poteto-mode para de funcionar depois de alguns turnos.">
+Você provavelmente enviou com Enter. Selecione de novo no menu e aperte Option+Enter (Alt+Enter no Windows). Ou digite `/poteto-mode` novamente em cada nova tarefa.
+</Q>
+<Q q="Mudei as configurações de modelo, mas ele continua rodando os modelos antigos.">
+As configurações só valem para novas conversas. Inicie uma nova e tente de novo.
+</Q>
+<Q q="Várias IAs trabalharam ao mesmo tempo e bagunçaram meus arquivos.">
+Dê a cada tarefa seu próprio worktree ou mande para a nuvem com `/in-cloud`.
+</Q>
+<Q q="Rodei /loop a noite toda e nada ficou pronto.">
+A condição de conclusão precisa passar ou falhar, como “este comando retorna 0” ou “todos estes testes passam”. “Trabalhe até de manhã” não conta.
+</Q>
+<Q q="Ouvi dizer que o pstack vem com um pacote de automação chamado benny?">
+Vem sim, desativado por padrão. Ele classifica os problemas relatados no Slack e corrige os que forem confirmados como bugs. Para ativar, aponte o Cursor para `FOR_AGENTS.md` na pasta benny.
+</Q>

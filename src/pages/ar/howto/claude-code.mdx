@@ -1,0 +1,209 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: claude-code
+time: 5 دقائق للتثبيت، و10 دقائق للقراءة
+for: تستخدم Claude Code وتريد تشغيل pstack فيه
+step: 1
+tldr: "ثبّته بأمرين، وأضف pstack: قبل الأوامر، واستخدم خطة النماذج المتوازنة، ثم ابدأ جلسة جديدة."
+description: "تثبيت pstack في Claude Code، وبادئة pstack: قبل الأوامر، وأيّ إعداد تختار من بين ثلاثة إعدادات جاهزة للنماذج، إضافةً إلى ميزات Cursor التي تُتخطّى والتحديث التلقائي."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## ثبّته
+
+في مربع المحادثة داخل Claude Code، اكتب هذين السطرين واحدًا تلو الآخر:
+
+<Copy id="cc-plugin" title="التثبيت من متجر الإضافات" code={`/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins`} />
+
+بهذه الطريقة تثبّت المجموعة الكاملة، فيكون لدى `/poteto-mode` كل ما يحتاجه. إذا لم تكن متأكدًا، استخدم هذه الطريقة.
+
+**إذا أردت اختيار المهارات بنفسك**، اكتب هذا الأمر في الطرفية (وليس في مربع المحادثة):
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+حدّد المهارات التي تريدها، واختر Claude Code بوصفه الأداة. تُوضع المهارات في `.claude/skills/`. ولمعرفة ما تختاره، راجع [تثبيت بضع مهارات فقط](/ar/howto/pick-skills/).
+
+## أضف pstack: قبل الأوامر
+
+إذا كان التثبيت من متجر الإضافات، يندرج كل أمر تحت اسم الإضافة. لن يتعرّف Claude Code على `!/poteto-mode` وحده؛ بل اكتب:
+
+<Cmd c="!/pstack:poteto-mode" />
+
+وينطبق الأمر نفسه على بقية الأوامر، مثل `!/pstack:how`. هذه قاعدة Claude Code للإضافات، حتى لا تتعارض إضافتان في الاسم نفسه. أما إذا استخدمت `npx skills`، فلا توجد بادئة.
+
+الأوامر في هذا الموقع مكتوبة بصيغة الإضافة افتراضيًا، حتى تعمل فور نسخها. إذا استخدمت `npx skills` في التثبيت، فاختر «مثبّت عبر npx» هنا:
+
+<ToolPick />
+
+<Callout type="warn" title="المهارات لا تعمل من تلقاء نفسها">
+باستثناء `setup-pstack`، لا تعمل أي مهارة إلا عندما تكتب أمرها بنفسك. قولك «ساعدني في إصلاح خطأ» لن يشغّل `/pstack:poteto-mode`.
+</Callout>
+
+## اختر النماذج، ثم ابدأ جلسة جديدة
+
+بعد التثبيت، شغّل هذا الأمر مرة واحدة:
+
+<Cmd c="/pstack:setup-pstack" />
+
+يسألك عن <Term k="推理预算" /> (المدة التي تقضيها النماذج في التفكير)، ثم يخصّص نموذجًا لكل <Term k="模型角色" />. وفي النهاية يكتب ملفًا واحدًا: `~/.claude/rules/pstack-models.md`.
+
+يقرأ Claude Code ملفات `.md` في ذلك المجلد كلما بدأت جلسة جديدة. لذا <mark>بعد الإعداد، أغلق الجلسة وافتح جلسة جديدة قبل أن تبدأ العمل</mark>. فالجلسة الحالية ما زالت تستخدم الإعدادات القديمة.
+
+يُكتب النموذج بصيغة «الاسم + المستوى»، مثل `opus xhigh`. الأسماء المتاحة فقط هي `opus` و`sonnet` و`haiku` و`fable`. أبقِ هذه الأسطر في هذا الملف وحده. لا تنسخها إلى `CLAUDE.md`.
+
+## كيف تضبطه بشكل جيد
+
+**الخيار الأنسب لمعظم الناس هو «المتوازنة»**: تعمل الجلسة على opus، ويتولى sonnet كتابة الكود.
+
+لماذا؟ أمران يحدّدان النماذج التي تُستخدم:
+
+- **نموذج الجلسة**: النموذج الذي تختاره عبر `/model`، وهو الذكاء الاصطناعي الذي تتحدث إليه مباشرة. يختار أسلوب الحل، ويوزّع المهام، ويراجع كل تعديل.
+- **كل سطر في ملف الإعدادات**: يحدّد النموذج الذي يعمل عليه كل مساعد إضافي من الذكاء الاصطناعي (<Term k="子代理" text="وكيل فرعي" />، subagent).
+
+افتراضيًا، يستخدم pstack نموذج opus 5.5 لكتابة الكود وإصدار الأحكام. وتضم لجنة المراجعة مقعدًا لكل من fable وopus وgemini. لا يستطيع Claude Code استخدام gemini، لذلك يصبح ذلك المقعد `inherit-parent`. وهذا يعني «اتبع نموذج الجلسة».
+
+إذًا، إذا لم تغيّر شيئًا، سيقوم opus بمعظم العمل تقريبًا، وهو الخيار الأعلى تكلفة. أما خطة «المتوازنة» فتنقل كتابة الكود إلى sonnet، مما يخفض التكلفة إلى النصف. كما تمنح مقعد المراجعة الثالث لـ sonnet، فتصبح المقاعد الثلاثة بثلاثة نماذج مختلفة.
+
+الأسعار التالية هي أسعار API المعلنة اعتبارًا من أكتوبر 2026، لكل مليون <Term k="token" text="tokens" /> (وحدات استهلاك الذكاء الاصطناعي). ومع الاشتراك، تستهلك النماذج الأغلى حصتك بشكل أسرع:
+
+| النموذج | الإدخال / الإخراج | أفضل استخدام |
+| --- | --- | --- |
+| fable | $10 / $50 | الأقوى، مقعد مراجعة افتراضيًا |
+| opus | $4 / $20 | الجلسة، إصدار الأحكام، الكتابة |
+| sonnet | $2 / $10 | كتابة الكود، مقعد مراجعة واحد |
+| haiku | $0.1 / $0.5 | غير موصى به |
+
+لماذا لا نختار haiku: لأن التحقّق من النتائج يستخدم نموذج `swarm workers`. وإذا جعلته أرخص نموذج، سيضعف التحقّق أيضًا.
+
+### ثلاث خطط
+
+<Tabs id="cc-plans" label="اختر خطة" items={[["balanced", "المتوازنة (موصى بها)"], ["cheap", "توفير التكلفة"], ["max", "بلا سقف للتكلفة"]]}>
+<div slot="balanced">
+
+**شغّل الجلسة على opus، وأسند كتابة الكود والتحقّق إلى sonnet، وخصّص مقاعد المراجعة الثلاثة لـ fable وopus وsonnet.**
+
+تحتاج الجلسة إلى فهمك ومراجعة التعديلات، لذا نخصّص لها opus. أما مساعدو كتابة الكود فيحصلون على مهام محددة النطاق بوضوح، ويمكن لـ sonnet إنجازها. وتبقى مهام إصدار الأحكام والكتابة على opus.
+
+<Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md (المتوازنة)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: sonnet xhigh
+bug-fix: sonnet xhigh
+perf-issue: sonnet xhigh
+hillclimb: sonnet xhigh
+judgment and prose: opus xhigh
+arena runners: fable high, opus high, sonnet high
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: sonnet high
+interrogate reviewers: fable high, opus high, sonnet high`} />
+
+</div>
+<div slot="cheap">
+
+**شغّل الجلسة على sonnet، وضع `inherit-parent` في أسطر كتابة الكود، واختر الميزانية medium (متوسطة).**
+
+يتبع `inherit-parent` الجلسة إلى sonnet، بينما يظل opus يتولى إصدار الأحكام. وتخفض ميزانية medium كل دور بمستوى واحد: ينزل xhigh إلى high، وينزل high لدى المراجعين إلى medium. تستغني لجنة المراجعة عن fable وتكتفي بمقعدين. وللمهام المعقّدة، بدّل مرة أخرى إلى opus باستخدام `/model` قبل أن تبدأ.
+
+<Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md (توفير التكلفة)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: medium (high)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: inherit-parent
+judgment and prose: opus high
+arena runners: opus medium, inherit-parent
+arena cross-judge pool: opus medium, inherit-parent
+swarm workers: inherit-parent
+interrogate reviewers: opus medium, inherit-parent`} />
+
+</div>
+<div slot="max">
+
+**شغّل الجلسة على opus، وأسند كتابة الكود وإصدار الأحكام والتحقّق إلى opus، وشغّل مقاعد المراجعة الثلاثة كلها على مستوى xhigh.**
+
+لماذا لا نُسند إصدار الأحكام إلى fable؟ قاعدة pstack هي: خارج لجنة المراجعة، لا يعمل fable إلا عندما تطلبه بالاسم، أو بعد أن يفشل opus في المهمة نفسها مرتين. ولاستخدامه في مهمة واحدة، قل «استخدم fable لهذه المهمة» في طلبك. سعر fable المعلن يعادل 2.5 ضعف سعر opus. وإذا كان حسابك لا يتيح استخدام fable، فلن يعرضه الإعداد.
+
+<Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md (بلا سقف للتكلفة)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: opus xhigh
+bug-fix: opus xhigh
+perf-issue: opus xhigh
+hillclimb: opus xhigh
+judgment and prose: opus xhigh
+arena runners: fable xhigh, opus xhigh, sonnet xhigh
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: opus xhigh
+interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
+
+</div>
+</Tabs>
+
+الميزانية large (كبيرة) هي الأعلى: فلا يعمل أي دور في pstack فوق مستوى xhigh. أبقِ سطر `# defaults: 3` في الملف. بدونه يعامل pstack الملف كأنه مكتوب بإصدار أقدم، ويطلب منك إعادة تشغيل الإعداد.
+
+### كيف تكتب الإعداد
+
+1. اختر نموذج الجلسة باستخدام `/model`.
+2. شغّل `/pstack:setup-pstack` واختر الميزانية المناسبة لخطتك.
+3. عندما يسألك إن كنت تريد تعديل أي أدوار، الصق له الملف أعلاه واطلب منه كتابته.
+4. أغلق الجلسة وابدأ جلسة جديدة.
+
+## عندما ترى «Skipped in Claude Code»
+
+المهام المجدولة في Cursor، وبوت المراجعة Bugbot، والوكلاء السحابيون غير موجودين في Claude Code. تُتخطّى الخطوات التي تستخدم أيًا منها. يُضاف سطر واحد إلى الرد، ثم يواصل العمل:
+
+<Copy id="cc-skip" title="سترى سطرًا مثل هذا" code="Skipped in Claude Code: <أي خطوة>. <سبب التخطي>." />
+
+ما زال فتح <Term k="PR" /> (طلب دمج تغييرات) يعمل، باستخدام `gh pr create` بدلًا من ذلك. والأمر `/loop` موجود هنا أيضًا. وإذا أخبرك أنه ترك موضعًا مؤقتًا (مثل رابط ناقص)، فتحقّق مما ينقص واملأه عند الحاجة.
+
+## فعّل التحديث التلقائي
+
+لا يحدّث Claude Code إضافات الجهات الخارجية افتراضيًا. لتفعيل التحديث التلقائي:
+
+1. اكتب `/plugin` في مربع المحادثة.
+2. افتح تبويب **marketplaces**.
+3. حدّد `cursor-plugins`.
+4. اختر **enable auto-update**.
+
+وللتحديث يدويًا، شغّل هذا الأمر في الطرفية:
+
+<Cmd c="claude plugin update pstack@cursor-plugins" />
+
+إذا غيّر أحد التحديثات النماذج الافتراضية، فسيحتفظ ملف إعداداتك القديم بالنماذج القديمة. لمعرفة طريقة الحل، راجع [التحديث والفحص وإلغاء التثبيت](/ar/howto/update-remove/).
+
+## إلغاء التثبيت أو الإيقاف المؤقت
+
+اكتب هذا في مربع المحادثة:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+ثم اكتب `/reload-plugins`، أو أعد تشغيل Claude Code. ولإيقافه مؤقتًا، استخدم `disable` بدلًا من `uninstall`، و`enable` لإعادة تشغيله. وإذا كنت قد شغّلت الإعداد، فاحذف أيضًا `~/.claude/rules/pstack-models.md` بعد إلغاء التثبيت، وإلا فستستمر كل جلسة جديدة في قراءته.
+
+## توقفت عند خطوة؟
+
+<Q q="كتبت أمرًا ولم يحدث شيء. وهو غير موجود في القائمة أيضًا.">
+إذا كان التثبيت من متجر الإضافات، فاكتب `!/pstack:poteto-mode`؛ فمن دون `pstack:` لا يُتعرّف عليه. اكتب `/pstack:` أولًا، وستعرض القائمة أوامر pstack فقط.
+</Q>
+<Q q="شغّلت الإعداد، لكن النماذج التي اخترتها لم تُطبَّق.">
+لا يُقرأ ملف الإعدادات إلا عند بدء جلسة جديدة. أغلق الجلسة وافتح جلسة جديدة. وإذا لم يحل ذلك المشكلة، فافتح `~/.claude/rules/pstack-models.md` وتحقّق من أن السطر يعرض النموذج الذي اخترته.
+</Q>
+<Q q="جاء في الرد أن /arena تخطّى الحَكَم، أو لم يجد مراجعًا من شركة أخرى.">
+تطلب بضع خطوات نموذجًا من «شركة أخرى» للمراجعة، مثل حَكَم `/arena`. جميع نماذج Claude، بما فيها fable، تُعدّ من شركة واحدة. لذلك يتخطّى الحَكَم، ويختار الفائز بنفسه، ويخبرك بذلك. ولا يفعل سطر `arena cross-judge pool` شيئًا يُذكر هنا. وإذا أردت نظرة من شركة أخرى، فانقل المراجعة المهمة إلى Codex أو Cursor وشغّل `/interrogate` هناك.
+</Q>
+<Q q="تستخدم المهارات مسمّيات Cursor. هل أترجمها؟">
+لا. تحتوي الإضافة على دليل تحويل (`docs/harness/claude-code.md`)، ويقوم الذكاء الاصطناعي بالترجمة من تلقاء نفسه. فعلى سبيل المثال، يصبح `.cursor/rules/` هو `CLAUDE.md` (أو `AGENTS.md` إن لم يكن موجودًا)، ويتحوّل الوكلاء السحابيون إلى <Term k="worktree" /> (مجلد عمل مستقل) محلي.
+</Q>
+<Q q="يقول الذكاء الاصطناعي إن أداة Skill لا تستطيع استدعاء مهارات pstack. هل هناك عطل؟">
+لا. في Claude Code، لا يمكن استدعاء معظم مهارات pstack بهذه الطريقة. يقرأ الذكاء الاصطناعي ملف `SKILL.md` الخاص بتلك المهارة مباشرة ويتبع تعليماته. واصل كتابة الأوامر كالمعتاد.
+</Q>
+<Q q="تركته يعمل طوال الليل فوجدته متوقفًا عند طلب إذن.">
+قبل أن تتركه يعمل وحده، اسمح بالأوامر الشائعة: git وgh وأوامر الاختبار والبناء لديك. يبحث الأمر المدمج `/fewer-permission-prompts` في Claude Code عن أوامر القراءة فقط التي تستخدمها كثيرًا، ويكتبها في ملف `.claude/settings.json` الخاص بالمشروع. أما السماح بالأوامر التي تُجري تعديلات، فالقرار يعود إليك.
+</Q>

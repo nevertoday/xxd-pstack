@@ -1,0 +1,162 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: formal-verify
+time: Se genera una vez, luego un comando por cada cambio
+for: Tu código tiene concurrencia, reintentos, una máquina de estados o un parser, un bug ahí sale caro y los tests rara vez llegan hasta él
+step: 6
+tldr: Elige una regla que nunca deba romperse («la misma tarea nunca se ejecuta dos veces a la vez») y haz que compruebe todos los casos dentro de un alcance definido. Si la regla se rompe, obtienes un contraejemplo que puedes recorrer en pocos pasos.
+description: "Usa /create-formal-verification-skill para bugs a los que los tests no llegan: cuándo vale la pena, cómo elige el objetivo y la herramienta, cómo leer un contraejemplo, cómo usar la skill generada y cómo /maintain-formal-verification-skill la vuelve a alinear cuando cambia el código."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+Los tests comprueban los casos que a alguien se le ocurrió escribir. La <Term k="形式化验证" /> comprueba **todos** los casos dentro de un alcance definido: cada orden de pasos en un modelo, cada entrada hasta cierto tamaño o absolutamente todas las entradas.
+
+Algunos bugs viven en caminos que nadie recorre: dos reintentos que se superponen, un bloqueo que expira a mitad de una escritura, actualizaciones de estado que llegan desordenadas. Diez ejecuciones de tests pasan. Un año después del lanzamiento ocurre una vez, y el resultado es un cobro doble o datos corruptos.
+
+<Fig id="h-formal" />
+
+## Cuándo vale la pena
+
+- **Concurrencia y bloqueos**: varios procesos o máquinas compitiendo por lo mismo. Concesiones temporales (leases) de tareas, recuento de inventario.
+- **Reintentos y «exactamente una vez»**: un mensaje no debe entregarse dos veces; un pedido otorga la membresía una sola vez.
+- **Máquinas de estados**: estados de pedidos, ediciones sin conexión que se sincronizan después, flujos de aprobación.
+- **Parsers**: ninguna entrada puede hacerlo fallar ni leerse mal.
+- **Código de bajo nivel inseguro**: seguridad de memoria, desbordamiento de enteros, condiciones que una estructura de datos siempre debe mantener.
+
+Las páginas comunes de crear, leer y actualizar, los textos y los estilos no la necesitan; una <a href="/es/howto/verify-app/">skill de verificación</a> los cubre. `/setup-pstack` también te ofrece esto una vez. <mark>Di que sí si tu código tiene este tipo de lógica y un bug ahí sale caro; si no, di que no y ejecútalo más adelante si eso cambia.</mark>
+
+## Copia esto primero
+
+Deja que la IA elija el objetivo más valioso del código:
+
+<Copy id="fv-auto" code="/create-formal-verification-skill" />
+
+Si ya lo sabes, indica el área y la regla. Estos dos ejemplos vienen de la guía oficial:
+
+<Copy id="fv-lease" title="Concesiones temporales (leases) de tareas y reintentos" code="/create-formal-verification-skill la lógica de concesiones temporales (leases) y reintentos de tareas. Una tarea nunca debe ejecutarse dos veces a la vez." />
+
+<Copy id="fv-queue" title="Cola de reintentos" code="/create-formal-verification-skill la cola de reintentos. Un mensaje nunca debe entregarse dos veces." />
+
+Dos más de proyectos cotidianos:
+
+<Copy id="fv-order" title="Sitio de membresías: webhooks de pago" code="/create-formal-verification-skill el webhook de pago y la activación de la membresía. El proveedor repite y desordena los webhooks; un pedido debe otorgar la membresía exactamente una vez." />
+
+<Copy id="fv-sync" title="Extensión de Chrome: sincronización entre dispositivos" code="/create-formal-verification-skill la lógica de sincronización de marcadores. Dos dispositivos editan marcadores sin conexión y luego vuelven a conectarse; ambos terminan igual, sin perder ni duplicar nada." />
+
+Basta una frase con dos cosas: **qué código comprobar** y **qué regla nunca debe romperse**.
+
+## Cómo elige el objetivo
+
+La skill busca una promesa que hace el código, cuyo incumplimiento perjudica a los usuarios y donde los tests rara vez llegan al caso que la rompe. <u>La skill elige el objetivo más valioso, no el más fácil de verificar.</u> Si indicas un área, empezará por ahí.
+
+## Cómo elige la herramienta
+
+La pregunta elige la herramienta. Te dice qué eligió y por qué, así que no necesitas aprender estos lenguajes:
+
+| Qué quieres saber | Tipo de herramienta | Ejemplos comunes |
+| --- | --- | --- |
+| ¿Pueden ocurrir eventos en un mal orden? | Un comprobador de modelos: un modelo pequeño del diseño donde se recorre cada orden posible | TLA+ (la opción por defecto para este tipo de pregunta, sea cual sea el lenguaje de tu código) |
+| ¿El código en sí se comporta bien ante cualquier entrada: seguridad de memoria, desbordamientos, condiciones de estructuras de datos? | Un verificador que se ejecuta sobre el código | Depende del lenguaje: CBMC para C, Kani para Rust |
+| Tu lenguaje no tiene un verificador así | Muchas entradas generadas contra el código real | Tests basados en propiedades: fast-check, Hypothesis |
+| Debe cumplirse a cualquier tamaño y un límite no basta | Una demostración | Un asistente de demostraciones como Lean |
+
+La columna de ejemplos es de este sitio; la skill no impone ninguna herramienta. La skill prefiere una que tu equipo pueda instalar y ejecutar.
+
+## Cómo se ve una buena verificación formal
+
+Estos son los estándares propios de la skill y lo que debes comprobar al recibir la entrega:
+
+- **Fiel al código**: cada parte del modelo o de la demostración apunta a código que puedes abrir. Lo que el código hace en un paso es un paso en el modelo. Los nombres salen de tu proyecto.
+- **Capaz de fallar**: <mark><strong>una comprobación que nunca has visto fallar no demuestra nada.</strong></mark> Cada regla se muestra fallando una vez sobre código roto a propósito (una validación eliminada, dos pasos intercambiados), y la comprobación lo detecta.
+- **Los hallazgos siguen siendo hallazgos**: si el código actual ya rompe la regla, lo reporta con un contraejemplo. No relaja la regla ni el modelo para que pase, y no toca código de producto salvo que se lo pidas.
+- **Honesta con el alcance**: qué se verificó, dentro de qué límites, bajo qué supuestos y qué queda fuera. Que pase cubre ese modelo y esos límites, no todo el sistema.
+- **Legible sin la herramienta**: la regla y el daño en una frase sencilla cada uno. El contraejemplo contado como pasos con las palabras de tu código.
+- **Barata de volver a ejecutar**: un solo comando, una versión fija de la herramienta y lo bastante rápida como para que la siguiente IA la ejecute en cada cambio relevante.
+- **Alineada con el código**: la skill registra qué archivos y funciones cubre cada comprobación, y el commit en el que confirmó por última vez que coinciden. Cuando ese código cambia, la siguiente IA sabe que debe revisarlo de nuevo.
+
+## Cómo se lee un contraejemplo
+
+Si el código actual realmente tiene el bug, no recibes fórmulas. Recibes pasos como estos:
+
+<Fig id="h-formal-cex" />
+
+Cada paso corresponde a un lugar del código, así que puedes recorrer el contraejemplo sobre el código real y confirmar que el modelo no está equivocado. Para mostrárselo a un PM o a un diseñador, usa `/statechart`: cuando una comprobación falla, la skill explica el camino más corto al fallo en palabras sencillas; cuando pasa, dibuja cómo se mueve el sistema entre estados.
+
+<Copy id="fv-chart" code="/statechart lo que ve el usuario al editar una nota sin conexión" />
+
+## Qué obtienes
+
+Una nueva skill en tu proyecto, con el nombre del código que verifica. Leyendo solo esa skill, la siguiente IA puede:
+
+1. Saber si un cambio toca el código verificado.
+2. Ejecutar la comprobación con un solo comando.
+3. Distinguir un bug real de un error de modelado.
+4. Actualizar la verificación cuando un cambio es intencional.
+
+Antes de entregártela, la IA sigue la skill una vez sobre un cambio temporal que rompe la regla en el código real, y la comprobación debe detectarlo. Después, la IA descarta el cambio y confirma que la comprobación vuelve al punto de partida. En la entrega te indica:
+
+- qué verificó, con qué herramienta, por qué esa herramienta y dentro de qué límites;
+- qué encontró la comprobación, en palabras sencillas;
+- cómo ejecutarla a partir de ahora;
+- qué no cubre.
+
+La IA solo sugiere un segundo objetivo si encontró otro casi igual de valioso.
+
+## Cuando cambia el código: /maintain-formal-verification-skill
+
+El caso peligroso no es una comprobación que falla. Es <mark>una comprobación que sigue pasando después de que el código cambió</mark>. Describe un código que ya no existe, pero parece una demostración.
+
+Cuando un cambio pasa por la skill de verificación, la IA actualiza la verificación sobre la marcha. Para los cambios que se la saltaron (fusiones, ediciones directas o refactorizaciones), ejecuta:
+
+<Copy id="mfv" code="/maintain-formal-verification-skill" />
+
+La skill ejecuta la comprobación una vez tal como está, lee todos los commits posteriores a la última confirmación que tocaron código cubierto (incluidas funciones renombradas, divididas o movidas) y actualiza el modelo a partir del código, no a partir de lo que haría que pasara. Cada comprobación termina con un resultado:
+
+| Resultado | Significado |
+| --- | --- |
+| in sync | No cambió nada relevante en el código cubierto y la comprobación pasa |
+| updated | El código cambió, la verificación ahora lo describe y la comprobación pasa |
+| bug | La verificación describe el código actual y el código rompe la regla. Es un hallazgo en el código, no un desfase |
+| blocked | No pudo volver a alinear la comprobación o no pudo ejecutarla; explica por qué |
+
+Una comprobación puede ser a la vez updated y bug: la actualización hace que vuelva a describir el código y entonces la regla falla. Cuando una comprobación actualizada pasa, la skill rompe el código nuevo a propósito una vez más para confirmar que la comprobación aún lo detecta. La skill solo cambia una regla cuando hay evidencia de que la promesa cambió a propósito (un comentario de documentación, tests, un changelog, un mensaje de commit), y la cita. Las actualizaciones de la verificación van en un cambio propio, separadas de cualquier arreglo de producto.
+
+## Cómo lo usa poteto
+
+- **Publicada el 18 de octubre de 2026**, en pstack v0.15.27, marcada como beta. En el [anuncio](https://x.com/poteto/status/2111926622278521253), poteto dio dos ejemplos: modelos de TLA+ para máquinas de estados concurrentes y Kani para comprobar si hay comportamiento indefinido en Rust. poteto dice que modelar código en TLA+ ya ha encontrado varios bugs, sin decir cuáles.
+- **Se puso a prueba que «la pregunta elige la herramienta»**. En el [PR que añadió la skill](https://github.com/cursor/plugins/pull/709), poteto la probó en seis proyectos de código abierto que la skill no había visto: pg-boss, swr, HikariCP, client-go, cJSON y arrayvec. En cJSON (C) y arrayvec (Rust) eligió siempre un verificador que se ejecuta sobre el código: CBMC y Kani. Un borrador anterior que imponía TLA+ eligió TLA+ en ambos. Además, poteto señala que la muestra es pequeña, una o dos ejecuciones por proyecto, así que tómalo como una pista.
+- **poteto habla con franqueza sobre la skill de mantenimiento**. En [su PR](https://github.com/cursor/plugins/pull/716), la ejecutó 54 veces sobre un modelo de TLA+ del semáforo de Go (incluida una versión a la que le faltaba una señal de despertar) y sobre cachetools de Python. La conclusión: la skill no hizo que los resultados fueran más correctos, porque los modelos ya mantienen la verificación al día. Lo que aportó fue romper el código una vez más tras la actualización para mostrar que la comprobación sigue detectándolo: 11 de 11 ejecuciones con la skill, 5 de 10 sin ella.
+- **La combinación que usa poteto** ([publicación del 21 de octubre](https://x.com/poteto/status/2112736749281759566)): primero haz que la IA dibuje un diagrama de estados con `/statechart` para entender el código, y después usa la skill de verificación en TLA+ generada para encontrar bugs antes que los usuarios.
+
+## Por qué vale la pena probarla ahora
+
+La verificación formal solía ser poco común: los modelos y las demostraciones requerían mucho trabajo, y poca gente sabía hacerlos. La IA ha reducido ese costo, y se ha estado hablando de ello:
+
+- Martin Kleppmann sostiene que la IA hará que la verificación formal se vuelva habitual: escribir demostraciones resulta barato, y los verificadores de demostraciones detectan justo los errores que comete la IA ([artículo](https://martin.kleppmann.com/2025/12/08/ai-formal-verification.html), diciembre de 2025).
+- Hillel Wayne, quien enseña TLA+ desde hace años, dice que la IA multiplica enormemente cuánta especificación puedes escribir ([junio de 2025](https://buttondown.com/hillelwayne/archive/ai-is-a-gamechanger-for-tla-users)), y advierte que las especificaciones que la IA escribe sin cuidado suelen perder de vista para qué sirve una especificación ([marzo de 2026](https://buttondown.com/hillelwayne/archive/llms-are-bad-at-vibing-specifications)). Por eso importan tanto «capaz de fallar» y «fiel al código» de arriba.
+- Datadog comprueba código escrito por IA con especificaciones en TLA+, tests de simulación y Kani ([Closing the verification loop](https://datadoghq.com/blog/ai/harness-first-agents), marzo de 2026).
+- AWS lleva años usando TLA+ y su propio lenguaje P para verificar los diseños de sus servicios distribuidos ([Systems Correctness Practices at AWS](https://cacm.acm.org/practice/systems-correctness-practices-at-amazon-web-services)).
+
+El texto completo de las skills está en este sitio: [`/create-formal-verification-skill`](/es/skills/create-formal-verification-skill/), [`/maintain-formal-verification-skill`](/es/skills/maintain-formal-verification-skill/), [`/statechart`](/es/skills/statechart/).
+
+## ¿Te atascaste?
+
+<Q q="Dice que mi lenguaje no tiene un verificador que se ejecute sobre el código.">
+Es una respuesta honesta. En ese caso, la IA prueba el código real con muchas entradas generadas en lugar de escribir a mano un modelo de lo que probablemente hace el código. Las preguntas sobre el orden no se ven afectadas: a TLA+ no le importa en qué lenguaje esté tu código.
+</Q>
+<Q q="La comprobación tarda demasiado.">
+Dile: «Reduce el alcance hasta que termine en pocos minutos y deja constancia de ese alcance menor en la entrega». Una comprobación demasiado lenta no se ejecutará en cada cambio, que es lo mismo que no tenerla.
+</Q>
+<Q q="Reportó un contraejemplo y no sé si es un bug real o un error de modelado.">
+Pídele: «Recorre el contraejemplo sobre el código real, paso a paso». Si algún paso no puede ocurrir en el código, el modelo está mal; corrige el modelo. Si todos los pasos pueden ocurrir, es un bug real. Si cuesta seguir los pasos, usa `/statechart`.
+</Q>
+<Q q="Quiere relajar la regla para que la comprobación pase.">
+No. Responde: «Mantén la regla. El código actual la rompe; escríbeme el contraejemplo como pasos en el código». Un hallazgo se reporta como hallazgo; si se arregla y cómo hacerlo lo decides tú.
+</Q>
+<Q q="Pasó. ¿Eso significa que no hay bugs?">
+Solo dentro de ese modelo y ese alcance. Lee la parte de «qué no cubre» en la entrega y, cuando cambie el código, ejecuta `/maintain-formal-verification-skill`.
+</Q>

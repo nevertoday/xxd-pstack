@@ -1,0 +1,97 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 3
+need: pstack ya configurado; un requisito pequeño, real pero no grande
+tldr: "Encarga una tarea pequeña en un solo mensaje: qué quieres, qué cuenta como terminado y qué debe mostrarte. Luego revisa su reformulación y la evidencia."
+description: "Haz tu primera tarea con /poteto-mode: qué poner en un mensaje y qué dejar fuera, dónde mirar después de enviarlo y cómo seguir."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Copia un ejemplo primero
+
+Escoge algo pequeño y real de tu proyecto. Por ejemplo, añadir un botón de exportación a la página de configuración de una extensión de Chrome:
+
+<Copy id="first-ext" title="Cámbialo por tu propia tarea" code="/poteto-mode Añade un botón «Exportar configuración» en la página de configuración que descargue la configuración actual como un archivo JSON. La configuración existente y la forma en que se guarda no deben cambiar. Cuando termines, muéstrame: el contenido del archivo exportado y lo que hay guardado en chrome.storage. Ambos deben coincidir exactamente." />
+
+Este mensaje solo tiene tres partes:
+
+1. **Lo que quieres**: un botón de exportación.
+2. **Qué cuenta como terminado**: el archivo exportado coincide con lo guardado y la configuración anterior no se ve afectada.
+3. **Qué debe mostrarte**: el contenido real de ambos.
+
+El consejo de poteto para principiantes cabe en una línea: <mark><strong>dale un objetivo y una forma de comprobarlo, con tus propias palabras.</strong></mark>
+
+Cuando una IA se equivoca, suele ser por una de dos razones. No entendió lo que querías o le faltaba contexto para hacerlo bien. Estas tres partes resuelven la primera. El [paso 4](/es/guide/4-understand/) resuelve la segunda: antes de que haga cambios, pídele que explique cómo está el código ahora.
+
+## Haz que «terminado» sea algo que puedas comprobar
+
+La IA usa esta parte para comprobar su propio trabajo. Por eso tiene que quedar claro si se cumple o no.
+
+- **Comprobable**: el archivo exportado coincide exactamente con lo guardado.
+- **No comprobable**: mejóralo. Haz que se vea más bonito. Dedícale una hora.
+
+Sin una forma de comprobarlo, solo puede guiarse por intuición cuando dice «terminado».
+
+## Dos cosas que puedes añadir
+
+Son opcionales. Si las tienes, añade una frase para cada una:
+
+- **Pistas que ya tienes**: una línea de error, el paso donde falla, un enlace. Eso ahorra una ronda de búsqueda.
+- **Lo que de verdad no debe tocar**: por ejemplo, «Todavía no cambies código, solo investiga» o «La salida anterior no debe cambiar en nada».
+
+## Dos cosas que conviene dejar fuera al principio
+
+- **Cómo hacerlo exactamente**. Di qué resultado quieres. Puede que la IA encuentre una forma mejor.
+- **Tu suposición sobre la causa**. En cuanto la dices, la IA solo mira donde señalaste. Espera a que dé su propia opinión y luego añade la tuya.
+
+Tampoco encadenes skills en tu mensaje, como «usa /architect primero y luego /arena». La IA las llama en orden por su cuenta. El orden que pongas puede estorbarle.
+
+## Después de enviarlo, mira en tres lugares
+
+**Al principio: su reformulación**. La IA explica con sus propias palabras qué quieres y dónde piensa hacer cambios. No esperará tu visto bueno. Así que, si lo entendió mal, interrúmpela de inmediato.
+
+**En medio: la <Term k="待办清单" />**. Son los pasos que va a seguir a continuación. En cuanto escoge un enfoque (un <Term k="剧本" />), los pasos de ese enfoque se copian en la lista.
+
+**Al final: la evidencia**. Aquí debe aparecer lo que pediste ver, como comandos reales y su salida. Si no pudo comprobar algo, dice «no estoy segura».
+
+<Callout type="warn" title="Un «terminado» sin evidencia">
+Si la IA suena segura pero no puede mostrar resultados de ninguna comprobación, no confíes. Responde: «Muéstrame los resultados de lo que comprobaste de verdad».
+</Callout>
+
+## Para seguir: cuanto más corto, mejor
+
+Dentro de la misma tarea, los mensajes siguientes pueden ser muy cortos:
+
+<Copy id="short" title="Cualquiera de estos basta" code={`/poteto-mode adelante
+continúa
+sigue hasta terminar`} />
+
+La IA recuerda hasta dónde llegó la tarea. Solo tienes que decir qué quieres después.
+
+**Cuando cambies a otra cosa, di primero «new task»**. Si no, tratará tu nueva pregunta como el siguiente paso de la tarea anterior:
+
+<Copy id="newtask" code="/poteto-mode new task. Averigua por qué la caché sigue ahí después de cerrar sesión. Todavía no cambies código." />
+
+«Todavía no cambies código» hace que solo investigue, sin tocar nada.
+
+<Callout type="tip" title="Si usas Cursor">
+Escoge `/poteto-mode` en el menú de `/` y luego presiona Option+Enter (Mac) o Alt+Enter (Windows). Se convierte en un <Term k="Custom Mode" />, así que se aplica a todos los mensajes siguientes. Un Enter normal solo se aplica a ese mensaje.
+</Callout>
+
+## ¿Te atascaste?
+
+<Q q="Entendió mal lo que quería.">
+<p>Díselo tal cual: «No, lo que quiero es…». Es más fácil corregirlo en su primera reformulación. Cuando la petición sea confusa (una conversación larga, un problema que no sabes describir bien), pídele que primero solo la reformule: <code>/poteto-mode Lee esta conversación y di con palabras sencillas cuál es el problema de fondo. Todavía no cambies código.</code></p>
+</Q>
+<Q q="Se saltó un paso que creo importante.">
+<p>Díselo: «No te saltes el paso 2. Primero haz que el problema vuelva a ocurrir». La IA volverá a añadir el paso.</p>
+</Q>
+<Q q="La respuesta es demasiado larga para seguirla.">
+<p>Escribe <code>/bro</code> y te volverá a explicar la última respuesta con palabras sencillas.</p>
+</Q>
+
+<Checkpoint id="s3" items={["Le di a /poteto-mode una tarea pequeña y real, y le dije qué cuenta como terminado", "Vi su reformulación al principio", "La respuesta final tenía evidencia que puedo comprobar por mi cuenta"]} />

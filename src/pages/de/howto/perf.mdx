@@ -1,0 +1,96 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: perf
+time: Ein oder zwei Chats für Diagnose und Behebung
+for: Etwas fühlt sich langsam an, und du willst die eigentliche Ursache und ein Vorher-Nachher, dem du vertrauen kannst
+step: 6
+tldr: Starte mit einem gemessenen Wert. Die KI misst, ändert und misst erneut und zeigt dir dann ein Vorher-Nachher, dem du vertrauen kannst.
+description: "Performance-Probleme mit /poteto-mode aufspüren: Starte mit einem gemessenen Wert, lass die KI messen, ändern und erneut messen und prüfe den Wert dann mit /benchmark-checklist."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Kopier das zuerst
+
+<Copy id="perf-min" title="Die kürzeste Version" code="/poteto-mode Der Start dauert 1,8 s mit dieser Fixture. Erstelle einen Trace, behebe die gemessene Ursache, zeig mir Vorher und Nachher." />
+
+Das ist das Beispiel aus der eigenen Doku von pstack.
+
+- **„1,8 s mit dieser Fixture“**: ein gemessener Wert auf festen Testdaten. „Fühlt sich etwas träge an“ kann die KI nicht vergleichen.
+- **„Erstelle einen Trace“**: Ein Trace zeichnet auf, wie lange jeder Schritt im Programm dauert.
+- **„die gemessene Ursache“**: Die KI behebt, was der Trace zeigt – nicht, was sie vermutet.
+
+<mark>Bei Performance zählen nur gemessene Werte.</mark>
+
+<Fig id="h-perf" />
+
+## Beispiel: eine Mitglieder-Website
+
+Eine Mitglieder-Website läuft auf Cloudflare Workers, die Daten liegen in D1. Der Endpoint für die Mitgliederliste wird immer langsamer.
+
+<Copy id="perf-d1" title="Beispiel mit Workers und D1" code={`/poteto-mode Der Endpoint /api/members für die Mitgliederliste hat unter lokalem wrangler dev einen p50 von etwa 900 ms, wenn 5000 Test-Mitglieder importiert sind.
+Miss zuerst einen Ausgangswert und sag mir, wo die Zeit bleibt. Behebe die gemessene Ursache.
+Behoben ist es erst, wenn bei denselben Daten der p50 unter 200 ms liegt und exakt dieselben Mitglieder (Anzahl und Inhalt) zurückgegeben werden wie vor dem Fix.
+Lass beide Varianten abwechselnd je 7-mal laufen, gib mir Median und Spannweite und führe dann /benchmark-checklist aus.`} />
+
+- **„Exakt dieselben Mitglieder zurückgegeben“**: Schneller, aber mit fehlenden Daten heißt nicht behoben.
+- **„Abwechselnd je 7-mal laufen“**: Ein Wert aus einem einzelnen Lauf könnte Glück sein.
+- **5000 Mitglieder**: ein Szenario, das du wiederholen kannst. Mit zu wenig Daten tritt das Problem vielleicht gar nicht auf.
+
+## Worauf du nach dem Abschicken achtest
+
+**Am Anfang: der Ausgangswert.** Wenn die KI „das wird schneller“ sagt, ohne zu messen, stopp sie.
+
+**Am Ende: vier Dinge.** Der Ausgangswert, der Wert nach dem Fix, der Unterschied und wo die Datendateien liegen. Wenn ein Ergebnis nicht eindeutig ist, sagt die KI das auch. Das zählt nicht als bestanden.
+
+## Eine Zahl, die zu gut aussieht: /benchmark-checklist
+
+<Copy id="perf-bench" code="/benchmark-checklist Prüfe diese Beschleunigung um 40 %, bevor sie in die PR-Beschreibung kommt" />
+
+Das <Term k="剧本" /> für Performance-Probleme ruft den Check von selbst auf. Bei einer Zahl, die dir jemand nennt, starte ihn selbst. Sieben Fragen, jede belegt durch einen echten Lauf:
+
+1. **Warum ist es nicht doppelt so schnell?** Nenn den Engpass, der es dort bremst.
+2. **Sind beide Varianten wie in Produktion eingerichtet?** Kein Debug-Build gegen ein Release-Build.
+3. **Übertrifft es eine physikalische Grenze?** Schneller als die Festplatte bedeutet, dass etwas anderes gemessen wurde.
+4. **Gab es Fehler?** Abgelehnte Anfragen sind oft schnell. Zähl sie.
+5. **Lässt es sich wiederholen?** Lass beide Varianten abwechselnd mindestens je 5-mal laufen. Gib Median und Spannweite an.
+6. **Merken Nutzer etwas davon?** Eine Funktion, die 1 % der Zeit braucht, kann höchstens 1 % einsparen.
+7. **Hat die gemessene Arbeit wirklich stattgefunden?** Ein Promise, auf das niemand wartet, läuft sehr schnell.
+
+Es gibt vier Urteile: schneller, langsamer, kein messbarer Unterschied oder nicht eindeutig.
+
+## Sag mir einfach, wo es langsam ist
+
+<Copy id="perf-trace" title="Nur Diagnose" code="/poteto-mode Das ist ein cpuprofile, das ich bei einem langsamen Start aufgezeichnet habe. Sag mir, wo die Zeit bleibt und welche Codezeilen dafür verantwortlich sind. Behebe noch nichts." />
+
+- **Du hast eine aufgezeichnete Datei** (cpuprofile, Trace, Heap-Snapshot): Die KI liest nur diese Datei und findet die langsamsten Zeilen.
+- **Es passiert gerade** (der Speicher wächst immer weiter, die CPU ist im Leerlauf ausgelastet, die UI flackert): Die KI zeichnet das laufende Programm auf. Ein kleines Experiment bestätigt dann die Ursache.
+
+Beides liefert dir nur eine Diagnose mit Belegen. Danach entscheidest du, wie du es behebst.
+
+## Einen Wert immer weiter drücken
+
+Für einen Wert, den du immer weiter verbessern willst, wie die Bundle-Größe oder die Zeit bis zur ersten Anzeige, nutze Hillclimb. Gib eine Metrik, ein Ziel und eine Mindestanzahl an Runden vor.
+
+<Copy id="perf-hill" title="Hillclimb" code="/poteto-mode hillclimb für die Zeit bis zum ersten Öffnen der Seitenleiste. Ziel: mindestens 50 % schneller als der Ausgangswert, und probier mindestens 10 Runden. Schreib pro Runde eine Zeile ins Entscheidungsprotokoll." />
+
+- **„Mindestens 10 Runden“**: verhindert, dass die KI das Ziel in Runde eins durch Glück trifft und aufhört.
+- **Eine Änderung und eine Messung pro Runde.** Ist es schneller, bleibt die Änderung und wird einzeln committet. Ist es nicht schneller, wird sie zurückgesetzt.
+- **Eine Zeile pro Runde.** Sie landet in `decision.tsv`, damit du jeden Versuch siehst.
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI sagt „das macht es schneller“, ohne zu messen.">
+Antworte: „Miss zuerst. Gib mir den Ausgangswert und den Pfad zur Trace-Datei, dann sag mir, was geändert werden soll.“
+</Q>
+<Q q="Die Verbesserung ist absurd groß. Das glaube ich nicht.">
+Führe <code>/benchmark-checklist</code> aus. Schau dir vor allem Frage 3 und 7 genau an. Das entspricht <code>explain-the-number</code>. Es bedeutet: Sag, was den Wert begrenzt, und schließe aus, dass das Falsche gemessen wurde. Das ist der Name eines <a href="/de/wiki/principles/">Prinzips</a> von pstack.
+</Q>
+<Q q="Die KI hat nur einen Lauf gemacht und direkt ein Fazit gezogen.">
+Antworte: „Lass beide Varianten abwechselnd mindestens je 5-mal laufen und gib Median und Spannweite an. Wenn der Abstand kleiner ist als die Schwankung zwischen den Läufen, gibt es keinen Unterschied.“
+</Q>
+<Q q="Hillclimb hängt bei einem Wert fest und will aufhören.">
+Die KI sollte zuerst einen anderen Ansatz probieren. Sie darf das Ziel nicht aufweichen, um es für erledigt zu erklären. Wenn sie wirklich nicht weiterkommt, sollte sie dir sagen, was los ist.
+</Q>

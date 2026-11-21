@@ -1,0 +1,232 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: recipes
+time: Bei Bedarf nachschlagen
+for: Du willst einen Prompt zum Kopieren, Anpassen und Abschicken
+step: 3
+tldr: Such dir den passenden Prompt für deine Situation aus, ersetz die Stellen in spitzen Klammern und schick ihn ab.
+description: "pstack-Prompts nach Situation sortiert: erst verstehen, beheben und bauen, Entwurf festlegen, vor dem Ausliefern prüfen, weggehen und wiederkommen. Jeder lässt sich mit einem Klick kopieren, mit einer Zeile dazu, warum er funktioniert, plus häufige Fehler."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+Ersetze die Stellen in spitzen Klammern durch deine eigenen Angaben: Pfade, Befehle und was „fertig“ bedeutet. Lass die Skill-Namen unverändert, denn genau diese Namen kennt die KI.
+
+## Erst verstehen
+
+**Erst fragen, wie es funktioniert, dann, warum es kaputtging**
+
+<Copy id="r-how-why" code="Nutze /how, um herauszufinden, wie diese Initialisierung funktioniert, und dann /why, um zu klären, warum sie vor Kurzem kaputtgegangen ist." />
+
+Jeder Bericht nennt die geprüften Quellen.
+
+**Lange Diskussion? Lass die KI das Problem neu formulieren**
+
+<Copy id="r-restate" code="/poteto-mode lies diesen Thread. Formuliere das eigentliche Problem in deinen eigenen Worten und in einfacher Sprache neu. Ändere noch keinen Code." />
+
+Hat die KI dich falsch verstanden, merkst du es an ihrer Wiedergabe. Teile deine eigene Vermutung erst danach.
+
+**Den Prompt schärfen, bevor du ihn abschickst**
+
+<Copy id="r-sharpen" code="/sharpen schreibe eine Onboarding-Doku für den neuen Billing-Service." />
+
+Die KI ergänzt, was du weggelassen hast, und gibt dir einen überarbeiteten Prompt zurück. Sie führt die Aufgabe nicht aus.
+
+**Dort weitermachen, wo du vor Tagen aufgehört hast**
+
+<Copy id="r-recall" code={`/recall was ich letzte Woche zu <Thema> gemacht habe, dann lies <Issue-Link>.`} />
+
+Ein neuer Chat erinnert sich nicht an alte. Lass die KI zuerst deine Aufzeichnungen lesen.
+
+**Lass dich überzeugen**
+
+<Copy id="r-teach" code={`/teach erkläre mir, warum du es so gebaut hast statt mit <anderem Ansatz>. Welche Kompromisse bist du eingegangen?`} />
+
+Lücken fallen in einer Argumentation schneller auf als in einer Zusammenfassung.
+
+## Bugs beheben, Features hinzufügen, refaktorisieren, Langsamkeit aufspüren
+
+**Bug beheben**
+
+<Copy id="r-bug" code={`/poteto-mode <Symptom>. Erst reproduzieren, dann beheben, dann prüfen.`} />
+
+„Reproduzieren“ heißt, das Problem gezielt noch einmal auszulösen. Die ausführliche Version findest du unter [Bug beheben](/de/howto/fix-bug/).
+
+**Mit einem Prüf-Skill ein Video als Beweis anfordern**
+
+<Copy id="r-bug-verify" code={`/poteto-mode nutze /verify-<deine-app>, um das zu reproduzieren. Wenn es sich auf main reproduzieren lässt, behebe es und gib mir ein Video als Beweis.`} />
+
+Ist das Problem schon weg, stoppt die KI frühzeitig. Mit einem Video kannst du prüfen, ohne Code zu lesen.
+
+**Wenn ein Test leicht zu schreiben ist, schreib ihn zuerst**
+
+<Copy id="r-tdd" code="/poteto-mode reproduziere zuerst den doppelten Schreibvorgang. Wenn sich das mit wenig Aufwand testen lässt, nutze /tdd: erst einen fehlschlagenden Test schreiben, dann beheben, dann noch mal laufen lassen." />
+
+Wenn ein Test schwer zu schreiben ist, überzeugt es mehr, den echten Befehl auszuführen.
+
+**Ein Feature hinzufügen, ohne das alte kaputtzumachen**
+
+<Copy id="r-feature" code={`/poteto-mode füge <neues Verhalten> hinzu. <aktuelle Ausgabe> muss Byte für Byte identisch bleiben. Prüfe beides.`} />
+
+„Byte für Byte identisch“ kann bestehen oder fehlschlagen. „Das alte Feature nicht beeinträchtigen“ nicht.
+
+**Refaktorisieren ohne Verhaltensänderung**
+
+<Copy id="r-refactor" code={`/poteto-mode verschiebe <diesen Code> in ein einziges Modul, ohne das Verhalten zu ändern. Zeichne vorher die aktuelle Ausgabe auf und beweise am Ende, dass sie sich nicht geändert hat.`} />
+
+Zeichne zuerst das „Vorher“ auf, damit du etwas zum Vergleichen hast.
+
+**Langsamkeit mit Zahlen aufspüren**
+
+<Copy id="r-perf" code={`/poteto-mode <ein Vorgang> dauert <wie lange> bei <bestimmten Testdaten>. Nimm einen Performance-Trace auf, behebe die Ursache, die er zeigt, und zeig mir Vorher- und Nachher-Zahlen.`} />
+
+„Schneller“ sagt nur etwas aus, wenn es einen Ausgangswert gibt.
+
+## Entwurf festlegen, Plan machen
+
+**Erst ein paar Prototypen bauen, dann auswählen**
+
+<Copy id="r-proto" code="/poteto-mode baue ein paar Prototypen für das Layout der Einstellungsseite. Pack sie hinter einen Toggle und schick mir von jedem einen Screenshot." />
+
+Zwischen laufenden Varianten wählst du besser als zwischen Beschreibungen.
+
+**Ein größerer Entwurf mit Review-Punkt**
+
+<Copy id="r-architect" code="/poteto-mode wir müssen Rate-Limiting für externe Webhooks einbauen. Erst /architect, und kläre alles Unklare mit Prototypen. Lass mich prüfen, bevor du weitermachst." />
+
+Der letzte Satz sorgt dafür, dass die KI stoppt und auf dich wartet, bevor sie echten Code schreibt.
+
+**Ein Paket für andere: erst das Tutorial schreiben**
+
+<Copy id="r-tutorial" code="/poteto-mode schreibe zuerst ein Tutorial, das zeigt, wie ich dieses neue Config-Paket benutze. Nutze dann /teach, um mir zu erklären, warum es besser ist als das, was wir jetzt haben." />
+
+Wenn die KI zuerst das Tutorial schreibt, denkt sie wie die Leute, die es später nutzen.
+
+**Eine zweite Meinung einholen**
+
+<Copy id="r-arena" code="Lass /arena eine zweite Meinung zu dieser Diskussion und unserem Plan abgeben." />
+
+Es zeigt dir, ob andere Modelle etwas Besseres gefunden haben oder deinem Ansatz zustimmen.
+
+**Steht der Entwurf fest, lass dir den Plan erstellen**
+
+<Copy id="r-plan" code="/poteto-mode mache aus diesem Entwurf einen Plan. Teile ihn in kleine, prüfbare PRs auf – jeder mit eigenen Prüfschritten." />
+
+Die KI liefert nur den Plan. Sie fängt noch nicht an, Code zu schreiben.
+
+**Migrationsplan: auch die Bugs mitnehmen**
+
+<Copy id="r-migrate" code={`/poteto-mode plane die Migration von <einer Bibliothek> zu <einem neuen Ansatz>. Teile sie in kleine, prüfbare PRs auf. Die Ergebnisse müssen exakt mit den alten übereinstimmen, Bugs inklusive.`} />
+
+Wenn du mitten in der Migration Bugs behebst, lassen sich alte und neue Ergebnisse nicht mehr vergleichen.
+
+## Vor dem Ausliefern prüfen
+
+**Vor dem Commit gründlich auseinandernehmen**
+
+<Copy id="r-interrogate" code="/interrogate prüfe den gesamten Branch und sei pingelig. Ändere noch nichts. Melde keine Kleinigkeiten, außer es ist ein echter Bug oder eine Regression." />
+
+Wirf im Bericht auch einen Blick auf die aussortierten Punkte.
+
+**Vieles auf einmal prüfen**
+
+<Copy id="r-swarm" code="/swarm führe für jedes Paket unter packages/ die jeweilige check.sh aus. Ein Worker pro Paket, und gib mir am Ende einen gemeinsamen Bericht." />
+
+Du liest nur eine Zusammenfassung.
+
+**Fälle, die Tests nicht erreichen**
+
+<Copy id="r-formal" code="/create-formal-verification-skill für die Retry-Queue. Eine Nachricht darf niemals doppelt zugestellt werden." />
+
+Der Skill prüft diese eine Regel in jedem Fall und kann sie bei jeder späteren Änderung erneut prüfen. Siehe <Term k="形式化验证" />.
+
+**Eine Zahl prüfen, bevor du sie veröffentlichst**
+
+<Copy id="r-bench" code="/benchmark-checklist prüfe diese Beschleunigung um 40 %, bevor sie in die PR-Beschreibung kommt." />
+
+Das Urteil lautet immer nur: schneller, langsamer, kein Unterschied oder lässt sich nicht sagen.
+
+**Nicht ständig denselben Fehler von Hand korrigieren**
+
+<Copy id="r-correct" code="/correct die KI fügt ständig neue Config-Optionen hinzu, ohne sie im Schema zu registrieren." />
+
+Der Skill ändert das Repo selbst, sodass die nächste KI diesen Fehler nicht mehr machen kann.
+
+**Einen PR öffnen und begleiten, bis er gemergt werden kann**
+
+<Copy id="r-pr" code={`/poteto-mode öffne einen PR. Kleine Commits, der Reihe nach, mit Belegen in der Beschreibung.`} />
+
+<Copy id="r-babysit" code={`/poteto-mode behalte diesen PR im Blick und mach ihn grün.`} />
+
+Die KI mergt erst, wenn du es sagst.
+
+## Weggehen und wiederkommen
+
+**Vor dem Schlafengehen**
+
+<Copy id="r-overnight" code={`/poteto-mode ich gehe jetzt schlafen. In einem neuen Worktree (abgezweigt von <Basis-Branch>): <Ziel>.
+Fertig heißt: <eine Prüfung, die besteht oder fehlschlägt>.
+Führe ein Entscheidungsprotokoll. Du brauchst mich vor dem Committen nicht zu fragen.
+/loop until done. Wenn du nach ein paar Stunden wirklich feststeckst, hör auf und schreib auf, warum.`} />
+
+„Fertig heißt“ gibt jeder Runde etwas zum Prüfen. Siehe [Allein laufen lassen](/de/guide/7-overnight/).
+
+**Zurückkommen und nachsehen, was passiert ist**
+
+<Copy id="r-smyw" code="/show-me-your-work führe mich durch das, was du letzte Nacht gemacht hast." />
+
+Lies zuerst den Abschnitt „Attention“ (was deine Aufmerksamkeit braucht). Jede Zeile im <Term k="决策日志" /> hat einen Grund und Belege.
+
+**Nur kurz wissen, was sich in diesem Chat geändert hat**
+
+<Copy id="r-ketchup" code="/ketchup" />
+
+Die KI listet auf, was sich geändert hat und was auf deine Entscheidung wartet. Sie schaut nur nach und ändert nichts.
+
+**Einfach fragen, wie etwas geht**
+
+<Copy id="r-help" code="/poteto-help wie lasse ich poteto-mode bei jeder Nachricht eingeschaltet?" />
+
+Du bekommst eine Antwort und einen Prompt. Nichts läuft, solange du ihn nicht abschickst.
+
+**Du kommst bei der Antwort nicht mit**
+
+<Copy id="r-bro" code="/bro" />
+
+Die KI erklärt die letzte Antwort noch einmal in einfachen Worten.
+
+**Aufschreiben, was du gelernt hast**
+
+<Copy id="r-reflect" code="/reflect das war zu langsam. Schreib auf, was wir gelernt haben, damit es nicht wieder passiert." />
+
+Die KI schlägt nur Änderungen vor. Nichts ändert sich, bis du zustimmst.
+
+Einzeiler, um die KI wieder auf Kurs zu bringen, wenn sie abdriftet, findest du unter [Wieder auf Kurs bringen](/de/howto/steer/).
+
+## Häufige Fehler
+
+- **Die Reihenfolge der Skills im Prompt vorgeben.** Nenne Ziel und Anforderungen. Die Reihenfolge der Skills legt die KI selbst fest.
+- **Eine vage Definition von „fertig“.** „Mach es besser“ lässt sich nicht prüfen. Nenne einen Befehl oder ein Ergebnis, das besteht oder fehlschlägt.
+- **Mit deiner Vermutung zur Ursache anfangen.** Die KI sucht dann nur dort, wohin du gezeigt hast.
+- **Direkt den ersten Entwurf nehmen.** Lass dir erst Prototypen bauen oder nutze `/architect`.
+- **Mehrere KIs in einen einzigen Ordner quetschen.** Sie überschreiben sich gegenseitig. Gib jedem Versuch seinen eigenen Worktree (einen zusätzlichen Arbeitsordner für dasselbe Git-Repo).
+- **Einen Loop starten, bevor du ihm vertraust.** Sorg zuerst dafür, dass dein <Term k="验证技能" /> läuft, sonst bekommst du nur schneller ungeprüfte Arbeit.
+- **Einer Zahl glauben, die du nicht geprüft hast.** Lass zuerst `/benchmark-checklist` laufen.
+- **`/arena` wie `/swarm` benutzen.** `/arena` erledigt eine Aufgabe mehrmals. `/swarm` teilt die Arbeit in verschiedene Teile auf.
+- **Jeden Review-Kommentar einfach annehmen.** Nutze `/interrogate`. Es behält nur die Probleme, die es belegen kann.
+- **`auto` für einen Modellnamen halten.** Es bedeutet „dem Hauptchat folgen“. Siehe [Kosten niedrig halten](/de/howto/cost/).
+- **Einen durchgelaufenen Build als Erfolg werten.** Kompilieren beweist nur, dass es kompiliert. Verlange echte Befehlsausgaben.
+- **Die `SKILL.md` von Hand schreiben.** Lass `/poteto-mode` sie schreiben. Es bringt die Prüfungen gleich mit.
+
+## Kommst du nicht weiter?
+
+<Q q="Ich habe den Prompt genau so kopiert, aber die KI hat etwas anderes gemacht als gewollt.">
+<mark>Höchstwahrscheinlich war nicht klar, was „fertig“ bedeutet</mark>. Ergänze eine Prüfung, die besteht oder fehlschlägt, zum Beispiel „dieser Befehl gibt 0 zurück“. Immer noch unsicher? Schick den Prompt zuerst durch `/sharpen`, bevor du ihn abschickst.
+</Q>
+<Q q="Kann ich Prompts auch in einer anderen Sprache als Englisch schreiben?">
+Ja. Lass nur die Skill-Namen (`/how`) und die Namen der Prinzipien (`prove it works`) auf Englisch.
+</Q>
+<Q q="Ich weiß nicht, welchen Prompt ich für diese Aufgabe kopieren soll.">
+Frag `/poteto-help`. Es gibt dir einen fertigen Prompt. Du kannst auch <a href="/de/howto/which-skill/">Unsicher, welcher Skill passt</a> lesen.
+</Q>

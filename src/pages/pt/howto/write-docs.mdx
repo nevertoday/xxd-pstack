@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: write-docs
+time: Uma conversa por README
+for: Você precisa de um README, documentação para usuários ou descrição de PR que não pareça texto de IA
+step: 5
+tldr: Peça ao /technical-writing para separar cada seção por tipo de documento primeiro, rodar cada passo e depois tirar o tom de IA com /unslop.
+description: Use /technical-writing para escolher o tipo de documento antes de escrever, /sharpen para afinar o pedido, escreva o tutorial primeiro para código compartilhado e finalize com /unslop para tirar o tom de IA.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copie isto primeiro
+
+<Copy id="doc-tw" title="Escrever um README" code="/technical-writing Escreva um README para esta CLI em Node. Primeiro me diga qual tipo de documento cada seção deve ser e só escreva depois que eu confirmar." />
+
+READMEs escritos por IA costumam ter um pouco de tudo: passos de instalação, filosofia e uma tabela de opções, tudo misturado. Iniciantes e quem procura opções acabam tendo que pular de uma parte para outra.
+
+A primeira regra do `/technical-writing`: <mark><strong>um documento faz uma coisa só.</strong></mark> Ele separa cada seção em um de quatro tipos:
+
+- **Tutorial**: siga uma vez e veja um resultado a cada passo.
+- **Guia how-to**: passos para resolver um problema específico.
+- **Explicação**: por que foi projetado assim e os prós e contras.
+- **Referência**: opções, flags, códigos de erro. Só fatos.
+
+Se um README precisar de vários tipos, divida em partes com links entre si.
+
+## Um exemplo de CLI em Node
+
+Uma CLI que exporta notas em Markdown para HTML em lote precisa de um README para o GitHub:
+
+<Copy id="doc-cli" title="Exemplo de CLI em Node" code={`/technical-writing Escreva um README para esta CLI.
+Escreva a instalação e a primeira exportação como um tutorial: em cada passo, diga qual saída o leitor deve ver.
+Coloque todas as opções em uma seção de referência separada, montada a partir da saída real de --help. Não invente nenhuma opção.
+Quando terminar, siga o tutorial do zero em uma pasta vazia, confira se todos os comandos funcionam e cole a saída do terminal.
+Por fim, rode /unslop no texto: sem travessões, nada de “poderoso” nem “sem esforço”.`} />
+
+- **“Siga o tutorial em uma pasta vazia”**: a linha mais útil. Dá para discutir estilo. Não dá para discutir se um comando roda.
+- **“Montada a partir da saída real de --help”**: documentação de referência traz fatos, e os fatos vêm do código.
+- **“Por fim, rode /unslop”**: tira o tom de IA e também qualquer palavra que você não queira.
+
+## Onde olhar depois de enviar
+
+**No começo: como a IA separou os tipos.** Se a filosofia foi parar na parte de primeiros passos, corrija na hora.
+
+**No final: a saída do terminal.** Se um passo falhar, está faltando um passo no tutorial.
+
+## Tire o tom de IA no final: /unslop
+
+<Copy id="doc-unslop" code="/unslop nas alterações do readme, sem travessões" />
+
+As regras embutidas miram o tom comum de IA em inglês: excesso de travessões, listas forçadas de três itens, finais vazios. Adicione às regras as palavras que você não quer ver, como “nada de ‘sem atrito’, nada de ‘empoderar’”.
+
+## Código que outros vão chamar: escreva o tutorial primeiro
+
+Para um pacote ou API que outro código vai usar, você pode escrever a documentação antes do código:
+
+<Copy id="doc-readme-first" title="Escrever o tutorial primeiro" code="/poteto-mode escreva primeiro um tutorial mostrando como eu usaria o novo pacote config. depois use /teach para me explicar por que ele é melhor que o atual." />
+
+Escrever o tutorial primeiro faz a IA pensar como o usuário: o que escrever primeiro e o que você vai ver. O tutorial também vira o alvo para verificar o código.
+
+## Não tem certeza se pediu a coisa certa: /sharpen
+
+<Copy id="doc-sharpen" code="/sharpen Escreva a documentação de onboarding para o novo serviço de cobrança." />
+
+Ele não escreve a documentação. Ele reescreve o seu pedido para ficar mais preciso. Por exemplo: o que um especialista também faria, de qual material de origem partiria e o que poderia provar que o resultado está certo. Leia a versão reescrita. Se estiver certa, envie.
+
+<Callout type="tip" title="Descrição de PR também é documentação">
+Quando a IA abre um <Term k="PR" />, ela escreve a descrição com <code>/technical-writing</code> e roda <code>/unslop</code> no texto. A descrição é um resumo de um minuto para quem vai revisar. Seções vazias são apagadas.
+</Callout>
+
+## Travou?
+
+<Q q="O README ainda tem um pouco de tudo.">
+Responda: “Separe do jeito do technical-writing: deixe só o tutorial na parte de primeiros passos, mova a tabela de opções para a seção de referência e dê às ideias de design uma seção própria de explicação. Não misture.”
+</Q>
+<Q q="Rodei /unslop e ainda parece escrito por IA.">
+Liste as palavras e expressões exatas que incomodam você e coloque tudo depois do comando. Por exemplo: “/unslop nesta seção, sem travessões, nada de ‘sem atrito’ ou ‘empoderar’, frases com menos de 20 palavras”. Quanto mais específicas as regras, melhor a IA se sai.
+</Q>
+<Q q="/sharpen não escreveu minha documentação.">
+Ele só reescreve o pedido. Envie o pedido reescrito para <code>/poteto-mode</code> ou <code>/technical-writing</code>.
+</Q>
+<Q q="A descrição do PR ficou longa demais.">
+Responda: “A descrição de um PR é um resumo de um minuto. De uma a três frases por seção. Coloque os dados detalhados em outro arquivo e adicione o link.”
+</Q>

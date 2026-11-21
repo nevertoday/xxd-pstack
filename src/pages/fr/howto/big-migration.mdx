@@ -1,0 +1,110 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: big-migration
+time: 5 minutes avant de dormir, 15 minutes le matin
+for: Vous avez une grosse migration mécanique et vous voulez laisser l'IA s'en charger pendant la nuit, puis la passer en revue en toute confiance le matin
+step: 7
+tldr: Avant de dormir, donnez à l'IA un objectif et une condition de fin vérifiable (succès ou échec). Laissez-la tourner toute la nuit, puis vérifiez les preuves le matin.
+description: "Confiez une grosse migration avant de dormir : un objectif et une condition de fin vérifiable (succès ou échec), un nouveau worktree, un journal de décisions, /loop until done, et une vérification le matin avec /show-me-your-work."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Commencez par copier ceci
+
+<Copy id="mig-contract" title="Le passage de relais avant de dormir" code={`/poteto-mode Je vais me coucher. Dans un nouveau worktree à partir de <base>, migre tous les appelants vers le nouveau parseur.
+C'est terminé quand : zéro ancien appelant, toutes les fixtures du parseur passent et l'ancienne API est supprimée.
+Tiens un journal de décisions. Tu n'as pas besoin de me demander avant de faire un commit.
+/loop until done. Si tu bloques vraiment au bout de quelques heures, arrête-toi et explique par écrit pourquoi.`} />
+
+La formulation originale, tirée de la documentation de pstack :
+
+<Copy id="mig-contract-en" title="La formulation originale" code={`/poteto-mode im going to bed. migrate every caller to the new parser in a fresh worktree off <base>.
+done means zero old callers, all parser fixtures pass, old api deleted.
+keep a decision log. don't ask me before committing.
+/loop until done. if you're truly stuck after a few hours, stop and write up why.`} />
+
+## Ce que fait chaque ligne
+
+- **« Je vais me coucher »** : l'IA ne s'arrête pas pour vous poser de questions. Elle continue.
+- **« C'est terminé quand »** : une vérification qu'elle peut lancer à chaque tour.
+- **« Un nouveau worktree »** : un dossier de travail séparé pour le même dépôt Git (un <Term k="worktree" />), pour qu'elle ne touche pas à votre autre travail en cours.
+- **« Tu n'as pas besoin de me demander avant de faire un commit »** : répond à la question pour laquelle elle s'arrêterait sinon.
+- **`/loop until done`** : la fait revenir sans cesse à la condition de fin. `/loop` est intégré à Cursor et Claude Code. Ce n'est pas un skill pstack.
+- **La porte de sortie** : si elle bloque vraiment, elle s'arrête et explique pourquoi, au lieu de tourner en rond toute la nuit.
+
+<Callout type="no" title="Le temps passé n'est pas une condition de fin">
+« Travaille là-dessus pendant 4 heures » ne lui donne rien à vérifier. Donnez à <code>/loop</code> une condition qui est soit validée, soit en échec.
+</Callout>
+
+## Exemple avec une extension Chrome
+
+Des dizaines de fichiers appellent directement `chrome.storage.sync`. Vous avez écrit un nouveau module `settings` et vous voulez y déplacer tous les appels, puis supprimer l'ancien `getPref`.
+
+<Copy id="mig-ext" title="Exemple avec une extension Chrome" code={`/poteto-mode Je vais me coucher. Dans un nouveau worktree à partir de main, déplace chaque appel direct à chrome.storage.sync vers le nouveau module settings.
+C'est terminé quand :
+1. grep -rn "chrome.storage.sync" src/ ne trouve que l'unique appel dans le module settings ;
+2. npm test passe intégralement ;
+3. la fonction getPref et ses tests sont supprimés ;
+4. l'ouverture de la page d'options avec un profil de test ayant l'ancienne version installée affiche chaque paramètre exactement comme avant la migration. Envoie-moi une capture d'écran.
+Garde exactement le même comportement. Si tu trouves des bugs pendant la migration, note-les. Ne les corrige pas en chemin.
+Tiens un journal de décisions. Tu n'as pas besoin de me demander avant de faire un commit.
+/loop until done. Si tu bloques vraiment, arrête-toi et explique par écrit pourquoi.`} />
+
+- **Quatre conditions de fin** : un grep, une exécution de tests, la présence ou non de deux noms, une capture d'écran. Chacune est soit validée, soit en échec. Le matin, vérifiez uniquement ces quatre points.
+- **« Ne les corrige pas en chemin »** : pour pouvoir comparer directement l'avant et l'après.
+
+## Avant de la laisser seule : peut-elle se vérifier elle-même ?
+
+<mark>La laisser tourner toute la nuit ne fonctionne que si elle peut vérifier son propre travail.</mark> Sinon, elle ne fait qu'empiler plus vite du code non vérifié. Ne la laissez seule que si ces quatre points sont réunis :
+
+1. **Vous l'avez déjà fait une fois.** À la main, ou en regardant l'IA faire. Vous savez à quoi ressemble un travail terminé.
+2. **Elle a les outils.** Le <Term k="验证技能" />, le profileur et les logs que vous utiliseriez.
+3. **Chaque étape apporte sa propre preuve.** Elle peut s'arrêter quand une étape n'est pas à la hauteur.
+4. **Les erreurs répétitives sont couvertes.** Vous avez relu l'historique de ses sessions et transformé les erreurs récurrentes en vérifications.
+
+Sinon, faites-la tourner en gardant un œil dessus.
+
+## Où regarder le matin
+
+<Copy id="mig-audit" title="Audit du matin" code="/show-me-your-work dis-moi ce que tu as fait cette nuit" />
+
+**Lisez d'abord la section Attention à la fin.** Une IA d'appoint qui tourne sur un modèle d'une autre entreprise lit d'abord le journal. La section Attention liste ce qui mérite un examen plus attentif, comme les décisions appuyées sur des preuves faibles. Suivez ces lignes du journal.
+
+Le <Term k="决策日志" /> est `decisions.tsv` dans le dossier de travail par défaut, et il n'est pas commité. Chaque ligne correspond à une décision, avec sa raison et ses preuves.
+
+Vous voulez juste un point rapide ? Tapez `/ketchup` dans la conversation en cours. Il ne fait que lire. Il vous indique ce qui a changé et ce qui attend votre décision.
+
+## S'arrêter en cours de route
+
+Si vous devez fermer votre ordinateur portable ou redémarrer votre éditeur, dites « pause » ou « je me déconnecte ». Elle fait un commit `wip:` avec le travail non enregistré et rédige des notes pour reprendre plus tard. Ouvrez une nouvelle conversation et demandez-lui de prendre le relais. Elle repart de ces notes.
+
+« Continue » ou « poursuis » ne la met jamais en pause.
+
+## Plusieurs tâches pendant la nuit
+
+Pour une série de modifications indépendantes, il existe deux <Term k="剧本" text="playbooks" /> :
+
+- **Autopilot-stack : ne fusionne pas.** Le matin, vous retrouvez des PR (Pull Requests) vérifiées et vous décidez vous-même.
+- **Autopilot-full : fusionne.** Chaque PR n'est fusionnée qu'après vérification par une autre IA d'appoint.
+
+Un projet qui dure plusieurs jours n'a pas de playbook dédié. `/poteto-mode` le confie à `/figure-it-out`, qui conçoit une approche sur le moment.
+
+Vous hésitez ? Choisissez Autopilot-stack. Vous gardez le dernier mot avant de fusionner.
+
+## Un blocage ?
+
+<Q q="Le matin, elle dit « terminé », mais j'ai un doute.">
+Ne vous fiez pas au résumé. Regardez les preuves. Relancez vous-même les vérifications de la condition de fin, comme le grep et les tests. Lisez ensuite la section Attention dans la réponse de <code>/show-me-your-work</code>.
+</Q>
+<Q q="Elle s'est arrêtée pendant la nuit pour me poser une question, puis n'a plus rien fait.">
+Il manquait l'autorisation préalable dans le passage de relais. La prochaine fois, ajoutez « Je vais me coucher » et « Tu n'as pas besoin de me demander avant de faire un commit ».
+</Q>
+<Q q="Elle a assoupli la condition de fin, puis crié victoire.">
+Elle n'est pas censée faire ça. Répondez : « La condition de fin ne change pas. Relance les quatre vérifications initiales une par une et montre-moi le résultat. »
+</Q>
+<Q q="J'ai dit « continue », et elle a fait un commit de pause.">
+Cela ne devrait pas arriver. Répondez : « Je ne t'ai pas demandé de faire une pause. Continue. »
+</Q>

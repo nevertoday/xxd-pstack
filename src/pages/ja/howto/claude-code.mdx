@@ -1,0 +1,209 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: claude-code
+time: インストール 5 分、読むのに 10 分
+for: Claude Code を使っていて、pstack を入れたい人
+step: 1
+tldr: "コマンド 2 つでインストールし、コマンドの前に pstack: を付け、バランス重視のモデルプランを選んでから新しいセッションを始めます。"
+description: "Claude Code への pstack の入れ方、コマンドの前に付ける pstack:、用意された 3 つのモデル構成の選び方、スキップされる Cursor 機能と自動更新について説明します。"
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## インストールする
+
+Claude Code のチャット欄に、次の 2 行を順番に入力します。
+
+<Copy id="cc-plugin" title="プラグインマーケットプレイスからインストール" code={`/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins`} />
+
+これで全セットが入るため、`/poteto-mode` に必要なものがすべてそろいます。迷ったらこちらを選んでください。
+
+**スキルを自分で選びたい場合**は、チャット欄ではなくターミナルに次を入力します。
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+欲しいスキルにチェックを入れ、ツールとして Claude Code を選びます。スキルは `.claude/skills/` に入ります。どれを選ぶかは、[一部のスキルだけをインストールする](/ja/howto/pick-skills/)を見てください。
+
+## コマンドの前に pstack: を付ける
+
+マーケットプレイスからインストールした場合、すべてのコマンドはプラグイン名の下に入ります。そのまま `!/poteto-mode` と打っても認識されないので、次のように入力します。
+
+<Cmd c="!/pstack:poteto-mode" />
+
+`!/pstack:how` など、ほかのコマンドも同じです。2 つのプラグインで名前がぶつからないようにするための、Claude Code のプラグインのルールです。`npx skills` で入れた場合はプレフィックスは付きません。
+
+このサイトのコマンドは、そのままコピーして使えるようにデフォルトでプラグイン向けに書かれています。`npx skills` で入れた場合は、ここで「npx で入れた」を選んでください。
+
+<ToolPick />
+
+<Callout type="warn" title="スキルは自動では動きません">
+`setup-pstack` を除き、すべてのスキルは自分で入力したときだけ動きます。「バグを直すのを手伝って」と話しかけても、`/pstack:poteto-mode` はオンになりません。
+</Callout>
+
+## モデルを選び、新しいセッションを始める
+
+インストールが終わったら、まず 1 回だけ次を実行します。
+
+<Cmd c="/pstack:setup-pstack" />
+
+まず<Term k="推理预算" />（モデルが考える時間の長さ）を尋ね、それぞれの<Term k="模型角色" />にモデルを割り当てます。最後に 1 つのファイル（`~/.claude/rules/pstack-models.md`）を書き出します。
+
+Claude Code は、新しいセッションを始めるたびにそのフォルダ内の `.md` ファイルを読み込みます。そのため、<mark>セットアップが終わったら、作業を始める前にいったん終了して新しいセッションを開いてください</mark>。今のセッションには古い設定が残ったままです。
+
+モデルは `opus xhigh` のように「名前 + レベル」で書きます。使える名前は `opus`、`sonnet`、`haiku`、`fable` だけです。これらの行は、この 1 つのファイルだけに置いてください。`CLAUDE.md` にコピーしないでください。
+
+## うまく設定するコツ
+
+**ほとんどの人にはバランス重視がおすすめです**：セッションは opus で動かし、コードは sonnet が書きます。
+
+なぜでしょうか。どのモデルが使われるかは、次の 2 つで決まります。
+
+- **セッションモデル**：`/model` で選ぶ、直接やり取りする AI です。方針を決め、作業を振り分け、すべての変更をレビューします。
+- **設定ファイルの各行**：それぞれのヘルパーの AI（<Term k="子代理" text="サブエージェント" />）をどのモデルで動かすかを決めます。
+
+デフォルトでは、pstack はコーディングと判断に opus 5.5 を使います。レビューパネル（複数モデルで 1 つの変更をレビューする仕組み）には、fable、opus、gemini が 1 席ずつ入ります。Claude Code は gemini を使えないため、その席は `inherit-parent` になります。これは「セッションモデルに合わせる」という意味です。
+
+そのため、何も変えないと opus がほぼすべての作業を行うことになり、コストが最も高くなります。バランス重視にすると、コード作成が sonnet に移るため、料金が半分になります。さらにレビューの 3 席目も sonnet に割り当てられるので、3 席すべてが異なるモデルになります。
+
+料金は 2026 年 10 月時点の API 定価で、100 万<Term k="token" text="トークン" />あたりの金額です。サブスクリプションプランでは、高いモデルほど利用上限を早く消費します。
+
+| モデル | 入力 / 出力 | 向いている用途 |
+| --- | --- | --- |
+| fable | $10 / $50 | 最強、デフォルトでレビュー 1 席 |
+| opus | $4 / $20 | セッション、判断、文章作成 |
+| sonnet | $2 / $10 | コード作成、レビュー 1 席 |
+| haiku | $0.1 / $0.5 | 非推奨 |
+
+haiku を使わない理由：結果のチェックには `swarm workers` のモデルが使われます。そこを一番安いモデルにすると、チェックの精度も落ちてしまいます。
+
+### 3 つのプラン
+
+<Tabs id="cc-plans" label="プランを選ぶ" items={[["balanced", "バランス重視（おすすめ）"], ["cheap", "コストを抑える"], ["max", "予算を気にしない"]]}>
+<div slot="balanced">
+
+**セッションは opus で動かし、コード作成とチェックは sonnet に任せ、レビューは fable、opus、sonnet の 3 席にします。**
+
+セッションは指示の意図をくみ取り、変更をレビューする必要があるため opus にします。コードを書くヘルパーには範囲の明確な作業が渡されるので、sonnet で十分対応できます。判断と文章作成は opus のままにします。
+
+<Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md（バランス重視）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: sonnet xhigh
+bug-fix: sonnet xhigh
+perf-issue: sonnet xhigh
+hillclimb: sonnet xhigh
+judgment and prose: opus xhigh
+arena runners: fable high, opus high, sonnet high
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: sonnet high
+interrogate reviewers: fable high, opus high, sonnet high`} />
+
+</div>
+<div slot="cheap">
+
+**セッションは sonnet で動かし、コード作成の行には `inherit-parent` を指定して、予算は medium（中）を選びます。**
+
+`inherit-parent` はセッションに合わせて sonnet になり、判断だけは引き続き opus が担当します。予算を medium にすると、すべての役割が 1 段階下がります。xhigh は high になり、レビュアーの high は medium になります。レビューパネルからは fable が外れ、2 席体制になります。複雑な作業をするときは、始める前に `/model` で opus に戻してください。
+
+<Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md（コストを抑える）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: medium (high)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: inherit-parent
+judgment and prose: opus high
+arena runners: opus medium, inherit-parent
+arena cross-judge pool: opus medium, inherit-parent
+swarm workers: inherit-parent
+interrogate reviewers: opus medium, inherit-parent`} />
+
+</div>
+<div slot="max">
+
+**セッションは opus で動かし、コード作成・判断・チェックも opus に任せ、レビュー 3 席はすべて xhigh で動かします。**
+
+なぜ判断を fable に任せないのでしょうか。pstack のルールでは、レビューパネル以外で fable が動くのは、名前を指定したときか、同じ作業に opus が 2 回失敗したときだけです。1 つの作業にだけ使いたいときは、プロンプトに「これには fable を使って」と書きます。fable の定価は opus の 2.5 倍です。お使いのアカウントで fable が使えない場合、セットアップの選択肢には出てきません。
+
+<Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md（予算を気にしない）" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: opus xhigh
+bug-fix: opus xhigh
+perf-issue: opus xhigh
+hillclimb: opus xhigh
+judgment and prose: opus xhigh
+arena runners: fable xhigh, opus xhigh, sonnet xhigh
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: opus xhigh
+interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
+
+</div>
+</Tabs>
+
+large（大）が最上位の予算です。pstack には xhigh より上で動く役割はありません。ファイル内の `# defaults: 3` の行は残しておいてください。この行がないと、pstack は古いバージョンで作られたファイルとみなし、セットアップの再実行を求めてきます。
+
+### ファイルに書き込む手順
+
+1. `/model` でセッションモデルを選びます。
+2. `/pstack:setup-pstack` を実行し、選んだプランに合う予算を選びます。
+3. 役割を変更するか聞かれたら、上のファイル内容を貼り付けて書き込んでもらいます。
+4. いったん終了して、新しいセッションを始めます。
+
+## 「Skipped in Claude Code」と表示されたとき
+
+Cursor のスケジュールタスク、レビューボットの Bugbot、クラウドエージェントは Claude Code にはありません。それらを使うステップはスキップされます。返信に次の 1 行が入り、そのまま先へ進みます。
+
+<Copy id="cc-skip" title="このような 1 行が表示されます" code="Skipped in Claude Code: <どのステップか>. <スキップされた理由>." />
+
+<Term k="PR" /> の作成は引き続き使えます。代わりに `gh pr create` が使われます。`/loop` もこちらにあります。プレースホルダー（リンクの空きなど）を残したと表示されたら、足りない箇所を確認し、必要なら埋めてください。
+
+## 自動更新をオンにする
+
+Claude Code はデフォルトではサードパーティ製プラグインを更新しません。自動更新をオンにするには、次のように操作します。
+
+1. チャット欄に `/plugin` と入力します。
+2. **marketplaces** タブを開きます。
+3. `cursor-plugins` を選びます。
+4. **enable auto-update** を選びます。
+
+手動で更新する場合は、ターミナルで次を実行します。
+
+<Cmd c="claude plugin update pstack@cursor-plugins" />
+
+更新でデフォルトのモデルが変わっても、古い設定ファイルには以前のモデルのまま残ります。直し方は[更新・確認・アンインストール](/ja/howto/update-remove/)を見てください。
+
+## アンインストールまたは一時停止
+
+チャット欄に次を入力します。
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+続いて `/reload-plugins` と入力するか、Claude Code を再起動します。しばらく止めたいだけなら、`uninstall` の代わりに `disable` を使い、再開するときは `enable` を使います。セットアップを実行していた場合は、アンインストール後に `~/.claude/rules/pstack-models.md` も削除してください。残したままだと、新しいセッションを開くたびに読み込まれ続けます。
+
+## つまずいたときは？
+
+<Q q="コマンドを打ったのに何も起きません。メニューにも出てきません。">
+マーケットプレイスから入れた場合は、`!/pstack:poteto-mode` と入力してください。`pstack:` がないと認識されません。最初に `/pstack:` と打つと、メニューに pstack のコマンドだけが一覧表示されます。
+</Q>
+<Q q="セットアップを実行したのに、選んだモデルが反映されません。">
+設定ファイルは、新しいセッションを始めるときにだけ読み込まれます。いったん終了して新しいセッションを開いてください。それでも直らない場合は、`~/.claude/rules/pstack-models.md` を開き、該当の行に選んだモデルが書かれているか確認してください。
+</Q>
+<Q q="返信に、/arena が判定役をスキップした、または他社のレビュアーが見つからなかったと出ます。">
+`/arena` の判定役など、いくつかのステップでは「他社」のモデルにレビューを求めます。fable を含め、Claude のモデルはすべて同じ会社として扱われます。そのため判定役をスキップして自分で選び、その旨を伝えてきます。ここでは `arena cross-judge pool` の行はほとんど働きません。別ベンダーの目で見てもらいたい場合は、大事なレビューだけ Codex や Cursor に持っていき、そこで `/interrogate` を実行してください。
+</Q>
+<Q q="スキルの中で Cursor の呼び方が使われています。自分で読み替える必要がありますか？">
+いいえ。プラグインには対応ガイド（`docs/harness/claude-code.md`）が含まれており、AI が自動で読み替えます。たとえば、`.cursor/rules/` は `CLAUDE.md`（なければ `AGENTS.md`）になり、クラウドエージェントはローカルの <Term k="worktree" /> になります。
+</Q>
+<Q q="AI が「Skill ツールから pstack のスキルを呼べない」と言ってきます。壊れていますか？">
+いいえ。Claude Code では、ほとんどの pstack スキルはその方法では呼び出せません。AI はそのスキルの `SKILL.md` を直接読んで手順どおりに動きます。これまでどおりコマンドを入力して問題ありません。
+</Q>
+<Q q="一晩かけて走らせたところ、許可を求める画面で止まっていました。">
+AI に任せて走らせる前に、よく使うコマンド（git、gh、テストやビルドのコマンド）を許可しておいてください。Claude Code に組み込まれている `/fewer-permission-prompts` を使うと、よく使う読み取り専用のコマンドを見つけてプロジェクトの `.claude/settings.json` に書き出してくれます。変更を伴うコマンドまで許可するかどうかは、ご自身で判断してください。
+</Q>

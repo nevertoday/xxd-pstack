@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: review-branch
+time: De dez a trinta minutos por revisão
+for: Sua branch está pronta e você quer que outros modelos encontrem problemas antes de fazer commit, sem se afogar em picuinhas
+step: 6
+tldr: Antes de fazer commit, rode /interrogate. Vários modelos tentam quebrar sua mudança, e só ficam os problemas que eles conseguem reproduzir.
+description: Antes de fazer commit, use /interrogate para que vários modelos tentem quebrar sua mudança e só fiquem os problemas que eles conseguem reproduzir. Use /blast-radius em mudanças pequenas, limpe com /no-comments e /unslop, e deixe o Babysit acompanhar o PR até poder fazer merge.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copie isto primeiro
+
+<Copy id="rv-int" title="Revisar a branch inteira" code="/interrogate a branch inteira, seja exigente. Não altere nada ainda. Não reporte detalhes pequenos que não sejam um bug real ou uma regressão de comportamento." />
+
+- **“Não altere nada ainda”**: ele só lê.
+- **“Não reporte detalhes pequenos”**: comentários de nomenclatura e estilo são filtrados logo de cara.
+
+A IA que escreveu o código tem dificuldade para ver os próprios erros. Por isso, outros modelos fazem a revisão: <mark><strong>eles tentam quebrar a mudança, e um problema só conta se eles conseguirem fazê-lo acontecer.</strong></mark> São os modelos que você configurou no `/setup-pstack`.
+
+<Fig id="h-review" />
+
+## Onde olhar depois de enviar
+
+Ele só reporta. Não altera o seu código. O relatório tem três partes:
+
+- **Intenção**: para que ele acha que a mudança serve. Se isso estiver errado, pule o resto.
+- **Achados**: problemas que passaram por uma segunda verificação. Cada um traz um comando e a saída dele, e ele rodou tudo de novo.
+- **Descartados**: o que ele jogou fora e por quê.
+
+<Callout type="warn" title="Dê uma olhada em Descartados também">
+Descartados significa apenas que nenhuma execução provou o item. Ainda pode ser um problema. Se você achar que algum foi descartado de forma injusta, peça uma repro (reprodução mínima do bug).
+</Callout>
+
+## Só algumas linhas mudaram, mas você está com receio: /blast-radius
+
+Ele não lista um monte de “possíveis riscos”. Ele encontra o único fato que torna a mudança segura e escreve código de verdade para provar isso. Tudo o que não consegue provar fica marcado como “não comprovado”.
+
+Digamos que a sua extensão do Chrome mudou os itens salvos de `chrome.storage.sync` para `chrome.storage.local`. Você teme que os usuários atuais percam esses itens depois de atualizar:
+
+<Copy id="rv-blast" title="Exemplo de extensão do Chrome" code={`/blast-radius Esta branch muda os itens salvos de chrome.storage.sync para chrome.storage.local.
+Minha maior preocupação: depois que um usuário atual atualizar, os itens que estavam no sync continuam lá?
+Encontre o fato do qual essa mudança depende para ser segura, escreva um script que realmente rode para provar isso e cole a saída.`} />
+
+Um bom resultado: o fato central é “na primeira inicialização após a atualização, os itens antigos vão para o local”. Depois, um script: adiciona três itens fictícios, simula uma atualização e verifica se o local tem exatamente três.
+
+Se tudo o que você receber for “após análise, esta mudança é segura”, responda: “Prove esse fato no nível de algo que rode.”
+
+## Limpe comentários e textos antes de fazer commit
+
+- **`/no-comments`**: apaga comentários desnecessários. Ele mantém cabeçalhos de licença, documentação de interfaces públicas, links externos que o código não consegue expressar e soluções alternativas forçadas por dependências externas.
+- **`/unslop`**: tira o tom de IA das descrições de PR e mensagens de commit. Você pode adicionar regras, como `/unslop a descrição do PR, sem travessões`.
+
+<Callout type="no" title="/deslop não faz parte do pstack">
+<code>/deslop</code> aparece bastante na documentação do pstack, mas vem de outro pacote de plugins do Cursor. Se você não tiver esse comando, diga direto: “Apague comentários que descrevem o que o código faz, verificações defensivas sem motivo, código de compatibilidade que não é mais necessário e mudanças sem relação com esta tarefa.”
+</Callout>
+
+## Com o PR aberto: passe para o Babysit
+
+Depois que um <Term k="PR" /> é aberto, os checks falham, as pessoas comentam e a branch principal avança. Deixe o Babysit acompanhar tudo isso:
+
+<Copy id="rv-babysit" title="Acompanhar até poder fazer merge" code="/poteto-mode babysit este PR, deixe tudo verde." />
+
+Ele resolve os conflitos primeiro, depois os comentários e depois os checks. Para só ver em que pé está, pergunte: “/poteto-mode olhe o PR 123. O que ainda não foi resolvido?”
+
+<Callout type="warn" title="Verde não significa merge feito">
+Ele para em “pronto para merge”. Para fazer merge, diga isso com clareza, com “land the stack” (fazer merge da stack de PRs) ou “pode fazer merge”.
+</Callout>
+
+## Travou?
+
+<Q q="O /interrogate disse “nenhum achado verificado”. Ele ficou com preguiça?">
+Isso é um resultado normal. Confira Descartados. Se você tiver uma preocupação específica, diga qual é e peça para ele testar só esse ponto.
+</Q>
+<Q q="Acho que um dos itens descartados é real.">
+Responda: “Escreva uma repro para o item que o segundo adversário levantou em Descartados.” Se reproduzir, é real.
+</Q>
+<Q q="O Babysit deixou tudo verde. Por que ele não faz merge?">
+Isso é de propósito. Diga “land the stack” ou “pode fazer merge”. Primeiro, ele coloca IAs ajudantes que não escreveram o código para verificar cada PR e depois faz merge de baixo para cima.
+</Q>
+<Q q="O /no-comments apagou um comentário que eu queria manter.">
+Ele só mantém comentários sobre “coisas que não podemos mudar”. Se você discordar, diga a qual limitação externa o comentário se refere e peça para ele decidir de novo.
+</Q>

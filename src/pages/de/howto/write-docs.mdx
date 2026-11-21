@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: write-docs
+time: Ein Chat pro README
+for: Du brauchst ein README, eine Nutzerdoku oder eine PR-Beschreibung, die nicht nach KI klingt
+step: 5
+tldr: Erst mit /technical-writing jeden Abschnitt einem Doku-Typ zuordnen, dann jeden Schritt ausführen lassen und am Schluss mit /unslop den KI-Ton entfernen.
+description: Mit /technical-writing vor dem Schreiben den Doku-Typ wählen, mit /sharpen deine Anfrage schärfen, für gemeinsam genutzten Code zuerst das Tutorial schreiben und am Ende mit /unslop den KI-Ton entfernen.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Kopier zuerst das hier
+
+<Copy id="doc-tw" title="Ein README schreiben" code="/technical-writing Schreib ein README für diese Node-CLI. Sag mir zuerst, welcher Doku-Typ jeder Abschnitt sein soll, und schreib es erst, wenn ich bestätigt habe." />
+
+READMEs von der KI haben oft von allem ein bisschen: Installationsschritte, Philosophie und eine Optionstabelle, alles durcheinander. Wer neu einsteigt und wer nur Optionen nachschlägt, muss gleichermaßen hin- und herspringen.
+
+Die erste Regel von `/technical-writing`: <mark><strong>Eine Doku hat genau eine Aufgabe.</strong></mark> Der Skill ordnet jeden Abschnitt einem von vier Typen zu:
+
+- **Tutorial**: einmal mitmachen und bei jedem Schritt ein Ergebnis sehen.
+- **Kurzanleitung**: Schritte, um ein ganz bestimmtes Problem zu lösen.
+- **Erklärung**: warum es so gebaut ist und welche Kompromisse dahinterstecken.
+- **Referenz**: Optionen, Flags, Fehlercodes. Nur Fakten.
+
+Wenn ein README mehrere Typen braucht, teil es in Teile auf, die aufeinander verlinken.
+
+## Beispiel: eine Node-CLI
+
+Eine CLI, die Markdown-Notizen stapelweise als HTML exportiert, braucht ein README für GitHub:
+
+<Copy id="doc-cli" title="Beispiel: Node-CLI" code={`/technical-writing Schreib ein README für diese CLI.
+Schreib Installation und den ersten Export als Tutorial: Sag bei jedem Schritt, welche Ausgabe zu sehen sein soll.
+Pack alle Optionen in einen eigenen Referenzabschnitt, aufgebaut aus der echten Ausgabe von --help. Erfinde keine Optionen.
+Wenn du fertig bist, geh das Tutorial in einem leeren Ordner von vorn durch, stell sicher, dass jeder Befehl funktioniert, und füg die Terminal-Ausgabe ein.
+Lass am Schluss /unslop drüberlaufen: keine langen Gedankenstriche, kein „leistungsstark“, kein „mühelos“.`} />
+
+- **„Geh das Tutorial in einem leeren Ordner durch“**: die nützlichste Zeile. Über Stil lässt sich streiten. Darüber, ob ein Befehl läuft, nicht.
+- **„Aufgebaut aus der echten Ausgabe von --help“**: Eine Referenz nennt Fakten, und die Fakten kommen aus dem Code.
+- **„Lass am Schluss /unslop drüberlaufen“**: entfernt den KI-Ton und alle Wörter, die du nicht haben willst.
+
+## Worauf du nach dem Abschicken achten solltest
+
+**Am Anfang: wie die KI die Typen sortiert hat.** Wenn Philosophie im Einstiegsteil gelandet ist, korrigier es sofort.
+
+**Am Ende: die Terminal-Ausgabe.** Wenn ein Schritt fehlschlägt, fehlt im Tutorial ein Schritt.
+
+## Am Schluss den KI-Ton entfernen: /unslop
+
+<Copy id="doc-unslop" code="/unslop die Änderungen am README, keine langen Gedankenstriche" />
+
+Die eingebauten Regeln zielen auf typischen KI-Ton im Englischen ab: zu viele lange Gedankenstriche, erzwungene Dreierlisten, nichtssagende Schlusssätze. Ergänze die Regeln einfach um alle Wörter, die dir wichtig sind, etwa „kein ‚nahtlos‘, kein ‚befähigen‘“.
+
+## Code, den andere aufrufen: erst das Tutorial schreiben
+
+Bei einem Paket oder einer API, die anderer Code nutzt, kannst du die Doku vor dem Code schreiben:
+
+<Copy id="doc-readme-first" title="Zuerst das Tutorial schreiben" code="/poteto-mode Schreib zuerst ein Tutorial dazu, wie ich das neue config-Paket nutze. Erklär mir danach mit /teach, warum es besser ist als das bisherige." />
+
+Wenn die KI das Tutorial zuerst schreibt, denkt sie aus Nutzersicht: was du zuerst schreibst und was du dann siehst. Gleichzeitig wird das Tutorial zur Vorgabe, gegen die du den Code prüfst.
+
+## Nicht sicher, ob du das Richtige gefragt hast: /sharpen
+
+<Copy id="doc-sharpen" code="/sharpen Schreib eine Onboarding-Doku für den neuen Billing-Service." />
+
+Der Skill schreibt noch keine Doku. Er formuliert deine Anfrage schärfer um. Zum Beispiel: was Profis zusätzlich tun würden, von welchem Ausgangsmaterial sie ausgehen würden und womit sich belegen lässt, dass das Ergebnis stimmt. Lies die neue Fassung. Wenn sie passt, schick sie ab.
+
+<Callout type="tip" title="Eine PR-Beschreibung ist auch eine Doku">
+Wenn die KI einen <Term k="PR" /> öffnet, schreibt sie die Beschreibung mit <code>/technical-writing</code> und lässt <code>/unslop</code> drüberlaufen. Die Beschreibung ist ein Ein-Minuten-Überblick für das Review. Leere Abschnitte werden gelöscht.
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="Das README hat immer noch von allem ein bisschen.">
+Antworte: „Teil es wie bei technical-writing auf: Lass im Einstieg nur das Tutorial, verschieb die Optionstabelle in den Referenzabschnitt und gib den Design-Ideen einen eigenen Erklärungsabschnitt. Misch das nicht.“
+</Q>
+<Q q="Ich habe /unslop laufen lassen, und es klingt immer noch nach KI.">
+Zähl genau die Wörter und Wendungen auf, die dich stören, und häng sie an den Befehl an. Zum Beispiel: „/unslop diesen Abschnitt, keine langen Gedankenstriche, kein ‚nahtlos‘ oder ‚befähigen‘, Sätze unter 20 Wörtern.“ Je konkreter die Regeln, desto besser arbeitet die KI.
+</Q>
+<Q q="/sharpen hat meine Doku nicht geschrieben.">
+Der Skill formuliert nur die Anfrage um. Schick die umformulierte Anfrage an <code>/poteto-mode</code> oder <code>/technical-writing</code>.
+</Q>
+<Q q="Die PR-Beschreibung ist zu lang.">
+Antworte: „Eine PR-Beschreibung ist ein Ein-Minuten-Überblick. Ein bis drei Sätze pro Abschnitt. Pack detaillierte Daten in eine verlinkte Datei.“
+</Q>

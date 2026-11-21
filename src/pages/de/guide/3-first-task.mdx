@@ -1,0 +1,97 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 3
+need: pstack, eingerichtet; eine echte, aber kleine Anforderung
+tldr: "Übergib der KI eine kleine Aufgabe in einer Nachricht: was du willst, was als fertig gilt, was sie dir zeigen soll. Prüfe danach ihre Zusammenfassung und die Belege."
+description: "Erledige deine erste Aufgabe mit /poteto-mode: was in eine Nachricht gehört und was du weglässt, worauf du nach dem Absenden achtest und wie du weitermachst."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Kopier zuerst ein Beispiel
+
+Such dir eine kleine, echte Aufgabe in deinem Projekt. Zum Beispiel einen Export-Button auf der Einstellungsseite einer Chrome-Erweiterung:
+
+<Copy id="first-ext" title="Setz deine eigene Aufgabe ein" code="/poteto-mode Füge auf der Einstellungsseite einen Button „Einstellungen exportieren“ hinzu, der die aktuellen Einstellungen als JSON-Datei herunterlädt. Die bestehenden Einstellungen und ihre Speicherung dürfen sich nicht ändern. Wenn du fertig bist, zeig mir: den Inhalt der exportierten Datei und was in chrome.storage gespeichert ist. Beides muss exakt übereinstimmen." />
+
+Diese Nachricht hat nur drei Teile:
+
+1. **Was du willst**: einen Export-Button.
+2. **Was als fertig gilt**: Der Export stimmt mit den gespeicherten Daten überein, und die alten Einstellungen bleiben unberührt.
+3. **Was die KI dir zeigen soll**: den tatsächlichen Inhalt von beidem.
+
+potetos Rat für den Einstieg passt in einen Satz: <mark><strong>Gib der KI in eigenen Worten ein Ziel und einen Weg, es zu prüfen.</strong></mark>
+
+Wenn eine KI etwas falsch macht, liegt es meist an einem von zwei Gründen. Sie hat nicht verstanden, was du willst, oder ihr fehlte der Hintergrund, um es richtig zu machen. Diese drei Teile lösen das erste Problem. [Schritt 4](/de/guide/4-understand/) löst das zweite: Bevor sie etwas ändert, lass sie den Code so erklären, wie er jetzt ist.
+
+## Mach „fertig“ prüfbar
+
+Die KI nutzt diesen Teil, um ihre eigene Arbeit zu prüfen. Deshalb muss es ein klares Bestanden oder Durchgefallen sein.
+
+- **Prüfbar**: Die exportierte Datei stimmt exakt mit den gespeicherten Daten überein.
+- **Nicht prüfbar**: Mach es besser. Mach es hübscher. Investiere eine Stunde.
+
+Ohne Prüfung kann sie nur nach Gefühl „fertig“ sagen.
+
+## Zwei Dinge, die du ergänzen kannst
+
+Sie sind optional. Wenn du sie hast, füge je einen Satz hinzu:
+
+- **Hinweise, die du schon hast**: eine Fehlerzeile, der Schritt, an dem es hakt, ein Link. Das spart eine Suchrunde.
+- **Was die KI wirklich nicht anfassen darf**: zum Beispiel „Ändere noch keinen Code, untersuche es nur“ oder „Die alte Ausgabe darf sich überhaupt nicht ändern“.
+
+## Zwei Dinge, die du erst mal weglässt
+
+- **Wie genau sie es machen soll.** Nenne das gewünschte Ergebnis. Vielleicht findet sie einen besseren Weg.
+- **Deine Vermutung zur Ursache.** Sobald du sie aussprichst, sucht die KI nur noch dort, wohin du gezeigt hast. Warte erst ihre eigene Einschätzung ab und ergänze dann deine.
+
+Reihe in deiner Nachricht auch keine Skills aneinander, etwa „nutze erst /architect, dann /arena“. Sie ruft sie von selbst der Reihe nach auf. Deine Reihenfolge kann ihr im Weg stehen.
+
+## Nach dem Absenden: Schau an drei Stellen hin
+
+**Am Anfang: ihre Zusammenfassung.** Die KI sagt in eigenen Worten, was du willst und wo sie Änderungen plant. Sie wartet nicht auf dein Okay. Wenn sie etwas falsch verstanden hat, unterbrich sie also sofort.
+
+**In der Mitte: die <Term k="待办清单" />.** Das sind die Schritte, die sie als Nächstes geht. Sobald sie einen Ansatz (ein <Term k="剧本" />) wählt, werden dessen Schritte in die Liste übernommen.
+
+**Am Ende: Belege.** Hier sollte stehen, was du sehen wolltest – etwa echte Befehle und deren Ausgabe. Wenn sie etwas nicht prüfen konnte, sagt sie „nicht sicher“.
+
+<Callout type="warn" title="Ein „fertig“ ohne Belege">
+Wenn die KI sicher klingt, aber keine Prüfergebnisse vorweisen kann, trau ihr nicht. Antworte: „Zeig mir die Ergebnisse von dem, was du tatsächlich geprüft hast.“
+</Callout>
+
+## Weitermachen: Kürzer ist besser
+
+Innerhalb derselben Aufgabe können weitere Nachrichten ganz kurz sein:
+
+<Copy id="short" title="Jede davon reicht" code={`/poteto-mode leg los
+weiter
+mach weiter, bis es fertig ist`} />
+
+Die KI merkt sich, wie weit die Aufgabe ist. Du musst nur sagen, was du als Nächstes willst.
+
+**Wenn du zu etwas anderem wechselst, sag zuerst „new task“.** Sonst behandelt sie deine neue Frage als nächsten Schritt der vorherigen Aufgabe:
+
+<Copy id="newtask" code="/poteto-mode new task. Finde heraus, warum der Cache nach dem Ausloggen noch da ist. Ändere noch keinen Code." />
+
+Mit „Ändere noch keinen Code“ untersucht sie nur das Problem, ohne etwas anzufassen.
+
+<Callout type="tip" title="Wenn du Cursor nutzt">
+Wähle `/poteto-mode` aus dem `/`-Menü und drücke dann Option+Enter (Mac) oder Alt+Enter (Windows). So wird daraus ein <Term k="Custom Mode" /> – ein dauerhafter Modus, der danach für jede weitere Nachricht gilt. Ein einfaches Enter gilt nur für diese eine Nachricht.
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI hat mich falsch verstanden.">
+<p>Sag es einfach direkt: „Nein, was ich will, ist…“. Am leichtesten korrigierst du das bei ihrer ersten Zusammenfassung. Wenn die Anforderung unübersichtlich ist (eine lange Diskussion, ein Problem, das du nicht genau beschreiben kannst), lass sie zuerst nur alles zusammenfassen: <code>/poteto-mode Lies diese Diskussion und erkläre in einfachen Worten, was das eigentliche Problem ist. Ändere noch keinen Code.</code></p>
+</Q>
+<Q q="Die KI hat einen Schritt übersprungen, den ich wichtig finde.">
+<p>Sag es ihr: „Überspring Schritt 2 nicht. Reproduzier das Problem zuerst.“ Sie nimmt den Schritt wieder mit auf.</p>
+</Q>
+<Q q="Die Antwort ist zu lang, um ihr zu folgen.">
+<p>Tippe <code>/bro</code> ein, dann formuliert sie die letzte Antwort noch einmal in einfachen Worten.</p>
+</Q>
+
+<Checkpoint id="s3" items={["Ich habe /poteto-mode eine kleine, echte Aufgabe gegeben und gesagt, was als fertig gilt", "Ich habe am Anfang die Zusammenfassung der KI gesehen", "In der letzten Antwort standen Belege, die ich selbst prüfen kann"]} />

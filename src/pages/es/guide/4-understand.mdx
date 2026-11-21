@@ -1,0 +1,90 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 4
+need: Un módulo que no conoces bien o un problema de causa desconocida
+tldr: Antes de cambiar código, pídele a la IA que te explique cómo funciona ahora, por qué se construyó así y dónde lo dejaste.
+description: "Pídele a la IA que te explique antes de cambiar código: investigar sin tocar nada, /how para lo de ahora, /why para lo de entonces, /teach hasta que lo entiendas y /recall para dónde lo dejaste."
+---
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Causa desconocida: pídele que investigue, no que arregle
+
+<Copy id="inv" code="/poteto-mode Averigua por qué la tarea en segundo plano agota el tiempo de espera cada pocas horas. Dime los hechos conocidos, qué datos usaste y tus suposiciones más sólidas. No cambies nada de código todavía." />
+
+«No cambies nada de código todavía» hace que solo investigue, sin tocar nada. La IA termina con una explicación, y cada punto indica de dónde salió.
+
+La parte de «qué datos usaste» hace que escriba la evidencia y las suposiciones por separado.
+
+Cuando sepas la causa y quieras arreglarla, dile «new task» para empezar una tarea nueva dedicada al arreglo.
+
+## Antes de cambiar nada, pídele que lo explique
+
+<mark>Cambiar código que no entiendes es la principal forma en que los bugs ocultos llegan a producción.</mark> Lo mismo pasa con la IA.
+
+pstack tiene cuatro skills para esto:
+
+| Skill | Qué responde |
+| --- | --- |
+| `/how` | ¿Cómo funciona ahora? |
+| `/why` | ¿Por qué se construyó así? |
+| `/teach` | Explícamelo hasta que lo entienda |
+| `/recall` | ¿Dónde lo dejé? |
+
+Cada una dice en voz alta lo que entiende. Así puedes comprobar si lo entendió bien.
+
+## Pregunta cómo funciona ahora: /how
+
+<Copy id="how" code="/how ¿Cómo se deduplican las notificaciones? ¿Hay una consulta N+1 al buscar suscriptores?" />
+
+Pregunta lo que de verdad quieres saber. La skill lee el código y te lo explica como alguien senior del equipo que te enseña el proyecto: cómo se ejecuta el código, los datos clave y las partes fáciles de pasar por alto.
+
+`/how` lanza una IA ayudante de solo lectura que revisa el código y escribe la explicación, y luego te la entrega.
+
+## Pregunta por qué se construyó así: /why
+
+<Copy id="why" code="/why ¿Por qué el límite de reintentos es 5? ¿Esa razón sigue vigente?" />
+
+La skill lee el historial, no el código: los commits y las discusiones de los PR que introdujeron el código, y cada cambio posterior. Si ese rastro es escaso, busca en otros lugares. Cita lo que escribieron sus autores y marca sus propias suposiciones como suposiciones.
+
+Si no encuentra nada, te lo dice. «Nadie dejó escrito por qué» también es una respuesta.
+
+Para usar ambas, dile «primero why, luego how».
+
+## Que te lo explique hasta que lo entiendas: /teach
+
+<Copy id="teach" code="/teach Explícame paso a paso cómo cambia este PR los reintentos. Convénceme de que arregla la causa real y no un síntoma superficial." />
+
+Úsala cuando un resumen no baste. La skill ejecuta `/how` y `/why`, y luego lo escribe todo con palabras sencillas.
+
+Vale la pena usar «Convénceme» a menudo: te permite rebatir lo que dice. También te sirve para cuestionar las propias decisiones de la IA:
+
+<Copy id="teach2" code="/teach Explícame por qué lo implementaste así en lugar de usar una cola. ¿A qué renunciaste y por qué?" />
+
+## Encuentra dónde lo dejaste: /recall
+
+<Copy id="recall" code="/recall Ayúdame a recordar dónde dejé la funcionalidad de exportación la semana pasada" />
+
+La skill revisa tus conversaciones recientes y los registros compartidos (issues, arreglos anteriores). Luego te dice en qué punto están las cosas y qué sigue.
+
+Cuando empieces trabajo nuevo sobre un tema anterior, pídele primero que recupere el trabajo previo y luego dale el material nuevo:
+
+<Copy id="recall2" code="/recall mi trabajo de ayer en la lista virtual y luego lee este informe de bug." />
+
+## Retoma el trabajo sin terminar
+
+<Copy id="pickup" code="/poteto-mode Retoma esta rama. Lee el registro de decisiones, averigua qué está hecho y continúa desde ahí. No rehagas trabajo que ya esté terminado." />
+
+La IA lee los registros que quedaron y dice desde dónde va a retomarlo. Las partes que alguien dijo que estaban «hechas» las vuelve a comprobar frente al objetivo original.
+
+## ¿Te atascaste?
+
+<Q q="/why dice que no encuentra la razón.">
+<p>Es normal. La skill lee sobre todo commits y discusiones de los PR. Si nadie dejó escrita la razón, no puede encontrarla. Cuando los mensajes de commit dicen demasiado poco, busca en otros lugares, como issues o documentación que hayas conectado (conecta el MCP correspondiente en tu herramienta, como GitHub, Linear o Notion).</p>
+</Q>
+<Q q="Es demasiado técnico.">
+<p>Dile «explícalo para alguien nuevo en este proyecto» o escribe <code>/bro</code> cuando termine.</p>
+</Q>
+
+<Checkpoint id="s4" items={["Le hice a /how una pregunta real sobre mi propio proyecto", "Sé que «No cambies nada de código todavía» hace que investigue sin tocar nada", "Sé que las respuestas de /why citan fuentes y separan la evidencia de las suposiciones"]} />

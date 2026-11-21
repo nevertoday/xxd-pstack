@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: review-branch
+time: Dix à trente minutes par revue
+for: Votre branche est terminée et vous voulez que d'autres modèles trouvent les problèmes avant de faire un commit, sans vous noyer dans les pinaillages
+step: 6
+tldr: Avant de faire un commit, lancez /interrogate. Plusieurs modèles essaient de casser votre modification, et seuls les problèmes qu'ils arrivent à reproduire restent.
+description: Avant de faire un commit, utilisez /interrogate pour que plusieurs modèles essaient de casser votre modification, en ne gardant que les problèmes qu'ils arrivent à reproduire. Utilisez /blast-radius pour les petits changements, nettoyez avec /no-comments et /unslop, puis laissez Babysit surveiller la PR jusqu'à ce qu'elle puisse être fusionnée.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copiez d'abord ceci
+
+<Copy id="rv-int" title="Passer toute la branche en revue" code="/interrogate toute la branche, sois exigeant. Ne change rien pour l'instant. Ne signale pas les petits détails qui ne sont pas un vrai bug ou une régression de comportement." />
+
+- **« Ne change rien pour l'instant »** : il se contente de lire.
+- **« Ne signale pas les petits détails »** : les remarques de nommage et de style sont filtrées d'emblée.
+
+L'IA qui a écrit le code a du mal à voir ses propres erreurs. Ce sont donc d'autres modèles qui font la revue : <mark><strong>ils cherchent à casser la modification, et un problème ne compte que s'ils arrivent à le provoquer.</strong></mark> Ce sont les modèles que vous avez configurés dans `/setup-pstack`.
+
+<Fig id="h-review" />
+
+## Où regarder après l'envoi
+
+Il ne fait qu'un rapport. Il ne modifie pas votre code. Le rapport comporte trois parties :
+
+- **Intent** : ce qu'il pense être le but de la modification. Si c'est faux, inutile de lire la suite.
+- **Findings** : les problèmes qui ont passé une seconde vérification. Chacun comporte une commande et sa sortie, et il a relancé la commande.
+- **Dropped** : ce qu'il a écarté, et pourquoi.
+
+<Callout type="warn" title="Parcourez aussi Dropped">
+Dropped signifie seulement qu'aucune exécution n'a apporté de preuve. Il peut tout de même s'agir d'un problème. Si vous pensez qu'un point a été écarté à tort, demandez-lui un cas de reproduction.
+</Callout>
+
+## Quelques lignes seulement ont changé, mais ça vous inquiète : /blast-radius
+
+Il ne liste pas une pile de « risques possibles ». Il trouve l'unique fait qui rend la modification sûre, puis écrit du vrai code pour le prouver. Tout ce qu'il n'arrive pas à prouver est marqué « non prouvé ».
+
+Imaginons que votre extension Chrome déplace les éléments enregistrés de `chrome.storage.sync` vers `chrome.storage.local`. Vous craignez que les utilisateurs existants les perdent après la mise à jour :
+
+<Copy id="rv-blast" title="Exemple avec une extension Chrome" code={`/blast-radius Cette branche déplace les éléments enregistrés de chrome.storage.sync vers chrome.storage.local.
+Ma plus grande inquiétude : après la mise à jour d'un utilisateur existant, est-ce que les éléments qu'il avait dans sync sont toujours là ?
+Trouve le fait dont dépend cette modification pour être sûre, écris un script qui tourne vraiment pour le prouver, et colle la sortie.`} />
+
+Un bon résultat : le fait clé est « au premier démarrage après une mise à jour, les anciens éléments passent dans local ». Puis un script : ajouter trois faux éléments, simuler une mise à jour, vérifier que local en contient exactement trois.
+
+Si vous obtenez seulement « après analyse, cette modification est sûre », répondez : « Prouve ce fait avec quelque chose qui tourne vraiment. »
+
+## Nettoyez les commentaires et les formulations avant de faire un commit
+
+- **`/no-comments`** : supprime les commentaires en trop. Il garde les en-têtes de licence, la documentation des interfaces publiques, les liens externes que le code ne peut pas exprimer et les contournements imposés par des dépendances externes.
+- **`/unslop`** : retire les tics d'IA des descriptions de PR (Pull Request) et des messages de commit. Vous pouvez ajouter des règles, par exemple `/unslop la description de la PR, pas de tirets cadratins`.
+
+<Callout type="no" title="/deslop ne fait pas partie de pstack">
+<code>/deslop</code> apparaît souvent dans la documentation de pstack, mais il vient d'un autre pack de plugins Cursor. Si vous ne l'avez pas, dites-le simplement : « Supprime les commentaires qui décrivent ce que fait le code, les vérifications défensives sans réelle raison, le code de compatibilité qui n'est plus nécessaire et les modifications sans rapport avec cette tâche. »
+</Callout>
+
+## Une fois la PR ouverte : confiez-la à Babysit
+
+Une fois une <Term k="PR" /> ouverte, des vérifications échouent, des commentaires arrivent et la branche principale avance. Laissez Babysit (le suivi automatique d'une PR, des vérifications et des retours de revue) surveiller tout ça :
+
+<Copy id="rv-babysit" title="Surveiller la PR jusqu'à la fusion" code="/poteto-mode lance le babysit de cette PR et fais-la passer au vert." />
+
+Il traite d'abord les conflits, puis les commentaires, puis les vérifications. Pour simplement voir où ça en est, demandez : « /poteto-mode regarde la PR 123. Qu'est-ce qui n'est pas encore résolu ? »
+
+<Callout type="warn" title="Au vert ne veut pas dire fusionnée">
+Il s'arrête à « prête à être fusionnée ». Pour fusionner, dites-le clairement avec « land the stack » (fusionner la série de PR empilées) ou « vas-y, fusionne ».
+</Callout>
+
+## Un blocage ?
+
+<Q q="/interrogate a répondu « no verified findings » (aucun problème vérifié). A-t-il été paresseux ?">
+C'est un résultat normal. Regardez Dropped. Si vous avez une inquiétude précise, formulez-la et faites-lui tester ce point en particulier.
+</Q>
+<Q q="Je pense qu'un des points écartés est réel.">
+Répondez : « Écris-moi un cas de reproduction pour le point soulevé par le deuxième adversaire dans Dropped. » Si le problème se reproduit, il est réel.
+</Q>
+<Q q="Babysit a tout mis au vert. Pourquoi ne fusionne-t-il pas ?">
+C'est voulu. Dites « land the stack » ou « vas-y, fusionne ». Il fait d'abord vérifier chaque PR par des IA d'appoint qui n'ont pas écrit le code, puis il fusionne du bas vers le haut.
+</Q>
+<Q q="/no-comments a supprimé un commentaire que je voulais garder.">
+Il ne garde que les commentaires sur « ce qu'on ne peut pas changer ». Si vous n'êtes pas d'accord, dites-lui de quelle contrainte externe ce commentaire parle, et demandez-lui de décider à nouveau.
+</Q>

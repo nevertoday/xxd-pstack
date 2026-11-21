@@ -1,0 +1,96 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: perf
+time: Una o dos conversaciones para diagnosticar y arreglar
+for: Notas que algo va lento y quieres la causa real y un antes y después en el que puedas confiar
+step: 6
+tldr: Empieza con un número medido. La IA mide, cambia y vuelve a medir, y luego muestra un antes y después en el que puedes confiar.
+description: "Investiga problemas de rendimiento con /poteto-mode: empieza con un número medido, haz que mida, cambie y vuelva a medir, y comprueba el número con /benchmark-checklist."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copia esto primero
+
+<Copy id="perf-min" title="La versión más corta" code="/poteto-mode El arranque tarda 1.8s con este fixture. Haz una traza, arregla la causa medida y muéstrame el antes y el después." />
+
+Este es el ejemplo de la propia documentación de pstack.
+
+- **«1.8s con este fixture»**: un número medido con datos de prueba fijos. La IA no puede comparar «va un poco lento».
+- **«Haz una traza»**: una traza registra cuánto tarda cada paso del programa.
+- **«la causa medida»**: la IA arregla lo que muestra la traza, no lo que supone.
+
+<mark>En rendimiento solo cuentan los números medidos.</mark>
+
+<Fig id="h-perf" />
+
+## Ejemplo con un sitio de membresías
+
+Un sitio de membresías funciona en Cloudflare Workers, con los datos en D1. El endpoint de la lista de miembros va cada vez más lento.
+
+<Copy id="perf-d1" title="Ejemplo con Workers y D1" code={`/poteto-mode El endpoint de la lista de miembros /api/members tiene un p50 de unos 900ms con wrangler dev en local, con 5000 miembros de prueba importados.
+Mide primero una línea base y dime en qué se va el tiempo. Arregla la causa medida.
+Está arreglado cuando, con los mismos datos, el p50 esté por debajo de 200ms y devuelva exactamente los mismos miembros (cantidad y contenido) que antes del arreglo.
+Alterna 7 ejecuciones por cada lado, dame la mediana y el rango, y luego ejecuta /benchmark-checklist.`} />
+
+- **«Devuelva exactamente los mismos miembros»**: más rápido pero con datos faltantes significa que no está arreglado.
+- **«Alterna 7 ejecuciones por cada lado»**: un número de una sola ejecución podría ser suerte.
+- **5000 miembros**: un escenario que puedes repetir. Con muy pocos datos, el problema quizá no aparezca.
+
+## Dónde fijarte después de enviarlo
+
+**Al principio: el número base.** Si la IA dice «esto será más rápido» sin medir, detenla.
+
+**Al final: cuatro cosas.** La línea base, el número después del arreglo, la diferencia y dónde están los archivos de datos. Si un resultado no es concluyente, la IA lo dice. Eso no cuenta como aprobado.
+
+## Un número que parece demasiado bueno: /benchmark-checklist
+
+<Copy id="perf-bench" code="/benchmark-checklist Comprueba esta mejora del 40% antes de ponerla en la descripción del PR" />
+
+El <Term k="剧本" /> de rendimiento lo ejecuta por su cuenta. Si alguien te dio un número, ejecútalo tú. Siete preguntas, cada una respaldada por una ejecución real:
+
+1. **¿Por qué no es el doble de rápido?** Nombra el cuello de botella que lo frena ahí.
+2. **¿Ambos lados están configurados como en producción?** Nada de una compilación debug contra una compilación release.
+3. **¿Supera un límite físico?** Más rápido que el disco significa que midió otra cosa.
+4. **¿Hubo errores?** Las peticiones rechazadas suelen ser rápidas. Cuéntalas.
+5. **¿Puedes repetirlo?** Alterna ambos lados, al menos 5 ejecuciones cada uno. Indica la mediana y el rango.
+6. **¿Les importa a los usuarios?** Una función que ocupa el 1% del tiempo puede ahorrar como máximo un 1%.
+7. **¿El trabajo medido ocurrió de verdad?** Una promesa a la que nadie le hace `await` termina enseguida.
+
+Hay cuatro veredictos: más rápido, más lento, sin diferencia medible o no concluyente.
+
+## Solo dime dónde va lento
+
+<Copy id="perf-trace" title="Solo diagnóstico" code="/poteto-mode Este es un cpuprofile que grabé durante un arranque lento. Dime en qué se va el tiempo y qué líneas de código son responsables. No arregles nada todavía." />
+
+- **Tienes un archivo grabado** (cpuprofile, trace, heap snapshot): la IA lee solo ese archivo y encuentra las líneas más lentas.
+- **Está pasando ahora mismo** (la memoria no deja de crecer, la CPU está ocupada en reposo, la interfaz parpadea): la IA graba el programa en ejecución. Luego un pequeño experimento confirma la causa.
+
+Ambos devuelven solo un diagnóstico respaldado por evidencia. Después decides tú cómo arreglarlo.
+
+## Sigue bajando un número
+
+Para un número que quieras seguir mejorando, como el tamaño del bundle o el tiempo de primera pantalla, usa Hillclimb. Dale una métrica, un objetivo y un número mínimo de rondas.
+
+<Copy id="perf-hill" title="Hillclimb" code="/poteto-mode Usa hillclimb para reducir el tiempo de primera apertura del panel lateral. Objetivo: al menos un 50% más rápido que la línea base, e intenta al menos 10 rondas. Anota una línea en el registro de decisiones por cada ronda." />
+
+- **«Al menos 10 rondas»**: esto evita que la IA alcance el objetivo por suerte en la primera ronda y se detenga.
+- **Un cambio y una medición por ronda.** Si es más rápido, se conserva y se hace un commit solo con ese cambio. Si no es más rápido, se revierte.
+- **Una línea por ronda.** Se guarda en `decision.tsv`, para que puedas ver cada intento.
+
+## ¿Te atascaste?
+
+<Q q="La IA dice «esto lo hará más rápido» sin medir.">
+Responde: «Mide primero. Dame el número base y la ruta del archivo de traza, y después dime qué cambiar».
+</Q>
+<Q q="La mejora es absurdamente grande. No me lo creo.">
+Ejecuta <code>/benchmark-checklist</code>. Fíjate sobre todo en las preguntas 3 y 7. Esto corresponde a <code>explain-the-number</code>. Significa: explicar qué limita el número y descartar que haya medido otra cosa. Es el nombre de un <a href="/es/wiki/principles/">principio</a> de pstack.
+</Q>
+<Q q="La IA lo ejecutó una sola vez y sacó una conclusión.">
+Responde: «Alterna ambos lados al menos 5 ejecuciones cada uno e indica la mediana y el rango. Si la brecha es menor que la variación entre ejecuciones, no hay diferencia».
+</Q>
+<Q q="Hillclimb se quedó atascado en un número y quiere detenerse.">
+Primero debe probar un enfoque distinto. No puede relajar el objetivo para darlo por terminado. Si de verdad está atascado, debe decirte qué está pasando.
+</Q>

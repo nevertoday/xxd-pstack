@@ -1,0 +1,88 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: which-skill
+time: 2 Minuten zum Nachschlagen
+for: Du hast eine Aufgabe und weißt nicht, welchen Befehl du eintippen sollst
+step: 3
+tldr: Unsicher? Nimm /poteto-mode. Nenn einen bestimmten Skill nur dann, wenn du mehr oder weniger Prüfung willst, als es bietet.
+description: "Im Zweifel /poteto-mode nehmen; eine „Ich möchte… → nimm das“-Liste; /poteto-help fragen; Skill-Paare, die oft verwechselt werden; wie viel Entwurf eine Aufgabe braucht; warum du im Prompt keine Skill-Reihenfolge vorgeben solltest."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## Unsicher? Nimm /poteto-mode
+
+<mark>Wenn du unsicher bist, ist die Antwort fast immer `/poteto-mode`</mark>. Du nennst das Ziel und was „fertig“ bedeutet. Es wählt ein Vorgehen (ein <Term k="剧本" />) und ruft bei Bedarf selbst Skills wie `/how` und `/architect` auf.
+
+Nenn einen Skill nur dann direkt, wenn du **mehr oder weniger** willst, als es bietet. Wenn du zum Beispiel Code verstehen willst, ohne dass etwas geändert wird, nimm `/how`.
+
+Bis auf `/setup-pstack` läuft jeder Skill nur dann, wenn du ihn selbst eintippst.
+
+## Ich möchte… → nimm das
+
+- **Code verstehen**: wie er jetzt funktioniert `/how`; warum es so gemacht wurde `/why`; ausführlich erklären `/teach`
+- **Vor dem Start abstimmen**: prüfen, ob die KI es verstanden hat `/in-your-own-words`; den Prompt präziser machen `/sharpen`
+- **Dort weitermachen, wo du warst**: über mehrere Chats hinweg `/recall`; was sich in diesem Chat geändert hat `/ketchup`
+- **Entwurf festlegen**: erst die Struktur `/architect`; mehrere Ansätze für eine Aufgabe `/arena`; viele Dinge getrennt prüfen `/swarm`
+- **Prüfen**: mehrere Modelle nehmen es auseinander `/interrogate`; was sonst noch kaputtgehen könnte `/blast-radius`; erst ein fehlschlagender Test `/tdd`; Performance-Werte prüfen `/benchmark-checklist`; die KI deine App bedienen lassen `/create-verification-skill`
+- **Schreiben**: KI-Floskeln entfernen `/unslop`; Doku und PR-Beschreibungen `/technical-writing`; in einfachen Worten sagen `/bro`
+- **Große Aufgaben und lange Läufe**: etwas sehr Großes `/figure-it-out`; ein Entscheidungsprotokoll führen `/show-me-your-work`; einen wiederkehrenden Fehler abstellen `/correct`
+- **Einrichtung**: Modelle wählen, Budget festlegen `/setup-pstack`; einen eigenen Modus bauen `/automate-me`
+
+Details und Beispiel-Prompts zu jedem Skill findest du in der [Skill-Übersicht](/de/skills/).
+
+## Immer noch unsicher? Frag /poteto-help
+
+<Cmd c="/poteto-help Ich möchte diesen Branch reviewen. Welchen Skill soll ich nehmen?" />
+
+Es antwortet, gibt dir einen Prompt, den du direkt so abschicken kannst, und verlinkt die Quelle. Es **fängt nicht an zu arbeiten**. Ob du den Prompt abschickst, entscheidest du.
+
+<Callout type="warn" title="Beauftragst du es mit der Arbeit, legt es direkt los">
+Wenn du etwas sagst wie „Nutze pstack, um diesen Bug zu beheben“, legt es sofort nach den Regeln von `/poteto-mode` los.
+</Callout>
+
+## Paare, die oft verwechselt werden
+
+- **`/arena` und `/swarm`**: `/arena` löst eine Aufgabe mehrfach, wählt die beste Lösung und baut gute Ideen aus den anderen mit ein. `/swarm` teilt einen Berg Arbeit auf, bearbeitet die Teile getrennt und führt alles in einem Bericht zusammen.
+- **`/how`, `/why`, `/teach`**: `/how` erklärt, was der Code tut, `/why` erklärt, warum er so ist, und `/teach` führt einen oder beide aus und erklärt es dann ausführlich.
+- **`/interrogate` und `/blast-radius`**: Der erste prüft die Änderung selbst. Der zweite findet heraus, was außerhalb der Änderung kaputtgehen könnte.
+- **`/recall` und `/ketchup`**: Der erste findet deinen Fortschritt über mehrere Chats hinweg. Der zweite deckt nur Änderungen in diesem Chat ab.
+- **`/architect`**: fängt an zu schreiben, sobald der Entwurf steht. Wenn du den Entwurf zuerst sehen willst, sag: „Zeig mir erst den Entwurf und warte auf mein Okay.“
+
+## Wie viel Entwurf eine Aufgabe braucht
+
+Die meisten Änderungen brauchen gar keinen. Steigere den Aufwand je nach Größe:
+
+- **Fertig geschrieben, aber unsicher**: einfach `/interrogate`.
+- **Eine eigenständige Entscheidung** (Benennung, Format, Algorithmus): direkt `/arena`.
+- **Die Änderung geht über Funktionsgrenzen hinaus**: `/architect`.
+- **Eine Frage, die ein Durchlauf klärt** (Layout, Timing): bau einen Prototyp, statt zu diskutieren.
+- **Umstritten und teuer zu ändern**: erst `/architect`, dann `/interrogate` vor dem Ausliefern.
+- **Geht über mehrere PRs**: sobald der Entwurf steht, schreib den Plan.
+
+`/poteto-mode` geht diese Stufen schon von allein hoch.
+
+## Gib im Prompt keine Skill-Reihenfolge vor
+
+<Copy id="ws-bad" title="Nicht so schreiben" code="/poteto-mode nutze zuerst /how, dann /architect, dann /arena und zum Schluss /interrogate und hilf mir, ein Export-Feature hinzuzufügen." />
+
+Es weiß schon, in welcher Reihenfolge es vorgeht. Wenn du sie noch mal vorgibst, geraten Schritte leicht durcheinander oder fallen weg. Nenn stattdessen das Ziel und die Anforderungen:
+
+<Copy id="ws-good" title="So schreiben" code="/poteto-mode füge einen CSV-Export hinzu. Der bestehende JSON-Export muss Byte für Byte identisch bleiben. Prüfe beides." />
+
+Nenn einen Skill nur, um eine einzelne Voreinstellung zu ändern, etwa: „Nutze diesmal /arena mit 5 Optionen.“
+
+## Kommst du nicht weiter?
+
+<Q q="Ich habe /how eingetippt, und es hat danach nichts behoben.">
+Stimmt. `/how` erklärt nur. Es fasst keinen Code an. Sobald du es verstanden hast, sag mit `/poteto-mode`, was gemacht werden soll.
+</Q>
+<Q q="Was ich machen will, steht nicht in der Liste.">
+Übergib es an `/poteto-mode`. Wenn kein fertiges Vorgehen passt, gibt es die Aufgabe an `/figure-it-out` weiter – dort wird direkt eins entworfen.
+</Q>
+<Q q="Im Slash-Menü gibt es ein /orchestrate. Gehört das zu pstack?">
+Nein, der Eintrag im Menü kommt von einem anderen Plugin. In pstack übernimmt `/poteto-mode` ein Projekt, das über Tage läuft, und gibt es an `/figure-it-out` weiter.
+</Q>

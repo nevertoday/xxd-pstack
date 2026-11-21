@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: fix-bug
+time: Um bug, uma conversa
+for: Você tem um bug e quer corrigir direito, não de qualquer jeito
+step: 6
+tldr: Descreva o sintoma e adicione “primeiro reproduza”. A IA encontra a causa real, corrige e prova a correção com os mesmos passos.
+description: "Corrija um bug com o /poteto-mode: faça o problema acontecer de novo, encontre a causa real, corrija e prove com os mesmos passos. Inclui um exemplo de extensão do Chrome."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copie isto primeiro
+
+<Copy id="bug-min" title="A versão mais curta" code="/poteto-mode Depois de uma retentativa, os usuários recebem duas notificações. Primeiro reproduza, depois corrija, depois verifique." />
+
+“Reproduzir” significa fazer o problema acontecer de novo. A IA faz isso primeiro. Se não conseguir, não altera o código.
+
+A ordem é fixa: <mark><strong>reproduzir, encontrar a causa real, corrigir e depois verificar com os mesmos passos.</strong></mark>
+
+<Fig id="h-bug" />
+
+## Dê mais algumas pistas
+
+<Copy id="bug-full" title="A versão completa" code="/poteto-mode Desde o release de ontem, a exportação de CSV perde a última linha. O ID do job que falhou é 4812. Primeiro reproduza, depois corrija. Está corrigido quando o dataset de teste de 60.000 linhas exportar sem faltar nenhuma linha. Mostre a contagem de linhas antes e depois da correção." />
+
+Cada parte tem um papel:
+
+- **Sintoma e quando começou**: desde o release, a exportação perde a última linha.
+- **Uma pista que você tem**: o job id. Isso economiza uma rodada de busca.
+- **O que conta como corrigido**: todas as 60.000 linhas são exportadas.
+- **O que mostrar para você**: a contagem de linhas antes e depois.
+
+<Callout type="warn" title="Segure seu palpite">
+Se você disser “acho que é o código de paginação”, a IA só vai olhar ali. Deixe a IA fazer a própria leitura primeiro. Depois adicione a sua.
+</Callout>
+
+## Um exemplo de extensão do Chrome
+
+Usuários relatam: itens salvos no painel lateral às vezes aparecem duas vezes depois de recarregar.
+
+<Copy id="bug-ext" title="Exemplo de extensão do Chrome" code={`/poteto-mode Usuários relatam que a lista de salvos no painel lateral às vezes mostra itens duplicados depois de recarregar.
+Testei por conta própria e clicar em “Salvar” duas vezes rápido aumenta a chance de acontecer. Primeiro reproduza. Não altere nenhum código ainda.
+Está corrigido quando clicar em Salvar dez vezes deixar exatamente um item na lista e exatamente um no chrome.storage.
+Mostre o que está de fato no storage antes e depois da correção.`} />
+
+- **“Exatamente um no chrome.storage”**: a interface pode esconder itens duplicados enquanto os dados ainda têm dois. Confira o valor salvo.
+- **“Clicar em Salvar dez vezes”**: transforma “às vezes” em uma verificação que passa ou falha toda vez.
+
+## Onde olhar depois de enviar
+
+**No começo: a reformulação da IA.** Se ela descrever um problema diferente, interrompa na hora.
+
+**No meio: a <Term k="待办清单" />.** A IA lista algumas causas possíveis e vai descartando uma por uma, até encontrar o primeiro ponto onde as coisas dão errado. A correção vai ali, não em uma verificação mais adiante.
+
+**No final: antes e depois.** Os dois usam os mesmos passos de reprodução.
+
+## Fácil de testar? Adicione /tdd
+
+<Copy id="bug-tdd" code="/poteto-mode Primeiro reproduza a gravação duplicada. Se houver um jeito simples de testar, use /tdd: escreva um teste que falhe, depois corrija e rode o teste de novo." />
+
+Mantenha “se houver um jeito simples de testar”. Um teste escorado em montes de dados falsos prova menos do que rodar o comando real.
+
+## Travou?
+
+<Q q="A IA diz que não consegue reproduzir o bug.">
+Isso é bom. Ela não está mudando coisas às cegas. Dê mais detalhes: qual página, quais dados, onde você clicou, qual versão. Você também pode colar um log ou uma gravação.
+</Q>
+<Q q="A IA disse “corrigido”, mas não mostrou evidências.">
+Responda: “apply prove it works. Rode os passos de reprodução de novo e mostre a saída real.” <code>prove it works</code> significa: mostre resultados reais de que funciona. É o nome de um <a href="/pt/wiki/principles/">princípio</a> do pstack. Digite exatamente assim, e a IA entende o que você quer dizer.
+</Q>
+<Q q="A IA adicionou uma verificação com if mais adiante e deu por corrigido.">
+Responda: “fix root causes. Esse estado nunca deveria acontecer. Encontre o primeiro ponto onde isso dá errado.” <code>fix root causes</code> significa corrigir a causa real. Também é o nome de um princípio. Uma verificação só conta como correção se esse estado for realmente válido.
+</Q>

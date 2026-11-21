@@ -1,0 +1,209 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: claude-code
+time: 5 Minuten zum Installieren, 10 zum Lesen
+for: Du arbeitest mit Claude Code und willst pstack darin nutzen
+step: 1
+tldr: "Mit zwei Befehlen installieren, pstack: vor Befehle setzen, den Modellplan „Ausgewogen“ nutzen und dann eine neue Sitzung starten."
+description: "pstack in Claude Code installieren, das Präfix pstack: vor Befehlen, welcher der drei fertigen Modellpläne zu dir passt sowie übersprungene Cursor-Funktionen und Auto-Update."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Installieren
+
+Tipp diese beiden Zeilen nacheinander ins Chatfeld von Claude Code ein:
+
+<Copy id="cc-plugin" title="Aus dem Plugin-Store installieren" code={`/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins`} />
+
+Damit installierst du das komplette Paket, sodass `/poteto-mode` alles hat, was es braucht. Wenn du unsicher bist, nimm diesen Weg.
+
+**Wenn du Skills selbst auswählen willst**, gib das im Terminal ein (nicht im Chatfeld):
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+Hake die gewünschten Skills an und wähl Claude Code als Tool. Die Skills landen in `.claude/skills/`. Welche sich lohnen, steht unter [Nur einzelne Skills installieren](/de/howto/pick-skills/).
+
+## pstack: vor Befehle setzen
+
+Wenn du über den Plugin-Store installiert hast, läuft jeder Befehl unter dem Namen des Plugins. Ein einfaches `!/poteto-mode` wird nicht erkannt – du tippst:
+
+<Cmd c="!/pstack:poteto-mode" />
+
+Dasselbe gilt für andere Befehle wie `!/pstack:how`. Das ist eine Regel von Claude Code für Plugins, damit sich zwei Plugins beim Namen nicht in die Quere kommen. Wenn du `npx skills` genutzt hast, fällt das Präfix weg.
+
+Die Befehle auf dieser Seite sind standardmäßig für das Plugin geschrieben, damit du sie direkt kopieren kannst. Wenn du mit `npx skills` installiert hast, wähl hier „Mit npx installiert“:
+
+<ToolPick />
+
+<Callout type="warn" title="Skills starten nicht von selbst">
+Außer `setup-pstack` läuft jeder Skill nur, wenn du ihn selbst eintippst. Wenn du „Hilf mir, einen Bug zu beheben“ schreibst, schaltet das `/pstack:poteto-mode` nicht ein.
+</Callout>
+
+## Modelle wählen, dann eine neue Sitzung starten
+
+Führ nach der Installation einmal diesen Befehl aus:
+
+<Cmd c="/pstack:setup-pstack" />
+
+Es fragt nach deinem <Term k="推理预算" /> (wie lange Modelle nachdenken dürfen) und weist dann jeder <Term k="模型角色" /> ein Modell zu. Zum Schluss schreibt es eine Datei: `~/.claude/rules/pstack-models.md`.
+
+Claude Code liest die `.md`-Dateien in diesem Ordner bei jedem Start einer neuen Sitzung ein. Deshalb: <mark>Beende nach der Einrichtung die Sitzung und öffne eine neue, bevor du loslegst</mark>. Die laufende Sitzung hat noch die alten Einstellungen.
+
+Ein Modell wird als „Name + Stufe“ geschrieben, zum Beispiel `opus xhigh`. Es gibt nur die Namen `opus`, `sonnet`, `haiku` und `fable`. Lass diese Zeilen in dieser einen Datei. Kopier sie nicht in `CLAUDE.md`.
+
+## So richtest du es gut ein
+
+**Die meisten sollten „Ausgewogen“ wählen**: Die Sitzung läuft auf opus, und sonnet schreibt den Code.
+
+Warum? Zwei Dinge bestimmen, welche Modelle zum Einsatz kommen:
+
+- **Das Sitzungsmodell**: das Modell, das du mit `/model` wählst – die KI, mit der du direkt chattest. Sie legt das Vorgehen fest, verteilt Aufgaben und prüft jede Änderung.
+- **Jede Zeile in der Einstellungsdatei**: auf welchem Modell jede Helfer-KI (<Term k="子代理" text="Subagent" />) läuft.
+
+Standardmäßig nutzt pstack opus 5.5 fürs Programmieren und für Beurteilungen. Im Review-Panel (mehrere Modelle, die dieselbe Änderung prüfen) sitzen je einmal fable, opus und gemini. Claude Code kann gemini nicht nutzen, also wird dieser Platz zu `inherit-parent`. Das bedeutet: „das Sitzungsmodell übernehmen“.
+
+Wenn du also nichts änderst, erledigt opus fast die ganze Arbeit – und das kostet am meisten. „Ausgewogen“ verlagert das Programmieren auf sonnet und halbiert so den Preis. Außerdem geht der dritte Review-Platz an sonnet, sodass auf den drei Plätzen drei verschiedene Modelle sitzen.
+
+Die Preise sind API-Listenpreise mit Stand Oktober 2026, pro Million <Term k="token" text="Tokens" />. Mit einem Abo verbrauchen teurere Modelle deine Limits schneller:
+
+| Modell | Input / Output | Gut für |
+| --- | --- | --- |
+| fable | $10 / $50 | Am stärksten, standardmäßig ein Review-Platz |
+| opus | $4 / $20 | Sitzung, Beurteilung, Schreiben |
+| sonnet | $2 / $10 | Code schreiben, ein Review-Platz |
+| haiku | $0,1 / $0,5 | Nicht empfohlen |
+
+Warum nicht haiku: Für das Prüfen der Ergebnisse wird das Modell aus `swarm workers` genutzt. Nimmst du dafür das günstigste Modell, werden auch die Prüfungen schwächer.
+
+### Drei Pläne
+
+<Tabs id="cc-plans" label="Plan wählen" items={[["balanced", "Ausgewogen (empfohlen)"], ["cheap", "Geld sparen"], ["max", "Kosten egal"]]}>
+<div slot="balanced">
+
+**Lass die Sitzung auf opus laufen, gib Programmieren und Prüfungen an sonnet und besetze jedes Review mit fable, opus und sonnet.**
+
+Die Sitzung muss dich verstehen und Änderungen prüfen, deshalb bekommt sie opus. Die Programmier-Helfer bekommen klar abgegrenzte Aufgaben, die sonnet gut schafft. Beurteilung und Schreiben bleiben bei opus.
+
+<Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md (ausgewogen)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: sonnet xhigh
+bug-fix: sonnet xhigh
+perf-issue: sonnet xhigh
+hillclimb: sonnet xhigh
+judgment and prose: opus xhigh
+arena runners: fable high, opus high, sonnet high
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: sonnet high
+interrogate reviewers: fable high, opus high, sonnet high`} />
+
+</div>
+<div slot="cheap">
+
+**Lass die Sitzung auf sonnet laufen, trag in den Programmierzeilen `inherit-parent` ein und wähl das Budget medium.**
+
+`inherit-parent` folgt der Sitzung auf sonnet, und opus übernimmt weiter die Beurteilungen. Mit medium sinkt jede Rolle um eine Stufe: Aus xhigh wird high, und aus dem high der Reviewer wird medium. Im Review-Panel fällt fable weg und es bleiben zwei Plätze. Für komplexe Aufgaben wechsle vor dem Start mit `/model` zurück auf opus.
+
+<Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md (Geld sparen)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: medium (high)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: inherit-parent
+judgment and prose: opus high
+arena runners: opus medium, inherit-parent
+arena cross-judge pool: opus medium, inherit-parent
+swarm workers: inherit-parent
+interrogate reviewers: opus medium, inherit-parent`} />
+
+</div>
+<div slot="max">
+
+**Lass die Sitzung auf opus laufen, gib Programmieren, Beurteilung und Prüfungen an opus und lass alle drei Review-Plätze auf xhigh laufen.**
+
+Warum nicht fable für die Beurteilung nehmen? Die Regel von pstack lautet: Außerhalb des Review-Panels läuft fable nur, wenn du es ausdrücklich nennst oder wenn opus zweimal an derselben Aufgabe scheitert. Um es für eine einzelne Aufgabe einzusetzen, schreib im Prompt „nutz dafür fable“. Der Listenpreis von fable ist 2,5-mal so hoch wie der von opus. Wenn dein Konto fable nicht nutzen kann, bietet die Einrichtung es nicht an.
+
+<Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md (Kosten egal)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: opus xhigh
+bug-fix: opus xhigh
+perf-issue: opus xhigh
+hillclimb: opus xhigh
+judgment and prose: opus xhigh
+arena runners: fable xhigh, opus xhigh, sonnet xhigh
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: opus xhigh
+interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
+
+</div>
+</Tabs>
+
+Das höchste Budget ist large: Keine Rolle in pstack läuft über xhigh. Lass die Zeile `# defaults: 3` in der Datei. Fehlt sie, hält pstack die Datei für eine ältere Version und bittet dich, die Einrichtung neu auszuführen.
+
+### So übernimmst du den Plan
+
+1. Wähl mit `/model` das Sitzungsmodell.
+2. Führ `/pstack:setup-pstack` aus und wähl das Budget für deinen Plan.
+3. Wenn die Einrichtung fragt, ob du Rollen ändern willst, füg den Inhalt von oben ein und lass ihn genau so in die Datei schreiben.
+4. Beende die Sitzung und starte eine neue.
+
+## Wenn „Skipped in Claude Code“ erscheint
+
+Geplante Aufgaben von Cursor, den Review-Bot Bugbot und Cloud-Agents gibt es in Claude Code nicht. Schritte, die sie nutzen, werden übersprungen. In der Antwort steht dann eine Zeile, und es geht weiter:
+
+<Copy id="cc-skip" title="So sieht diese Zeile aus" code="Skipped in Claude Code: <welcher Schritt>. <warum er übersprungen wurde>." />
+
+Einen <Term k="PR" /> zu öffnen funktioniert weiterhin – dafür läuft einfach `gh pr create`. `/loop` gibt es hier ebenfalls. Wenn die KI meldet, dass sie einen Platzhalter stehen gelassen hat (etwa einen fehlenden Link), schau nach, was fehlt, und trag es bei Bedarf nach.
+
+## Auto-Update einschalten
+
+Claude Code aktualisiert Plugins von Drittanbietern standardmäßig nicht. So schaltest du Auto-Update ein:
+
+1. Tipp `/plugin` ins Chatfeld ein.
+2. Öffne den Tab **marketplaces**.
+3. Wähl `cursor-plugins`.
+4. Wähl **enable auto-update**.
+
+Für ein manuelles Update führ das im Terminal aus:
+
+<Cmd c="claude plugin update pstack@cursor-plugins" />
+
+Wenn ein Update die Standardmodelle ändert, behält deine alte Einstellungsdatei die bisherigen Werte. Wie du das behebst, steht unter [Aktualisieren, prüfen, deinstallieren](/de/howto/update-remove/).
+
+## Deinstallieren oder pausieren
+
+Tipp das ins Chatfeld ein:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+Tipp danach `/reload-plugins` ein oder starte Claude Code neu. Um es eine Weile zu pausieren, nimm `disable` statt `uninstall`, und `enable`, um es wieder einzuschalten. Wenn du die Einrichtung ausgeführt hast, lösch nach der Deinstallation auch `~/.claude/rules/pstack-models.md` – sonst liest jede neue Sitzung sie weiter ein.
+
+## Kommst du nicht weiter?
+
+<Q q="Ich habe einen Befehl eingetippt und nichts ist passiert. Im Menü taucht er auch nicht auf.">
+Wenn du über den Plugin-Store installiert hast, tipp `!/pstack:poteto-mode` ein – ohne `pstack:` wird der Befehl nicht erkannt. Tipp zuerst `/pstack:` ein, dann zeigt das Menü nur die Befehle von pstack.
+</Q>
+<Q q="Ich habe die Einrichtung ausgeführt, aber die gewählten Modelle greifen nicht.">
+Die Einstellungsdatei wird erst gelesen, wenn eine neue Sitzung startet. Beende die aktuelle Sitzung und öffne eine neue. Hilft das nicht, öffne `~/.claude/rules/pstack-models.md` und prüf, ob in der Zeile das gewünschte Modell steht.
+</Q>
+<Q q="In einer Antwort steht, dass /arena den Judge übersprungen oder keinen Reviewer eines anderen Anbieters gefunden hat.">
+Einige Schritte wünschen sich für das Review ein Modell eines „anderen Anbieters“, etwa den `/arena`-Judge. Alle Claude-Modelle, fable eingeschlossen, zählen als ein einziger Anbieter. Deshalb überspringt die KI den Judge, wählt sich selbst und weist darauf hin. Die Zeile `arena cross-judge pool` bewirkt hier fast nichts. Wenn du wirklich den Blick eines anderen Anbieters willst, nimm das wichtige Review mit zu Codex oder Cursor und führ dort `/interrogate` aus.
+</Q>
+<Q q="In den Skills stehen die Namen aus Cursor. Muss ich die übersetzen?">
+Nein. Das Plugin bringt eine Zuordnungshilfe mit (`docs/harness/claude-code.md`), und die KI übersetzt selbstständig. Aus `.cursor/rules/` wird zum Beispiel `CLAUDE.md` (oder `AGENTS.md`, falls es keine gibt), und aus Cloud-Agents wird ein lokaler <Term k="worktree" /> (ein zusätzlicher Arbeitsordner für dasselbe Git-Repo).
+</Q>
+<Q q="Die KI sagt, das Skill-Tool könne die Skills von pstack nicht aufrufen. Ist etwas kaputt?">
+Nein. In Claude Code lassen sich die meisten Skills von pstack nicht auf diesem Weg aufrufen. Die KI liest die `SKILL.md` des jeweiligen Skills direkt und folgt ihr. Tipp Befehle einfach wie gewohnt weiter ein.
+</Q>
+<Q q="Ich habe es über Nacht laufen lassen, und es hing an einer Berechtigungsabfrage fest.">
+Bevor du es allein laufen lässt, gib die üblichen Befehle frei: git, gh sowie deine Test- und Build-Befehle. Der eingebaute Befehl `/fewer-permission-prompts` von Claude Code findet die rein lesenden Befehle, die du oft nutzt, und trägt sie in `.claude/settings.json` deines Projekts ein. Ob du auch Befehle freigibst, die etwas verändern, entscheidest du selbst.
+</Q>

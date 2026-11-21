@@ -1,0 +1,71 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: add-feature
+time: Ein oder zwei Chats für ein kleines Feature
+for: Du willst einem Projekt, das andere schon nutzen, ein Feature hinzufügen, ohne kaputtzumachen, was schon funktioniert
+step: 5
+tldr: Sag, was dazukommen soll und welches alte Verhalten sich nicht ändern darf. Lass die KI dann den neuen und den alten Fall prüfen.
+description: "Mit /poteto-mode ein Feature hinzufügen: Sag, wie das Neue aussehen soll und was sich nicht ändern darf, und lass die KI beide Fälle prüfen. Mit einem Beispiel für eine Chrome-Erweiterung."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Kopier zuerst das hier
+
+<Copy id="feat-min" title="Die kürzeste Version" code="/poteto-mode Füg das Flag --json hinzu. Die Textausgabe bleibt Byte für Byte identisch. Prüf beide Formen." />
+
+Das ist das Beispiel aus der eigenen Doku von pstack. Es hat drei Teile:
+
+1. **Was du willst**: ein `--json`-Flag.
+2. **Was sich nicht ändern darf**: die Textausgabe. Die KI vergleicht die Ausgabe vorher und nachher. Ein Byte Unterschied heißt: fehlgeschlagen.
+3. **Beides prüfen**: damit sie nicht nur das neue JSON testet und den alten Text vergisst.
+
+Das Schwierige ist, nichts Altes kaputtzumachen. Das neue Feature funktioniert, aber die alte Ausgabe hat sich unbemerkt geändert. <mark>Schreib in den Prompt, was sich nicht ändern darf – dann prüft die KI genau das mit.</mark>
+
+## Beispiel: eine Chrome-Erweiterung
+
+Du willst eine neue Einstellung auf der Optionsseite: welche Gruppe die Seitenleiste beim Öffnen anzeigt. So eine Einstellung gab es bisher nicht. Die Seitenleiste hat immer „Alle“ angezeigt.
+
+<Copy id="feat-ext" title="Beispiel: Chrome-Erweiterung" code={`/poteto-mode Füg eine Einstellung auf der Optionsseite hinzu: welche Gruppe beim Öffnen der Seitenleiste standardmäßig angezeigt wird.
+Bevor du Code schreibst, sag mir, wie diese Einstellung in chrome.storage.sync gespeichert wird.
+Was sich nicht ändern darf: Wer die Einstellung nie gesetzt hat, sieht in der Seitenleiste weiterhin „Alle“, genau wie bisher. Alle anderen vorhandenen Einstellungen werden unverändert ausgelesen.
+Prüf beide Fälle: ein brandneues Profil, in dem diese Einstellung nie gesetzt wurde, und ein Profil, das auf die Gruppe „Arbeit“ eingestellt ist.
+Zeig mir für beide Fälle, was wirklich in chrome.storage.sync steht, plus einen Screenshot der Seitenleiste beim Öffnen.`} />
+
+- **Erst sagen lassen, wie gespeichert wird**: Du merkst Probleme, bevor überhaupt Code entsteht. Vielleicht will die KI einen neuen Key anlegen, aber du willst den Wert in den bestehenden Einstellungen haben.
+- **Für alle ohne Einstellung ändert sich nichts**: Sie machen ein Update und fassen nichts an. Genau dieser Fall geht am leichtesten kaputt.
+- **Zwei Profile**: eine klare Prüfung (bestanden oder nicht) für den alten Fall, eine für den neuen.
+- **Speicher plus Screenshot**: Eine UI, die richtig aussieht, reicht nicht. Prüf den Wert, der wirklich gespeichert wurde.
+
+## Worauf du nach dem Abschicken achten solltest
+
+**Am Anfang: wie die KI die Aufgabe wiedergibt und welche Speicherstruktur sie plant.** Sie liest zuerst den Code und erklärt dann, wie sie die Einstellung speichern will. Wenn das nicht stimmt, stopp sie sofort.
+
+**Am Ende: Belege für beide Fälle.** Zweimal Speicherinhalt und Screenshot. Alles, was die KI nicht prüfen kann, markiert sie als „nicht eindeutig“, nicht als bestanden.
+
+## Den Entwurf sehen, bevor es losgeht
+
+Wenn eine Änderung mehrere Dateien betrifft, führt die KI von selbst `/architect` aus. Standardmäßig legt sie direkt nach dem Entwurf mit dem Code los. Wenn du zuerst draufschauen willst, schick das hier:
+
+<Copy id="feat-arch" title="Anhalten und erst den Entwurf zeigen" code="/architect Halt nach dem Entwurf an und zeig ihn mir. Fang erst an, wenn ich zustimme." />
+
+<Callout type="tip" title="Lass die KI deine Erweiterung selbst öffnen">
+Um die UI zu prüfen, muss die KI wissen, wie sie dein Projekt startet. Wenn sie immer wieder sagt, dass sie das nicht kann, führ einmal <code>/create-verification-skill</code> aus. Der Befehl erstellt einen <a href="/de/wiki/verify-skill/">Prüf-Skill</a> für dein Projekt. Siehe <a href="/de/guide/6-verify-ship/">Schritt 6 der Anleitung</a>.
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI hat nebenbei das alte Ausgabeformat geändert.">
+Antworte: „Die ursprüngliche Textausgabe darf sich nicht ändern. Zeig mir den Diff der Ausgabe vorher und nachher. Er muss leer sein.“ Schreib beim nächsten Mal schon in deinen ersten Prompt, was sich nicht ändern darf.
+</Q>
+<Q q="Die KI hat nur das neue Feature geprüft, nicht das alte Verhalten.">
+Schreib dazu: „apply prove it works. Führ den echten Befehl für beide Fälle aus und füg die Ausgabe ein.“ <code>prove it works</code> heißt: Zeig mit echten Ergebnissen, dass es funktioniert. Das ist der Name eines <a href="/de/wiki/principles/">Prinzips</a> von pstack. Tipp es genau so ein, dann weiß die KI, was du meinst. Du bekommst echte Ausgaben, nicht nur „es kompiliert“.
+</Q>
+<Q q="Braucht ein winziges Feature den ganzen Design-Prozess?">
+Nicht immer. Wenn sich nur eine Datei ändert, markiert die KI nicht benötigte Schritte in der <Term k="待办清单" /> mit <code>n/a</code> oder <code>skip</code>, jeweils mit Begründung. Wenn du mit einer Begründung nicht einverstanden bist, sag es.
+</Q>
+<Q q="Die KI hat Features eingebaut, um die ich nicht gebeten habe.">
+Antworte: „Bau nur die eine Einstellung ein, um die ich gebeten habe. Liste deine anderen Ideen auf, aber bau sie nicht ein.“ Zusätzliche Ideen gehören in die Antwort, nicht in den Code.
+</Q>

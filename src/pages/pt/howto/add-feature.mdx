@@ -1,0 +1,71 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: add-feature
+time: Uma ou duas conversas para uma funcionalidade pequena
+for: Você quer adicionar uma funcionalidade a um projeto que as pessoas já usam, sem quebrar o que já funciona
+step: 5
+tldr: Diga o que adicionar e qual comportamento antigo não pode mudar. Depois, peça para a IA verificar tanto o caso novo quanto o antigo.
+description: "Adicione uma funcionalidade com /poteto-mode: diga como a novidade deve funcionar e o que não pode mudar, depois peça para a IA verificar os dois casos. Inclui um exemplo de extensão do Chrome."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copie isto primeiro
+
+<Copy id="feat-min" title="A versão mais curta" code="/poteto-mode adicione uma flag --json. a saída em texto continua idêntica byte a byte. verifique os dois formatos." />
+
+Este é o exemplo da própria documentação do pstack. Ele tem três partes:
+
+1. **O que você quer**: uma flag `--json`.
+2. **O que não pode mudar**: a saída em texto. A IA compara a saída antes e depois. Um byte diferente significa falha.
+3. **Verificar os dois**: para a IA não testar só o JSON novo e esquecer o texto antigo.
+
+A parte difícil é não quebrar o que já existe. A funcionalidade nova funciona, mas a saída antiga mudou sem avisar. <mark>Coloque no prompt o que não pode mudar, e isso vira algo que a IA verifica.</mark>
+
+## Um exemplo de extensão do Chrome
+
+Você quer uma nova configuração na página de opções: qual grupo o painel lateral mostra quando abre. Antes não existia essa configuração. O painel lateral sempre mostrava “Todos”.
+
+<Copy id="feat-ext" title="Exemplo de extensão do Chrome" code={`/poteto-mode Adicione uma configuração na página de opções: qual grupo mostrar por padrão quando o painel lateral abrir.
+Antes de escrever código, me diga como essa configuração será salva em chrome.storage.sync.
+O que não pode mudar: usuários que nunca definiram essa opção continuam vendo “Todos” no painel lateral, exatamente como agora. Todas as outras configurações existentes continuam sendo lidas sem alteração.
+Verifique os dois casos: um perfil totalmente novo que nunca definiu a opção e um perfil configurado para o grupo “Trabalho”.
+Me mostre o que realmente está em chrome.storage.sync nos dois casos, além de uma captura de tela do painel lateral ao abrir.`} />
+
+- **Explicar primeiro como será salvo**: você pega problemas antes de qualquer código. Talvez a IA queira uma chave nova, e você queira isso dentro das configurações existentes.
+- **Usuários que nunca definiram a opção não veem mudança**: eles atualizam e não mexem em nada. Esse é o caso que quebra com mais facilidade.
+- **Dois perfis**: uma verificação de passou ou falhou para o caso antigo e outra para o novo.
+- **Armazenamento mais captura de tela**: uma interface que parece certa não basta. Confira o valor que foi realmente salvo.
+
+## Onde olhar depois de enviar
+
+**No início: a reformulação do pedido e o formato de armazenamento.** A IA lê o código primeiro e depois diz como planeja salvar a configuração. Se estiver errado, pare na hora.
+
+**No final: evidências para os dois casos.** Dois conjuntos com o conteúdo do armazenamento e capturas de tela. Tudo o que a IA não conseguir verificar é marcado como “inconclusivo”, não como aprovado.
+
+## Veja o design antes de começar
+
+Quando uma mudança envolve vários arquivos, a IA roda o `/architect` sozinha. Por padrão, ela começa a programar logo depois do design. Para olhar antes, envie isto:
+
+<Copy id="feat-arch" title="Pare e me mostre o design primeiro" code="/architect Pare depois do design e me mostre. Não comece até eu concordar." />
+
+<Callout type="tip" title="Deixe a IA abrir sua extensão sozinha">
+Para conferir a interface, a IA precisa saber como iniciar seu projeto. Se ela continuar dizendo que não consegue, rode <code>/create-verification-skill</code> uma vez. Isso cria uma <a href="/pt/wiki/verify-skill/">skill de verificação</a> para o seu projeto. Veja o <a href="/pt/guide/6-verify-ship/">passo 6 do guia</a>.
+</Callout>
+
+## Travou?
+
+<Q q="A IA mudou o formato da saída antiga no caminho.">
+Responda: “A saída em texto original não pode mudar. Me mostre o diff da saída antes e depois. Ele precisa estar vazio.” Na próxima vez, diga o que não pode mudar logo no primeiro prompt.
+</Q>
+<Q q="A IA só verificou a funcionalidade nova, não o comportamento antigo.">
+Acrescente: “apply prove it works. Rode o comando real para os dois casos e cole a saída.” <code>prove it works</code> significa: mostre resultados reais de que funciona. É o nome de um <a href="/pt/wiki/principles/">princípio</a> do pstack. Digite exatamente assim, e a IA entende o que você quer dizer. Você recebe saída real, não só “compilou”.
+</Q>
+<Q q="Uma funcionalidade bem pequena precisa de todo o processo de design?">
+Nem sempre. Quando só um arquivo muda, os passos que não são necessários ficam marcados como <code>n/a</code> ou <code>skip</code> na <Term k="待办清单" />, com um motivo. Se você discordar de algum motivo, diga.
+</Q>
+<Q q="A IA adicionou funcionalidades que eu não pedi.">
+Responda: “Implemente só a única configuração que eu pedi. Liste suas outras ideias, mas não implemente.” O lugar de ideias extras é na resposta, não no código.
+</Q>

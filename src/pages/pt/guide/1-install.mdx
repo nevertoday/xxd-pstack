@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: Claude Code, Cursor ou Codex; Node.js 22.20+ se você instalar com npx
+tldr: Instale o pstack com um ou dois comandos e depois envie uma mensagem para conferir se funciona.
+description: Instale o pstack no Claude Code, Cursor ou Codex com um comando e depois confira se funcionou com uma mensagem.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Instale na sua ferramenta
+
+<div data-sk-keep>
+<Tabs id="install" label="Escolha sua ferramenta" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex e outros"]]}>
+<div slot="cc">
+
+No chat do Claude Code, envie estes dois comandos nesta ordem:
+
+<Copy id="cc-1" title="Primeiro: adicione o marketplace (loja de plugins)" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="Segundo: instale o pstack" code="/plugin install pstack@cursor-plugins" />
+
+Depois de instalado, <mark><strong>todo comando começa com `pstack:`</strong></mark>. Você digita `/pstack:poteto-mode`; só `/poteto-mode` não é reconhecido. Essa é a regra do Claude Code para plugins, para que dois plugins não tenham conflito de nome.
+
+Ele **não atualiza sozinho** por padrão. Para ativar: digite `/plugin`, abra a aba “marketplaces”, escolha `cursor-plugins` e depois escolha “enable auto-update”.
+
+Não quer o prefixo? Instale com `npx skills` na aba “Codex e outros”.
+
+</div>
+<div slot="cursor">
+
+No chat do Cursor, envie:
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+Os comandos mantêm os nomes simples, como `/poteto-mode` e `/how`. Não precisa de prefixo.
+
+Opcional: instale também o plugin `cursor-team-kit`. O pstack usa esse plugin em alguns pontos. Funciona bem sem ele.
+
+</div>
+<div slot="other">
+
+Abra um terminal **na pasta do seu projeto** e rode:
+
+<Copy id="npx-1" lang="bash" title="Instalar neste projeto" code="npx skills add backnotprop/pstack" />
+
+Ele lista todas as skills. **Na primeira vez, selecione todas** e depois escolha em quais ferramentas instalar. Para enxugar depois, veja [Instalar só algumas skills](/pt/howto/pick-skills/).
+
+Para deixar disponível em todos os projetos, adicione `-g`:
+
+<Copy id="npx-2" lang="bash" title="Instalar globalmente" code="npx skills add backnotprop/pstack -g" />
+
+Precisa do Node.js 22.20 ou superior. Não tem certeza? Rode `node -v` para conferir.
+
+</div>
+</Tabs>
+</div>
+
+Depois de instalar, escolha sua ferramenta aqui. Todo comando do site, inclusive o conteúdo dos botões de copiar, muda para o formato dessa ferramenta:
+
+<ToolPick />
+
+## Faça um teste
+
+Comece uma conversa **nova** e envie:
+
+<Copy id="test" title="Teste rápido" code="/poteto-help Qual skill do pstack quem está começando deve aprender primeiro? Responda em uma ou duas frases." />
+
+Se a resposta mencionar o poteto-mode, está instalado. O `/poteto-help` só responde perguntas. Ele não começa nenhuma tarefa.
+
+<Callout type="ok">
+Digite `/` no chat e você encontra `poteto-mode` no menu que abrir (`pstack:poteto-mode` com o plugin do Claude Code).
+</Callout>
+
+## Travou?
+
+<Q q="Digito / e não encontro poteto-mode.">
+<p>Comece uma conversa nova primeiro. Ainda não apareceu? Com o plugin do Claude Code, procure por <code>pstack:</code>. Se você usou <code>npx skills</code>, confira se a ferramenta está aberta <strong>na pasta do projeto onde você instalou</strong> ou reinstale globalmente com <code>-g</code>.</p>
+</Q>
+<Q q="npx skills diz que minha versão do Node é antiga demais.">
+<p>Ele precisa do Node.js 22.20 ou superior. Instale uma versão LTS nova em <a href="https://nodejs.org">nodejs.org</a> e rode o comando de novo.</p>
+</Q>
+<Q q="Posso instalar o plugin e a versão com npx ao mesmo tempo?">
+<p>Não faça isso. Duas cópias da mesma skill geram confusão. Escolha uma.</p>
+</Q>
+
+Para atualizar ou desinstalar depois, veja [Atualizar, inspecionar e desinstalar](/pt/howto/update-remove/).
+
+<Checkpoint id="s1" items={["O pstack está instalado na minha ferramenta", "Em uma conversa nova, digitar / mostra poteto-mode (ou pstack:poteto-mode)", "/poteto-help respondeu à minha pergunta"]} />

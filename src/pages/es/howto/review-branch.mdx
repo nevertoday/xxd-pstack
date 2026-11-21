@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: review-branch
+time: De diez a treinta minutos por revisión
+for: Tu rama está lista y quieres que otros modelos encuentren problemas antes de hacer commit, sin ahogarte en detalles menores
+step: 6
+tldr: Antes de hacer commit, ejecuta /interrogate. Varios modelos intentan romper tu cambio y solo quedan los problemas que logran reproducir.
+description: Antes de hacer commit, usa /interrogate para que varios modelos intenten romper tu cambio y quédate solo con los problemas que logren reproducir. Usa /blast-radius para cambios pequeños, limpia con /no-comments y /unslop, y deja que Babysit vigile el PR hasta que pueda fusionarse.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copia esto primero
+
+<Copy id="rv-int" title="Revisar toda la rama" code="/interrogate toda la rama, sé exigente. No cambies nada todavía. No reportes detalles menores que no sean un bug real ni una regresión de comportamiento." />
+
+- **«No cambies nada todavía»**: la IA solo lee.
+- **«No reportes detalles menores»**: los comentarios sobre nombres y estilo se filtran desde el principio.
+
+A la IA que escribió el código le cuesta ver sus propios errores. Por eso otros modelos hacen la revisión: <mark><strong>se proponen romper el cambio y un problema solo cuenta si logran que ocurra.</strong></mark> Son los modelos que configuraste en `/setup-pstack`.
+
+<Fig id="h-review" />
+
+## Dónde mirar después de enviarlo
+
+La IA solo informa. No cambia tu código. El informe tiene tres partes:
+
+- **Intención** (Intent): para qué cree que sirve el cambio. Si eso está mal, sáltate el resto.
+- **Hallazgos** (Findings): problemas que pasaron una segunda comprobación. Cada uno incluye un comando y su salida, y los volvió a ejecutar.
+- **Descartados** (Dropped): lo que desechó y por qué.
+
+<Callout type="warn" title="Echa un vistazo también a Descartados">
+Que esté en Descartados solo significa que ninguna ejecución lo demostró. Aún puede ser un problema. Si crees que descartó uno injustamente, pídele un caso de reproducción.
+</Callout>
+
+## Solo cambiaron unas pocas líneas, pero te preocupa: /blast-radius
+
+La skill no enumera un montón de «posibles riesgos»: encuentra el único hecho que hace seguro el cambio y escribe código real para demostrarlo. Todo lo que no puede demostrar queda marcado como «sin demostrar».
+
+Supón que tu extensión de Chrome movió los elementos guardados de `chrome.storage.sync` a `chrome.storage.local`. Te preocupa que los usuarios actuales los pierdan al actualizar:
+
+<Copy id="rv-blast" title="Ejemplo de extensión de Chrome" code={`/blast-radius Esta rama mueve los elementos guardados de chrome.storage.sync a chrome.storage.local.
+Mi mayor preocupación: después de que un usuario existente actualice, ¿siguen ahí los elementos que tenía en sync?
+Encuentra el hecho del que depende que este cambio sea seguro, escribe un script que se ejecute de verdad para demostrarlo y pega la salida.`} />
+
+Un buen resultado: el hecho clave es «en el primer inicio tras actualizar, los elementos antiguos se mueven a local». Luego un script: añadir tres elementos ficticios, simular una actualización y comprobar que local tiene exactamente tres.
+
+Si lo único que obtienes es «tras el análisis, este cambio es seguro», responde: «Demuestra ese hecho con algo que se ejecute».
+
+## Limpia comentarios y redacción antes de hacer commit
+
+- **`/no-comments`**: elimina los comentarios sobrantes. Mantiene las cabeceras de licencia, la documentación de interfaces públicas, los enlaces externos que el código no puede expresar y las soluciones temporales impuestas por dependencias externas.
+- **`/unslop`**: quita el tono genérico de IA de las descripciones de PR y los mensajes de commit. Puedes añadir reglas, como `/unslop la descripción del PR, sin guiones largos`.
+
+<Callout type="no" title="/deslop no forma parte de pstack">
+<code>/deslop</code> aparece a menudo en la documentación de pstack, pero viene de otro paquete de plugins de Cursor. Si no lo tienes, dilo directamente: «Elimina los comentarios que describen lo que hace el código, las comprobaciones defensivas sin motivo, el código de compatibilidad que ya no hace falta y los cambios ajenos a esta tarea».
+</Callout>
+
+## Una vez abierto el PR: déjaselo a Babysit
+
+Cuando un <Term k="PR" /> ya está abierto, fallan las comprobaciones, la gente comenta y la rama principal avanza. Deja que la IA se encargue de todo eso con Babysit (vigilar el PR y su CI hasta que esté listo para fusionarse):
+
+<Copy id="rv-babysit" title="Vigilarlo hasta que pueda fusionarse" code="/poteto-mode vigila este PR (babysit) hasta dejarlo en verde." />
+
+La IA resuelve primero los conflictos, luego los comentarios y después las comprobaciones. Si solo quieres ver en qué punto está, pregunta: «/poteto-mode revisa el PR 123. ¿Qué queda aún sin resolver?».
+
+<Callout type="warn" title="En verde no significa fusionado">
+La IA se detiene en «listo para fusionar». Para fusionar, dilo con claridad: «land the stack» (fusionar la cadena de PR) o «adelante, fusiónalo».
+</Callout>
+
+## ¿Te atascaste?
+
+<Q q="/interrogate dijo «sin hallazgos verificados». ¿Fue por pereza?">
+Es un resultado normal. Revisa Descartados. Si tienes una preocupación concreta, dísela y haz que pruebe justo eso.
+</Q>
+<Q q="Creo que uno de los puntos descartados es real.">
+Responde: «Escríbeme un caso de reproducción para el punto que planteó el segundo adversario en Descartados». Si se reproduce, es real.
+</Q>
+<Q q="Babysit lo dejó todo en verde. ¿Por qué no lo fusiona?">
+Es a propósito. Di «land the stack» o «adelante, fusiónalo». Primero, Babysit hace que unas IA ayudantes que no escribieron el código revisen cada PR y luego fusiona de abajo hacia arriba.
+</Q>
+<Q q="/no-comments borró un comentario que quería conservar.">
+Solo mantiene comentarios sobre «cosas que no podemos cambiar». Si no estás de acuerdo, dile a qué limitación externa se refiere el comentario y haz que decida de nuevo.
+</Q>

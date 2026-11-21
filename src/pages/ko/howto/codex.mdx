@@ -1,0 +1,94 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: codex
+time: 설치 5분, 읽기 6분
+for: Codex, OpenCode, Pi 또는 Agent Skill(에이전트 스킬)을 지원하는 다른 도구를 쓰는 분
+step: 1
+# Every command on this page is written for Codex, so it stays as written
+cmds: literal
+tldr: 명령어 하나로 설치하고, 설정을 한 번 돌려 모델을 고른 뒤, $poteto-mode로 시작해요.
+description: "npx skills로 Codex와 다른 도구에 pstack 설치하기: Node.js 버전, 프로젝트별 또는 전역 설치, 스킬과 모델 설정 위치, 도구에 없는 기능이 있을 때의 동작."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## 명령어 하나로 설치하기
+
+pstack 스킬은 각각 공통 <Term k="Agent Skill" /> 형식의 `SKILL.md` 파일이라 Cursor 없이도 설치돼요. 터미널에 이렇게 입력하세요:
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+Node.js 22.20 이상이 필요해요. 버전을 잘 모르겠다면 먼저 `node -v`를 돌려 보세요.
+
+원하는 스킬을 체크한 다음, 설치할 도구를 고르세요. 무엇을 체크해야 할지 모르겠다면 전부 선택하면 돼요. 몇 개만 골라 설치하려면 [스킬 몇 개만 설치하기](/ko/howto/pick-skills/)를 보세요.
+
+<Callout type="tip" title="모든 프로젝트에 설치하기">
+<p>기본적으로는 현재 프로젝트 폴더에만 설치돼요. 모든 프로젝트에서 쓰려면 <code>-g</code>를 붙이세요:</p>
+<p><Cmd c="npx skills add backnotprop/pstack -g" /></p>
+</Callout>
+
+## 설치된 위치 확인하기
+
+해당하는 폴더 안에 `poteto-mode` 같은 하위 폴더가 있는지 확인하세요:
+
+| 도구 | 이 프로젝트 | 모든 프로젝트(-g) |
+| --- | --- | --- |
+| Codex와 다른 도구 | `.agents/skills/` | `~/.agents/skills/` |
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Pi | `.pi/skills/` | `~/.pi/agent/skills/` |
+| Cursor | `.cursor/skills/` | `~/.cursor/skills/` |
+
+Codex는 `~/.codex/skills/`도 읽어요.
+
+<mark>스킬은 저절로 실행되지 않아요</mark>. `setup-pstack`을 빼면, 각 스킬은 이름을 직접 불러야만 실행돼요.
+
+## 모델 고르기
+
+설치한 뒤 `setup-pstack`을 한 번 돌리세요. 쓸 수 있는 모델 목록을 보여 주고, <Term k="推理预算" />(모델이 얼마나 오래 생각할지)에 대해 물은 뒤 파일 하나를 만들어요:
+
+<Copy id="codex-file" title="설정 파일 위치" code="~/.agents/pstack-models.md" />
+
+스킬이 모델을 고를 때 이 파일을 스스로 읽어서 새 대화를 열 필요는 없어요.
+
+<Callout type="warn" title="설정은 최소 한 번 돌리세요">
+pstack의 기본 모델 이름은 Cursor 기준으로 적혀 있어요. 쓰는 도구에 그 이름이 없으면 스킬이 가장 비슷한 모델로 바꿔요. 비슷한 모델도 없으면 현재 대화의 모델을 그대로 쓰고 그렇게 알려 줘요. 설정을 한 번 돌려 두면 모든 역할이 실제로 있는 모델로 맞춰져요.
+</Callout>
+
+## 첫 번째 작업
+
+Codex에서는 `$poteto-mode`처럼 `$` 뒤에 스킬 이름을 붙여 불러요. 이 사이트의 명령어는 기본적으로 Claude Code 형식(`/pstack:poteto-mode`)으로 적혀 있어요. 여기서 Codex를 고르면 사이트의 모든 명령어가 `$` 형식으로 바뀌어요:
+
+<ToolPick />
+
+첫 번째 작업은 이렇게 보내 보세요:
+
+<Copy id="codex-first" title="Codex에서는 $를 붙여 스킬을 불러요" code="$poteto-mode 이 명령어에 --json 플래그를 추가해 주세요. 기존 텍스트 출력은 바이트 단위로 완전히 똑같이 유지해야 해요. 두 출력을 모두 검증해 주세요." />
+
+“이 작업에 poteto-mode 스킬을 써 주세요”라고 말해도 돼요. 다른 도구에서는 해당 도구의 문법을 쓰면 돼요. 이 메시지를 잘 쓰는 방법은 [첫 번째 작업](/ko/guide/3-first-task/)을 보세요.
+
+## 도구에 없는 기능은 알아서 우회해요
+
+스킬에는 Cursor 이름이 쓰여 있고, AI가 이를 바꿔서 처리해요. 몇 가지 눈에 띄는 점이 있어요:
+
+- **도우미 AI를 보내는 기능 없음**(<Term k="子代理" text="서브에이전트" />): 나란히 돌아갈 단계가 하나씩 실행돼서 조금 더 느려요.
+- **질문 도구 없음**: 대화창에 번호를 매긴 선택지를 나열해요.
+- **`/loop` 없음**: 일정 시간 기다리는 명령어를 쓰고 나중에 다시 확인해요.
+- **Custom Mode(커스텀 모드) 없음**: Cursor에만 있어요. 새 작업을 시작할 때마다 맨 앞에 `poteto-mode`를 적으세요.
+
+`deslop`, `control-cli`, `control-ui`는 다른 Cursor 플러그인에 들어 있는 기능이에요. 없으면 AI가 Playwright나 tmux처럼 이미 있는 도구를 써요.
+
+## 막혔나요?
+
+<Q q="npx skills에서 오류가 나고 실행되지 않아요.">
+먼저 `node -v`를 돌려 보세요. 22.20보다 낮으면 Node.js를 업그레이드한 뒤 다시 해 보세요.
+</Q>
+<Q q="다른 프로젝트에서 pstack 스킬을 찾을 수 없어요.">
+<u>기본적으로는 설치할 때 있던 프로젝트에만 설치돼요</u>. 새 프로젝트에서 다시 실행하거나, `-g`를 붙여 모든 프로젝트에 설치하세요.
+</Q>
+<Q q="모델 설정을 바꿨는데 적용되지 않는 것 같아요.">
+`~/.agents/pstack-models.md`를 열어 해당 줄에 고른 모델이 적혀 있는지 확인하세요. 그다음 그 이름이 쓰는 도구에 있는지 확인하세요. 없으면 스킬이 가장 비슷한 모델로 바꾸고 답변에서 그렇게 알려 줘요.
+</Q>

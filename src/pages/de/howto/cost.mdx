@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cost
+time: 5 Minuten zum Lesen, 5 zum Umstellen
+for: Du findest, pstack verbrennt zu viele Tokens, und willst etwas sparen
+step: 2
+tldr: Bei Kleinigkeiten einfach direkt fragen. Für größere Aufgaben ein starkes Hauptmodell mit günstigen Modellen für Code nutzen oder das Budget eine Stufe senken.
+description: Wohin bei pstack das Geld fließt; /poteto-mode bei Kleinigkeiten weglassen; starkes Hauptmodell mit günstigen Modellen für Code; die drei Budgets; kleinere Review-Panels; was auto und inherit-parent bedeuten.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Wohin das Geld fließt
+
+Dieselbe Aufgabe kostet mit `/poteto-mode` deutlich mehr <Term k="token" text="Tokens" /> (KI-Verbrauch). Die Mehrkosten entstehen an drei Stellen:
+
+- **Helfer-KIs.** Lesen und Schreiben von Code verteilt sich auf mehrere <Term k="子代理" text="Subagents" /> (Helfer für einzelne Teilaufgaben), und jeder kostet extra.
+- **Review-Panels.** Bei `arena` und `interrogate` machen mehrere Modelle jeweils einen eigenen Durchgang. Standard sind drei, also fallen die Kosten dreimal an.
+- **Längeres Nachdenken.** Standard ist die Reasoning-Stufe `xhigh`. Je länger das Modell nachdenkt, desto mehr kostet es.
+
+Dieses Geld kauft Prüfungen und Zweitmeinungen. Mit den Schritten unten gibst du weniger aus, ohne darauf zu verzichten.
+
+## /poteto-mode bei Kleinigkeiten weglassen
+
+Ein Tippfehler, eine kleine Farbanpassung, eine zusätzliche Log-Zeile: Wenn du auf einen Blick siehst, ob es stimmt, frag einfach direkt.
+
+- **Du willst nur wissen, wie es geht**: Nutze `/poteto-help`. Es antwortet nur und fängt nicht an zu arbeiten.
+- **Du verstehst den Code noch nicht**: Frag zuerst `/how`. Das ist günstiger, als eine falsche Änderung noch mal zu machen.
+
+## Starkes Hauptmodell, günstige Modelle für Code
+
+<mark>Lass den Hauptchat – also den, mit dem du sprichst – auf einem starken Modell laufen. Stell die Rollen, die Code schreiben, auf günstigere Modelle um.</mark>
+
+Der Hauptchat muss dich verstehen und Änderungen prüfen – wenn du dort sparst, passieren Fehler. Die Coding-Helfer bekommen klar abgegrenzte Aufgaben, die günstigere Modelle gut schaffen.
+
+Führ `/setup-pstack` aus. Stell im letzten Schritt, „Rollen bestätigen“, die Zeilen `feature, refactoring`, `bug-fix` und `perf-issue` auf ein günstigeres Modell um.
+
+<Fig id="h-cost" />
+
+## Beim Budget eine Stufe runtergehen
+
+<Cmd c="/setup-pstack" />
+
+Es bietet drei Budgets:
+
+| Budget | Reasoning-Stufe | Hinweis |
+| --- | --- | --- |
+| `large` | `xhigh` | Standard |
+| `medium` | `high` | Etwas günstiger |
+| `small` | `medium` | Am günstigsten |
+
+Das Budget ändert nur, wie lange Modelle nachdenken, nicht welche Modelle laufen. Rollen, die du selbst geändert hast, bleiben erhalten. <u>Starte nach der Auswahl einen neuen Chat</u>, sonst greift die Einstellung nicht.
+
+<Callout type="tip" title="Es passt sich der Aufgabe bereits an">
+Das Budget ist nur der Ausgangspunkt. Bei Routineaufgaben senkt es die Reasoning-Stufe um zwei oder mehr Stufen – selbst auf `large` wird einfache Arbeit also nicht zum Höchstpreis abgerechnet. Keine Rolle läuft über `xhigh`.
+</Callout>
+
+## Einen Reviewer weniger schicken
+
+Die Zeilen `arena runners` und `interrogate reviewers` schicken pro aufgeführtem Modell eine Helfer-KI los. Standard sind drei:
+
+<Copy id="cost-panel-before" title="Standard: drei pro Panel" code={`arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh
+interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh`} />
+
+Lösch eines, und du zahlst für eines weniger, verlierst aber auch die Sicht eines Modells. fable kostet am meisten – lässt du es weg, sparst du am meisten. Du kannst es auch pro Aufgabe dazusagen:
+
+<Copy id="cost-arena" code="/arena diese Frage zur Benennung ist keine große Sache. 2 Optionen reichen." />
+
+## auto und inherit-parent: dem Hauptchat folgen
+
+`auto` oder `inherit-parent` bei einer Rolle bedeutet dasselbe: Es ist kein Modell festgelegt, also übernimmt die Rolle das Modell aus dem Hauptchat. `auto` ist kein Modell namens auto.
+
+Wenn der Hauptchat günstig ist, sind diese Rollen auch günstig. In Claude Code nutzt der gemini-Platz im Review-Panel standardmäßig das Modell des Hauptchats.
+
+## Kommst du nicht weiter?
+
+<Q q="Nach dem Wechsel auf small sind die Ergebnisse spürbar schlechter geworden.">
+Probier zuerst `medium`. Oder bleib bei `large` und stell nur die Coding-Rollen auf ein günstigeres Modell um. Eine Fehlentscheidung kostet meistens mehr als die gesparten Tokens.
+</Q>
+<Q q="Ich habe einen Modellnamen in der Einstellungsdatei von Hand geändert, und es heißt, das Modell ist nicht verfügbar.">
+Vielleicht ist der Name falsch geschrieben oder du hast keinen Zugriff darauf. pstack fällt dann auf das Standardmodell zurück und sagt Bescheid. Um Modelle zu wechseln, führ `/setup-pstack` noch mal aus und wähle aus der Liste.
+</Q>
+<Q q="Ich habe das Budget geändert, aber die Kosten sind gleich geblieben.">
+Neue Einstellungen gelten erst für neue Chats. Starte einen neuen und schau noch mal. Bei Tools wie Codex prüf außerdem, ob `~/.agents/pstack-models.md` wirklich geschrieben wurde.
+</Q>

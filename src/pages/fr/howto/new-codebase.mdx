@@ -1,0 +1,81 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: new-codebase
+time: Une demi-heure le premier jour, puis posez vos questions au fil de l'eau
+for: Vous reprenez le projet de quelqu'un d'autre, ou vous revenez sur le vôtre après plusieurs mois, et vous voulez d'abord le comprendre
+step: 4
+tldr: Commencez par « ne modifie aucun code pour l'instant » et laissez l'IA vous guider. Demandez ensuite des précisions avec /how et /why.
+description: "Reprendre un projet inconnu : faites lire le code à l'IA sans rien modifier, demandez des précisions avec /how, /why, /teach et /recall, et utilisez la reprise de session pour une branche à moitié terminée."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copiez d'abord ceci
+
+<Copy id="nc-first" title="Votre premier prompt" code="/poteto-mode Aide-moi à comprendre ce projet : ce qu'il fait, comment le lancer en local et où se trouve le code principal. Dis-moi quels fichiers tu as lus et quelles sources tu as utilisées. Ne modifie aucun code pour l'instant." />
+
+- **« Ne modifie aucun code pour l'instant »** : <mark><strong>tant que l'IA n'a pas compris le code, elle se contente de lire.</strong></mark> Elle mène l'investigation et n'ouvre aucune <Term k="PR" />.
+- **« Dis-moi quels fichiers tu as lus »** : elle distingue ce qu'elle a lu de ce qu'elle a déduit.
+
+## Où regarder après l'envoi
+
+Vous recevez une synthèse, avec une source pour chaque point. Elle couvre en général :
+
+- **Vue d'ensemble** : ce que fait le projet.
+- **Idées clés et fonctionnement.**
+- **Où se trouve chaque élément.**
+- **Pièges à surveiller.**
+
+## Demandez ensuite des précisions : quatre commandes
+
+| Commande | Répond à | Exemple |
+| --- | --- | --- |
+| `/how` | Comment ça fonctionne aujourd'hui | Comment les alertes sont-elles dédupliquées ? |
+| `/why` | Pourquoi ça a été conçu ainsi | Pourquoi 5 nouvelles tentatives max ? |
+| `/teach` | Jusqu'à ce que vous compreniez vraiment | Explique-moi ce changement de la logique de réessai |
+| `/recall` | Où vous en étiez | Où en est le travail sur l'export ? |
+
+- **`/why`** vérifie d'abord l'historique Git, puis les issues et la documentation. S'il ne trouve rien, il le dit. « Personne n'a noté pourquoi » est aussi une réponse.
+- **`/teach`** : ajoutez « convaincs-moi », et l'explication devient un argumentaire que vous pouvez vérifier.
+- **`/recall`** lit uniquement votre propre historique dans ce projet, sur les 7 derniers jours par défaut.
+
+## Exemple : un site réservé aux membres
+
+Un ami vous confie un site réservé aux membres sur Cloudflare Workers, avec ses données dans D1. Vous devez modifier le fonctionnement de l'expiration des abonnements. Commencez par le premier prompt ci-dessus, puis demandez :
+
+<Copy id="nc-how" title="D'abord, demandez comment ça fonctionne aujourd'hui" code="/how Après la connexion d'un utilisateur, comment son statut de membre arrive-t-il jusqu'à la page ? Où la session est-elle stockée ? Où l'expiration de l'abonnement est-elle vérifiée ?" />
+
+<Copy id="nc-why" title="Ensuite, demandez pourquoi" code="/why Pourquoi la vérification d'expiration de l'abonnement est-elle écrite deux fois, à deux endroits différents ? Cette raison est-elle toujours valable ?" />
+
+<Copy id="nc-teach" title="Enfin, jusqu'à ce que vous compreniez vraiment" code="/teach Je dois modifier la logique d'expiration de l'abonnement. Explique-moi comment cette partie fonctionne et convaincs-moi que la modifier à un seul endroit ne va pas exclure les utilisateurs qui ont déjà payé." />
+
+Après ces trois questions, laissez l'IA apporter des modifications. À ce stade, vous avez tous les deux la même vision.
+
+## Reprendre une branche à moitié terminée
+
+Vous-même la semaine dernière, ou une autre conversation avec l'IA, avez fait la moitié du travail sur une branche. Envoyez ceci :
+
+<Copy id="nc-pickup" title="Reprendre là où le travail s'est arrêté" code="/poteto-mode Reprends cette branche. Lis le journal de décisions, identifie ce qui est déjà fait et continue à partir de là. Ne refais rien de ce qui est déjà terminé." />
+
+L'IA retrouve les traces précédentes (conversations, branches, le <Term k="决策日志" />) et indique à partir de quelle étape elle va continuer. Si la conversation précédente indiquait « réussi », elle vérifie à nouveau par elle-même.
+
+<Callout type="tip" title="/recall ou reprendre une branche">
+Pour poursuivre une conversation précise, utilisez le prompt ci-dessus. Pour retrouver le fil de vos dernières conversations avant de commencer quelque chose de nouveau, utilisez <code>/recall</code>. Par exemple : « /recall mon travail d'hier sur la liste virtuelle, puis lis ce rapport de bug. »
+</Callout>
+
+## Un blocage ?
+
+<Q q="J'ai dit de ne rien modifier, mais l'IA a quand même changé du code.">
+Pour une nouvelle question dans la même conversation, commencez par « new task » : « /poteto-mode new task. Trouve pourquoi le cache est toujours là après la déconnexion. Ne modifie aucun code pour l'instant. » Sans cela, l'IA traite votre question comme l'étape suivante de la tâche précédente.
+</Q>
+<Q q="/why dit qu'il ne trouve pas la raison d'origine.">
+C'est un résultat normal. Si vous savez où la réponse pourrait se trouver, comme un lien vers une issue ou un ancien document, collez-le.
+</Q>
+<Q q="L'IA a tout expliqué, mais je n'ai pas suivi.">
+Tapez <code>/bro</code>. L'IA reformule sa dernière réponse avec des mots simples, en plus court.
+</Q>
+<Q q="En reprenant une branche, l'IA a refait du travail déjà terminé.">
+Répondez : « Les traces précédentes sont fiables. Ne recommence pas depuis le début. Dis-moi à partir de quelle étape tu vas continuer. »
+</Q>

@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: write-docs
+time: Une conversation par README
+for: Vous avez besoin d'un README, d'une doc utilisateur ou d'une description de PR qui ne sente pas l'IA
+step: 5
+tldr: Demandez d'abord à /technical-writing de classer chaque section par type de doc et d'exécuter chaque étape, puis retirez les tics d'IA avec /unslop.
+description: Utilisez /technical-writing pour choisir un type de doc avant d'écrire, /sharpen pour affiner votre demande, rédigez d'abord le tutoriel pour du code partagé, puis terminez avec /unslop pour retirer les tics d'IA.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copiez d'abord ceci
+
+<Copy id="doc-tw" title="Écrire un README" code="/technical-writing Écris un README pour cette CLI Node. Dis-moi d'abord quel type de doc attribuer à chaque section, et écris-le une fois que j'aurai confirmé." />
+
+Les README écrits par une IA contiennent souvent un peu de tout : étapes d'installation, philosophie et tableau des options, le tout mélangé. Les débutants comme les personnes qui cherchent une option doivent sauter d'un passage à l'autre.
+
+La première règle de `/technical-writing` : <mark><strong>une doc fait une seule chose.</strong></mark> Il classe chaque section dans l'un de ces quatre types :
+
+- **Tutoriel** : à suivre une fois, avec un résultat visible à chaque étape.
+- **Guide pratique** : les étapes pour résoudre un problème précis.
+- **Explication** : pourquoi c'est conçu ainsi, et les compromis.
+- **Référence** : options, flags, codes d'erreur. Rien que des faits.
+
+Si un README a besoin de plusieurs types, découpez-le en parties qui renvoient les unes aux autres.
+
+## Un exemple de CLI Node
+
+Une CLI qui exporte des notes Markdown en HTML par lots a besoin d'un README pour GitHub :
+
+<Copy id="doc-cli" title="Exemple de CLI Node" code={`/technical-writing Écris un README pour cette CLI.
+Rédige l'installation et le premier export sous forme de tutoriel : à chaque étape, indique au lecteur quelle sortie doit s'afficher.
+Mets toutes les options dans une section de référence à part, construite à partir de la vraie sortie de --help. N'invente aucune option.
+Une fois terminé, suis le tutoriel depuis zéro dans un dossier vide, vérifie que chaque commande fonctionne et colle la sortie du terminal.
+Enfin, passe /unslop dessus : pas de tirets cadratins, pas de « puissant », pas de « sans effort ».`} />
+
+- **« Suis le tutoriel dans un dossier vide »** : la phrase la plus utile. On peut débattre du style. On ne peut pas débattre du fait qu'une commande s'exécute ou non.
+- **« Construite à partir de la vraie sortie de --help »** : une doc de référence énonce des faits, et les faits viennent du code.
+- **« Enfin, passe /unslop dessus »** : retire les tics d'IA, plus tous les mots dont vous ne voulez pas.
+
+## Où regarder après l'envoi
+
+**Au début : comment l'IA a classé les types.** Si de la philosophie s'est glissée dans la partie démarrage, corrigez cela tout de suite.
+
+**À la fin : la sortie du terminal.** Si une étape échoue, il manque une étape au tutoriel.
+
+## Retirez les tics d'IA à la fin : /unslop
+
+<Copy id="doc-unslop" code="/unslop les modifications du README, pas de tirets cadratins" />
+
+Ses règles intégrées ciblent les tics d'IA courants en anglais : tirets cadratins abusifs, listes forcées de trois éléments, fins creuses. Ajoutez aux règles les mots que vous voulez éviter, par exemple « pas de “sans friction”, pas de “booster” ».
+
+## Code appelé par d'autres : écrivez d'abord le tutoriel
+
+Pour un package ou une API que d'autres parties du code vont utiliser, vous pouvez écrire la doc avant le code :
+
+<Copy id="doc-readme-first" title="Écrire d'abord le tutoriel" code="/poteto-mode écris d'abord un tutoriel qui montre comment j'utiliserais le nouveau package config. Ensuite, utilise /teach pour m'expliquer pourquoi il est meilleur que l'actuel." />
+
+Écrire le tutoriel en premier oblige l'IA à penser comme l'utilisateur : quoi écrire en premier, et ce que vous verrez. Le tutoriel devient aussi la référence par rapport à laquelle vérifier le code.
+
+## Vous doutez d'avoir demandé la bonne chose : /sharpen
+
+<Copy id="doc-sharpen" code="/sharpen Écris la doc d'onboarding du nouveau service de facturation." />
+
+Il n'écrit pas la doc. Il réécrit votre demande pour la rendre plus précise. Par exemple : ce qu'un expert ferait en plus, de quelles sources il partirait et ce qui permettrait de prouver que le résultat est bon. Lisez la version réécrite. Si elle vous semble bonne, envoyez-la.
+
+<Callout type="tip" title="Une description de PR est aussi une doc">
+Quand l'IA ouvre une <Term k="PR" />, elle rédige la description avec <code>/technical-writing</code> et passe <code>/unslop</code> dessus. La description est un résumé d'une minute pour les relecteurs. Les sections vides sont supprimées.
+</Callout>
+
+## Un blocage ?
+
+<Q q="Le README contient encore un peu de tout.">
+Répondez : « Découpe-le à la manière de technical-writing : ne garde que le tutoriel dans la partie démarrage, déplace le tableau des options dans la section de référence et donne aux idées de conception leur propre section d'explication. Ne les mélange pas. »
+</Q>
+<Q q="J'ai lancé /unslop, et ça sent encore l'IA.">
+Listez les mots et tournures précis qui vous gênent, puis ajoutez-les après la commande. Par exemple : « /unslop cette section, pas de tirets cadratins, pas de “sans friction” ni de “booster”, phrases de moins de 20 mots. » Plus les règles sont précises, mieux il s'en sort.
+</Q>
+<Q q="/sharpen n'a pas écrit ma doc.">
+Il ne fait que réécrire la demande. Envoyez la demande réécrite à <code>/poteto-mode</code> ou à <code>/technical-writing</code>.
+</Q>
+<Q q="La description de PR est trop longue.">
+Répondez : « Une description de PR est un résumé d'une minute. Une à trois phrases par section. Mets les données détaillées dans un fichier lié. »
+</Q>

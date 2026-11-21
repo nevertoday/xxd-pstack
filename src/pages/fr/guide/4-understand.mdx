@@ -1,0 +1,90 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 4
+need: Un module que vous connaissez mal, ou un problème dont la cause est inconnue
+tldr: Avant de modifier du code, demandez à l'IA d'expliquer comment il fonctionne aujourd'hui, pourquoi il a été conçu ainsi et où vous en étiez.
+description: "Demandez à l'IA d'expliquer avant de modifier du code : enquêter sans rien toucher, /how pour l'état actuel, /why pour l'origine, /teach jusqu'à comprendre, /recall pour retrouver où vous en étiez."
+---
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Cause inconnue : demandez à l'IA d'enquêter, pas de corriger
+
+<Copy id="inv" code="/poteto-mode Trouve pourquoi la tâche en arrière-plan tombe en timeout toutes les quelques heures. Dis-moi les faits établis, les données que tu as utilisées et tes hypothèses les plus solides. Ne modifie aucun code pour l'instant." />
+
+« Ne modifie aucun code pour l'instant » limite l'IA à l'enquête, sans rien toucher. Elle termine par une explication, où chaque point indique sa source.
+
+La partie « les données que tu as utilisées » la pousse à présenter séparément les preuves et les hypothèses.
+
+Une fois que vous connaissez la cause et voulez la corriger, dites « new task » pour lancer une nouvelle tâche de correction.
+
+## Avant de modifier quoi que ce soit, demandez à l'IA d'expliquer
+
+<mark>Modifier du code que l'on ne comprend pas est la première source de bugs cachés en production.</mark> Cela vaut aussi pour l'IA.
+
+pstack propose quatre skills pour cela :
+
+| Skill | À quoi il répond |
+| --- | --- |
+| `/how` | Comment ça fonctionne aujourd'hui ? |
+| `/why` | Pourquoi ça a été conçu ainsi ? |
+| `/teach` | Explique-moi jusqu'à ce que je comprenne |
+| `/recall` | Où est-ce que j'en étais ? |
+
+Chacun dit tout haut ce qu'il a compris. Vous pouvez ainsi vérifier s'il a vu juste.
+
+## Demandez comment ça fonctionne aujourd'hui : /how
+
+<Copy id="how" code="/how Comment les notifications sont-elles dédupliquées ? Y a-t-il une requête N+1 lors de la recherche des abonnés ?" />
+
+Demandez ce que vous voulez vraiment savoir. Il lit le code et vous l'explique comme un collègue senior qui vous fait faire le tour : comment le code s'exécute, les données clés, les détails faciles à rater.
+
+Il envoie une IA d'appoint en lecture seule pour lire le code et rédiger l'explication, puis vous la transmet.
+
+## Demandez pourquoi ça a été conçu ainsi : /why
+
+<Copy id="why" code="/why Pourquoi la limite de réessais est-elle fixée à 5 ? Cette raison tient-elle toujours ?" />
+
+Il lit l'historique, pas le code : les commits et les discussions de PR qui ont introduit ce code, puis chaque changement qui a suivi. Si cette piste ne donne pas grand-chose, il cherche ailleurs. Il cite ce que les auteurs ont écrit et signale ses propres hypothèses comme telles.
+
+S'il ne trouve rien, il le dit. « Personne n'a noté pourquoi » est aussi une réponse.
+
+Pour utiliser les deux, dites « why d'abord, puis how ».
+
+## Faites-vous expliquer jusqu'à comprendre : /teach
+
+<Copy id="teach" code="/teach Explique-moi étape par étape comment cette PR modifie les réessais. Convaincs-moi qu'elle corrige la vraie cause, pas un symptôme de surface." />
+
+Utilisez-le quand un résumé ne suffit pas. Il lance `/how` et `/why`, puis rédige le tout avec des mots simples.
+
+« Convaincs-moi » gagne à être utilisé souvent : cela vous permet de contester ce que l'IA avance. Vous pouvez aussi vous en servir pour interroger ses propres choix :
+
+<Copy id="teach2" code="/teach Explique pourquoi tu l'as implémenté ainsi plutôt qu'avec une file d'attente. À quoi as-tu renoncé, et pourquoi ?" />
+
+## Retrouvez où vous en étiez : /recall
+
+<Copy id="recall" code="/recall Aide-moi à me rappeler où j'en étais sur la fonctionnalité d'export la semaine dernière" />
+
+Il parcourt vos conversations récentes, ainsi que l'historique partagé (tickets, correctifs passés). Puis il vous dit où en sont les choses et quelle est la suite.
+
+Quand vous lancez un nouveau travail sur un ancien sujet, faites-lui d'abord retrouver le travail précédent, puis donnez-lui les nouveaux éléments :
+
+<Copy id="recall2" code="/recall mon travail d'hier sur la liste virtuelle, puis lis ce rapport de bug." />
+
+## Reprenez un travail inachevé
+
+<Copy id="pickup" code="/poteto-mode Reprends cette branche. Lis le journal de décisions, identifie ce qui est fait et continue à partir de là. Ne refais pas le travail déjà terminé." />
+
+Il lit ce qui a été consigné et indique où il va reprendre. Pour les parties annoncées comme « terminées », il les revérifie par rapport à l'objectif initial.
+
+## Un blocage ?
+
+<Q q="/why dit qu'il ne trouve pas la raison.">
+<p>C'est normal. Il lit surtout les commits et les discussions de PR. Si personne n'a noté la raison, il ne peut pas la trouver. Quand les messages de commit en disent trop peu, il cherche ailleurs, comme dans les tickets ou la documentation que vous avez connectés (connectez le serveur MCP correspondant dans votre outil, par exemple GitHub, Linear ou Notion).</p>
+</Q>
+<Q q="C'est trop technique.">
+<p>Dites « explique-le pour quelqu'un qui découvre ce projet », ou tapez <code>/bro</code> une fois que c'est terminé.</p>
+</Q>
+
+<Checkpoint id="s4" items={["J'ai posé à /how une vraie question sur mon propre projet", "Je sais que « Ne modifie aucun code pour l'instant » fait enquêter l'IA sans rien toucher", "Je sais que les réponses de /why citent leurs sources et séparent les preuves des hypothèses"]} />

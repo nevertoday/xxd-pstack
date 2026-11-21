@@ -1,0 +1,88 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: which-skill
+time: 2 minutes de consultation
+for: Vous avez quelque chose à faire et ne savez pas quelle commande taper
+step: 3
+tldr: Vous hésitez ? Utilisez /poteto-mode. Ne nommez un skill précis que si vous voulez plus ou moins de vérifications que ce qu'il fait.
+description: "Utilisez /poteto-mode par défaut en cas de doute ; une liste « Je veux… → utilisez ceci » ; demandez à /poteto-help ; les paires de skills souvent confondues ; quel niveau de conception mérite une tâche ; pourquoi ne pas imposer l'ordre des skills dans votre prompt."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## Vous hésitez ? Utilisez /poteto-mode
+
+<mark>Quand vous hésitez, la réponse est presque toujours `/poteto-mode`</mark>. Vous indiquez l'objectif et ce que signifie « terminé ». Il choisit une approche (un <Term k="剧本" />) et appelle lui-même des skills comme `/how` et `/architect` si besoin.
+
+Ne nommez directement un skill que si vous voulez **plus ou moins** que ce qu'il fait. Par exemple, pour comprendre du code sans qu'il modifie quoi que ce soit, utilisez `/how`.
+
+À part `/setup-pstack`, chaque skill ne se lance que lorsque vous le tapez vous-même.
+
+## Je veux… → utilisez ceci
+
+- **Comprendre du code** : comment il fonctionne aujourd'hui `/how` ; pourquoi il a été fait ainsi `/why` ; l'expliquer en détail `/teach`
+- **Se mettre d'accord avant de commencer** : vérifier que l'IA a bien compris `/in-your-own-words` ; rendre le prompt plus précis `/sharpen`
+- **Reprendre là où vous en étiez** : d'une conversation à l'autre `/recall` ; ce qui a changé dans celle-ci `/ketchup`
+- **Fixer une conception** : la structure d'abord `/architect` ; plusieurs approches sur une même tâche `/arena` ; vérifier plusieurs éléments séparément `/swarm`
+- **Vérifier** : plusieurs modèles cherchent les failles `/interrogate` ; ce qui risque de casser ailleurs `/blast-radius` ; un test qui échoue d'abord `/tdd` ; vérifier les chiffres de performance `/benchmark-checklist` ; laisser l'IA piloter votre application `/create-verification-skill`
+- **Rédaction** : retirer les tics d'IA `/unslop` ; docs et descriptions de PR (Pull Request) `/technical-writing` ; le dire en mots simples `/bro`
+- **Gros chantiers et longues sessions** : une très grosse tâche `/figure-it-out` ; tenir un journal de décisions `/show-me-your-work` ; stopper une erreur qui se répète `/correct`
+- **Configuration** : choisir les modèles, fixer le budget `/setup-pstack` ; créer votre propre mode `/automate-me`
+
+Pour les détails et des exemples de prompts pour chaque skill, consultez la [Référence des skills](/fr/skills/).
+
+## Vous hésitez encore ? Demandez à /poteto-help
+
+<Cmd c="/poteto-help Je veux relire cette branche. Quel skill dois-je utiliser ?" />
+
+Il vous répond, vous donne un prompt que vous pouvez envoyer tel quel et ajoute un lien vers la source. Il **ne lance pas le travail**. À vous de décider si vous envoyez le prompt.
+
+<Callout type="warn" title="Demandez-lui de faire le travail, et il le fera">
+Si vous lui dites quelque chose comme « utilise pstack pour corriger ce bug », il se met directement au travail selon les règles de `/poteto-mode`.
+</Callout>
+
+## Les paires souvent confondues
+
+- **`/arena` et `/swarm`** : `/arena` réalise une même tâche plusieurs fois, choisit le meilleur résultat et y greffe les bonnes idées des autres. `/swarm` découpe un ensemble de tâches, les traite séparément et fusionne le tout dans un seul rapport.
+- **`/how`, `/why`, `/teach`** : `/how` explique ce que fait le code, `/why` explique pourquoi il est fait ainsi, et `/teach` lance l'un ou les deux puis l'explique en détail.
+- **`/interrogate` et `/blast-radius`** : le premier passe en revue la modification elle-même. Le second repère ce qui risque de casser en dehors de la modification.
+- **`/recall` et `/ketchup`** : le premier retrouve votre avancée d'une conversation à l'autre. Le second couvre uniquement les changements de celle-ci.
+- **`/architect`** : commence à coder dès que la conception est fixée. Pour voir la conception d'abord, dites « montre-moi d'abord la conception et attends mon OK ».
+
+## Quel niveau de conception mérite une tâche
+
+La plupart des modifications n'en ont pas besoin. Montez d'un cran selon la taille :
+
+- **Vous avez fini d'écrire, mais vous hésitez** : juste `/interrogate`.
+- **Un choix isolé** (nommage, format, algorithme) : `/arena` directement.
+- **La modification dépasse le cadre d'une seule fonction** : `/architect`.
+- **Une question à laquelle un seul essai peut répondre** (mise en page, timing) : faites un prototype au lieu de débattre.
+- **Sujet à débat et coûteux à modifier** : `/architect` d'abord, puis `/interrogate` avant de livrer.
+- **S'étend sur plusieurs PR** : une fois la conception fixée, écrivez le plan.
+
+`/poteto-mode` gravit déjà ces échelons tout seul.
+
+## N'imposez pas l'ordre des skills dans votre prompt
+
+<Copy id="ws-bad" title="N'écrivez pas ceci" code="/poteto-mode utilise d'abord /how, puis /architect, puis /arena, et enfin /interrogate, et aide-moi à ajouter une fonctionnalité d'export." />
+
+Il connaît déjà l'ordre à suivre. Lui imposer un ordre à nouveau a tendance à mélanger ou à sauter des étapes. Indiquez plutôt l'objectif et les exigences :
+
+<Copy id="ws-good" title="Écrivez ceci" code="/poteto-mode ajoute un export CSV. L'export JSON existant doit rester identique octet par octet. Vérifie les deux." />
+
+Ne nommez un skill que pour modifier un choix par défaut, par exemple « utilise /arena avec 5 options cette fois ».
+
+## Un blocage ?
+
+<Q q="J'ai tapé /how, et il n'a rien corrigé ensuite.">
+C'est normal. `/how` ne fait qu'expliquer. Il ne touche pas au code. Une fois que vous avez compris, utilisez `/poteto-mode` pour dire ce que vous voulez qu'il fasse.
+</Q>
+<Q q="Ce que je veux faire n'est pas dans la liste.">
+Confiez-le à `/poteto-mode`. Quand aucune approche prête à l'emploi ne convient, il passe le relais à `/figure-it-out` pour en concevoir une sur-le-champ.
+</Q>
+<Q q="Il y a un /orchestrate dans le menu des commandes slash. Est-ce qu'il vient de pstack ?">
+Non, celui du menu vient d'un autre plugin. Dans pstack, un projet qui s'étale sur plusieurs jours passe par `/poteto-mode`, qui le transmet à `/figure-it-out`.
+</Q>

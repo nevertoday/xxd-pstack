@@ -1,0 +1,91 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 6
+need: Eine fertige Änderung; ein GitHub-Repo hilft
+tldr: "Hol dir Belege, die du selbst prüfen kannst, lass die KI dann den PR öffnen, für den Merge bereitmachen und mergen, was geprüft ist."
+description: "Sag von Anfang an, was „fertig“ bedeutet, frag nach Belegen passend zur Änderung, lass die KI in deiner App prüfen, öffne dann den PR, mach ihn bereit zum Mergen und merge auf Basis geprüfter Ergebnisse."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+<Fig id="g6-ship" />
+
+## Sag schon im ersten Satz, was „fertig“ bedeutet
+
+<Copy id="done" code="/poteto-mode Füg diesem Befehl eine JSON-Ausgabe hinzu. Die Textausgabe muss Byte für Byte identisch bleiben und das JSON muss sich parsen lassen. Führ beides im Beispielprojekt aus und zeig mir die Belege." />
+
+Die Antwort sollte die echten Befehle und deren Ausgabe enthalten. Konnte eine Prüfung nicht laufen, steht dort „nicht eindeutig“.
+
+<mark><strong>„Es kompiliert“ ist kein Beweis.</strong></mark> Lass dir Belege zeigen, die zur Änderung passen:
+
+| Was geändert wurde | Welche Belege du dir zeigen lässt |
+| --- | --- |
+| Kommandozeile | Den echten Befehl ausführen |
+| UI | In der laufenden App durchspielen |
+| Parser, Migrationen | Eine gespeicherte Eingabe erneut durchlaufen lassen |
+| Performance | Vorher- und Nachher-Messungen vergleichen |
+| Speicher | Den geschriebenen Wert wieder auslesen |
+
+## Lass die KI in deiner App prüfen
+
+Wenn die KI deine App noch nicht selbst bedienen kann, führ zuerst das hier aus:
+
+<Copy id="cvs" code="/create-verification-skill" />
+
+**Was du bekommst**: einen <Term k="验证技能" /> namens `/verify-<dein-app-name>`. Dabei liest die KI vor allem deinen Code und macht einen vollständigen Probelauf, bevor sie dir den Skill übergibt. <u>Schlägt der Probelauf fehl, nutz das Ergebnis nicht.</u>
+
+Danach lässt du dir so Belege zeigen:
+
+<Copy id="use-vs" code="/poteto-mode Bau das Feature zur Massenarchivierung. Prüf es mit /verify-<dein-app-name> und gib mir eine Bildschirmaufnahme und Screenshots als Belege." />
+
+Committe den Prüf-Skill ins Repo. Geh ihn regelmäßig mit `/maintain-verification-skill` durch (am besten täglich). Was dabei entsteht, wie du den Skill prüfst und wie poteto ihn einsetzt, steht in [Gib deinem Projekt einen Prüf-Skill](/de/howto/verify-app/).
+
+## Den PR öffnen
+
+Ein <Term k="PR" /> ist ein Paket aus Änderungen, das zum Review eingereicht und dann gemergt wird.
+
+<Copy id="pr" code="/poteto-mode Öffne einen PR. Kleine, geordnete Commits, mit den Belegen in der Beschreibung." />
+
+**Was du bekommst**: Die KI stellt kleine Commits in einem <Term k="worktree" /> zusammen und gibt dir am Ende den PR-Link.
+
+## Bereit zum Mergen machen: den PR babysitten
+
+<Copy id="babysit" code="/poteto-mode Babysit diesen PR und mach ihn grün." />
+
+**Was du bekommst**: Die KI kümmert sich um Konflikte, dann um Review-Kommentare und dann um die CI (die Prüfungen, die nach jedem Push laufen). Echte Probleme werden behoben. Unberechtigte Kommentare bekommen eine Antwort mit Begründung.
+
+<strong>Sie stoppt bei „bereit zum Mergen“. Sie mergt nie für dich.</strong>
+
+## Mergen: land the stack
+
+Ein Stack ist eine Kette von PRs, die aufeinander aufbauen.
+
+<Copy id="ship" code="/poteto-mode land the stack." />
+
+**Was du bekommst**: Eine KI, die den jeweiligen PR nicht geschrieben hat, prüft ihn noch einmal. Von unten an mergt sie nur die ununterbrochene Reihe, die bestanden hat. Sie sagt dir, wo die Kette gerissen ist.
+
+<Callout type="tip" title="Wenn du Claude Code nutzt">
+Das Öffnen von PRs läuft über `gh`. Melde dich zuerst auf deinem Rechner bei GitHub an: `gh auth login`.
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI sagt, sie ist fertig, hat aber keine Belege gezeigt.">
+<p>Antworte: „apply prove it works. Zeig mir die echte Ausgabe, nicht das Build-Log.“ prove it works bedeutet „mit echten Ergebnissen beweisen, dass es funktioniert“. Das ist der Name eines Prinzips, das pstack kennt.</p>
+</Q>
+<Q q="Ich habe einen Geschwindigkeitsgewinn gemessen. Woher weiß ich, ob er echt ist?">
+<Copy id="bench" code="/benchmark-checklist Prüf diesen Geschwindigkeitsgewinn beim Export, bevor das in den PR geht" />
+<p>Der Skill stellt 7 Fragen. Es gibt nur vier Urteile: schneller, langsamer, kein messbarer Unterschied, nicht eindeutig.</p>
+</Q>
+<Q q="Es ist eine kleine Änderung, aber ich habe ein ungutes Gefühl.">
+<p>Nutz <code>/blast-radius</code>. Der Skill findet heraus, warum die Änderung sicher ist, und beweist es dann, indem er Code ausführt.</p>
+</Q>
+<Q q="Manche Fälle erreichen Tests nicht, etwa wenn zwei Retries kollidieren.">
+<p>Nutz <Term k="形式化验证" />: <code>/create-formal-verification-skill Task-Leases und Retry-Logik. Dieselbe Aufgabe darf niemals zweimal gleichzeitig laufen.</code> Wann sich das lohnt und wie du ein Gegenbeispiel liest: <a href="/de/howto/formal-verify/">Bugs, die Tests nicht erreichen: formale Verifikation</a>.</p>
+</Q>
+
+<Checkpoint id="s6" items={["Mein Prompt sagt, was „fertig“ bedeutet und welche Belege ich sehen will", "Ich weiß, dass ich einem „fertig“ ohne Belege nicht trauen kann", "Ich weiß, dass Babysitting nicht mergt; zum Mergen muss ich „land the stack“ sagen"]} />

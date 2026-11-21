@@ -1,0 +1,99 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 5
+need: Une modification que vous vous apprêtez à faire
+tldr: "Pour les grosses modifications, comparez quelques pistes de conception ou construisez des prototypes. Dites ce que vous avez observé pendant le développement. Nettoyez avant de remettre votre travail."
+description: "Fixez la conception (/architect, /arena, /interrogate, prototypes), développez (/tdd), puis nettoyez (/unslop, /no-comments)."
+---
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## La plupart des modifications n'ont pas besoin d'étape de conception
+
+Quand une modification touche plusieurs endroits, `/poteto-mode` la conçoit d'abord de lui-même. Mentionnez les skills ci-dessous uniquement quand vous voulez qu'il réfléchisse un cran plus loin.
+
+<Fig id="g5-arc" />
+
+## Cela touche plusieurs endroits : /architect
+
+<Copy id="arch" code="/architect Conçois d'abord le flux d'import, n'écris pas encore de code. Ce qui compte le plus pour moi, c'est la façon dont les appelants l'utilisent." />
+
+**Ce que vous obtenez** : il lit d'abord tout le code concerné par la modification. Ensuite, il esquisse deux structures différentes : les types, la façon dont les fonctions sont appelées, le découpage des modules. Il choisit celle où chaque donnée a un seul propriétaire et où les appelants ont le moins de choses à connaître. Pour une conception importante ou sujette à débat, il utilise `/arena` pour comparer davantage de versions. Il implémente ensuite celle qu'il a retenue. Pour voir la conception d'abord, précisez-le dans le prompt : « montre-moi d'abord la conception et attends mon OK avant d'écrire du code ».
+
+Pendant l'implémentation, si le même contournement revient sans cesse, c'est que la conception est mauvaise. Il revoit la conception au lieu de rafistoler. C'est normal.
+
+## Une décision qui vous fait hésiter : /arena
+
+Utilisez-le pour les noms, les formats ou les algorithmes difficiles à changer par la suite.
+
+<Copy id="arena" code="/arena Ce format de clé de cache sera difficile à changer plus tard. Donne-moi 5 options." />
+
+**Ce que vous obtenez** : plusieurs IA écrivent chacune une version. Un modèle d'une autre entreprise les note (par exemple, Gemini qui juge le travail de Claude). La meilleure sert de base, et les bonnes idées des autres y sont ajoutées.
+
+## C'est écrit, cherchez les failles : /interrogate
+
+<Copy id="interro" code="/interrogate Passe toute la branche en revue et sois pointilleux. Ne signale pas de pinaillages, sauf si c'est un vrai bug ou une régression." />
+
+**Ce que vous obtenez** : uniquement des problèmes confirmés par une commande qui échoue réellement. Il ne modifie pas le code. Il liste aussi les problèmes qu'il a écartés. **Lisez cette liste aussi.** S'il en a écarté un à tort, demandez-lui de vérifier à nouveau.
+
+## Impossible de trancher ? Prototypez
+
+<Copy id="proto" code="/poteto-mode Construis quelques prototypes du nouveau menu déroulant. Donne-moi des captures d'écran ou des enregistrements d'écran pour comparer." />
+
+**Ce que vous obtenez** : quelques brouillons jetables, chacun avec sa capture d'écran ou sa mesure de temps, côte à côte pour que vous puissiez choisir. Cela fonctionne pour l'interface, le comportement et les algorithmes.
+
+Les plans fonctionnent de la même façon. Prototypez les parties qui vous font hésiter, puis notez ce que vous avez observé dans le plan. Un plan qui n'a jamais rien testé peut être faux, aussi détaillé soit-il.
+
+## Une grosse fonctionnalité : écrivez d'abord le tutoriel, puis la conception
+
+<Copy id="backwards" title="La version de poteto, adaptez-la à votre tâche" code={`(1) /recall ce que j'ai fait sur les bugs et problèmes de performance de la liste virtuelle ces 7 derniers jours. Utilise /how et /why pour comprendre comment fonctionne notre liste virtuelle actuelle.
+(2) Ensuite, planifie avec /poteto-mode et /technical-writing : conçois un nouveau moteur qui supprime le scintillement et les saccades à la racine. Commence par un tutoriel expliquant comment j'utiliserais le nouveau package pour ajouter une liste virtuelle à une application React.
+(3) Une fois le plan écrit, utilise /teach pour me l'expliquer, et prouve que la nouvelle approche bat l'actuelle.`} />
+
+Chaque partie a un rôle précis :
+
+- **Rappeler le contexte** : les bugs que vous avez corrigés et le fonctionnement actuel, c'est ce que la nouvelle conception doit résoudre.
+- **Concevoir à partir de l'usage** : écrivez d'abord comment les gens s'en serviront, et vous verrez tout de suite si c'est simple à utiliser.
+- **Demander des preuves** : les arguments ne suffisent pas, demandez une comparaison. Avec un [skill de vérification](/fr/howto/verify-app/) dans le projet, l'IA peut montrer de vraies preuves.
+
+[L'étape 3](/fr/guide/3-first-task/) disait de ne pas empiler les skills dans votre message. Cela vaut pour les petites tâches. Pour une grosse conception comme celle-ci, poteto mentionne les skills partie par partie, chaque partie ne citant que ce dont elle a besoin.
+
+## Pendant le développement, dites ce que vous avez observé
+
+- **Corriger un bug** : donnez le symptôme, ajoutez « reproduis-le d'abord ». Exemple : « Après une nouvelle tentative, ça écrit deux enregistrements. Reproduis-le d'abord, puis corrige-le, puis vérifie. »
+- **Ajouter une fonctionnalité** : précisez ce qui ne doit pas changer. Exemple : « Ajoute une option --json. La sortie texte ne doit pas changer du tout. »
+- **Refactorer** : précisez que le comportement reste identique. Exemple : « Enregistre d'abord la sortie actuelle, puis prouve qu'elle n'a pas changé. »
+- **Trouver ce qui est lent** : donnez un chiffre mesuré. Exemple : « Le démarrage prend 1,8 seconde. Capture une trace et donne-moi un avant/après. »
+
+Pour la méthode complète, consultez [corriger un bug](/fr/howto/fix-bug/), [ajouter une fonctionnalité](/fr/howto/add-feature/), [refactorer](/fr/howto/refactor/), [trouver ce qui est lent](/fr/howto/perf/).
+
+Quand un test local peut attraper le bug, tapez :
+
+<Copy id="tdd" code="/tdd implement" />
+
+**Ce que vous obtenez** : d'abord un test qui échoue, puis le correctif, puis une exécution qui montre qu'il passe.
+
+Quand vous modifiez du TypeScript, mentionnez `/typescript-best-practices`. <u>Il ne se charge pas tout seul.</u>
+
+## Nettoyez avant de remettre votre travail
+
+- **Textes** : `/unslop` retire les tics d'IA. Vous pouvez ajouter des règles : `/unslop Nettoie le nouveau contenu du README, pas de tirets cadratins`.
+- **Commentaires** : `/no-comments` envoie une IA qui n'a pas écrit le code pour relire les commentaires. Seuls ceux qui sont nécessaires restent.
+- **Code** : dites simplement « Supprime les commentaires qui racontent le code, les vérifications défensives injustifiées, le code de compatibilité mort et les modifications sans rapport avec cette tâche. »
+
+## Un blocage ?
+
+<Q q="L'IA a retenu la première conception sans me laisser le choix.">
+<p>Dites « ne décide pas encore, construis deux ou trois prototypes et compare-les côte à côte ». Ou tapez <code>exhaust the design space</code>, qui veut dire « essayer toutes les options ». C'est un <a href="/fr/wiki/principles/">nom de principe</a> que pstack connaît, donc le taper tel quel fonctionne.</p>
+</Q>
+<Q q="Je veux que l'IA écrive un plan avant de commencer.">
+<p>Une fois la conception arrêtée, dites : <code>/poteto-mode Transforme cette conception en plan. Découpe-le en petites PR vérifiables séparément, chacune avec ses étapes de vérification.</code> Il n'écrit que le plan et ne code pas. Une <Term k="PR" /> est un ensemble de modifications remises à quelqu'un pour revue.</p>
+</Q>
+<Q q="Quelle est la différence entre /swarm et /arena ?">
+<p><code>/arena</code> fait faire le même travail à plusieurs IA et choisit le meilleur résultat. <code>/swarm</code> découpe un gros travail en morceaux pour plusieurs IA. Consultez <a href="/fr/wiki/arena-swarm/">en quoi /arena diffère de /swarm</a>.</p>
+</Q>
+
+<Checkpoint id="s5" items={["Je sais que la plupart des modifications n'ont pas besoin d'étape de conception ; je mentionne /architect, /arena ou /interrogate uniquement en cas de doute", "Quand je n'arrive pas à trancher, je demande à l'IA de construire des prototypes pour comparer", "Avant de remettre mon travail, je lui fais nettoyer les textes et les commentaires"]} />

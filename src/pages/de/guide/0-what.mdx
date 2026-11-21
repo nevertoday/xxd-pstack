@@ -1,0 +1,64 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 0
+need: Noch nichts, einfach lesen
+tldr: Erfahre, was pstack für dich tut, was es kostet und welche vier Dinge du vor dem Start bereithalten solltest.
+description: Was pstack ist, welche schlechten Angewohnheiten beim KI-Coding es abstellt, was es kostet und was du vor dem Start bereithalten solltest.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Fig from "../../../components/Fig.astro";
+
+<Callout type="tip" title="Du programmierst nicht?">
+Diese vollständige Anleitung richtet sich an alle, die Code schreiben, und nutzt Begriffe wie Git und PR. Wenn du noch nie Code geschrieben hast, starte mit den [drei Einsteigerlektionen](/de/start/1-why/). In 20 Minuten arbeitest du schon damit.
+</Callout>
+
+## Was pstack ist
+
+pstack ist ein Paket aus <Term k="技能" text="Skills" />. Es kommt in das KI-Coding-Tool, das du schon nutzt, zum Beispiel Claude Code, Cursor oder Codex.
+
+Sobald es drin ist, schreibt die KI Code nach den Regeln von Senior Engineers: <mark><strong>erst verstehen, dann handeln, dann die eigene Arbeit prüfen.</strong></mark>
+
+Das Modell bleibt dasselbe. Was sich ändert, sind die Reihenfolge, in der es arbeitet, und die Messlatte, die es erreichen muss.
+
+<Fig id="g0-layers" />
+
+## Welche schlechten Angewohnheiten es abstellt
+
+- **Code ändern, ohne ihn verstanden zu haben.** Die KI bearbeitet eine Stelle, die richtig aussieht, es aber nicht ist.
+- **Nur das Symptom behandeln.** Sie blendet doppelte Daten dort aus, wo sie angezeigt werden. Der Bug, der sie erzeugt, ist immer noch da.
+- **„Fertig“ sagen, ohne es auszuprobieren.** Sie sagt: „Sollte jetzt passen.“ Du führst es aus, und es ist immer noch kaputt.
+- **Änderungen, die immer größer werden.** Sie fügt Code hinzu, den niemand braucht, und der nächste Bug versteckt sich darin.
+
+## Du brauchst nur einen Befehl
+
+Im Alltag tippst du einfach `/poteto-mode` ein. Du nennst das Ziel, und pstack plant den Rest. Dahinter steckt noch mehr, aber das musst du jetzt noch nicht lernen:
+
+- **22 <Term k="剧本" text="Playbooks" />**: Bug beheben, Feature hinzufügen, Refactoring… ein Vorgehen für jede Art von Aufgabe.
+- **34 Skills**: `/how` erklärt zum Beispiel Code, und `/bro` drückt Dinge in einfachen Worten aus. Alle findest du in der [Skill-Übersicht](/de/skills/).
+- **24 <Term k="原则" text="Prinzipien" />**: zum Beispiel „subtract before you add“ und „prove it works“.
+- **2 Helfer-KIs**: Eine befolgt dieselben Regeln, wenn sie zum Arbeiten losgeschickt wird; die andere prüft nur Kommentare.
+
+## Was du davon hast
+
+- **Kleinere Änderungen, jedes Mal ausprobiert.** pstack löscht, was es kann, führt am Ende echte Befehle aus und klickt sich durch die echte UI.
+- **Du kannst mehrere KIs gleichzeitig laufen lassen.** Jede folgt denselben Regeln und arbeitet in ihrem eigenen Ordner.
+- **Derselbe Fehler passiert nicht zweimal.** Mit `/correct` blockierst du ihn an der Wurzel.
+
+<Callout type="warn" title="Der Preis: langsamer und teurer">
+Es schickt mehr Helfer-KIs los und lässt mehrere Modelle einander prüfen. Dadurch ist es langsamer und verbraucht mehr Tokens. Lass es bei kleinen Änderungen weg. Wie du sparst, steht unter [Kosten im Griff behalten](/de/howto/cost/).
+</Callout>
+
+## Halte vier Dinge bereit
+
+- **Ein KI-Coding-Tool**: entweder Claude Code, Cursor oder Codex (OpenCode und Pi funktionieren auch). Es muss deinen Code ändern und Befehle ausführen können. <u>Eine reine Chat-KI im Browser funktioniert nicht</u>.
+- **Ein Modell, das du nutzen kannst**: ein kostenpflichtiger Tarif für das Tool oder ein API-Key.
+- **Ein echtes Projekt in Git**: Die meisten Playbooks erstellen einen <Term k="worktree" /> (ein zusätzlicher Arbeitsordner für dasselbe Git-Repo) und öffnen einen <Term k="PR" />. Du nutzt noch kein Git? Führ zuerst `git init` aus und mach einen Commit.
+- **Node.js 22.20 oder neuer**: nur, wenn du mit `npx skills` installierst.
+
+<Callout type="tip">
+Diese Seite nutzt den Spiegel [backnotprop/pstack](https://github.com/backnotprop/pstack). Er synchronisiert sich täglich mit der offiziellen Version und funktioniert auch in Claude Code und Codex. Du nutzt beide genau gleich.
+</Callout>
+
+<Checkpoint id="s0" items={["Ich weiß, dass pstack ein Paket aus Skills für ein KI-Coding-Tool ist, kein neues Modell", "Ich weiß, dass ich im Alltag nur einen Befehl eintippe: <code>/poteto-mode</code>", "Ich habe Claude Code, Cursor oder Codex und ein Projekt, an dem ich damit arbeiten will"]} />

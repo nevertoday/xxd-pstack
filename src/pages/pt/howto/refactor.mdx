@@ -1,0 +1,79 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: refactor
+time: Uma ou duas conversas para uma refatoração média
+for: O código está ficando cada vez mais bagunçado e você quer limpar a estrutura sem mudar nada para os usuários
+step: 5
+tldr: Salve a saída atual e depois mude a estrutura. Compare a mesma saída no final para provar que nada mudou.
+description: "Refatore com /poteto-mode: registre o que o código faz agora, mude a estrutura e use o registro para provar que nada mudou. Inclui um exemplo de site estático em Astro."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copie isto primeiro
+
+<Copy id="ref-min" title="A versão mais curta" code="/poteto-mode mova o parsing para um único módulo, sem mudança de comportamento. registre a saída atual primeiro e prove que ela continua igual depois." />
+
+Refatorar significa: <mark><strong>a estrutura do código muda e o comportamento não muda nada.</strong></mark>
+
+- **Sem mudança de comportamento**: nada do que os usuários veem muda. A IA trata a tarefa como uma refatoração. Sem novas funcionalidades, sem correções de bugs.
+- **Registre a saída atual primeiro**: salve um “antes” para ter com o que comparar. “A verificação de tipos passou” não conta. Isso só mostra que o código compila.
+
+<Fig id="h-refactor" />
+
+## Um exemplo de site estático em Astro
+
+Há uma dúzia de páginas, cada uma com o próprio código de formatação de datas, todos um pouco diferentes. Você quer uma única função utilitária.
+
+<Copy id="ref-astro" title="Exemplo de site estático em Astro" code={`/poteto-mode Extraia o código de formatação de datas de todas as páginas para uma única função utilitária, sem mudança de comportamento.
+Antes de começar: rode npm run build e copie a pasta dist inteira como referência.
+Quando terminar, rode o build de novo e faça o diff contra a referência. O diff precisa estar vazio para todos os arquivos HTML.
+Apague todo o código antigo. Não mantenha nenhuma função antiga por compatibilidade.
+Mostre o comando de diff e a saída dele.`} />
+
+- **Um diff vazio de dist**: vazio significa que nada mudou. Uma linha a mais significa que algo mudou. Você não precisa ler cada linha. Essa única saída já basta.
+- **Nenhuma função antiga mantida**: todos os pontos de chamada migram e o código antigo sai na mesma passada.
+
+Se o diff não estiver vazio, peça para a IA explicar cada diferença. Algumas podem vir de páginas que já formatavam datas de forma diferente desde o início.
+
+## Onde olhar depois de enviar
+
+**No começo: como a IA registrou o comportamento atual.** Um teste, um snapshot da saída ou um script de comparação.
+
+**No meio: apagar antes de adicionar.** A IA remove primeiro o código sem uso e depois adiciona a nova estrutura.
+
+**No final: a comparação.** A resposta diz o que mudou na estrutura, o que foi comparado, o resultado e quais mudanças foram revertidas. Se o código não ficar mais fácil de ler, a IA reverte a mudança.
+
+## Encontrou um bug no meio do caminho
+
+Limpar o código muitas vezes revela um “isso sempre esteve errado”. Separe as coisas:
+
+1. **Termine a refatoração e faça commit.** Deixe o bug antigo como está.
+2. **Corrija o bug em uma nova tarefa.** Veja [Corrigir um bug](/pt/howto/fix-bug/).
+
+Assim a comparação da refatoração com a referência continua limpa. Se você corrigir coisas enquanto refatora, não dá para separar o que foi correção do que quebrou.
+
+<Callout type="warn" title="Na verdade, quer mudar o comportamento?">
+Então não é uma refatoração. Deixe isso claro e trate a tarefa como uma funcionalidade. Veja <a href="/pt/howto/add-feature/">Adicionar uma funcionalidade</a>. Para uma mudança grande envolvendo vários módulos, a IA passa a tarefa para <code>/figure-it-out</code> planejar toda a execução primeiro.
+</Callout>
+
+## Travou?
+
+<Q q="A IA diz que “a verificação de tipos e os testes passaram”, então nada mudou.">
+Responda: “Verificação de tipos não é comparação. Registre a saída real de antes, rode a mesma entrada depois e me mostre o diff.” Se a IA já terminou, peça para ela fazer checkout do commit anterior e reconstruir a referência.
+</Q>
+<Q q="A IA começa adicionando novos arquivos e camadas de abstração.">
+Responda: “subtract-before-you-add”. Isso significa: apague primeiro o que não é necessário e depois construa sobre a base mais simples. É o nome de um <Term k="原则" text="princípio" /> do pstack. Digite exatamente assim e a IA entende o que você quer dizer.
+</Q>
+<Q q="A IA manteve uma função antiga “por compatibilidade”.">
+Responda: “migrate-callers-then-delete-legacy-apis. Migre todos os pontos de chamada e apague a função antiga nesta passada.” Esse nome de princípio significa exatamente isso. Ele só vale para código dentro do seu projeto. Se usuários externos dependerem dessa interface, avise a IA antes.
+</Q>
+<Q q="O código ficou mais enrolado depois da mudança.">
+Diga apenas: “Essa mudança faz quem lê o código pular por mais camadas. Reverta.” Se o código não ficou mais fácil de ler, a mudança deve ser revertida.
+</Q>
+<Q q="A IA corrigiu um bug no caminho.">
+Responda: “Reverta a correção do bug, termine a refatoração com o comportamento original e faça a verificação. Abra uma tarefa separada para o bug.”
+</Q>

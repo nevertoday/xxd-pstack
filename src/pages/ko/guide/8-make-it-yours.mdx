@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 8
+need: pstack으로 실제 작업을 몇 번 해 본 경험
+tldr: "원칙 이름 한 줄로 AI를 바로잡아요. 같은 실수가 두 번 생기면 /correct로 저장소에서 막아 두세요."
+description: "원칙 이름으로 방향을 잡아요. /reflect로 한 작업에서 배운 점을 기록하고, /correct로 반복되는 실수를 막아요. /automate-me로 나만의 모드를 만들고, 스킬을 바꾸기 전에 테스트해요."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## 작게 시작해요
+
+첫날부터 스킬을 많이 쓸 필요는 없어요. <mark><strong>평소처럼 프롬프트를 쓰면서 어디서 삐끗하는지 지켜보세요. 같은 실수가 두 번 생기면 스킬이나 검사를 추가하세요.</strong></mark>
+
+## 한 줄로 바로잡아요: 원칙 이름 말하기
+
+pstack에는 <Term k="原则" text="원칙" /> 24개가 있고, 각각 이름이 붙어 있어요. 예를 들어 “추가하기 전에 지우기”는 `subtract before you add`라고 불러요. pstack은 이 이름을 알고 있어서 그대로 입력해도 바로 통해요.
+
+- **컴파일이 된다고 성공이라고 할 때**: “실제 결과로 증명하기”예요. `apply prove it works. 실제 import 흐름을 돌려 보고, 기록한 레코드를 보여 주세요.`라고 답하세요.
+- **문제가 생긴 지점 뒤에 검사만 하나 덧붙이고 고쳤다고 할 때**: “진짜 원인 찾기”예요. `fix root causes. 어디서 처음 잘못되는지 찾아 주세요.`라고 답하세요.
+- **두 번 실패한 수정을 계속 시도할 때**: “전제를 의심하기”예요. `attack the premise. 그 수정들이 공통으로 깔고 있는 전제를 적고, 직접 테스트해 주세요.`라고 답하세요.
+- **오래된 어댑터 세 개 위에 네 번째 어댑터를 얹으려 할 때**: “추가하기 전에 지우기”예요. `subtract before you add. 오래된 어댑터부터 지우고, 남은 부분을 설계해 주세요.`라고 답하세요.
+
+AI가 그 원칙 때문에 어떤 결정을 바꿨는지 말해 줘야 해요. [원칙 24개](/ko/wiki/principles/)에서 전체 원칙을 볼 수 있어요. 더 많은 문장은 [한 문장으로 방향 바로잡기](/ko/howto/steer/)에서 확인하세요.
+
+## 빙 돌아갔을 때: /reflect
+
+<Copy id="reflect" code="/reflect 방금 작업이 너무 느렸어요. 같은 일이 다시 생기지 않게 배운 점을 적어 두세요." />
+
+**실행 결과**: “채택”, “거절”, “보류”로 나뉜 제안을 보여 줘요. <strong>승인한 뒤에만 스킬을 바꿔요.</strong> 앞으로 일하는 방식을 바꿀 제안만 승인하세요.
+
+## 같은 실수가 자꾸 반복될 때: /correct
+
+<Copy id="correct" code="/correct AI가 계속 repository 레이어를 건너뛰고 데이터베이스 클라이언트를 직접 호출해요" />
+
+**실행 결과**: 최근 커밋과 리뷰 코멘트를 읽고 실수를 유형별로 묶어요. 유형마다 가능한 가장 확실한 수정으로 커밋을 하나씩 만들어요:
+
+<Fig id="g8-guard" />
+
+인자 없이 `/correct`만 입력하면 기록을 알아서 찾아 봐요.
+
+`/reflect`는 스킬을 바꿔요. `/correct`는 저장소를 바꿔요.
+
+## 나만의 모드를 만들어요: /automate-me
+
+<Copy id="automate" code="/automate-me" />
+
+**실행 결과**: 이 프로젝트에서 나눈 대화를 읽고 작업 습관을 찾아내요. 먼저 확인을 받은 뒤 `<your-name>-mode` 스킬을 만들고, 리뷰할 수 있게 PR을 올려요.
+
+습관이 바뀌면 다시 돌리세요: “/automate-me 마지막으로 바꾼 뒤의 내용을 모두 반영해서 제 모드 스킬을 업데이트해 주세요.”
+
+## 스킬을 바꾸기 전에 테스트하세요
+
+<Copy id="eval" code="/poteto-mode 누락된 데이터베이스 마이그레이션을 잡아내도록 리뷰 스킬을 고치고, 바뀐 내용에 eval을 돌려 주세요." />
+
+**실행 결과**: 여러 AI가 테스트 중이라는 걸 모른 채 같은 작업을 하고, 평가자가 점수를 매겨요. 각 결과도 직접 살펴보세요.
+
+<Callout type="warn" title="작업 도중에 스킬을 바꾸지 마세요">
+스킬 결과가 별로라면 메모해 뒀다가 나중에 별도 PR로 고치세요. 기능 변경 속에 묻힌 스킬 변경은 리뷰어 눈에 띄지 않아요.
+</Callout>
+
+다른 사용자들의 습관과 함정은 [다른 사용자들이 배운 점](/ko/howto/field-notes/)에서 볼 수 있어요.
+
+## 막혔나요?
+
+<Q q="/automate-me가 기록을 충분히 찾을 수 없다고 해요.">
+<p>현재 프로젝트의 대화만 읽어요. 여기서 평소처럼 한동안 써 본 뒤에 다시 돌려 보세요.</p>
+</Q>
+<Q q="처음부터 직접 스킬을 만들고 싶어요.">
+<p><code>/poteto-mode 이 저장소의 데이터베이스 마이그레이션을 검증하는 스킬을 만들어 주세요</code>라고 말해 보세요. 형식과 링크를 확인한 뒤 PR을 올려 줘요.</p>
+</Q>
+
+<Checkpoint id="s8" items={["prove it works나 fix root causes 같은 원칙 이름을 두세 개 외웠어요", "같은 실수가 두 번 생기면 /correct로 막아요", "스킬 변경은 별도 PR로 올리고, 먼저 eval을 돌려요"]} />

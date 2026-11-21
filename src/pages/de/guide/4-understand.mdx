@@ -1,0 +1,90 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 4
+need: Ein Modul, das du nicht gut kennst, oder ein Problem mit unbekannter Ursache
+tldr: Bevor du Code änderst, lass dir von der KI erklären, wie er jetzt funktioniert, warum er so gebaut wurde und wo du aufgehört hast.
+description: "Lass es dir von der KI erklären, bevor du Code änderst: untersuchen, ohne etwas anzufassen – /how für jetzt, /why für damals, /teach bis du es verstehst, /recall für die Stelle, an der du aufgehört hast."
+---
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Unbekannte Ursache: untersuchen lassen, nicht beheben
+
+<Copy id="inv" code="/poteto-mode Finde heraus, warum der Hintergrundjob alle paar Stunden in einen Timeout läuft. Sag mir, welche Fakten bekannt sind, welche Daten du genutzt hast und was deine stärksten Vermutungen sind. Ändere noch keinen Code." />
+
+Mit „Ändere noch keinen Code“ untersucht die KI nur, ohne etwas anzufassen. Sie schließt mit einer Erklärung ab, und bei jedem Punkt steht, woher er kommt.
+
+Der Zusatz „welche Daten du genutzt hast“ sorgt dafür, dass sie Belege und Vermutungen getrennt aufschreibt.
+
+Sobald du die Ursache kennst und sie beheben lassen willst, sag „new task“, um eine neue Aufgabe für den Fix zu starten.
+
+## Bevor du etwas änderst, lass es dir erklären
+
+<mark>Code zu ändern, den man nicht versteht, ist der häufigste Grund, warum versteckte Bugs in Produktion landen.</mark> Dasselbe gilt für KI.
+
+pstack hat dafür vier Skills:
+
+| Skill | Was er beantwortet |
+| --- | --- |
+| `/how` | Wie funktioniert das jetzt? |
+| `/why` | Warum wurde das so gebaut? |
+| `/teach` | Erklär es mir, bis ich es verstehe |
+| `/recall` | Wo habe ich aufgehört? |
+
+Bei jedem dieser Skills spricht die KI ihr Verständnis laut aus. So kannst du prüfen, ob sie richtig liegt.
+
+## Fragen, wie es jetzt funktioniert: /how
+
+<Copy id="how" code="/how Wie werden Benachrichtigungen dedupliziert? Gibt es beim Laden der Abonnenten eine N+1-Query?" />
+
+Frag das, was du wirklich wissen willst. Die KI liest den Code und erklärt ihn dir wie eine erfahrene Person im Team, die dich durchs Projekt führt: wie der Code abläuft, welche Daten wichtig sind und welche Stellen man leicht übersieht.
+
+Dafür schickt sie eine Helfer-KI mit reinem Lesezugriff los, die den Code liest und die Erklärung schreibt – danach gibt sie dir das Ergebnis weiter.
+
+## Fragen, warum es so gebaut wurde: /why
+
+<Copy id="why" code="/why Warum liegt das Retry-Limit bei 5? Gilt dieser Grund noch?" />
+
+Die KI liest die Historie, nicht den Code: die Commits und PR-Diskussionen, über die der Code ins Projekt kam, und jede spätere Änderung. Wenn diese Spur dünn ist, sucht sie woanders weiter. Sie zitiert, was die Beteiligten geschrieben haben, und kennzeichnet eigene Vermutungen als Vermutungen.
+
+Wenn sie nichts findet, sagt sie es dir. „Niemand hat aufgeschrieben, warum“ ist auch eine Antwort.
+
+Wenn du beides nutzen willst, sag „erst why, dann how“.
+
+## Erklären lassen, bis du es verstehst: /teach
+
+<Copy id="teach" code="/teach Geh mit mir durch, wie dieser PR die Retries ändert. Überzeug mich, dass er die eigentliche Ursache behebt und nicht nur ein oberflächliches Symptom." />
+
+Nutz `/teach`, wenn eine Zusammenfassung nicht reicht. Die KI führt `/how` und `/why` aus und schreibt danach alles in einfachen Worten auf.
+
+„Überzeug mich“ lohnt sich oft: Damit kannst du gegenhalten und ihre Aussagen hinterfragen. Du kannst so auch die eigenen Entscheidungen der KI infrage stellen:
+
+<Copy id="teach2" code="/teach Erklär, warum du es so umgesetzt hast statt mit einer Queue. Worauf hast du dabei verzichtet und warum?" />
+
+## Wiederfinden, wo du aufgehört hast: /recall
+
+<Copy id="recall" code="/recall Hilf mir auf die Sprünge: Wo habe ich letzte Woche beim Export-Feature aufgehört?" />
+
+Die KI geht deine letzten Chats und gemeinsame Aufzeichnungen (Issues, frühere Fixes) durch. Danach sagt sie dir, wie der Stand ist und was als Nächstes ansteht.
+
+Wenn du zu einem alten Thema etwas Neues anfängst, lass die KI erst die frühere Arbeit zurückholen und gib ihr dann das neue Material:
+
+<Copy id="recall2" code="/recall meine Arbeit an der virtuellen Liste von gestern, dann lies diesen Bug-Report." />
+
+## Angefangene Arbeit fortsetzen
+
+<Copy id="pickup" code="/poteto-mode Übernimm diesen Branch. Lies das Entscheidungsprotokoll, finde heraus, was schon fertig ist, und mach von dort aus weiter. Mach bereits erledigte Arbeit nicht noch einmal." />
+
+Die KI liest die hinterlassenen Aufzeichnungen und sagt, wo sie anknüpft. Teile, die jemand als „fertig“ bezeichnet hat, prüft sie noch einmal anhand des ursprünglichen Ziels.
+
+## Kommst du nicht weiter?
+
+<Q q="/why sagt, es findet den Grund nicht.">
+<p>Das ist normal. /why liest vor allem Commits und PR-Diskussionen. Wenn niemand den Grund aufgeschrieben hat, kann die KI ihn auch nicht finden. Sagen die Commit-Nachrichten zu wenig aus, sucht sie woanders weiter – etwa in Issues oder Docs, die du verbunden hast (verbinde das passende MCP in deinem Tool, z. B. GitHub, Linear oder Notion).</p>
+</Q>
+<Q q="Die Erklärung ist zu technisch.">
+<p>Sag „erklär es so, als wäre ich neu in diesem Projekt“, oder tipp <code>/bro</code> ein, sobald die KI fertig ist.</p>
+</Q>
+
+<Checkpoint id="s4" items={["Ich habe /how eine echte Frage zu meinem eigenen Projekt gestellt", "Ich weiß, dass die KI bei „Ändere noch keinen Code“ nur untersucht, ohne etwas anzufassen", "Ich weiß, dass die Antworten von /why Quellen nennen und Belege von Vermutungen trennen"]} />

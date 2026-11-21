@@ -1,0 +1,110 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: big-migration
+time: 5 minutos antes de dormir, 15 minutos por la mañana
+for: Tienes una migración grande y mecánica y quieres que la IA la ejecute durante la noche, para revisarla con confianza por la mañana
+step: 7
+tldr: Antes de dormir, dale un objetivo y una condición de terminado que se cumpla o falle. Déjala trabajar toda la noche y comprueba la evidencia por la mañana.
+description: "Encarga una migración grande antes de dormir: un objetivo y una condición de terminado que se cumpla o falle, un worktree nuevo, un registro de decisiones, /loop until done y una revisión por la mañana con /show-me-your-work."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copia esto primero
+
+<Copy id="mig-contract" title="El encargo antes de dormir" code={`/poteto-mode Me voy a dormir. En un worktree nuevo a partir de <base>, migra todas las llamadas al nuevo parser.
+Terminado significa: cero llamadas antiguas, todos los fixtures del parser pasan y la API antigua está eliminada.
+Lleva un registro de decisiones. No hace falta que me preguntes antes de hacer commit.
+/loop until done. Si de verdad te atascas después de unas horas, detente y escribe por qué.`} />
+
+La redacción original, de la documentación de pstack:
+
+<Copy id="mig-contract-en" title="La redacción original" code={`/poteto-mode im going to bed. migrate every caller to the new parser in a fresh worktree off <base>.
+done means zero old callers, all parser fixtures pass, old api deleted.
+keep a decision log. don't ask me before committing.
+/loop until done. if you're truly stuck after a few hours, stop and write up why.`} />
+
+## Qué hace cada línea
+
+- **«Me voy a dormir»**: que no se detenga a preguntarte. Que siga adelante.
+- **«Terminado significa»**: una comprobación que puede ejecutar en cada ronda.
+- **«Un worktree nuevo»**: una carpeta de trabajo adicional del mismo repositorio Git (un <Term k="worktree" />), para que no toque lo demás que tienes abierto.
+- **«No hace falta que me preguntes antes de hacer commit»**: responde a la pregunta por la que, si no, se detendría.
+- **`/loop until done`**: hace que vuelva una y otra vez a la condición de terminado. `/loop` viene integrado en Cursor y Claude Code. No es una skill de pstack.
+- **La vía de salida**: si de verdad se atasca, se detiene y explica por qué, en lugar de dar vueltas toda la noche.
+
+<Callout type="no" title="El tiempo dedicado no es una condición de terminado">
+«Trabaja en esto 4 horas» no le da nada que comprobar. Dale a <code>/loop</code> una condición que pueda cumplirse o fallar.
+</Callout>
+
+## Ejemplo con una extensión de Chrome
+
+Decenas de archivos llaman directamente a `chrome.storage.sync`. Escribiste un nuevo módulo `settings` y quieres mover allí todas las llamadas y luego eliminar el antiguo `getPref`.
+
+<Copy id="mig-ext" title="Ejemplo con una extensión de Chrome" code={`/poteto-mode Me voy a dormir. En un worktree nuevo a partir de main, mueve todas las llamadas directas a chrome.storage.sync al nuevo módulo settings.
+Terminado significa:
+1. grep -rn "chrome.storage.sync" src/ encuentra solo la única llamada dentro del módulo settings;
+2. npm test pasa por completo;
+3. la función getPref y sus tests están eliminados;
+4. al abrir la página de opciones con un perfil de prueba que tenía instalada la versión anterior, todos los ajustes se muestran exactamente igual que antes de la migración. Envíame una captura de pantalla.
+Mantén el comportamiento exactamente igual. Si encuentras bugs durante la migración, anótalos. No los arregles sobre la marcha.
+Lleva un registro de decisiones. No hace falta que me preguntes antes de hacer commit.
+/loop until done. Si de verdad te atascas después de unas horas, detente y escribe por qué.`} />
+
+- **Cuatro condiciones de terminado**: un grep, una ejecución de tests, comprobar si dos nombres siguen existiendo y una captura de pantalla. Cada una se cumple o falla. Por la mañana, comprueba solo estas cuatro.
+- **«No arregles bugs sobre la marcha»**: para que el antes y el después se puedan comparar directamente.
+
+## Antes de dejarla sola: ¿puede comprobar su propio trabajo?
+
+<mark>Dejarla trabajar toda la noche solo funciona si puede comprobar su propio trabajo.</mark> Si no, la IA solo acumula código sin comprobar más rápido. Déjala por su cuenta únicamente cuando se cumplan las cuatro condiciones:
+
+1. **Ya lo hiciste una vez.** A mano o mirando cómo trabaja la IA. Sabes cómo se ve el resultado terminado.
+2. **Tiene las herramientas.** La <Term k="验证技能" />, el profiler y los logs que usarías tú.
+3. **Cada paso demuestra que funciona.** Puede detenerse cuando un paso se queda corto.
+4. **Los errores repetidos están cubiertos.** Leíste sus transcripciones y convertiste los fallos repetidos en comprobaciones.
+
+Si no, ejecútala mientras miras.
+
+## Dónde mirar por la mañana
+
+<Copy id="mig-audit" title="Revisión de la mañana" code="/show-me-your-work cuéntame qué hiciste anoche" />
+
+**Lee primero la sección Attention (atención) del final.** Una IA ayudante con el modelo de otra empresa lee antes el registro. Attention enumera lo que merece mirarse más de cerca, como decisiones con evidencia débil. Sigue esas líneas del registro.
+
+El <Term k="决策日志" /> es `decisions.tsv` en la carpeta de trabajo por defecto, y no se incluye en los commits. Cada fila es una decisión, con su motivo y su evidencia.
+
+¿Solo quieres ver rápido cómo va? Escribe `/ketchup` en la conversación en curso. La skill solo lee. Te dice qué cambió y qué está esperando tu decisión.
+
+## Parar a mitad de camino
+
+Si necesitas cerrar el equipo portátil o reiniciar el editor, dile «pausa» o «me desconecto». Hace un commit `wip:` con el trabajo sin guardar y escribe notas para retomarlo después. Abre una conversación nueva y pídele que tome el relevo. La IA continúa a partir de las notas.
+
+«Sigue» o «continúa» nunca la ponen en pausa.
+
+## Más de una tarea durante la noche
+
+Para una serie de cambios independientes, hay dos <Term k="剧本" text="playbooks" />:
+
+- **Autopilot-stack: no fusiona.** Por la mañana ves los PR verificados y decides tú.
+- **Autopilot-full: fusiona.** Cada PR se fusiona solo después de que otra IA ayudante lo verifique.
+
+Un proyecto que dura varios días no tiene un playbook propio. `/poteto-mode` se lo pasa a `/figure-it-out`, que diseña un enfoque para él sobre la marcha.
+
+¿Tienes dudas? Elige Autopilot-stack. Así conservas la última palabra antes de fusionar.
+
+## ¿Te atascaste?
+
+<Q q="Por la mañana dice «terminado», pero tengo dudas.">
+No te fíes del resumen. Mira la evidencia. Vuelve a ejecutar tú las comprobaciones de la condición de terminado, como el grep y la ejecución de tests. Luego lee la sección Attention de la respuesta de <code>/show-me-your-work</code>.
+</Q>
+<Q q="Se detuvo durante la noche para preguntarme algo y se quedó sin hacer nada.">
+Al encargo le faltó permiso de antemano. La próxima vez añade «Me voy a dormir» y «no hace falta que me preguntes antes de hacer commit».
+</Q>
+<Q q="Relajó la condición de terminado y luego cantó victoria.">
+No debería hacerlo. Responde: «La condición de terminado se mantiene. Ejecuta las cuatro comprobaciones originales una por una y muéstramelas».
+</Q>
+<Q q="Dije «continúa» e hizo un commit de pausa.">
+Eso no debería pasar. Responde: «No te pedí que hicieras una pausa. Sigue adelante».
+</Q>

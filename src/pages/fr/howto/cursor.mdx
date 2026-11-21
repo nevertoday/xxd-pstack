@@ -1,0 +1,100 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cursor
+time: 2 minutes d'installation, 6 de lecture
+for: Vous utilisez Cursor et voulez que pstack s'y intègre naturellement
+step: 1
+# Every command on this page is written for Cursor, so it stays as written
+cmds: literal
+tldr: Après l'installation, envoyez /poteto-mode avec Option+Enter et il reste actif à chaque tour.
+description: pstack a été écrit pour Cursor. Installation en une commande, /poteto-mode actif à chaque tour, longues sessions avec /loop, plusieurs IA en parallèle et éléments à installer séparément.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Installation en une commande
+
+Dans la zone de chat de Cursor, tapez :
+
+<Cmd c="/add-plugin pstack" />
+
+L'installation depuis Customize dans la barre latérale revient au même. Choisissez ensuite vos modèles :
+
+<Cmd c="/setup-pstack" />
+
+La commande vous demande votre <Term k="推理预算" /> (combien de temps les modèles réfléchissent), attribue un modèle à chaque <Term k="模型角色" /> et enregistre la configuration dans `~/.cursor/rules/pstack-models.mdc`.
+
+<Callout type="tip" title="Après la configuration, ouvrez une nouvelle conversation">
+<u>Ces réglages ne s'appliquent qu'aux nouvelles conversations</u>. Si vous continuez dans une ancienne, elle utilise toujours les modèles par défaut.
+</Callout>
+
+Par défaut, les commandes de ce site sont écrites pour le plugin Claude Code, avec un préfixe `pstack:` que Cursor n'utilise pas. Sélectionnez Cursor ici, et toutes les commandes du site adoptent la syntaxe de Cursor, prêtes à copier :
+
+<ToolPick />
+
+## Choisissez /poteto-mode dans le menu /
+
+Tapez `/` dans la zone de chat, sélectionnez `/poteto-mode` dans le menu, puis écrivez la tâche :
+
+<Copy id="cursor-first" title="Votre première tâche" code="/poteto-mode ajoute une option --json à cette commande. La sortie texte existante doit rester identique à l'octet près. Vérifie les deux sorties." />
+
+La touche avec laquelle vous envoyez fait la différence :
+
+- **Enter** : il ne s'applique qu'à ce message. Quelques tours plus tard, il cesse de fonctionner.
+- **Option+Enter (Mac) ou Alt+Enter (Windows)** : <mark>il devient un <Term k="Custom Mode" /> (mode personnalisé de Cursor) et reste actif à chaque tour</mark>, jusqu'à ce que vous quittiez ce mode.
+
+Une fois le Custom Mode activé, « fais-le » ou « continue » suffit pour les messages suivants.
+
+Quand vous avez terminé un sujet et passez au suivant, commencez par « new task ». Sinon, l'IA traite votre nouvelle question comme la suite de la précédente.
+
+## Passez le relais avant de dormir : /loop
+
+`/loop` est une commande intégrée à Cursor. Elle réveille l'IA de temps en temps pour vérifier si le travail est terminé. Donnez-lui une condition de fin qui réussit ou échoue :
+
+<Copy id="cursor-loop" title="Avant de dormir" code={`/poteto-mode Je vais dormir. Dans un nouveau worktree (créé depuis <votre branche de base>), migre tous les appelants vers le nouveau parseur.
+Terminé signifie : plus aucun ancien appelant, toutes les données de test du parseur passent, et l'ancienne API est supprimée.
+Tiens un journal de décisions. Pas besoin de me demander avant de faire un commit.
+/loop until done. Si tu coinces vraiment après quelques heures, arrête-toi et note pourquoi.`} />
+
+« Travaille pendant 4 heures » n'est pas une condition de fin. L'IA n'a rien à vérifier, donc vous vous réveillerez avec 4 heures de travail dans le vide. Pour une version plus complète, consultez [La laisser tourner](/fr/guide/7-overnight/).
+
+## Plusieurs IA à la fois : donnez à chacune son espace
+
+Plusieurs IA qui modifient le code dans un même dossier écrasent leurs changements respectifs. Deux façons de les séparer :
+
+- **Dans le cloud** : tapez `/in-cloud` avant la tâche. Chaque IA dispose de sa propre machine et de sa propre branche, et votre ordinateur reste intact.
+- **En local** : donnez à chaque tâche son propre <Term k="worktree" /> (un dossier de travail séparé pour le même dépôt Git). Sur un ordinateur portable, quelques tâches en parallèle suffisent.
+
+<Copy id="cursor-wt" code={`/poteto-mode new task. Crée un nouveau worktree depuis <branche de base> et reporte les modifications du parseur dans ce worktree.`} />
+
+## Quelques éléments à installer séparément
+
+Quelques étapes de `/poteto-mode` utilisent le plugin `cursor-team-kit`. `/poteto-mode` fonctionne sans ce plugin, mais ces étapes sont moins efficaces. Pour avoir l'ensemble complet, installez-le. Il inclut :
+
+- **`deslop`** : retire le côté « IA » du code.
+- **`control-cli`** : pilote des programmes en ligne de commande.
+- **`control-ui`** : pilote des navigateurs et des pages web.
+
+pstack n'a pas de skill de planification. Utilisez en complément le Plan Mode intégré à Cursor.
+
+## Un blocage ?
+
+<Q q="/poteto-mode cesse de fonctionner après quelques tours.">
+Vous l'avez probablement envoyé avec Enter. Sélectionnez-le de nouveau dans le menu et appuyez sur Option+Enter (Alt+Enter sous Windows). Ou retapez `/poteto-mode` à chaque nouvelle tâche.
+</Q>
+<Q q="J'ai changé les réglages des modèles, mais l'IA utilise toujours les anciens.">
+Les réglages ne s'appliquent qu'aux nouvelles conversations. Ouvrez-en une nouvelle et réessayez.
+</Q>
+<Q q="Plusieurs IA ont travaillé en même temps et ont tout mélangé dans mes fichiers.">
+Donnez à chaque tâche son propre worktree, ou confiez-la au cloud avec `/in-cloud`.
+</Q>
+<Q q="J'ai fait tourner /loop toute la nuit et rien n'est terminé.">
+La condition de fin doit pouvoir réussir ou échouer, comme « cette commande renvoie 0 » ou « tous ces tests passent ». « Travaille jusqu'au matin » ne compte pas.
+</Q>
+<Q q="J'ai entendu dire que pstack inclut un pack d'automatisation appelé benny ?">
+Oui, il est désactivé par défaut. Il trie les problèmes signalés dans Slack et corrige ceux qui sont confirmés comme bugs. Pour l'activer, indiquez à Cursor le fichier `FOR_AGENTS.md` du dossier benny.
+</Q>

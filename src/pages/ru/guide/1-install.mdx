@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: Claude Code, Cursor или Codex; Node.js 22.20+, если устанавливаете через npx
+tldr: Установите pstack одной-двумя командами, а затем отправьте одно сообщение, чтобы проверить, что всё работает.
+description: Установите pstack в Claude Code, Cursor или Codex одной командой и проверьте одним сообщением, что всё заработало.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Установка для вашего инструмента
+
+<div data-sk-keep>
+<Tabs id="install" label="Выберите инструмент" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex и другие"]]}>
+<div slot="cc">
+
+В поле чата Claude Code отправьте эти две команды по порядку:
+
+<Copy id="cc-1" title="Сначала: добавьте магазин плагинов" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="Затем: установите pstack" code="/plugin install pstack@cursor-plugins" />
+
+После установки <mark><strong>все команды начинаются с `pstack:`</strong></mark>. Вводите `/pstack:poteto-mode`; обычное `/poteto-mode` не распознаётся. Это правило Claude Code для плагинов, чтобы два плагина не конфликтовали из-за одинаковых имён.
+
+По умолчанию плагин **не обновляется автоматически**. Чтобы включить автообновление, введите `/plugin`, откройте вкладку «marketplaces», выберите `cursor-plugins`, а затем — «enable auto-update».
+
+Не нужен префикс? Вместо этого установите pstack через `npx skills` на вкладке «Codex и другие».
+
+</div>
+<div slot="cursor">
+
+В поле чата Cursor отправьте:
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+У команд остаются обычные имена, например `/poteto-mode` и `/how`. Префикс не нужен.
+
+По желанию: установите также плагин `cursor-team-kit`. pstack использует его в нескольких местах. Без него всё тоже отлично работает.
+
+</div>
+<div slot="other">
+
+Откройте терминал **в папке вашего проекта** и выполните:
+
+<Copy id="npx-1" lang="bash" title="Установить в этот проект" code="npx skills add backnotprop/pstack" />
+
+Команда выведет список всех навыков. **В первый раз выберите все**, а затем укажите, в какие инструменты их установить. Чтобы сократить набор позже, смотрите [Установка только нескольких навыков](/ru/howto/pick-skills/).
+
+Чтобы pstack был доступен во всех проектах, добавьте `-g`:
+
+<Copy id="npx-2" lang="bash" title="Установить глобально" code="npx skills add backnotprop/pstack -g" />
+
+Нужен Node.js 22.20 или новее. Не уверены? Выполните `node -v`, чтобы проверить.
+
+</div>
+</Tabs>
+</div>
+
+После установки выберите здесь свой инструмент. Все команды на сайте, включая то, что копируют кнопки, переключатся на формат этого инструмента:
+
+<ToolPick />
+
+## Проверьте работу
+
+Начните **новый** чат и отправьте:
+
+<Copy id="test" title="Быстрая проверка" code="/poteto-help Какой навык pstack новичку стоит освоить первым? Ответь в одном-двух предложениях." />
+
+Если в ответе упоминается poteto-mode, всё установлено. Команда `/poteto-help` только отвечает на вопросы. К выполнению задач она не перейдёт.
+
+<Callout type="ok">
+Введите `/` в поле чата, и в появившемся меню вы найдёте `poteto-mode` (`pstack:poteto-mode` в плагине для Claude Code).
+</Callout>
+
+## Застряли?
+
+<Q q="Ввожу / и не могу найти poteto-mode.">
+<p>Сначала начните новый чат. Всё ещё нет? В плагине для Claude Code ищите <code>pstack:</code>. Если вы использовали <code>npx skills</code>, убедитесь, что инструмент открыт в <strong>папке проекта, куда вы устанавливали pstack</strong>, или переустановите глобально с флагом <code>-g</code>.</p>
+</Q>
+<Q q="npx skills пишет, что версия Node слишком старая.">
+<p>Нужен Node.js 22.20 или новее. Установите свежую версию LTS с <a href="https://nodejs.org">nodejs.org</a> и запустите команду снова.</p>
+</Q>
+<Q q="Можно установить и плагин, и версию через npx?">
+<p>Не стоит. Две копии одного навыка вносят путаницу. Выберите один вариант.</p>
+</Q>
+
+Чтобы обновить или удалить pstack позже, смотрите [Обновление, проверка и удаление](/ru/howto/update-remove/).
+
+<Checkpoint id="s1" items={["pstack установлен в моём инструменте", "В новом чате при вводе / появляется poteto-mode (или pstack:poteto-mode)", "/poteto-help ответил на мой вопрос"]} />

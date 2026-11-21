@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 2
+need: pstack, instalado en el paso anterior
+tldr: Ejecuta /setup-pstack una vez, responde unas preguntas para configurar los modelos y el presupuesto, y luego empieza una conversación nueva.
+description: "Ejecuta /setup-pstack una vez: escoge un presupuesto, revisa qué modelo usa cada rol, decide si quieres una skill de verificación y luego empieza una conversación nueva."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Envía este único comando
+
+<Copy id="setup" code="/setup-pstack" />
+
+Comprueba qué modelos puedes usar y luego te hace unas preguntas. Tus respuestas se guardan en un archivo de configuración. A partir de ahí, cada skill escoge los modelos de ese archivo.
+
+## Cuando te pregunte por el presupuesto: ¿tienes dudas? Escoge large
+
+El <Term k="推理预算" /> es cuánto tiempo puede pensar el modelo. Cuanto más tiempo, más cuidadoso es, y más caro.
+
+| Opción | Nivel de razonamiento | Ideal para |
+| --- | --- | --- |
+| `large` | xhigh (por defecto) | Escógelo si tienes dudas |
+| `medium` | high | Ahorrar un poco |
+| `small` | medium | Tareas simples, presupuesto ajustado |
+
+`large` es el presupuesto máximo. Ningún rol de pstack supera xhigh.
+
+## Cuando te pregunte por los modelos por rol: deja los valores por defecto
+
+Cada <Term k="模型角色" /> puede usar un modelo distinto:
+
+- **Roles de programación, redacción y criterio**: opus 5.5 por defecto.
+- **Panel de revisión**: uno de fable 5.2, uno de opus 5.5 y uno de gemini 4 neon por defecto. Son modelos distintos a propósito, para que encuentren los errores unos de otros.
+
+fable 5.2, el más caro, se mantiene al margen. Fuera del panel de revisión, solo se ejecuta cuando lo nombras o después de que opus 5.5 falle la misma tarea dos veces.
+
+Cambia solo los que te importen. `auto` o `inherit-parent` significa «usa el mismo modelo que la conversación principal».
+
+<Callout type="tip" title="Si usas Claude Code">
+En Claude Code, las IA ayudantes solo pueden usar modelos de Claude. El puesto de gemini en el panel de revisión usa en su lugar el modelo de tu conversación actual. Si quieres ver tres configuraciones listas para usar, consulta [Usarlo en Claude Code](/es/howto/claude-code/#cómo-configurarlo-bien).
+</Callout>
+
+## Cuando te pregunte por una skill de verificación: si eres principiante, di que sí
+
+Si tu proyecto todavía no tiene forma de demostrar que «la app realmente funciona», te ofrecerá generar una <Term k="验证技能" />.
+
+<strong>Si eres principiante, di que sí.</strong> Una IA que puede comprobar su propio trabajo sigue adelante hasta que pasa la comprobación. No tienes que comprobarlo a mano.
+
+También puede preguntarte por una skill de <Term k="形式化验证" />. Di que sí solo si tu código tiene partes difíciles de probar, como concurrencia o reintentos. Puedes añadirla más adelante.
+
+## Cuando termines, empieza una conversación nueva
+
+El archivo de configuración se guarda aquí:
+
+- **Cursor**: `~/.cursor/rules/pstack-models.mdc`
+- **Claude Code**: `~/.claude/rules/pstack-models.md`
+- **Codex y otras herramientas**: `~/.agents/pstack-models.md`
+
+Cursor y Claude Code solo lo leen cuando empieza una conversación nueva. Así que <mark>cuando termines de configurarlo, cierra esta conversación y empieza una nueva</mark>.
+
+## ¿Te atascaste?
+
+<Q q="¿Y si quiero cambiar los modelos o el presupuesto más adelante?">
+<p>Vuelve a ejecutar <code>/setup-pstack</code>. Los roles que cambiaste se conservan. Para devolver un rol a su valor por defecto, borra esa línea del archivo de configuración.</p>
+</Q>
+<Q q="pstack actualizó sus modelos por defecto, pero los míos no cambiaron.">
+<p>Tu configuración anterior sigue teniendo los valores antiguos. Vuelve a ejecutar <code>/setup-pstack</code>. Reemplaza los valores por defecto antiguos que reconoce por los nuevos y te dice cuáles. Tus propias elecciones se mantienen. Si hay un valor antiguo que no reconoce, borra esa línea (o el archivo entero) primero.</p>
+</Q>
+<Q q="Dije que no a la skill de verificación y ahora la quiero.">
+<p>Ejecuta <code>/create-verification-skill</code>. Consulta el <a href="/es/guide/6-verify-ship/">paso 6</a>.</p>
+</Q>
+
+<Checkpoint id="s2" items={["Ejecuté /setup-pstack y escogí un presupuesto", "Me dijo en qué archivo se guardó la configuración", "Ya decidí si quiero una skill de verificación (principiantes: sí)", "Ya empecé una conversación nueva"]} />

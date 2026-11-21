@@ -1,0 +1,97 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 3
+need: pstack, configuré ; un petit besoin réel mais pas trop gros
+tldr: "Confiez à l'IA une petite tâche en un seul message : ce que vous voulez, ce qui compte comme terminé, ce qu'elle doit vous montrer. Vérifiez ensuite sa reformulation et ses preuves."
+description: "Lancez votre première tâche avec /poteto-mode : quoi mettre dans un message et quoi laisser de côté, où regarder après l'envoi et comment continuer."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Copiez d'abord un exemple
+
+Choisissez une petite tâche réelle dans votre projet. Par exemple, ajouter un bouton d'exportation sur la page des paramètres d'une extension Chrome :
+
+<Copy id="first-ext" title="Remplacez par votre propre tâche" code="/poteto-mode Ajoute un bouton « Exporter les paramètres » sur la page des paramètres pour télécharger les paramètres actuels sous forme de fichier JSON. Les paramètres existants et leur mode de sauvegarde ne doivent pas changer. Quand c'est terminé, montre-moi : le contenu du fichier exporté et ce qui est stocké dans chrome.storage. Les deux doivent correspondre exactement." />
+
+Ce message ne contient que trois éléments :
+
+1. **Ce que vous voulez** : un bouton d'exportation.
+2. **Ce qui compte comme terminé** : l'export correspond à ce qui est stocké, et les anciens paramètres ne sont pas affectés.
+3. **Ce qu'il faut vous montrer** : le contenu réel des deux.
+
+Le conseil de poteto pour débuter tient en une ligne : <mark><strong>donnez-lui un objectif et un moyen de vérifier, avec vos propres mots.</strong></mark>
+
+Quand une IA se trompe, c'est en général pour l'une de ces deux raisons. Elle n'a pas compris ce que vous vouliez, ou elle manquait de contexte pour bien faire. Ces trois éléments règlent la première. [L'étape 4](/fr/guide/4-understand/) règle la seconde : avant qu'elle ne modifie quoi que ce soit, demandez-lui d'expliquer le code tel qu'il est maintenant.
+
+## Définissez un « terminé » vérifiable
+
+L'IA utilise cette partie pour vérifier son propre travail. Il faut donc pouvoir trancher clairement : réussi ou raté.
+
+- **Vérifiable** : le fichier exporté correspond exactement à ce qui est stocké.
+- **Non vérifiable** : améliore ça. Rends-le plus joli. Passe une heure dessus.
+
+Sans critère de vérification, elle ne peut se fier qu'à son intuition pour dire « terminé ».
+
+## Deux choses que vous pouvez ajouter
+
+Elles sont facultatives. Si vous les avez, ajoutez une phrase pour chacune :
+
+- **Les indices que vous avez déjà** : une ligne d'erreur, l'étape où ça casse, un lien. Cela évite un tour de recherche.
+- **Ce qu'elle ne doit surtout pas toucher** : par exemple, « Ne modifie pas le code pour l'instant, fais juste l'investigation », ou « L'ancienne sortie ne doit absolument pas changer ».
+
+## Deux choses à laisser de côté au début
+
+- **La manière exacte de procéder.** Indiquez le résultat que vous voulez. L'IA trouvera peut-être une meilleure piste.
+- **Votre hypothèse sur la cause.** Dès que vous la donnez, elle ne cherche plus que là où vous l'avez orientée. Attendez qu'elle donne son propre avis, puis ajoutez le vôtre.
+
+N'enchaînez pas non plus les skills dans votre message, du style « utilise d'abord /architect, puis /arena ». Elle les appelle dans l'ordre toute seule. Votre ordre risque de la gêner.
+
+## Après l'envoi, regardez à trois endroits
+
+**Au début : sa reformulation.** L'IA explique avec ses propres mots ce que vous voulez et où elle compte faire des modifications. Elle n'attendra pas votre accord. Donc si elle a mal compris, interrompez-la tout de suite.
+
+**Au milieu : la <Term k="待办清单" />.** Ce sont les étapes qu'elle va suivre ensuite. Une fois qu'elle choisit une approche (un <Term k="剧本" />), les étapes de cette approche sont copiées dans la liste.
+
+**À la fin : les preuves.** Ce que vous avez demandé à voir doit s'y trouver, comme de vraies commandes et leur sortie. Si elle n'a pas pu vérifier quelque chose, elle dit « pas sûr ».
+
+<Callout type="warn" title="Un « terminé » sans preuve">
+Si elle a l'air sûre d'elle mais ne peut montrer aucun résultat de vérification, ne la croyez pas. Répondez : « Montre-moi les résultats de ce que tu as vraiment vérifié. »
+</Callout>
+
+## Continuer : plus c'est court, mieux c'est
+
+Dans la même tâche, vos messages suivants peuvent être très courts :
+
+<Copy id="short" title="N'importe lequel suffit" code={`/poteto-mode vas-y
+continue
+continue jusqu'à ce que ce soit terminé`} />
+
+L'IA se souvient de l'avancement de la tâche. Vous n'avez qu'à dire ce que vous voulez ensuite.
+
+**Quand vous passez à autre chose, dites d'abord « nouvelle tâche ».** Sinon, elle traite votre nouvelle question comme l'étape suivante de la tâche précédente :
+
+<Copy id="newtask" code="/poteto-mode new task. Trouve pourquoi le cache est toujours là après la déconnexion. Ne modifie pas le code pour l'instant." />
+
+« Ne modifie pas le code pour l'instant » la limite à l'investigation, sans rien toucher.
+
+<Callout type="tip" title="Si vous utilisez Cursor">
+Choisissez `/poteto-mode` dans le menu `/`, puis appuyez sur Option+Enter (Mac) ou Alt+Enter (Windows). Il devient un <Term k="Custom Mode" /> et s'applique donc à tous les messages suivants. Un simple appui sur Enter ne s'applique qu'à ce seul message.
+</Callout>
+
+## Un blocage ?
+
+<Q q="L'IA a mal compris ce que je voulais dire.">
+<p>Dites-le simplement : « Non, ce que je veux, c'est… » C'est dès sa première reformulation que c'est le plus facile à corriger. Quand la demande est confuse (une longue discussion, un problème que vous n'arrivez pas bien à décrire), demandez-lui de commencer uniquement par reformuler : <code>/poteto-mode Lis cette discussion et explique avec des mots simples quel est le problème de fond. Ne modifie pas le code pour l'instant.</code></p>
+</Q>
+<Q q="L'IA a sauté une étape qui me paraît importante.">
+<p>Dites-le : « Ne saute pas l'étape 2. Reproduis d'abord le problème. » Elle rajoute l'étape.</p>
+</Q>
+<Q q="La réponse est trop longue à suivre.">
+<p>Tapez <code>/bro</code>, et l'IA reformulera sa dernière réponse avec des mots simples.</p>
+</Q>
+
+<Checkpoint id="s3" items={["J'ai confié à /poteto-mode une petite tâche réelle en précisant ce qui compte comme terminé", "J'ai vu sa reformulation au début", "La réponse finale contenait des preuves que je peux vérifier moi-même"]} />

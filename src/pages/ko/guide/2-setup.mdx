@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 2
+need: 이전 단계에서 설치한 pstack
+tldr: /setup-pstack을 한 번 실행하고, 몇 가지 질문에 답해 모델과 예산을 정한 뒤 새 대화를 시작하세요.
+description: "/setup-pstack을 한 번 실행하고 예산을 고르세요. 역할별로 어떤 모델을 쓰는지 확인하고, 검증 스킬을 쓸지 정한 뒤 새 대화를 시작하세요."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## 이 명령어 하나만 보내세요
+
+<Copy id="setup" code="/setup-pstack" />
+
+쓸 수 있는 모델을 확인한 뒤 몇 가지 질문을 해요. 답한 내용은 설정 파일에 저장돼요. 그때부터 모든 스킬이 이 파일을 보고 모델을 골라요.
+
+## 예산을 물을 때: 잘 모르겠으면 large를 고르세요
+
+<Term k="推理预算" />은 모델이 얼마나 오래 생각할지를 뜻해요. 오래 생각할수록 더 꼼꼼하고, 비용도 더 들어요.
+
+| 옵션 | 추론 강도 | 알맞은 경우 |
+| --- | --- | --- |
+| `large` | xhigh(기본값) | 잘 모르겠으면 선택 |
+| `medium` | high | 비용을 조금 아낄 때 |
+| `small` | medium | 간단한 작업, 빠듯한 예산 |
+
+`large`가 가장 높은 예산이에요. pstack에서 xhigh보다 높게 돌아가는 역할은 없어요.
+
+## 역할별 모델을 물을 때: 기본값 그대로 두세요
+
+<Term k="模型角色" />마다 서로 다른 모델을 쓸 수 있어요:
+
+- **코딩, 글쓰기, 판단 역할**: 기본값은 opus 5.5예요.
+- **리뷰 패널**: 기본값은 fable 5.2, opus 5.5, gemini 4 neon 각 하나씩이에요. 서로의 실수를 찾도록 일부러 다른 모델을 써요.
+
+가장 비싼 fable 5.2는 평소에 나서지 않아요. 리뷰 패널 밖에서는 직접 지정하거나, opus 5.5가 같은 작업에서 두 번 실패했을 때만 돌아가요.
+
+신경 쓰이는 역할만 바꾸세요. `auto`나 `inherit-parent`는 “메인 대화와 같은 모델을 쓴다”는 뜻이에요.
+
+<Callout type="tip" title="Claude Code를 쓴다면">
+Claude Code에서는 도우미 AI가 Claude 모델만 쓸 수 있어요. 리뷰 패널의 gemini 자리는 대신 현재 대화의 모델을 써요. 바로 써 볼 수 있는 설정 세 가지는 [Claude Code에서 쓰기](/ko/howto/claude-code/#잘-설정하는-방법)를 참고하세요.
+</Callout>
+
+## 검증 스킬을 물을 때: 입문자라면 예라고 하세요
+
+프로젝트에 “앱이 진짜로 잘 돌아간다”는 걸 증명할 방법이 아직 없다면, <Term k="验证技能" />을 만들어 주겠다고 제안해요.
+
+<strong>입문자라면 예라고 하세요.</strong> 자기 작업을 스스로 확인할 수 있는 AI는 확인을 통과할 때까지 계속해요. 손으로 직접 확인할 필요가 없어요.
+
+<Term k="形式化验证" /> 스킬에 대해서도 물을 수 있어요. 코드에 동시성이나 재시도처럼 테스트하기 까다로운 부분이 있을 때만 예라고 하세요. 나중에 추가해도 돼요.
+
+## 설정이 끝나면 새 대화를 시작하세요
+
+설정 파일은 여기에 저장돼요:
+
+- **Cursor**: `~/.cursor/rules/pstack-models.mdc`
+- **Claude Code**: `~/.claude/rules/pstack-models.md`
+- **Codex와 다른 도구**: `~/.agents/pstack-models.md`
+
+Cursor와 Claude Code는 새 대화를 시작할 때만 이 파일을 읽어요. 그러니 <mark>설정이 끝나면 지금 대화를 닫고 새 대화를 시작하세요</mark>.
+
+## 막혔나요?
+
+<Q q="나중에 모델이나 예산을 바꾸고 싶으면 어떻게 하나요?">
+<p><code>/setup-pstack</code>을 다시 실행하세요. 직접 바꾼 역할은 그대로 남아요. 역할을 기본값으로 되돌리려면 설정 파일에서 그 줄을 지우세요.</p>
+</Q>
+<Q q="pstack 기본 모델이 업데이트됐는데, 제 설정은 안 바뀌었어요.">
+<p>기존 설정 파일에 예전 값이 그대로 남아 있어요. <code>/setup-pstack</code>을 다시 실행하세요. 알아볼 수 있는 예전 기본값은 새 값으로 바꾸고, 무엇을 바꿨는지 알려 줘요. 직접 고른 설정은 그대로 남아요. 알아보지 못하는 예전 값이 있다면, 그 줄(또는 파일 전체)을 먼저 지우세요.</p>
+</Q>
+<Q q="검증 스킬은 아니요라고 했는데, 이제 쓰고 싶어요.">
+<p><code>/create-verification-skill</code>을 실행하세요. <a href="/ko/guide/6-verify-ship/">6단계</a>를 참고하세요.</p>
+</Q>
+
+<Checkpoint id="s2" items={["/setup-pstack을 실행하고 예산을 골랐어요", "설정이 어느 파일에 저장됐는지 안내받았어요", "검증 스킬을 쓸지 정했어요(입문자: 예)", "새 대화를 시작했어요"]} />

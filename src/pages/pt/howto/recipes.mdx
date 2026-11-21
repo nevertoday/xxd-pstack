@@ -1,0 +1,232 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: recipes
+time: Consulte conforme precisar
+for: Você quer um prompt para copiar, ajustar e mandar
+step: 3
+tldr: Encontre um prompt para a sua situação, troque as partes entre colchetes angulares e mande.
+description: "Prompts do pstack agrupados por situação: entender primeiro, corrigir e construir, definir um design, conferir antes de entregar, sair e voltar depois. Copie cada um em um clique, com uma linha sobre por que funciona, além de erros comuns."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+Substitua as partes entre colchetes angulares (`< >`) pelas suas: caminhos, comandos e o que significa “pronto”. Mantenha os nomes das skills como estão, porque são os nomes que a IA conhece.
+
+## Entender primeiro
+
+**Pergunte como funciona e depois por que quebrou**
+
+<Copy id="r-how-why" code="Use /how para descobrir como essa inicialização funciona e depois /why para descobrir por que quebrou recentemente." />
+
+Cada relatório cita as fontes que verificou.
+
+**Discussão longa? Peça para reformular o problema**
+
+<Copy id="r-restate" code="/poteto-mode leia esta thread. Com suas próprias palavras, em linguagem simples, reformule o problema raiz. Não altere nenhum código ainda." />
+
+Se a IA entendeu errado, isso aparece na reformulação. Compartilhe seu próprio palpite depois que ela terminar.
+
+**Refine o prompt antes de mandar**
+
+<Copy id="r-sharpen" code="/sharpen escreva um documento de onboarding para o novo serviço de cobrança." />
+
+O `/sharpen` acrescenta o que você deixou de fora e devolve um prompt reescrito. Não executa a tarefa.
+
+**Retome de onde parou dias atrás**
+
+<Copy id="r-recall" code={`/recall o que eu fiz em <assunto> na semana passada e depois leia <link da issue>.`} />
+
+Uma conversa nova não lembra das antigas. Peça para a IA ler seus registros primeiro.
+
+**Faça a IA convencer você**
+
+<Copy id="r-teach" code={`/teach explique por que você construiu desse jeito em vez de <outra abordagem>. Do que você abriu mão?`} />
+
+Falhas ficam mais fáceis de notar em um argumento do que em um resumo.
+
+## Corrigir bugs, adicionar funcionalidades, refatorar, investigar lentidão
+
+**Corrigir um bug**
+
+<Copy id="r-bug" code={`/poteto-mode <sintoma>. Reproduza primeiro, depois corrija e depois verifique.`} />
+
+“Reproduzir” significa fazer o problema acontecer de novo. Para a versão completa, veja [Corrigir um bug](/pt/howto/fix-bug/).
+
+**Com uma skill de verificação, peça um vídeo como prova**
+
+<Copy id="r-bug-verify" code={`/poteto-mode use /verify-<seu-app> para reproduzir isso. Se reproduzir na main, corrija e me mande um vídeo como prova.`} />
+
+Se o problema já tiver sumido, a IA para antes. Um vídeo permite conferir sem ler código.
+
+**Quando for fácil escrever um teste, escreva primeiro**
+
+<Copy id="r-tdd" code="/poteto-mode reproduza a escrita duplicada primeiro. Se houver um caminho simples para testar, use /tdd: escreva um teste que falhe, depois corrija e rode de novo." />
+
+Quando é difícil escrever um teste, rodar o comando real convence mais.
+
+**Adicionar uma funcionalidade sem quebrar a antiga**
+
+<Copy id="r-feature" code={`/poteto-mode adicione <novo comportamento>. <saída atual> precisa continuar idêntica byte a byte. Verifique os dois.`} />
+
+“Idêntica byte a byte” pode passar ou falhar. “Não afete a funcionalidade antiga” não pode.
+
+**Refatorar sem mudar o comportamento**
+
+<Copy id="r-refactor" code={`/poteto-mode mova <este código> para um único módulo com zero mudança de comportamento. Registre a saída atual antes de começar e prove que ela não mudou ao terminar.`} />
+
+Registre o “antes” primeiro, para ter com o que comparar.
+
+**Investigar lentidão com números**
+
+<Copy id="r-perf" code={`/poteto-mode <alguma operação> leva <quanto tempo> com <alguns dados de teste>. Capture um trace de performance, corrija a causa que ele mostrar e me mostre os números de antes e depois.`} />
+
+“Mais rápido” só faz sentido com um número inicial.
+
+## Definir um design, montar um plano
+
+**Construa alguns protótipos e depois escolha**
+
+<Copy id="r-proto" code="/poteto-mode crie alguns protótipos do layout da página de configurações. Coloque-os atrás de um toggle e me mande uma captura de tela de cada um." />
+
+Escolher entre coisas rodando ganha de escolher por descrições.
+
+**Um design maior, com ponto de revisão**
+
+<Copy id="r-architect" code="/poteto-mode precisamos adicionar rate limiting aos webhooks externos. Use /architect primeiro e responda tudo que for incerto com protótipos. Deixe eu revisar antes de continuar." />
+
+A última frase faz a IA parar e esperar você antes de escrever código real.
+
+**Um pacote que outras pessoas vão usar: escreva o tutorial primeiro**
+
+<Copy id="r-tutorial" code="/poteto-mode primeiro escreva um tutorial mostrando como eu usaria este novo pacote de configuração. Depois use /teach para explicar por que ele é melhor do que temos hoje." />
+
+Escrever o tutorial primeiro faz a IA pensar como quem vai usar o pacote.
+
+**Peça uma segunda opinião**
+
+<Copy id="r-arena" code="Peça ao /arena uma segunda opinião sobre esta discussão e nosso plano." />
+
+O `/arena` mostra se outros modelos acharam algo melhor ou se concordam com o seu.
+
+**Com o design definido, peça o plano**
+
+<Copy id="r-plan" code="/poteto-mode transforme este design em um plano. Divida em PRs pequenos e verificáveis, cada um com seus próprios passos de verificação." />
+
+A IA entrega só o plano. Não começa a escrever código.
+
+**Plano de migração: mantenha os bugs também**
+
+<Copy id="r-migrate" code={`/poteto-mode planeje a migração de <alguma biblioteca> para <nova abordagem>. Divida em PRs pequenos e verificáveis. Os resultados precisam bater exatamente com os antigos, inclusive os bugs.`} />
+
+Corrigir bugs no meio da migração torna impossível comparar os resultados antigos com os novos.
+
+## Conferir antes de entregar
+
+**Passe o pente-fino antes de fazer commit**
+
+<Copy id="r-interrogate" code="/interrogate toda a branch, e seja exigente. Não mude nada ainda. Não aponte detalhes menores, só se for um bug real ou uma regressão." />
+
+Dê uma olhada também nos itens que a IA descartou no relatório.
+
+**Confira várias coisas de uma vez**
+
+<Copy id="r-swarm" code="/swarm rode o check.sh de cada pacote em packages/. Um worker por pacote e depois me entregue um único relatório." />
+
+Você lê um único resumo.
+
+**Casos que os testes não alcançam**
+
+<Copy id="r-formal" code="/create-formal-verification-skill para a fila de retentativas. Uma mensagem nunca pode ser entregue duas vezes." />
+
+A skill verifica essa única regra em todos os casos e pode conferir de novo a cada mudança futura. Veja <Term k="形式化验证" />.
+
+**Confira um número antes de publicar**
+
+<Copy id="r-bench" code="/benchmark-checklist confira esse ganho de 40% de velocidade antes de ir para a descrição do PR." />
+
+O veredito só pode ser: mais rápido, mais lento, sem diferença ou não dá para dizer.
+
+**Pare de corrigir o mesmo erro na mão**
+
+<Copy id="r-correct" code="/correct a IA continua adicionando novas opções de configuração sem registrá-las no schema." />
+
+O `/correct` altera o próprio repositório, para que a próxima IA não consiga cometer esse erro.
+
+**Abra um PR e acompanhe até poder fazer merge**
+
+<Copy id="r-pr" code={`/poteto-mode abra um PR. Commits pequenos, em ordem, com evidências na descrição.`} />
+
+<Copy id="r-babysit" code={`/poteto-mode acompanhe este PR e deixe tudo verde.`} />
+
+A IA não faz merge a menos que você mande.
+
+## Sair e voltar depois
+
+**Antes de dormir**
+
+<Copy id="r-overnight" code={`/poteto-mode vou dormir. Em um novo worktree (a partir da <branch base>), <objetivo>.
+Concluído significa: <uma checagem que passa ou falha>.
+Mantenha um log de decisões. Não precisa me perguntar antes de fazer commit.
+/loop until done. Se travar de verdade depois de algumas horas, pare e anote o porquê.`} />
+
+“Concluído significa” dá a cada rodada algo para verificar. Veja [Deixar rodando](/pt/guide/7-overnight/).
+
+**Volte e veja o que a IA fez**
+
+<Copy id="r-smyw" code="/show-me-your-work me mostre passo a passo o que você fez ontem à noite." />
+
+Leia primeiro a seção `Attention` (o que precisa de atenção). Cada linha no <Term k="决策日志" /> tem um motivo e evidências.
+
+**Só quer saber o que mudou nesta conversa**
+
+<Copy id="r-ketchup" code="/ketchup" />
+
+O `/ketchup` lista o que mudou e o que está esperando sua decisão. Só consulta, nunca altera nada.
+
+**Só quer perguntar como fazer**
+
+<Copy id="r-help" code="/poteto-help como deixo o poteto-mode ativado em cada turno?" />
+
+Você recebe uma resposta e um prompt. Nada roda a menos que você mande.
+
+**Não conseguiu acompanhar a resposta**
+
+<Copy id="r-bro" code="/bro" />
+
+O `/bro` repete a última resposta em palavras simples.
+
+**Anote o que você aprendeu**
+
+<Copy id="r-reflect" code="/reflect isso ficou lento demais. Anote o que aprendemos para não acontecer de novo." />
+
+A IA só sugere mudanças. Nada muda até você aprovar.
+
+Para frases de uma linha que colocam a IA de volta nos trilhos quando ela desvia, veja [Colocar de volta nos trilhos](/pt/howto/steer/).
+
+## Erros comuns
+
+- **Ditar a ordem das skills no prompt.** Informe o objetivo e os requisitos. A própria IA ordena as skills.
+- **Definir “pronto” de forma vaga.** “Deixe melhor” não dá para verificar. Dê um comando ou resultado que passe ou falhe.
+- **Começar dando seu palpite sobre a causa.** A IA só vai olhar para onde você apontou.
+- **Aceitar o primeiro design.** Peça protótipos primeiro ou use `/architect`.
+- **Várias IAs espremidas na mesma pasta.** Uma sobrescreve o trabalho da outra. Dê a cada tentativa o próprio worktree (uma segunda pasta de trabalho ligada ao mesmo repositório Git).
+- **Começar um loop antes de confiar nele.** Faça sua <Term k="验证技能" /> funcionar primeiro, senão você só recebe trabalho sem verificação mais rápido.
+- **Acreditar em um número que você não conferiu.** Rode `/benchmark-checklist` primeiro.
+- **Usar `/arena` como se fosse `/swarm`.** `/arena` faz uma mesma tarefa várias vezes. `/swarm` divide o trabalho em partes diferentes.
+- **Aceitar todo comentário de revisão.** Use `/interrogate`. Ele mantém só os problemas que consegue provar.
+- **Tratar `auto` como nome de modelo.** Significa “seguir a conversa principal”. Veja [Manter os custos baixos](/pt/howto/cost/).
+- **Chamar um build que passou de sucesso.** Compilar só prova que compila. Peça a saída real do comando.
+- **Escrever `SKILL.md` à mão.** Peça ao `/poteto-mode` para escrever. Ele já traz checagens junto.
+
+## Travou?
+
+<Q q="Copiei exatamente igual, mas a IA fez algo diferente do que eu queria.">
+<mark>O mais provável é que o significado de “pronto” não tenha ficado claro</mark>. Adicione uma checagem que passe ou falhe, como “este comando retorna 0”. Ainda em dúvida? Passe o prompt pelo `/sharpen` antes de mandar.
+</Q>
+<Q q="Posso escrever prompts em outro idioma além do inglês?">
+Sim. Só mantenha em inglês os nomes das skills (`/how`) e os nomes dos princípios (`prove it works`).
+</Q>
+<Q q="Não sei qual copiar para esta tarefa.">
+Pergunte ao `/poteto-help`. Ele entrega um prompt pronto. Você também pode ler <a href="/pt/howto/which-skill/">Não sabe qual skill usar</a>.
+</Q>

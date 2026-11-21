@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 7
+need: "Una IA que ya pueda verificar su propio trabajo (la skill de verificación del paso 6)"
+tldr: "Encarga una tarea grande antes de dormir con instrucciones claras. Por la mañana, lee primero su sección «Attention» (lo que requiere atención)."
+description: "Deja que la IA haga una tarea grande durante la noche: asegúrate de poder confiar en ella, escribe instrucciones claras para antes de dormir y lee el registro de decisiones por la mañana en lugar de todo el chat."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Primero, asegúrate de poder confiar en ella
+
+Antes de dejarla trabajar sola, deberían cumplirse estas cuatro condiciones:
+
+1. **Sabes cómo se ve un buen resultado**: ya lo hiciste una vez, o viste cómo se hacía.
+2. **La IA tiene las herramientas que tú usarías**: una skill de verificación, logs.
+3. **Cada paso se demuestra por sí solo**: se detiene cuando se queda corto.
+4. **Los errores repetidos ya tienen comprobaciones**: ya leíste algunas transcripciones.
+
+<mark>Hasta que se cumplan las cuatro, ejecútala mientras estás mirando.</mark>
+
+## Escribe instrucciones para antes de dormir
+
+<Copy id="contract" title="Instrucciones para antes de dormir" code={`/poteto-mode Me voy a dormir. En un worktree nuevo a partir de main, migra todas las llamadas al nuevo parser.
+Terminado significa: no queda ninguna llamada antigua, pasan todos los fixtures del parser y la API antigua está eliminada.
+Lleva un registro de decisiones. No hace falta que me preguntes antes de hacer commit.
+/loop until done. Si te atascas durante horas y de verdad no puedes seguir, detente y anota por qué.`} />
+
+Qué hace cada frase:
+
+- **Me voy a dormir**: sigue adelante, no me preguntes.
+- **Terminado significa**: la IA comprueba esto en cada ronda.
+- **Un <Term k="worktree" /> nuevo**: una carpeta de trabajo aparte, lejos de tu propio trabajo.
+- **No hace falta preguntar antes de hacer commit**: la IA no se queda esperando tu visto bueno.
+- **/loop until done**: la IA sigue comprobando si ya terminó (integrado en Cursor y Claude Code).
+- **Si te atascas, detente y anota por qué**: detenerse es mejor que ocho horas de trabajo inútil.
+
+<Callout type="no" title={`«Trabaja durante 4 horas» no es una condición de finalización`}>
+Una duración no se puede comprobar. Dale una condición que claramente pase o falle.
+</Callout>
+
+## Qué hace la IA toda la noche
+
+<Fig id="g7-night" />
+
+## Por la mañana: lee primero la sección «Attention»
+
+<Copy id="audit" code="/show-me-your-work Explícame paso a paso lo que hiciste anoche" />
+
+**Qué obtienes**: un resumen. Antes de entregártelo, un modelo de otra empresa lee el registro y añade una sección «Attention» (lo que requiere atención). <strong>Lee esa sección primero y luego las líneas que señala.</strong>
+
+El registro es `decisions.tsv` (o `.audit/<task-name>.tsv` cuando varias tareas comparten carpeta). Por defecto se queda en tu equipo.
+
+¿Solo quieres ver el avance? Escribe `/ketchup` en ese chat. La IA te dice qué cambió y qué está esperando tu decisión.
+
+## Varias tareas en una noche
+
+<Copy id="autopilot" code="/poteto-mode Ejecuta en Autopilot estos cinco cambios, pero no fusiones. Los fusiono yo por la mañana." />
+
+| Qué tienes | Qué enfoque | Por la mañana |
+| --- | --- | --- |
+| Muchos PR sin relación entre sí | Autopilot-full | Los verificados ya fusionados |
+| Lo mismo, pero fusionas tú | Autopilot-stack | Una serie de PR verificados |
+| Un proyecto de varios días | Encargado a `/figure-it-out` | Fases avanzando, con registro de decisiones |
+
+## ¿Te atascaste?
+
+<Q q="No me siento a gusto dejándola hacer commit por su cuenta.">
+<p>Quita «no hace falta que me preguntes antes de hacer commit» o usa Autopilot-stack para que se detenga en cuanto todo esté verificado.</p>
+</Q>
+<Q q="Me desperté y había estado dando vueltas en círculos.">
+<p>Lo más probable es que la condición de finalización no fuera lo bastante firme. Usa <code>/reflect</code> para registrar la lección y <code>/correct</code> para convertir los errores repetidos en comprobaciones.</p>
+</Q>
+<Q q="Quiero detenerla a mitad de camino.">
+<p>Dile «pausa» o «me desconecto». La IA cierra el paso actual y escribe una nota para retomar. Un chat nuevo puede continuar desde ahí.</p>
+</Q>
+
+<Checkpoint id="s7" items={["Conozco las cuatro condiciones que deben cumplirse antes de dejarla sola", "Sé escribir instrucciones para antes de dormir con una condición de finalización, un worktree, un registro de decisiones y una condición de parada", "Por la mañana leo primero la sección «Attention»"]} />

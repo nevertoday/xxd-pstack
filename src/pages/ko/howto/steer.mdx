@@ -1,0 +1,93 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: steer
+time: 한 줄
+for: AI가 딴길로 샜는데 길게 쓰지 않고 방향을 바로잡고 싶을 때
+step: 8
+tldr: AI가 딴길로 새면 한 줄로 답하세요. 원하는 바를 말하고, pstack이 아는 원칙 이름을 붙인 뒤, 실제 결과를 요청하세요.
+description: "딴길로 샌 AI의 방향을 한 줄로 바로잡는 법: 원칙 이름, /bro, /unslop, new task; AI 행동별 답변 목록; 실제로 따랐는지 확인하는 법."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## 먼저 이 한 줄부터 복사하세요
+
+AI가 “완료”라고 하는데, 실제로는 빌드만 통과한 상태예요. 이렇게 답하세요:
+
+<Copy id="s-prove" code="apply prove it works. 실제 import 흐름을 돌려 보고, 저장된 레코드를 보여 주세요." />
+
+`prove it works`는 “정말로 동작한다는 걸 보여 줘”라는 뜻이에요. pstack의 <Term k="原则" text="원칙" />(일하는 방식을 적어 둔 규칙) 중 하나를 가리키는 이름이에요. `/poteto-mode`는 시작하기 전에 원칙을 전부 읽어 두기 때문에, 이름만 말해도 어떤 규칙을 뜻하는지 정확히 알아들어요.
+
+뒤쪽 문장은 이번에 원하는 바를 적어 준 거예요. <mark>한 문단을 길게 쓰는 것보다 이름 하나가 더 정확하게 짚어 줘요.</mark> 외울 필요는 없어요. 딴길로 샐 때마다 여기로 다시 오면 돼요.
+
+<Fig id="h-steer" />
+
+## 방향을 바로잡는 또 다른 세 가지 방법
+
+**부탁하지 않은 일을 했을 때**. 목표를 다시 말해 주세요:
+
+<Copy id="s-goal" code="목표는 재현이라고 했어요. 아직 고쳐 달라고 하지 않았어요." />
+
+**답변이 이해하기 어렵거나 AI 티가 너무 날 때**:
+
+<Copy id="s-bro" code="/bro" />
+
+<Copy id="s-unslop" code="/unslop that, no emdashes" />
+
+`/bro`는 방금 답변을 쉬운 말로 다시 말해 줘요. `/unslop that`은 그 글에서 AI 티를 빼라는 뜻이고, `no emdashes`는 “긴 대시(em dash)는 쓰지 마”라는 뜻이에요.
+
+**다른 일로 넘어갔을 때**. 먼저 new task라고 말해 주세요:
+
+<Copy id="s-new" code="/poteto-mode new task. 로그아웃한 뒤에도 캐시가 왜 남아 있는지 찾아 주세요. 코드는 아직 바꾸지 마세요." />
+
+그렇지 않으면 새 질문을 이전 작업의 다음 단계로 받아들여요.
+
+## AI가 이렇게 할 때, 이렇게 답하세요
+
+뜻이 먼저고, 그다음이 그대로 입력할 이름이에요:
+
+- **빌드만 통과했는데 “완료”라고 할 때** → 정말 동작하는지 보여 주기: `apply prove it works.` 실제 명령어를 돌리고 실제 출력을 보여 주세요.
+- **실패한 지점 뒤에 if 검사를 덧붙이고 고쳤다고 할 때** → 진짜 원인 찾기: `fix root causes.` 처음 잘못되는 지점을 찾아 주세요.
+- **예전 어댑터 세 개 위에 새 어댑터를 또 쌓을 때** → 더하기 전에 빼기: `subtract before you add.` 오래된 것부터 먼저 지워 주세요.
+- **같은 검사를 여러 번 고쳤는데도 계속 실패할 때** → 전제를 의심하기: `attack the premise.` 그 수정들이 깔고 있는 가정을 테스트해 보세요.
+- **똑같은 수정을 수십 군데 손으로 하고 있을 때** → 도구 만들기: `build the lever.` 다시 돌릴 수 있는 스크립트를 만들어 주세요.
+- **마이그레이션 중에 예전 인터페이스용 호환 레이어를 남겨 둘 때** → 옮긴 뒤 지우기: `migrate callers then delete legacy apis.`
+- **테스트가 어떤 내부 함수가 호출됐는지를 확인할 때** → 동작 테스트하기: `test behavior not implementation.` 사용자에게 보이는 결과를 확인해 주세요.
+- **되돌릴 수 있는 사소한 일로 멈춰서 물어볼 때** → 내 답을 기다리지 말기: `never block on the human.` 먼저 하고 보여 주세요.
+- **첫 번째 설계를 바로 작성하기 시작할 때** → 여러 개 시도해 보기: `exhaust the design space.` 프로토타입을 두세 개 만들어서 비교해 주세요.
+
+24개 전체는 [원칙](/ko/wiki/principles/)에 있어요.
+
+## 어떤 결정이 바뀌었는지 말해야 해요
+
+이름만 언급하는 건 소용없어요. 원칙을 썼다면 그 원칙 때문에 무엇을 바꿨는지 말해야 해요.
+
+<Copy id="s-good" title="제대로 된 답변" code="subtract before you add에 따라, 아무도 호출하지 않는 어댑터 두 개를 먼저 지웠어요. 새 어댑터는 기존 것과 호환될 필요가 없어졌고, 인터페이스도 절반으로 줄었어요." />
+
+<Copy id="s-bad" title="이름만 적은 답변" code="prove it works 원칙을 따랐어요. 기능이 동작해요." />
+
+두 번째 답변에는 이름만 있고, 결정도 근거도 없어요. 이렇게 되물어 보세요:
+
+<Copy id="s-push" code="prove it works를 썼다고 했는데, 어떤 명령어와 어떤 출력으로 증명했나요? 그대로 붙여 넣어 주세요." />
+
+## 같은 문제가 또 생겼을 때
+
+대화에서 바로잡아 준 건 이번 한 번만 적용돼요. 두 번째로 같은 문제가 생기면 `/correct`로 저장소 자체를 바꾸세요:
+
+<Copy id="s-correct" code="/correct AI가 repository 레이어를 건너뛰고 데이터베이스 클라이언트를 자꾸 직접 호출해요." />
+
+검사나 타입, 테스트를 추가해서 나중에 다른 AI가 같은 실수를 못 하게 막아요. 자세한 내용은 [익숙해졌다면](/ko/guide/8-make-it-yours/)을 보세요.
+
+## 막혔나요?
+
+<Q q="원칙 이름을 말했는데 아무 변화가 없는 것 같아요.">
+`/poteto-mode`를 Enter로 보냈다면 몇 턴 지나면 효력이 풀려요. 다시 입력하거나, Cursor에서는 Option+Enter(Windows는 Alt+Enter)로 보내면 계속 켜 둘 수 있어요.
+</Q>
+<Q q="원칙 이름이 기억나지 않아요.">
+외울 필요 없어요. “뒤에 검사를 덧붙이지 말고 진짜 원인을 찾아 주세요”처럼 평소 쓰는 말로 원하는 바를 말하면 돼요. 원칙 이름은 그저 더 짧고 정확할 뿐이에요.
+</Q>
+<Q q="방향을 바로잡았는데, 잠시 뒤에 또 딴길로 샜어요.">
+먼저 `new task`라고 말하지 않고 다른 작업으로 넘어간 건 아닌지 확인해 보세요. 같은 문제가 계속 반복된다면 `/correct`를 쓰세요.
+</Q>

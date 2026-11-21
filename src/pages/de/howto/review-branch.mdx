@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: review-branch
+time: Zehn bis dreißig Minuten pro Review
+for: Dein Branch ist fertig, und andere Modelle sollen vor dem Committen Probleme finden, ohne dass du in Kleinigkeiten untergehst
+step: 6
+tldr: Führ vor dem Committen /interrogate aus. Mehrere Modelle versuchen, deine Änderung kaputtzumachen, und nur Probleme, die sie reproduzieren können, bleiben übrig.
+description: Lass vor dem Committen mit /interrogate mehrere Modelle versuchen, deine Änderung kaputtzumachen – nur Probleme, die sie reproduzieren können, bleiben übrig. Nimm /blast-radius für kleine Änderungen, räum mit /no-comments und /unslop auf und lass Babysitting den PR im Blick behalten, bis er gemergt werden kann.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Kopier das zuerst
+
+<Copy id="rv-int" title="Den ganzen Branch prüfen" code="/interrogate den ganzen Branch, sei pingelig. Ändere noch nichts. Melde keine Kleinigkeiten, die weder ein echter Bug noch eine Regression im Verhalten sind." />
+
+- **„Ändere noch nichts“**: Die KI liest nur.
+- **„Melde keine Kleinigkeiten“**: Kommentare zu Benennung und Stil werden vorab aussortiert.
+
+Die KI, die den Code geschrieben hat, sieht ihre eigenen Fehler nur schwer. Deshalb übernehmen andere Modelle das Review: <mark><strong>Sie legen es darauf an, die Änderung kaputtzumachen, und ein Problem zählt nur, wenn sie es wirklich auslösen.</strong></mark> Das sind die Modelle, die du in `/setup-pstack` eingerichtet hast.
+
+<Fig id="h-review" />
+
+## Wo du nach dem Abschicken hinschaust
+
+Die KI liefert nur einen Bericht. Sie ändert nichts an deinem Code. Der Bericht hat drei Teile:
+
+- **Intent**: wofür die Änderung aus Sicht der KI gedacht ist. Stimmt das nicht, spar dir den Rest.
+- **Findings**: Probleme, die eine zweite Prüfung bestanden haben. Zu jedem gehören ein Befehl und seine Ausgabe – und die KI hat den Befehl noch einmal ausgeführt.
+- **Dropped**: was sie aussortiert hat und warum.
+
+<Callout type="warn" title="Überflieg auch Dropped">
+Dropped heißt nur, dass kein Durchlauf das Problem beweisen konnte. Es kann trotzdem echt sein. Wenn du findest, dass ein Punkt zu Unrecht aussortiert wurde, bitte die KI um ein Repro (kurz für Reproduktion).
+</Callout>
+
+## Nur ein paar Zeilen geändert, aber ein mulmiges Gefühl: /blast-radius
+
+Die KI zählt keinen Berg „möglicher Risiken“ auf. Sie findet die eine Tatsache, die diese Änderung sicher macht, und schreibt dann echten Code, um sie zu beweisen. Alles, was sie nicht beweisen kann, markiert sie als „unbewiesen“.
+
+Angenommen, deine Chrome-Erweiterung hat gespeicherte Einträge von `chrome.storage.sync` nach `chrome.storage.local` verschoben. Du machst dir Sorgen, dass bestehende Nutzer sie nach dem Upgrade verlieren:
+
+<Copy id="rv-blast" title="Beispiel Chrome-Erweiterung" code={`/blast-radius Dieser Branch verschiebt gespeicherte Einträge von chrome.storage.sync nach chrome.storage.local.
+Meine größte Sorge: Sind bei bestehenden Nutzern nach dem Upgrade die Einträge aus sync noch da?
+Finde die Tatsache, von der die Sicherheit dieser Änderung abhängt, schreib ein Skript, das wirklich läuft und sie beweist, und füg die Ausgabe ein.`} />
+
+Ein gutes Ergebnis: Die entscheidende Tatsache ist „Beim ersten Start nach einem Upgrade werden alte Einträge nach local verschoben“. Danach ein Skript: drei Test-Einträge anlegen, ein Upgrade simulieren, prüfen, ob in local genau drei liegen.
+
+Wenn du nur „Nach der Analyse ist diese Änderung sicher“ bekommst, antworte: „Beweise diese Tatsache mit etwas, das wirklich läuft.“
+
+## Kommentare und Formulierungen vor dem Committen aufräumen
+
+- **`/no-comments`**: löscht überflüssige Kommentare. Erhalten bleiben Lizenz-Header, Doku zu öffentlichen Schnittstellen, externe Links, die der Code nicht ausdrücken kann, und Workarounds, die externe Abhängigkeiten erzwingen.
+- **`/unslop`**: entfernt den KI-Ton aus PR-Beschreibungen und Commit-Nachrichten. Du kannst Regeln mitgeben, etwa `/unslop die PR-Beschreibung, keine langen Gedankenstriche`.
+
+<Callout type="no" title="/deslop gehört nicht zu pstack">
+<code>/deslop</code> taucht in der pstack-Doku oft auf, stammt aber aus einem anderen Cursor-Plugin-Paket. Wenn du es nicht hast, sag es direkt heraus: „Lösch Kommentare, die nur beschreiben, was der Code tut, defensive Prüfungen ohne Grund, nicht mehr benötigten Kompatibilitätscode und Änderungen, die nichts mit dieser Aufgabe zu tun haben.“
+</Callout>
+
+## Sobald der PR offen ist: Übergib ihn ans Babysitting
+
+Sobald ein <Term k="PR" /> offen ist, schlagen Checks fehl, Leute kommentieren und der Main-Branch zieht weiter. Lass das Babysitting (es begleitet einen PR aktiv bis zum Merge) all das im Blick behalten:
+
+<Copy id="rv-babysit" title="Im Blick behalten, bis er gemergt werden kann" code="/poteto-mode babysit diesen PR, mach ihn grün." />
+
+Es kümmert sich zuerst um Konflikte, dann um Kommentare, dann um Checks. Wenn du nur wissen willst, wie der Stand ist, frag: „/poteto-mode schau dir PR 123 an. Was ist noch offen?“
+
+<Callout type="warn" title="Grün heißt nicht gemergt">
+Es stoppt bei „bereit zum Mergen“. Wenn gemergt werden soll, sag es klar heraus – etwa mit „land the stack“ (mehrere aufeinander aufbauende PRs) oder „jetzt mergen“.
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="/interrogate hat „keine bestätigten Findings“ gemeldet. War die KI faul?">
+Das ist ein normales Ergebnis. Schau in Dropped nach. Wenn du eine konkrete Sorge hast, sprich sie aus und lass genau diese eine Sache testen.
+</Q>
+<Q q="Ich glaube, einer der aussortierten Punkte ist echt.">
+Antworte: „Schreib mir ein Repro für den Punkt, den das zweite Prüfmodell unter Dropped genannt hat.“ Wenn er sich reproduzieren lässt, ist er echt.
+</Q>
+<Q q="Babysitting hat alles grün bekommen. Warum mergt es nicht?">
+Das ist Absicht. Sag „land the stack“ oder „jetzt mergen“. Zuerst lässt es jeden PR von Helfer-KIs prüfen, die den Code nicht geschrieben haben, und mergt dann von unten nach oben.
+</Q>
+<Q q="/no-comments hat einen Kommentar gelöscht, den ich behalten wollte.">
+Die KI behält nur Kommentare zu „Dingen, die wir nicht ändern können“. Wenn du das anders siehst, sag ihr, um welche externe Einschränkung es in dem Kommentar geht, und lass sie noch einmal entscheiden.
+</Q>

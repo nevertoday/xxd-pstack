@@ -1,0 +1,97 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 3
+need: pstack configurado; uma demanda real, mas pequena
+tldr: "Passe uma tarefa pequena em uma mensagem: o que você quer, o que conta como pronto e o que mostrar para você. Depois, confira a reformulação da IA e as evidências."
+description: "Rode sua primeira tarefa com o /poteto-mode: o que colocar em uma mensagem e o que deixar de fora, onde olhar depois de enviar e como continuar."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Copie um exemplo primeiro
+
+Escolha algo pequeno e real no seu projeto. Por exemplo, adicionar um botão de exportar na página de configurações de uma extensão do Chrome:
+
+<Copy id="first-ext" title="Troque pela sua própria tarefa" code="/poteto-mode Adicione um botão “Exportar configurações” na página de configurações que baixe as configurações atuais como um arquivo JSON. As configurações existentes e a forma como são salvas não podem mudar. Quando terminar, me mostre: o conteúdo do arquivo exportado e o que está salvo em chrome.storage. Os dois precisam ser exatamente iguais." />
+
+Essa mensagem tem só três partes:
+
+1. **O que você quer**: um botão de exportar.
+2. **O que conta como pronto**: o arquivo exportado bate com o que está salvo e as configurações antigas não são afetadas.
+3. **O que mostrar para você**: o conteúdo real dos dois.
+
+O conselho de poteto para iniciantes cabe em uma linha: <mark><strong>dê à IA um objetivo e um jeito de conferir, com as suas próprias palavras.</strong></mark>
+
+Quando uma IA erra alguma coisa, normalmente é um de dois motivos. Ela não entendeu o que você queria ou faltou contexto para fazer direito. Essas três partes resolvem o primeiro. O [Passo 4](/pt/guide/4-understand/) resolve o segundo: antes de ela mudar qualquer coisa, peça para explicar o código como ele está agora.
+
+## Faça do “pronto” algo que dê para conferir
+
+A IA usa essa parte para conferir o próprio trabalho. Por isso, precisa ser um passou ou falhou bem claro.
+
+- **Dá para conferir**: o arquivo exportado bate exatamente com o que está salvo.
+- **Não dá para conferir**: deixe melhor. Deixe mais bonito. Passe uma hora nisso.
+
+Sem um jeito de conferir, ela só consegue ir no achismo quando diz “pronto”.
+
+## Duas coisas que você pode adicionar
+
+São opcionais. Se você tiver, escreva uma frase para cada:
+
+- **Pistas que você já tem**: uma linha de erro, o passo em que quebra, um link. Isso poupa uma rodada de busca.
+- **O que ela realmente não pode alterar**: por exemplo, “Ainda não mude o código, só investigue” ou “A saída antiga não pode mudar em nada”.
+
+## Duas coisas para deixar de fora no começo
+
+- **Exatamente como fazer.** Diga o resultado que você quer. A IA pode encontrar um jeito melhor.
+- **O seu palpite sobre a causa.** Assim que você fala, ela só olha para onde você apontou. Espere ela dar a própria visão e depois traga a sua.
+
+Também não enfileire skills na sua mensagem, como “use /architect primeiro e depois /arena”. Ela chama cada uma na ordem certa sozinha. A sua ordem pode atrapalhar.
+
+## Depois de enviar, olhe em três lugares
+
+**No começo: a reformulação.** A IA diz com as próprias palavras o que você quer e onde pretende mexer. Ela não vai esperar o seu OK. Então, se entendeu errado, interrompa na hora.
+
+**No meio: a <Term k="待办清单" />.** Esses são os passos que ela vai seguir em seguida. Assim que escolhe uma abordagem (um <Term k="剧本" />), os passos dessa abordagem são copiados para a lista.
+
+**No final: as evidências.** O que você pediu para ver deve aparecer aqui, como comandos reais e a saída deles. Se não conseguiu conferir alguma coisa, ela diz “não tenho certeza”.
+
+<Callout type="warn" title="Um “pronto” sem evidências">
+Se ela parecer segura, mas não conseguir mostrar nenhum resultado de verificação, não confie. Responda: “Me mostre os resultados do que você realmente conferiu.”
+</Callout>
+
+## Para continuar: quanto mais curto, melhor
+
+Dentro da mesma tarefa, as mensagens seguintes podem ser bem curtas:
+
+<Copy id="short" title="Qualquer uma dessas basta" code={`/poteto-mode pode seguir
+continue
+siga até terminar`} />
+
+A IA lembra até onde a tarefa chegou. Você só precisa dizer o que quer em seguida.
+
+**Quando mudar para outro assunto, diga “new task” primeiro.** Senão, ela trata a sua nova pergunta como o próximo passo da tarefa anterior:
+
+<Copy id="newtask" code="/poteto-mode new task. Descubra por que o cache continua lá depois do logout. Não altere nenhum código ainda." />
+
+“Não altere nenhum código ainda” faz a IA apenas investigar, sem mexer em nada.
+
+<Callout type="tip" title="Se você usa o Cursor">
+Escolha `/poteto-mode` no menu `/` e depois pressione Option+Enter (Mac) ou Alt+Enter (Windows). Ele vira um <Term k="Custom Mode" />, então vale para todas as mensagens seguintes. Um Enter normal vale só para aquela mensagem.
+</Callout>
+
+## Travou?
+
+<Q q="A IA entendeu errado o que eu quis dizer.">
+<p>É só falar: “Não, o que eu quero é…”. O mais fácil é corrigir logo na primeira reformulação. Quando o pedido estiver confuso (uma discussão longa, um problema que você não consegue descrever direito), peça para ela só reformular primeiro: <code>/poteto-mode Leia esta discussão e diga em palavras simples qual é o problema raiz. Não altere nenhum código ainda.</code></p>
+</Q>
+<Q q="Ela pulou um passo que eu acho importante.">
+<p>Avise: “Não pule o passo 2. Faça o problema acontecer de novo primeiro.” Ela coloca o passo de volta.</p>
+</Q>
+<Q q="A resposta está longa demais para acompanhar.">
+<p>Digite <code>/bro</code> e ela repete a última resposta em palavras simples.</p>
+</Q>
+
+<Checkpoint id="s3" items={["Passei uma tarefa pequena e real para o /poteto-mode e disse o que conta como pronto", "Vi a reformulação da IA logo no começo", "A resposta final trouxe evidências que eu consigo conferir por conta própria"]} />

@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: Claude Code, Cursor, Codex 중 하나; npx로 설치할 때는 Node.js 22.20 이상
+tldr: 명령어 한두 개로 pstack을 설치하고, 메시지 하나로 잘 작동하는지 확인해요.
+description: Claude Code, Cursor, Codex에 명령어 하나로 pstack을 설치하고, 메시지 하나로 제대로 작동하는지 확인해요.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## 사용하는 도구에 설치해요
+
+<div data-sk-keep>
+<Tabs id="install" label="도구 선택" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex 및 기타"]]}>
+<div slot="cc">
+
+Claude Code 대화창에 아래 두 명령어를 순서대로 보내세요.
+
+<Copy id="cc-1" title="1단계: 플러그인 스토어(marketplace) 추가" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="2단계: pstack 설치" code="/plugin install pstack@cursor-plugins" />
+
+설치가 끝나면 <mark><strong>모든 명령어 앞에 `pstack:`이 붙어요</strong></mark>. `/pstack:poteto-mode`라고 입력해야 하고, 그냥 `/poteto-mode`는 인식되지 않아요. 두 플러그인의 이름이 겹치지 않게 하려는 Claude Code의 플러그인 규칙이에요.
+
+기본 설정에서는 **자동으로 업데이트되지 않아요**. 켜려면 `/plugin`을 입력한 뒤 “marketplaces” 탭을 열고, `cursor-plugins`를 고른 다음 “enable auto-update”를 선택하세요.
+
+접두사 없이 쓰고 싶나요? 대신 “Codex 및 기타” 탭에서 `npx skills`로 설치하세요.
+
+</div>
+<div slot="cursor">
+
+Cursor 대화창에 아래 명령어를 보내세요.
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+명령어는 `/poteto-mode`, `/how`처럼 원래 이름을 그대로 써요. 접두사는 필요 없어요.
+
+선택 사항: `cursor-team-kit` 플러그인도 함께 설치할 수 있어요. pstack이 몇 군데에서 사용해요. 없어도 잘 작동해요.
+
+</div>
+<div slot="other">
+
+**프로젝트 폴더에서** 터미널을 열고 아래 명령어를 실행하세요.
+
+<Copy id="npx-1" lang="bash" title="이 프로젝트에 설치" code="npx skills add backnotprop/pstack" />
+
+모든 스킬 목록이 나와요. **처음에는 전부 선택하세요**. 그다음 설치할 도구를 고르면 돼요. 나중에 필요한 것만 남기려면 [일부 스킬만 설치하기](/ko/howto/pick-skills/)를 참고하세요.
+
+모든 프로젝트에서 쓰려면 `-g`를 붙이세요.
+
+<Copy id="npx-2" lang="bash" title="전역 설치" code="npx skills add backnotprop/pstack -g" />
+
+Node.js 22.20 이상이 필요해요. 잘 모르겠다면 `node -v`를 실행해 확인해 보세요.
+
+</div>
+</Tabs>
+</div>
+
+설치가 끝났다면 여기서 사용하는 도구를 고르세요. 복사 버튼으로 복사되는 내용까지 포함해, 이 사이트의 모든 명령어가 그 도구에서 쓰는 형식으로 바뀌어요.
+
+<ToolPick />
+
+## 테스트해 봐요
+
+**새** 대화를 열고 아래 메시지를 보내세요.
+
+<Copy id="test" title="간단 테스트" code="/poteto-help 초보자가 가장 먼저 배워야 할 pstack 스킬은 무엇인가요? 한두 문장으로 답해 주세요." />
+
+답변에 poteto-mode가 나오면 잘 설치된 거예요. `/poteto-help`는 질문에만 답해요. 다른 작업을 시작하지는 않아요.
+
+<Callout type="ok">
+대화창에 `/`를 입력하면 뜨는 메뉴에서 `poteto-mode`를 찾을 수 있어요(Claude Code 플러그인이라면 `pstack:poteto-mode`).
+</Callout>
+
+## 막혔나요?
+
+<Q q="/를 입력했는데 poteto-mode가 보이지 않아요.">
+<p>먼저 새 대화를 시작해 보세요. 그래도 보이지 않나요? Claude Code 플러그인을 쓴다면 <code>pstack:</code>으로 검색해 보세요. <code>npx skills</code>로 설치했다면 도구가 <strong>설치했던 프로젝트 폴더</strong>에서 열려 있는지 확인하거나, <code>-g</code>를 붙여 전역으로 다시 설치하세요.</p>
+</Q>
+<Q q="npx skills가 Node 버전이 너무 오래되었다고 해요.">
+<p>Node.js 22.20 이상이 필요해요. <a href="https://nodejs.org">nodejs.org</a>에서 최신 LTS 버전을 설치한 뒤 다시 실행하세요.</p>
+</Q>
+<Q q="플러그인 버전과 npx 버전을 둘 다 설치해도 되나요?">
+<p>함께 설치하지 마세요. 같은 스킬이 두 개 생기면 헷갈려요. 하나만 골라 쓰세요.</p>
+</Q>
+
+나중에 업데이트하거나 삭제하려면 [업데이트, 확인, 삭제](/ko/howto/update-remove/)를 참고하세요.
+
+<Checkpoint id="s1" items={["사용하는 도구에 pstack을 설치했어요", "새 대화에서 /를 입력하면 poteto-mode(또는 pstack:poteto-mode)가 보여요", "/poteto-help가 질문에 답해 줬어요"]} />

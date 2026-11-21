@@ -1,0 +1,96 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: perf
+time: Une ou deux conversations pour diagnostiquer et corriger
+for: Quelque chose vous semble lent, et vous voulez la vraie cause et un avant/après fiable
+step: 6
+tldr: Partez d'un chiffre mesuré. L'IA mesure, modifie et mesure à nouveau, puis montre un avant/après fiable.
+description: "Traquez les problèmes de performance avec /poteto-mode : partez d'un chiffre mesuré, demandez-lui de mesurer, modifier et mesurer à nouveau, puis vérifiez le chiffre avec /benchmark-checklist."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copiez d'abord ceci
+
+<Copy id="perf-min" title="La version la plus courte" code="/poteto-mode le démarrage prend 1.8s sur cette fixture. fais une trace, corrige la cause mesurée, montre-moi l'avant et l'après." />
+
+C'est l'exemple tiré de la documentation de pstack elle-même.
+
+- **« 1.8s sur cette fixture »** : un chiffre mesuré sur des données de test fixes. L'IA ne peut pas comparer « ça rame un peu ».
+- **« fais une trace »** : une trace enregistre combien de temps prend chaque étape du programme.
+- **« la cause mesurée »** : l'IA corrige ce que la trace montre, pas ce qu'elle devine.
+
+<mark>En performance, seuls les chiffres mesurés comptent.</mark>
+
+<Fig id="h-perf" />
+
+## Exemple sur un espace membres
+
+Un espace membres tourne sur Cloudflare Workers, avec les données dans D1. L'endpoint de la liste des membres devient de plus en plus lent.
+
+<Copy id="perf-d1" title="Exemple Workers et D1" code={`/poteto-mode L'endpoint de la liste des membres /api/members a un p50 d'environ 900ms sous wrangler dev en local, avec 5000 membres de test importés.
+Fais d'abord une mesure de référence et dis-moi où passe le temps. Corrige la cause mesurée.
+C'est corrigé quand, avec les mêmes données, le p50 passe sous 200ms et que les membres renvoyés (nombre et contenu) sont exactement les mêmes qu'avant la correction.
+Alterne les deux versions sur 7 exécutions chacune, donne-moi la médiane et l'étendue, puis lance /benchmark-checklist.`} />
+
+- **« Exactement les mêmes membres renvoyés »** : plus rapide mais avec des données manquantes, ce n'est pas corrigé.
+- **« Alterne les deux versions sur 7 exécutions chacune »** : un chiffre issu d'une seule exécution peut être un coup de chance.
+- **5000 membres** : un scénario reproductible. Avec trop peu de données, le problème risque de ne pas apparaître.
+
+## Que surveiller après l'envoi
+
+**Au départ : le chiffre de référence.** Si l'IA annonce « ce sera plus rapide » sans avoir mesuré, arrêtez-la.
+
+**À la fin : quatre éléments.** Le chiffre de référence, le chiffre après correction, la différence et l'emplacement des fichiers de données. Si un résultat n'est pas concluant, elle le dit. Ce n'est pas validé.
+
+## Un chiffre qui semble trop beau : /benchmark-checklist
+
+<Copy id="perf-bench" code="/benchmark-checklist Vérifie ce gain de vitesse de 40% avant de le mettre dans la description de la PR" />
+
+Le <Term k="剧本" /> de performance le lance tout seul. Pour un chiffre qu'on vous a donné, lancez-le vous-même. Sept questions, chacune appuyée sur une vraie exécution :
+
+1. **Pourquoi n'est-ce pas deux fois plus rapide ?** Nommez le goulot d'étranglement qui le bloque à ce niveau.
+2. **Les deux versions sont-elles configurées comme en production ?** Pas de build debug face à un build release.
+3. **Cela bat-il une limite physique ?** Plus rapide que le disque signifie qu'on a mesuré autre chose.
+4. **Y a-t-il eu des erreurs ?** Les requêtes rejetées sont souvent rapides. Comptez-les.
+5. **Pouvez-vous le reproduire ?** Alternez les deux versions, au moins 5 exécutions chacune. Indiquez la médiane et l'étendue.
+6. **Cela compte-t-il pour les utilisateurs ?** Une fonction qui prend 1 % du temps ne peut faire gagner que 1 % au maximum.
+7. **Le travail mesuré a-t-il vraiment eu lieu ?** Une Promise que personne n'attend (`await`) se termine très vite.
+
+Il existe quatre verdicts : plus rapide, plus lent, aucune différence mesurable ou non concluant.
+
+## Juste savoir où c'est lent
+
+<Copy id="perf-trace" title="Diagnostic uniquement" code="/poteto-mode Voici un cpuprofile que j'ai enregistré pendant un démarrage lent. Dis-moi où passe le temps et quelles lignes de code sont en cause. Ne corrige rien pour l'instant." />
+
+- **Vous avez un fichier enregistré** (cpuprofile, trace, heap snapshot) : l'IA lit uniquement ce fichier et repère les lignes les plus lentes.
+- **Le problème se produit en ce moment** (la mémoire continue d'augmenter, le CPU reste occupé au repos, l'interface scintille) : l'IA enregistre le programme en cours d'exécution. Ensuite, une petite expérience confirme la cause.
+
+Les deux approches ne renvoient qu'un diagnostic sourcé. Ensuite, vous décidez comment corriger.
+
+## Continuer à faire baisser un chiffre
+
+Pour un chiffre que vous voulez continuer d'améliorer, comme la taille du bundle ou le temps d'affichage du premier écran, utilisez Hillclimb. Donnez-lui une métrique, un objectif et un nombre minimum de tours.
+
+<Copy id="perf-hill" title="Hillclimb" code="/poteto-mode lance un hillclimb sur le temps de première ouverture du panneau latéral. Objectif : au moins 50% plus rapide que la référence, et fais au moins 10 tours. Note une ligne par tour dans le journal de décisions." />
+
+- **« Au moins 10 tours »** : empêche l'IA d'atteindre l'objectif par chance au premier tour et de s'arrêter là.
+- **Une modification et une mesure par tour.** Si c'est plus rapide, la modification est gardée dans un commit séparé. Si ce n'est pas plus rapide, elle est annulée.
+- **Une ligne par tour.** Elle est enregistrée dans `decision.tsv`, pour que vous puissiez voir chaque tentative.
+
+## Un blocage ?
+
+<Q q="L'IA dit « cela va le rendre plus rapide » sans mesurer.">
+Répondez : « Mesure d'abord. Donne-moi le chiffre de référence et le chemin du fichier de trace, puis dis-moi quoi modifier. »
+</Q>
+<Q q="Le gain est absurdement élevé. Je n'y crois pas.">
+Lancez <code>/benchmark-checklist</code>. Regardez de très près les questions 3 et 7. Cela correspond à <code>explain-the-number</code>. Cela veut dire : indiquer ce qui limite le chiffre et écarter le risque d'avoir mesuré la mauvaise chose. C'est le nom d'un <a href="/fr/wiki/principles/">principe</a> de pstack.
+</Q>
+<Q q="L'IA a lancé une seule exécution et tiré une conclusion.">
+Répondez : « Alterne les deux versions sur au moins 5 exécutions chacune, et indique la médiane et l'étendue. Si l'écart est plus petit que la variation d'une exécution à l'autre, il n'y a pas de différence. »
+</Q>
+<Q q="Hillclimb bloque sur un chiffre et veut s'arrêter.">
+Il doit d'abord essayer une autre approche. Il ne peut pas assouplir l'objectif pour dire que c'est fini. S'il est vraiment bloqué, il doit vous dire ce qui se passe.
+</Q>

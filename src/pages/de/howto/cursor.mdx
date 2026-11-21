@@ -1,0 +1,100 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cursor
+time: 2 Minuten zum Installieren, 6 zum Lesen
+for: Du nutzt Cursor und willst, dass sich pstack dort ganz natürlich anfühlt
+step: 1
+# Every command on this page is written for Cursor, so it stays as written
+cmds: literal
+tldr: Schick /poteto-mode nach der Installation mit Option+Enter ab, dann bleibt es in jeder Runde aktiv.
+description: pstack wurde für Cursor geschrieben. Installation mit einem Befehl, /poteto-mode in jeder Runde aktiv halten, lange Läufe mit /loop, mehrere KIs gleichzeitig und was du separat installieren solltest.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Mit einem Befehl installieren
+
+Gib im Chatfeld von Cursor ein:
+
+<Cmd c="/add-plugin pstack" />
+
+Über Customize in der Seitenleiste funktioniert die Installation genauso. Wähl dann deine Modelle aus:
+
+<Cmd c="/setup-pstack" />
+
+Es fragt nach deinem <Term k="推理预算" /> (wie lange die Modelle nachdenken), weist jeder <Term k="模型角色" /> ein Modell zu und schreibt das in `~/.cursor/rules/pstack-models.mdc`.
+
+<Callout type="tip" title="Starte nach der Einrichtung einen neuen Chat">
+<u>Diese Einstellungen gelten nur für neue Chats</u>. Wenn du in einem alten weitermachst, nutzt er weiterhin die Standardmodelle.
+</Callout>
+
+Befehle auf dieser Website sind standardmäßig für das Plugin von Claude Code geschrieben, mit dem Präfix `pstack:`, das Cursor nicht nutzt. Wähl hier Cursor aus, dann wechseln alle Befehle auf der Website in die Schreibweise von Cursor, direkt zum Kopieren:
+
+<ToolPick />
+
+## /poteto-mode aus dem /-Menü wählen
+
+Tipp `/` ins Chatfeld ein, wähl `/poteto-mode` aus dem Menü aus und schreib dann die Aufgabe:
+
+<Copy id="cursor-first" title="Deine erste Aufgabe" code="/poteto-mode Füg diesem Befehl das Flag --json hinzu. Die bestehende Textausgabe muss Byte für Byte identisch bleiben. Prüf beide Ausgaben." />
+
+Mit welcher Taste du absendest, macht einen Unterschied:
+
+- **Enter**: Es gilt nur für diese eine Nachricht. Nach ein paar Runden funktioniert es nicht mehr.
+- **Option+Enter (Mac) oder Alt+Enter (Windows)**: <mark>Es wird zu einem <Term k="Custom Mode" /> und bleibt in jeder Runde aktiv</mark>, bis du den Modus verlässt.
+
+Wenn der Custom Mode aktiv ist, reicht für spätere Nachrichten „mach das“ oder „weiter“.
+
+Wenn du mit einer Sache fertig bist und zur nächsten übergehst, fang mit „neue Aufgabe“ an. Sonst behandelt die KI deine neue Frage als nächsten Schritt der vorherigen.
+
+## Vor dem Schlafengehen übergeben: /loop
+
+`/loop` ist ein eingebauter Befehl von Cursor. Er weckt die KI ab und zu auf, um zu prüfen, ob die Arbeit erledigt ist. Gib ihr eine Fertig-Bedingung, die eindeutig erfüllt oder nicht erfüllt ist:
+
+<Copy id="cursor-loop" title="Vor dem Schlafengehen" code={`/poteto-mode Ich gehe schlafen. Migriere in einem neuen Worktree (abgezweigt von <deinem Basis-Branch>) alle Aufrufer auf den neuen Parser.
+Fertig heißt: keine alten Aufrufer mehr übrig, alle Parser-Testdaten laufen durch und die alte API ist gelöscht.
+Führ ein Entscheidungsprotokoll. Du musst mich vor dem Committen nicht fragen.
+/loop until done. Wenn du nach ein paar Stunden wirklich feststeckst, hör auf und schreib auf, warum.`} />
+
+„Arbeite 4 Stunden lang“ ist keine Fertig-Bedingung. Die KI hat nichts zum Prüfen, also wachst du nach 4 Stunden voller Beschäftigungstherapie auf. Eine ausführlichere Version findest du unter [Allein laufen lassen](/de/guide/7-overnight/).
+
+## Mehrere KIs gleichzeitig: Gib jeder ihren eigenen Platz
+
+Wenn mehrere KIs im selben Ordner Code ändern, überschreiben sie sich gegenseitig. Zwei Wege, sie auseinanderzuhalten:
+
+- **In der Cloud**: Schreib `/in-cloud` vor die Aufgabe. Jede KI bekommt ihre eigene Maschine und ihren eigenen Branch, und dein Rechner bleibt unberührt.
+- **Lokal**: Gib jeder Aufgabe ihren eigenen <Term k="worktree" /> (einen zweiten Arbeitsordner für dasselbe Repo). Auf einem Laptop reichen ein paar gleichzeitig.
+
+<Copy id="cursor-wt" code={`/poteto-mode new task. Erstell einen neuen Worktree ausgehend von <Basis-Branch> und portiere die Parser-Änderungen dorthin.`} />
+
+## Ein paar Dinge separat installieren
+
+Ein paar Schritte in `/poteto-mode` nutzen das Plugin `cursor-team-kit`. `/poteto-mode` läuft auch ohne, aber diese Schritte liefern dann schwächere Ergebnisse. Für den vollen Umfang installier das Plugin dazu. Es enthält:
+
+- **`deslop`**: entfernt das typische „KI-Gefühl“ aus dem Code.
+- **`control-cli`**: steuert Kommandozeilenprogramme.
+- **`control-ui`**: steuert Browser und Webseiten.
+
+pstack hat keinen Planungs-Skill. Nutz einfach den eingebauten Plan Mode von Cursor dazu.
+
+## Kommst du nicht weiter?
+
+<Q q="/poteto-mode funktioniert nach ein paar Runden nicht mehr.">
+Du hast es wahrscheinlich mit Enter abgeschickt. Wähl es noch mal aus dem Menü aus und drück Option+Enter (Alt+Enter unter Windows). Oder tipp bei jeder neuen Aufgabe wieder `/poteto-mode` ein.
+</Q>
+<Q q="Ich habe die Modelleinstellungen geändert, aber es laufen immer noch die alten Modelle.">
+Die Einstellungen gelten nur für neue Chats. Starte einen neuen und probier es noch mal.
+</Q>
+<Q q="Mehrere KIs haben gleichzeitig gearbeitet und meine Dateien durcheinandergebracht.">
+Gib jeder Aufgabe ihren eigenen Worktree oder übergib sie mit `/in-cloud` an die Cloud.
+</Q>
+<Q q="Ich habe /loop die ganze Nacht laufen lassen und nichts ist fertig geworden.">
+Die Fertig-Bedingung muss eindeutig erfüllt oder nicht erfüllt sein, zum Beispiel „dieser Befehl liefert 0 zurück“ oder „alle diese Tests bestehen“. „Arbeite bis morgen früh“ zählt nicht.
+</Q>
+<Q q="Ich habe gehört, pstack bringt ein Automatisierungspaket namens benny mit?">
+Stimmt, es ist standardmäßig aus. Es sortiert Probleme, die in Slack gemeldet werden, und behebt die, die als Bugs bestätigt sind. Zum Einschalten verweise Cursor auf `FOR_AGENTS.md` im Ordner benny.
+</Q>

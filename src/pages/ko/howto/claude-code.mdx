@@ -1,0 +1,209 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: claude-code
+time: 설치 5분, 읽기 10분
+for: Claude Code를 쓰면서 pstack을 넣어 쓰고 싶은 분
+step: 1
+tldr: "명령어 두 줄로 설치하고, 명령어 앞에 pstack:을 붙이고, 균형 모델 구성을 적용한 뒤 새 세션을 여세요."
+description: "Claude Code에 pstack을 설치하는 방법, 명령어 앞의 pstack: 접두사, 바로 쓸 수 있는 세 가지 모델 구성 고르기, 건너뛰는 Cursor 기능과 자동 업데이트를 다뤄요."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## 설치하기
+
+Claude Code 대화창에 아래 두 줄을 차례대로 입력하세요:
+
+<Copy id="cc-plugin" title="플러그인 스토어(marketplace)에서 설치" code={`/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins`} />
+
+이렇게 하면 전체 세트가 설치되어 `/poteto-mode`에 필요한 것이 모두 갖춰져요. 잘 모르겠다면 이 방법을 쓰세요.
+
+**스킬을 직접 고르고 싶다면** 대화창이 아니라 터미널에 이렇게 입력하세요:
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+원하는 스킬을 체크하고 도구로 Claude Code를 선택하세요. 스킬은 `.claude/skills/`에 저장돼요. 어떤 스킬을 고를지는 [스킬 몇 개만 설치하기](/ko/howto/pick-skills/)를 참고하세요.
+
+## 명령어 앞에 pstack: 붙이기
+
+플러그인 스토어에서 설치했다면 모든 명령어가 플러그인 이름 아래에 들어가요. 그냥 `!/poteto-mode`라고 쓰면 인식하지 못해요. 이렇게 입력해야 해요:
+
+<Cmd c="!/pstack:poteto-mode" />
+
+`!/pstack:how` 같은 다른 명령어도 마찬가지예요. 두 플러그인의 이름이 겹치지 않도록 만든 Claude Code의 규칙이에요. `npx skills`로 설치했다면 접두사가 없어요.
+
+이 사이트의 명령어는 복사해서 바로 쓸 수 있게 플러그인 기준으로 적혀 있어요. `npx skills`로 설치했다면 여기서 “npx로 설치함”을 고르세요:
+
+<ToolPick />
+
+<Callout type="warn" title="스킬은 알아서 실행되지 않아요">
+`setup-pstack`을 제외한 모든 스킬은 직접 입력해야만 실행돼요. “버그 좀 고쳐 주세요”라고 말해도 `/pstack:poteto-mode`는 켜지지 않아요.
+</Callout>
+
+## 모델 고르고 새 세션 열기
+
+설치한 뒤 아래 명령어를 한 번 실행하세요:
+
+<Cmd c="/pstack:setup-pstack" />
+
+먼저 <Term k="推理预算" />(모델이 생각하는 시간)을 물어본 뒤, 각 <Term k="模型角色" />에 모델을 배정해요. 마지막으로 `~/.claude/rules/pstack-models.md` 파일 하나를 만들어요.
+
+Claude Code는 새 세션이 시작될 때마다 그 폴더의 `.md` 파일을 읽어요. 그러니 <mark>설정이 끝나면 종료하고 새 세션을 연 뒤에 작업을 시작하세요</mark>. 지금 열려 있는 세션에는 이전 설정이 그대로 남아 있어요.
+
+모델은 `opus xhigh`처럼 “이름 + 단계” 형식으로 적어요. 쓸 수 있는 이름은 `opus`, `sonnet`, `haiku`, `fable` 네 가지뿐이에요. 이 줄들은 이 파일 하나에만 두세요. `CLAUDE.md`에 복사하지 마세요.
+
+## 잘 설정하는 방법
+
+**대부분은 균형 구성을 고르세요**: 세션은 opus로 돌리고, 코드는 sonnet이 작성해요.
+
+왜 그럴까요? 어떤 모델이 쓰이는지는 두 가지가 정해요:
+
+- **세션 모델**: `/model`로 고르는 모델로, 직접 대화하는 AI예요. 방향을 정하고, 일을 나눠 주고, 모든 변경 사항을 검토해요.
+- **설정 파일의 각 줄**: 도우미 AI(<Term k="子代理" text="서브에이전트" />)가 각각 어떤 모델로 돌아갈지 정해요.
+
+기본 설정에서 pstack은 코딩과 판단에 opus 5.5를 써요. 여러 모델이 함께 검토하는 리뷰 패널에는 fable, opus, gemini가 한 자리씩 들어가요. Claude Code에서는 gemini를 쓸 수 없어서 그 자리가 `inherit-parent`로 바뀌어요. “세션 모델을 따르라”는 뜻이에요.
+
+그래서 아무것도 바꾸지 않으면 거의 모든 일을 opus가 맡게 되어 비용이 가장 많이 들어요. 균형 구성은 코딩을 sonnet으로 옮겨서 비용을 절반으로 줄여요. 세 번째 리뷰 자리도 sonnet에 배정해 세 자리를 모두 서로 다른 모델로 채워요.
+
+가격은 2026년 10월 기준 API 정가이며 100만 <Term k="token" text="토큰" />당 금액이에요. 구독 요금제를 쓴다면 비싼 모델일수록 사용 한도가 더 빨리 줄어들어요:
+
+| 모델 | 입력 / 출력 | 잘 맞는 일 |
+| --- | --- | --- |
+| fable | $10 / $50 | 가장 강력함, 기본 리뷰 한 자리 |
+| opus | $4 / $20 | 세션, 판단, 글쓰기 |
+| sonnet | $2 / $10 | 코드 작성, 리뷰 한 자리 |
+| haiku | $0.1 / $0.5 | 추천하지 않음 |
+
+haiku를 쓰지 않는 이유: 결과를 확인하는 단계에서 `swarm workers` 모델을 써요. 이 자리에 가장 싼 모델을 두면 확인 수준도 함께 떨어져요.
+
+### 세 가지 구성
+
+<Tabs id="cc-plans" label="구성 고르기" items={[["balanced", "균형(추천)"], ["cheap", "비용 절약"], ["max", "비용 무관"]]}>
+<div slot="balanced">
+
+**세션은 opus로 돌리고, 코딩과 확인은 sonnet에 맡기며, 리뷰마다 fable, opus, sonnet을 배치해요**.
+
+세션은 요청을 이해하고 변경 사항을 검토해야 하므로 opus를 써요. 코딩 도우미 AI는 범위가 분명한 일을 받으므로 sonnet으로도 충분해요. 판단과 글쓰기는 opus에 남겨 둬요.
+
+<Copy id="cc-plan-balanced" title="~/.claude/rules/pstack-models.md (균형)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: sonnet xhigh
+bug-fix: sonnet xhigh
+perf-issue: sonnet xhigh
+hillclimb: sonnet xhigh
+judgment and prose: opus xhigh
+arena runners: fable high, opus high, sonnet high
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: sonnet high
+interrogate reviewers: fable high, opus high, sonnet high`} />
+
+</div>
+<div slot="cheap">
+
+**세션은 sonnet으로 돌리고, 코딩 줄에는 `inherit-parent`를 넣고, 예산은 medium으로 골라요**.
+
+`inherit-parent`는 세션을 따라 sonnet을 쓰고, 판단은 여전히 opus가 맡아요. medium은 모든 역할을 한 단계씩 낮춰요. xhigh는 high가 되고, 리뷰어의 high는 medium이 돼요. 리뷰 패널에서는 fable을 빼고 두 자리만 남겨요. 복잡한 일을 할 때는 시작하기 전에 `/model`로 다시 opus로 바꾸세요.
+
+<Copy id="cc-plan-cheap" title="~/.claude/rules/pstack-models.md (비용 절약)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: medium (high)
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: inherit-parent
+judgment and prose: opus high
+arena runners: opus medium, inherit-parent
+arena cross-judge pool: opus medium, inherit-parent
+swarm workers: inherit-parent
+interrogate reviewers: opus medium, inherit-parent`} />
+
+</div>
+<div slot="max">
+
+**세션은 opus로 돌리고, 코딩·판단·확인도 opus에 맡기며, 리뷰 세 자리를 모두 xhigh로 돌려요**.
+
+왜 판단을 fable에 맡기지 않을까요? pstack의 규칙은 이래요: 리뷰 패널 밖에서는 fable을 직접 지정하거나, opus가 같은 작업에 두 번 실패했을 때만 fable을 써요. 작업 하나에만 쓰고 싶다면 프롬프트에 “이 작업은 fable로 해 주세요”라고 적으세요. fable의 정가는 opus의 2.5배예요. 계정에서 fable을 쓸 수 없다면 설정 과정에서 선택지로 나오지 않아요.
+
+<Copy id="cc-plan-max" title="~/.claude/rules/pstack-models.md (비용 무관)" code={`# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# defaults: 3
+# budget: large (xhigh)
+feature, refactoring: opus xhigh
+bug-fix: opus xhigh
+perf-issue: opus xhigh
+hillclimb: opus xhigh
+judgment and prose: opus xhigh
+arena runners: fable xhigh, opus xhigh, sonnet xhigh
+arena cross-judge pool: opus high, inherit-parent
+swarm workers: opus xhigh
+interrogate reviewers: fable xhigh, opus xhigh, sonnet xhigh`} />
+
+</div>
+</Tabs>
+
+large가 가장 높은 예산이에요. pstack의 어떤 역할도 xhigh보다 높게 돌아가지 않아요. 파일 안의 `# defaults: 3` 줄은 그대로 두세요. 이 줄이 없으면 pstack이 이전 버전에서 만든 파일로 보고 설정을 다시 실행하라고 안내해요.
+
+### 파일에 반영하기
+
+1. `/model`로 세션 모델을 고르세요.
+2. `/pstack:setup-pstack`을 실행하고 고른 구성에 맞는 예산을 선택하세요.
+3. 바꿀 역할이 있는지 물어보면 위 파일 내용을 붙여 넣고 그대로 적어 달라고 하세요.
+4. 종료하고 새 세션을 여세요.
+
+## “Skipped in Claude Code”가 뜰 때
+
+Cursor의 예약 작업, Bugbot 리뷰 봇, 클라우드 에이전트는 Claude Code에 없어요. 이 기능을 쓰는 단계는 건너뛰어요. 답변에 한 줄을 남기고 다음으로 넘어가요:
+
+<Copy id="cc-skip" title="이런 한 줄이 보여요" code="Skipped in Claude Code: <어떤 단계>. <건너뛴 이유>." />
+
+<Term k="PR" /> 열기는 `gh pr create`를 대신 써서 여전히 동작해요. 여기에도 `/loop`가 있어요. 빈칸(빠진 링크 같은 것)을 남겨 두었다고 나오면 무엇이 비었는지 확인하고 필요하면 채워 넣으세요.
+
+## 자동 업데이트 켜기
+
+Claude Code는 기본으로 서드파티 플러그인을 업데이트하지 않아요. 자동 업데이트를 켜려면 이렇게 하세요:
+
+1. 대화창에 `/plugin`을 입력하세요.
+2. **marketplaces** 탭을 여세요.
+3. `cursor-plugins`를 선택하세요.
+4. **enable auto-update**를 선택하세요.
+
+직접 업데이트하려면 터미널에서 이 명령어를 실행하세요:
+
+<Cmd c="claude plugin update pstack@cursor-plugins" />
+
+업데이트로 기본 모델이 바뀌어도 기존 설정 파일에는 예전 모델이 그대로 남아 있어요. 해결 방법은 [업데이트·확인·삭제하기](/ko/howto/update-remove/)를 참고하세요.
+
+## 삭제하거나 잠시 끄기
+
+대화창에 이렇게 입력하세요:
+
+<Cmd c="/plugin uninstall pstack@cursor-plugins" />
+
+그다음 `/reload-plugins`를 입력하거나 Claude Code를 다시 시작하세요. 잠시 꺼 두려면 `uninstall` 대신 `disable`을 쓰고, 다시 켤 때는 `enable`을 쓰세요. 설정을 실행했다면 삭제한 뒤 `~/.claude/rules/pstack-models.md`도 함께 지우세요. 그렇지 않으면 새 세션마다 이 파일을 계속 읽어요.
+
+## 막혔나요?
+
+<Q q="명령어를 입력했는데 아무 반응이 없어요. 메뉴에도 안 보여요.">
+플러그인 스토어에서 설치했다면 `!/pstack:poteto-mode`라고 입력해야 해요. `pstack:`이 없으면 인식하지 못해요. 먼저 `/pstack:`을 입력하면 메뉴에 pstack 명령어만 나와요.
+</Q>
+<Q q="설정을 실행했는데 고른 모델이 적용되지 않았어요.">
+설정 파일은 새 세션이 시작될 때만 읽어요. 종료하고 새 세션을 여세요. 그래도 안 되면 `~/.claude/rules/pstack-models.md`를 열어서 해당 줄에 고른 모델이 적혀 있는지 확인하세요.
+</Q>
+<Q q="답변에 /arena가 심사자를 건너뛰었거나 다른 회사 리뷰어를 못 찾았다고 나와요.">
+일부 단계는 `/arena` 심사자처럼 “다른 회사” 모델이 검토해 주길 원해요. fable을 포함한 모든 Claude 모델은 같은 회사로 쳐요. 그래서 심사자를 건너뛰고 자기 자신을 고른 뒤 그렇게 알려 줘요. 여기서는 `arena cross-judge pool` 줄이 거의 역할을 하지 않아요. 다른 회사의 시각이 필요하다면 중요한 리뷰만 Codex나 Cursor로 가져가서 `/interrogate`를 실행하세요.
+</Q>
+<Q q="스킬 안에 Cursor 쪽 이름이 쓰여 있어요. 직접 바꿔 써야 하나요?">
+아니요. 플러그인에 대응 안내서(`docs/harness/claude-code.md`)가 들어 있어서 AI가 알아서 바꿔 적용해요. 예를 들어 `.cursor/rules/`는 `CLAUDE.md`(없으면 `AGENTS.md`)로 바뀌고, 클라우드 에이전트는 로컬 <Term k="worktree" />(워크트리, 같은 Git 저장소의 별도 작업 폴더)로 바뀌어요.
+</Q>
+<Q q="AI가 Skill 도구로 pstack 스킬을 호출할 수 없다고 해요. 고장 난 건가요?">
+아니요. Claude Code에서는 대부분의 pstack 스킬을 그 방식으로 호출할 수 없어요. AI가 해당 스킬의 `SKILL.md`를 직접 읽고 따라가요. 평소처럼 계속 명령어를 입력하면 돼요.
+</Q>
+<Q q="밤새 돌려 두었는데 권한 확인 창에서 멈춰 있었어요.">
+알아서 돌아가게 두기 전에 자주 쓰는 명령어는 미리 허용해 두세요: git, gh, 그리고 테스트·빌드 명령어예요. Claude Code에 내장된 `/fewer-permission-prompts`는 자주 쓰는 읽기 전용 명령어를 찾아 프로젝트의 `.claude/settings.json`에 적어 줘요. 무언가를 바꾸는 명령어까지 허용할지는 직접 판단하세요.
+</Q>

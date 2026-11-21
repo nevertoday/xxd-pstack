@@ -1,0 +1,94 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: codex
+time: インストール 5 分、読むのに 6 分
+for: Codex、OpenCode、Pi など、Agent Skills に対応したツールを使っている方
+step: 1
+# Every command on this page is written for Codex, so it stays as written
+cmds: literal
+tldr: コマンド 1 つでインストールし、セットアップを 1 回実行してモデルを選び、$poteto-mode で始めます。
+description: "npx skills で Codex や他のツールに pstack をインストールする方法：必要な Node.js のバージョン、プロジェクト単位またはグローバルでのインストール、スキルとモデル設定の保存場所、ツールに機能がない場合の動き。"
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## コマンド 1 つでインストール
+
+pstack の各スキルは共通の <Term k="Agent Skill" /> 形式の `SKILL.md` なので、Cursor がなくてもインストールできます。ターミナルで次のように入力します。
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+Node.js 22.20 以上が必要です。バージョンがわからない場合は、まず `node -v` を実行してください。
+
+入れたいスキルにチェックを入れ、インストール先のツールを選びます。どれを選べばいいかわからない場合は、すべて選択してください。一部だけ入れたい場合は、[一部のスキルだけインストールする](/ja/howto/pick-skills/)を参照してください。
+
+<Callout type="tip" title="すべてのプロジェクトにインストールする">
+<p>デフォルトでは、現在のプロジェクトフォルダにだけインストールされます。どのプロジェクトでも使えるようにするには、<code>-g</code> を付けます。</p>
+<p><Cmd c="npx skills add backnotprop/pstack -g" /></p>
+</Callout>
+
+## インストール先を確認する
+
+該当するフォルダの中に、`poteto-mode` のようなサブフォルダがあるか確認します。
+
+| ツール | このプロジェクト | すべてのプロジェクト（-g） |
+| --- | --- | --- |
+| Codex など | `.agents/skills/` | `~/.agents/skills/` |
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Pi | `.pi/skills/` | `~/.pi/agent/skills/` |
+| Cursor | `.cursor/skills/` | `~/.cursor/skills/` |
+
+Codex は `~/.codex/skills/` も読み込みます。
+
+<mark>スキルは自動では動き始めません</mark>。`setup-pstack` を除き、名前を指定して呼び出したときだけ動きます。
+
+## モデルを選ぶ
+
+インストール後、`setup-pstack` を 1 回実行します。使えるモデルの一覧を表示し、<Term k="推理预算" />（モデルが考える時間）を尋ねたあと、ファイルを 1 つ書き出します。
+
+<Copy id="codex-file" title="設定ファイルの保存場所" code="~/.agents/pstack-models.md" />
+
+モデルを選ぶときは各スキルが自分でこのファイルを読み込むので、会話を新しく始める必要はありません。
+
+<Callout type="warn" title="最低 1 回はセットアップを実行する">
+pstack のデフォルトのモデル名は Cursor 向けに書かれています。お使いのツールにその名前がない場合、スキルは一番近いモデルに切り替えます。近いものがない場合は、現在の会話のモデルを使い、その旨を伝えます。セットアップを 1 回実行すれば、すべての役割に実際に使えるモデルが割り当てられます。
+</Callout>
+
+## 最初のタスク
+
+Codex では、`$poteto-mode` のように `$` に続けてスキル名を書きます。このサイトのコマンドはデフォルトで Claude Code 向け（`/pstack:poteto-mode`）になっています。ここで Codex を選ぶと、サイト内のすべてのコマンドが `$` 形式に切り替わります。
+
+<ToolPick />
+
+最初のタスクは次のように送ります。
+
+<Copy id="codex-first" title="Codex では $ を付けてスキルを呼び出す" code="$poteto-mode このコマンドに --json フラグを追加してください。既存のテキスト出力はバイト単位で完全に同じままにしてください。両方の出力を検証してください。" />
+
+「これには poteto-mode スキルを使ってください」と伝えてもかまいません。他のツールでは、それぞれのツールの書き方を使ってください。このメッセージの上手な書き方は、[最初のタスク](/ja/guide/3-first-task/)を参照してください。
+
+## ツールにない機能は別の方法で補う
+
+スキルの中身は Cursor の名称で書かれていますが、AI がそれを読み替えます。いくつか気づく点があります。
+
+- **ヘルパーの AI を呼び出せない**（<Term k="子代理" text="サブエージェント" />）：本来は同時に進むステップが 1 つずつ順番に動くため、少し遅くなります。
+- **質問ツールがない**：チャットに番号付きの選択肢を並べます。
+- **`/loop` がない**：一定時間待つコマンドを使い、あとでまた確認します。
+- **Custom Mode（Cursor のカスタムモード）がない**：使えるのは Cursor だけです。新しいタスクを始めるたびに、先頭に `poteto-mode` と書いてください。
+
+`deslop`、`control-cli`、`control-ui` は別の Cursor プラグインに含まれています。これらがない場合、AI は Playwright や tmux など、お使いの環境にあるツールを使います。
+
+## つまずいたときは？
+
+<Q q="npx skills がエラーになって動きません。">
+まず `node -v` を実行してください。22.20 未満なら、Node.js をアップグレードしてからもう一度試してください。
+</Q>
+<Q q="別のプロジェクトで pstack のスキルが見つかりません。">
+<u>デフォルトでは、コマンドを実行したプロジェクトにだけインストールされます</u>。新しいプロジェクトでもう一度実行するか、`-g` を付けてすべてのプロジェクトにインストールしてください。
+</Q>
+<Q q="モデル設定を変えたのに、反映されていないようです。">
+`~/.agents/pstack-models.md` を開き、選んだモデルが該当の行に書かれているか確認します。次に、その名前がお使いのツールにあるか確かめてください。ない場合、スキルは一番近いモデルに切り替え、返信の中でその旨を伝えます。
+</Q>

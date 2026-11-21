@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: fix-bug
+time: Un bug, una conversación
+for: Tienes un bug y quieres que quede bien arreglado, no a medias
+step: 6
+tldr: Describe el síntoma y añade «reprodúcelo primero». La IA encuentra la causa real, lo arregla y demuestra que está arreglado con los mismos pasos.
+description: "Arregla un bug con /poteto-mode: haz que el problema vuelva a ocurrir, encuentra la causa real, arréglalo y demuéstralo con los mismos pasos. Incluye un ejemplo de extensión de Chrome."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copia esto primero
+
+<Copy id="bug-min" title="La versión más corta" code="/poteto-mode Después de un reintento, los usuarios reciben dos notificaciones. Reprodúcelo primero, luego arréglalo y después compruébalo." />
+
+«Reproducir» significa hacer que el problema vuelva a ocurrir. La IA hace eso primero. Si no puede, no cambiará el código.
+
+El orden es fijo: <mark><strong>reproducir, encontrar la causa real, arreglarlo y después comprobarlo con los mismos pasos.</strong></mark>
+
+<Fig id="h-bug" />
+
+## Dale algunas pistas más
+
+<Copy id="bug-full" title="La versión completa" code="/poteto-mode Desde el lanzamiento de ayer, la exportación a CSV pierde la última fila. El job id que falla es 4812. Reprodúcelo primero y luego arréglalo. Estará arreglado cuando el conjunto de datos de prueba de 60 000 filas se exporte sin que falte ninguna fila. Muéstrame el número de filas antes y después del arreglo." />
+
+Cada parte cumple una función:
+
+- **Síntoma y cuándo empezó**: desde el lanzamiento, la exportación pierde la última fila.
+- **Una pista que tienes**: el job id. Ahorra una ronda de búsqueda.
+- **Qué cuenta como arreglado**: se exportan las 60 000 filas.
+- **Qué debe mostrarte**: el número de filas antes y después.
+
+<Callout type="warn" title="Guárdate tu hipótesis">
+Dile «creo que es el código de paginación» y solo mirará ahí. Deja que primero dé su propio diagnóstico. Luego añade el tuyo.
+</Callout>
+
+## Un ejemplo de extensión de Chrome
+
+Los usuarios reportan que los elementos guardados en el panel lateral a veces aparecen dos veces después de recargar.
+
+<Copy id="bug-ext" title="Ejemplo de extensión de Chrome" code={`/poteto-mode Los usuarios reportan que la lista de guardados en el panel lateral a veces muestra elementos duplicados después de recargar.
+Lo probé por mi cuenta y hacer clic en «Guardar» dos veces rápido hace que sea más probable. Reprodúcelo primero. No cambies código todavía.
+Estará arreglado cuando hacer clic diez veces en Guardar deje exactamente un elemento en la lista y exactamente uno en chrome.storage.
+Muéstrame qué hay realmente en el almacenamiento antes y después del arreglo.`} />
+
+- **«Exactamente uno en chrome.storage»**: la interfaz puede ocultar duplicados mientras los datos siguen teniendo dos. Comprueba el valor guardado.
+- **«Hacer clic diez veces en Guardar»**: convierte «a veces» en una comprobación que siempre pasa o falla.
+
+## En qué fijarte después de enviarlo
+
+**Al principio: cómo reformula el problema.** Si la IA describe un problema distinto, detenla de inmediato.
+
+**En medio: la <Term k="待办清单" />.** Enumera varias causas posibles y las va descartando hasta encontrar el primer punto donde algo falla. El arreglo va ahí, no en una comprobación posterior.
+
+**Al final: el antes y el después.** Ambos usan los mismos pasos de reproducción.
+
+## ¿Es fácil hacer un test? Añade /tdd
+
+<Copy id="bug-tdd" code="/poteto-mode Reproduce primero la escritura duplicada. Si hay una forma sencilla de hacer un test, usa /tdd: escribe un test que falle, luego arregla el bug y vuelve a ejecutar el test." />
+
+Mantén «si hay una forma sencilla de hacer un test». Un test apoyado en montones de datos falsos demuestra menos que ejecutar el comando real.
+
+## ¿Te atascaste?
+
+<Q q="Dice que no puede reproducir el bug.">
+Eso es bueno. No está cambiando cosas a ciegas. Da más detalles: qué página, qué datos, dónde hiciste clic, qué versión. También puedes pegar un log o una grabación.
+</Q>
+<Q q="Dijo «arreglado», pero no mostró evidencia.">
+Responde: «apply prove it works. Ejecuta otra vez los pasos de reproducción y muéstrame la salida real». <code>prove it works</code> significa: muestra resultados reales de que funciona. Es el nombre de un <a href="/es/wiki/principles/">principio</a> de pstack. Escríbelo tal cual y la IA sabrá a qué te refieres.
+</Q>
+<Q q="Añadió una comprobación if más adelante y lo dio por arreglado.">
+Responde: «fix root causes. Este estado nunca debería ocurrir. Encuentra dónde empieza a fallar». <code>fix root causes</code> significa arreglar la causa real. También es el nombre de un principio. Una comprobación solo cuenta como arreglo si ese estado es realmente válido.
+</Q>

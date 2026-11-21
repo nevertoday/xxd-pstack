@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: Claude Code, Cursor oder Codex; Node.js 22.20+, wenn du mit npx installierst
+tldr: Installier pstack mit ein oder zwei Befehlen und schick dann eine Nachricht, um zu prüfen, ob es funktioniert.
+description: Installier pstack mit einem Befehl in Claude Code, Cursor oder Codex und prüf dann mit einer Nachricht, ob es geklappt hat.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Für dein Tool installieren
+
+<div data-sk-keep>
+<Tabs id="install" label="Wähl dein Tool" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex und andere"]]}>
+<div slot="cc">
+
+Sende im Chatfeld von Claude Code diese beiden Befehle nacheinander:
+
+<Copy id="cc-1" title="Erstens: den Plugin-Store hinzufügen" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="Zweitens: pstack installieren" code="/plugin install pstack@cursor-plugins" />
+
+Sobald es installiert ist, <mark><strong>beginnt jeder Befehl mit `pstack:`</strong></mark>. Du tippst `/pstack:poteto-mode`; ein einfaches `/poteto-mode` wird nicht erkannt. Das ist eine Regel von Claude Code für Plugins, damit sich zwei Plugins beim Namen nicht in die Quere kommen.
+
+Standardmäßig **aktualisiert es sich nicht automatisch**. So schaltest du es ein: Tipp `/plugin` ein, öffne den Tab „marketplaces“, wähl `cursor-plugins` und dann „enable auto-update“.
+
+Du willst kein Präfix? Installier es stattdessen mit `npx skills` aus dem Tab „Codex und andere“.
+
+</div>
+<div slot="cursor">
+
+Sende im Chatfeld von Cursor:
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+Die Befehle behalten ihre einfachen Namen, wie `/poteto-mode` und `/how`. Ein Präfix ist nicht nötig.
+
+Optional: Installier zusätzlich das Plugin `cursor-team-kit`. pstack nutzt es an ein paar Stellen. Es funktioniert problemlos auch ohne.
+
+</div>
+<div slot="other">
+
+Öffne ein Terminal **in deinem Projektordner** und führ diesen Befehl aus:
+
+<Copy id="npx-1" lang="bash" title="In diesem Projekt installieren" code="npx skills add backnotprop/pstack" />
+
+Der Befehl listet alle Skills auf. **Wähl beim ersten Mal alle aus** und leg dann fest, für welche Tools installiert werden soll. Wenn du später abspecken willst, schau in [Nur einzelne Skills installieren](/de/howto/pick-skills/).
+
+Damit es in jedem Projekt verfügbar ist, häng `-g` an:
+
+<Copy id="npx-2" lang="bash" title="Global installieren" code="npx skills add backnotprop/pstack -g" />
+
+Dafür brauchst du Node.js 22.20 oder neuer. Nicht sicher? Prüf es mit `node -v`.
+
+</div>
+</Tabs>
+</div>
+
+Sobald es installiert ist, wähl hier dein Tool aus. Jeder Befehl auf dieser Website – auch das, was die Kopier-Buttons kopieren – passt sich dann an die Schreibweise dieses Tools an:
+
+<ToolPick />
+
+## Testen
+
+Starte einen **neuen** Chat und sende:
+
+<Copy id="test" title="Kurztest" code="/poteto-help Welchen pstack-Skill sollte man zum Einstieg zuerst lernen? Antworte in ein oder zwei Sätzen." />
+
+Wenn in der Antwort poteto-mode vorkommt, hat die Installation geklappt. `/poteto-help` beantwortet nur Fragen. Es fängt nicht an, an etwas zu arbeiten.
+
+<Callout type="ok">
+Tipp `/` ins Chatfeld ein: Im Menü, das sich öffnet, findest du `poteto-mode` (`pstack:poteto-mode` beim Plugin für Claude Code).
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="Ich tippe / und finde poteto-mode nicht.">
+<p>Starte zuerst einen neuen Chat. Immer noch nicht da? Beim Plugin für Claude Code such nach <code>pstack:</code>. Wenn du <code>npx skills</code> verwendet hast, achte darauf, dass das Tool in <strong>dem Projektordner geöffnet ist, in dem du es installiert hast</strong>, oder installier es global mit <code>-g</code> neu.</p>
+</Q>
+<Q q="npx skills meldet, dass meine Node-Version zu alt ist.">
+<p>Es braucht Node.js 22.20 oder neuer. Installier eine neue LTS-Version von <a href="https://nodejs.org">nodejs.org</a> und führ den Befehl noch einmal aus.</p>
+</Q>
+<Q q="Kann ich sowohl das Plugin als auch die npx-Version installieren?">
+<p>Besser nicht. Zwei Kopien desselben Skills sorgen für Verwirrung. Entscheide dich für eine Variante.</p>
+</Q>
+
+Wie du später aktualisierst oder deinstallierst, steht unter [Aktualisieren, prüfen, deinstallieren](/de/howto/update-remove/).
+
+<Checkpoint id="s1" items={["pstack ist in meinem Tool installiert", "Wenn ich in einem neuen Chat / tippe, erscheint poteto-mode (oder pstack:poteto-mode)", "/poteto-help hat meine Frage beantwortet"]} />

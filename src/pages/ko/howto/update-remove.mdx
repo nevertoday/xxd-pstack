@@ -1,0 +1,83 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: update-remove
+time: 읽는 데 4분
+for: pstack을 업데이트하거나, 설치된 목록을 보거나, 삭제하고 싶을 때
+step: 1
+tldr: 설치한 방식에 맞는 업데이트·삭제 명령어를 확인하세요. 업데이트한 뒤에는 /setup-pstack을 다시 실행하고, 삭제한 뒤에는 설정 파일을 지우세요.
+description: "설치 방식별로 목록 확인, 업데이트, 삭제 명령어를 확인하세요. 주의할 함정: 업데이트로 기본 모델이 바뀌어도 예전 설정 파일에는 이전 모델이 그대로 적혀 있어요."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Tabs from "../../../components/Tabs.astro";
+
+## 설치 방식별 명령어
+
+설치할 때 입력했던 명령어에 맞는 탭을 고르세요:
+
+- `npx skills add` → skills 명령줄
+- `/plugin install` → Claude Code 플러그인
+- `/add-plugin` → Cursor 플러그인
+
+기억이 안 나나요? 명령어 앞에 `pstack:`을 붙여야 한다면 Claude Code 플러그인이에요.
+
+<Tabs id="ur" items={[["skills","skills 명령줄"],["cc","Claude Code 플러그인"],["cursor","Cursor 플러그인"]]}>
+<div slot="skills">
+<p>터미널에서 실행하세요(AI 대화창이 아니에요):</p>
+<p><Cmd c="npx skills list" /> 어떤 스킬이 설치되어 있는지 확인해요.</p>
+<p><Cmd c="npx skills check" /> 새 버전이 있는지 확인해요.</p>
+<p><Cmd c="npx skills update" /> 최신 버전으로 업데이트해요.</p>
+<p><Cmd c="npx skills remove" /> 스킬을 삭제해요.</p>
+<p><code>-g</code> 없이 설치한 스킬은 그때 작업하던 프로젝트 안에만 설치돼요.</p>
+</div>
+<div slot="cc">
+<p>서드파티 플러그인은 기본적으로 자동 업데이트되지 않아요. 수동으로 한 번 업데이트하려면 터미널에서 실행하세요:</p>
+<p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
+<p>자동으로 업데이트하려면 <code>/plugin</code>을 입력하고 <strong>marketplaces</strong> 탭을 연 다음, <code>cursor-plugins</code>를 선택해 <strong>enable auto-update</strong>를 고르세요.</p>
+<p>아래 명령어는 Claude Code 대화창에 입력하세요:</p>
+<p><Cmd c="/plugin list" /> 어떤 플러그인이 설치되어 있고 켜져 있는지 확인해요.</p>
+<p><Cmd c="/plugin uninstall pstack@cursor-plugins" /> 삭제해요.</p>
+<p><Cmd c="/plugin disable pstack@cursor-plugins" /> 잠시 꺼 둬요. 나중에 다시 켜려면 <code>/plugin enable pstack@cursor-plugins</code>를 입력하세요.</p>
+<p>삭제하거나 잠시 끈 뒤에는 <code>/reload-plugins</code>를 입력하거나 Claude Code를 다시 시작하세요. 설치할 때 추가한 플러그인 스토어(marketplace)까지 지우려면 <code>/plugin marketplace remove cursor-plugins</code>를 입력하세요. 이때 그 스토어에서 설치한 다른 플러그인도 전부 함께 삭제되니 주의하세요.</p>
+</div>
+<div slot="cursor">
+<p>사이드바의 Customize에서 관리하세요. pstack은 Cursor 플러그인의 업데이트 방법을 따로 안내하지 않으니, Cursor 자체 화면의 안내를 따르세요.</p>
+</div>
+</Tabs>
+
+## 업데이트한 뒤: 설정 다시 실행하기
+
+`/setup-pstack`은 각 <Term k="模型角色" />의 모델을 설정 파일에 한 줄씩 적어요. 새 버전에서 기본 모델이 바뀌어도 설정 파일에는 예전 모델이 그대로 적혀 있어요. <mark>스킬이 그 줄을 읽으면 예전 모델을 계속 쓰게 돼요</mark>.
+
+<Cmd c="/setup-pstack" />
+
+예전 기본값을 알아보고 새 기본값으로 바꾼 뒤, 어떤 항목이 바뀌었는지 알려 줘요. 직접 고른 모델은 그대로 남아요. 예전 버전이 만든 파일이라면 `/poteto-mode`가 대화마다 한 번씩 안내해 줘요.
+
+알아보지 못하는 예전 값이 있다면 설정 파일을 열어 그 줄이나 파일 전체를 먼저 지운 뒤 다시 실행하세요.
+
+| 도구 | 설정 파일 |
+| --- | --- |
+| Cursor | `~/.cursor/rules/pstack-models.mdc` |
+| Claude Code | `~/.claude/rules/pstack-models.md` |
+| Codex 및 기타 | `~/.agents/pstack-models.md` |
+
+<Callout type="ok" title="다시 실행해도 안전해요">
+`/setup-pstack`을 다시 실행해도 직접 바꾼 역할은 그대로 유지돼요. 실행한 뒤에는 새 대화를 시작해야 적용돼요.
+</Callout>
+
+## 삭제한 뒤: 설정 파일도 지우기
+
+pstack을 삭제해도 설정 파일은 지워지지 않아요. Claude Code는 새 세션마다 이 파일을 읽어 들여서 자리만 차지해요. pstack을 더 이상 쓰지 않는다면 위 표에 있는 설정 파일도 함께 지우세요.
+
+pstack이 만든 `verify-your-app` 같은 <Term k="验证技能" /> 폴더는 프로젝트에 속해 있어서, pstack을 삭제해도 함께 지워지지 않아요.
+
+## 막혔나요?
+
+<Q q="업데이트했는데 아직도 예전 모델을 써요.">
+대부분 예전 설정 파일 때문이에요. `/setup-pstack`을 다시 실행해 보세요. 그래도 해결되지 않으면 해당 역할의 줄을 지우세요. 그런 다음 새 대화를 시작하세요.
+</Q>
+<Q q="npx skills list에 pstack 스킬이 안 보여요.">
+설치했던 프로젝트 폴더에서 실행하고 있는지 확인하세요. 프로젝트에 설치한 스킬과 `-g`로 설치한 스킬은 저장되는 위치가 달라요.
+</Q>

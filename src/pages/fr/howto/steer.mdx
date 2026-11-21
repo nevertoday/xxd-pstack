@@ -1,0 +1,93 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: steer
+time: Une ligne
+for: L'IA a dérivé et vous voulez la remettre sur les rails sans écrire tout un paragraphe
+step: 8
+tldr: Quand l'IA dérive, répondez en une ligne. Dites ce que vous voulez, ajoutez le nom d'un principe que pstack connaît et demandez les vrais résultats.
+description: "Recadrer en une ligne une IA qui dérive : noms de principes, /bro, /unslop, new task ; la liste de ce que fait l'IA et quoi répondre ; comment savoir si elle a vraiment appliqué la consigne."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copiez d'abord celui-ci
+
+L'IA dit « c'est fait », alors que seul le build est passé. Vous répondez :
+
+<Copy id="s-prove" code="apply prove it works. Lance le vrai flux d'import et montre-moi les enregistrements qu'il a écrits." />
+
+`prove it works` signifie « montre que ça marche vraiment ». C'est le nom d'un des <Term k="原则" text="principes" /> de pstack (des règles de travail écrites). `/poteto-mode` les lit tous avant de démarrer, donc le nom lui indique exactement de quelle règle vous parlez.
+
+La seconde moitié dit ce que vous voulez cette fois-ci. <mark>Un nom vise plus juste qu'un paragraphe.</mark> Inutile de les mémoriser. Revenez ici quand l'IA dérive.
+
+<Fig id="h-steer" />
+
+## Trois autres façons de recadrer l'IA
+
+**L'IA a fait quelque chose que vous n'aviez pas demandé.** Rappelez l'objectif :
+
+<Copy id="s-goal" code="J'ai dit que l'objectif était de reproduire le problème. Je n'ai pas encore demandé de correctif." />
+
+**La réponse est difficile à suivre, ou sent trop l'IA :**
+
+<Copy id="s-bro" code="/bro" />
+
+<Copy id="s-unslop" code="/unslop that, no emdashes" />
+
+`/bro` reformule la dernière réponse avec des mots simples. `/unslop that` retire les tics d'IA de ce texte, et `no emdashes` signifie « pas de tirets cadratins ».
+
+**Vous passez à autre chose.** Indiquez d'abord « new task » :
+
+<Copy id="s-new" code="/poteto-mode new task. Trouve pourquoi le cache est toujours là après la déconnexion. Ne modifie pas encore le code." />
+
+Sinon, l'IA traite votre nouvelle question comme la suite de la tâche précédente.
+
+## Ce que fait l'IA, et quoi lui répondre
+
+D'abord le sens, puis le nom à taper tel quel :
+
+- **Elle dit « c'est fait » parce que le build est passé** → montrer que ça marche vraiment : `apply prove it works.` Lance la vraie commande et montre-moi la vraie sortie.
+- **Elle ajoute une condition if après le point où ça échoue et dit que c'est corrigé** → trouver la vraie cause : `fix root causes.` Trouve où le problème commence.
+- **Elle empile un nouvel adaptateur par-dessus trois anciens** → retirer avant d'ajouter : `subtract before you add.` Supprime d'abord ceux qui sont obsolètes.
+- **Elle a corrigé la même vérification plusieurs fois, mais elle échoue toujours** → remettre en question l'hypothèse : `attack the premise.` Teste ce que ces correctifs supposent.
+- **Elle fait des dizaines de modifications identiques à la main** → construire un outil : `build the lever.` Écris un script que je pourrai relancer.
+- **Elle laisse une couche de compatibilité pour l'ancienne interface pendant une migration** → supprimer une fois migré : `migrate callers then delete legacy apis.`
+- **Les tests vérifient quelle fonction interne a été appelée** → tester le comportement : `test behavior not implementation.` Vérifie ce que l'utilisateur peut voir.
+- **Elle s'arrête pour poser une question sur un détail qu'on peut annuler** → ne pas m'attendre : `never block on the human.` Fais-le, puis montre-moi.
+- **Elle se lance tout de suite dans la première conception** → en essayer plusieurs : `exhaust the design space.` Construis deux ou trois prototypes et compare-les.
+
+Les 24 se trouvent dans [Principes](/fr/wiki/principles/).
+
+## L'IA doit dire quelle décision a changé
+
+Citer seulement le nom ne compte pas. Quand elle utilise un principe, elle doit dire ce qu'elle a changé en conséquence.
+
+<Copy id="s-good" title="Une vraie réponse" code="En appliquant subtract before you add, j'ai d'abord supprimé deux adaptateurs que plus personne n'appelle. Le nouveau n'a plus besoin de rester compatible avec eux, et l'interface est deux fois plus petite." />
+
+<Copy id="s-bad" title="Juste le nom" code="Principe prove it works appliqué. La fonctionnalité fonctionne." />
+
+La seconde contient un nom, mais aucune décision et aucune preuve. Insistez :
+
+<Copy id="s-push" code="Tu as dit que tu avais utilisé prove it works. Quelle commande et quelle sortie l'ont prouvé ? Colle-les." />
+
+## Le même problème est revenu
+
+Une correction dans le chat ne vaut que pour cette fois-ci. La deuxième fois, utilisez `/correct` pour modifier le dépôt lui-même :
+
+<Copy id="s-correct" code="/correct l'IA continue de contourner la couche repository et d'appeler directement le client de base de données." />
+
+Il ajoute une vérification, un type ou un test, pour que les IA suivantes ne puissent plus faire cette erreur. Pour en savoir plus, consultez [Une fois à l'aise](/fr/guide/8-make-it-yours/).
+
+## Un blocage ?
+
+<Q q="J'ai donné le nom du principe, et rien n'a semblé se passer.">
+Si vous avez envoyé `/poteto-mode` avec Enter, il cesse d'agir après quelques échanges. Tapez-le de nouveau, ou dans Cursor utilisez Option+Enter (Alt+Enter sous Windows) pour le laisser actif.
+</Q>
+<Q q="Je n'arrive pas à retenir les noms des principes.">
+Ce n'est pas nécessaire. Dites ce que vous voulez avec vos propres mots, par exemple « n'ajoute pas de vérification après coup, trouve la vraie cause ». Les noms sont simplement plus courts et plus précis.
+</Q>
+<Q q="J'ai recadré l'IA, et un peu plus tard elle a de nouveau dérivé.">
+Vérifiez d'abord si vous avez changé de tâche sans dire `new task`. Si le même problème revient sans cesse, utilisez `/correct`.
+</Q>

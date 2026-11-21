@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 2
+need: pstack, instalado no passo anterior
+tldr: Rode /setup-pstack uma vez, responda a algumas perguntas para definir modelos e orçamento e depois comece uma nova conversa.
+description: "Rode /setup-pstack uma vez: escolha um orçamento, veja qual modelo cada papel usa, decida se quer uma skill de verificação e depois comece uma nova conversa."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+
+## Envie só este comando
+
+<Copy id="setup" code="/setup-pstack" />
+
+Ele verifica quais modelos você pode usar e depois faz algumas perguntas. Suas respostas vão para um arquivo de configuração. A partir daí, toda skill escolhe os modelos com base nele.
+
+## Quando perguntar sobre o orçamento: na dúvida? Escolha large
+
+O <Term k="推理预算" /> é quanto tempo o modelo tem para pensar. Mais tempo traz mais cuidado — e custa mais.
+
+| Opção | Nível de raciocínio | Bom para |
+| --- | --- | --- |
+| `large` | xhigh (padrão) | Escolha se estiver em dúvida |
+| `medium` | high | Economizar um pouco |
+| `small` | medium | Tarefas simples, orçamento apertado |
+
+`large` é o orçamento máximo. Nenhum papel no pstack roda acima de xhigh.
+
+## Quando perguntar sobre modelos por papel: mantenha os padrões
+
+Cada <Term k="模型角色" /> pode usar um modelo diferente:
+
+- **Papéis de programação, escrita e decisões**: opus 5.5 por padrão.
+- **Painel de revisão**: um fable 5.2, um opus 5.5 e um gemini 4 neon por padrão. Modelos diferentes, de propósito, para que encontrem os erros uns dos outros.
+
+O fable 5.2, o mais caro, fica na reserva. Fora do painel de revisão, ele só roda quando você o chama pelo nome ou depois que o opus 5.5 falha duas vezes na mesma tarefa.
+
+Mude só os que importam para você. `auto` ou `inherit-parent` significa “use o mesmo modelo da conversa principal”.
+
+<Callout type="tip" title="Se você usa o Claude Code">
+No Claude Code, as IAs ajudantes só podem usar modelos Claude. No painel de revisão, a vaga do gemini usa o modelo da sua conversa atual. Para ver três configurações prontas, confira [Como usar no Claude Code](/pt/howto/claude-code/#como-configurar-bem).
+</Callout>
+
+## Quando perguntar sobre uma skill de verificação: se você é iniciante, diga sim
+
+Se o seu projeto ainda não tem como provar que “o app realmente funciona”, ele se oferece para gerar uma <Term k="验证技能" />.
+
+<strong>Se você é iniciante, diga sim.</strong> Uma IA que consegue verificar o próprio trabalho continua até a verificação passar. Você não precisa conferir na mão.
+
+Ele também pode perguntar sobre uma skill de <Term k="形式化验证" />. Diga sim só se o seu código tiver pontos difíceis de testar, como concorrência ou retentativas. Você pode adicionar isso depois.
+
+## Quando terminar, comece uma nova conversa
+
+O arquivo de configuração é salvo aqui:
+
+- **Cursor**: `~/.cursor/rules/pstack-models.mdc`
+- **Claude Code**: `~/.claude/rules/pstack-models.md`
+- **Codex e outras ferramentas**: `~/.agents/pstack-models.md`
+
+O Cursor e o Claude Code só leem esse arquivo quando uma nova conversa começa. Por isso, <mark>assim que terminar a configuração, feche esta conversa e comece uma nova</mark>.
+
+## Travou?
+
+<Q q="E se eu quiser mudar os modelos ou o orçamento depois?">
+<p>Rode <code>/setup-pstack</code> de novo. Os papéis que você mudou são mantidos. Para voltar um papel ao padrão, apague a linha dele no arquivo de configuração.</p>
+</Q>
+<Q q="O pstack atualizou os modelos padrão, mas os meus não mudaram.">
+<p>Sua configuração antiga ainda tem os valores antigos. Rode <code>/setup-pstack</code> de novo. Ele troca os padrões antigos que reconhece pelos novos e avisa quais foram. Suas próprias escolhas são mantidas. Para um valor antigo que ele não reconheça, apague essa linha (ou o arquivo inteiro) primeiro.</p>
+</Q>
+<Q q="Eu disse não para a skill de verificação e agora quero uma.">
+<p>Rode <code>/create-verification-skill</code>. Veja o <a href="/pt/guide/6-verify-ship/">Passo 6</a>.</p>
+</Q>
+
+<Checkpoint id="s2" items={["Rodei /setup-pstack e escolhi um orçamento", "Ele me mostrou em qual arquivo a configuração foi salva", "Decidi se quero uma skill de verificação (iniciantes: sim)", "Comecei uma nova conversa"]} />

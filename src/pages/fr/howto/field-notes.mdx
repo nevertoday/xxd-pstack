@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: field-notes
+time: 8 minutes de lecture
+for: Vous l'avez déjà utilisé quelques fois et vous voulez voir comment d'autres s'en servent, et ce qui les a piégés
+step: 8
+tldr: Des habitudes tirées d'une douzaine de retours d'expérience et des conférences de poteto. Chacune est prête à copier, avec sa source.
+description: "Ce que d'autres utilisateurs de pstack ont appris : des constats faits indépendamment par plusieurs personnes ; casser un nouveau test exprès, répartir les vérifications par aspect, chercher l'angle mort commun à toutes les conceptions, consigner les mauvaises pratiques avant de les corriger ; les pièges rencontrés ; les articles, vidéos et conférences qui valent le détour."
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+Cette page rassemble l'expérience d'autres utilisateurs, pas le manuel de pstack. Nous avons lu une douzaine de retours d'expérience, ainsi que les conférences et entretiens de poteto, et nous n'avons gardé que ce qui fonctionne encore aujourd'hui. Chaque point renvoie vers sa source.
+
+## Copiez celui-ci en premier
+
+L'IA a ajouté un nouveau test et annonce « les tests passent ». Répondez-lui :
+
+<Copy id="fn-break" code="Casse volontairement la fonctionnalité et lance le nouveau test une fois. Confirme qu'il échoue. Ensuite, annule cette modification et relance-le. Colle les deux sorties." />
+
+Un test que vous n'avez jamais vu échouer est peut-être un test qui ne peut pas échouer. Une équipe a essayé et a constaté que le nouveau test de l'IA restait au vert quoi qu'il arrive. Tiré du [retour d'expérience de productize.life](https://productize.life/blog/pstack-skills/en).
+
+## Ce que plusieurs personnes ont constaté par elles-mêmes
+
+- **Passez-vous de `/poteto-mode` pour les petites retouches.** Un développeur a créé la même petite application deux fois : 30 minutes sans, une heure avec, et la version pstack était plus solide ([comparatif de Rob Shocks](https://the-agent-daily.org/agentnews-experimental/deep-dives/pstack-is-agent-overkill-use-it-anyway)). Pour modifier un texte ou ajuster un style, demandez simplement.
+- **Rendez une seule IA fiable avant d'en lancer plusieurs.** Le conseil de poteto est d'approfondir avant d'élargir. Lancer des agents en parallèle avant de savoir vérifier leur travail ne fait que produire plus vite du travail à refaire ([How I Use Cursor](https://x.com/poteto/article/2058975157503570132)).
+- **Les skills conseillent. Ils ne verrouillent rien.** Une IA peut sauter une étape ou oublier une règle. Tout ce qui ne doit jamais arriver doit passer par des permissions et des scripts de vérification ([productize.life](https://productize.life/blog/pstack-skills/en), [justmao](https://justmao.com/en/posts/pstack-install-routing/)).
+- **Quand une erreur revient, transformez-la en vérification.** L'équipe de poteto transforme les erreurs récurrentes en règles de lint plutôt que d'ajouter une ligne de plus à un fichier de règles ([la conférence de poteto](https://www.youtube.com/watch?v=O_zcc6Xl12g)). La version de ce site se trouve dans [Une fois à l'aise](/fr/guide/8-make-it-yours/).
+- **La majeure partie de l'argent passe dans la vérification, et c'est très bien comme ça.** Selon poteto, la plupart de ses tokens vont à la vérification (même conférence). Économisez d'abord ailleurs.
+
+## Des habitudes bonnes à copier
+
+**Compte rendu en quatre parties. Non vérifié ne veut pas dire validé.** En créant un formulaire dans Claude Code, un développeur a clôturé chaque tâche de cette façon ([五里墩茶社, en chinois](https://www.bilibili.com/video/BV1LLWY6yEch/)) :
+
+<Copy id="fn-handoff" code="Quand tu as fini, fais un compte rendu en quatre parties : ce qui a changé ; ce que tu as vérifié ; où se trouvent les preuves (sortie de commande, chemins des captures d'écran) ; ce que tu n'as pas vérifié. Liste à part les points non vérifiés. Ne les présente pas comme validés." />
+
+**Répartissez les vérifications par aspect.** Ne découpez pas par fonctionnalité. Découpez selon ce que chaque IA d'appoint regarde, un aspect chacune ([五里墩茶社](https://www.bilibili.com/video/BV1WGsi6MEJm/)) :
+
+<Copy id="fn-swarm" code="/swarm Vérifie ce formulaire de trois façons : une IA d'appoint le remplit et le soumet de bout en bout, une deuxième n'utilise que le clavier, une troisième l'examine sur un écran de 375px de large. Chacune indique ce qu'elle a vérifié et comment. Ensuite, lance toi-même l'étape de soumission une fois." />
+
+**Après avoir comparé des conceptions, cherchez l'angle mort commun.** En les notant, vous ratez facilement ce à quoi aucune n'a pensé ([五里墩茶社](https://www.bilibili.com/video/BV1xfsM6wE39/)) :
+
+<Copy id="fn-gap" code="Y a-t-il des cas qu'aucune de ces conceptions ne gère ? Liste-les, puis indique quelle conception est la plus simple à étendre pour les couvrir." />
+
+**Voyez l'interface publique avant qu'elle soit construite.** Pour corriger un bug en production, un développeur a demandé à `/architect` de s'arrêter avant d'écrire le code ([azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)) :
+
+<Copy id="fn-api" code="/architect La page des tags renvoie parfois une erreur 500. Trouve d'abord la vraie cause. Avant d'écrire le correctif, arrête-toi et montre-moi toutes les fonctions publiques que tu ajoutes ou modifies. Je confirme, puis tu l'écris." />
+
+**Consignez d'abord les mauvaises pratiques, passez-les en revue en lot.** Au lieu de faire corriger chaque problème sur-le-champ, poteto demande à l'IA de les noter. Tous les deux ou trois jours, poteto relit la liste pour chercher une cause commune ([avec Matt Pocock](https://www.youtube.com/watch?v=MN9dGgmLyso)) :
+
+<Copy id="fn-ledger" code="À partir de maintenant, quand tu vois un composant qui appelle directement l'API, ne le modifie pas. Ajoute-le à la fin de docs/bad-patterns.md : le fichier, la ligne, à quoi ça ressemble. Je passerai la liste en revue chaque semaine." />
+
+**Faites le premier à la main, scriptez le reste.** Pour une migration de styles, poteto a migré un composant à la main, puis a demandé à l'IA d'écrire un script pour le reste, un petit morceau par jour ([Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)). `build the lever` est le nom que pstack connaît pour « construire un outil pour le faire » :
+
+<Copy id="fn-lever" code="apply build the lever. J'ai migré Button à la main. Écris un script qui migre les autres composants de la même façon, plus une vérification : les captures d'écran en mode clair et en mode sombre doivent correspondre avant et après. Migre un composant à la fois." />
+
+## Les pièges rencontrés par d'autres
+
+- **Un quota d'une semaine parti en une journée.** Le budget de `/setup-pstack` règle combien de temps chaque étape réfléchit, pas ce que vous dépensez au total. Passez-vous de `/poteto-mode` pour les petites tâches, et consultez [Maîtriser les coûts](/fr/howto/cost/) pour le reste.
+- **« Revu par plusieurs modèles » n'était qu'un seul modèle.** Dans Claude Code, le siège Gemini tourne sur le modèle du chat en cours ([productize.life](https://productize.life/blog/pstack-skills/en)). Pour le savoir, demandez :
+
+<Copy id="fn-who" code="Quel modèle a effectué chacune de ces revues ? Liste-les une par une." />
+
+- **Une longue liste de tâches a enseveli l'objectif initial.** Ne donnez à l'IA qu'une seule chose à la fois. Dites `new task` quand vous changez de sujet, et consultez [Remettre l'IA sur les rails](/fr/howto/steer/) quand elle dérive.
+
+<Callout type="warn" title="Beaucoup de chiffres et de commandes en ligne datent d'anciennes versions">
+pstack évolue vite. « 23 playbooks », « 51 skills », `/orchestrate`, le budget `unlimited` et `with checkpoint` <u>n'existent plus</u>. Fiez-vous aux commandes de ce site, vérifiées sur la version 0.15.46.
+</Callout>
+
+## Envie d'aller plus loin ?
+
+- **[All Code Is Slop (Except Mine)](https://www.youtube.com/watch?v=O_zcc6Xl12g)** : la conférence de poteto de novembre 2026, 16 minutes. L'exposé le plus récent et le plus court pour savoir où concentrer vos efforts.
+- **[Matt Pocock avec poteto](https://www.youtube.com/watch?v=MN9dGgmLyso)** : un live de 65 minutes. Comment poteto fait tourner des agents la journée, les laisse travailler la nuit et relit l'historique de commits chaque matin.
+- **[Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)** : l'essai de poteto expliquant pourquoi la vérification passe avant tout, et les leçons tirées d'une grosse migration.
+- **[Le post de poteto « commencer par la vérification »](https://x.com/poteto/status/2109436202554372476)** : un seul message. À lire avant de doter votre projet d'un skill de vérification.
+- **[Le retour d'expérience de productize.life](https://productize.life/blog/pstack-skills/en)** : l'article le plus franc, sur ce qui a aidé et ce qui n'a pas marché.
+- **[What is poteto-mode](https://flaviocopes.com/poteto-mode/)** : Flavio Copes. Les exemples de prompts les plus clairs.
+- **[La correction de bug d'azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)** : un bug en production, de l'erreur au correctif.
+- **[Les vidéos de test de 五里墩茶社](https://www.bilibili.com/video/BV1LLWY6yEch/)** : en chinois, sur Bilibili. De vraies sessions dans Claude Code, honnêtes sur ce qui n'a pas été testé.
+
+## Un blocage ?
+
+<Q q="Une commande trouvée dans un article ne fonctionne pas chez moi.">
+<p>Elle date probablement d'une ancienne version et a été renommée ou supprimée. Commencez par mettre à jour (voir <a href="/fr/howto/update-remove/">Mettre à jour, inspecter, désinstaller</a>), puis demandez à <code>/poteto-help</code> quelle commande utiliser maintenant.</p>
+</Q>
+<Q q="poteto livre des milliers de PR par mois. Est-ce que je peux en faire autant ?">
+<p>C'est le chiffre annoncé par poteto. Dans la conférence, poteto explique qu'il a fallu environ six mois pour bâtir des vérifications avant de laisser les agents tourner ainsi. Commencez par une tâche et une IA capable de vérifier son propre travail.</p>
+</Q>
+<Q q="J'ai rédigé mon propre retour d'expérience.">
+<p>Envoyez-le-nous sur <a href="https://github.com/nevertoday/xxd-pstack/issues">le GitHub de ce site</a>. Si l'habitude fonctionne encore aujourd'hui, nous l'ajouterons ici en vous citant.</p>
+</Q>

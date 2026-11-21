@@ -1,0 +1,163 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: verify-app
+time: Einmal erzeugen, bei jeder Aufgabe nutzen
+for: Du bist es leid, die App jedes Mal selbst zu öffnen und durchzuklicken, wenn die KI „fertig“ sagt
+step: 6
+tldr: Führ einmal /create-verification-skill aus, und dein Projekt bekommt den Skill /verify-<app>. Ab da kann jede Aufgabe mit „prüf das damit und zeig mir Screenshots“ enden.
+description: "Gib deinem Projekt mit /create-verification-skill einen Prüf-Skill, damit die KI die App startet, sie wie echte Nutzer bedient und Belege sichert. Was dabei entsteht, wie du ihn prüfst, wie du ihn nutzt und wie /maintain-verification-skill ihn mit der App aktuell hält."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+Nachdem die KI Code geändert hat, dauert meistens das Prüfen am längsten: Sie sagt „fertig“, und du öffnest die App und klickst dich selbst durch. In der offiziellen Anleitung schreibt poteto, dass sich von allem darin ein <Term k="验证技能" /> für dein Projekt am meisten auszahlt.
+
+Der Grund ist einfach: <mark><strong>Eine KI, die ihre eigene Arbeit prüfen kann, macht weiter, bis die Prüfung bestanden ist; eine, die das nicht kann, gibt jedes Ergebnis an dich zurück.</strong></mark> Sobald das Prüfen nicht mehr auf einen Menschen wartet, bist du nicht länger der Flaschenhals. Ohne das bringen dir mehr KIs nur mehr Ergebnisse, die niemand geprüft hat.
+
+## Kopier das zuerst
+
+Öffne die KI in deinem Projektordner und sende:
+
+<Copy id="cvs" code="/create-verification-skill" />
+
+`/setup-pstack`, das du bei der Installation ausgeführt hast, bietet das am Ende auch einmal an. Wenn du dort zustimmst, läuft genau das.
+
+Die KI liest vor allem deinen Code, um fünf Dinge herauszufinden, und fragt dich nur, was der Code nicht beantworten kann:
+
+- **Womit Nutzer arbeiten**: eine Webseite, eine Kommandozeile, eine Desktop-App, eine API oder eine Mobile-App. Gibt es mehrere, wählt sie die wichtigste aus.
+- **Wie es startet**: zuerst die eigenen Befehle des Projekts (Skripte in `package.json`, ein `Makefile`, die README), dazu Ports, Umgebungsvariablen, Testdaten und Login.
+- **Wie es sich bedienen lässt**: zuerst das, was das Projekt schon mitbringt (Playwright- oder Cypress-Skripte, ein Debug-Port). Erst danach ein allgemeiner Weg: Browser-Automatisierung für Web und Electron, ein virtuelles Terminal für Kommandozeilen-Tools, einfache Requests für APIs.
+- **Welche Belege sie sichern kann**: Screenshots, Terminal-Mitschnitte, API-Antworten, Logs, Exit-Codes, Datenbankzeilen.
+- **Ob zwei Instanzen nebeneinander laufen können**: getrennte Ports, getrennte Datenordner. Falls nicht, steht das im Skill. Lieber nicht testen, als die Instanz anzufassen, die du gerade nutzt.
+
+Startet das Projekt im aktuellen Zustand nicht, behebt die KI das zuerst oder sagt genau, wo es hakt. Schritte für ein kaputtes Projekt bringen ihr nur das Falsche bei.
+
+## Was du bekommst
+
+Einen neuen Ordner in deinem Projekt: `.claude/skills/` in Claude Code, `.cursor/skills/` in Cursor:
+
+<Copy id="tree" title="Die erzeugten Dateien (Beispiel)" code={`verify-<app>/
+├── SKILL.md          Start, Statuscheck, Bedienung, Belege, Aufräumen und wie die Skripte laufen
+└── features/         die Feature-Map: eine Datei pro Feature
+    ├── README.md     Übersicht der Map plus Regeln, die für alle Features gelten
+    ├── create-note.md
+    └── search.md`} />
+
+<Fig id="h-verify" />
+
+`SKILL.md` ist für die nächste KI geschrieben, nicht für dich: Eine KI, die diese App noch nie gesehen hat, soll die Datei mitten in einer Aufgabe öffnen und danach vorgehen können. Jeder Abschnitt nutzt die echten Befehle und Button-Namen deines Projekts, ohne „hier ausfüllen“:
+
+| Abschnitt | Was drinsteht |
+| --- | --- |
+| Launch (Start) | Welcher Befehl die App startet und was zeigt, dass sie bereit ist. Sie startet mit leeren Daten, führt Migrationen aus und lädt Testdaten; bereit heißt wirklich nutzbar |
+| Doctor (Statuscheck) | Eine schreibgeschützte Prüfung: Läuft der Prozess, stimmt die Version, ist es der eigene Port, gilt der Login noch? Immer zuerst ausführen, wenn etwas nicht stimmt |
+| Drive (Bedienung) | Welches Tool, welcher Button, welcher Befehl. Buttons werden über stabile Merkmale wie Namen und Labels gefunden, nicht über Bildschirmkoordinaten |
+| Evidence (Belege) | Was erfasst wird, wo es landet und was zählt (siehe nächster Abschnitt) |
+| Cleanup (Aufräumen) | Stoppt alles, was dieser Lauf gestartet hat; niemals nach Prozessnamen beenden. Die Belege bleiben an einem festgelegten Ort erhalten |
+| Helpers (Hilfsskripte) | Jedes mitgelieferte Skript läuft unverändert; der Aufruf steht im Skill |
+
+`features/` ist die Feature-Map. Sie beginnt mit den drei bis fünf wichtigsten Features, je eine Datei pro Feature, und jede Datei hat dieselben vier Teile:
+
+- **Unter-Features**: etwa „Notiz erstellen“, aufgeteilt in Öffnen per Button, Speichern, Abbrechen und Erstellen über die Kommandozeile.
+- **Wie Nutzer dorthin kommen**: jeder Einstiegspunkt. Buttons, Tastenkürzel und Befehle zählen alle dazu.
+- **Wie es bedient wird**: jeder Schritt nach dem Muster „was tun → welcher Befehl → was du sehen solltest“.
+- **Stolperfallen (Gotchas)**: Fallen, die einen Lauf kosten oder in die Irre führen. Zum Beispiel: „Eine ‚Gespeichert‘-Meldung reicht nicht; öffne die Notiz noch einmal aus der Liste.“
+
+Fehlt in den Testdaten etwas, das ein Feature braucht, meldet die KI, dass dieser Weg fehlschlägt, und notiert den Grund unter „Gotchas“. Sie macht die Schritte niemals einfacher, nur damit die Prüfung klappt. <u>Stehen in der Map mehrere Einstiegspunkte, werden alle durchlaufen; nur den bequemen zu testen zählt nicht.</u>
+
+## Die KI führt den Skill vor der Übergabe einmal aus
+
+Sobald der Skill erzeugt ist, geht die KI ihn einmal komplett durch: starten, Statuscheck (Doctor), ein Feature aus der Map bedienen, Belege sichern, aufräumen – und dann bestätigen, dass die Belege das Aufräumen überstanden haben. Schlägt ein Schritt fehl, behebt sie ihn, und nach jedem gescheiterten Versuch stoppt sie auch alles, was sie gestartet hat.
+
+<Callout type="warn" title="Wenn der Probelauf fehlgeschlagen ist, nutz das Ergebnis nicht">
+Ein Prüf-Skill, der nie gelaufen ist, ist ein Entwurf. Hat die KI ihn in einer Ersatzumgebung getestet (etwa einem Container statt eines frischen Servers), listet sie die Schritte auf, die nur dort liefen. Die bleiben ungeprüft, bis ein Lauf auf dem echten Ziel sie abdeckt.
+</Callout>
+
+## Wie du ihn ab jetzt nutzt
+
+Nenn ihn in der Aufgabe und sag, welche Belege du willst. Diese beiden stammen aus der offiziellen Anleitung:
+
+<Copy id="use-build" title="Feature bauen und belegen, dass es funktioniert" code="/poteto-mode Bau die Massenarchivierung. Nutz /verify-<app>, um deine Änderungen zu prüfen, und zeig mir ein Video und Screenshots als Beleg." />
+
+<Copy id="use-repro" title="Erst reproduzieren, dann beheben" code="/poteto-mode Reproduzier das mit /verify-<app>. Wenn es sich auf main reproduzieren lässt, beheb es und zeig mir ein Video als Beleg." />
+
+Ein Beispiel für eine Chrome-Erweiterung:
+
+<Copy id="use-ext" title="Chrome-Erweiterung" code={`/poteto-mode Gespeicherte Einträge tauchen nach dem Neuladen manchmal doppelt auf. Reproduzier das mit /verify-bookmarks: Zehnmal auf „Speichern“ klicken, dann die Seitenleiste neu laden.
+Behoben heißt: ein Eintrag in der Liste und einer in chrome.storage.
+Zeig mir Vorher-Nachher-Screenshots und was tatsächlich gespeichert ist.`} />
+
+Sobald der Prüf-Skill funktioniert, können mehrere KIs gleichzeitig testen. `/swarm` teilt die Arbeit nach Einträgen in der Feature-Map auf: Jede KI übernimmt ein paar Features, und die Ergebnisse kommen wieder zusammen. Nutz das, um vor einem Merge jedes Feature durchzulaufen oder eine Beschleunigung oft genug zu messen, damit die Stichprobe Aussagekraft hat.
+
+## Was als Beleg zählt
+
+Der erzeugte Skill legt diese Maßstäbe fest. Nutz sie, wenn du dir die Belege anschaust, die zurückkommen:
+
+- **Der Weg echter Nutzer**: echte Buttons, echte Befehle. Keine internen Funktionen, keine Hintertüren, die es nur für Tests gibt.
+- **Die Aktion und das Ergebnis**: nicht nur der letzte Bildschirm. Du solltest sehen, was die KI getan hat und was sich geändert hat.
+- **Nebeneffekte**: geschriebene Dateien, die neue Datenbankzeile, die verschickte Nachricht – zusammen mit dem geprüft, was auf dem Bildschirm zu sehen ist.
+- **So echt wie möglich**: Mocks nur dort, wo auch in Produktion bereits ein externes System abgekapselt ist (etwa Zahlungen).
+- **Auch Dry-Runs werden geprüft**: Manche Dry-Runs gehen trotzdem online oder öffnen einen Browser. Schau nach, was wirklich übersprungen wurde, statt dich auf den Namen zu verlassen.
+
+## Behandle ihn wie Projekt-Infrastruktur
+
+- **Committe ihn.** Dann bedienen alle im Team – und jede KI – die App auf dieselbe Weise.
+- **Gib ihm ein kleines Kommandozeilen-Tool.** Wenn KIs immer wieder Wegwerf-Klickskripte schreiben, lass eine ein kleines Steuer-Tool bauen, das der Skill aufruft. Das spart Tokens und macht jeden Lauf wiederholbar. Gute Steuer-Tools haben meist ein paar Befehle, die jeweils echte Arbeit erledigen, ein `--dry-run` bei allem Destruktiven, Unterbefehle, die sich Schritt für Schritt erschließen, Fehlermeldungen, die sagen, was zu tun ist, ein ausführliches `--help` und maschinenlesbare Ausgabe wie JSON.
+- **Starte die Umgebung mit einem einzigen Befehl**: feste Testdaten, Testkonten, jedes Mal dasselbe Ergebnis.
+
+## Wenn sich die App ändert: /maintain-verification-skill
+
+Sobald sich die App ändert, veraltet die Feature-Map. Die offizielle Empfehlung lautet: mindestens einmal am Tag, idealerweise über eine geplante Automation, damit niemand daran denken muss:
+
+<Copy id="mvs" code="/maintain-verification-skill" />
+
+So läuft die Prüfung ab:
+
+1. Sie räumt das Inhaltsverzeichnis der Map auf: fehlende, überflüssige, doppelte oder verwaiste Einträge.
+2. Pro Feature liest eine KI mit reinem Lesezugriff den Quellcode, erklärt, wie das Feature jetzt funktioniert, und markiert, wo die Map veraltet sein könnte.
+3. Danach startet eine KI die echte App und spielt jedes Feature durch. Auch Quellcode, der gut aussieht, bekommt einen Live-Lauf.
+4. Sie ordnet die Funde ein: Die Map stimmt nicht – also die Map korrigieren; das Feature funktioniert, aber das Tooling kann es nicht bedienen – also das Tooling korrigieren; die App ist tatsächlich kaputt – also an dich melden.
+
+Es gibt drei mögliche Ergebnisse: **clean** (volle Abdeckung, nichts zu ändern), **changed** (ein <Term k="PR" /> mit belegten Korrekturen), **blocked** (der Blocker wird benannt). <mark>Die KI bearbeitet nur den eigenen Ordner des Prüf-Skills, niemals Produktcode.</mark> Hat die App wirklich eine Regression, meldet sie das, statt die Doku zu ändern und es zu verstecken.
+
+## Wie poteto es nutzt
+
+poteto hat pstack entwickelt und im August 2026 einen langen Beitrag über die eigene Arbeit mit pstack geschrieben ([The Complete Guide to pstack, part 1](https://x.com/poteto/status/2094457600259842065)). Das Thema Prüfung hat darin das größte Gewicht:
+
+- poteto nennt die Prüfung das Fundament der Arbeit mit Agents und rät, sie wie kritische Infrastruktur zu behandeln – nicht bloß als einen weiteren Skill.
+- `/create-verification-skill` verdichtet die Prüf-Skills, die poteto bei der Arbeit nutzt, zu einem Skill, der Skills baut: Er bringt der KI bei, dasselbe für deine App zu erstellen.
+- poteto nennt die Feature-Map „materialisiertes Gedächtnis“: in Dateien geschriebenes Gedächtnis, sparsam beim Token-Verbrauch und lesbar für jede Person und jede KI im Projekt.
+- Bei neuen Features lässt poteto die KI ihre Arbeit mit dem Prüf-Skill prüfen und ein Video sowie Screenshots schicken. Bei der Performance misst die KI, wo die Zeit bleibt, nimmt eine gezielte Änderung vor und schickt dann über `/swarm` eine Reihe von KIs los, um zu bestätigen, dass es wirklich schneller geworden ist.
+- poteto lässt Prüfungen auch über geplante Automationen laufen, etwa Bots, die Bugs reproduzieren, die Nutzer in Slack melden.
+- poteto empfiehlt den Wartungslauf mindestens einmal am Tag. KIs aktualisieren den Prüf-Skill nebenbei bei der Arbeit; der Wartungslauf fängt auf, was sie übersehen.
+
+## Weiterlesen
+
+- [Offizielle Anleitung: Verify and ship](https://github.com/cursor/plugins/blob/main/pstack/docs/guide/06-verify-and-ship.md): die Quelle für diese Seite.
+- [`/create-verification-skill`](/de/skills/create-verification-skill/) und [`/maintain-verification-skill`](/de/skills/maintain-verification-skill/): der vollständige Skill-Text auf dieser Seite.
+- [Building verification loops in Claude Code with skills](https://claude.com/blog/building-verification-loops-in-claude-code-with-skills): Anthropic zur selben Idee – die KI ihre Arbeit prüfen lassen, bevor sie antwortet.
+- [Flavio Copes: A deep dive into pstack](https://flaviocopes.com/pstack): ein ausführlicher Rundgang von dritter Seite.
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI sagt, das Projekt startet nicht, und hat abgebrochen.">
+Das ist richtig so: Schritte für ein Projekt, das nicht läuft, bringen ihr nur das Falsche bei. Beheb, was sie gefunden hat (eine fehlende Umgebungsvariable, fehlende Testdaten, ein belegter Port), oder lass es sie beheben, und führ `/create-verification-skill` noch einmal aus.
+</Q>
+<Q q="Manche Features brauchen einen Login oder ein kostenpflichtiges Konto, und die KI kommt dort nicht hin.">
+Sie markiert dieses Feature als nicht erreichbar und notiert die fehlende Voraussetzung sowie den probierten Weg. Leg ein Testkonto an oder nimm den nötigen Zustand in die Testdaten auf, direkt in den eigenen Seed-Dateien des Projekts. Füg kein echtes Passwort in den Chat ein.
+</Q>
+<Q q="Die Schritte klicken Buttons über die Bildschirmposition an und gehen kaputt, sobald sich die Fenstergröße ändert.">
+Antworte: „Finde Buttons über ihren Namen oder ein data-Attribut, nicht über Koordinaten oder die Tab-Reihenfolge.“ Der Generator verlangt ohnehin stabile Merkmale, also sag der KI, sie soll das korrigieren.
+</Q>
+<Q q="Mein Projekt ist ein Kommandozeilen-Tool ohne Oberfläche.">
+Das funktioniert genauso. Die KI öffnet für jeden Lauf eine frische virtuelle Terminal-Sitzung (etwa tmux), tippt Befehle ein und zeichnet Ausgabe und Exit-Code auf. Einen Server muss sie nicht am Laufen halten – „Starten“ heißt hier einfach, zuerst zu bauen oder Abhängigkeiten zu installieren.
+</Q>
+<Q q="Zwei KIs, die gleichzeitig prüfen, kommen sich in die Quere.">
+Schau nach, ob im Abschnitt „Launch“ des Skills steht, wie sie getrennt bleiben: verschiedene Ports, verschiedene Datenordner. Falls nicht, lass die KI das ergänzen. Wenn sie sich wirklich nicht trennen lassen, sollte im Skill „immer nur eine auf einmal“ stehen.
+</Q>
+<Q q="Findet der Prüf-Skill Probleme, an die Tests nicht herankommen, etwa wenn zwei Retries kollidieren?">
+Ein Prüf-Skill belegt die Wege, die er tatsächlich durchläuft. Bei Nebenläufigkeit und Retries, wo jede mögliche Reihenfolge zählt, nutz <a href="/de/howto/formal-verify/">formale Verifikation</a>.
+</Q>

@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 8
+need: Quelques vraies tâches réalisées avec pstack
+tldr: "Corrigez l'IA en une ligne avec le nom d'un principe. Quand une erreur se produit deux fois, utilisez /correct pour la bloquer dans le dépôt."
+description: "Recadrez l'IA avec le nom d'un principe ; /reflect note les leçons d'une tâche ; /correct bloque les erreurs répétées ; /automate-me crée votre propre mode ; testez un skill avant de le modifier."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Commencez petit
+
+Vous n'avez pas besoin de beaucoup de skills dès le premier jour. <mark><strong>Écrivez vos prompts normalement et observez où l'IA dérape. Quand le même dérapage se produit deux fois, ajoutez un skill ou une vérification.</strong></mark>
+
+## Corrigez l'IA en une ligne : dites le nom d'un principe
+
+pstack compte 24 <Term k="原则" text="principes" />, et chacun a un nom. Par exemple, « supprimer avant d'ajouter » s'appelle `subtract before you add`. pstack connaît ces noms ; en taper un tel quel suffit.
+
+- **Elle dit que c'est réussi parce que ça compile** : « le prouver avec de vrais résultats ». Répondez : `apply prove it works. Lance le vrai flux d'import et montre-moi les enregistrements qu'il a écrits.`
+- **Elle ajoute une vérification après l'endroit où ça échoue et dit que c'est corrigé** : « trouver la vraie cause ». Répondez : `fix root causes. Trouve le premier endroit où ça cloche.`
+- **Elle continue d'essayer un correctif qui a échoué deux fois** : « remettre en question l'hypothèse ». Répondez : `attack the premise. Écris l'hypothèse commune à ces correctifs et teste-la directement.`
+- **Elle veut un quatrième adaptateur par-dessus trois anciens** : « supprimer avant d'ajouter ». Répondez : `subtract before you add. Supprime d'abord les adaptateurs obsolètes, puis conçois ce qui reste.`
+
+Elle devrait vous dire quelle décision le principe a changée. Consultez [les 24 principes](/fr/wiki/principles/), et retrouvez d'autres phrases dans [Remettre l'IA sur les rails en une phrase](/fr/howto/steer/).
+
+## On a fait un détour : /reflect
+
+<Copy id="reflect" code="/reflect C'était trop lent. Note ce que tu as appris pour que ça ne se reproduise plus." />
+
+**Ce que vous obtenez** : des suggestions classées en « accepter », « rejeter » et « indécis ». <strong>Il ne modifie les skills qu'après votre validation.</strong> Ne validez que celles qui changeraient la façon dont les futures tâches sont réalisées.
+
+## La même erreur revient sans cesse : /correct
+
+<Copy id="correct" code="/correct L'IA continue de contourner la couche repository et d'appeler directement le client de base de données" />
+
+**Ce que vous obtenez** : il lit les commits récents et les commentaires de revue, puis regroupe les erreurs par catégorie. Il fait un commit par catégorie, avec le correctif le plus strict possible :
+
+<Fig id="g8-guard" />
+
+Tapez simplement `/correct` sans argument, et il parcourt l'historique tout seul.
+
+`/reflect` modifie les skills. `/correct` modifie votre dépôt.
+
+## Créez votre propre mode : /automate-me
+
+<Copy id="automate" code="/automate-me" />
+
+**Ce que vous obtenez** : il lit vos discussions dans ce projet et repère vos habitudes. Après avoir vérifié avec vous, il écrit un skill `<votre-nom>-mode` et ouvre une PR (Pull Request) pour que vous la relisiez.
+
+Quand vos habitudes évoluent, relancez-le : « /automate-me Mets à jour mon skill de mode avec tout ce qui s'est passé depuis la dernière modification. »
+
+## Testez un skill avant de le modifier
+
+<Copy id="eval" code="/poteto-mode Mets à jour le skill de revue pour qu'il détecte les migrations de base de données manquantes, et lance une évaluation sur cette modification." />
+
+**Ce que vous obtenez** : plusieurs IA font la même tâche sans savoir qu'elles sont testées, et un juge les note. Regardez aussi chaque résultat vous-même.
+
+<Callout type="warn" title="Ne modifiez pas un skill au milieu d'une tâche">
+Si un skill donne de mauvais résultats, prenez-en note et corrigez-le plus tard dans sa propre PR. Les relecteurs ne peuvent pas voir une modification de skill noyée dans les changements d'une fonctionnalité.
+</Callout>
+
+Pour les habitudes et les pièges d'autres personnes qui l'utilisent, consultez [Ce que d'autres utilisateurs ont appris](/fr/howto/field-notes/).
+
+## Un blocage ?
+
+<Q q="/automate-me dit qu'il ne trouve pas assez d'historique.">
+<p>Il ne lit que les discussions du projet en cours. Utilisez l'IA normalement ici pendant un moment, puis relancez-le.</p>
+</Q>
+<Q q="Je veux écrire moi-même un skill de zéro.">
+<p>Dites : <code>/poteto-mode Écris un skill qui vérifie les migrations de base de données dans ce dépôt</code>. Il vérifie le format et les liens, puis ouvre une PR.</p>
+</Q>
+
+<Checkpoint id="s8" items={["J'ai retenu deux ou trois noms de principes, comme prove it works et fix root causes", "Quand la même erreur se produit une deuxième fois, j'utilise /correct pour la bloquer", "Les modifications de skills vont dans leur propre PR et passent d'abord par une évaluation"]} />

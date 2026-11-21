@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cost
+time: 5 minutos de lectura, 5 para cambiar la configuración
+for: Crees que pstack gasta demasiados tokens y quieres ahorrar un poco
+step: 2
+tldr: Para cosas pequeñas, pídelo directamente. Para las grandes, usa un modelo principal potente y modelos baratos para el código, o baja un nivel de presupuesto.
+description: En qué se va el dinero con pstack; no usar /poteto-mode para cosas pequeñas; un modelo principal potente con modelos baratos para el código; los tres presupuestos; paneles de revisión más pequeños; qué significan auto e inherit-parent.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Fig from "../../../components/Fig.astro";
+
+## En qué se va el dinero
+
+Una misma tarea cuesta muchos más <Term k="token" text="tokens" /> (uso de IA) con `/poteto-mode`. Ese extra se va en tres cosas:
+
+- **IA ayudantes**. Leer y escribir código se reparte entre varios <Term k="子代理" text="subagentes" />, y cada uno cuesta por separado.
+- **Paneles de revisión**. `arena` e `interrogate` ponen a varios modelos a hacer una pasada cada uno. Por defecto son tres, así que pagas por tres.
+- **Pensar más tiempo**. El nivel por defecto es `xhigh`. Cuanto más tiempo piensa, más cuesta.
+
+Ese dinero compra comprobaciones y segundas opiniones. Con las opciones de abajo gastas menos sin perderlas.
+
+## No uses /poteto-mode para cosas pequeñas
+
+Una errata, un ajuste de color, una línea más de log: si puedes ver de un vistazo si está bien, pídelo directamente.
+
+- **Si solo quieres saber cómo**: usa `/poteto-help`. La IA responde y no empieza a trabajar.
+- **Si todavía no entiendes el código**: pregunta primero con `/how`. Es más barato que rehacer un cambio equivocado.
+
+## Modelo principal potente, modelos baratos para el código
+
+<mark>Usa un modelo potente para la conversación principal, con la que hablas tú. Cambia los roles que escriben código a modelos más baratos.</mark>
+
+La conversación principal tiene que entenderte y revisar los cambios, así que escatimar ahí provoca errores. Las IA ayudantes que escriben código reciben tareas bien acotadas, que los modelos más baratos manejan bien.
+
+Ejecuta `/setup-pstack`. En el último paso, «confirmar roles», cambia las líneas `feature, refactoring`, `bug-fix` y `perf-issue` a un modelo más barato.
+
+<Fig id="h-cost" />
+
+## Baja un nivel de presupuesto
+
+<Cmd c="/setup-pstack" />
+
+pstack ofrece tres presupuestos:
+
+| Presupuesto | Nivel | Notas |
+| --- | --- | --- |
+| `large` | `xhigh` | Por defecto |
+| `medium` | `high` | Un poco más barato |
+| `small` | `medium` | El más barato |
+
+El presupuesto solo cambia cuánto tiempo piensan los modelos, no qué modelos se usan. Los roles que cambiaste por tu cuenta se conservan. <u>Empieza una conversación nueva después de elegir</u>, o no se aplicará.
+
+<Callout type="tip" title="Ya se adapta a la tarea">
+El presupuesto es solo el punto de partida. En las tareas rutinarias, pstack baja el nivel dos o más escalones, así que incluso en `large` el trabajo sencillo no se cobra a la tarifa máxima. Ningún rol supera `xhigh`.
+</Callout>
+
+## Lanza un revisor menos
+
+Las líneas `arena runners` e `interrogate reviewers` lanzan una IA ayudante por cada modelo de la lista. Por defecto son tres:
+
+<Copy id="cost-panel-before" title="Por defecto: tres por panel" code={`arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh
+interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh`} />
+
+Si borras uno, pagas por uno menos, pero también pierdes el punto de vista de un modelo. fable es el más caro, así que quitarlo es lo que más ahorra. También puedes decirlo en cada tarea:
+
+<Copy id="cost-arena" code="/arena esta duda sobre el nombre no es gran cosa. Con 2 opciones basta." />
+
+## auto e inherit-parent: siguen a la conversación principal
+
+Poner `auto` o `inherit-parent` en un rol significa lo mismo: no se fija ningún modelo, así que ese rol usa el modelo de la conversación principal. `auto` no es un modelo llamado auto.
+
+Cuando la conversación principal es barata, estos roles también lo son. En Claude Code, el puesto de gemini en el panel de revisión usa esto por defecto.
+
+## ¿Te atascaste?
+
+<Q q="Después de cambiar a small, los resultados empeoraron notablemente.">
+Prueba primero con `medium`. O deja `large` y cambia solo los roles que escriben código a un modelo más barato. Una mala decisión suele costar más que los tokens que ahorras.
+</Q>
+<Q q="Edité a mano el nombre de un modelo en el archivo de configuración y dice que el modelo no está disponible.">
+Puede que el nombre esté mal escrito o que no tengas acceso. pstack vuelve al modelo por defecto y te avisa. Para cambiar los modelos, vuelve a ejecutar `/setup-pstack` y elige de su lista.
+</Q>
+<Q q="Cambié el presupuesto, pero el costo no cambió.">
+La configuración nueva solo se aplica a conversaciones nuevas. Empieza una nueva y vuelve a comprobarlo. En herramientas como Codex, asegúrate de que `~/.agents/pstack-models.md` realmente se haya escrito.
+</Q>

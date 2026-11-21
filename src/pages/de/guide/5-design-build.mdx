@@ -1,0 +1,99 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 5
+need: Eine Änderung, die du gleich umsetzen willst
+tldr: "Vergleiche bei großen Änderungen ein paar Entwürfe oder bau Prototypen. Sag beim Bauen, was du beobachtet hast. Räum auf, bevor du abgibst."
+description: "Entwurf klären (/architect, /arena, /interrogate, Prototypen), bauen (/tdd), dann aufräumen (/unslop, /no-comments)."
+---
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Die meisten Änderungen brauchen keinen Entwurfsschritt
+
+Wenn eine Änderung mehrere Stellen betrifft, erstellt `/poteto-mode` von selbst zuerst einen Entwurf. Nenne die Skills unten nur, wenn die KI einen Schritt weiterdenken soll.
+
+<Fig id="g5-arc" />
+
+## Es betrifft mehrere Stellen: /architect
+
+<Copy id="arch" code="/architect Entwirf zuerst den Import-Ablauf, schreib noch keinen Code. Am wichtigsten ist mir, wie Aufrufer ihn nutzen." />
+
+**Was du bekommst**: Die KI liest zuerst den gesamten Code, den die Änderung berührt. Dann skizziert sie zwei verschiedene Strukturen: die Typen, wie Funktionen aufgerufen werden, wie sich die Module aufteilen. Sie wählt die Variante, bei der alle Daten jeweils genau einen Eigentümer haben und Aufrufer am wenigsten wissen müssen. Bei einem großen oder umstrittenen Entwurf nutzt sie `/arena`, um weitere Versionen zu vergleichen. Danach setzt sie die gewählte Version um. Wenn du den Entwurf zuerst sehen willst, sag es im Prompt: „Zeig mir zuerst den Entwurf und warte auf mein Okay, bevor du Code schreibst.“
+
+Wenn beim Bauen immer wieder derselbe Workaround auftaucht, stimmt der Entwurf nicht. Dann entwirft die KI neu, statt herumzuflicken. Das ist normal.
+
+## Eine Entscheidung, bei der du unsicher bist: /arena
+
+Nutze es für Namen, Formate oder Algorithmen, die sich später schwer ändern lassen.
+
+<Copy id="arena" code="/arena Dieses Cache-Key-Format lässt sich später schwer ändern. Gib mir 5 Optionen." />
+
+**Was du bekommst**: Mehrere KIs schreiben jeweils eine Version. Ein Modell einer anderen Firma bewertet sie (zum Beispiel beurteilt Gemini die Arbeit von Claude). Die beste Version wird die Basis, und gute Ideen aus den anderen kommen dazu.
+
+## Der Code steht, jetzt Schwachstellen finden: /interrogate
+
+<Copy id="interro" code="/interrogate Prüf den gesamten Branch, und sei pingelig. Melde keine Kleinigkeiten, außer es ist ein echter Bug oder eine Regression." />
+
+**Was du bekommst**: nur Probleme, die ein echter Befehl tatsächlich ausgelöst hat. Die KI ändert keinen Code. Sie listet auch die Probleme auf, die sie aussortiert hat. **Lies diese Liste auch.** Wenn sie eins zu Unrecht aussortiert hat, bitte sie, noch mal zu prüfen.
+
+## Du kannst dich nicht festlegen? Prototypen bauen
+
+<Copy id="proto" code="/poteto-mode Bau ein paar Prototypen für das neue Dropdown-Menü. Gib mir Screenshots oder Bildschirmaufnahmen zum Vergleichen." />
+
+**Was du bekommst**: ein paar Wegwerf-Entwürfe, jeweils mit Screenshot oder Zeitmessung, nebeneinander zum Auswählen. Das funktioniert für UI, Verhalten und Algorithmen.
+
+Bei Plänen funktioniert das genauso. Bau Prototypen für die Stellen, bei denen du unsicher bist, und schreib dann in den Plan, was du beobachtet hast. Ein Plan, bei dem nie etwas ausprobiert wurde, kann falsch liegen – egal wie detailliert er ist.
+
+## Ein großes Feature: erst das Tutorial schreiben, dann den Entwurf
+
+<Copy id="backwards" title="potetos Version – setz deine eigene Aufgabe ein" code={`(1) Hol mit /recall zurück, was ich in den letzten 7 Tagen an Bugs und Performance-Problemen der virtuellen Liste gemacht habe. Nutze /how und /why, um zu verstehen, wie unsere aktuelle virtuelle Liste funktioniert.
+(2) Plane dann mit /poteto-mode und /technical-writing: Entwirf eine neue Engine, die Flackern und Ruckeln an der Wurzel beseitigt. Fang mit einem Tutorial an, das zeigt, wie ich mit dem neuen Paket eine virtuelle Liste in eine React-App einbaue.
+(3) Sobald der Plan steht, erklär ihn mir mit /teach und beweise, dass der neue Ansatz besser ist als der aktuelle.`} />
+
+Jeder Teil hat eine klare Aufgabe:
+
+- **Kontext zurückholen**: Die Bugs, die du behoben hast, und der aktuelle Stand zeigen, was der neue Entwurf lösen muss.
+- **Von der Nutzung her entwerfen**: Schreib zuerst auf, wie man es benutzt – dann siehst du sofort, ob es einfach zu bedienen ist.
+- **Beweis einfordern**: Begründungen reichen nicht – verlange einen Vergleich. Mit einem [Prüf-Skill](/de/howto/verify-app/) im Projekt kann die KI echte Belege zeigen.
+
+In [Schritt 3](/de/guide/3-first-task/) stand, dass du Skills in deiner Nachricht nicht aneinanderreihen sollst. Das gilt für kleine Aufgaben. Bei einem großen Entwurf wie diesem nennt poteto die Skills Stück für Stück – jeder Teil nennt nur, was er braucht.
+
+## Sag beim Bauen, was du beobachtet hast
+
+- **Bug beheben**: Nenne das Symptom und ergänze „erst reproduzieren“. Beispiel: „Nach einem Retry werden zwei Datensätze geschrieben. Erst reproduzieren, dann beheben, dann prüfen.“
+- **Feature hinzufügen**: Sag, was sich nicht ändern darf. Beispiel: „Füg das Flag --json hinzu. Die Textausgabe darf sich überhaupt nicht ändern.“
+- **Refactoring**: Sag, dass das Verhalten gleich bleibt. Beispiel: „Zeichne zuerst die aktuelle Ausgabe auf und beweise dann, dass sie sich nicht geändert hat.“
+- **Herausfinden, was langsam ist**: Nenne eine gemessene Zahl. Beispiel: „Der Start dauert 1,8 Sekunden. Nimm einen Trace auf und gib mir ein Vorher/Nachher.“
+
+Den vollständigen Ablauf findest du unter [Bug beheben](/de/howto/fix-bug/), [Feature hinzufügen](/de/howto/add-feature/), [Refactoring](/de/howto/refactor/) und [Herausfinden, was langsam ist](/de/howto/perf/).
+
+Wenn ein lokaler Test den Bug abfangen kann, tipp ein:
+
+<Copy id="tdd" code="/tdd implement" />
+
+**Was du bekommst**: zuerst einen fehlschlagenden Test, dann den Fix, dann einen Durchlauf, der zeigt, dass er besteht.
+
+Wenn du TypeScript änderst, nenne `/typescript-best-practices`. <u>Der Skill wird nicht von selbst geladen.</u>
+
+## Aufräumen, bevor du abgibst
+
+- **Texte**: `/unslop` entfernt den KI-Ton. Du kannst Regeln ergänzen: `/unslop Räum die neuen README-Inhalte auf, keine langen Gedankenstriche`.
+- **Kommentare**: `/no-comments` schickt eine KI, die den Code nicht geschrieben hat, um die Kommentare zu prüfen. Nur die nötigen bleiben.
+- **Code**: Sag einfach: „Entferne nacherzählende Kommentare, unbegründete defensive Prüfungen, toten Kompatibilitätscode und Änderungen, die nichts mit dieser Aufgabe zu tun haben.“
+
+## Kommst du nicht weiter?
+
+<Q q="Die KI hat den ersten Entwurf genommen und mir keine Wahl gelassen.">
+<p>Sag: „Entscheide noch nicht, bau zwei oder drei Prototypen und vergleiche sie nebeneinander.“ Oder tipp <code>exhaust the design space</code> ein – das bedeutet „alle Optionen ausprobieren“. Das ist der <a href="/de/wiki/principles/">Name eines Prinzips</a>, das pstack kennt, also funktioniert es genau so eingetippt.</p>
+</Q>
+<Q q="Ich möchte, dass die KI erst einen Plan schreibt, bevor sie loslegt.">
+<p>Sobald der Entwurf steht, sag: <code>/poteto-mode Mach aus diesem Entwurf einen Plan. Teil ihn in kleine PRs auf, die sich jeweils einzeln prüfen lassen, jeder mit eigenen Prüfschritten.</code> Die KI schreibt nur den Plan und setzt noch nichts um. Ein <Term k="PR" /> ist eine Sammlung von Änderungen, die du jemandem zum Prüfen gibst.</p>
+</Q>
+<Q q="Wie unterscheidet sich /swarm von /arena?">
+<p><code>/arena</code> lässt mehrere KIs dieselbe Aufgabe erledigen und wählt die beste Lösung aus. <code>/swarm</code> zerlegt eine große Aufgabe in Teile für mehrere KIs. Siehe <a href="/de/wiki/arena-swarm/">wie sich /arena von /swarm unterscheidet</a>.</p>
+</Q>
+
+<Checkpoint id="s5" items={["Ich weiß, dass die meisten Änderungen keinen Entwurfsschritt brauchen; /architect, /arena oder /interrogate nenne ich nur, wenn ich unsicher bin", "Wenn ich mich nicht festlegen kann, lasse ich die KI Prototypen zum Vergleichen bauen", "Bevor ich abgebe, lasse ich die KI Texte und Kommentare aufräumen"]} />

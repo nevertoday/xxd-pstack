@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: Claude Code, Cursor o Codex; Node.js 22.20+ si instalas con npx
+tldr: Instala pstack con uno o dos comandos y envía un mensaje para comprobar que funciona.
+description: Instala pstack en Claude Code, Cursor o Codex con un comando y comprueba que funcionó con un mensaje.
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Instálalo en tu herramienta
+
+<div data-sk-keep>
+<Tabs id="install" label="Elige tu herramienta" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex y otros"]]}>
+<div slot="cc">
+
+En el cuadro de chat de Claude Code, envía estos dos en orden:
+
+<Copy id="cc-1" title="Primero: añade la tienda de plugins" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="Segundo: instala pstack" code="/plugin install pstack@cursor-plugins" />
+
+Una vez instalado, <mark><strong>todos los comandos llevan el prefijo `pstack:`</strong></mark>. Escribes `/pstack:poteto-mode`; `/poteto-mode` a secas no se reconoce. Es una regla de Claude Code para plugins, para que dos plugins no choquen por el mismo nombre.
+
+Por defecto **no se actualiza automáticamente**. Para activarlo: escribe `/plugin`, abre la pestaña «marketplaces», elige `cursor-plugins` y luego selecciona «enable auto-update».
+
+¿No quieres el prefijo? Mejor instálalo con `npx skills` desde la pestaña «Codex y otros».
+
+</div>
+<div slot="cursor">
+
+En el cuadro de chat de Cursor, envía:
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+Los comandos conservan su nombre simple, como `/poteto-mode` y `/how`. No hace falta prefijo.
+
+Opcional: instala también el plugin `cursor-team-kit`. pstack lo usa en algunos puntos. Funciona bien sin él.
+
+</div>
+<div slot="other">
+
+Abre una terminal **en la carpeta de tu proyecto** y ejecuta:
+
+<Copy id="npx-1" lang="bash" title="Instalar en este proyecto" code="npx skills add backnotprop/pstack" />
+
+Muestra todas las skills. **La primera vez, selecciónalas todas** y luego elige en qué herramientas instalarlas. Para reducir la lista más adelante, consulta [Instalar solo algunas skills](/es/howto/pick-skills/).
+
+Para tenerlo disponible en todos los proyectos, añade `-g`:
+
+<Copy id="npx-2" lang="bash" title="Instalar de forma global" code="npx skills add backnotprop/pstack -g" />
+
+Necesita Node.js 22.20 o superior. ¿No sabes qué versión tienes? Ejecuta `node -v` para comprobarlo.
+
+</div>
+</Tabs>
+</div>
+
+Una vez instalado, elige tu herramienta aquí. Todos los comandos del sitio, incluido lo que copian los botones, se adaptan al formato de esa herramienta:
+
+<ToolPick />
+
+## Pruébalo
+
+Abre una conversación **nueva** y envía:
+
+<Copy id="test" title="Prueba rápida" code="/poteto-help ¿Qué skill de pstack debería aprender primero alguien que empieza? Responde en una o dos frases." />
+
+Si la respuesta menciona poteto-mode, ya está instalado. `/poteto-help` solo responde preguntas. No se pondrá a trabajar en nada.
+
+<Callout type="ok">
+Escribe `/` en el cuadro de chat y encontrarás `poteto-mode` en el menú que aparece (`pstack:poteto-mode` con el plugin de Claude Code).
+</Callout>
+
+## ¿Te atascaste?
+
+<Q q="Escribo / y no encuentro poteto-mode.">
+<p>Primero abre una conversación nueva. ¿Sigue sin aparecer? Con el plugin de Claude Code, busca <code>pstack:</code>. Si usaste <code>npx skills</code>, asegúrate de tener la herramienta abierta en <strong>la carpeta del proyecto donde lo instalaste</strong>, o vuelve a instalarlo de forma global con <code>-g</code>.</p>
+</Q>
+<Q q="npx skills dice que mi versión de Node es demasiado antigua.">
+<p>Necesita Node.js 22.20 o superior. Instala una nueva versión LTS desde <a href="https://nodejs.org">nodejs.org</a> y vuelve a ejecutarlo.</p>
+</Q>
+<Q q="¿Puedo instalar el plugin y la versión de npx a la vez?">
+<p>No lo hagas. Dos copias de la misma skill generan confusión. Elige una.</p>
+</Q>
+
+Para actualizar o desinstalar más adelante, consulta [Actualizar, inspeccionar y desinstalar](/es/howto/update-remove/).
+
+<Checkpoint id="s1" items={["pstack está instalado en mi herramienta", "En una conversación nueva, al escribir / aparece poteto-mode (o pstack:poteto-mode)", "/poteto-help respondió a mi pregunta"]} />

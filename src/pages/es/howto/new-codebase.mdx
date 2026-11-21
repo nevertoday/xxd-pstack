@@ -1,0 +1,81 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: new-codebase
+time: Media hora el primer día, luego preguntas sobre la marcha
+for: Te haces cargo de un proyecto ajeno, o vuelves al tuyo después de meses, y primero quieres entenderlo
+step: 4
+tldr: Empieza diciendo «no cambies nada de código todavía» y deja que la IA te haga un recorrido. Luego pregunta por los detalles con /how y /why.
+description: "Hacerte cargo de un proyecto desconocido: pide a la IA que lea sin cambiar nada, pregunta por los detalles con /how, /why, /teach y /recall, y retoma la sesión en una rama a medio terminar."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copia esto primero
+
+<Copy id="nc-first" title="Tu primer prompt" code="/poteto-mode Ayúdame a entender este proyecto: qué hace, cómo ejecutarlo en local y dónde está el código principal. Dime qué archivos leíste y qué fuentes usaste. No cambies nada de código todavía." />
+
+- **«No cambies nada de código todavía»**: <mark><strong>hasta que entienda el código, solo lee.</strong></mark> Investiga y no abre ningún <Term k="PR" />.
+- **«Dime qué archivos leíste»**: separa lo que leyó de lo que dedujo.
+
+## En qué fijarte después de enviarlo
+
+Te devuelve un resumen, con una fuente para cada punto. Suele cubrir:
+
+- **Vista general**: qué hace el proyecto.
+- **Ideas clave y cómo funciona.**
+- **Dónde está cada cosa.**
+- **Trampas con las que tener cuidado.**
+
+## Luego pregunta por los detalles: cuatro comandos
+
+| Comando | Qué responde | Ejemplo |
+| --- | --- | --- |
+| `/how` | Cómo funciona ahora | ¿Cómo se deduplican las alertas? |
+| `/why` | Por qué se construyó así | ¿Por qué un máximo de 5 reintentos? |
+| `/teach` | Hasta que lo entiendas de verdad | Explícame este cambio en los reintentos |
+| `/recall` | Dónde lo dejaste | ¿Dónde quedó el trabajo de exportación? |
+
+- **`/why`** revisa primero el historial de Git, y luego los issues y la documentación. Si no encuentra nada, lo dice. «Nadie anotó por qué» también es una respuesta.
+- **`/teach`**: añade «convénceme» y la explicación se convierte en un argumento que puedes comprobar.
+- **`/recall`** lee solo tu propio historial en este proyecto, de los últimos 7 días por defecto.
+
+## Ejemplo con un sitio de membresías
+
+Un amigo te pasa un sitio de membresías en Cloudflare Workers, con los datos en D1. Necesitas cambiar cómo funciona el vencimiento de la membresía. Empieza con el primer prompt de arriba y luego pregunta:
+
+<Copy id="nc-how" title="Primero, pregunta cómo funciona ahora" code="/how Después de que un usuario inicia sesión, ¿cómo llega el estado de su membresía a la página? ¿Dónde se guarda la sesión? ¿Dónde se comprueba el vencimiento de la membresía?" />
+
+<Copy id="nc-why" title="Luego pregunta por qué" code="/why ¿Por qué la comprobación del vencimiento de la membresía está escrita dos veces, en dos lugares distintos? ¿Sigue siendo válida esa razón?" />
+
+<Copy id="nc-teach" title="Por último, hasta que lo entiendas de verdad" code="/teach Necesito cambiar la lógica de vencimiento de la membresía. Explícame cómo funciona esta parte y convénceme de que cambiarla en un solo lugar no va a expulsar a usuarios que ya pagaron." />
+
+Después de estos tres, deja que haga cambios. Para entonces, ambos tienen el mismo panorama.
+
+## Retomar una rama a medio terminar
+
+Tu yo de la semana pasada, u otra conversación con la IA, dejó una rama a medias. Envía esto:
+
+<Copy id="nc-pickup" title="Retoma donde se quedó" code="/poteto-mode Hazte cargo de esta rama. Lee el registro de decisiones, averigua qué ya se hizo y continúa desde ahí. No repitas nada que ya esté hecho." />
+
+Encuentra los registros anteriores (conversaciones, ramas, el <Term k="决策日志" />) y dice desde qué paso va a continuar. Si la conversación anterior dijo «pasó», lo vuelve a comprobar por su cuenta.
+
+<Callout type="tip" title="/recall frente a retomar una rama">
+Para continuar una conversación concreta, usa el prompt de arriba. Para recuperar el hilo de tus últimas conversaciones antes de empezar algo nuevo, usa <code>/recall</code>. Por ejemplo: «/recall mi trabajo de ayer en la lista virtual, y luego lee este informe de bug».
+</Callout>
+
+## ¿Te atascaste?
+
+<Q q="Le dije que no cambiara nada y cambió código de todos modos.">
+Para una pregunta nueva en la misma conversación, empieza con «new task»: «/poteto-mode new task. Averigua por qué la caché sigue ahí después de cerrar sesión. No cambies nada de código todavía». Sin eso, trata tu pregunta como el siguiente paso del trabajo anterior.
+</Q>
+<Q q="/why dice que no encuentra la razón original.">
+Es un resultado normal. Si sabes dónde puede estar la respuesta, como el enlace a un issue o un documento antiguo, pégalo.
+</Q>
+<Q q="Lo explicó todo, pero me perdí.">
+Escribe <code>/bro</code>. Vuelve a contar su última respuesta con palabras sencillas, más breve.
+</Q>
+<Q q="Al retomar una rama, volvió a hacer trabajo que ya estaba hecho.">
+Responde: «Los registros anteriores son confiables. No empieces de cero. Dime desde qué paso vas a continuar».
+</Q>

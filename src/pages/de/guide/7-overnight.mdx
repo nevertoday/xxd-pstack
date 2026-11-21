@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 7
+need: "Eine KI, die ihre eigene Arbeit schon prüfen kann (der Prüf-Skill aus Schritt 6)"
+tldr: "Übergib der KI vor dem Schlafengehen eine große Aufgabe mit klaren Anweisungen. Lies morgens zuerst den Abschnitt „Attention“ (was deine Aufmerksamkeit braucht)."
+description: "Lass die KI eine große Aufgabe über Nacht laufen: Stell sicher, dass du ihr vertrauen kannst, schreib klare Anweisungen für die Nacht und lies morgens das Entscheidungsprotokoll statt des ganzen Chats."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Stell zuerst sicher, dass du der KI vertrauen kannst
+
+Bevor du loslässt, sollten alle vier Punkte zutreffen:
+
+1. **Du weißt, wie ein gutes Ergebnis aussieht**: Du hast es schon einmal selbst gemacht oder dabei zugesehen.
+2. **Sie hat die Tools, die du auch nutzen würdest**: einen Prüf-Skill, Logs.
+3. **Jeder Schritt kann sein Ergebnis belegen**: Sie stoppt, wenn es nicht reicht.
+4. **Für wiederholte Fehler gibt es jetzt Prüfungen**: Du hast ein paar Chatverläufe gelesen.
+
+<mark>Solange nicht alle vier zutreffen, lass sie nur laufen, während du zuschaust.</mark>
+
+## Schreib Anweisungen für die Nacht
+
+<Copy id="contract" title="Anweisungen für die Nacht" code={`/poteto-mode Ich gehe ins Bett. Migriere in einem frischen Worktree ausgehend von main alle Aufrufer auf den neuen Parser.
+Fertig heißt: Es gibt keine alten Aufrufer mehr, alle Parser-Fixtures laufen durch und die alte API ist gelöscht.
+Führ ein Entscheidungsprotokoll. Du musst mich vor dem Committen nicht fragen.
+/loop until done. Wenn du stundenlang feststeckst und wirklich nicht weiterkommst, stopp und schreib auf, warum.`} />
+
+Was jeder Satz bewirkt:
+
+- **Ich gehe ins Bett**: einfach weitermachen, nicht nachfragen.
+- **Fertig heißt**: Das prüft sie in jeder Runde.
+- **Ein frischer <Term k="worktree" />**: ein zusätzlicher Arbeitsordner, getrennt von deiner eigenen Arbeit.
+- **Vor dem Committen nicht fragen**: Sie sitzt nicht da und wartet auf dein Okay.
+- **/loop until done**: Sie prüft immer wieder, ob sie fertig ist (in Cursor und Claude Code eingebaut).
+- **Wenn du feststeckst, stopp und schreib auf, warum**: Stoppen ist besser als acht Stunden Beschäftigungstherapie.
+
+<Callout type="no" title={`„Arbeite 4 Stunden lang“ ist keine Fertig-Bedingung`}>
+Eine Zeitdauer lässt sich nicht prüfen. Gib ihr eine Bedingung, die klar erfüllt oder nicht erfüllt ist.
+</Callout>
+
+## Was die KI die ganze Nacht macht
+
+<Fig id="g7-night" />
+
+## Morgens: Lies zuerst „Attention“
+
+<Copy id="audit" code="/show-me-your-work Führ mich durch das, was du letzte Nacht gemacht hast" />
+
+**Was du bekommst**: eine Zusammenfassung. Bevor die KI sie dir zurückgibt, liest ein Modell einer anderen Firma das Protokoll und fügt einen Abschnitt „Attention“ (was deine Aufmerksamkeit braucht) hinzu. <strong>Lies zuerst diesen Abschnitt und dann die Zeilen, auf die er verweist.</strong>
+
+Das Protokoll ist `decisions.tsv` (oder `.audit/<task-name>.tsv`, wenn sich mehrere Aufgaben einen Ordner teilen). Standardmäßig bleibt es auf deinem Rechner.
+
+Willst du nur den aktuellen Stand? Tipp `/ketchup` in diesen Chat. Es zeigt dir, was sich geändert hat und was auf deine Entscheidung wartet.
+
+## Mehrere Aufgaben in einer Nacht
+
+<Copy id="autopilot" code="/poteto-mode Lass diese fünf Änderungen im Autopilot laufen, aber merge nicht. Ich merge sie morgens selbst." />
+
+| Was du hast | Welcher Ansatz | Am Morgen |
+| --- | --- | --- |
+| Viele unabhängige PRs | Autopilot-full | Geprüfte PRs sind gemergt |
+| Dasselbe, aber du mergst selbst | Autopilot-stack | Eine Reihe geprüfter PRs |
+| Ein mehrtägiges Projekt | An `/figure-it-out` übergeben | Phasen kommen voran, mit Entscheidungsprotokoll |
+
+## Kommst du nicht weiter?
+
+<Q q="Mir ist nicht wohl dabei, die KI allein committen zu lassen.">
+<p>Lass „Du musst mich vor dem Committen nicht fragen“ weg oder nutz Autopilot-stack, damit sie stoppt, sobald alles geprüft ist.</p>
+</Q>
+<Q q="Ich bin aufgewacht und die KI hat sich im Kreis gedreht.">
+<p>Wahrscheinlich war die Fertig-Bedingung nicht eindeutig genug. Nutz <code>/reflect</code>, um die Erkenntnis festzuhalten, und <code>/correct</code>, um wiederholte Fehler in Prüfungen umzuwandeln.</p>
+</Q>
+<Q q="Ich möchte die KI zwischendurch stoppen.">
+<p>Sag ihr „Pause“ oder „Ich gehe offline“. Sie schließt den aktuellen Schritt ab und schreibt eine Notiz zum Weitermachen. Ein neuer Chat kann dort anknüpfen.</p>
+</Q>
+
+<Checkpoint id="s7" items={["Ich kenne die vier Bedingungen, die vor dem Loslassen erfüllt sein sollten", "Ich kann Anweisungen für die Nacht mit einer Fertig-Bedingung, einem Worktree, einem Entscheidungsprotokoll und einer Stopp-Bedingung schreiben", "Morgens lese ich zuerst den Abschnitt „Attention“"]} />

@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: field-notes
+time: 8 minutos de lectura
+for: Ya lo has usado algunas veces y quieres ver cómo lo usan otras personas y con qué tropezaron
+step: 8
+tldr: Hábitos recogidos de una docena de artículos prácticos y de las charlas de poteto. Cada uno está listo para copiar, con su fuente.
+description: "Lo que aprendieron quienes usan pstack: conclusiones a las que varias personas llegaron por su cuenta; romper a propósito un test nuevo, dividir las comprobaciones por aspecto, buscar el hueco que comparten todos los diseños, anotar malos patrones antes de arreglarlos; trampas en las que cayó otra gente; artículos, videos y charlas que valen la pena."
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+Esta página recoge la experiencia de otras personas, no es el manual de pstack. Leímos una docena de artículos prácticos, además de las charlas y entrevistas de poteto, y nos quedamos con lo que sigue funcionando hoy. Cada punto enlaza a su fuente.
+
+## Copia este primero
+
+La IA añadió un test nuevo y dice «los tests pasan». Responde:
+
+<Copy id="fn-break" code="Rompe la funcionalidad a propósito y ejecuta el test nuevo una vez. Confirma que falla. Luego deshaz lo que rompiste y vuelve a ejecutarlo. Pega ambas salidas." />
+
+Un test que nunca has visto fallar puede ser un test que no puede fallar. Un equipo probó esto y descubrió que el test nuevo de la IA seguía en verde pasara lo que pasara. Tomado de [la reseña práctica de productize.life](https://productize.life/blog/pstack-skills/en).
+
+## Lo que varias personas descubrieron por su cuenta
+
+- **Omite `/poteto-mode` para cambios pequeños.** Alguien creó la misma app pequeña dos veces: 30 minutos sin usarlo, una hora usándolo, y la versión con pstack salió más sólida ([comparativa de Rob Shocks](https://the-agent-daily.org/agentnews-experimental/deep-dives/pstack-is-agent-overkill-use-it-anyway)). Para cambios de texto y ajustes de estilo, pídelo directamente.
+- **Haz que una IA sea confiable antes de lanzar varias.** El consejo de poteto es profundizar antes de abarcar más. Ejecutar agentes en paralelo antes de poder comprobar su trabajo solo produce retrabajo más rápido ([How I Use Cursor](https://x.com/poteto/article/2058975157503570132)).
+- **Las skills aconsejan. No bloquean nada.** Una IA puede saltarse un paso o pasar por alto una regla. Todo lo que no debe ocurrir debe ir en los permisos y en los scripts de comprobación ([productize.life](https://productize.life/blog/pstack-skills/en), [justmao](https://justmao.com/en/posts/pstack-install-routing/)).
+- **Cuando un error vuelve a aparecer, conviértelo en una comprobación.** El equipo de poteto convierte los errores repetidos en reglas de lint en lugar de añadir otra línea a un archivo de reglas ([la charla de poteto](https://www.youtube.com/watch?v=O_zcc6Xl12g)). La versión de este sitio está en [Cuando ya te sientas a gusto](/es/guide/8-make-it-yours/).
+- **La mayor parte del dinero se va en comprobar, y está bien.** Según poteto, la mayoría de sus tokens se destinan a la verificación (misma charla). Ahorra dinero primero en otra parte.
+
+## Hábitos que vale la pena copiar
+
+**Entrega en cuatro partes. Lo no comprobado no cuenta como aprobado.** Alguien creó un formulario en Claude Code y cerraba cada tarea así ([五里墩茶社, en chino](https://www.bilibili.com/video/BV1LLWY6yEch/)):
+
+<Copy id="fn-handoff" code="Cuando termines, informa en cuatro partes: qué cambió; qué comprobaste; dónde está la evidencia (salida de comandos, rutas de capturas de pantalla); qué no comprobaste. Lista por separado los puntos sin comprobar. No los des por aprobados." />
+
+**Divide las comprobaciones por aspecto.** No dividas por funcionalidad. Divide según lo que revisa cada ayudante, un aspecto por IA ayudante ([五里墩茶社](https://www.bilibili.com/video/BV1WGsi6MEJm/)):
+
+<Copy id="fn-swarm" code="/swarm Comprueba este formulario de tres maneras: una IA ayudante lo completa y lo envía de principio a fin, otra usa solo el teclado y otra lo revisa en una pantalla de 375px de ancho. Cada una indica qué comprobó y cómo. Luego ejecuta tú el paso de envío una vez." />
+
+**Después de comparar diseños, busca el hueco que comparten.** Cuando los puntúas, es fácil pasar por alto algo en lo que ningún diseño pensó ([五里墩茶社](https://www.bilibili.com/video/BV1xfsM6wE39/)):
+
+<Copy id="fn-gap" code="¿Hay algún caso que ninguno de estos diseños contemple? Haz una lista y luego di qué diseño es más fácil de ampliar para cubrirlo." />
+
+**Mira la interfaz pública antes de construirla.** Alguien que estaba arreglando un bug en producción hizo que `/architect` se detuviera antes de escribir el código ([azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)):
+
+<Copy id="fn-api" code="/architect La página de etiquetas a veces devuelve un 500. Encuentra primero la causa real. Antes de escribir el arreglo, detente y muéstrame todas las funciones públicas que vas a añadir o cambiar. Yo confirmo y luego lo escribes." />
+
+**Anota primero los malos patrones y revísalos en bloque.** En lugar de arreglar cada problema, poteto hace que la IA los anote. Cada pocos días, poteto lee la lista y busca una causa común ([con Matt Pocock](https://www.youtube.com/watch?v=MN9dGgmLyso)):
+
+<Copy id="fn-ledger" code="A partir de ahora, cuando veas un componente que llama directamente a la API, no lo cambies. Añádelo al final de docs/bad-patterns.md: el archivo, la línea y qué aspecto tiene. Revisaré la lista cada semana." />
+
+**Haz el primero a mano y automatiza el resto con un script.** Para una migración de estilos, poteto movió un componente a mano y luego le pidió a la IA que escribiera un script para el resto, una parte pequeña al día ([Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)). `build the lever` es el nombre con el que pstack conoce «construye una herramienta para hacerlo»:
+
+<Copy id="fn-lever" code="apply build the lever. Migré Button a mano. Escribe un script que migre los demás componentes de la misma manera, además de una comprobación: las capturas en modo claro y oscuro deben coincidir antes y después. Migra un componente a la vez." />
+
+## Trampas en las que cayó otra gente
+
+- **La cuota de una semana agotada en un día.** El presupuesto de `/setup-pstack` define cuánto tiempo piensa cada paso, no cuánto gastas en total. Omite `/poteto-mode` para cosas pequeñas y consulta [Controlar el gasto](/es/howto/cost/) para lo demás.
+- **«Revisado por varios modelos» era un solo modelo.** En Claude Code, el puesto de Gemini se ejecuta con el modelo del chat actual ([productize.life](https://productize.life/blog/pstack-skills/en)). Para saberlo, pregunta:
+
+<Copy id="fn-who" code="¿Qué modelo ejecutó cada una de esas revisiones? Lístalos uno por uno." />
+
+- **Una lista de tareas larga enterró el objetivo original.** Dale una cosa a la vez. Di `new task` cuando cambies de tarea y consulta [Corregir el rumbo](/es/howto/steer/) cuando se desvíe.
+
+<Callout type="warn" title="Muchos números y comandos en internet son de versiones antiguas">
+pstack cambia rápido. «23 playbooks», «51 skills», `/orchestrate`, el presupuesto `unlimited` y `with checkpoint` <u>ya no existen</u>. Guíate por los comandos de este sitio, comprobados con la versión 0.15.46.
+</Callout>
+
+## ¿Quieres más?
+
+- **[All Code Is Slop (Except Mine)](https://www.youtube.com/watch?v=O_zcc6Xl12g)**: charla de poteto de noviembre de 2026, 16 minutos. El relato más reciente y breve sobre dónde poner tu esfuerzo.
+- **[Matt Pocock con poteto](https://www.youtube.com/watch?v=MN9dGgmLyso)**: transmisión en vivo de 65 minutos. Cómo ejecuta poteto los agentes durante el día, los deja trabajando durante la noche y lee el historial de commits cada mañana.
+- **[Loops You Can Trust](https://x.com/poteto/article/2069824386283319343)**: ensayo de poteto sobre por qué comprobar va primero y qué le enseñó una gran migración.
+- **[La publicación de poteto sobre «empezar por la verificación»](https://x.com/poteto/status/2109436202554372476)**: una sola publicación. Léela antes de darle a tu proyecto una skill de verificación.
+- **[La reseña práctica de productize.life](https://productize.life/blog/pstack-skills/en)**: el artículo más sincero, sobre qué ayudó y qué no.
+- **[What is poteto-mode](https://flaviocopes.com/poteto-mode/)**: Flavio Copes. Los ejemplos de prompts más claros.
+- **[El arreglo de un bug de azukiazusa](https://azukiazusa.dev/en/blog/pstack-agent-skills/)**: un bug en producción, desde el error hasta la solución.
+- **[Los videos de prueba de 五里墩茶社](https://www.bilibili.com/video/BV1LLWY6yEch/)**: en chino, en Bilibili. Ejecuciones reales en Claude Code, con sinceridad sobre lo que no se probó.
+
+## ¿Te atascaste?
+
+<Q q="Un comando de un artículo no me funciona.">
+<p>Probablemente es de una versión antigua y cambió de nombre o se eliminó. Actualiza primero (consulta <a href="/es/howto/update-remove/">Actualizar, inspeccionar, desinstalar</a>) y luego pregúntale a <code>/poteto-help</code> qué comando usar ahora.</p>
+</Q>
+<Q q="poteto publica miles de PR al mes. ¿Yo también puedo?">
+<p>Esa es una cifra propia de poteto. En la charla, poteto cuenta que le llevó unos seis meses construir comprobaciones antes de dejar a los agentes trabajar así. Empieza con una tarea y una IA que pueda comprobar su propio trabajo.</p>
+</Q>
+<Q q="Escribí mi propia experiencia.">
+<p>Envíanosla en <a href="https://github.com/nevertoday/xxd-pstack/issues">el GitHub de este sitio</a>. Si el hábito sigue funcionando hoy, lo añadiremos aquí con crédito.</p>
+</Q>

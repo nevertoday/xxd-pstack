@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: Claude Code、Cursor、Codex のいずれか（npx でインストールする場合は Node.js 22.20 以上）
+tldr: 1〜2 つのコマンドで pstack をインストールし、メッセージを 1 通送って動作を確かめます。
+description: Claude Code、Cursor、Codex にコマンド 1 つで pstack をインストールし、メッセージを 1 通送って動作を確かめます。
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## お使いのツールにインストールする
+
+<div data-sk-keep>
+<Tabs id="install" label="ツールを選択" items={[["cc", "Claude Code"], ["cursor", "Cursor"], ["other", "Codex・その他"]]}>
+<div slot="cc">
+
+Claude Code のチャット欄で、次の 2 つを順番に送信します。
+
+<Copy id="cc-1" title="1 つ目：プラグインのマーケットプレイスを追加" code="/plugin marketplace add cursor/plugins" />
+<Copy id="cc-2" title="2 つ目：pstack をインストール" code="/plugin install pstack@cursor-plugins" />
+
+インストールすると、<mark><strong>すべてのコマンドに `pstack:` が付きます</strong></mark>。入力するのは `/pstack:poteto-mode` です。`/poteto-mode` だけでは認識されません。2 つのプラグインで名前がぶつからないようにするための、Claude Code のルールです。
+
+デフォルトでは**自動更新されません**。有効にするには、`/plugin` と入力して「marketplaces」タブを開き、`cursor-plugins` を選んでから「enable auto-update」を選びます。
+
+プレフィックスを付けたくない場合は、代わりに「Codex・その他」タブから `npx skills` でインストールしてください。
+
+</div>
+<div slot="cursor">
+
+Cursor のチャット欄で、次を送信します。
+
+<Copy id="cursor-1" code="/add-plugin pstack" />
+
+コマンドは `/poteto-mode` や `/how` のように、そのままの名前で使えます。プレフィックスは不要です。
+
+任意：`cursor-team-kit` プラグインもあわせてインストールできます。pstack の数か所で使われます。なくても問題なく動きます。
+
+</div>
+<div slot="other">
+
+**プロジェクトフォルダ内**でターミナルを開き、次を実行します。
+
+<Copy id="npx-1" lang="bash" title="このプロジェクトにインストール" code="npx skills add backnotprop/pstack" />
+
+すべてのスキルが一覧表示されます。**初回はすべて選択**し、インストール先のツールを選んでください。あとから数を絞りたい場合は、[一部のスキルだけをインストールする](/ja/howto/pick-skills/)を参照してください。
+
+すべてのプロジェクトで使えるようにするには、`-g` を付けます。
+
+<Copy id="npx-2" lang="bash" title="グローバルにインストール" code="npx skills add backnotprop/pstack -g" />
+
+Node.js 22.20 以上が必要です。わからない場合は、`node -v` を実行して確認してください。
+
+</div>
+</Tabs>
+</div>
+
+インストールが終わったら、ここでお使いのツールを選んでください。コピーボタンでコピーされる内容も含め、このサイト上のすべてのコマンドがそのツールの書き方に切り替わります。
+
+<ToolPick />
+
+## 動作を確かめる
+
+**新しい**会話を始めて、次を送信します。
+
+<Copy id="test" title="動作テスト" code="/poteto-help 初心者が最初に覚えるべき pstack のスキルはどれですか？1〜2 文で答えてください。" />
+
+返答に poteto-mode が出てくれば、インストール完了です。`/poteto-help` は質問に答えるだけです。何かの作業を始めることはありません。
+
+<Callout type="ok">
+チャット欄に `/` と入力すると、表示されるメニューに `poteto-mode` が出てきます（Claude Code プラグインの場合は `pstack:poteto-mode`）。
+</Callout>
+
+## つまずいたときは？
+
+<Q q="/ と入力しても poteto-mode が見つかりません。">
+<p>まず新しい会話を始めてください。それでも見つからない場合、Claude Code プラグインなら <code>pstack:</code> で検索してみてください。<code>npx skills</code> を使った場合は、<strong>インストール先のプロジェクトフォルダ</strong>でツールを開いているか確認するか、<code>-g</code> を付けてグローバルに再インストールしてください。</p>
+</Q>
+<Q q="npx skills で Node のバージョンが古いと言われます。">
+<p>Node.js 22.20 以上が必要です。<a href="https://nodejs.org">nodejs.org</a> から新しい LTS 版をインストールしてから、もう一度実行してください。</p>
+</Q>
+<Q q="プラグイン版と npx 版の両方をインストールしてもいいですか？">
+<p>やめておきましょう。同じスキルが 2 つあると混乱します。どちらか 1 つだけ選んでください。</p>
+</Q>
+
+あとから更新やアンインストールをしたい場合は、[更新・確認・アンインストール](/ja/howto/update-remove/)を参照してください。
+
+<Checkpoint id="s1" items={["使っているツールに pstack をインストールできました", "新しい会話で / と入力すると poteto-mode（または pstack:poteto-mode）が表示されます", "/poteto-help が質問に答えてくれました"]} />

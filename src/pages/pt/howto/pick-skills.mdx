@@ -1,0 +1,74 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: pick-skills
+time: 4 minutos de leitura
+for: Você está instalando com npx skills e quer escolher algumas, sem instalar tudo
+step: 1
+tldr: Vai usar o /poteto-mode? Instale tudo. Quer um ou dois recursos? Escolha aqui e leve junto o que precisa vir com eles.
+description: Algumas skills do pstack funcionam sozinhas; outras precisam de mais skills instaladas junto. Quais funcionam sozinhas, do que cada uma precisa, alguns conjuntos comuns e como escolher na lista do npx skills.
+---
+import Q from "../../../components/Q.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## Vai usar o /poteto-mode? Instale tudo
+
+O `/poteto-mode` usa quase todas as skills. <mark><strong>Se você pretende usá-lo, instale tudo</strong></mark>. Só escolha nas listas abaixo se quiser um ou dois recursos.
+
+Se você instalou o plugin do Cursor ou pelo marketplace (loja de plugins) do Claude Code, já tem o conjunto completo. Pule esta página.
+
+## 17 que funcionam sozinhas
+
+Instale uma e você já pode usá-la:
+
+- **Entender e explicar**: `how` (como o código funciona), `bro` (explica de novo em palavras simples), `in-your-own-words` (reformula seu objetivo primeiro).
+- **Escrever**: `unslop` (tira o jeito de texto gerado por IA), `sharpen` (deixa seu prompt mais preciso).
+- **Escrever código**: `tdd` (escreve um teste que falha primeiro), `typescript-best-practices` (mantém as regras de tipagem), `statechart` (desenha um diagrama de estados verificado).
+- **Várias IAs juntas**: `arena` (várias abordagens para uma tarefa, fica com a melhor), `swarm` (divide a tarefa e trabalha em paralelo), `interrogate` (vários modelos procuram furos).
+- **Verificar e registrar**: `benchmark-checklist` (verifica números de performance), `show-me-your-work` (mantém um log de decisões), `correct` (corta um erro repetido pela raiz).
+- **Outras**: `figure-it-out` (monta uma abordagem na hora), `reflect` (transforma lições em sugestões de edição), `automate-me` (resume em uma skill própria).
+
+## Estas precisam de outras junto
+
+Se você pular o que está à direita da seta, essa etapa não vai encontrá-lo:
+
+- `teach` → também `how`, `why`
+- `why` → também `how`
+- `technical-writing` → também `unslop`
+- `architect` → também `arena`, `how`
+- `blast-radius` → também `arena`, `how`, `why`, `unslop`
+- `create-verification-skill` → também `maintain-verification-skill`
+- `create-formal-verification-skill` → também `maintain-formal-verification-skill`, `statechart`
+- `ketchup` → também `bro`; `ketchup-video` → também `ketchup`, `bro`
+- `poteto-help` → também as skills sobre as quais você quiser perguntar
+
+## Alguns conjuntos comuns
+
+- **Só entender código**: `how`, `why`, `teach`
+- **Tirar a cara de IA do texto**: `unslop`, `bro`
+- **Fechar o design antes de mexer no código**: `architect`, `arena`, `how`
+- **Deixar a IA verificar seu app sozinha**: `create-verification-skill`, `maintain-verification-skill`
+
+O que poteto usa de verdade é o `/poteto-mode` encadeando todas elas. Para ter a experiência completa, selecione tudo.
+
+## Como escolher na lista
+
+No seu terminal, rode:
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+Digite o nome de uma skill para filtrar. Marque o que você quiser, incluindo as indicadas com “também”, e depois escolha em quais ferramentas instalar. Esqueceu alguma? Rode o comando de novo e adicione. Para detalhes de cada ferramenta, veja [Use no Codex e em outras ferramentas](/pt/howto/codex/).
+
+## Travou?
+
+<Q q="Só instalei teach e está faltando coisa.">
+`teach` depende de `how` e `why`. Rode `npx skills add backnotprop/pstack` de novo e marque essas duas também.
+</Q>
+<Q q="Só instalei algumas. Posso usar o /poteto-mode?">
+Não é recomendado. Ele lê todas as skills de princípio (`principle-*`) e chama a maioria das outras skills. Sem uma delas, alguma etapa fica incompleta.
+</Q>
+<Q q="Do que recall, no-comments e setup-pstack precisam?">
+`recall` usa `why` e `unslop`. `no-comments` menciona `how`, `why` e `architect`, então leve essas junto por segurança. `setup-pstack` não precisa de mais nada. Instale se quiser escolher modelos.
+</Q>
+<Q q="Preciso escolher as skills de princípio (principle-*) separadamente?">
+Instale todas quando instalar o `poteto-mode`. Você nunca digita essas skills. É só dizer o nome delas quando corrigir o rumo, como em <a href="/pt/howto/steer/">Coloque de volta nos trilhos em uma linha</a>.
+</Q>

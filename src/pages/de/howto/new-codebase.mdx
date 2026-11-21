@@ -1,0 +1,81 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: new-codebase
+time: Eine halbe Stunde am ersten Tag, danach bei Bedarf fragen
+for: Du übernimmst ein fremdes Projekt oder steigst nach Monaten wieder in dein eigenes ein und willst es erst einmal verstehen
+step: 4
+tldr: Starte mit „Ändere noch keinen Code“ und lass dich von der KI durch das Projekt führen. Frag dann mit /how und /why nach Details.
+description: "Ein fremdes Projekt übernehmen: Lass die KI erst nur lesen, ohne etwas zu ändern, frag mit /how, /why, /teach und /recall nach Details und nutze die Session-Übernahme für einen halb fertigen Branch."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Kopier das zuerst
+
+<Copy id="nc-first" title="Dein erster Prompt" code="/poteto-mode Hilf mir, dieses Projekt zu verstehen: was es macht, wie ich es lokal starte und wo der wichtigste Code liegt. Sag mir, welche Dateien du gelesen hast und welche Quellen du genutzt hast. Ändere noch keinen Code." />
+
+- **„Ändere noch keinen Code“**: <mark><strong>Bis die KI den Code versteht, liest sie nur.</strong></mark> Sie untersucht das Projekt und öffnet keinen <Term k="PR" />.
+- **„Sag mir, welche Dateien du gelesen hast“**: Sie hält auseinander, was sie gelesen hat und was sie abgeleitet hat.
+
+## Worauf du nach dem Absenden achtest
+
+Du bekommst eine Zusammenfassung zurück, mit einer Quelle für jeden Punkt. Meist deckt sie das ab:
+
+- **Überblick**: was das Projekt macht.
+- **Kernideen und wie es funktioniert.**
+- **Wo was liegt.**
+- **Stolperfallen, auf die du achten solltest.**
+
+## Frag dann nach Details: vier Befehle
+
+| Befehl | Beantwortet | Beispiel |
+| --- | --- | --- |
+| `/how` | Wie es aktuell funktioniert | Wie werden Alerts dedupliziert? |
+| `/why` | Warum es so gebaut wurde | Warum maximal 5 Retries? |
+| `/teach` | Bis du es wirklich verstehst | Erklär mir diese Retry-Änderung |
+| `/recall` | Wo du aufgehört hast | Wo steckt die Arbeit am Export? |
+
+- **`/why`** prüft zuerst die Git-Historie, dann Issues und Doku. Wenn es nichts findet, sagt es das. „Niemand hat aufgeschrieben, warum“ ist auch eine Antwort.
+- **`/teach`**: Häng „überzeug mich“ an, und aus der Erklärung wird ein Argument, das du prüfen kannst.
+- **`/recall`** liest nur deinen eigenen Verlauf in diesem Projekt, standardmäßig aus den letzten 7 Tagen.
+
+## Beispiel: eine Mitglieder-Website
+
+Ein Freund übergibt dir eine Mitglieder-Website auf Cloudflare Workers mit Daten in D1. Du musst ändern, wie das Ablaufdatum der Mitgliedschaft geprüft wird. Starte mit dem ersten Prompt oben und frag dann:
+
+<Copy id="nc-how" title="Frag zuerst, wie es aktuell funktioniert" code="/how Wie kommt der Mitgliedsstatus nach dem Login auf die Seite? Wo wird die Session gespeichert? Wo wird geprüft, ob die Mitgliedschaft abgelaufen ist?" />
+
+<Copy id="nc-why" title="Frag dann, warum" code="/why Warum steht die Prüfung für das Ablaufdatum der Mitgliedschaft zweimal im Code, an zwei verschiedenen Stellen? Gilt dieser Grund noch?" />
+
+<Copy id="nc-teach" title="Zum Schluss, bis du es wirklich verstehst" code="/teach Ich muss die Logik für das Ablaufdatum der Mitgliedschaft ändern. Erklär mir, wie dieser Teil funktioniert, und überzeug mich, dass eine Änderung an nur einer Stelle keine Nutzer rauswirft, die schon bezahlt haben." />
+
+Lass die KI nach diesen drei Fragen Änderungen machen. Dann habt ihr beide dasselbe Bild.
+
+## Einen halb fertigen Branch übernehmen
+
+Dein Ich von letzter Woche oder ein anderer KI-Chat ist mit einem Branch schon halb durch. Schick das hier:
+
+<Copy id="nc-pickup" title="Da weitermachen, wo Schluss war" code="/poteto-mode Übernimm diesen Branch. Lies das Entscheidungsprotokoll, finde heraus, was schon erledigt ist, und mach von dort aus weiter. Wiederhole nichts, was schon fertig ist." />
+
+Die KI findet die früheren Aufzeichnungen (Chats, Branches, das <Term k="决策日志" />) und sagt, ab welchem Schritt sie weitermacht. Wenn im früheren Chat „bestanden“ stand, prüft sie es selbst noch einmal.
+
+<Callout type="tip" title="/recall vs. einen Branch übernehmen">
+Um einen bestimmten Chat fortzusetzen, nutze den Prompt oben. Um dir den Verlauf deiner letzten Chats zurückzuholen, bevor du etwas Neues anfängst, nutze <code>/recall</code>. Zum Beispiel: „/recall meine Arbeit an der virtuellen Liste von gestern, dann lies diesen Bug-Report.“
+</Callout>
+
+## Kommst du nicht weiter?
+
+<Q q="Ich habe „nichts ändern“ gesagt, und die KI hat trotzdem Code geändert.">
+Für eine neue Frage im selben Chat starte mit „new task“: „/poteto-mode new task. Finde heraus, warum der Cache nach dem Logout noch da ist. Ändere noch keinen Code.“ Ohne diesen Hinweis behandelt die KI deine Frage als nächsten Schritt der letzten Aufgabe.
+</Q>
+<Q q="/why sagt, es findet den ursprünglichen Grund nicht.">
+Das ist ein normales Ergebnis. Wenn du weißt, wo die Antwort stehen könnte – etwa ein Issue-Link oder eine alte Doku –, füg das einfach ein.
+</Q>
+<Q q="Die KI hat alles erklärt, aber ich bin nicht mitgekommen.">
+Tipp <code>/bro</code> ein. Sie erklärt ihre letzte Antwort noch einmal in einfachen Worten, kürzer.
+</Q>
+<Q q="Beim Übernehmen eines Branches hat die KI Arbeit noch einmal gemacht, die schon erledigt war.">
+Antworte: „Die früheren Aufzeichnungen sind verlässlich. Fang nicht von vorn an. Sag mir, ab welchem Schritt du weitermachst.“
+</Q>

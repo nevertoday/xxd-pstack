@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: fix-bug
+time: Un bug, une conversation
+for: Vous avez un bug et vous voulez le corriger proprement, pas à la va-vite
+step: 6
+tldr: Décrivez le symptôme et ajoutez « reproduis-le d'abord ». L'IA trouve la vraie cause, la corrige et le prouve avec les mêmes étapes.
+description: "Corriger un bug avec /poteto-mode : faire réapparaître le problème, trouver la vraie cause, la corriger, puis le prouver avec les mêmes étapes. Avec un exemple d'extension Chrome."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copiez ceci d'abord
+
+<Copy id="bug-min" title="La version la plus courte" code="/poteto-mode Après une nouvelle tentative, les utilisateurs reçoivent deux notifications. Reproduis d'abord le problème, corrige-le, puis vérifie." />
+
+« Reproduire » veut dire faire réapparaître le problème. L'IA commence par là. Si elle n'y arrive pas, elle ne touche pas au code.
+
+L'ordre ne change pas : <mark><strong>reproduire, trouver la vraie cause, corriger, puis vérifier avec les mêmes étapes.</strong></mark>
+
+<Fig id="h-bug" />
+
+## Donnez-lui quelques indices de plus
+
+<Copy id="bug-full" title="La version complète" code="/poteto-mode Depuis la mise en production d'hier, l'export CSV perd la dernière ligne. L'id du job en échec est 4812. Reproduis d'abord le problème, puis corrige-le. C'est corrigé quand le jeu de test de 60 000 lignes s'exporte sans aucune ligne manquante. Montre-moi le nombre de lignes avant et après la correction." />
+
+Chaque partie a un rôle :
+
+- **Le symptôme et quand il a commencé** : depuis la mise en production, l'export perd la dernière ligne.
+- **Un indice que vous avez** : l'id du job. Cela évite un tour de recherche.
+- **Ce qui compte comme corrigé** : les 60 000 lignes s'exportent toutes.
+- **Ce qu'elle doit vous montrer** : le nombre de lignes avant et après.
+
+<Callout type="warn" title="Gardez votre hypothèse pour vous">
+Dites « Je pense que c'est le code de pagination », et l'IA ne cherchera que là. Laissez-la donner sa propre analyse d'abord. Ajoutez la vôtre ensuite.
+</Callout>
+
+## Un exemple d'extension Chrome
+
+Les utilisateurs signalent : les éléments enregistrés dans le panneau latéral apparaissent parfois en double après un rafraîchissement.
+
+<Copy id="bug-ext" title="Exemple d'extension Chrome" code={`/poteto-mode Des utilisateurs signalent que la liste enregistrée dans le panneau latéral affiche parfois des doublons après un rafraîchissement.
+J'ai essayé moi-même, et cliquer deux fois vite sur « Enregistrer » rend le problème plus fréquent. Reproduis-le d'abord. Ne modifie pas encore le code.
+C'est corrigé quand cliquer dix fois sur Enregistrer laisse exactement un élément dans la liste, et exactement un dans chrome.storage.
+Montre-moi ce qu'il y a vraiment dans le stockage avant et après la correction.`} />
+
+- **« Exactement un dans chrome.storage »** : l'interface peut masquer les doublons alors que les données en contiennent toujours deux. Vérifiez la valeur stockée.
+- **« Cliquer dix fois sur Enregistrer »** : transforme « parfois » en une vérification qui passe ou échoue à chaque fois.
+
+## Où regarder après l'envoi
+
+**Au début : sa reformulation.** Si l'IA décrit un autre problème, arrêtez-la tout de suite.
+
+**Au milieu : la <Term k="待办清单" />.** L'IA liste quelques causes possibles et les élimine, jusqu'à trouver le premier endroit où ça déraille. C'est là que doit aller la correction, pas dans un contrôle plus loin.
+
+**À la fin : avant et après.** Les deux utilisent les mêmes étapes de reproduction.
+
+## Facile à tester ? Ajoutez /tdd
+
+<Copy id="bug-tdd" code="/poteto-mode Reproduis d'abord l'écriture en double. S'il existe un moyen simple de tester, utilise /tdd : écris un test qui échoue, corrige le problème, puis relance le test." />
+
+Gardez « s'il existe un moyen simple de tester ». Un test qui ne tient qu'avec des piles de fausses données prouve moins que de lancer la vraie commande.
+
+## Un blocage ?
+
+<Q q="L'IA dit qu'elle n'arrive pas à reproduire le bug.">
+C'est bon signe. Elle ne change rien à l'aveugle. Soyez plus précis : quelle page, quelles données, sur quoi vous avez cliqué, quelle version. Vous pouvez aussi coller un log ou un enregistrement.
+</Q>
+<Q q="L'IA a dit « corrigé » sans montrer de preuve.">
+Répondez : « apply prove it works. Relance les étapes de reproduction et montre-moi la vraie sortie. » <code>prove it works</code> signifie : montrer par des résultats réels que ça fonctionne. C'est le nom d'un <a href="/fr/wiki/principles/">principe</a> de pstack. Tapez-le tel quel, et l'IA sait ce que vous voulez dire.
+</Q>
+<Q q="L'IA a ajouté un contrôle if plus loin et dit que c'était corrigé.">
+Répondez : « fix root causes. Cet état ne devrait jamais se produire. Trouve le premier endroit où ça déraille. » <code>fix root causes</code> signifie corriger la vraie cause. C'est aussi un nom de principe. Un contrôle ne compte comme une correction que si cet état est vraiment valide.
+</Q>

@@ -1,0 +1,163 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: verify-app
+time: Se genera una vez, se usa en cada tarea
+for: Ya te cansaste de abrir la app y recorrerla haciendo clic cada vez que la IA dice «listo»
+step: 6
+tldr: Ejecuta /create-verification-skill una vez y tu proyecto gana una skill /verify-<app>. A partir de ahí, cualquier tarea puede terminar con «compruébalo con esa skill y muéstrame capturas de pantalla».
+description: "Usa /create-verification-skill para darle a tu proyecto una skill de verificación, de modo que la IA arranque la app, la maneje como un usuario y guarde evidencia. Qué genera, cómo revisarla, cómo usarla y cómo /maintain-verification-skill la mantiene al día con la app."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+Después de que la IA cambia el código, el paso más lento suele ser comprobarlo: dice «listo», y tú abres la app y la recorres haciendo clic por tu cuenta. En la guía oficial, poteto dice que, de todo lo que incluye, una <Term k="验证技能" /> para tu proyecto es lo que más compensa.
+
+El motivo es sencillo: <mark><strong>una IA que puede comprobar su propio trabajo sigue adelante hasta que la comprobación pasa; una que no puede te devuelve cada resultado a ti.</strong></mark> Cuando comprobar no depende de una persona, dejas de ser el cuello de botella. Sin eso, ejecutar más IA solo te da más resultados que nadie ha comprobado.
+
+## Copia esto primero
+
+Abre la IA en la carpeta de tu proyecto y envía:
+
+<Copy id="cvs" code="/create-verification-skill" />
+
+El comando `/setup-pstack` que ejecutaste al instalar también te lo ofrece una vez al final. Si dices que sí, se ejecuta exactamente esto.
+
+La skill lee sobre todo tu código para averiguar cinco cosas, y solo te pregunta lo que el código no puede responder:
+
+- **Qué tocan los usuarios**: una página web, una línea de comandos, una app de escritorio, una API o una app móvil. Si hay varias, la skill elige la principal.
+- **Cómo arranca**: primero los comandos propios del proyecto (scripts en `package.json`, un `Makefile`, el README), además de puertos, variables de entorno, datos de prueba e inicio de sesión.
+- **Cómo manejarla**: lo que el proyecto ya tenga (scripts de Playwright o Cypress, un puerto de depuración). Solo después recurre a una vía genérica: automatización de navegador para web y Electron, una terminal virtual para herramientas de línea de comandos o peticiones directas para API.
+- **Qué evidencia puede guardar**: capturas de pantalla, transcripciones de terminal, respuestas de API, logs, códigos de salida y filas de base de datos.
+- **Si dos copias pueden ejecutarse en paralelo**: puertos separados, carpetas de datos separadas. Si no se puede, la skill lo deja escrito. Es mejor no probar que tocar la copia que estás usando.
+
+Si el proyecto no arranca tal como está, lo arregla primero o te dice exactamente dónde se atascó. Los pasos escritos sobre un proyecto roto solo enseñan lo incorrecto.
+
+## Qué obtienes
+
+Una carpeta nueva en tu proyecto: `.claude/skills/` en Claude Code, `.cursor/skills/` en Cursor:
+
+<Copy id="tree" title="Los archivos generados (ejemplo)" code={`verify-<app>/
+├── SKILL.md          arranque, diagnóstico, manejo, evidencia, limpieza y cómo ejecutar sus scripts
+└── features/         el mapa de funcionalidades: un archivo por funcionalidad
+    ├── README.md     índice del mapa y reglas que comparten todas las funcionalidades
+    ├── create-note.md
+    └── search.md`} />
+
+<Fig id="h-verify" />
+
+`SKILL.md` está pensado para la siguiente IA, no para ti: una IA que nunca haya visto la app debe poder abrirlo a mitad de una tarea y seguirlo. Cada sección usa los comandos reales y los nombres de botones de tu proyecto, sin ningún «rellena esto»:
+
+| Sección | Qué contiene |
+| --- | --- |
+| Arranque | Qué comando inicia la app y qué indica que está lista. Se parte de datos vacíos, se ejecutan migraciones y se cargan datos de prueba; lista significa realmente utilizable |
+| Diagnóstico | Una comprobación de solo lectura: si el proceso está activo, si es la versión correcta, si el puerto es suyo y si la sesión sigue vigente. Se ejecuta primero cuando algo parece raro |
+| Manejo | Qué herramienta, qué botón y qué comando usar. Los botones se buscan por referencias estables como nombres y etiquetas, no por coordenadas de pantalla |
+| Evidencia | Qué capturar, dónde se guarda y qué cuenta como válido (mira la sección siguiente) |
+| Limpieza | Detiene lo que inició esta ejecución; nunca mata procesos por nombre. La evidencia se conserva en una ubicación concreta |
+| Auxiliares | Cualquier script que incluya se ejecuta tal cual, con su modo de uso indicado en la skill |
+
+`features/` es el mapa de funcionalidades. Empieza con las tres a cinco funcionalidades principales, un archivo por cada una, y todos los archivos tienen las mismas cuatro partes:
+
+- **Subfuncionalidades**: «crear una nota», por ejemplo, dividida en abrirla desde el botón, guardar, cancelar y crearla desde la línea de comandos.
+- **Cómo llegan los usuarios**: todos los puntos de entrada. Cuentan botones, atajos y comandos.
+- **Cómo manejarla**: cada paso escrito como «qué hacer → qué comando → qué deberías ver».
+- **Trampas**: casos que hacen perder una ejecución o te confunden. Por ejemplo: «un mensaje de “Guardado” no basta; vuelve a abrir la nota desde la lista».
+
+Si a los datos de prueba les falta algo que una funcionalidad necesita, la IA informa de que ese camino falla y anota el motivo en Trampas. Nunca simplifica los pasos solo para pasar la comprobación. <u>Si el mapa recoge varios puntos de entrada, se recorren todos; probar solo el más cómodo no cuenta.</u>
+
+## La ejecuta una vez antes de entregártela
+
+Una vez generada, la IA sigue su propia skill de principio a fin: arranca la app, pasa el diagnóstico, recorre una funcionalidad del mapa, captura evidencia, limpia y luego confirma que la evidencia sobrevivió a la limpieza. Cuando un paso falla, lo arregla, y después de cada intento fallido también detiene todo lo que inició.
+
+<Callout type="warn" title="Si la ejecución de prueba falló, no uses el resultado">
+Una skill de verificación que nunca se ejecutó es un borrador. Si la probó en un entorno sustituto (un contenedor en vez de un servidor limpio, por ejemplo), la IA enumera los pasos que solo se ejecutaron ahí. Esos pasos siguen sin verificar hasta que una ejecución en el entorno real los cubra.
+</Callout>
+
+## Cómo usarla a partir de ahora
+
+Menciónala en la tarea e indica qué evidencia quieres. Estos dos ejemplos vienen de la guía oficial:
+
+<Copy id="use-build" title="Crear una funcionalidad y demostrar que funciona" code="/poteto-mode implementa la acción de archivado masivo. Usa /verify-<app> para verificar tus cambios y muéstrame un video y capturas de pantalla como evidencia." />
+
+<Copy id="use-repro" title="Reproducir primero, arreglar después" code="/poteto-mode reproduce esto con /verify-<app>. Si se reproduce en main, arréglalo y muéstrame un video como evidencia." />
+
+Un ejemplo con una extensión de Chrome:
+
+<Copy id="use-ext" title="Extensión de Chrome" code={`/poteto-mode Los elementos guardados a veces aparecen dos veces después de recargar. Reprodúcelo con /verify-bookmarks: haz clic en «Guardar» diez veces y luego recarga el panel lateral.
+Arreglado significa: una entrada en la lista y una en chrome.storage.
+Muéstrame capturas de antes y después, y lo que hay guardado realmente.`} />
+
+Cuando la skill de verificación ya funciona, varias IA pueden probar a la vez. `/swarm` reparte el trabajo por entradas del mapa de funcionalidades, cada IA cubre unas cuantas y los resultados vuelven reunidos. Úsalo para recorrer todas las funcionalidades antes de fusionar, o para medir una mejora de velocidad las veces suficientes para que la muestra tenga sentido.
+
+## Qué cuenta como evidencia
+
+La skill generada deja claros estos criterios. Úsalos cuando revises la evidencia que te devuelve:
+
+- **El recorrido de un usuario real**: botones reales, comandos reales. Sin funciones internas ni puertas traseras creadas solo para tests.
+- **La acción y el resultado**: no solo la última pantalla. Deberías ver qué hizo y qué cambió.
+- **Efectos secundarios**: archivos escritos, la fila nueva en la base de datos o el mensaje enviado, comprobados junto con lo que aparece en pantalla.
+- **Real siempre que se pueda**: mocks solo donde producción ya aísla un sistema externo (pagos, por ejemplo).
+- **Los dry-run también se comprueban**: algunos dry-run siguen conectándose a internet o abriendo un navegador. Comprueba qué se saltó realmente en lugar de fiarte del nombre.
+
+## Trátala como infraestructura del proyecto
+
+- **Haz commit de ella.** Así, todo el equipo y cada IA manejan la app de la misma forma.
+- **Dale una pequeña herramienta de línea de comandos.** Cuando las IA acaban escribiendo una y otra vez scripts de clics de usar y tirar, pídele a una que construya una pequeña herramienta de control a la que llame la skill. Eso ahorra tokens y hace que cada ejecución sea repetible. Las buenas herramientas de control suelen tener unos pocos comandos en los que cada uno hace trabajo real, un `--dry-run` para todo lo destructivo, subcomandos que se despliegan paso a paso, errores que dicen qué hacer, un `--help` detallado y salida legible por máquina, como JSON.
+- **Levanta el entorno con un solo comando**: datos de prueba fijos, cuentas de prueba y el mismo resultado cada vez.
+
+## Cuando la app cambia: /maintain-verification-skill
+
+El mapa de funcionalidades empieza a quedarse anticuado en cuanto la app cambia. El consejo oficial es ejecutar esto al menos una vez al día, idealmente desde una automatización programada para que nadie tenga que acordarse:
+
+<Copy id="mvs" code="/maintain-verification-skill" />
+
+Así es como lo comprueba:
+
+1. La skill ordena el índice del mapa: entradas que faltan, sobran, están duplicadas o ya no existen.
+2. Una IA de solo lectura por cada funcionalidad lee el código fuente, explica cómo funciona ahora y señala dónde puede haberse quedado desactualizado el mapa.
+3. Después, una IA arranca la app real y recorre todas las funcionalidades. Aunque el código fuente parezca estar bien, igual se ejecuta en vivo.
+4. La skill clasifica lo que encontró: si el mapa está mal, arregla el mapa; si la funcionalidad funciona pero las herramientas no logran manejarla, arregla las herramientas; si la app está realmente rota, te avisa.
+
+Hay tres resultados posibles: **clean** (cobertura completa, nada que cambiar), **changed** (un <Term k="PR" /> con correcciones comprobadas) y **blocked** (indica qué lo bloquea). <mark>La pasada de mantenimiento solo edita la carpeta de la skill de verificación, nunca el código del producto.</mark> Si la app de verdad sufrió una regresión, lo reporta en lugar de editar la documentación para taparlo.
+
+## Cómo lo usa poteto
+
+En agosto de 2026, poteto —quien creó pstack— publicó un texto largo sobre cómo usa pstack ([The Complete Guide to pstack, part 1](https://x.com/poteto/status/2094457600259842065)). La verificación es lo que más peso tiene en ese texto:
+
+- poteto llama a la verificación la base del trabajo con agentes y aconseja tratarla como infraestructura crítica, no como una skill más.
+- `/create-verification-skill` condensa las skills de verificación que poteto usa en su trabajo en una skill que crea skills: enseña a la IA a construir lo mismo para tu app.
+- poteto llama al mapa de funcionalidades «memoria materializada»: memoria escrita en archivos, barata en tokens y legible por cualquier persona o IA del proyecto.
+- Para funcionalidades nuevas, poteto pide a la IA que compruebe su trabajo con la skill de verificación y le envíe un video y capturas de pantalla. En temas de rendimiento, la IA mide dónde se va el tiempo, aplica un cambio puntual y luego usa `/swarm` para lanzar un grupo de IA que confirmen que de verdad va más rápido.
+- poteto también ejecuta la verificación desde automatizaciones programadas, como bots que reproducen bugs que los usuarios reportan en Slack.
+- poteto recomienda ejecutar la pasada de mantenimiento al menos una vez al día. Las IA actualizan la skill de verificación mientras trabajan; la pasada de mantenimiento detecta lo que se les escapa.
+
+## Para seguir leyendo
+
+- [Guía oficial: Verify and ship](https://github.com/cursor/plugins/blob/main/pstack/docs/guide/06-verify-and-ship.md): la fuente de esta página.
+- [`/create-verification-skill`](/es/skills/create-verification-skill/) y [`/maintain-verification-skill`](/es/skills/maintain-verification-skill/): el texto completo de ambas skills en este sitio.
+- [Building verification loops in Claude Code with skills](https://claude.com/blog/building-verification-loops-in-claude-code-with-skills): Anthropic sobre la misma idea, hacer que la IA compruebe su trabajo antes de responder.
+- [Flavio Copes: A deep dive into pstack](https://flaviocopes.com/pstack): un recorrido completo de un tercero.
+
+## ¿Te atascaste?
+
+<Q q="Dice que el proyecto no arranca y se detuvo.">
+Es lo correcto: los pasos escritos sobre un proyecto que no funciona solo enseñan lo incorrecto. Arregla lo que encontró (una variable de entorno que falta, datos de prueba ausentes, un puerto en uso) o pídele que lo arregle, y vuelve a ejecutar `/create-verification-skill`.
+</Q>
+<Q q="Algunas funcionalidades requieren iniciar sesión o una cuenta de pago y no puede llegar hasta ellas.">
+La IA marca esa funcionalidad como inaccesible y anota qué requisito falta y qué camino intentó. Prepara una cuenta de prueba o añade el estado necesario a los datos de prueba en los propios archivos seed del proyecto. No pegues una contraseña real en el chat.
+</Q>
+<Q q="Sus pasos hacen clic en los botones por posición en pantalla y se rompen cuando cambia el tamaño de la ventana.">
+Responde: «Busca los botones por su nombre o por un atributo data, no por coordenadas ni por el orden de tabulación». El generador ya exige referencias estables, así que pídele que lo corrija.
+</Q>
+<Q q="Mi proyecto es una herramienta de línea de comandos sin interfaz gráfica.">
+Funciona igual. La IA abre una sesión nueva de terminal virtual (como tmux) para cada ejecución, escribe comandos y registra la salida y el código de salida. No hay ningún servidor que mantener encendido, así que «arrancar» solo significa compilar o instalar dependencias primero.
+</Q>
+<Q q="Dos IA verificando a la vez se estorban entre sí.">
+Comprueba si la sección de Arranque de la skill indica cómo mantenerlas separadas: puertos distintos, carpetas de datos distintas. Si no, pídele que lo añada. Si de verdad no se pueden separar, la skill debería decir «una a la vez».
+</Q>
+<Q q="¿Puede encontrar problemas a los que los tests no llegan, como dos reintentos que chocan entre sí?">
+Una skill de verificación demuestra los caminos que realmente recorre. Para concurrencia y reintentos, donde importa cada orden posible, usa <a href="/es/howto/formal-verify/">verificación formal</a>.
+</Q>

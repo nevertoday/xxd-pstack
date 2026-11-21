@@ -1,0 +1,77 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 8
+need: Algumas tarefas reais feitas com o pstack
+tldr: "Corrija a IA em uma linha com o nome de um princípio. Quando um erro acontecer duas vezes, use /correct para bloqueá-lo no repositório."
+description: "Corrija o rumo com o nome de um princípio; /reflect registra as lições de uma tarefa; /correct bloqueia erros repetidos; /automate-me cria o seu próprio modo; teste uma skill antes de alterá-la."
+---
+import Callout from "../../../components/Callout.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Term from "../../../components/Term.astro";
+import Copy from "../../../components/Copy.astro";
+import Q from "../../../components/Q.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Comece pequeno
+
+Você não precisa de muitas skills no primeiro dia. <mark><strong>Escreva prompts normalmente e observe onde a IA tropeça. Quando o mesmo tropeço acontecer duas vezes, adicione uma skill ou uma verificação.</strong></mark>
+
+## Corrija em uma linha: diga o nome de um princípio
+
+O pstack tem 24 <Term k="原则" text="princípios" />, e cada um tem um nome. Por exemplo, “apagar antes de adicionar” se chama `subtract before you add`. O pstack conhece esses nomes, então digitar um deles exatamente assim já funciona.
+
+- **A IA diz que deu certo porque compila**: “provar com resultados reais”. Responda `apply prove it works. Rode o fluxo real de importação e me mostre os registros que ele gravou.`
+- **A IA adiciona uma verificação depois do ponto de falha e diz que corrigiu**: “encontrar a causa real”. Responda `fix root causes. Encontre onde dá errado pela primeira vez.`
+- **A IA insiste em uma correção que já falhou duas vezes**: “questionar a suposição”. Responda `attack the premise. Escreva a suposição que essas correções têm em comum e teste-a diretamente.`
+- **A IA quer criar um quarto adaptador em cima de três antigos**: “apagar antes de adicionar”. Responda `subtract before you add. Apague os adaptadores desatualizados primeiro e depois projete o que sobrar.`
+
+A IA deve dizer qual decisão o princípio mudou. Veja [os 24 princípios](/pt/wiki/principles/) e mais frases em [Coloque de volta nos trilhos em uma frase](/pt/howto/steer/).
+
+## Deu voltas demais: /reflect
+
+<Copy id="reflect" code="/reflect Isso foi lento demais. Anote o que você aprendeu para não acontecer de novo." />
+
+**O que você recebe**: sugestões separadas em “aceitar”, “rejeitar” e “em aberto”. <strong>Ele só altera as skills depois que você aprovar.</strong> Aprove só as que mudariam como o trabalho futuro é feito.
+
+## O mesmo erro continua voltando: /correct
+
+<Copy id="correct" code="/correct A IA continua pulando a camada de repositório e chamando o cliente de banco de dados diretamente" />
+
+**O que você recebe**: ele lê os commits recentes e os comentários de revisão e agrupa os erros por tipo. Ele faz um commit por tipo, usando a correção mais firme que conseguir:
+
+<Fig id="g8-guard" />
+
+Digite só `/correct`, sem argumentos, e ele pesquisa no histórico sozinho.
+
+`/reflect` altera as skills. `/correct` altera o seu repositório.
+
+## Crie o seu próprio modo: /automate-me
+
+<Copy id="automate" code="/automate-me" />
+
+**O que você recebe**: ele lê suas conversas neste projeto e identifica seus hábitos. Depois de confirmar com você, escreve uma skill `<your-name>-mode` e abre um PR para você revisar.
+
+Quando seus hábitos mudarem, rode de novo: “/automate-me Atualize minha skill de modo com tudo o que aconteceu desde a última alteração.”
+
+## Teste uma skill antes de alterá-la
+
+<Copy id="eval" code="/poteto-mode Atualize a skill de revisão para pegar migrações de banco de dados faltando e rode um eval na alteração." />
+
+**O que você recebe**: várias IAs fazem a mesma tarefa sem saber que estão sendo testadas, e um juiz dá notas a elas. Confira cada resultado pessoalmente também.
+
+<Callout type="warn" title="Não altere uma skill no meio de uma tarefa">
+Se uma skill se sair mal, anote e corrija depois em um PR próprio. Quem revisa não consegue ver uma alteração de skill enterrada em uma alteração de funcionalidade.
+</Callout>
+
+Para conhecer hábitos e armadilhas de outras pessoas que usam o pstack, veja [O que outros usuários aprenderam](/pt/howto/field-notes/).
+
+## Travou?
+
+<Q q="/automate-me diz que não encontrou histórico suficiente.">
+<p>Ele só lê conversas do projeto atual. Use normalmente aqui por um tempo e depois rode de novo.</p>
+</Q>
+<Q q="Quero escrever uma skill do zero por conta própria.">
+<p>Diga <code>/poteto-mode Escreva uma skill que verifica migrações de banco de dados neste repositório</code>. Ele confere o formato e os links e depois abre um PR.</p>
+</Q>
+
+<Checkpoint id="s8" items={["Memorizei dois ou três nomes de princípios, como prove it works e fix root causes", "Quando o mesmo erro acontece pela segunda vez, uso /correct para bloqueá-lo", "Alterações em skills vão em um PR próprio e passam por um eval antes"]} />

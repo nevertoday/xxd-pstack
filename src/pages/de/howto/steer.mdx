@@ -1,0 +1,93 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: steer
+time: Eine Zeile
+for: Die KI ist abgedriftet und du willst sie wieder auf Kurs bringen, ohne einen ganzen Absatz zu schreiben
+step: 8
+tldr: Wenn sie abdriftet, antworte mit einer Zeile. Sag, was du willst, ergänze den Namen eines Prinzips, das pstack kennt, und verlang die echten Ergebnisse.
+description: "Eine abdriftende KI mit einer Zeile wieder auf Kurs bringen: Namen von Prinzipien, /bro, /unslop, new task; eine Liste, was die KI tut und was du antwortest; woran du erkennst, dass sie es wirklich umgesetzt hat."
+---
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Kopier zuerst diese Zeile
+
+Sie sagt „fertig“, dabei ist nur der Build durchgelaufen. Du antwortest:
+
+<Copy id="s-prove" code="apply prove it works. Führ den echten Import-Ablauf aus und zeig mir die Datensätze, die er geschrieben hat." />
+
+`prove it works` bedeutet „zeig, dass es wirklich funktioniert“. Es ist der Name eines der <Term k="原则" text="Prinzipien" /> von pstack (aufgeschriebene Regeln für die Arbeitsweise). `/poteto-mode` liest vor dem Start alle ein – der Name sagt der KI genau, welche Regel du meinst.
+
+Die zweite Hälfte sagt, was du diesmal willst. <mark>Ein Name ist präziser als ein ganzer Absatz.</mark> Du musst die Namen nicht auswendig lernen. Komm einfach hierher zurück, wenn die KI abdriftet.
+
+<Fig id="h-steer" />
+
+## Drei weitere Wege, sie wieder auf Kurs zu bringen
+
+**Sie hat etwas getan, worum du nicht gebeten hast.** Formulier das Ziel neu:
+
+<Copy id="s-goal" code="Ich habe gesagt, das Ziel ist zu reproduzieren. Um einen Fix habe ich noch nicht gebeten." />
+
+**Die Antwort ist schwer verständlich oder klingt zu sehr nach KI:**
+
+<Copy id="s-bro" code="/bro" />
+
+<Copy id="s-unslop" code="/unslop that, no emdashes" />
+
+`/bro` gibt die letzte Antwort noch einmal in einfachen Worten wieder. `/unslop that` nimmt diesem Text den KI-Klang, und `no emdashes` bedeutet „keine langen Gedankenstriche“.
+
+**Du bist schon bei einer anderen Sache.** Sag zuerst „new task“:
+
+<Copy id="s-new" code="/poteto-mode new task. Finde heraus, warum der Cache nach dem Ausloggen noch da ist. Ändere noch keinen Code." />
+
+Sonst behandelt die KI deine neue Frage als nächsten Schritt der letzten Aufgabe.
+
+## Was die KI tut – und was du antwortest
+
+Erst die Bedeutung, dann der Name, den du genau so eintippst:
+
+- **Sagt „fertig“, weil der Build durchgelaufen ist** → zeig, dass es wirklich funktioniert: `apply prove it works.` Führ den echten Befehl aus und zeig mir die echte Ausgabe.
+- **Baut nach der Fehlerstelle eine if-Abfrage ein und nennt es behoben** → finde die eigentliche Ursache: `fix root causes.` Finde heraus, wo es zuerst schiefgeht.
+- **Stapelt einen neuen Adapter auf drei alte** → erst entfernen, dann hinzufügen: `subtract before you add.` Lösch zuerst die veralteten.
+- **Hat dieselbe Prüfung schon mehrfach repariert, sie schlägt trotzdem fehl** → hinterfrag die Annahme: `attack the premise.` Teste, wovon diese Fixes ausgehen.
+- **Macht Dutzende gleicher Änderungen von Hand** → bau ein Werkzeug: `build the lever.` Schreib ein Skript, das ich erneut ausführen kann.
+- **Lässt bei einer Migration eine Kompatibilitätsschicht für die alte Schnittstelle stehen** → lösch sie nach der Umstellung: `migrate callers then delete legacy apis.`
+- **Tests prüfen, welche interne Funktion aufgerufen wurde** → teste das Verhalten: `test behavior not implementation.` Prüf, was Nutzer sehen können.
+- **Hält an, um wegen einer Kleinigkeit nachzufragen, die sich rückgängig machen lässt** → warte nicht auf mich: `never block on the human.` Mach es und zeig es mir danach.
+- **Fängt sofort an, den ersten Entwurf zu schreiben** → probier mehrere aus: `exhaust the design space.` Bau zwei oder drei Prototypen und vergleich sie.
+
+Alle 24 stehen unter [Prinzipien](/de/wiki/principles/).
+
+## Die KI sollte sagen, welche Entscheidung sich geändert hat
+
+Nur den Namen zu nennen, zählt nicht. Wenn sie ein Prinzip anwendet, sollte sie sagen, was sie dadurch geändert hat.
+
+<Copy id="s-good" title="Eine echte Antwort" code="Nach subtract before you add habe ich zuerst zwei Adapter gelöscht, die niemand mehr aufruft. Der neue muss nicht mehr mit ihnen kompatibel bleiben, und die Schnittstelle ist nur noch halb so groß." />
+
+<Copy id="s-bad" title="Nur der Name" code="Habe das Prinzip prove it works befolgt. Feature funktioniert." />
+
+Die zweite Antwort nennt zwar einen Namen, aber keine Entscheidung und keinen Beleg. Hak nach:
+
+<Copy id="s-push" code="Du hast gesagt, du hast prove it works angewendet. Welcher Befehl und welche Ausgabe haben das bewiesen? Füg sie hier ein." />
+
+## Dasselbe Problem ist wieder aufgetaucht
+
+Eine Korrektur im Chat gilt nur für dieses eine Mal. Beim zweiten Mal nutzt du `/correct`, um das Repo selbst zu ändern:
+
+<Copy id="s-correct" code="/correct die KI umgeht immer wieder die Repository-Schicht und ruft den Datenbank-Client direkt auf." />
+
+Es ergänzt eine Prüfung, einen Typ oder einen Test, damit spätere KIs den Fehler nicht mehr machen können. Mehr dazu steht in [Wenn du dich damit wohlfühlst](/de/guide/8-make-it-yours/).
+
+## Kommst du nicht weiter?
+
+<Q q="Ich habe den Namen des Prinzips genannt, aber anscheinend ist nichts passiert.">
+Wenn du `/poteto-mode` mit Enter abgeschickt hast, wirkt es nach ein paar Nachrichten nicht mehr. Tipp es noch einmal ein, oder nutz in Cursor Option+Enter (Alt+Enter unter Windows), damit es eingeschaltet bleibt.
+</Q>
+<Q q="Ich kann mir die Namen der Prinzipien nicht merken.">
+Musst du auch nicht. Sag einfach in eigenen Worten, was du willst, zum Beispiel „bau nicht später noch eine Abfrage ein, sondern finde die eigentliche Ursache“. Die Namen sind nur kürzer und präziser.
+</Q>
+<Q q="Ich habe die KI wieder auf Kurs gebracht, aber nach einer Weile ist sie wieder abgedriftet.">
+Prüf zuerst, ob du die Aufgabe gewechselt hast, ohne `new task` zu sagen. Wenn dasselbe Problem immer wieder auftaucht, nutz `/correct`.
+</Q>

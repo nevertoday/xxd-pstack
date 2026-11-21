@@ -1,0 +1,94 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: codex
+time: 5 minutos para instalar, 6 para leer
+for: Usas Codex, OpenCode, Pi u otra herramienta compatible con Agent Skills
+step: 1
+# Every command on this page is written for Codex, so it stays as written
+cmds: literal
+tldr: Instálalo con un comando, ejecuta la configuración una vez para elegir modelos y empieza con $poteto-mode.
+description: "Instalar pstack en Codex y otras herramientas con npx skills: versión de Node.js, instalación por proyecto o global, dónde se guardan las skills y la configuración de modelos, y qué pasa cuando tu herramienta no tiene una funcionalidad."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+import ToolPick from "../../../components/ToolPick.astro";
+
+## Un solo comando para instalar
+
+Cada skill de pstack es un archivo `SKILL.md` en el formato común de <Term k="Agent Skill" />, así que se instala sin Cursor. En tu terminal, escribe:
+
+<Cmd c="npx skills add backnotprop/pstack" />
+
+Necesita Node.js 22.20 o superior. Si tienes dudas, ejecuta `node -v` primero.
+
+Marca las skills que quieras y luego elige en qué herramientas instalarlas. Si no sabes cuáles marcar, selecciónalas todas. Si solo quieres unas pocas, consulta [Instalar solo algunas skills](/es/howto/pick-skills/).
+
+<Callout type="tip" title="Instalar para todos los proyectos">
+<p>Por defecto solo se instala en la carpeta del proyecto actual. Para que esté disponible en todos los proyectos, añade <code>-g</code>:</p>
+<p><Cmd c="npx skills add backnotprop/pstack -g" /></p>
+</Callout>
+
+## Comprueba dónde se instaló
+
+Busca subcarpetas como `poteto-mode` en la carpeta correspondiente:
+
+| Herramienta | Este proyecto | Todos los proyectos (-g) |
+| --- | --- | --- |
+| Codex y otras | `.agents/skills/` | `~/.agents/skills/` |
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Pi | `.pi/skills/` | `~/.pi/agent/skills/` |
+| Cursor | `.cursor/skills/` | `~/.cursor/skills/` |
+
+Codex también lee `~/.codex/skills/`.
+
+<mark>Las skills no se activan solas</mark>. Salvo `setup-pstack`, cada una solo se ejecuta cuando la nombras.
+
+## Elige los modelos
+
+Después de instalarlo, ejecuta `setup-pstack` una vez. La skill muestra la lista de modelos que puedes usar, te pregunta por tu <Term k="推理预算" /> (cuánto tiempo piensan los modelos) y escribe un solo archivo:
+
+<Copy id="codex-file" title="Dónde se guarda el archivo de configuración" code="~/.agents/pstack-models.md" />
+
+Las skills lo leen solas cuando eligen un modelo, así que no necesitas una conversación nueva.
+
+<Callout type="warn" title="Ejecuta la configuración al menos una vez">
+Los nombres de modelo por defecto de pstack están escritos para Cursor. Si tu herramienta no tiene uno de esos nombres, la skill cambia al más parecido. Si no hay ninguno parecido, la skill usa el modelo de tu conversación actual y te avisa. Ejecuta la configuración una vez y cada rol recibirá un modelo que sí tienes.
+</Callout>
+
+## Tu primera tarea
+
+En Codex, llamas a una skill con `$` seguido de su nombre, como `$poteto-mode`. Los comandos de este sitio están escritos por defecto para Claude Code (`/pstack:poteto-mode`). Elige Codex aquí y todos los comandos del sitio cambiarán al formato con `$`:
+
+<ToolPick />
+
+Envía tu primera tarea así:
+
+<Copy id="codex-first" title="En Codex, llama a una skill con $" code="$poteto-mode añade una opción --json a este comando. La salida de texto actual debe mantenerse idéntica byte a byte. Comprueba ambas salidas." />
+
+También puedes decir «usa la skill poteto-mode para esto». En otras herramientas, usa su propia sintaxis. Para saber cómo redactar bien este mensaje, consulta [Tu primera tarea](/es/guide/3-first-task/).
+
+## Lo que le falta a tu herramienta, pstack lo resuelve de otra forma
+
+Las skills usan los nombres de Cursor y la IA los traduce. Algunas cosas que notarás:
+
+- **Sin forma de lanzar IA ayudantes** (<Term k="子代理" text="subagentes" />): los pasos pensados para ir a la vez se ejecutan de uno en uno, un poco más despacio.
+- **Sin herramienta de preguntas**: la IA muestra opciones numeradas en el chat.
+- **Sin `/loop`**: la IA usa un comando de espera con temporizador y vuelve a comprobarlo más tarde.
+- **Sin Custom Mode** (modo personalizado): solo Cursor lo tiene. Escribe `poteto-mode` al empezar cada tarea nueva.
+
+`deslop`, `control-cli` y `control-ui` vienen de otro plugin de Cursor. Sin ellos, la IA usa las herramientas que tienes, como Playwright o tmux.
+
+## ¿Te atascaste?
+
+<Q q="npx skills da error y no se ejecuta.">
+Ejecuta `node -v` primero. Si es inferior a 22.20, actualiza Node.js e inténtalo de nuevo.
+</Q>
+<Q q="No encuentro las skills de pstack en otro proyecto.">
+<u>Por defecto solo se instala en el proyecto en el que estabas</u>. Ejecútalo otra vez en el nuevo proyecto o añade `-g` para instalarlo en todos los proyectos.
+</Q>
+<Q q="Cambié la configuración de modelos, pero parece que no se aplica.">
+Abre `~/.agents/pstack-models.md` y comprueba que la línea muestra el modelo que elegiste. Luego comprueba que ese nombre existe en tu herramienta. Si no existe, la skill cambia al más parecido y lo indica en la respuesta.
+</Q>

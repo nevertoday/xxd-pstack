@@ -1,0 +1,79 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: refactor
+time: Una o dos conversaciones para una refactorización mediana
+for: El código está cada vez más desordenado y quieres limpiar su estructura sin cambiar nada para los usuarios
+step: 5
+tldr: Guarda la salida actual y luego cambia la estructura. Compara la misma salida después para demostrar que nada cambió.
+description: "Refactoriza con /poteto-mode: registra qué hace el código ahora, cambia la estructura y luego usa ese registro para demostrar que nada cambió. Incluye un ejemplo de sitio estático de Astro."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Fig from "../../../components/Fig.astro";
+
+## Copia esto primero
+
+<Copy id="ref-min" title="La versión más corta" code="/poteto-mode mueve el parsing a un solo módulo, cero cambios de comportamiento. Registra primero la salida actual y demuestra después que no cambió." />
+
+Una refactorización significa: <mark><strong>la estructura del código cambia y su comportamiento no cambia en absoluto.</strong></mark>
+
+- **Cero cambios de comportamiento**: nada de lo que ven los usuarios cambia. La IA trata la tarea como una refactorización. Sin nuevas funcionalidades, sin arreglar bugs.
+- **Registra primero la salida actual**: guarda un «antes» para tener algo con qué comparar. «La comprobación de tipos pasa» no cuenta. Eso solo demuestra que el código compila.
+
+<Fig id="h-refactor" />
+
+## Un ejemplo de sitio estático de Astro
+
+Una docena de páginas tienen su propio código para formatear fechas, cada uno un poco distinto. Quieres una sola función de utilidad.
+
+<Copy id="ref-astro" title="Ejemplo de sitio estático de Astro" code={`/poteto-mode Extrae el código para formatear fechas de todas las páginas a una sola función de utilidad, cero cambios de comportamiento.
+Antes de empezar: ejecuta npm run build y copia toda la carpeta dist como línea base.
+Cuando termines, vuelve a ejecutar el build y haz un diff contra la línea base. El diff debe quedar vacío para cada archivo HTML.
+Elimina todo el código antiguo. No mantengas funciones antiguas por compatibilidad.
+Muéstrame el comando de diff y su salida.`} />
+
+- **Un diff vacío de dist**: vacío significa que nada cambió. Una línea de más significa que algo sí cambió. No hace falta leer cada línea. Con esa sola salida basta.
+- **Sin funciones antiguas**: todas las llamadas pasan a la nueva función y el código antiguo se elimina en la misma pasada.
+
+Si el diff no está vacío, pídele que explique cada diferencia. Algunas pueden venir de páginas que ya formateaban las fechas de forma distinta desde el principio.
+
+## Dónde fijarte después de enviarlo
+
+**Al principio: cómo registró el comportamiento actual.** Un test, una captura de la salida o un script de comparación.
+
+**A mitad del proceso: borrar antes de añadir.** La IA elimina primero el código que no se usa y después añade la nueva estructura.
+
+**Al final: la comparación.** La respuesta indica qué estructura cambió, qué comparó, el resultado y qué cambios revirtió. Si el código no queda más fácil de leer, la IA revierte el cambio.
+
+## Si encuentras un bug a mitad de camino
+
+Al limpiar el código suele aparecer algún «esto siempre estuvo mal». Sepáralo:
+
+1. **Termina la refactorización y haz commit.** Deja el bug antiguo tal como está.
+2. **Arregla el bug como una tarea nueva.** Consulta [Arreglar un bug](/es/howto/fix-bug/).
+
+Así la refactorización sigue comparándose limpiamente con la línea base. Si arreglas cosas mientras refactorizas, no puedes distinguir los arreglos de lo que se rompió.
+
+<Callout type="warn" title="¿En realidad quieres cambiar el comportamiento?">
+Entonces no es una refactorización. Dilo y trátalo como una funcionalidad. Consulta <a href="/es/howto/add-feature/">Añadir una funcionalidad</a>. Para un cambio grande en muchos módulos, la IA delega en <code>/figure-it-out</code> para planificar todo el proceso primero.
+</Callout>
+
+## ¿Te atascaste?
+
+<Q q="Dice que «la comprobación de tipos y los tests pasan», así que nada cambió.">
+Responde: «La comprobación de tipos no es una comparación. Registra la salida real de antes, ejecuta la misma entrada después y muéstrame el diff». Si ya terminó, pídele que vuelva al commit anterior y reconstruya la línea base.
+</Q>
+<Q q="La IA empieza añadiendo archivos nuevos y capas de abstracción.">
+Responde: «subtract-before-you-add». Significa: elimina primero lo que no hace falta y luego construye sobre la base más simple. Es el nombre de un <Term k="原则" text="principio" /> de pstack. Escríbelo tal cual y la IA sabrá a qué te refieres.
+</Q>
+<Q q="Mantuvo una función antigua «por compatibilidad».">
+Responde: «migrate-callers-then-delete-legacy-apis. Migra todas las llamadas y elimina la función antigua en esta pasada». Ese nombre de principio significa exactamente esto. Solo cubre el código dentro de tu proyecto. Si hay usuarios externos que dependen de esa interfaz, díselo primero.
+</Q>
+<Q q="El código quedó más enrevesado después del cambio.">
+Solo di: «Este cambio obliga a quien lee a saltar por más capas. Reviértelo». Si no es más fácil de leer, hay que revertirlo.
+</Q>
+<Q q="Arregló un bug por el camino.">
+Responde: «Revierte el arreglo del bug, termina la refactorización con el comportamiento original y compruébalo. Abre una tarea aparte para el bug».
+</Q>

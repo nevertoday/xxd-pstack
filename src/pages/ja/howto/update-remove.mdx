@@ -1,0 +1,83 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: update-remove
+time: 4 分で読めます
+for: pstack を更新したい、インストール状況を確認したい、または削除したいとき
+step: 1
+tldr: インストール方法ごとの更新・アンインストールコマンドをまとめています。更新後は /setup-pstack を再実行し、アンインストール後は設定ファイルも削除してください。
+description: "インストール方法ごとの確認・更新・アンインストールコマンドをまとめています。気をつけたい落とし穴：更新でデフォルトモデルが変わっても、古い設定ファイルには以前のモデル名がそのまま残ります。"
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Cmd from "../../../components/Cmd.astro";
+import Tabs from "../../../components/Tabs.astro";
+
+## インストール方法ごとのコマンド
+
+インストール時に入力したコマンドに合わせてタブを選んでください：
+
+- `npx skills add` → skills コマンドライン
+- `/plugin install` → Claude Code プラグイン
+- `/add-plugin` → Cursor プラグイン
+
+思い出せないときは？コマンドの先頭に `pstack:` が必要なら、Claude Code プラグインです。
+
+<Tabs id="ur" items={[["skills","skills コマンドライン"],["cc","Claude Code プラグイン"],["cursor","Cursor プラグイン"]]}>
+<div slot="skills">
+<p>以下はターミナルで実行します（AI のチャット欄ではありません）：</p>
+<p><Cmd c="npx skills list" /> どのスキルがインストールされているか確認します。</p>
+<p><Cmd c="npx skills check" /> 新しいバージョンがあるか確認します。</p>
+<p><Cmd c="npx skills update" /> 最新版に更新します。</p>
+<p><Cmd c="npx skills remove" /> スキルをアンインストールします。</p>
+<p><code>-g</code> を付けずにインストールしたスキルは、そのとき開いていたプロジェクトの中にだけ置かれます。</p>
+</div>
+<div slot="cc">
+<p>サードパーティのプラグインは、デフォルトでは自動更新されません。手動で 1 回更新するには、ターミナルで以下を実行します：</p>
+<p><Cmd c="claude plugin update pstack@cursor-plugins" /></p>
+<p>自動更新にするには：<code>/plugin</code> と入力し、<strong>marketplaces</strong> タブを開いて <code>cursor-plugins</code> を選び、<strong>enable auto-update</strong> を選択します。</p>
+<p>以下は Claude Code のチャット欄に入力します：</p>
+<p><Cmd c="/plugin list" /> インストール済みのプラグインと、有効・無効の状態を確認します。</p>
+<p><Cmd c="/plugin uninstall pstack@cursor-plugins" /> アンインストールします。</p>
+<p><Cmd c="/plugin disable pstack@cursor-plugins" /> 一時停止します。あとで再開するには <code>/plugin enable pstack@cursor-plugins</code> を使います。</p>
+<p>アンインストールや一時停止のあとは、<code>/reload-plugins</code> と入力するか、Claude Code を再起動してください。インストール時に追加したプラグインストアも削除したい場合は、<code>/plugin marketplace remove cursor-plugins</code> を実行します。なお、このコマンドを実行すると、そのストアから入れた他のプラグインもすべてアンインストールされます。</p>
+</div>
+<div slot="cursor">
+<p>サイドバーの「Customize」から管理します。pstack には Cursor プラグインの更新手順が書かれていないため、Cursor 本体の画面に従って操作してください。</p>
+</div>
+</Tabs>
+
+## 更新後：セットアップを再実行する
+
+`/setup-pstack` は、それぞれの<Term k="模型角色" />で使うモデルを設定ファイルに 1 行ずつ書き込みます。新しいバージョンでデフォルトモデルが変わっても、設定ファイルには古いモデル名がそのまま残ります。<mark>スキルがその行を読み込むと、古いモデルを使い続けてしまいます</mark>。
+
+<Cmd c="/setup-pstack" />
+
+古いデフォルト値を認識して新しいものに置き換え、どれを替えたかも教えてくれます。意図して選んだモデルはそのまま残ります。古いバージョンで書かれたファイルの場合、`/poteto-mode` が 1 回の会話につき 1 度お知らせします。
+
+認識できない古い値が残っている場合は、先に設定ファイルを開いてその行（またはファイル全体）を削除してから実行してください。
+
+| ツール | 設定ファイル |
+| --- | --- |
+| Cursor | `~/.cursor/rules/pstack-models.mdc` |
+| Claude Code | `~/.claude/rules/pstack-models.md` |
+| Codex など | `~/.agents/pstack-models.md` |
+
+<Callout type="ok" title="再実行しても安全です">
+`/setup-pstack` を再実行しても、意図して変更した役割はそのまま残ります。実行後は新しい会話を始めてください。そうしないと反映されません。
+</Callout>
+
+## アンインストール後：設定ファイルも削除する
+
+アンインストールしても設定ファイルは削除されません。Claude Code は新しいセッションのたびにこのファイルを読み込むため、無駄にスペースを取ってしまいます。もう pstack を使わないなら、上の表にあるファイルもあわせて削除してください。
+
+生成された<Term k="验证技能" />（`verify-your-app` のようなフォルダ）はプロジェクトに属するものなので、pstack と一緒には削除されません。
+
+## つまずいたときは？
+
+<Q q="更新したのに、まだ古いモデルが使われます。">
+古い設定ファイルが残っている可能性が高いです。`/setup-pstack` を再実行してください。それでも直らなければ、該当する役割の行を削除します。そのあと、新しい会話を始めてください。
+</Q>
+<Q q="npx skills list に pstack のスキルが表示されません。">
+インストールしたプロジェクトフォルダの中で実行しているか確認してください。プロジェクト内にインストールしたスキルと、`-g` 付きでインストールしたスキルは、保存場所が別です。
+</Q>

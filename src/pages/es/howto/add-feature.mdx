@@ -1,0 +1,71 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: add-feature
+time: Una o dos conversaciones para una funcionalidad pequeña
+for: Quieres añadir una funcionalidad a un proyecto que la gente ya usa, sin romper lo que funciona
+step: 5
+tldr: Di qué añadir y qué comportamiento anterior no debe cambiar. Luego pídele que compruebe tanto el caso nuevo como el anterior.
+description: "Añade una funcionalidad con /poteto-mode: di cómo debe ser lo nuevo y qué no debe cambiar, y luego pídele que compruebe ambos casos. Incluye un ejemplo de extensión de Chrome."
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Copia esto primero
+
+<Copy id="feat-min" title="La versión más corta" code="/poteto-mode añade una opción --json. la salida de texto se mantiene idéntica byte a byte. comprueba ambas formas." />
+
+Este es el ejemplo de la propia documentación de pstack. Tiene tres partes:
+
+1. **Lo que quieres**: una opción `--json`.
+2. **Lo que no debe cambiar**: la salida de texto. La IA compara la salida antes y después. Un solo byte distinto significa que falló.
+3. **Comprobar ambas**: para que no pruebe solo el JSON nuevo y se olvide del texto anterior.
+
+Lo difícil es no romper lo que ya había. Lo nuevo funciona, pero la salida anterior cambió sin avisar. <mark>Pon en el prompt lo que no debe cambiar y se convierte en algo que la IA comprueba.</mark>
+
+## Un ejemplo de extensión de Chrome
+
+Quieres un nuevo ajuste en la página de opciones: qué grupo muestra el panel lateral al abrirse. Antes no existía ese ajuste. El panel lateral siempre mostraba «Todos».
+
+<Copy id="feat-ext" title="Ejemplo de extensión de Chrome" code={`/poteto-mode Añade un ajuste a la página de opciones: qué grupo mostrar por defecto cuando se abre el panel lateral.
+Antes de escribir código, dime cómo se va a guardar este ajuste en chrome.storage.sync.
+Lo que no debe cambiar: los usuarios que nunca lo hayan configurado siguen viendo «Todos» en el panel lateral, igual que ahora. Todos los demás ajustes existentes se leen sin cambios.
+Comprueba ambos casos: un perfil nuevo que nunca lo haya configurado y un perfil configurado con el grupo «Trabajo».
+Muéstrame qué hay realmente en chrome.storage.sync en ambos casos, además de una captura de pantalla del panel lateral al abrirse.`} />
+
+- **Decir primero cómo se guarda**: detectas problemas antes de que haya código. Quizá la IA quiera una clave nueva y tú la quieras dentro de los ajustes existentes.
+- **Los usuarios que nunca lo configuraron no ven cambios**: actualizan y no tocan nada. Ese es el caso que se rompe con más facilidad.
+- **Dos perfiles**: una comprobación de pasa o falla para el caso anterior y otra para el nuevo.
+- **Almacenamiento más una captura de pantalla**: no basta con que la interfaz se vea bien. Comprueba el valor que se guardó de verdad.
+
+## Dónde fijarte después de enviarlo
+
+**Al principio: su reformulación y la estructura de guardado**. Primero la IA lee el código y luego dice cómo piensa guardar el ajuste. Si está mal, detenla enseguida.
+
+**Al final: evidencia de ambos casos**. Dos conjuntos con el contenido del almacenamiento y capturas de pantalla. Todo lo que no pueda comprobar se marca como «no concluyente», no como aprobado.
+
+## Ver el diseño antes de que empiece
+
+Cuando un cambio abarca varios archivos, la IA ejecuta `/architect` por su cuenta. Por defecto empieza a programar justo después del diseño. Para verlo primero, envía esto:
+
+<Copy id="feat-arch" title="Detente y muéstrame primero el diseño" code="/architect Detente después del diseño y muéstramelo. No empieces hasta que esté de acuerdo." />
+
+<Callout type="tip" title="Deja que la IA abra tu extensión sola">
+Para comprobar la interfaz, la IA tiene que saber cómo iniciar tu proyecto. Si sigue diciendo que no puede, ejecuta <code>/create-verification-skill</code> una vez. Esto crea una <a href="/es/wiki/verify-skill/">skill de verificación</a> para tu proyecto. Consulta el <a href="/es/guide/6-verify-ship/">paso 6 de la guía</a>.
+</Callout>
+
+## ¿Te atascaste?
+
+<Q q="Cambió el formato de la salida anterior por el camino.">
+Responde: «La salida de texto original no debe cambiar. Muéstrame el diff de la salida antes y después. Tiene que estar vacío». La próxima vez, di qué no debe cambiar en tu primer prompt.
+</Q>
+<Q q="Solo comprobó la funcionalidad nueva, no el comportamiento anterior.">
+Añade: «apply prove it works. Ejecuta el comando real para ambos casos y pega la salida». <code>prove it works</code> significa: muestra resultados reales de que funciona. Es el nombre de un <a href="/es/wiki/principles/">principio</a> de pstack. Escríbelo tal cual y la IA sabrá a qué te refieres. Obtienes salida real, no solo «compila».
+</Q>
+<Q q="¿Una funcionalidad muy pequeña necesita todo el proceso de diseño?">
+No siempre. Cuando solo cambia un archivo, los pasos que no hacen falta se marcan como <code>n/a</code> o <code>skip</code> en la <Term k="待办清单" />, con un motivo. Si no estás de acuerdo con un motivo, dilo.
+</Q>
+<Q q="Añadió funcionalidades que no le pedí.">
+Responde: «Implementa solo el ajuste que te pedí. Enumera tus otras ideas, pero no las implementes». Las ideas extra van en la respuesta, no en el código.
+</Q>
