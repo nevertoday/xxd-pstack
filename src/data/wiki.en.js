@@ -208,7 +208,7 @@ export const WIKI_EN = {
     one: "pstack splits the work into roles. Each role can use a different model, set in one small config file.",
     like: "Like a building crew. Not everyone needs to be the priciest hire. The inspector should come from another firm, so nobody checks their own work.",
     here: [
-      "Default split: coding, writing and judgment all go to opus 5.5. The review panel has one each of fable 5.2, opus 5.5 and gemini 4 carbon by default. ==Different models reviewing each other is a core pstack practice.==",
+      "Default split: coding, writing and judgment all go to opus 5.5. The review panel has one each of fable 5.2, opus 5.5 and gemini 4 neon by default. ==Different models reviewing each other is a core pstack practice.==",
       "`/setup-pstack` checks which models you can use and writes the config. In Cursor it's `~/.cursor/rules/pstack-models.mdc`. In Claude Code it's `~/.claude/rules/pstack-models.md`. Other tools use `~/.agents/pstack-models.md`. Changes apply in a new chat. Claude Code only offers Claude models; see [Using it in Claude Code](/en/howto/claude-code/#how-to-set-it-up-well).",
     ],
     myths: [

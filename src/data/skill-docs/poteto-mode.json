@@ -1,6 +1,6 @@
 {
   "name": "poteto-mode",
-  "commit": "0d2dc00",
+  "commit": "c3464c1",
   "description": {
     "en": "poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, /poteto-mode, or requests to work in this style.",
     "zh": "poteto 的 AI 工作风格：回复简洁又有细节，有分寸地派帮手 AI，文字不带 AI 腔，代码简单，做完的工作经过验证。用于 poteto、/poteto-mode，或者要求按这种风格工作时。"
@@ -111,16 +111,16 @@
       "zh": "**每次 `Task` 调用的默认设置。** `run_in_background: true`；agent 模式（readonly 会去掉 MCP）；给文件路径，不把内容直接塞进去；按角色明确指定模型，Project worker 也一样。`/setup-pstack` 会写 pstack 设置文件（Cursor 里是 `~/.cursor/rules/pstack-models.mdc`，Claude Code 里是 `~/.claude/rules/pstack-models.md`，其他工具里是 `~/.agents/pstack-models.md`），里面按角色写的那几行，会覆盖下面的默认值，也会覆盖被转去的技能（`arena`、`swarm`、`interrogate`）里各角色的模型。没有对应行的角色保持默认。某一行写的是 `inherit-parent` 或 `auto` 时，这个角色就用父对话的模型，所以省略 `model`，派一个通用帮手 AI（Cursor 里是 `generalPurpose`），因为 `poteto-agent` 默认用 Opus 5.5。每个代码剧本读它自己那一行（`feature, refactoring`、`bug-fix`、`perf-issue` 或 `hillclimb`），写文字和做判断读 `judgment and prose`，琐碎的机械修改读 `swarm workers`。如果设置文件里没有 `# defaults: 3` 那一行，那是旧版设置写的。继续照它的各行来，并且每次会话告诉用户一次，请用户重跑 `/setup-pstack`。"
     },
     {
-      "en": "- Code, prose, and judgment: `claude-opus-5-5-xhigh-fast`.\n- Trivial mechanical edits: `claude-opus-5-5-high-fast`.\n- Diverse review and design panels: one runner each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`.",
-      "zh": "- 写代码、写文字、做判断：`claude-opus-5-5-xhigh-fast`。\n- 琐碎的机械修改：`claude-opus-5-5-high-fast`。\n- 多样化的审查和设计小组：`claude-fable-5-2-high`、`claude-opus-5-5-high-fast` 和 `gemini-4-carbon-high` 上各跑一个。"
+      "en": "- Code, prose, and judgment: `claude-opus-5-5-xhigh-fast`.\n- Trivial mechanical edits: `claude-opus-5-5-high-fast`.\n- Diverse review and design panels: one runner each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-neon-xhigh`.",
+      "zh": "- 写代码、写文字、做判断：`claude-opus-5-5-xhigh-fast`。\n- 琐碎的机械修改：`claude-opus-5-5-high-fast`。\n- 多样化的审查和设计小组：`claude-fable-5-2-high`、`claude-opus-5-5-high-fast` 和 `gemini-4-neon-xhigh` 上各跑一个。"
     },
     {
       "en": "**Fable 5.2 is an exception.** It runs outside a panel only when the user named it for this task or two Opus 5.5 xhigh runs of the same brief failed its check. Say which. Difficulty alone never qualifies.",
       "zh": "**Fable 5.2 是例外。** 只有当用户为这个任务点名要它，或者同一份任务说明用 Opus 5.5 xhigh 跑了两次都没通过检查时，它才在小组之外跑。说出是哪一种。光是任务难，永远不够格。"
     },
     {
-      "en": "**Match the model to the job.** Start from the role's line or default, keep its family, and set the level the job needs. The `/setup-pstack` budget sets each role's starting level. Panel seats keep their listed level. Raise any other role one step, up to xhigh, for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. No role runs above xhigh. Opus 5.5 always runs its `-fast` slug. Verification always runs on the `swarm workers` model, `claude-opus-5-5-high-fast` by default. A Gemini seat never runs above `gemini-4-carbon-high`, its top slug. If your subagent tool rejects a slug, never pass it again. Fall back to the role's line or default, then the calling skill's fallback, then the closest valid slug of the same family, then omit `model`. Say so.",
-      "zh": "**让模型配得上这份工作。** 从这个角色那一行或默认值出发，保持它的模型家族不变，按工作需要设定等级。`/setup-pstack` 的预算设定每个角色的起始等级。小组里的席位保持列出来的等级。其他角色，最难或最微妙的工作往上调一级，最高到 xhigh；做判断的工作往下调一级，例行工作往下调两级或更多。没有哪个角色高于 xhigh。Opus 5.5 总是用它的 `-fast` slug。验证总是用 `swarm workers` 的模型，默认 `claude-opus-5-5-high-fast`。Gemini 席位绝不高于它最高的 slug `gemini-4-carbon-high`。如果你的帮手 AI 工具拒绝了某个 slug，就再也不要传它。依次退回：这个角色那一行或默认值，然后是调用方技能的备选方案，然后是同一家族里最接近的有效 slug，最后省略 `model`。并说出来。"
+      "en": "**Match the model to the job.** Start from the role's line or default, keep its family, and set the level the job needs. The `/setup-pstack` budget sets each role's starting level. Panel seats keep their listed level. Raise any other role one step, up to xhigh, for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. No role runs above xhigh. Opus 5.5 always runs its `-fast` slug. Verification always runs on the `swarm workers` model, `claude-opus-5-5-high-fast` by default. A Gemini seat runs at `gemini-4-neon-xhigh` unless its line names another level. If your subagent tool rejects a slug, never pass it again. Fall back to the role's line or default, then the calling skill's fallback, then the closest valid slug of the same family, then omit `model`. Say so.",
+      "zh": "**让模型配得上这份工作。** 从这个角色那一行或默认值出发，保持它的模型家族不变，按工作需要设定等级。`/setup-pstack` 的预算设定每个角色的起始等级。小组里的席位保持列出来的等级。其他角色，最难或最微妙的工作往上调一级，最高到 xhigh；做判断的工作往下调一级，例行工作往下调两级或更多。没有哪个角色高于 xhigh。Opus 5.5 总是用它的 `-fast` slug。验证总是用 `swarm workers` 的模型，默认 `claude-opus-5-5-high-fast`。Gemini 席位用 `gemini-4-neon-xhigh`，除非它那一行写了别的等级。如果你的帮手 AI 工具拒绝了某个 slug，就再也不要传它。依次退回：这个角色那一行或默认值，然后是调用方技能的备选方案，然后是同一家族里最接近的有效 slug，最后省略 `model`。并说出来。"
     },
     {
       "en": "You own every subagent's work. Review the diff and write your own summary. A second opinion is the same prompt on another vendor's model.",

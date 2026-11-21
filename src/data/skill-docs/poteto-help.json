@@ -1,6 +1,6 @@
 {
   "name": "poteto-help",
-  "commit": "0d2dc00",
+  "commit": "c3464c1",
   "description": {
     "en": "Guides users through pstack setup, /poteto-mode, and picking the skill, playbook, or principle for a task. Type /poteto-help with a question.",
     "zh": "带用户走一遍 pstack 的设置、/poteto-mode 的用法，以及怎么为一件任务挑技能、剧本或原则。输入 /poteto-help，后面跟上你的问题。"

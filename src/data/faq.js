@@ -7,7 +7,7 @@ export const FAQ = [
     ["必须用 Cursor 吗？", "不用。官方版是给 Cursor 写的。[backnotprop/pstack](https://github.com/backnotprop/pstack) 是一份改过的副本（镜像），Claude Code、Codex、OpenCode、Pi 等都能用。Cursor 独有的几样功能（Automations、Bugbot、云端代理）在别的工具里会跳过，并留一行说明。"],
     ["我不太会写代码，能用吗？", "能，先用它读懂代码。`/how`、`/teach`、`/bro` 会让 AI 用大白话讲清楚一个项目。要让它改代码，你得看得懂它给的证据：命令输出、截图、前后对比。项目最好也在用 Git。"],
     ["和 Claude Code、Cursor 自带的计划模式有什么关系？", "不冲突，用哪个都行。pstack 没有专门写计划的技能，作者觉得最好的计划就是代码本身。真要计划，等设计定下来，让 `/poteto-mode` 写一份分阶段的计划。每个 PR 都要写上怎么检查。"],
-    ["官方版和 backnotprop 镜像有什么区别？", "用 Cursor 就装官方版，用别的工具装镜像。镜像每天和 [官方版](https://github.com/cursor/plugins/tree/main/pstack) 同步，并把只有 Cursor 能用的写法改成了通用的。它还多带了两个社区修复。`/no-comments` 会留下说明外部规则的注释，`/statechart` 能在 Windows 上跑。"],
+    ["官方版和 backnotprop 镜像有什么区别？", "用 Cursor 就装官方版，用别的工具装镜像。镜像每天和 [官方版](https://github.com/cursor/plugins/tree/main/pstack) 同步，并把只有 Cursor 能用的写法改成了通用的。它还多带了两个社区修复。`/no-comments` 会留下说明外部规则的注释；盯 PR 的 `watch-pr` 不再把别人 fork 来的 PR 算进你的那一串，它们的评审意见也就不会混进 AI 读的内容。"],
   ]},
   { id: "using", title: "用起来", items: [
     ["每件事都要打 /poteto-mode 吗？", "不用，要认真做的事才打。改一行文案、很明显的小改动，直接跟 AI 说就行。拿不准的时候：==做错了会返工的事，就打==。"],
@@ -16,7 +16,7 @@ export const FAQ = [
     ["它为什么不问我就往下做了？", "这是故意的：能撤回的事它先做，做完给你看，你再纠正。它第一条回复会复述你要什么、打算改哪里。理解错了，直接打断就行。跑一下就能知道答案的问题，它会自己试，不来问你。"],
     ["回复太长太专业，看不懂怎么办？", "打 `/bro`。它会把上一条回复用大白话重说一遍，更短，没有行话。离开一会儿回来想看进展，打 `/ketchup`。"],
     ["在 Claude Code 里打了命令没反应？", "用插件装的，命令都挂在 `pstack:` 下面：要打 `!/pstack:poteto-mode`，只打 `!/poteto-mode` 它不认。这是 Claude Code 给插件定的规矩，免得两个插件的命令撞名。本站的命令默认就按这个写，复制就能用；用 `npx skills` 装的没有这个前缀，到右上角「外观」里把「我用的工具」换成「npx 装的」。另外，跑完 `/setup-pstack` 要开一个新会话，选的模型才生效。见 [在 Claude Code 里用](/howto/claude-code/)。"],
-    ["默认的模型我没有，会不会用不了？", "能用。默认写代码、做判断用 opus 5.5，评审小组里还有 fable 5.2 和 gemini 4 carbon。没有的模型会自动换。Claude Code 里换成当前会话的模型，别的工具换成最接近的那个。想自己选，跑一次 `/setup-pstack`，它会查出你能用的模型让你挑。"],
+    ["默认的模型我没有，会不会用不了？", "能用。默认写代码、做判断用 opus 5.5，评审小组里还有 fable 5.2 和 gemini 4 neon。没有的模型会自动换。Claude Code 里换成当前会话的模型，别的工具换成最接近的那个。想自己选，跑一次 `/setup-pstack`，它会查出你能用的模型让你挑。"],
     ["项目不在 Git 里能用吗？", "读代码、查问题可以；要它改代码，先用上 Git。改代码的剧本大多要建 worktree、提交、开 PR，都离不开 Git。在项目里跑 `git init`，提交一次，就能用了。"],
     ["不想用了，怎么卸掉？", "看当初怎么装的。Claude Code 插件：在对话框里输入 `/plugin uninstall pstack@cursor-plugins`，再输入 `/reload-plugins`；只想暂停，把 `uninstall` 换成 `disable`。用 `npx skills` 装的：在终端运行 `npx skills remove`。跑过 `/setup-pstack` 的，再把它写的设置文件删掉。见 [更新、查看、卸载](/howto/update-remove/)。"],
   ]},

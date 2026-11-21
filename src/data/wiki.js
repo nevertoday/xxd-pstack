@@ -230,7 +230,7 @@ export const WIKI = [
     one: "pstack 把活分成几种角色，每种可以配不同的模型，写在一个小配置文件里。",
     like: "像一个工程队，不必都请最贵的师傅。验收最好请别家的人，免得自己验自己。",
     here: [
-      "默认分工：写代码、写文字和做判断都交给 opus 5.5。评审小组默认是 fable 5.2、opus 5.5、gemini 4 carbon 各一个。==让不同的模型互相评审，是 pstack 的核心做法。==",
+      "默认分工：写代码、写文字和做判断都交给 opus 5.5。评审小组默认是 fable 5.2、opus 5.5、gemini 4 neon 各一个。==让不同的模型互相评审，是 pstack 的核心做法。==",
       "`/setup-pstack` 会查你能用哪些模型，再写好配置。Cursor 的在 `~/.cursor/rules/pstack-models.mdc`。Claude Code 的在 `~/.claude/rules/pstack-models.md`。其他工具的在 `~/.agents/pstack-models.md`。改完要开新对话才生效。Claude Code 里只能用 Claude 的模型，怎么配见[在 Claude Code 里用](/howto/claude-code/#怎么配最好)。",
     ],
     myths: [
