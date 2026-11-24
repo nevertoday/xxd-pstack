@@ -1,0 +1,69 @@
+{
+  "description": "Teach the expert words for what the operator is building, borrow words from neighboring fields that solved the same problem, then rewrite their description with them. Use for /reframe.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Carries on with your own vague wording.",
+        "with": "Teaches the expert terms first, each tied to a part of your description."
+      },
+      {
+        "without": "Looks for answers only inside your own field.",
+        "with": "Borrows terms from neighboring fields that solved the same problem, and says where each analogy breaks."
+      },
+      {
+        "without": "Offers a few plausible-looking links.",
+        "with": "Opens every link to check it and cuts the ones that don't match."
+      }
+    ],
+    "intro": "It reads your files, code and words first; if your description could mean several problems, it lists them and picks the likeliest. Then it gives 8 to 12 terms ranked by impact, borrows from two or three neighboring fields, names what you missed, and rewrites your description with the new words.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Start from their own files, code and description, not a summary.",
+      "quoteTr": "Start from their own files, code and description, not a summary.",
+      "title": "Start from the raw material",
+      "does": "It reads your code and your own words before it picks any terms.",
+      "why": "A summary has already chosen the wording; terms picked from it fit the summary, not your real problem.",
+      "try": "Before asking for an analysis, add: \"Read src/settings/ and my words above directly; don't summarize first.\""
+    },
+    {
+      "quote": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others.",
+      "quoteTr": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others.",
+      "title": "Say which problems it could be",
+      "does": "When your description is vague, it lays out two or three readings, each with a sign that tells it apart, then picks the likeliest.",
+      "why": "An AI quietly picks one reading by default; laying them out lets you see at a glance whether it picked wrong.",
+      "try": "When a request is fuzzy, write: \"Which two or three problems could this mean? How would I tell them apart? Which do you pick, and why?\""
+    },
+    {
+      "quote": "Give 8 to 12 terms, ranked by how much each would change what gets built.",
+      "quoteTr": "Give 8 to 12 terms, ranked by how much each would change what gets built.",
+      "title": "Rank by impact, not alphabet",
+      "does": "It puts the terms that would change your approach most at the top.",
+      "why": "A flat list of terms is hard to remember; ranked by how much each changes things, the first two or three are enough.",
+      "try": "When you ask for a list, give the ranking rule: \"Order them by how much each affects launch risk, biggest first.\""
+    },
+    {
+      "quote": "For each, say what carries over, where the analogy breaks, and which terms come back.",
+      "quoteTr": "For each, say what carries over, where the analogy breaks, and which terms come back.",
+      "title": "Borrow the analogy, and say where it breaks",
+      "does": "When it borrows from another field, it says what carries over and where it stops working.",
+      "why": "Analogies invite copying too much; naming the limit keeps what you borrow from leading you astray.",
+      "try": "When the AI offers an analogy, add: \"Where does this comparison break?\""
+    },
+    {
+      "quote": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm.",
+      "quoteTr": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm.",
+      "title": "Open every source and check it",
+      "does": "It opens every link it gives you and cuts the ones that don't match.",
+      "why": "AIs easily make up plausible-looking links; requiring each one to be opened and the misses cut is what makes the rest trustworthy.",
+      "try": "When you ask for references, write: \"Open each link and confirm it before you give it to me; leave out any you can't confirm.\""
+    }
+  ],
+  "blocks": [
+    "Teach the operator the expert words for what they are building. Start from their own files, code and description, not a summary.",
+    "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others. Then teach the words for the most likely one and say why you picked it.",
+    "1. Give 8 to 12 terms, ranked by how much each would change what gets built. For each, give the word and its meaning in one plain sentence, the part of their description it names, one real project, paper or system that uses it that way, with a link, and what it lets them ask an agent for.\n2. Pick 2 or 3 neighboring fields that solved the same shape of problem under other names. For each, say what carries over, where the analogy breaks, and which terms come back.\n3. Name what they didn't mention but should care about.\n4. Rewrite their description with the new words.",
+    "Open every link and confirm it uses the term that way. Cut any citation you can't confirm. No padding."
+  ]
+}

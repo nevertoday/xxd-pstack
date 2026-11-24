@@ -1,7 +1,7 @@
 # 维护说明
 
 把 [pstack](https://github.com/backnotprop/pstack)（poteto 的 AI 编程技能包）讲给第一次接触的人：说人话，从入门到在真实项目里用起来。
-四块内容：主线教程（按顺序 0–8 步）、技能速查（34 个技能）、How-to（具体怎么做）、Wiki（这是什么）、常见问题。
+四块内容：主线教程（按顺序 0–8 步）、技能速查（35 个技能）、How-to（具体怎么做）、Wiki（这是什么）、常见问题。
 
 - 站点骨架沿用 [小小东 VPS 教程站](https://vps.xiaoxiaodong.ai)（`../小小东VPS/site`）：同样的外壳、组件、搜索和写作规矩。
 - 界面用 xxd-ui-kit（`public/xxd/` 里自带一份，不走 CDN）。
@@ -68,7 +68,7 @@ npm run build      # 输出到 dist/
 - 说人话：短句、具体、不堆术语；第一次出现的术语用 `Term` 包起来。
 - 提示词用中文写，技能名和原则名保留英文（`/how`、`prove it works`），AI 才认得。
 - 只写 pstack 仓库里写明了的行为和命令；会变的东西（默认模型、剧本数量、命令前缀）以 [pstack 仓库](https://github.com/backnotprop/pstack) 为准，变了就改 `data/` 里对应的那一处。
-- 当前内容核对到 pstack **0.15.46**（backnotprop/pstack `c3464c1`，2026-11-20）。下次同步先看它的 `SYNC-LOG.md` 从这一行往后有没有「Synced」，再 `git diff c3464c1 HEAD -- skills docs README.md` 看具体改了什么。
+- 当前内容核对到 pstack **0.15.48**（backnotprop/pstack `9dd3408`，2026-11-24）。下次同步先看它的 `SYNC-LOG.md` 从这一行往后有没有「Synced」，再 `git diff 9dd3408 HEAD -- skills docs README.md` 看具体改了什么。
 - 外部参考资料（作者的长文等）记在 `docs/sources/README.md`：出处、要点、本站哪页用到、还没用上的地方。原文副本放 `docs/sources/raw/`，不提交。
 - 作者 poteto 一律称「作者」或「poteto」，不用他 / 她。
 - MDX 正文里不能出现裸的 `<`、`{`、`}`：占位符写在代码里，比如 `` `<你的应用名>` ``。

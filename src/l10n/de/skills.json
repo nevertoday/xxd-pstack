@@ -42,6 +42,11 @@
       "use": "Eine wichtige Aufgabe, bei der die Anfrage sitzen soll, bevor du sie abschickst.",
       "ex": "/sharpen Schreib eine Migrationsanleitung für das v2-Config-Format."
     },
+    "reframe": {
+      "one": "Bringt dir die Begriffe bei, die Fachleute für das nutzen, was du baust, und schreibt deine Beschreibung dann damit um.",
+      "use": "Du kannst nicht benennen, was du baust, und kannst die KI deshalb nicht klar darum bitten.",
+      "ex": "/reframe Die Einstellungsseite speichert manche Felder sofort und andere erst beim Absenden, und Leute verlieren ihre Änderungen."
+    },
     "how": {
       "one": "Erklärt, wie ein Stück Code heute läuft: den Ablauf, die wichtigen Typen, die leicht übersehenen Fallen.",
       "use": "Du willst den Code verstehen, bevor du ihn änderst, oder du vermutest, dass er langsam ist.",

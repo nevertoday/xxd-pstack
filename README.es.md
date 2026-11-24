@@ -8,13 +8,13 @@
 
 [pstack](https://github.com/backnotprop/pstack) hace que pruebe su propio trabajo antes de decirte que ha terminado.<br>Esta guía explica pstack con palabras sencillas. Puedes aprenderlo aunque nunca hayas escrito código.
 
-<a href="https://pstack.xiaoxiaodong.ai/es/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/es-1-dark.svg"><img src="assets/doors/es-1.svg" height="92" alt="Nunca he programado: 3 lecciones · 20 minutos"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/es-2-dark.svg"><img src="assets/doors/es-2.svg" height="92" alt="Sé programar: Guía de 9 pasos (inglés)"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/es-3-dark.svg"><img src="assets/doors/es-3.svg" height="92" alt="Aprender a pedir: 34 skills al detalle (inglés)"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/es/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/es-1-dark.svg"><img src="assets/doors/es-1.svg" height="92" alt="Nunca he programado: 3 lecciones · 20 minutos"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/es/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/es-2-dark.svg"><img src="assets/doors/es-2.svg" height="92" alt="Sé programar: Guía de 9 pasos"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/es/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/es-3-dark.svg"><img src="assets/doors/es-3.svg" height="92" alt="Aprender a pedir: 35 skills al detalle"></picture></a>
 
 <sub>Gratis · código abierto · 10 idiomas</sub>
 
 ![Principiantes](https://img.shields.io/badge/Principiantes-3_lecciones-8A9A8C?style=flat-square)
 ![Guía](https://img.shields.io/badge/Gu%C3%ADa-9_pasos-8A9A8C?style=flat-square)
-![Skills](https://img.shields.io/badge/Skills-34-D7B9C8?style=flat-square)
+![Skills](https://img.shields.io/badge/Skills-35-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_gu%C3%ADas-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20_entradas-9AA8C4?style=flat-square)
 ![Idiomas](https://img.shields.io/badge/Idiomas-10-9AA8C4?style=flat-square)
@@ -32,7 +32,7 @@
   <a href="#-cómo-te-ayuda-esta-guía">Lo que aporta</a> ·
   <a href="#-cómo-trabaja">Cómo trabaja</a> ·
   <a href="#-empieza-en-tres-minutos">Primeros pasos</a> ·
-  <a href="#️-34-skills-en-un-mapa">Mapa de skills</a> ·
+  <a href="#️-35-skills-en-un-mapa">Mapa de skills</a> ·
   <a href="#-en-proyectos-reales">Proyectos reales</a> ·
   <a href="#-déjalo-trabajar-toda-la-noche">Toda la noche</a> ·
   <a href="#-ejecutarlo-en-local">En local</a> ·
@@ -64,13 +64,13 @@ El modelo no es tonto. Lo que pasa es que trabaja sin método: cambia código qu
 | Trabajo en paralelo | Varias IA se pelean por la misma carpeta | Cada una usa su propio worktree, así puedes lanzar varias a la vez sin miedo |
 
 > [!NOTE]
-> pstack lanza más IA ayudantes y hace que varios modelos busquen fallos en el trabajo de los otros, así que es **más lento y gasta más tokens**. No lo uses para cambios pequeños. Para ahorrar, consulta [Reducir costes](https://pstack.xiaoxiaodong.ai/en/howto/cost/) (en inglés).
+> pstack lanza más IA ayudantes y hace que varios modelos busquen fallos en el trabajo de los otros, así que es **más lento y gasta más tokens**. No lo uses para cambios pequeños. Para ahorrar, consulta [Reducir costes](https://pstack.xiaoxiaodong.ai/es/howto/cost/).
 
 ## 🧗 pstack es genial, pero cuesta aprenderlo por tu cuenta
 
 poteto escribió pstack para su propio uso. La documentación oficial da por hecho que ya eres un ingeniero con mucha experiencia:
 
-- **Un muro de nombres el primer día**: 34 skills, 22 playbooks, 24 principios, todo jerga. ¿Cuáles necesitas de verdad?
+- **Un muro de nombres el primer día**: 35 skills, 22 playbooks, 24 principios, todo jerga. ¿Cuáles necesitas de verdad?
 - **No hay un primer paso claro**: ¿qué versión instalo? ¿Hay que configurarlo? ¿Qué comando escribo?
 - **Saberse el comando no basta**: si tu prompt no dice qué significa «terminado», se sigue desviando. Solo que se desvía con más cuidado.
 - **Respuestas que no entiendes**: largas y técnicas. No sabes qué línea importa y cuál te puedes saltar.
@@ -83,7 +83,7 @@ Mucha gente lo instala, lo prueba una vez, piensa «tampoco cambia tanto» y lo 
 - **Aprende solo lo que necesitas**: un comando, `/poteto-mode`, y un mensaje en tres partes: **Qué quiero · Cómo se ve terminado · Qué me muestras al terminar**. Todo lo demás está marcado como «consúltalo cuando lo necesites».
 - **Un prompt listo para copiar en cada situación**: arreglar un bug, añadir una función, refactorizar, heredar un código que no conoces, dejarle trabajo antes de irte a dormir. Cambia lo que va entre < > y envíalo.
 - **Aprende a leer sus respuestas**: dónde está su reformulación, su lista de tareas y sus comprobaciones; cómo saber si lo ha hecho bien, y qué frase mandarle cuando se desvía.
-- **Aprende a escribir prompts de un experto**: lee el texto completo de las 34 skills, con varias frases de cada una desmontadas: qué hace hacer a la IA, por qué está escrita así y cómo aprovecharla tú.
+- **Aprende a escribir prompts de un experto**: lee el texto completo de las 35 skills, con varias frases de cada una desmontadas: qué hace hacer a la IA, por qué está escrita así y cómo aprovecharla tú.
 - **Palabras sencillas**: cada página empieza con una línea sobre lo que te ayuda a conseguir, y los términos poco conocidos se explican al pasar el ratón por encima.
 - **Para todo el mundo**: todo el sitio está en 10 idiomas, desde la primera lección hasta el texto completo de las skills, así que puedes leerlo en el tuyo.
 - **Al día**: revisada con la versión actual de pstack; cada comando coincide con el repositorio oficial.
@@ -114,7 +114,7 @@ npx skills add backnotprop/pstack
 
 Los comandos de abajo están escritos para Cursor. Con el plugin de Claude Code, todos llevan `pstack:` delante (`/pstack:setup-pstack`, `/pstack:poteto-mode`); sin eso, Claude Code no los reconoce. En Codex es `$poteto-mode`. En la web puedes elegir tu herramienta y los comandos cambian solos.
 
-**2. Elige los modelos**: en una conversación nueva, ejecuta `/setup-pstack` una vez. Cuando pregunte si quieres generar una «skill de verificación», responde **sí**. En Claude Code, mira [tres configuraciones recomendadas](https://pstack.xiaoxiaodong.ai/en/howto/claude-code/#how-to-set-it-up-well) para combinar el modelo de la sesión con cada rol.
+**2. Elige los modelos**: en una conversación nueva, ejecuta `/setup-pstack` una vez. Cuando pregunte si quieres generar una «skill de verificación», responde **sí**. En Claude Code, mira [tres configuraciones recomendadas](https://pstack.xiaoxiaodong.ai/es/howto/claude-code/#cómo-configurarlo-bien) para combinar el modelo de la sesión con cada rol.
 
 **3. Tu primera tarea**: elige algo real pero no muy grande y explícalo como si le pasaras el trabajo a un compañero:
 
@@ -125,15 +125,15 @@ Muéstrame el contenido real de storage antes y después del arreglo.
 ```
 
 > [!TIP]
-> Un buen prompt tiene como mucho cinco cosas: **el objetivo**, **qué cuenta como terminado**, **qué pruebas quieres**, **lo que ya sabes** y **lo que no se puede tocar**. Hay dos cosas que es mejor no poner: cómo hacerlo exactamente y tu sospecha sobre la causa. Más en el [Paso 3](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/) (en inglés).
+> Un buen prompt tiene como mucho cinco cosas: **el objetivo**, **qué cuenta como terminado**, **qué pruebas quieres**, **lo que ya sabes** y **lo que no se puede tocar**. Hay dos cosas que es mejor no poner: cómo hacerlo exactamente y tu sospecha sobre la causa. Más en el [Paso 3](https://pstack.xiaoxiaodong.ai/es/guide/3-first-task/).
 
-## 🗺️ 34 skills en un mapa
+## 🗺️ 35 skills en un mapa
 
 <p align="center">
-  <img src="assets/en/skills.svg" width="100%" alt="Mapa de skills de pstack: 34 skills en siete grupos, más 24 principios">
+  <img src="assets/en/skills.svg" width="100%" alt="Mapa de skills de pstack: 35 skills en siete grupos, más 24 principios">
 </p>
 
-En el día a día solo escribes `/poteto-mode`; él llama a las demás cuando las necesita. Si quieres usar una por su nombre, o la IA menciona un nombre que quieres consultar, ve a la [Referencia de skills](https://pstack.xiaoxiaodong.ai/en/skills/) (en inglés): cada skill tiene un resumen en lenguaje llano, cuándo usarla, un ejemplo para copiar y con qué otras instalarla. Abre una skill para leer su SKILL.md completo y «lo que enseña su redacción»: unas frases del original, qué le hace hacer cada una a la IA, por qué está escrita así y cómo aprovecharla en tus propios prompts.
+En el día a día solo escribes `/poteto-mode`; él llama a las demás cuando las necesita. Si quieres usar una por su nombre, o la IA menciona un nombre que quieres consultar, ve a la [Referencia de skills](https://pstack.xiaoxiaodong.ai/es/skills/): cada skill tiene un resumen en lenguaje llano, cuándo usarla, un ejemplo para copiar y con qué otras instalarla. Abre una skill para leer su SKILL.md completo y «lo que enseña su redacción»: unas frases del original, qué le hace hacer cada una a la IA, por qué está escrita así y cómo aprovecharla en tus propios prompts.
 
 ## 🛠 En proyectos reales
 
@@ -141,16 +141,16 @@ Cada guía trae prompts que puedes copiar tal cual, con ejemplos de casos reales
 
 | Lo que tienes entre manos | Lee esto | La idea clave |
 |:---|:---|:---|
-| Arreglar un bug | [Reproducir, arreglar, demostrar](https://pstack.xiaoxiaodong.ai/en/howto/fix-bug/) | Que el bug vuelva a ocurrir antes de arreglar nada |
-| Añadir una función | [Sin romper lo que ya hay](https://pstack.xiaoxiaodong.ai/en/howto/add-feature/) | Di qué comportamiento existente no puede cambiar en absoluto |
-| Refactorizar | [Nueva estructura, mismo comportamiento](https://pstack.xiaoxiaodong.ai/en/howto/refactor/) | Graba la salida actual primero y luego demuestra que no cambió |
-| Va demasiado lento | [Hazlo más rápido, con números](https://pstack.xiaoxiaodong.ai/en/howto/perf/) | Dale una medición, no una sensación |
-| Heredar un proyecto desconocido | [Entender antes de tocar](https://pstack.xiaoxiaodong.ai/en/howto/new-codebase/) | «No cambies código todavía» lo limita a investigar |
-| Dudas antes de entregar | [Que varios modelos busquen fallos](https://pstack.xiaoxiaodong.ai/en/howto/review-branch/) | Quédate solo con los problemas que se pueden demostrar fallando |
-| Escribir documentación | [READMEs, descripciones de PR](https://pstack.xiaoxiaodong.ai/en/howto/write-docs/) | Para código que usarán otros, escribe primero el README |
-| Una migración grande | [Déjasela antes de dormir](https://pstack.xiaoxiaodong.ai/en/howto/big-migration/) | Una condición de terminado que se cumpla o no, no «trabaja 4 horas» |
+| Arreglar un bug | [Reproducir, arreglar, demostrar](https://pstack.xiaoxiaodong.ai/es/howto/fix-bug/) | Que el bug vuelva a ocurrir antes de arreglar nada |
+| Añadir una función | [Sin romper lo que ya hay](https://pstack.xiaoxiaodong.ai/es/howto/add-feature/) | Di qué comportamiento existente no puede cambiar en absoluto |
+| Refactorizar | [Nueva estructura, mismo comportamiento](https://pstack.xiaoxiaodong.ai/es/howto/refactor/) | Graba la salida actual primero y luego demuestra que no cambió |
+| Va demasiado lento | [Hazlo más rápido, con números](https://pstack.xiaoxiaodong.ai/es/howto/perf/) | Dale una medición, no una sensación |
+| Heredar un proyecto desconocido | [Entender antes de tocar](https://pstack.xiaoxiaodong.ai/es/howto/new-codebase/) | «No cambies código todavía» lo limita a investigar |
+| Dudas antes de entregar | [Que varios modelos busquen fallos](https://pstack.xiaoxiaodong.ai/es/howto/review-branch/) | Quédate solo con los problemas que se pueden demostrar fallando |
+| Escribir documentación | [READMEs, descripciones de PR](https://pstack.xiaoxiaodong.ai/es/howto/write-docs/) | Para código que usarán otros, escribe primero el README |
+| Una migración grande | [Déjasela antes de dormir](https://pstack.xiaoxiaodong.ai/es/howto/big-migration/) | Una condición de terminado que se cumpla o no, no «trabaja 4 horas» |
 
-También hay [Prompts para copiar y pegar](https://pstack.xiaoxiaodong.ai/en/howto/recipes/), [Volver al buen camino con una frase](https://pstack.xiaoxiaodong.ai/en/howto/steer/) y [No sé qué skill usar](https://pstack.xiaoxiaodong.ai/en/howto/which-skill/) (todo en inglés).
+También hay [Prompts para copiar y pegar](https://pstack.xiaoxiaodong.ai/es/howto/recipes/), [Volver al buen camino con una frase](https://pstack.xiaoxiaodong.ai/es/howto/steer/) y [No sé qué skill usar](https://pstack.xiaoxiaodong.ai/es/howto/which-skill/).
 
 ## 🌙 Déjalo trabajar toda la noche
 
@@ -158,16 +158,16 @@ También hay [Prompts para copiar y pegar](https://pstack.xiaoxiaodong.ai/en/how
   <img src="assets/en/overnight.svg" width="100%" alt="Dejar que la IA trabaje toda la noche: en cada ronda comprueba la condición de terminado, hace el cambio más pequeño, verifica, confirma o descarta y anota una línea en el registro; por la mañana lees el registro de decisiones">
 </p>
 
-Aquí es donde todos los pasos anteriores dan fruto: solo una IA que **puede verificar su propio trabajo** es una IA que puedes dejar trabajando sola con tranquilidad. Antes de dormir, dale un «contrato»: el objetivo, una condición de terminado que se cumpla o no sin ambigüedad, un worktree nuevo, un registro de decisiones y una salida de emergencia por si se atasca. Por la mañana, lee primero la parte «needs attention» de la respuesta de `/show-me-your-work`. Revisas decisiones en lugar de releer toda la noche. Más en el [Paso 7](https://pstack.xiaoxiaodong.ai/en/guide/7-overnight/) (en inglés).
+Aquí es donde todos los pasos anteriores dan fruto: solo una IA que **puede verificar su propio trabajo** es una IA que puedes dejar trabajando sola con tranquilidad. Antes de dormir, dale un «contrato»: el objetivo, una condición de terminado que se cumpla o no sin ambigüedad, un worktree nuevo, un registro de decisiones y una salida de emergencia por si se atasca. Por la mañana, lee primero la parte «needs attention» de la respuesta de `/show-me-your-work`. Revisas decisiones en lugar de releer toda la noche. Más en el [Paso 7](https://pstack.xiaoxiaodong.ai/es/guide/7-overnight/).
 
 ## 📚 Qué hay en el sitio
 
 - **[Para principiantes](https://pstack.xiaoxiaodong.ai/es/start/1-why/)**: 3 lecciones, 20 minutos, sin programar · qué hace por ti → instalarlo → usarlo por primera vez
-- **[Guía completa](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 pasos para quien programa · qué es → instalar → elegir modelos → primera tarea → entender primero → diseñar, construir, limpiar → verificar y entregar → toda la noche → cuando ya tengas soltura
-- **[Referencia de skills](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, cada una con su texto completo y un análisis de su redacción
-- **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guías, una tarea cada una
-- **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 conceptos · una frase → una analogía → en pstack → errores comunes; incluye tablas de los 24 principios y los 22 playbooks
-- **[Preguntas frecuentes](https://pstack.xiaoxiaodong.ai/en/faq/)**: ¿Cuesta dinero? ¿Tengo que usar Cursor? ¿Me va a estropear el código?
+- **[Guía completa](https://pstack.xiaoxiaodong.ai/es/guide/0-what/)**: 9 pasos para quien programa · qué es → instalar → elegir modelos → primera tarea → entender primero → diseñar, construir, limpiar → verificar y entregar → toda la noche → cuando ya tengas soltura
+- **[Referencia de skills](https://pstack.xiaoxiaodong.ai/es/skills/)**: 35 skills, cada una con su texto completo y un análisis de su redacción
+- **[How-to](https://pstack.xiaoxiaodong.ai/es/howto/)**: 17 guías, una tarea cada una
+- **[Wiki](https://pstack.xiaoxiaodong.ai/es/wiki/)**: 20 conceptos · una frase → una analogía → en pstack → errores comunes; incluye tablas de los 24 principios y los 22 playbooks
+- **[Preguntas frecuentes](https://pstack.xiaoxiaodong.ai/es/faq/)**: ¿Cuesta dinero? ¿Tengo que usar Cursor? ¿Me va a estropear el código?
 - **Idiomas**: Todo el sitio · 10 idiomas: lecciones para principiantes, guía completa, skills, how-tos, wiki y preguntas frecuentes
 
 Pulsa <kbd>⌘</kbd> <kbd>K</kbd> arriba a la derecha de cualquier página para buscar en todo el sitio. En el texto, el **marcador** y el **subrayado grueso** señalan lo importante, y los términos con subrayado punteado muestran una explicación de una línea al pasar el ratón.

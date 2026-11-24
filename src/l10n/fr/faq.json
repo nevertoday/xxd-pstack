@@ -20,7 +20,7 @@
       ],
       [
         "Quelle est la différence entre la version officielle et le miroir backnotprop ?",
-        "Sur Cursor, installez la version officielle. Sur tout autre outil, installez le miroir. Le miroir se synchronise chaque jour avec la [version officielle](https://github.com/cursor/plugins/tree/main/pstack) et réécrit les parties propres à Cursor pour qu'elles fonctionnent partout. Il inclut aussi deux correctifs de la communauté. `/no-comments` conserve les commentaires portant sur des règles externes. `watch-pr`, qui surveille vos PR, n'intègre plus dans votre stack de PR (série de PR empilées) une PR issue du fork de quelqu'un d'autre : ses commentaires de revue restent ainsi en dehors de ce que lit l'IA."
+        "Sur Cursor, installez la version officielle. Sur tout autre outil, installez le miroir. Le miroir se synchronise chaque jour avec la [version officielle](https://github.com/cursor/plugins/tree/main/pstack) et réécrit les parties propres à Cursor pour qu'elles fonctionnent partout. Il inclut aussi deux correctifs de la communauté. `/no-comments` conserve les commentaires portant sur des règles externes. `watch-pr`, qui surveille vos PR, n'intègre plus dans votre stack de PR (série de PR empilées) une PR issue du fork de quelqu'un d'autre : ses commentaires de revue restent ainsi en dehors de ce que lit l'IA. Sur Codex, le miroir ajoute aussi un marqueur lu par Codex (`agents/openai.yaml`) à chaque skill qui ne se lance que lorsque vous l'appelez. Ces skills restent en dehors du prompt que Codex charge au début de chaque session, et `$skill-name` continue de les lancer."
       ]
     ]
   },

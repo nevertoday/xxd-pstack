@@ -7,7 +7,7 @@ export const FAQ = [
     ["必须用 Cursor 吗？", "不用。官方版是给 Cursor 写的。[backnotprop/pstack](https://github.com/backnotprop/pstack) 是一份改过的副本（镜像），Claude Code、Codex、OpenCode、Pi 等都能用。Cursor 独有的几样功能（Automations、Bugbot、云端代理）在别的工具里会跳过，并留一行说明。"],
     ["我不太会写代码，能用吗？", "能，先用它读懂代码。`/how`、`/teach`、`/bro` 会让 AI 用大白话讲清楚一个项目。要让它改代码，你得看得懂它给的证据：命令输出、截图、前后对比。项目最好也在用 Git。"],
     ["和 Claude Code、Cursor 自带的计划模式有什么关系？", "不冲突，用哪个都行。pstack 没有专门写计划的技能，作者觉得最好的计划就是代码本身。真要计划，等设计定下来，让 `/poteto-mode` 写一份分阶段的计划。每个 PR 都要写上怎么检查。"],
-    ["官方版和 backnotprop 镜像有什么区别？", "用 Cursor 就装官方版，用别的工具装镜像。镜像每天和 [官方版](https://github.com/cursor/plugins/tree/main/pstack) 同步，并把只有 Cursor 能用的写法改成了通用的。它还多带了两个社区修复。`/no-comments` 会留下说明外部规则的注释；盯 PR 的 `watch-pr` 不再把别人 fork 来的 PR 算进你的那一串，它们的评审意见也就不会混进 AI 读的内容。"],
+    ["官方版和 backnotprop 镜像有什么区别？", "用 Cursor 就装官方版，用别的工具装镜像。镜像每天和 [官方版](https://github.com/cursor/plugins/tree/main/pstack) 同步，并把只有 Cursor 能用的写法改成了通用的。它还多带了两个社区修复。`/no-comments` 会留下说明外部规则的注释；盯 PR 的 `watch-pr` 不再把别人 fork 来的 PR 算进你的那一串，它们的评审意见也就不会混进 AI 读的内容。用 Codex 的话，镜像还给只在你点名时才运行的技能各加了一个 Codex 认得的标记（`agents/openai.yaml`）。这些技能不会挤进 Codex 每次开场读的提示里，打 `$技能名` 照样能用。"],
   ]},
   { id: "using", title: "用起来", items: [
     ["每件事都要打 /poteto-mode 吗？", "不用，要认真做的事才打。改一行文案、很明显的小改动，直接跟 AI 说就行。拿不准的时候：==做错了会返工的事，就打==。"],

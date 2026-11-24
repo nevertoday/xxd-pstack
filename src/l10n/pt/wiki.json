@@ -11,7 +11,7 @@
       "one": "O pstack é um conjunto gratuito de regras de trabalho para ferramentas de programação com IA. Ele faz a IA trabalhar como um engenheiro experiente.",
       "like": "Como entregar um manual a um novo colega inteligente, mas apressado. A pessoa é a mesma, mas agora o trabalho tem método.",
       "here": [
-        "São 34 skills e 24 princípios, todos arquivos de instrução escritos para a IA. As regras são simples. Antes de corrigir um bug, faça o erro acontecer de novo. Antes de mudar o código, leia. Depois de mudar, teste.",
+        "São 35 skills e 24 princípios, todos arquivos de instrução escritos para a IA. As regras são simples. Antes de corrigir um bug, faça o erro acontecer de novo. Antes de mudar o código, leia. Depois de mudar, teste.",
         "Quem criou o pstack é poteto, e essa é a configuração que poteto usa no dia a dia, escrita originalmente enquanto trabalhava na Cursor. A versão oficial foi feita para o Cursor. Quem usa Claude Code e Codex costuma instalar [a cópia do pstack](https://github.com/backnotprop/pstack). Ela sincroniza com a versão oficial todos os dias e funciona em qualquer ferramenta."
       ],
       "myths": [

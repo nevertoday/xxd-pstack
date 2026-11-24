@@ -20,7 +20,7 @@
       ],
       [
         "¿Cuál es la diferencia entre la versión oficial y la copia de backnotprop?",
-        "En Cursor, instala la versión oficial. En cualquier otra herramienta, instala la copia. La copia se sincroniza a diario con la [versión oficial](https://github.com/cursor/plugins/tree/main/pstack) y reescribe las partes exclusivas de Cursor para que funcionen en cualquier entorno. También incluye dos correcciones de la comunidad. `/no-comments` mantiene los comentarios sobre reglas externas. `watch-pr`, que vigila tus PR, ya no añade a tu stack de PR (cadena de PR encadenados uno sobre otro) un PR del fork de otra persona, así que sus comentarios de revisión quedan fuera de lo que lee la IA."
+        "En Cursor, instala la versión oficial. En cualquier otra herramienta, instala la copia. La copia se sincroniza a diario con la [versión oficial](https://github.com/cursor/plugins/tree/main/pstack) y reescribe las partes exclusivas de Cursor para que funcionen en cualquier entorno. También incluye dos correcciones de la comunidad. `/no-comments` mantiene los comentarios sobre reglas externas. `watch-pr`, que vigila tus PR, ya no añade a tu stack de PR (cadena de PR encadenados uno sobre otro) un PR del fork de otra persona, así que sus comentarios de revisión quedan fuera de lo que lee la IA. En Codex, la copia también añade una marca que Codex lee (`agents/openai.yaml`) a cada skill que solo se ejecuta cuando la llamas. Esas skills quedan fuera del prompt que Codex carga al inicio de cada sesión, y `$skill-name` sigue ejecutándolas."
       ]
     ]
   },

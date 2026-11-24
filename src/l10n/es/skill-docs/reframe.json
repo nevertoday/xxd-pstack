@@ -1,0 +1,69 @@
+{
+  "description": "Enseña a la persona usuaria las palabras que usan los expertos para lo que está construyendo, toma prestadas otras de campos vecinos que resolvieron el mismo problema y luego reescribe su descripción con ellas. Úsala para /reframe.",
+  "brief": {
+    "compare": [
+      {
+        "without": "La IA sigue adelante con tus propias palabras imprecisas.",
+        "with": "La IA te enseña primero los términos que usan los expertos, cada uno vinculado a una parte de tu descripción."
+      },
+      {
+        "without": "La IA busca respuestas solo dentro de tu propio campo.",
+        "with": "La IA toma prestados términos de campos vecinos que resolvieron el mismo problema y dice dónde se rompe cada analogía."
+      },
+      {
+        "without": "La IA ofrece unos cuantos enlaces que parecen creíbles.",
+        "with": "La IA abre cada enlace para comprobarlo y descarta los que no coinciden."
+      }
+    ],
+    "intro": "La skill lee primero tus archivos, tu código y tus palabras; si tu descripción puede referirse a varios problemas, los enumera y elige el más probable. Luego te da entre 8 y 12 términos ordenados por impacto, toma términos prestados de dos o tres campos vecinos, señala lo que pasaste por alto y reescribe tu descripción con las palabras nuevas.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Start from their own files, code and description, not a summary.",
+      "quoteTr": "Empieza por sus propios archivos, su código y su descripción, no por un resumen.",
+      "title": "Empieza por la materia prima",
+      "does": "La skill lee tu código y tus propias palabras antes de elegir ningún término.",
+      "why": "Un resumen ya eligió las palabras; los términos sacados de él encajan con el resumen, no con tu problema real.",
+      "try": "Antes de pedir un análisis, añade: «Lee directamente src/settings/ y mis palabras de arriba; no hagas un resumen primero»."
+    },
+    {
+      "quote": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others.",
+      "quoteTr": "Si su descripción puede referirse a más de un problema, enumera primero los dos o tres problemas que podrían ser, cada uno con un único término que lo nombre y la señal que lo distinguiría de los demás.",
+      "title": "Di qué problemas podrían ser",
+      "does": "Cuando tu descripción es imprecisa, la skill plantea dos o tres interpretaciones, cada una con una señal que la distingue, y luego elige la más probable.",
+      "why": "Por defecto, una IA elige una interpretación en silencio; ponerlas sobre la mesa te permite ver de un vistazo si eligió mal.",
+      "try": "Cuando una petición sea difusa, escribe: «¿A qué dos o tres problemas podría referirse esto? ¿Cómo los distinguiría? ¿Cuál eliges y por qué?»."
+    },
+    {
+      "quote": "Give 8 to 12 terms, ranked by how much each would change what gets built.",
+      "quoteTr": "Da entre 8 y 12 términos, ordenados según cuánto cambiaría cada uno lo que se construya.",
+      "title": "Ordena por impacto, no alfabéticamente",
+      "does": "La skill pone al principio los términos que más cambiarían tu enfoque.",
+      "why": "Es difícil recordar una lista plana de términos; ordenados según cuánto cambia cada uno las cosas, bastan los dos o tres primeros.",
+      "try": "Cuando pidas una lista, indica el criterio de orden: «Ordénalos según cuánto afecta cada uno al riesgo del lanzamiento, de mayor a menor»."
+    },
+    {
+      "quote": "For each, say what carries over, where the analogy breaks, and which terms come back.",
+      "quoteTr": "Para cada uno, di qué se traslada, dónde se rompe la analogía y qué términos se pueden traer de allí.",
+      "title": "Toma prestada la analogía y di dónde se rompe",
+      "does": "Cuando la skill toma prestadas ideas de otro campo, indica qué se traslada y dónde deja de funcionar.",
+      "why": "Las analogías invitan a copiar demasiado; señalar el límite evita que lo que tomas prestado te desvíe del camino.",
+      "try": "Cuando la IA ofrezca una analogía, añade: «¿Dónde se rompe esta comparación?»."
+    },
+    {
+      "quote": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm.",
+      "quoteTr": "Abre cada enlace y confirma que usa el término de esa manera. Descarta cualquier cita que no puedas confirmar.",
+      "title": "Abre cada fuente y compruébala",
+      "does": "La skill abre cada enlace que te da y descarta los que no coinciden.",
+      "why": "Las IA inventan con facilidad enlaces que parecen creíbles; exigir que se abra cada uno y se descarten los que fallan es lo que permite confiar en los demás.",
+      "try": "Cuando pidas referencias, escribe: «Abre cada enlace y confírmalo antes de dármelo; omite cualquiera que no puedas confirmar»."
+    }
+  ],
+  "blocks": [
+    "Enseña a la persona usuaria las palabras que usan los expertos para lo que está construyendo. Empieza por sus propios archivos, su código y su descripción, no por un resumen.",
+    "Si su descripción puede referirse a más de un problema, enumera primero los dos o tres problemas que podrían ser, cada uno con un único término que lo nombre y la señal que lo distinguiría de los demás. Luego enseña las palabras del más probable y di por qué lo elegiste.",
+    "1. Da entre 8 y 12 términos, ordenados según cuánto cambiaría cada uno lo que se construya. Para cada uno, indica la palabra y su significado en una frase sencilla, la parte de su descripción que nombra, un proyecto real, artículo o sistema que la use así, con un enlace, y qué le permite pedir a un agente.\n2. Elige 2 o 3 campos vecinos que resolvieron el mismo tipo de problema con otros nombres. Para cada uno, di qué se traslada, dónde se rompe la analogía y qué términos se pueden traer de allí.\n3. Señala lo que no mencionó pero debería importarle.\n4. Reescribe su descripción con las palabras nuevas.",
+    "Abre cada enlace y confirma que usa el término de esa manera. Descarta cualquier cita que no puedas confirmar. Sin relleno."
+  ]
+}

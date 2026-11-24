@@ -20,7 +20,7 @@
       ],
       [
         "공식 원본과 backnotprop 미러는 뭐가 다른가요?",
-        "Cursor를 쓰면 공식 원본을 설치하세요. 다른 도구에서는 미러를 설치하면 돼요. 미러는 매일 [공식 원본](https://github.com/cursor/plugins/tree/main/pstack)과 동기화하고, Cursor 전용 기능을 어디서나 돌아가게 고쳐 놔요. 커뮤니티 수정 사항도 두 가지 들어 있어요. `/no-comments`는 외부 규칙을 설명하는 주석을 남겨 둬요. PR을 지켜보는 `watch-pr`은 다른 사람의 fork에서 온 PR을 내 PR 스택에 끌어오지 않아요. 그래서 그 PR의 리뷰 코멘트가 AI가 읽는 내용에 섞이지 않아요."
+        "Cursor를 쓰면 공식 원본을 설치하세요. 다른 도구에서는 미러를 설치하면 돼요. 미러는 매일 [공식 원본](https://github.com/cursor/plugins/tree/main/pstack)과 동기화하고, Cursor 전용 기능을 어디서나 돌아가게 고쳐 놔요. 커뮤니티 수정 사항도 두 가지 들어 있어요. `/no-comments`는 외부 규칙을 설명하는 주석을 남겨 둬요. PR을 지켜보는 `watch-pr`은 다른 사람의 fork에서 온 PR을 내 PR 스택에 끌어오지 않아요. 그래서 그 PR의 리뷰 코멘트가 AI가 읽는 내용에 섞이지 않아요. Codex에서 미러는 직접 호출할 때만 실행되는 모든 스킬에 Codex가 읽는 표시(`agents/openai.yaml`)도 붙여 둬요. 그 스킬들은 각 세션을 시작할 때 Codex가 불러오는 프롬프트에 들어가지 않고, `$skill-name`으로 여전히 실행할 수 있어요."
       ]
     ]
   },

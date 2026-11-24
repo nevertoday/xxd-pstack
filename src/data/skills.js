@@ -1,4 +1,4 @@
-// 技能速查：pstack 的 34 个技能（另有 24 条原则，见 Wiki「24 条原则」）。技能速查页和搜索都读这里。
+// 技能速查：pstack 的 35 个技能（另有 24 条原则，见 Wiki「24 条原则」）。技能速查页和搜索都读这里。
 // name: 斜杠命令名 · zh: 一句话说人话 · use: 什么时候用 · ex: 例句 · needs: 要一起装的技能
 // 除了 setup-pstack，所有技能都设了 disable-model-invocation：AI 不会自己决定启用，要么你点名，要么 /poteto-mode 按步骤去读。
 // auto: true 表示 /poteto-mode 的步骤会用到它；manual: true 表示 README 写明「只在你亲手打时运行」。
@@ -13,6 +13,7 @@ export const SKILLS = [
   { id: "listen", title: "先听懂你", items: [
     { name: "in-your-own-words", zh: "让 AI 用自己的话说一遍你要什么，理解错了马上能看出来。", use: "需求很乱，或是一长串讨论，怕 AI 理解偏。", ex: "/in-your-own-words", manual: true },
     { name: "sharpen", zh: "把提示词改准：补上行家会想到的步骤和检查办法。它不干活。", use: "一件重要的活，发出去之前想把要求说准。", ex: "/sharpen 给 v2 配置格式写一份迁移指南。", manual: true },
+    { name: "reframe", zh: "教你行家怎么称呼你在做的东西，再用这些词把你的描述重写一遍。", use: "说不清自己要做的是什么，没法跟 AI 讲明白。", ex: "/reframe 设置页有的字段改完马上保存，有的要点提交才保存，大家老是丢改动。", manual: true },
   ]},
   { id: "understand", title: "看懂代码", items: [
     { name: "how", zh: "讲清楚一段代码现在怎么跑：流程、关键类型、容易踩的坑。", use: "改之前想先弄懂它，或者怀疑它哪里慢。", ex: "/how 我们是怎么给通知去重的？查订阅者的时候有没有 N+1 查询？", auto: true },

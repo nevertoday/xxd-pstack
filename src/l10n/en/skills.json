@@ -42,6 +42,11 @@
       "use": "An important job, and you want the request right before you send it.",
       "ex": "/sharpen Write a migration guide for the v2 config format."
     },
+    "reframe": {
+      "one": "Teaches you the words experts use for what you're building, then rewrites your description with them.",
+      "use": "You can't name what you're building, so you can't ask the AI for it clearly.",
+      "ex": "/reframe The settings page saves some fields right away and others only on submit, and people lose edits."
+    },
     "how": {
       "one": "Explains how a piece of code runs today: the flow, the key types, the easy-to-miss traps.",
       "use": "You want to understand it before changing it, or you suspect it's slow.",

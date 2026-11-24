@@ -229,7 +229,7 @@ def how(lang="zh"):
 def skills(lang="zh"):
     L = pick(lang)
     groups = [("入口", ROSE, ["poteto-mode", "poteto-help", "setup-pstack"]),
-              ("先听懂你", APRICOT, ["in-your-own-words", "sharpen"]),
+              ("先听懂你", APRICOT, ["in-your-own-words", "sharpen", "reframe"]),
               ("看懂代码", SKY, ["how", "why", "teach", "recall"]),
               ("设计和把关", LILAC, ["architect", "arena", "swarm", "interrogate", "blast-radius", "figure-it-out"]),
               ("动手和清理", SAGE, ["tdd", "typescript-best-practices", "unslop", "no-comments", "technical-writing"]),
@@ -271,11 +271,11 @@ def skills(lang="zh"):
                 body.append(t(x + 16, yy, line, 12, INK if k == 0 else MUTED, 600 if (i == 0 and j == 0) else 400, MONO))
                 yy += 22
             yy += 5
-    body.append(t(W / 2, H - 24, L("34 个技能 + 24 条原则。平时只打 /poteto-mode，其他的它在需要时自己叫上。",
-                                   "34 skills + 24 principles. Day to day you only type /poteto-mode; it calls the others when it needs them."),
+    body.append(t(W / 2, H - 24, L("35 个技能 + 24 条原则。平时只打 /poteto-mode，其他的它在需要时自己叫上。",
+                                   "35 skills + 24 principles. Day to day you only type /poteto-mode; it calls the others when it needs them."),
                   13.5, MUTED, anchor="middle"))
-    write("skills.svg", svg(W, int(H), L("pstack 技能地图：34 个技能分七类，外加 24 条原则",
-                                         "pstack skill map: 34 skills in seven groups, plus 24 principles"),
+    write("skills.svg", svg(W, int(H), L("pstack 技能地图：35 个技能分七类，外加 24 条原则",
+                                         "pstack skill map: 35 skills in seven groups, plus 24 principles"),
                             "\n".join(body), "".join(defs)), lang)
 
 
@@ -336,10 +336,10 @@ def social(lang="zh"):
     b.append(t(84, 338, L("AI 说「修好了」，", "Your AI says “fixed.”"), 34, INK, 600))
     b.append(t(84, 386, L("你一打开，还是坏的。", "You open it. Still broken."), 34, INK, 600))
     hl = L("pstack 让它先自己试一遍。", "pstack makes it try first.")
-    hw = sum(34 if ord(c) > 0x2E80 else 14.6 for c in hl) + 10
+    hw = sum(35 if ord(c) > 0x2E80 else 14.6 for c in hl) + 10
     b.append(rect(80, 422, hw, 24, "#F2C46B", 0, extra='opacity=".55"'))
     b.append(t(84, 440, hl, 34, INK, 700))
-    b.append(t(84, 512, L("新手入门 3 课 · 完整教程 9 步 · 34 个技能 · 10 种语言", "3 beginner lessons · 9-step guide · 34 skills · 10 languages"), 20, MUTED))
+    b.append(t(84, 512, L("新手入门 3 课 · 完整教程 9 步 · 35 个技能 · 10 种语言", "3 beginner lessons · 9-step guide · 35 skills · 10 languages"), 20, MUTED))
     b.append(t(84, 560, L("pstack.xiaoxiaodong.ai", "pstack.xiaoxiaodong.ai/en"), 24, INK, 600, MONO))
     # 右边：终端卡片（hero 动画的最后一帧）
     x0, y0, ww, wh = 700, 150, 500, 340
@@ -378,16 +378,16 @@ def social(lang="zh"):
 # 唯一的动效：箭头隔几秒往前挪 4px，三张错开一点；系统开了「减少动态效果」就不动。
 # 改了文字要重新量字宽（Chrome 里 canvas measureText，字体见下面 font）。
 DOORS = {
-    "en": [["Never written code", "3 lessons · 20 minutes"], ["You write code", "The 9-step guide"], ["Learn to prompt", "34 skills, taken apart"]],
-    "zh": [["没写过代码", "新手入门 3 课 · 20 分钟"], ["会写代码", "9 步完整教程"], ["想学写提示词", "34 个技能拆解"]],
-    "ja": [["コードは初めて", "入門 3 レッスン · 20 分"], ["コードを書く人", "9 ステップの完全ガイド（英語）"], ["プロンプトを学ぶ", "34 スキルを分解（英語）"]],
-    "ko": [["코딩은 처음", "입문 3강 · 20분"], ["코드를 쓴다면", "9단계 전체 가이드(영어)"], ["프롬프트 배우기", "34개 스킬 해부(영어)"]],
-    "es": [["Nunca he programado", "3 lecciones · 20 minutos"], ["Sé programar", "Guía de 9 pasos (inglés)"], ["Aprender a pedir", "34 skills al detalle (inglés)"]],
-    "pt": [["Nunca programei", "3 lições · 20 minutos"], ["Sei programar", "Guia de 9 passos (inglês)"], ["Aprender a pedir", "34 skills em detalhe (inglês)"]],
-    "fr": [["Jamais codé ?", "3 leçons · 20 minutes"], ["Vous codez", "Guide en 9 étapes (anglais)"], ["Écrire de bons prompts", "34 skills décortiqués (anglais)"]],
-    "de": [["Noch nie programmiert", "3 Lektionen · 20 Minuten"], ["Du programmierst", "9-Schritte-Anleitung (Englisch)"], ["Prompts lernen", "34 Skills zerlegt (Englisch)"]],
-    "ru": [["Без опыта в коде", "3 урока · 20 минут"], ["Пишете код", "Гайд из 9 шагов (англ.)"], ["Учиться промптам", "34 навыка по частям (англ.)"]],
-    "ar": [["لم تكتب كودًا من قبل", "3 دروس · 20 دقيقة"], ["تكتب الكود", "دليل من 9 خطوات (بالإنجليزية)"], ["تعلّم كتابة الطلبات", "تفكيك 34 مهارة (بالإنجليزية)"]],
+    "en": [["Never written code", "3 lessons · 20 minutes"], ["You write code", "The 9-step guide"], ["Learn to prompt", "35 skills, taken apart"]],
+    "zh": [["没写过代码", "新手入门 3 课 · 20 分钟"], ["会写代码", "9 步完整教程"], ["想学写提示词", "35 个技能拆解"]],
+    "ja": [["コードは初めて", "入門 3 レッスン · 20 分"], ["コードを書く人", "9 ステップの完全ガイド"], ["プロンプトを学ぶ", "35 スキルを分解"]],
+    "ko": [["코딩은 처음", "입문 3강 · 20분"], ["코드를 쓴다면", "9단계 전체 가이드"], ["프롬프트 배우기", "35개 스킬 해부"]],
+    "es": [["Nunca he programado", "3 lecciones · 20 minutos"], ["Sé programar", "Guía de 9 pasos"], ["Aprender a pedir", "35 skills al detalle"]],
+    "pt": [["Nunca programei", "3 lições · 20 minutos"], ["Sei programar", "Guia de 9 passos"], ["Aprender a pedir", "35 skills em detalhe"]],
+    "fr": [["Jamais codé ?", "3 leçons · 20 minutes"], ["Vous codez", "Guide en 9 étapes"], ["Écrire de bons prompts", "35 skills décortiqués"]],
+    "de": [["Noch nie programmiert", "3 Lektionen · 20 Minuten"], ["Du programmierst", "9-Schritte-Anleitung"], ["Prompts lernen", "35 Skills zerlegt"]],
+    "ru": [["Без опыта в коде", "3 урока · 20 минут"], ["Пишете код", "Гайд из 9 шагов"], ["Учиться промптам", "35 навыков по частям"]],
+    "ar": [["لم تكتب كودًا من قبل", "3 دروس · 20 دقيقة"], ["تكتب الكود", "دليل من 9 خطوات"], ["تعلّم كتابة الطلبات", "تفكيك 35 مهارة"]],
 }
 # 每张卡片标题（600 18px）和说明（400 13px）的字宽，在 Chrome 里用系统字体量的
 DOOR_TEXT_W = {

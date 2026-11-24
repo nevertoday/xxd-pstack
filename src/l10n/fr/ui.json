@@ -34,7 +34,7 @@
     "pending": "En cours",
     "ref": "Référence",
     "howto": "Fiches pratiques : comment faire",
-    "skills": "Les 34 skills en un coup d'œil",
+    "skills": "Les 35 skills en un coup d'œil",
     "wiki": "Wiki : c'est quoi ?",
     "faq": "FAQ",
     "toc": "Sur cette page",
@@ -118,7 +118,7 @@
       "Vous voulez seulement le plus rapide et le moins cher : pstack vérifie davantage, donc c'est plus lent et ça entame davantage votre forfait"
     ],
     "devH": "Si vous codez",
-    "devP": "pstack, c'est le pack de skills que poteto (auparavant dans l'équipe cœur de React ; a créé pstack chez Cursor, développe aujourd'hui Grok Bot) utilise tous les jours pour son propre code : 34 skills, 22 playbooks et 24 principes d'ingénierie. Ci-dessous, les quatre étapes qu'il suit pour chaque tâche, et le guide complet en 9 étapes.",
+    "devP": "pstack, c'est le pack de skills que poteto (auparavant dans l'équipe cœur de React ; a créé pstack chez Cursor, développe aujourd'hui Grok Bot) utilise tous les jours pour son propre code : 35 skills, 22 playbooks et 24 principes d'ingénierie. Ci-dessous, les quatre étapes qu'il suit pour chaque tâche, et le guide complet en 9 étapes.",
     "FLOW": [
       [
         "Vous dites une phrase",
@@ -191,7 +191,7 @@
     ],
     "home": "Accueil",
     "step0": "Parcours débutant : leçon 1",
-    "skills": "Les 34 skills en un coup d'œil",
+    "skills": "Les 35 skills en un coup d'œil",
     "faq": "FAQ"
   },
   "wikiIndex": {
@@ -199,7 +199,7 @@
     "p1": "Chaque terme du guide, expliqué avec des mots simples. Chaque entrée commence par une seule phrase ; lisez la suite seulement si vous voulez en savoir plus.",
     "p2": [
       "Pas envie de lire tout l'article ? Survolez n'importe quel mot souligné en pointillés dans le guide pour afficher une explication en une ligne ; cliquez dessus pour arriver ici. Pour chercher un skill par son nom, consultez ",
-      "Les 34 skills en un coup d'œil",
+      "Les 35 skills en un coup d'œil",
       "."
     ]
   },
@@ -218,7 +218,7 @@
     "sep": ", "
   },
   "skills": {
-    "h": "Les 34 skills en un coup d'œil",
+    "h": "Les 35 skills en un coup d'œil",
     "desc": "Les {n} skills de pstack, chacun en une phrase simple : ce qu'il fait et quand l'utiliser.",
     "intro": [
       "{n} skills, plus ",

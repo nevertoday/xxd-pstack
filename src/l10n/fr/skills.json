@@ -42,6 +42,11 @@
       "use": "Une tâche importante, et vous voulez que la demande soit au point avant de l'envoyer.",
       "ex": "/sharpen Rédige un guide de migration pour le format de configuration v2."
     },
+    "reframe": {
+      "one": "Vous apprend les mots qu'utilisent les experts pour ce que vous construisez, puis réécrit votre description avec ces termes.",
+      "use": "Vous n'arrivez pas à nommer ce que vous construisez, donc vous ne pouvez pas le demander clairement à l'IA.",
+      "ex": "/reframe La page des paramètres enregistre certains champs tout de suite et d'autres seulement à la validation, et les gens perdent leurs modifications."
+    },
     "how": {
       "one": "Explique comment un morceau de code fonctionne aujourd'hui : le déroulement, les types clés, les pièges faciles à rater.",
       "use": "Vous voulez le comprendre avant de le modifier, ou vous soupçonnez qu'il est lent.",

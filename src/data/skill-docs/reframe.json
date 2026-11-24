@@ -1,0 +1,146 @@
+{
+  "name": "reframe",
+  "commit": "9dd3408",
+  "description": {
+    "en": "Teach the expert words for what the operator is building, borrow words from neighboring fields that solved the same problem, then rewrite their description with them. Use for /reframe.",
+    "zh": "教用户学会行家怎么称呼自己在做的东西，从解决过同类问题的相邻领域借词，再用这些词重写用户的描述。用于 /reframe。"
+  },
+  "blocks": [
+    {
+      "en": "Teach the operator the expert words for what they are building. Start from their own files, code and description, not a summary.",
+      "zh": "教用户学会行家怎么称呼自己在做的东西。从用户自己的文件、代码和描述入手，不要从摘要入手。"
+    },
+    {
+      "en": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others. Then teach the words for the most likely one and say why you picked it.",
+      "zh": "如果用户的描述可能指不止一个问题，先列出它可能是的两三个问题，每个配上点出它的那个术语，以及能把它和其他几个区分开的迹象。然后讲最可能的那一个问题的说法，并说明为什么选它。"
+    },
+    {
+      "en": "1. Give 8 to 12 terms, ranked by how much each would change what gets built. For each, give the word and its meaning in one plain sentence, the part of their description it names, one real project, paper or system that uses it that way, with a link, and what it lets them ask an agent for.\n2. Pick 2 or 3 neighboring fields that solved the same shape of problem under other names. For each, say what carries over, where the analogy breaks, and which terms come back.\n3. Name what they didn't mention but should care about.\n4. Rewrite their description with the new words.",
+      "zh": "1. 给出 8 到 12 个术语，按每个术语会在多大程度上改变最终做出来的东西排序。每个术语给出：这个词和一句大白话的意思；它对应用户描述里的哪一部分；一个这样用这个词的真实项目、论文或系统，附上链接；以及有了这个词，用户能向 AI 提出什么要求。\n2. 挑 2 到 3 个相邻领域，它们用别的名字解决过同一类形状的问题。每个领域说清楚：哪些能搬过来，类比在哪里不成立，又带回了哪些术语。\n3. 点出用户没提、但应该在意的东西。\n4. 用这些新词重写用户的描述。"
+    },
+    {
+      "en": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm. No padding.",
+      "zh": "每个链接都打开看一遍，确认它确实这样用这个术语。确认不了的引用就删掉。不要凑字数。"
+    }
+  ],
+  "lessons": [
+    {
+      "quote": "Start from their own files, code and description, not a summary.",
+      "quoteZh": "从用户自己的文件、代码和描述入手，不要从摘要入手。",
+      "zh": {
+        "title": "从原始材料出发",
+        "does": "它先读你的代码和你自己的原话，再给你挑词。",
+        "why": "摘要已经替你选过一遍说法，从摘要出发，挑出来的词只会贴着摘要，贴不着你真正的问题。",
+        "try": "让 AI 帮你分析之前，加一句：「直接读 src/settings/ 和我上面的原话，别先总结。」"
+      },
+      "en": {
+        "title": "Start from the raw material",
+        "does": "It reads your code and your own words before it picks any terms.",
+        "why": "A summary has already chosen the wording; terms picked from it fit the summary, not your real problem.",
+        "try": "Before asking for an analysis, add: \"Read src/settings/ and my words above directly; don't summarize first.\""
+      }
+    },
+    {
+      "quote": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others.",
+      "quoteZh": "如果用户的描述可能指不止一个问题，先列出它可能是的两三个问题，每个配上点出它的那个术语，以及能把它和其他几个区分开的迹象。",
+      "zh": {
+        "title": "先说清它可能是哪几个问题",
+        "does": "描述含糊时，它先摆出两三种理解，各带一个能分辨它们的迹象，再挑最可能的那个。",
+        "why": "AI 默认会悄悄选一种理解往下做；先摆出来，你一眼就能看出它是不是选错了。",
+        "try": "需求说不清时写：「这句话可能指哪两三种问题？每种怎么分辨？你选哪个，为什么？」"
+      },
+      "en": {
+        "title": "Say which problems it could be",
+        "does": "When your description is vague, it lays out two or three readings, each with a sign that tells it apart, then picks the likeliest.",
+        "why": "An AI quietly picks one reading by default; laying them out lets you see at a glance whether it picked wrong.",
+        "try": "When a request is fuzzy, write: \"Which two or three problems could this mean? How would I tell them apart? Which do you pick, and why?\""
+      }
+    },
+    {
+      "quote": "Give 8 to 12 terms, ranked by how much each would change what gets built.",
+      "quoteZh": "给出 8 到 12 个术语，按每个术语会在多大程度上改变最终做出来的东西排序。",
+      "zh": {
+        "title": "按影响排序，不按字母",
+        "does": "它把最能改变你做法的词排在最前面。",
+        "why": "一串平铺的术语读完记不住；按「会改变多少」排，前两三个就够你用。",
+        "try": "要 AI 列清单时加上排序依据：「按对上线风险的影响从大到小排。」"
+      },
+      "en": {
+        "title": "Rank by impact, not alphabet",
+        "does": "It puts the terms that would change your approach most at the top.",
+        "why": "A flat list of terms is hard to remember; ranked by how much each changes things, the first two or three are enough.",
+        "try": "When you ask for a list, give the ranking rule: \"Order them by how much each affects launch risk, biggest first.\""
+      }
+    },
+    {
+      "quote": "For each, say what carries over, where the analogy breaks, and which terms come back.",
+      "quoteZh": "每个领域说清楚：哪些能搬过来，类比在哪里不成立，又带回了哪些术语。",
+      "zh": {
+        "title": "借类比，也要说它在哪里不成立",
+        "does": "它从别的领域借经验时，会写明哪里能照搬、哪里会失灵。",
+        "why": "类比最容易让人照搬过头；先说清边界，借来的东西才不会把你带偏。",
+        "try": "让 AI 打比方时加一句：「这个比方在哪里不成立？」"
+      },
+      "en": {
+        "title": "Borrow the analogy, and say where it breaks",
+        "does": "When it borrows from another field, it says what carries over and where it stops working.",
+        "why": "Analogies invite copying too much; naming the limit keeps what you borrow from leading you astray.",
+        "try": "When the AI offers an analogy, add: \"Where does this comparison break?\""
+      }
+    },
+    {
+      "quote": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm.",
+      "quoteZh": "每个链接都打开看一遍，确认它确实这样用这个术语。确认不了的引用就删掉。",
+      "zh": {
+        "title": "每条出处都要打开核对",
+        "does": "它给的每个链接都亲自打开过，对不上的直接删掉。",
+        "why": "AI 很容易编出像模像样的链接；要求逐条打开核对，删掉对不上的，留下来的才可信。",
+        "try": "要 AI 给参考资料时写：「每个链接都打开确认过再给我，确认不了的别列。」"
+      },
+      "en": {
+        "title": "Open every source and check it",
+        "does": "It opens every link it gives you and cuts the ones that don't match.",
+        "why": "AIs easily make up plausible-looking links; requiring each one to be opened and the misses cut is what makes the rest trustworthy.",
+        "try": "When you ask for references, write: \"Open each link and confirm it before you give it to me; leave out any you can't confirm.\""
+      }
+    }
+  ],
+  "brief": {
+    "zh": {
+      "compare": [
+        {
+          "without": "用你自己的模糊说法接着往下做",
+          "with": "先教你行家怎么称呼这件事，每个词都对上你描述里的一处"
+        },
+        {
+          "without": "只在你这一行里想办法",
+          "with": "从解决过同类问题的相邻领域借词，并说清类比在哪里不成立"
+        },
+        {
+          "without": "随手给几个看着可信的链接",
+          "with": "每个链接都打开核对，对不上的就删掉"
+        }
+      ],
+      "intro": "它先读你的文件、代码和原话；描述可能指几个问题时，先列出来并挑最可能的一个。然后给 8 到 12 个按影响排序的术语，从两三个相邻领域借词，点出你漏掉的事，最后用新词重写你的描述。",
+      "sections": []
+    },
+    "en": {
+      "compare": [
+        {
+          "without": "Carries on with your own vague wording.",
+          "with": "Teaches the expert terms first, each tied to a part of your description."
+        },
+        {
+          "without": "Looks for answers only inside your own field.",
+          "with": "Borrows terms from neighboring fields that solved the same problem, and says where each analogy breaks."
+        },
+        {
+          "without": "Offers a few plausible-looking links.",
+          "with": "Opens every link to check it and cuts the ones that don't match."
+        }
+      ],
+      "intro": "It reads your files, code and words first; if your description could mean several problems, it lists them and picks the likeliest. Then it gives 8 to 12 terms ranked by impact, borrows from two or three neighboring fields, names what you missed, and rewrites your description with the new words.",
+      "sections": []
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "description": "Ensine à pessoa os termos que especialistas usam para o que está construindo, pegue termos emprestados de áreas vizinhas que resolveram o mesmo problema e depois reescreva a descrição com eles. Use para /reframe.",
+  "brief": {
+    "compare": [
+      {
+        "without": "A IA continua usando suas próprias palavras vagas.",
+        "with": "A IA ensina primeiro os termos de especialistas, cada um ligado a uma parte da sua descrição."
+      },
+      {
+        "without": "A IA busca respostas só dentro da sua própria área.",
+        "with": "A IA pega termos emprestados de áreas vizinhas que resolveram o mesmo problema e diz onde cada analogia falha."
+      },
+      {
+        "without": "A IA oferece alguns links que parecem plausíveis.",
+        "with": "A IA abre cada link para conferir e corta os que não batem."
+      }
+    ],
+    "intro": "A skill lê primeiro seus arquivos, seu código e suas palavras; se sua descrição puder se referir a vários problemas, ela os lista e escolhe o mais provável. Depois, traz de 8 a 12 termos ordenados por impacto, pega emprestado de duas ou três áreas vizinhas, aponta o que você deixou passar e reescreve sua descrição com as novas palavras.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Start from their own files, code and description, not a summary.",
+      "quoteTr": "Comece pelos arquivos, código e descrição da própria pessoa, não por um resumo.",
+      "title": "Comece pela matéria-prima",
+      "does": "A skill lê seu código e suas próprias palavras antes de escolher qualquer termo.",
+      "why": "Um resumo já escolheu as palavras; termos escolhidos a partir dele se encaixam no resumo, não no seu problema real.",
+      "try": "Antes de pedir uma análise, acrescente: “Leia src/settings/ e minhas palavras acima diretamente; não faça um resumo antes.”"
+    },
+    {
+      "quote": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others.",
+      "quoteTr": "Se a descrição puder nomear mais de um problema, liste primeiro os dois ou três problemas que podem ser, cada um com o único termo que o nomeia e o sinal que o diferenciaria dos outros.",
+      "title": "Diga quais problemas podem ser",
+      "does": "Quando sua descrição é vaga, a skill apresenta duas ou três interpretações, cada uma com um sinal que a diferencia, e depois escolhe a mais provável.",
+      "why": "Por padrão, a IA escolhe uma interpretação em silêncio; apresentar todas deixa você ver de cara se ela escolheu errado.",
+      "try": "Quando um pedido estiver vago, escreva: “Quais dois ou três problemas isso pode significar? Como eu diferenciaria um do outro? Qual você escolhe e por quê?”"
+    },
+    {
+      "quote": "Give 8 to 12 terms, ranked by how much each would change what gets built.",
+      "quoteTr": "Dê de 8 a 12 termos, ordenados pelo quanto cada um mudaria o que será construído.",
+      "title": "Ordene por impacto, não por ordem alfabética",
+      "does": "A skill coloca no topo os termos que mais mudariam sua abordagem.",
+      "why": "Uma lista simples de termos é difícil de lembrar; ordenados pelo quanto cada um muda as coisas, os dois ou três primeiros já bastam.",
+      "try": "Quando pedir uma lista, dê a regra de ordenação: “Ordene pelo quanto cada item afeta o risco de lançamento, do maior para o menor.”"
+    },
+    {
+      "quote": "For each, say what carries over, where the analogy breaks, and which terms come back.",
+      "quoteTr": "Para cada uma, diga o que se aproveita, onde a analogia falha e quais termos dá para trazer de lá.",
+      "title": "Pegue a analogia emprestada e diga onde ela falha",
+      "does": "Quando a skill pega emprestado de outra área, ela diz o que se aproveita e onde deixa de funcionar.",
+      "why": "Analogias incentivam a copiar demais; nomear o limite impede que o que você pegou emprestado leve você pelo caminho errado.",
+      "try": "Quando a IA sugerir uma analogia, acrescente: “Onde essa comparação falha?”"
+    },
+    {
+      "quote": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm.",
+      "quoteTr": "Abra cada link e confirme que ele usa o termo desse jeito. Corte qualquer citação que você não conseguir confirmar.",
+      "title": "Abra cada fonte e confira",
+      "does": "A skill abre cada link que passa para você e corta os que não batem.",
+      "why": "IAs inventam com facilidade links que parecem plausíveis; exigir que cada um seja aberto e cortar os que não batem é o que torna o restante confiável.",
+      "try": "Quando pedir referências, escreva: “Abra cada link e confirme antes de me enviar; deixe de fora qualquer um que você não conseguir confirmar.”"
+    }
+  ],
+  "blocks": [
+    "Ensine à pessoa os termos que especialistas usam para o que está construindo. Comece pelos arquivos, código e descrição da própria pessoa, não por um resumo.",
+    "Se a descrição puder nomear mais de um problema, liste primeiro os dois ou três problemas que podem ser, cada um com o único termo que o nomeia e o sinal que o diferenciaria dos outros. Depois, ensine os termos para o mais provável e diga por que você o escolheu.",
+    "1. Dê de 8 a 12 termos, ordenados pelo quanto cada um mudaria o que será construído. Para cada um, dê o termo e seu significado em uma frase simples, a parte da descrição que ele nomeia, um projeto, artigo ou sistema real que o use desse jeito, com um link, e o que ele permite pedir a um agente.\n2. Escolha 2 ou 3 áreas vizinhas que resolveram problemas com a mesma estrutura sob outros nomes. Para cada uma, diga o que se aproveita, onde a analogia falha e quais termos dá para trazer de lá.\n3. Aponte o que a pessoa não mencionou, mas deveria levar em conta.\n4. Reescreva a descrição com os novos termos.",
+    "Abra cada link e confirme que ele usa o termo desse jeito. Corte qualquer citação que você não conseguir confirmar. Sem enrolação."
+  ]
+}

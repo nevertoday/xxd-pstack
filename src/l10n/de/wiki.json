@@ -11,7 +11,7 @@
       "one": "pstack ist eine kostenlose Sammlung von Arbeitsregeln für KI-Coding-Tools. Damit arbeitet die KI wie jemand mit viel Engineering-Erfahrung.",
       "like": "Wie wenn du einem klugen, aber hastigen neuen Teammitglied ein Handbuch in die Hand drückst. Dieselbe Person, aber jetzt hat die Arbeit Methode.",
       "here": [
-        "Es sind 34 Skills und 24 Prinzipien – alles Anweisungsdateien für die KI. Die Regeln sind einfach. Bug erst noch einmal auslösen, dann beheben. Code erst lesen, dann ändern. Nach dem Ändern ausprobieren.",
+        "Es sind 35 Skills und 24 Prinzipien – alles Anweisungsdateien für die KI. Die Regeln sind einfach. Bug erst noch einmal auslösen, dann beheben. Code erst lesen, dann ändern. Nach dem Ändern ausprobieren.",
         "Hinter pstack steht poteto – es ist genau das Setup, das poteto jeden Tag nutzt und ursprünglich während der Zeit bei Cursor geschrieben hat. Die offizielle Version ist für Cursor gedacht. Wer Claude Code oder Codex nutzt, installiert meist [den pstack-Spiegel](https://github.com/backnotprop/pstack). Er gleicht sich täglich mit der offiziellen Version ab und funktioniert in jedem Tool."
       ],
       "myths": [

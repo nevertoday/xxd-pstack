@@ -1,0 +1,69 @@
+{
+  "description": "Bring der nutzenden Person die Fachbegriffe für das bei, was sie baut, übernimm Begriffe aus benachbarten Fachgebieten, die dasselbe Problem gelöst haben, und schreib ihre Beschreibung dann damit um. Für /reframe verwenden.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Macht mit deinen eigenen vagen Formulierungen weiter.",
+        "with": "Bringt dir zuerst die Fachbegriffe bei, jeden bezogen auf einen Teil deiner Beschreibung."
+      },
+      {
+        "without": "Sucht nur in deinem eigenen Fachgebiet nach Antworten.",
+        "with": "Übernimmt Begriffe aus benachbarten Fachgebieten, die dasselbe Problem gelöst haben, und sagt, wo jede Analogie nicht mehr trägt."
+      },
+      {
+        "without": "Bietet ein paar plausibel aussehende Links an.",
+        "with": "Öffnet jeden Link zur Prüfung und streicht alle, die nicht passen."
+      }
+    ],
+    "intro": "Der Skill liest zuerst deine Dateien, deinen Code und deine Worte; wenn deine Beschreibung mehrere Probleme meinen könnte, listet er sie auf und wählt das wahrscheinlichste aus. Dann nennt er 8 bis 12 Begriffe, geordnet nach Wirkung, übernimmt Begriffe aus zwei oder drei benachbarten Fachgebieten, benennt, was du übersehen hast, und schreibt deine Beschreibung mit den neuen Begriffen um.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Start from their own files, code and description, not a summary.",
+      "quoteTr": "Geh von ihren eigenen Dateien, ihrem Code und ihrer Beschreibung aus, nicht von einer Zusammenfassung.",
+      "title": "Beim Ausgangsmaterial anfangen",
+      "does": "Der Skill liest deinen Code und deine eigenen Worte, bevor er überhaupt Begriffe auswählt.",
+      "why": "Eine Zusammenfassung hat die Wortwahl bereits festgelegt; Begriffe, die daraus stammen, passen zur Zusammenfassung, nicht zu deinem eigentlichen Problem.",
+      "try": "Bevor du um eine Analyse bittest, ergänze: „Lies src/settings/ und meine Worte oben direkt; fass nicht erst zusammen.“"
+    },
+    {
+      "quote": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others.",
+      "quoteTr": "Wenn ihre Beschreibung mehr als ein Problem bezeichnen könnte, liste zuerst die zwei oder drei Probleme auf, die es sein könnten – jedes mit dem einen Begriff, der es benennt, und dem Merkmal, das es von den anderen unterscheidet.",
+      "title": "Sagen, welche Probleme es sein könnten",
+      "does": "Wenn deine Beschreibung vage ist, legt der Skill zwei oder drei Lesarten vor, jede mit einem Merkmal zur Unterscheidung, und wählt dann die wahrscheinlichste aus.",
+      "why": "Standardmäßig sucht sich eine KI still eine Lesart aus; wenn sie die Lesarten offenlegt, siehst du auf einen Blick, ob sie danebenlag.",
+      "try": "Wenn eine Anfrage unscharf ist, schreib: „Welche zwei oder drei Probleme könnten damit gemeint sein? Woran würde ich sie unterscheiden? Welches wählst du und warum?“"
+    },
+    {
+      "quote": "Give 8 to 12 terms, ranked by how much each would change what gets built.",
+      "quoteTr": "Nenne 8 bis 12 Begriffe, geordnet danach, wie stark jeder davon verändern würde, was gebaut wird.",
+      "title": "Nach Wirkung ordnen, nicht nach Alphabet",
+      "does": "Der Skill stellt die Begriffe nach oben, die deinen Ansatz am stärksten verändern würden.",
+      "why": "Eine ungeordnete Liste von Begriffen lässt sich schwer merken; geordnet danach, wie viel jeder davon verändert, reichen die ersten zwei oder drei.",
+      "try": "Wenn du nach einer Liste fragst, gib die Sortierregel vor: „Ordne sie danach, wie stark sie das Launch-Risiko beeinflussen – größter Einfluss zuerst.“"
+    },
+    {
+      "quote": "For each, say what carries over, where the analogy breaks, and which terms come back.",
+      "quoteTr": "Sag jeweils, was sich übertragen lässt, wo die Analogie nicht mehr trägt und welche Begriffe sich von dort mitnehmen lassen.",
+      "title": "Die Analogie übernehmen – und sagen, wo sie nicht mehr trägt",
+      "does": "Wenn der Skill etwas aus einem anderen Fachgebiet übernimmt, sagt er, was sich übertragen lässt und wo es nicht mehr funktioniert.",
+      "why": "Analogien verleiten dazu, zu viel zu kopieren; die Grenze zu benennen verhindert, dass dich das Übernommene in die Irre führt.",
+      "try": "Wenn die KI eine Analogie anbietet, ergänze: „Wo trägt dieser Vergleich nicht mehr?“"
+    },
+    {
+      "quote": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm.",
+      "quoteTr": "Öffne jeden Link und prüfe, ob der Begriff dort so verwendet wird. Streich jede Quelle, die du nicht bestätigen kannst.",
+      "title": "Jede Quelle öffnen und prüfen",
+      "does": "Der Skill öffnet jeden Link, den er dir gibt, und streicht alle, die nicht passen.",
+      "why": "KIs erfinden leicht plausibel aussehende Links; erst die Pflicht, jeden einzelnen zu öffnen und Fehltreffer zu streichen, macht den Rest vertrauenswürdig.",
+      "try": "Wenn du nach Quellen fragst, schreib: „Öffne jeden Link und prüfe ihn, bevor du ihn mir gibst; lass alle weg, die du nicht bestätigen kannst.“"
+    }
+  ],
+  "blocks": [
+    "Bring der nutzenden Person die Fachbegriffe für das bei, was sie baut. Geh von ihren eigenen Dateien, ihrem Code und ihrer Beschreibung aus, nicht von einer Zusammenfassung.",
+    "Wenn ihre Beschreibung mehr als ein Problem bezeichnen könnte, liste zuerst die zwei oder drei Probleme auf, die es sein könnten – jedes mit dem einen Begriff, der es benennt, und dem Merkmal, das es von den anderen unterscheidet. Bring der Person dann die Begriffe für das wahrscheinlichste Problem bei und sag, warum du es gewählt hast.",
+    "1. Nenne 8 bis 12 Begriffe, geordnet danach, wie stark jeder davon verändern würde, was gebaut wird. Gib zu jedem Begriff das Wort und seine Bedeutung in einem einfachen Satz an, den Teil ihrer Beschreibung, den er benennt, ein echtes Projekt, Paper oder System, das ihn so verwendet (mit Link), und worum die Person einen Agenten damit bitten kann.\n2. Wähle 2 oder 3 benachbarte Fachgebiete, die ein Problem derselben Form unter anderen Namen gelöst haben. Sag jeweils, was sich übertragen lässt, wo die Analogie nicht mehr trägt und welche Begriffe sich von dort mitnehmen lassen.\n3. Benenne, was die Person nicht erwähnt hat, worauf sie aber achten sollte.\n4. Schreib ihre Beschreibung mit den neuen Begriffen um.",
+    "Öffne jeden Link und prüfe, ob der Begriff dort so verwendet wird. Streich jede Quelle, die du nicht bestätigen kannst. Kein Fülltext."
+  ]
+}

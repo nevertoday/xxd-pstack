@@ -20,7 +20,7 @@
       ],
       [
         "Was ist der Unterschied zwischen der offiziellen Version und dem backnotprop-Spiegel?",
-        "In Cursor installierst du die offizielle Version. In allen anderen Tools installierst du den Spiegel. Der Spiegel gleicht sich täglich mit der [offiziellen Version](https://github.com/cursor/plugins/tree/main/pstack) ab und schreibt die reinen Cursor-Teile so um, dass sie überall funktionieren. Außerdem enthält er zwei Community-Fixes. `/no-comments` behält Kommentare zu externen Regeln bei. `watch-pr`, das deine PRs beobachtet, zieht keinen PR aus einem fremden Fork mehr in deinen PR-Stack (mehrere aufeinander aufbauende PRs), sodass die KI dessen Review-Kommentare nicht zu lesen bekommt."
+        "In Cursor installierst du die offizielle Version. In allen anderen Tools installierst du den Spiegel. Der Spiegel gleicht sich täglich mit der [offiziellen Version](https://github.com/cursor/plugins/tree/main/pstack) ab und schreibt die reinen Cursor-Teile so um, dass sie überall funktionieren. Außerdem enthält er zwei Community-Fixes. `/no-comments` behält Kommentare zu externen Regeln bei. `watch-pr`, das deine PRs beobachtet, zieht keinen PR aus einem fremden Fork mehr in deinen PR-Stack (mehrere aufeinander aufbauende PRs), sodass die KI dessen Review-Kommentare nicht zu lesen bekommt. In Codex gibt der Spiegel außerdem jedem Skill, der nur läuft, wenn du ihn aufrufst, eine Markierung mit, die Codex liest (`agents/openai.yaml`). Diese Skills landen nicht in dem Prompt, den Codex zu Beginn jeder Sitzung lädt, und `$skill-name` führt sie trotzdem aus."
       ]
     ]
   },

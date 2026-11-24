@@ -13,7 +13,7 @@ const zh = {
     repo: "本教程的 GitHub 仓库", repoMore: "其他仓库：pstack 镜像、官方原版", repoDefault: "默认",
     repos: [["本教程", "教程的源码，有问题在这里提"], ["pstack 镜像", "本站依据的版本，任何工具都能装"], ["pstack 官方原版", "poteto 维护，给 Cursor 用"]],
     navLabel: "网站目录", start: "开始", home: "首页", lessons: "新手入门：先看这三课", main: "完整教程：会写代码的人看", pending: "编写中", ref: "查资料",
-    howto: "How-to：具体怎么做", skills: "技能速查：34 个技能", wiki: "Wiki：这是什么", faq: "常见问题", toc: "本页", tocLabel: "本页目录",
+    howto: "How-to：具体怎么做", skills: "技能速查：35 个技能", wiki: "Wiki：这是什么", faq: "常见问题", toc: "本页", tocLabel: "本页目录",
     hintMain: "完整教程", hintLesson: "新手入门", hintFaq: "常见问题", hintSkill: "技能", section: "小节",
     foot: "本站是 {pstack} 的非官方入门教程，不是官方文档；pstack 由 poteto 开发（MIT），命令和行为以官方仓库为准。教程源码和问题反馈在 {github}。",
     appearance: { cornersDesc: "关掉就是直角" },
@@ -43,7 +43,7 @@ const zh = {
     YES: ["用 AI 做过小网页、小插件、小工具，被「已完成但其实没好」坑过", "已经装了 Claude Code（或 Cursor、Codex），能在里面和 AI 聊天", "想要做对，不在乎慢一点"],
     NO: ["还没用过 Claude Code 这类工具：先照官方指南装好，能聊天了再来", "改个错别字、换个颜色这种小事：直接跟 AI 说就行", "只要最快、最省额度：pstack 会多检查，更慢，也更费额度"],
     devH: "会写代码的人看这里",
-    devP: "pstack 是 poteto（React 核心团队出身，在 Cursor 写下 pstack，现在做 Grok Bot）每天自己写代码用的一包技能：34 个技能、22 套剧本、24 条工程原则。下面是它每接一件事走的四步，和 9 步的完整教程。",
+    devP: "pstack 是 poteto（React 核心团队出身，在 Cursor 写下 pstack，现在做 Grok Bot）每天自己写代码用的一包技能：35 个技能、22 套剧本、24 条工程原则。下面是它每接一件事走的四步，和 9 步的完整教程。",
     FLOW: [
       ["你说一句话", "目标，加上怎么算做完。比如「先复现，再修，再验证」。"],
       ["/poteto-mode 挑剧本", "从 22 套剧本里选一套，把它的步骤原样抄进待办清单。"],
@@ -109,7 +109,7 @@ const en = {
     repo: "This guide on GitHub", repoMore: "Other repos: the pstack mirror, the official original", repoDefault: "Default",
     repos: [["This guide", "Source for this guide; file issues here"], ["pstack mirror", "The version this site follows"], ["Official pstack", "Maintained by poteto, for Cursor"]],
     navLabel: "Site navigation", start: "Start", home: "Home", lessons: "Beginner track: start here", main: "Full guide: for people who code", pending: "In progress", ref: "Reference",
-    howto: "How-to: how exactly", skills: "Skills at a glance: all 34", wiki: "Wiki: what is it", faq: "FAQ", toc: "On this page", tocLabel: "On this page",
+    howto: "How-to: how exactly", skills: "Skills at a glance: all 35", wiki: "Wiki: what is it", faq: "FAQ", toc: "On this page", tocLabel: "On this page",
     hintMain: "Full guide", hintLesson: "Beginner track", hintFaq: "FAQ", hintSkill: "Skill", section: "Section",
     // {pstack} 和 {github} 会换成链接
     foot: "An unofficial beginner's guide to {pstack}, not its official docs. pstack is made by poteto (MIT); the official repo is the source of truth for commands and behavior. Source and feedback for this guide are on {github}.",
@@ -147,7 +147,7 @@ const en = {
     YES: ["You've made small pages, plug-ins or tools with AI and been burned by “done” that wasn't", "You already have Claude Code (or Cursor or Codex) and can chat with the AI in it", "You'd rather get it right than get it fast"],
     NO: ["You haven't used a tool like Claude Code yet: install it with the official guide first, and come back once you can chat", "It's a tiny change like a typo or a color: just ask the AI directly", "You only want fastest and cheapest: pstack checks more, so it's slower and uses more of your plan"],
     devH: "If you write code",
-    devP: "pstack is the pack of skills poteto (formerly on the React core team; wrote pstack at Cursor, now builds Grok Bot) uses for their own code every day: 34 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
+    devP: "pstack is the pack of skills poteto (formerly on the React core team; wrote pstack at Cursor, now builds Grok Bot) uses for their own code every day: 35 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
     // FLOW：每个是 [标题, 说明]，图标和顺序固定（Home.astro）
     FLOW: [
       ["You say one sentence", "The goal, plus how you'll know it's done. For example: “reproduce it first, then fix, then verify.”"],

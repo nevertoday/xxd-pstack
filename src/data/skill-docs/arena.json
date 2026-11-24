@@ -1,6 +1,6 @@
 {
   "name": "arena",
-  "commit": "c3464c1",
+  "commit": "9dd3408",
   "description": {
     "en": "Spawn N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it. Use for /arena, 'arena this', 'throw it in the arena', or when one attempt at a non-trivial artifact would lock in the wrong shape.",
     "zh": "同一个任务，并行派出 N 个候选去做，挑一个当底子，再把落选者最强的部分嫁接进去。用于 /arena、「arena this」「扔进擂台」，或者当只做一次、一个不简单的东西就会被定成错误的样子时。"

@@ -42,6 +42,11 @@
       "use": "Uma tarefa importante, em que você quer acertar o pedido antes de enviar.",
       "ex": "/sharpen Escreva um guia de migração para o formato de configuração v2."
     },
+    "reframe": {
+      "one": "A skill ensina os termos que especialistas usam para o que você está construindo e depois reescreve sua descrição com eles.",
+      "use": "Você não consegue dar nome ao que está construindo, então não consegue pedir isso à IA com clareza.",
+      "ex": "/reframe A página de configurações salva alguns campos na hora e outros só ao enviar, e as pessoas perdem alterações."
+    },
     "how": {
       "one": "Explica como um trecho de código roda hoje: o fluxo, os tipos principais e as armadilhas fáceis de deixar passar.",
       "use": "Você quer entender o código antes de mexer nele ou suspeita que ele está lento.",

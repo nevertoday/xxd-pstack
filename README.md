@@ -8,13 +8,13 @@
 
 [pstack](https://github.com/backnotprop/pstack) 让它改完先自己试一遍，再来跟你说。<br>这份教程用大白话把 pstack 讲清楚，不会写代码也能学会。
 
-<a href="https://pstack.xiaoxiaodong.ai/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-1-dark.svg"><img src="assets/doors/zh-1.svg" height="92" alt="没写过代码: 新手入门 3 课 · 20 分钟"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-2-dark.svg"><img src="assets/doors/zh-2.svg" height="92" alt="会写代码: 9 步完整教程"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-3-dark.svg"><img src="assets/doors/zh-3.svg" height="92" alt="想学写提示词: 34 个技能拆解"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-1-dark.svg"><img src="assets/doors/zh-1.svg" height="92" alt="没写过代码: 新手入门 3 课 · 20 分钟"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-2-dark.svg"><img src="assets/doors/zh-2.svg" height="92" alt="会写代码: 9 步完整教程"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/zh-3-dark.svg"><img src="assets/doors/zh-3.svg" height="92" alt="想学写提示词: 35 个技能拆解"></picture></a>
 
 <sub>免费 · 开源 · 10 种语言</sub>
 
 ![新手入门](https://img.shields.io/badge/新手入门-3_课-8A9A8C?style=flat-square)
 ![完整教程](https://img.shields.io/badge/完整教程-9_步-8A9A8C?style=flat-square)
-![技能](https://img.shields.io/badge/技能速查-34_个-D7B9C8?style=flat-square)
+![技能](https://img.shields.io/badge/技能速查-35_个-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_篇-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20_条-9AA8C4?style=flat-square)
 ![语言](https://img.shields.io/badge/语言-10_种-9AA8C4?style=flat-square)
@@ -32,7 +32,7 @@
   <a href="#-这份教程怎么帮你">亮点</a> ·
   <a href="#-它是怎么干活的">怎么干活</a> ·
   <a href="#-三分钟上手">上手</a> ·
-  <a href="#️-34-个技能一张图">技能地图</a> ·
+  <a href="#️-35-个技能一张图">技能地图</a> ·
   <a href="#-在真实项目里">真实项目</a> ·
   <a href="#-放手让它跑一夜">跑一夜</a> ·
   <a href="#-本地运行">本地运行</a> ·
@@ -70,7 +70,7 @@
 
 pstack 是 poteto 写给自己用的。官方文档默认你已经是资深工程师：
 
-- **一上来就是一堆名字**：34 个技能、22 套剧本、24 条原则，全是英文术语，不知道哪些必须学。
+- **一上来就是一堆名字**：35 个技能、22 套剧本、24 条原则，全是英文术语，不知道哪些必须学。
 - **不知道第一步做什么**：装哪个版本？装完要不要配置？该打哪个命令？
 - **会打命令也不会说**：提示词没写清「怎么算做完」，它照样跑偏，只是跑得更认真。
 - **看不懂它的回复**：回复又长又专业，你不知道哪句要紧、哪句能跳过。
@@ -83,7 +83,7 @@ pstack 是 poteto 写给自己用的。官方文档默认你已经是资深工�
 - **只学要用的**：平时只记一个命令 `/poteto-mode`，加一句三段式的话：**我想要什么 · 做好是什么样子 · 做完给我看什么**。其他内容都标明「遇到了再查」。
 - **每种情况都有能照抄的提示词**：修 bug、加功能、重构、接手陌生项目、睡前交代……换掉尖括号里的内容就能发。
 - **教你看懂回复**：它的复述、待办清单、检查结果在哪，怎么判断它做得对不对，跑偏时回哪一句。
-- **从高手的提示词里学写法**：34 个技能都能读原文，每个还挑了几句拆开讲：这句让 AI 做了什么、为什么这样写、你写提示词时怎么借用。
+- **从高手的提示词里学写法**：35 个技能都能读原文，每个还挑了几句拆开讲：这句让 AI 做了什么、为什么这样写、你写提示词时怎么借用。
 - **说人话**：每页标题下有一句话，告诉你这页能帮你做成什么；生词悬停就有解释。
 - **全球都能读**：整个网站都有 10 种语言，从第一课到技能原文，都能用母语读。
 - **跟着 pstack 更新**：内容核对到 pstack 当前版本，每个命令都对照过官方仓库。
@@ -127,10 +127,10 @@ npx skills add backnotprop/pstack
 > [!TIP]
 > 一句好提示词最多五样东西：**目标**、**怎么算做完**、**想看什么证据**、**你已经知道的**、**不能碰的地方**。最好别写的两样：具体怎么做，和你猜的原因。详见 [第 3 步](https://pstack.xiaoxiaodong.ai/guide/3-first-task/)。
 
-## 🗺️ 34 个技能，一张图
+## 🗺️ 35 个技能，一张图
 
 <p align="center">
-  <img src="assets/skills.svg" width="100%" alt="pstack 技能地图：34 个技能分七类，外加 24 条原则">
+  <img src="assets/skills.svg" width="100%" alt="pstack 技能地图：35 个技能分七类，外加 24 条原则">
 </p>
 
 平时只打 `/poteto-mode`，其他的它在需要时自己叫上。想点名用某一个、或者看到 AI 提到一个名字想查查，去 [技能速查](https://pstack.xiaoxiaodong.ai/skills/)：每个技能都有一句人话、什么时候用、能照抄的例句、要和谁一起装。点进去还能读它的 SKILL.md 原文和译文（可以对照着看），以及「从它的写法里学」：挑几句原文，讲这句让 AI 做什么、为什么这样写、你写提示词时怎么借用。
@@ -164,7 +164,7 @@ npx skills add backnotprop/pstack
 
 - **[新手入门](https://pstack.xiaoxiaodong.ai/start/1-why/)**：3 课 20 分钟，不会写代码也能看懂 · 它能帮你什么 → 装上它 → 第一次用
 - **[完整教程](https://pstack.xiaoxiaodong.ai/guide/0-what/)**：9 步，给会写代码的人 · 是什么 → 安装 → 选模型 → 第一个任务 → 先看懂 → 设计动手收拾 → 验证交付 → 跑一夜 → 用熟以后
-- **[技能速查](https://pstack.xiaoxiaodong.ai/skills/)**：34 个技能，每个有原文、译文和写法拆解
+- **[技能速查](https://pstack.xiaoxiaodong.ai/skills/)**：35 个技能，每个有原文、译文和写法拆解
 - **[How-to](https://pstack.xiaoxiaodong.ai/howto/)**：17 篇，一篇只讲一件事
 - **[Wiki](https://pstack.xiaoxiaodong.ai/wiki/)**：20 个概念 · 一句话 → 打个比方 → 在 pstack 里 → 常见误区；含 24 条原则和 22 套剧本对照表
 - **[常见问题](https://pstack.xiaoxiaodong.ai/faq/)**：要钱吗？必须用 Cursor 吗？会不会乱改我的代码？

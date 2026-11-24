@@ -20,7 +20,7 @@
       ],
       [
         "What's the difference between the official version and the backnotprop mirror?",
-        "On Cursor, install the official version. On anything else, install the mirror. The mirror syncs daily with the [official version](https://github.com/cursor/plugins/tree/main/pstack) and rewrites the Cursor-only parts to work anywhere. It also carries two community fixes. `/no-comments` keeps comments about outside rules. `watch-pr`, which watches your PRs, no longer pulls a PR from someone's fork into your stack, so its review comments stay out of what the AI reads."
+        "On Cursor, install the official version. On anything else, install the mirror. The mirror syncs daily with the [official version](https://github.com/cursor/plugins/tree/main/pstack) and rewrites the Cursor-only parts to work anywhere. It also carries two community fixes. `/no-comments` keeps comments about outside rules. `watch-pr`, which watches your PRs, no longer pulls a PR from someone's fork into your stack, so its review comments stay out of what the AI reads. On Codex, the mirror also gives every skill that runs only when you call it a mark Codex reads (`agents/openai.yaml`). Those skills stay out of the prompt Codex loads at the start of each session, and `$skill-name` still runs them."
       ]
     ]
   },

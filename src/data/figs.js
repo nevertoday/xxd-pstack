@@ -88,7 +88,7 @@ export const FIGS = {
     zh: {
       layers: [
         { t: "你", d: "说目标，比如「修好这个 bug，修完给我看证据」" },
-        { t: "pstack", d: "装进去的做事规矩：22 套剧本、34 个技能、24 条原则" },
+        { t: "pstack", d: "装进去的做事规矩：22 套剧本、35 个技能、24 条原则" },
         { t: "你的 AI 编程工具", d: "Claude Code、Cursor、Codex……" },
         { t: "模型", d: "还是原来那个，pstack 不换模型" },
       ],
@@ -97,7 +97,7 @@ export const FIGS = {
     en: {
       layers: [
         { t: "You", d: "Say the goal, e.g. “fix this bug and show me evidence”" },
-        { t: "pstack", d: "The work rules you install: 22 playbooks, 34 skills, 24 principles" },
+        { t: "pstack", d: "The work rules you install: 22 playbooks, 35 skills, 24 principles" },
         { t: "Your AI coding tool", d: "Claude Code, Cursor, Codex…" },
         { t: "The model", d: "Same as before; pstack doesn't swap it" },
       ],

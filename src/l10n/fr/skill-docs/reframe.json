@@ -1,0 +1,69 @@
+{
+  "description": "Enseigner les mots d'experts pour ce que construit l'utilisateur, emprunter des mots à des domaines voisins qui ont résolu le même problème, puis réécrire sa description avec ces termes. À utiliser pour /reframe.",
+  "brief": {
+    "compare": [
+      {
+        "without": "Continue avec votre propre formulation vague.",
+        "with": "Vous apprend d'abord les termes d'experts, chacun relié à une partie de votre description."
+      },
+      {
+        "without": "Ne cherche des réponses que dans votre propre domaine.",
+        "with": "Emprunte des termes à des domaines voisins qui ont résolu le même problème, et indique où chaque analogie ne tient plus."
+      },
+      {
+        "without": "Propose quelques liens qui ont l'air plausibles.",
+        "with": "Ouvre chaque lien pour le vérifier et écarte ceux qui ne correspondent pas."
+      }
+    ],
+    "intro": "Il lit d'abord vos fichiers, votre code et vos mots ; si votre description peut désigner plusieurs problèmes, il les liste et choisit le plus probable. Ensuite, il donne 8 à 12 termes classés par impact, emprunte à deux ou trois domaines voisins, nomme ce que vous avez oublié et réécrit votre description avec ces nouveaux mots.",
+    "sections": []
+  },
+  "lessons": [
+    {
+      "quote": "Start from their own files, code and description, not a summary.",
+      "quoteTr": "Pars de ses propres fichiers, de son code et de sa description, pas d'un résumé.",
+      "title": "Partir de la matière brute",
+      "does": "Il lit votre code et vos propres mots avant de choisir le moindre terme.",
+      "why": "Un résumé a déjà choisi les formulations ; les termes tirés de ce résumé collent au résumé, pas à votre vrai problème.",
+      "try": "Avant de demander une analyse, ajoutez : « Lis directement src/settings/ et mes mots ci-dessus ; ne commence pas par résumer. »"
+    },
+    {
+      "quote": "If their description could name more than one problem, first list the two or three problems it could be, each with the one term that names it and the sign that would tell it apart from the others.",
+      "quoteTr": "Si sa description peut désigner plus d'un problème, liste d'abord les deux ou trois problèmes dont il pourrait s'agir, chacun avec l'unique terme qui le nomme et le signe qui permettrait de le distinguer des autres.",
+      "title": "Dire de quels problèmes il pourrait s'agir",
+      "does": "Quand votre description est vague, il expose deux ou trois lectures, chacune avec un signe qui permet de la distinguer, puis choisit la plus probable.",
+      "why": "Par défaut, une IA choisit une seule lecture sans rien dire ; les mettre à plat vous permet de voir d'un coup d'œil si elle s'est trompée.",
+      "try": "Quand une demande est floue, écrivez : « De quels deux ou trois problèmes pourrait-il s'agir ? Comment les distinguer ? Lequel choisis-tu, et pourquoi ? »"
+    },
+    {
+      "quote": "Give 8 to 12 terms, ranked by how much each would change what gets built.",
+      "quoteTr": "Donne 8 à 12 termes, classés selon l'impact que chacun aurait sur ce qui sera construit.",
+      "title": "Classer par impact, pas par ordre alphabétique",
+      "does": "Il place en tête les termes qui changeraient le plus votre approche.",
+      "why": "Une liste de termes sans hiérarchie est difficile à retenir ; classés selon ce que chacun change, les deux ou trois premiers suffisent.",
+      "try": "Quand vous demandez une liste, donnez la règle de classement : « Classe-les selon leur impact sur le risque de lancement, du plus fort au plus faible. »"
+    },
+    {
+      "quote": "For each, say what carries over, where the analogy breaks, and which terms come back.",
+      "quoteTr": "Pour chacun, dis ce qui se transpose, où l'analogie ne tient plus et quels termes reprendre.",
+      "title": "Emprunter l'analogie, et dire où elle ne tient plus",
+      "does": "Quand il emprunte à un autre domaine, il dit ce qui se transpose et où cela cesse de fonctionner.",
+      "why": "Les analogies poussent à trop copier ; nommer la limite empêche ce que vous empruntez de vous égarer.",
+      "try": "Quand l'IA propose une analogie, ajoutez : « Où cette comparaison ne tient-elle plus ? »"
+    },
+    {
+      "quote": "Open every link and confirm it uses the term that way. Cut any citation you can't confirm.",
+      "quoteTr": "Ouvre chaque lien et confirme qu'il utilise le terme dans ce sens. Écarte toute référence que tu ne peux pas confirmer.",
+      "title": "Ouvrir chaque source et la vérifier",
+      "does": "Il ouvre chaque lien qu'il vous donne et écarte ceux qui ne correspondent pas.",
+      "why": "Les IA inventent facilement des liens qui ont l'air plausibles ; exiger de tous les ouvrir et d'écarter ceux qui ne correspondent pas est ce qui rend le reste fiable.",
+      "try": "Quand vous demandez des références, écrivez : « Ouvre chaque lien et vérifie-le avant de me le donner ; laisse de côté ceux que tu ne peux pas confirmer. »"
+    }
+  ],
+  "blocks": [
+    "Enseigne les mots d'experts pour ce que construit l'utilisateur. Pars de ses propres fichiers, de son code et de sa description, pas d'un résumé.",
+    "Si sa description peut désigner plus d'un problème, liste d'abord les deux ou trois problèmes dont il pourrait s'agir, chacun avec l'unique terme qui le nomme et le signe qui permettrait de le distinguer des autres. Ensuite, enseigne les mots qui correspondent au plus probable et dis pourquoi tu l'as choisi.",
+    "1. Donne 8 à 12 termes, classés selon l'impact que chacun aurait sur ce qui sera construit. Pour chacun, donne le mot et son sens en une phrase simple, la partie de sa description qu'il nomme, un projet, un article ou un système réel qui l'utilise dans ce sens, avec un lien, et ce que ce terme lui permet de demander à un agent.\n2. Choisis 2 ou 3 domaines voisins qui ont résolu la même forme de problème sous d'autres noms. Pour chacun, dis ce qui se transpose, où l'analogie ne tient plus et quels termes reprendre.\n3. Nomme ce qui n'a pas été mentionné mais mérite son attention.\n4. Réécris sa description avec les nouveaux mots.",
+    "Ouvre chaque lien et confirme qu'il utilise le terme dans ce sens. Écarte toute référence que tu ne peux pas confirmer. Pas de remplissage."
+  ]
+}

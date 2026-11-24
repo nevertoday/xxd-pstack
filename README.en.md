@@ -8,13 +8,13 @@
 
 [pstack](https://github.com/backnotprop/pstack) makes it try its own work before it tells you it's done.<br>This guide explains pstack in plain words. You can learn it even if you've never written code.
 
-<a href="https://pstack.xiaoxiaodong.ai/en/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-1-dark.svg"><img src="assets/doors/en-1.svg" height="92" alt="Never written code: 3 lessons · 20 minutes"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-2-dark.svg"><img src="assets/doors/en-2.svg" height="92" alt="You write code: The 9-step guide"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-3-dark.svg"><img src="assets/doors/en-3.svg" height="92" alt="Learn to prompt: 34 skills, taken apart"></picture></a>
+<a href="https://pstack.xiaoxiaodong.ai/en/start/1-why/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-1-dark.svg"><img src="assets/doors/en-1.svg" height="92" alt="Never written code: 3 lessons · 20 minutes"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/guide/0-what/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-2-dark.svg"><img src="assets/doors/en-2.svg" height="92" alt="You write code: The 9-step guide"></picture></a> <a href="https://pstack.xiaoxiaodong.ai/en/skills/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/doors/en-3-dark.svg"><img src="assets/doors/en-3.svg" height="92" alt="Learn to prompt: 35 skills, taken apart"></picture></a>
 
 <sub>Free · open source · 10 languages</sub>
 
 ![Beginner track](https://img.shields.io/badge/Beginner_track-3_lessons-8A9A8C?style=flat-square)
 ![Guide](https://img.shields.io/badge/Guide-9_steps-8A9A8C?style=flat-square)
-![Skills](https://img.shields.io/badge/Skills-34-D7B9C8?style=flat-square)
+![Skills](https://img.shields.io/badge/Skills-35-D7B9C8?style=flat-square)
 ![How-to](https://img.shields.io/badge/How--to-17_guides-C9A97A?style=flat-square)
 ![Wiki](https://img.shields.io/badge/Wiki-20_entries-9AA8C4?style=flat-square)
 ![Languages](https://img.shields.io/badge/Languages-10-9AA8C4?style=flat-square)
@@ -32,7 +32,7 @@
   <a href="#-how-this-guide-helps">Highlights</a> ·
   <a href="#-how-it-works">How it works</a> ·
   <a href="#-get-started-in-three-minutes">Get started</a> ·
-  <a href="#️-34-skills-one-map">Skill map</a> ·
+  <a href="#️-35-skills-one-map">Skill map</a> ·
   <a href="#-in-real-projects">Real projects</a> ·
   <a href="#-let-it-run-overnight">Overnight</a> ·
   <a href="#-run-it-locally">Run locally</a> ·
@@ -70,7 +70,7 @@ The model isn't too dumb. It just works without a method: it changes code it has
 
 poteto wrote pstack for their own use. The official docs assume you're already a senior engineer:
 
-- **A wall of names on day one**: 34 skills, 22 playbooks, 24 principles, all jargon. Which ones do you actually need?
+- **A wall of names on day one**: 35 skills, 22 playbooks, 24 principles, all jargon. Which ones do you actually need?
 - **No obvious first step**: which version do you install? Do you need to configure it? Which command do you type?
 - **Knowing the command isn't enough**: if your prompt doesn't say what "done" means, it still drifts. It just drifts more carefully.
 - **Replies you can't read**: long and technical. You can't tell which line matters and which you can skip.
@@ -83,7 +83,7 @@ Plenty of people install it, try it once, think "it's not that different," and g
 - **Learn only what you need**: one command, `/poteto-mode`, plus one three-part message: **what I want · what done looks like · what to show me when it's done**. Everything else is marked "look it up when you need it."
 - **A copy-ready prompt for every situation**: fixing a bug, adding a feature, refactoring, taking over a strange codebase, handing work over before bed. Swap the parts in angle brackets and send.
 - **Learn to read its replies**: where to find its restatement, its todo list and its checks, how to tell whether it did well, and what one line to send when it drifts.
-- **Learn prompt writing from an expert**: read the full text of all 34 skills, with a few sentences from each taken apart: what the line makes the AI do, why it's worded that way, and how to borrow it.
+- **Learn prompt writing from an expert**: read the full text of all 35 skills, with a few sentences from each taken apart: what the line makes the AI do, why it's worded that way, and how to borrow it.
 - **Plain words**: every page opens with one line on what it helps you get done, and unfamiliar terms explain themselves on hover.
 - **Readable worldwide**: the whole site comes in 10 languages, from the first lesson to the skills' full text, so you can read it in your own.
 - **Kept current**: checked against the current pstack release; every command matches the official repo.
@@ -127,10 +127,10 @@ Show me the actual storage contents before and after the fix.
 > [!TIP]
 > A good prompt has at most five things: **the goal**, **what counts as done**, **what evidence you want**, **what you already know**, and **what must not be touched**. Two things are better left out: exactly how to do it, and your guess at the cause. More in [Step 3](https://pstack.xiaoxiaodong.ai/en/guide/3-first-task/).
 
-## 🗺️ 34 skills, one map
+## 🗺️ 35 skills, one map
 
 <p align="center">
-  <img src="assets/en/skills.svg" width="100%" alt="pstack skill map: 34 skills in seven groups, plus 24 principles">
+  <img src="assets/en/skills.svg" width="100%" alt="pstack skill map: 35 skills in seven groups, plus 24 principles">
 </p>
 
 Day to day you only type `/poteto-mode`; it calls the others when it needs them. If you want to call one by name, or the AI mentions a name you want to look up, see the [Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/): each skill has a plain-language summary, when to use it, an example you can copy, and what to install with it. Open a skill to read its full SKILL.md and "what its wording teaches": a few sentences from the original, what each makes the AI do, why it's written that way, and how to borrow it in your own prompts.
@@ -164,7 +164,7 @@ This is where all the earlier steps pay off: only an AI that **can verify its ow
 
 - **[Beginner track](https://pstack.xiaoxiaodong.ai/en/start/1-why/)**: 3 lessons, 20 minutes, no coding needed · what it does for you → install it → use it for the first time
 - **[Full guide](https://pstack.xiaoxiaodong.ai/en/guide/0-what/)**: 9 steps for people who code · what it is → install → pick models → first task → understand first → design, build, clean up → verify and ship → run overnight → once you're comfortable
-- **[Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/)**: 34 skills, each with its full text and a breakdown of its wording
+- **[Skill reference](https://pstack.xiaoxiaodong.ai/en/skills/)**: 35 skills, each with its full text and a breakdown of its wording
 - **[How-to](https://pstack.xiaoxiaodong.ai/en/howto/)**: 17 guides, one task each
 - **[Wiki](https://pstack.xiaoxiaodong.ai/en/wiki/)**: 20 concepts · one sentence → an analogy → in pstack → common mistakes; includes tables of the 24 principles and 22 playbooks
 - **[FAQ](https://pstack.xiaoxiaodong.ai/en/faq/)**: Does it cost money? Do I have to use Cursor? Will it mess up my code?

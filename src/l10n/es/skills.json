@@ -42,6 +42,11 @@
       "use": "Una tarea importante en la que quieres que la petición quede bien antes de enviarla.",
       "ex": "/sharpen Escribe una guía de migración para el formato de configuración v2."
     },
+    "reframe": {
+      "one": "Te enseña las palabras que usan los expertos para lo que estás construyendo y luego reescribe tu descripción con ellas.",
+      "use": "No sabes cómo llamar a lo que estás construyendo, así que no puedes pedírselo a la IA con claridad.",
+      "ex": "/reframe La página de configuración guarda algunos campos al instante y otros solo al enviar, y la gente pierde sus cambios."
+    },
     "how": {
       "one": "Explica cómo funciona hoy un fragmento de código: el flujo, los tipos clave y las trampas fáciles de pasar por alto.",
       "use": "Quieres entenderlo antes de cambiarlo, o sospechas que va lento.",

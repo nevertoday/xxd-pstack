@@ -34,7 +34,7 @@
     "pending": "In progress",
     "ref": "Reference",
     "howto": "How-to: how exactly",
-    "skills": "Skills at a glance: all 34",
+    "skills": "Skills at a glance: all 35",
     "wiki": "Wiki: what is it",
     "faq": "FAQ",
     "toc": "On this page",
@@ -118,7 +118,7 @@
       "You only want fastest and cheapest: pstack checks more, so it's slower and uses more of your plan"
     ],
     "devH": "If you write code",
-    "devP": "pstack is the pack of skills poteto (formerly on the React core team; wrote pstack at Cursor, now builds Grok Bot) uses for their own code every day: 34 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
+    "devP": "pstack is the pack of skills poteto (formerly on the React core team; wrote pstack at Cursor, now builds Grok Bot) uses for their own code every day: 35 skills, 22 playbooks and 24 engineering principles. Below are the four steps it takes for every task, and the 9-step full guide.",
     "FLOW": [
       [
         "You say one sentence",

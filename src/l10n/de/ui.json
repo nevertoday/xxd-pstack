@@ -34,7 +34,7 @@
     "pending": "In Arbeit",
     "ref": "Nachschlagen",
     "howto": "Kurzanleitungen: wie genau",
-    "skills": "Alle 34 Skills im Überblick",
+    "skills": "Alle 35 Skills im Überblick",
     "wiki": "Wiki: was ist das?",
     "faq": "Häufige Fragen",
     "toc": "Auf dieser Seite",
@@ -118,7 +118,7 @@
       "du nur das Schnellste und Billigste willst: pstack prüft mehr, ist deshalb langsamer und verbraucht mehr von deinem Kontingent"
     ],
     "devH": "Wenn du programmierst",
-    "devP": "pstack ist das Skill-Paket, das poteto (früher im React-Kernteam; hat pstack bei Cursor geschrieben, baut heute Grok Bot) jeden Tag für den eigenen Code nutzt: 34 Skills, 22 Playbooks und 24 Engineering-Prinzipien. Unten siehst du die vier Schritte, die es bei jeder Aufgabe geht, und die vollständige Anleitung in 9 Schritten.",
+    "devP": "pstack ist das Skill-Paket, das poteto (früher im React-Kernteam; hat pstack bei Cursor geschrieben, baut heute Grok Bot) jeden Tag für den eigenen Code nutzt: 35 Skills, 22 Playbooks und 24 Engineering-Prinzipien. Unten siehst du die vier Schritte, die es bei jeder Aufgabe geht, und die vollständige Anleitung in 9 Schritten.",
     "FLOW": [
       [
         "Du sagst einen Satz",
